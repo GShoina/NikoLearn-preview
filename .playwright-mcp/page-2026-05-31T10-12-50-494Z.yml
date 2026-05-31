@@ -1,0 +1,12 @@
+- generic [ref=e2]:
+  - generic [ref=e42]:
+    - button "✕" [ref=e43]
+    - heading "რამდენია?" [level=1] [ref=e44]
+    - generic [ref=e45]: 1/6
+  - generic [ref=e46]:
+    - button "listen" [ref=e47] [cursor=pointer]: 🔊
+    - generic [ref=e48]: 🍌🍌
+    - generic [ref=e49]:
+      - button "3" [ref=e50] [cursor=pointer]
+      - button "5" [ref=e51] [cursor=pointer]
+      - button "2" [ref=e52] [cursor=pointer]

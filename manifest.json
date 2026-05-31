@@ -1,0 +1,11 @@
+{
+  "name": "NikoLearn",
+  "short_name": "NikoLearn",
+  "start_url": "./NikoLearn%20Phase%201.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fff3e0",
+  "theme_color": "#ffb74d",
+  "lang": "ka"
+}
