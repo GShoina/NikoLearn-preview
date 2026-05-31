@@ -23,10 +23,10 @@ function goHome(){
       <div class="pname" style="color:var(--muted)">დაამატე ბავშვი</div>
     </div>`;
   render(`<div class="screen home">
-    <div class="brand">
+    <div class="brand brand-btn" onclick="landing()" title="landing გვერდი">
       <div class="sun-badge">${I.sun}</div>
       <div class="mark">NikoLearn</div>
-      <div class="tag">ისწავლე თამაშით</div>
+      <div class="tag">ისწავლე თამაშით · ℹ️ აპის შესახებ</div>
     </div>
     <div class="profile-grid">
       ${cards}
@@ -41,20 +41,51 @@ function goHome(){
   </div>`,false);
 }
 
-/* ── auth gate (simple shared password) ── */
-function boot(){ if(!state.authed) return showLogin(); goHome(); }
-function showLogin(){
-  render(`<div class="screen home" style="gap:16px;justify-content:flex-start;padding-top:14px">
-    <div class="brand">
-      <div class="sun-badge" style="width:84px;height:84px">${I.sun}</div>
-      <div class="mark">NikoLearn</div>
+/* ── landing page (real marketing landing: what + why; desktop + mobile) ── */
+function enterApp(){ if(state&&state.authed) return goHome(); showLogin(); }
+function landing(){
+  render(`<div class="screen landing">
+    <div class="lp-hero">
+      <div class="sun-badge lp-badge">${I.sun}</div>
+      <div class="lp-title">NikoLearn</div>
+      <div class="lp-headline">ისწავლე თამაშით</div>
+      <div class="lp-sub">თბილი სასწავლო სივრცე შენი ბავშვისთვის. ინგლისური, მათემატიკა და ანბანი — ხმით, სურათით და პატარა ბუს დახმარებით.</div>
+      <button class="btn btn-primary lp-cta" onclick="enterApp()">დაიწყე უფასოდ →</button>
+      <div class="lp-note">${I.privacy} მონაცემები მხოლოდ ამ მოწყობილობაზე რჩება</div>
     </div>
-    <div class="hero-h">ისწავლე თამაშით</div>
-    <div class="hero-sub">ინგლისური, მათემატიკა და ანბანი შენი ბავშვისთვის. ხმით, სურათით და სითბოთი.</div>
-    <div class="perm-points" style="max-width:340px;margin:0 auto">
-      <div class="perm-point">${I.check} ინგლისური · მათემატიკა · ანბანი · Kings (Cambridge YLE)</div>
-      <div class="perm-point">${I.privacy} <b>მონაცემები მხოლოდ ამ ტელეფონზე რჩება</b></div>
-      <div class="perm-point">${I.check} <b>ნული</b> რეკლამა · ნული გარე ბმული</div>
+    <div class="lp-section">
+      <div class="lp-h2">რას ისწავლის ბავშვი</div>
+      <div class="lp-grid">
+        <div class="lp-card"><div class="lp-ic">🔤</div><div class="lp-ct">ინგლისური</div><div class="lp-cs">სიტყვები, ფრაზები, მართლწერა — 5 რეჟიმი</div></div>
+        <div class="lp-card"><div class="lp-ic">🧮</div><div class="lp-ct">მათემატიკა</div><div class="lp-cs">შეკრება, გამოკლება, გამრავლება — დონეებით</div></div>
+        <div class="lp-card"><div class="lp-ic">🇬🇪</div><div class="lp-ct">ანბანი</div><div class="lp-cs">ქართული და English — სწავლა და ქვიზი</div></div>
+        <div class="lp-card"><div class="lp-ic">👑</div><div class="lp-ct">Kings</div><div class="lp-cs">Cambridge YLE გამოცდისთვის მზადება</div></div>
+      </div>
+    </div>
+    <div class="lp-section">
+      <div class="lp-h2">რატომ NikoLearn</div>
+      <div class="lp-grid">
+        <div class="lp-card"><div class="lp-ic">🔒</div><div class="lp-ct">სრული privacy</div><div class="lp-cs">ყველა მონაცემი ტელეფონზე რჩება. ღრუბელი არ არის.</div></div>
+        <div class="lp-card"><div class="lp-ic">🚫</div><div class="lp-ct">ნული რეკლამა</div><div class="lp-cs">გარე ბმული არ არის. მშობლის დაცული სივრცე.</div></div>
+        <div class="lp-card"><div class="lp-ic">🦉</div><div class="lp-ct">ბუ დაეხმარება</div><div class="lp-cs">მინიშნება და წახალისება ყოველ ნაბიჯზე.</div></div>
+        <div class="lp-card"><div class="lp-ic">🔊</div><div class="lp-ct">ქართული ხმა</div><div class="lp-cs">პატარებისთვის, ვინც ჯერ ვერ კითხულობს.</div></div>
+      </div>
+    </div>
+    <button class="btn btn-primary lp-cta wide" onclick="enterApp()">დავიწყოთ 🌟</button>
+    <div class="trustline">${I.privacy} მონაცემები ამ მოწყობილობაზე რჩება</div>
+  </div>`,false);
+  document.body.classList.add('on-landing');
+}
+
+/* ── auth gate (simple shared password) ── */
+function boot(){ if(!state.authed) return landing(); goHome(); }
+function showLogin(){
+  render(`<div class="screen home" style="gap:18px;justify-content:center">
+    <button class="iconbtn" style="position:absolute;top:16px;left:16px;z-index:5" onclick="landing()" aria-label="უკან landing გვერდზე">←</button>
+    <div class="brand">
+      <div class="sun-badge" style="width:74px;height:74px">${I.sun}</div>
+      <div class="mark">NikoLearn</div>
+      <div class="tag">შესვლა</div>
     </div>
     <div class="login-card">
       <label class="login-lbl">მომხმარებელი</label>

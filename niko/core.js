@@ -62,6 +62,7 @@ function demoNiko(){ // seeded so the prototype shows realistic data
 function render(html,nav){
   $('#app').innerHTML=html;
   $('#app').scrollTop=0;
+  document.body.classList.remove('on-landing');
   const n=$('#bottomnav');
   if(nav){n.classList.remove('hidden');setNav(nav);} else n.classList.add('hidden');
   syncAiFab();

@@ -172,6 +172,41 @@ h1,h2,h3{line-height:1.15;letter-spacing:-0.01em}
 .hero-sub{color:var(--muted);font-size:clamp(.92rem,3.8vw,1.02rem);max-width:330px;margin:0 auto;
   text-wrap:balance;line-height:1.5}
 
+/* ── LANDING PAGE (real marketing landing: desktop + mobile) ── */
+.brand-btn{cursor:pointer}
+.brand-btn:active{transform:scale(.98)}
+.landing{gap:0;padding:0 0 20px;align-items:stretch;text-align:center}
+.lp-hero{display:flex;flex-direction:column;align-items:center;gap:13px;padding:26px 18px 28px;
+  background:radial-gradient(120% 95% at 50% -20%, color-mix(in oklch,var(--sun) 32%,var(--card)), transparent 62%)}
+.lp-badge{width:88px;height:88px}
+.lp-title{font-family:'FiraGO',sans-serif;font-weight:700;font-size:1.45rem;letter-spacing:-.02em}
+.lp-headline{font-family:'FiraGO',sans-serif;font-weight:700;line-height:1.12;text-wrap:balance;max-width:15ch;
+  font-size:clamp(1.85rem,7vw,2.7rem);
+  background:linear-gradient(118deg,var(--primary-d),var(--sun-d) 72%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lp-sub{color:var(--muted);font-size:clamp(.95rem,3.8vw,1.1rem);max-width:44ch;margin:0 auto;line-height:1.55;text-wrap:balance}
+.lp-cta{margin-top:8px;font-size:1.12rem;padding:16px 32px}
+.lp-cta.wide{display:flex;margin:10px auto 6px;width:calc(100% - 36px);max-width:380px}
+.lp-note{display:inline-flex;align-items:center;gap:7px;color:var(--green-d);font-size:.8rem;font-weight:600}
+.lp-note svg{width:15px;height:15px}
+.lp-section{padding:20px 18px 4px}
+.lp-h2{font-family:'FiraGO',sans-serif;font-weight:700;font-size:1.2rem;margin-bottom:14px;text-wrap:balance}
+.lp-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:960px;margin:0 auto}
+.lp-card{background:var(--card);border:1.5px solid var(--line);border-radius:var(--radius);padding:18px 14px;
+  box-shadow:var(--shadow);display:flex;flex-direction:column;gap:6px;align-items:center;text-align:center}
+.lp-ic{font-size:2.5rem;line-height:1}
+.lp-ct{font-weight:700;font-size:1.06rem}
+.lp-cs{font-size:.82rem;color:var(--muted);line-height:1.42;text-wrap:balance}
+body.on-landing #app{padding:0;padding-bottom:24px}
+@media (min-width:720px){
+  body.on-landing .stage{padding:0}
+  body.on-landing .device{max-width:none;width:100%;height:100dvh;border-radius:0;box-shadow:none}
+  .landing .lp-grid{grid-template-columns:repeat(4,1fr)}
+  .lp-hero{padding:54px 24px 44px}
+  .lp-section{padding:30px 24px 6px}
+  .lp-headline{font-size:clamp(2.4rem,4.5vw,3.4rem)}
+  .lp-sub{font-size:1.15rem}
+}
+
 .profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;width:100%;max-width:380px;margin:0 auto}
 .pcard{background:var(--card);border:1.5px solid var(--line);border-radius:var(--radius);
   padding:18px 14px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:9px;
