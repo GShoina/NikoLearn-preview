@@ -44,11 +44,17 @@ function goHome(){
 /* ── auth gate (simple shared password) ── */
 function boot(){ if(!state.authed) return showLogin(); goHome(); }
 function showLogin(){
-  render(`<div class="screen home" style="gap:20px;justify-content:center">
+  render(`<div class="screen home" style="gap:16px;justify-content:flex-start;padding-top:14px">
     <div class="brand">
-      <div class="sun-badge" style="width:74px;height:74px">${I.sun}</div>
+      <div class="sun-badge" style="width:84px;height:84px">${I.sun}</div>
       <div class="mark">NikoLearn</div>
-      <div class="tag">შესვლა</div>
+    </div>
+    <div class="hero-h">ისწავლე თამაშით</div>
+    <div class="hero-sub">ინგლისური, მათემატიკა და ანბანი შენი ბავშვისთვის. ხმით, სურათით და სითბოთი.</div>
+    <div class="perm-points" style="max-width:340px;margin:0 auto">
+      <div class="perm-point">${I.check} ინგლისური · მათემატიკა · ანბანი · Kings (Cambridge YLE)</div>
+      <div class="perm-point">${I.privacy} <b>მონაცემები მხოლოდ ამ ტელეფონზე რჩება</b></div>
+      <div class="perm-point">${I.check} <b>ნული</b> რეკლამა · ნული გარე ბმული</div>
     </div>
     <div class="login-card">
       <label class="login-lbl">მომხმარებელი</label>

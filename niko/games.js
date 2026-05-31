@@ -314,7 +314,7 @@ function results(){
         <button class="btn btn-primary" onclick="replay()">↻ ისევ</button>
       </div>
     </div>
-  </div>`,false);
+  </div>`,'home');
   // level-up → "go show mom/dad" movement + bonding moment
   if(game.preLvl!=null){const now=levelIdx(profile);if(now>game.preLvl){const L=LEVELS[now];game.preLvl=now;setTimeout(()=>levelUpMoment(L.n,L.ic),750);}}
 }
