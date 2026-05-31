@@ -1,7 +1,7 @@
 {
   "name": "NikoLearn",
   "short_name": "NikoLearn",
-  "start_url": "./NikoLearn%20Phase%201.html",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",

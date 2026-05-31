@@ -4,7 +4,7 @@
 მათემატიკა და ყოველდღიური ფრაზები. სახალისო, უსაფრთხო, ინტერნეტის გარეშეც მუშაობს.
 
 ## როგორ დავიწყოთ (2 წუთი)
-1. **გახსენი ბმული** ტელეფონში: `https://gshoina.github.io/NikoLearn/NikoLearn Phase 1.html`
+1. **გახსენი ბმული** ტელეფონში: `https://gshoina.github.io/NikoLearn/`
 2. **⭐ აუცილებლად: „Add to Home Screen" / „მთავარ ეკრანზე დამატება".**
    - iPhone: Safari → გაზიარების ღილაკი → „Add to Home Screen".
    - Android: Chrome → ☰ → „Install app" / „Add to Home screen".

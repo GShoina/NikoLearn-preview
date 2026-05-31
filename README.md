@@ -7,7 +7,8 @@ Subjects: Georgian alphabet, English (themed vocabulary, ~100 everyday phrases, 
 - **Stack:** vanilla JS + HTML + CSS — no build step, no framework, no runtime backend.
 - **Data:** all progress in `localStorage` on the device. Zero ads, zero external links, zero
   network calls.
-- **Entry point (target):** `NikoLearn Phase 1.html` at the repo root; modules live in `niko/`.
+- **Entry point:** `index.html` at the repo root; modules live in `niko/`.
+- **Live:** https://gshoina.github.io/NikoLearn/
 
 ## Status
 Repository established by Claude Code. Target architecture, feature inventory, and the
@@ -15,6 +16,5 @@ operating/coding rules are in **`docs/HANDOFF.md`** (the project SSOT). The agen
 operating agreement is in **`CLAUDE.md`**.
 
 ## How to run
-Open `NikoLearn Phase 1.html` in a browser. Login password: `12345`. The parent space sits
-behind a math gate. To reset: parent space → "პროგრესის გასუფთავება", or clear the
-`localStorage` key `nikolearn_p2`.
+Open `index.html` in a browser (or visit the live link). Login password: `12345`. The parent
+space sits behind a math gate. To reset: clear the `localStorage` key `nikolearn_p2`.

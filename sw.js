@@ -1,8 +1,8 @@
 // NikoLearn service worker — offline-first app shell (HANDOFF §6 priority 5).
-const CACHE = 'nikolearn-v9';
+const CACHE = 'nikolearn-v10';
 const ASSETS = [
   './',
-  './NikoLearn Phase 1.html',
+  './index.html',
   './manifest.json',
   './niko/styles.css',
   './niko/data.js',
@@ -23,5 +23,5 @@ self.addEventListener('activate', e => {
 });
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
-  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request).catch(() => caches.match('./NikoLearn Phase 1.html'))));
+  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request).catch(() => caches.match('./index.html'))));
 });
