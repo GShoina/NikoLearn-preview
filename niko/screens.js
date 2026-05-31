@@ -40,7 +40,7 @@ function renderAddKid(){
 }
 
 function renderHome(){
-  app(`<div class="hdr"><h1>NikoLearn 🦉</h1></div>
+  app(`<div class="hdr"><h1>NikoLearn 🦉</h1><button class="pill" id="parent">👪</button></div>
     <div class="grid">${state.kids.map(k=>`<button class="card" data-k="${k.id}">
       <span class="ico" style="color:${k.color}">🙂</span><span class="lbl">${esc(k.name)}</span>
       <span class="pill">🔥 ${(state[k.id]&&state[k.id].dayStreak)||0} · 🪙 ${(state[k.id]&&state[k.id].coins)||0}</span></button>`).join('')}
@@ -48,6 +48,7 @@ function renderHome(){
     ${canInstall()?`<div class="center" style="margin-top:18px"><button class="btn" id="install">📲 დააყენე ტელეფონზე</button></div>`:''}`);
   document.querySelectorAll('[data-k]').forEach(b => b.onclick = () => { profile=b.dataset.k; touchDay(); renderMenu(); });
   $('#addk').onclick = renderAddKid;
+  $('#parent').onclick = parentGate;
   if($('#install')) $('#install').onclick = doInstall;
 }
 
@@ -56,12 +57,16 @@ function renderMenu(){
   app(`<div class="hdr"><button class="pill" id="home">⬅️</button><h1>${esc(k.name)}</h1><span class="pill">🪙 ${prog().coins}</span></div>
    <div class="grid">
     <button class="card" id="counting"><span class="ico">🔢</span><span class="lbl">${k.reader?'1 2 3':'🍎🍎🍎'}</span></button>
+    <button class="card" id="alphabet"><span class="ico">🔡</span><span class="lbl">${k.reader?'ანბანი':'ა ბ გ'}</span></button>
     <button class="card" id="words"><span class="ico">🔤</span><span class="lbl">${k.reader?'სიტყვები':'🐈🐕🐟'}</span></button>
+    <button class="card" id="math"><span class="ico">➕</span><span class="lbl">${k.reader?'მათემატიკა':'➕➖'}</span></button>
     ${k.reader?`<button class="card" id="phrases"><span class="ico">💬</span><span class="lbl">ფრაზები</span></button>`:''}
    </div>`);
   $('#home').onclick = renderHome;
   $('#counting').onclick = () => startCounting();
+  $('#alphabet').onclick = () => openAlpha();
   $('#words').onclick = () => openTopics();
+  $('#math').onclick = () => startMath();
   if($('#phrases')) $('#phrases').onclick = () => openPhraseCats();
 }
 

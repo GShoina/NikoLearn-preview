@@ -65,6 +65,55 @@ function startWords(cat){
   next();
 }
 
+// ── Math (graded + adaptive). L0 ±20 · L1 ±100 · L2 ×÷. ≥85% bumps up, <50% drops. HANDOFF §4 ──
+const MATH_LEVELS = ['➕➖ 20','➕➖ 100','✖️➗'];
+function mathProblem(lvl){
+  if(lvl <= 0){ let a=rnd(2,18), b=rnd(1,20-a); return Math.random()<0.5 ? {q:`${a} + ${b}`,ans:a+b} : {q:`${a+b} − ${b}`,ans:a}; }
+  if(lvl === 1){ let a=rnd(10,89), b=rnd(1,99-a); return Math.random()<0.5 ? {q:`${a} + ${b}`,ans:a+b} : {q:`${a+b} − ${b}`,ans:a}; }
+  const a=rnd(2,9), b=rnd(2,9); return Math.random()<0.5 ? {q:`${a} × ${b}`,ans:a*b} : {q:`${a*b} ÷ ${b}`,ans:a};
+}
+function mathOptions(ans){
+  const set = new Set([ans]); let g=0;
+  while(set.size<3 && g++<50){ const d = ans + pick([-3,-2,-1,1,2,3,10,-10]); if(d>=0) set.add(d); }
+  return [...set].sort(()=>Math.random()-0.5);
+}
+function startMath(){
+  const p0 = prog(); let lvl = Math.min(p0.mathLevel||0, MATH_LEVELS.length-1);
+  let round = 0, right = 0; const total = 6;
+  function next(){
+    if(round >= total) return mathResults(right, total, lvl);
+    round++;
+    const prob = mathProblem(lvl), choices = mathOptions(prob.ans);
+    app(`<div class="hdr"><button class="pill" id="x">✕</button><h1>${MATH_LEVELS[lvl]}</h1><span class="pill">${round}/${total}</span></div>
+      <div class="center">
+        <div class="q" style="font-size:2.4rem">${prob.q} = ?</div>
+        <div class="opts">${choices.map(c=>`<button class="btn opt" data-v="${c}">${c}</button>`).join('')}</div>
+      </div>`);
+    $('#x').onclick = renderMenu;
+    document.querySelectorAll('[data-v]').forEach(b => b.onclick = () => {
+      const p = prog();
+      if(+b.dataset.v === prob.ans){ b.classList.add('good'); right++; p.coins++; p.combo=(p.combo||0)+1; p.maxCombo=Math.max(p.maxCombo||0,p.combo);
+        p.math.correct++; save(); praise(); setTimeout(next, 650); }
+      else { b.classList.add('bad'); p.combo=0; p.math.wrong++; save(); setTimeout(()=>b.classList.remove('bad'), 500); }
+    });
+  }
+  next();
+}
+function mathResults(right, total, lvl){
+  const pct = Math.round(100*right/total), p = prog();
+  let note = '';
+  if(pct >= 85 && lvl < MATH_LEVELS.length-1){ p.mathLevel = lvl+1; save(); note = `⬆️ ახალი დონე: ${MATH_LEVELS[lvl+1]}`; }
+  else if(pct < 50 && lvl > 0){ p.mathLevel = lvl-1; save(); note = `↩️ ცოტა გავიმეოროთ`; }
+  const stars = '⭐'.repeat(right) + '·'.repeat(Math.max(0,total-right));
+  app(`<div class="center" style="margin-top:12vh">
+    <div style="font-size:4rem">🎉</div><div class="q">${right}/${total}</div>
+    <div class="emojis">${stars}</div>${note?`<div class="pill">${note}</div>`:''}
+    <button class="btn big" id="again">კიდევ</button>
+    <button class="btn ghost big" id="menu">მენიუ</button></div>`);
+  $('#again').onclick = startMath;
+  $('#menu').onclick = renderMenu;
+}
+
 // ── Everyday English phrases (reader feature). Hear/see EN phrase → pick the Georgian meaning. ──
 function startPhrases(grp){
   const items = grp ? PHRASES[grp].slice() : Object.values(PHRASES).flat();

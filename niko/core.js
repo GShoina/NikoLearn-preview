@@ -9,15 +9,18 @@ function save(){ localStorage.setItem(SK, JSON.stringify(state)); }
 function kid(){ return state.kids.find(k => k.id === profile) || null; }
 function prog(){
   const id = profile;
-  if(!state[id]) state[id] = { coins:0, combo:0, maxCombo:0, dayStreak:0, lastDay:null, counting:{correct:0,wrong:0}, words:{correct:0,wrong:0}, phrases:{correct:0,wrong:0}, sessions:0 };
-  if(!state[id].words) state[id].words = {correct:0,wrong:0};
-  if(!state[id].phrases) state[id].phrases = {correct:0,wrong:0};
+  if(!state[id]) state[id] = { coins:0, combo:0, maxCombo:0, dayStreak:0, lastDay:null, counting:{correct:0,wrong:0}, words:{correct:0,wrong:0}, phrases:{correct:0,wrong:0}, math:{correct:0,wrong:0}, alpha:{correct:0,wrong:0}, mathLevel:0, sessions:0 };
+  const s = state[id];
+  ['counting','words','phrases','math','alpha'].forEach(k => { if(!s[k]) s[k] = {correct:0,wrong:0}; });
+  if(typeof s.mathLevel !== 'number') s.mathLevel = 0;
   return state[id];
 }
 function app(html){ document.getElementById('app').innerHTML = html; }
 function $(sel){ return document.querySelector(sel); }
 function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function rnd(min, max){ return Math.floor(Math.random()*(max-min+1)) + min; }
+function accuracy(o){ if(!o) return null; const t=(o.correct||0)+(o.wrong||0); return t ? Math.round(100*o.correct/t) : null; }
 
 // Build answer choices: the correct item + distinct distractors, capped at pool size (never freezes
 // on small pools — latent bug guard), shuffled. keyFn dedupes by a stable key.

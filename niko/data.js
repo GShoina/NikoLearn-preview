@@ -17,6 +17,32 @@ const WORDS = {
   'ფერები 🎨':[{ka:'წითელი',en:'red',emoji:'🟥'},{ka:'ლურჯი',en:'blue',emoji:'🟦'},{ka:'მწვანე',en:'green',emoji:'🟩'},{ka:'ყვითელი',en:'yellow',emoji:'🟨'}]
 };
 
+// Alphabets — letter + example word + emoji. Item {l, word, emoji}.
+const KA_ALPHA = [
+  {l:'ა',word:'ანანასი',emoji:'🍍'},{l:'ბ',word:'ბურთი',emoji:'⚽'},{l:'გ',word:'გული',emoji:'❤️'},
+  {l:'დ',word:'დათვი',emoji:'🐻'},{l:'ე',word:'ეზო',emoji:'🏡'},{l:'ვ',word:'ვაშლი',emoji:'🍎'},
+  {l:'ზ',word:'ზებრა',emoji:'🦓'},{l:'თ',word:'თევზი',emoji:'🐟'},{l:'ი',word:'ია',emoji:'🌸'},
+  {l:'კ',word:'კატა',emoji:'🐈'},{l:'ლ',word:'ლომი',emoji:'🦁'},{l:'მ',word:'მზე',emoji:'☀️'},
+  {l:'ნ',word:'ნავი',emoji:'⛵'},{l:'ო',word:'ობობა',emoji:'🕷️'},{l:'პ',word:'პინგვინი',emoji:'🐧'},
+  {l:'ჟ',word:'ჟირაფი',emoji:'🦒'},{l:'რ',word:'რძე',emoji:'🥛'},{l:'ს',word:'სახლი',emoji:'🏠'},
+  {l:'ტ',word:'ტორტი',emoji:'🎂'},{l:'უ',word:'ურემი',emoji:'🛒'},{l:'ფ',word:'ფრინველი',emoji:'🐦'},
+  {l:'ქ',word:'ქუდი',emoji:'🧢'},{l:'ღ',word:'ღორი',emoji:'🐷'},{l:'ყ',word:'ყურძენი',emoji:'🍇'},
+  {l:'შ',word:'შოკოლადი',emoji:'🍫'},{l:'ჩ',word:'ჩანთა',emoji:'🎒'},{l:'ც',word:'ცხენი',emoji:'🐴'},
+  {l:'ძ',word:'ძაღლი',emoji:'🐕'},{l:'წ',word:'წყალი',emoji:'💧'},{l:'ჭ',word:'ჭიქა',emoji:'🥤'},
+  {l:'ხ',word:'ხე',emoji:'🌳'},{l:'ჯ',word:'ჯადოქარი',emoji:'🧙'},{l:'ჰ',word:'ჰიპო',emoji:'🦛'}
+];
+const EN_ALPHA = [
+  {l:'A',word:'Apple',emoji:'🍎'},{l:'B',word:'Ball',emoji:'⚽'},{l:'C',word:'Cat',emoji:'🐈'},
+  {l:'D',word:'Dog',emoji:'🐕'},{l:'E',word:'Egg',emoji:'🥚'},{l:'F',word:'Fish',emoji:'🐟'},
+  {l:'G',word:'Goat',emoji:'🐐'},{l:'H',word:'Hat',emoji:'🎩'},{l:'I',word:'Ice',emoji:'🧊'},
+  {l:'J',word:'Juice',emoji:'🧃'},{l:'K',word:'Key',emoji:'🔑'},{l:'L',word:'Lion',emoji:'🦁'},
+  {l:'M',word:'Moon',emoji:'🌙'},{l:'N',word:'Nest',emoji:'🪺'},{l:'O',word:'Orange',emoji:'🍊'},
+  {l:'P',word:'Pig',emoji:'🐷'},{l:'Q',word:'Queen',emoji:'👑'},{l:'R',word:'Rain',emoji:'🌧️'},
+  {l:'S',word:'Sun',emoji:'☀️'},{l:'T',word:'Tree',emoji:'🌳'},{l:'U',word:'Umbrella',emoji:'☂️'},
+  {l:'V',word:'Van',emoji:'🚐'},{l:'W',word:'Water',emoji:'💧'},{l:'X',word:'Box',emoji:'📦'},
+  {l:'Y',word:'Yo-yo',emoji:'🪀'},{l:'Z',word:'Zebra',emoji:'🦓'}
+];
+
 // ~100 everyday English phrases (Kings prep). Starter bank — expand each group freely. Item {ka,en}.
 const PHRASES = {
   '👋 მისალმება':[{ka:'გამარჯობა',en:'Hello'},{ka:'როგორ ხარ?',en:'How are you?'},{ka:'კარგად ვარ',en:"I'm fine"},{ka:'ნახვამდის',en:'Goodbye'}],
