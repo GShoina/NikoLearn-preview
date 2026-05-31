@@ -43,9 +43,24 @@ function results(right, total, againFn, extra){
     <button class="btn big" id="show">📣 მაჩვენე მშობელს</button>
     <button class="btn ghost big" id="again">კიდევ</button>
     <button class="btn ghost" id="menu">მენიუ</button></div>`);
-  $('#again').onclick = againFn; $('#menu').onclick = renderMenu;
+  $('#again').onclick = nextOrBreak(againFn); $('#menu').onclick = renderMenu;
   $('#show').onclick = () => celebrate(right, total, againFn);
 }
+
+// ── Physical-break reminder (~15 min of play). Healthy use → parent trust. HANDOFF §4 ──
+let _breakDue = 0;
+function breakDue(){ const now = Date.now(); if(!_breakDue){ _breakDue = now + 15*60*1000; return false; } return now >= _breakDue; }
+function showBreak(after){
+  _breakDue = Date.now() + 15*60*1000;
+  app(`<div class="center" style="margin-top:16vh">
+    <div class="bounce" style="font-size:5rem">🤸</div>
+    <div class="q">დროა პატარა შესვენება!</div>
+    <div style="color:var(--muted)">წამოდექი, გაიწელე, დალიე წყალი 💧</div>
+    <button class="btn big" id="ok">გავაგრძელოთ</button></div>`);
+  $('#ok').onclick = after;
+}
+// "Play again" handler that slips in a break when one is due.
+function nextOrBreak(againFn){ return () => { if(breakDue()) showBreak(againFn); else againFn(); }; }
 
 // Warm "show mom & dad" moment — the child shows the parent what they learned (success = warmth + trust).
 function celebrate(right, total, againFn){
@@ -58,7 +73,7 @@ function celebrate(right, total, againFn){
     <button class="btn big" id="again">კიდევ თამაში</button>
     <button class="btn ghost" id="menu">მენიუ</button></div>`);
   praise();
-  $('#again').onclick = againFn; $('#menu').onclick = renderMenu;
+  $('#again').onclick = nextOrBreak(againFn); $('#menu').onclick = renderMenu;
 }
 
 // ── Voice ── NEVER read Georgian text with the English voice (HANDOFF §8.4).
