@@ -44,9 +44,11 @@ function renderHome(){
     <div class="grid">${state.kids.map(k=>`<button class="card" data-k="${k.id}">
       <span class="ico" style="color:${k.color}">🙂</span><span class="lbl">${esc(k.name)}</span>
       <span class="pill">🔥 ${(state[k.id]&&state[k.id].dayStreak)||0} · 🪙 ${(state[k.id]&&state[k.id].coins)||0}</span></button>`).join('')}
-      <button class="card" id="addk"><span class="ico">➕</span><span class="lbl">ბავშვი</span></button></div>`);
+      <button class="card" id="addk"><span class="ico">➕</span><span class="lbl">ბავშვი</span></button></div>
+    ${canInstall()?`<div class="center" style="margin-top:18px"><button class="btn" id="install">📲 დააყენე ტელეფონზე</button></div>`:''}`);
   document.querySelectorAll('[data-k]').forEach(b => b.onclick = () => { profile=b.dataset.k; touchDay(); renderMenu(); });
   $('#addk').onclick = renderAddKid;
+  if($('#install')) $('#install').onclick = doInstall;
 }
 
 function renderMenu(){

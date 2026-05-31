@@ -65,7 +65,28 @@ function touchDay(){
   p.lastDay = t; p.sessions = (p.sessions||0)+1; save();
 }
 
+// ── Data durability (pilot needs progress to survive; iOS evicts non-installed PWA storage ~7d) ──
+async function requestPersist(){
+  try {
+    if(navigator.storage && navigator.storage.persist){
+      const already = navigator.storage.persisted ? await navigator.storage.persisted() : false;
+      if(!already) await navigator.storage.persist();
+    }
+  } catch(e){}
+}
+let _installPrompt = null;
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); _installPrompt = e; });
+function canInstall(){ return !!_installPrompt; }
+async function doInstall(){
+  if(!_installPrompt) return;
+  _installPrompt.prompt();
+  try { await _installPrompt.userChoice; } catch(e){}
+  _installPrompt = null;
+  if(typeof renderHome === 'function') renderHome();
+}
+
 function boot(){
+  requestPersist();
   if(!state.authed) return renderLogin();
   if(!state.kids.length) return renderAddKid();
   renderHome();

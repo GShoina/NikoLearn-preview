@@ -40,3 +40,33 @@ over-engineering.
 ## After the pilot decides it
 If the teacher wants central progress for the whole class → that's when the backend earns its
 keep (dashboard + shared accounts + copy-protection). Not before.
+
+---
+
+## Feedback & data durability — the pilot's real job is INSIGHTS
+
+**Device reality (correction):** a 5–7-yo rarely has their own phone. Real access = a **parent's
+phone at home** or a **few shared tablets in class**. So the pilot runs on SHARED devices → the
+multi-profile home ("who's playing?") is the primary model, NOT one-device-per-kid. The home grid
+already holds many kids on one device.
+
+**How we actually collect insight (20–25 kids → qualitative-first):**
+1. **On-device, already recorded:** each profile tracks accuracy / streak / time per subject; the
+   parent screen turns it into plain language ("Niko: strong on counting, struggles with animals").
+2. **Parent survey = the primary signal.** A 5-question form after week 1: did the child come back?
+   what did they love / avoid? did it hold attention? would you keep using it? 25 families = rich data.
+3. **2–3 short parent interviews** for depth. At this scale, qualitative beats any dashboard.
+4. **Optional consented quant pipe (needs owner go):** a one-tap "share with teacher" that sends an
+   **anonymous** summary (random id + age band + per-exercise stats — NEVER the child's name) to a
+   free Google Sheet. Parent taps it each time → preserves "data stays on device *by default*".
+
+**How long does local data survive? (honest)** localStorage persists indefinitely UNLESS: the user
+clears browser data / switches browser, OR **iOS evicts storage for web apps not added to the Home
+Screen after ~7 days of inactivity** (a real iOS rule). Mitigations now in code:
+- the app requests **persistent storage** (`navigator.storage.persist()`) so the browser won't evict it;
+- an **"Add to Home Screen / Install"** prompt — an installed PWA keeps its data and launches like a real app.
+For a multi-week pilot, **"install it to the home screen"** is the single most important instruction to parents.
+
+**Bottom line:** without at least the parent survey + "install it", the pilot ships a nice app but
+produces no insight — defeating its purpose. The consented quant pipe is the cheapest way to add
+real numbers if you want them.
