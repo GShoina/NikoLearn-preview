@@ -1,5 +1,0 @@
-- generic [ref=e3]:
-  - generic [ref=e4]: 🦉
-  - heading "NikoLearn" [level=1] [ref=e5]
-  - textbox "••••" [ref=e6]
-  - button "შესვლა" [ref=e7] [cursor=pointer]
