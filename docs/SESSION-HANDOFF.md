@@ -15,10 +15,22 @@ LIVE (`https://gshoina.github.io/NikoLearn/` serving styles 42883b + tweaks.js 2
 Rollback if needed: `git checkout pre-realdesign-swap-2026-05-31` (tag) or
 `C:\Users\gela.shonia\Downloads\_niko_repo_backup_2026-05-31\`.
 
-### ▶ NEXT ACTION (Step 2): feature-gap pass — compare his real `niko/*.js` against the clarified
-functional list below; layer in ONLY genuinely-missing items WITHOUT degrading his visuals. His
-design already has tutor/owl/parent/tweaks/alpha — verify, don't duplicate. Then re-test + redeploy.
-Open owner decision blocking full value: **Georgian audio** (see "Open decisions" below).
+## ✅ #2 ACTION — DONE (2026-05-31): Georgian audio LIVE
+Commit `af30d70`. Feature-gap audit found his design already has reader-toggle, day-streak, phrases,
+adaptive math, ka+en alphabet, owl hints, show-parent, break-reminder, parent dashboard, frictionless
+entry, persistent storage. The one real gap was Georgian audio (AUDIO_MANIFEST was empty, 0 clips).
+Fixed: 234 edge-tts clips (`ka-GE-EkaNeural`, free, no account) under `niko/audio/`, mapped in
+`niko/audio-manifest.js` (loaded before `niko/audio.js`, which already prefers a clip over TTS).
+gTTS does NOT support ka; edge-tts does. Numbers 1-20 aliased to number-word clips. sw.js v13:
+clips cache-on-first-play (offline after first hear). Verified live: manifest 200, clips 200.
+Regenerate clips anytime: `python C:\Users\gela.shonia\Downloads\_niko_gen.py`.
+Rollback: `git checkout pre-audio-deploy-2026-05-31`.
+
+### ▶ NEXT ACTION: owner to test on phone (hard-refresh gshoina.github.io/NikoLearn, open alphabet,
+tap "მისმინე" — should hear a Georgian voice now). Remaining minor gap from clarified list:
+"in-a-row combo" as a SEPARATE counter from day-streak (low priority, his design tracks streak/
+maxStreak already). Optional polish: regenerate praise/number clips with GiorgiNeural (male) if a
+warmer voice is wanted, or owner records his own ~55 clips later (drop into niko/audio/, update manifest).
 
 ---
 
