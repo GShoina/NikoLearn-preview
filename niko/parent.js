@@ -34,7 +34,7 @@ function renderParent(){
     const subj = SUBJECTS.map(s => { const a = accuracy(p[s.k]); return a===null ? '' : `${s.n} ${a}%`; }).filter(Boolean).join(' · ');
     return `<div class="card" style="align-items:stretch;text-align:left;cursor:default">
       <div style="font-weight:800;font-size:1.1rem">${esc(k.name)} <span style="color:var(--muted)">${k.reader?'📖':'🖼️'}</span></div>
-      <div>🔥 ${p.dayStreak||0} დღე · 🪙 ${p.coins||0} · 🎮 ${p.sessions||0} სესია · საუკეთესო რიგი ${p.maxCombo||0}</div>
+      <div>🔥 ${p.dayStreak||0} დღე · 🪙 ${p.coins||0} · 🎮 ${p.sessions||0} სესია · საუკეთესო რიგი ${p.maxCombo||0}${p.shown?` · 📣 ${p.shown}`:''}</div>
       <div style="margin-top:4px">${kidInsight(p)}</div>
       ${subj?`<div style="color:var(--muted);font-size:.9rem;margin-top:4px">${subj}</div>`:''}
     </div>`;

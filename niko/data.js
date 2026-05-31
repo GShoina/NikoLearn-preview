@@ -13,8 +13,12 @@ const COUNTING = [
 ];
 
 const WORDS = {
-  'ცხოველები 🐾':[{ka:'კატა',en:'cat',emoji:'🐈'},{ka:'ძაღლი',en:'dog',emoji:'🐕'},{ka:'თევზი',en:'fish',emoji:'🐟'},{ka:'ფრინველი',en:'bird',emoji:'🐦'}],
-  'ფერები 🎨':[{ka:'წითელი',en:'red',emoji:'🟥'},{ka:'ლურჯი',en:'blue',emoji:'🟦'},{ka:'მწვანე',en:'green',emoji:'🟩'},{ka:'ყვითელი',en:'yellow',emoji:'🟨'}]
+  'ცხოველები 🐾':[{ka:'კატა',en:'cat',emoji:'🐈'},{ka:'ძაღლი',en:'dog',emoji:'🐕'},{ka:'თევზი',en:'fish',emoji:'🐟'},{ka:'ფრინველი',en:'bird',emoji:'🐦'},{ka:'ცხენი',en:'horse',emoji:'🐴'},{ka:'ლომი',en:'lion',emoji:'🦁'}],
+  'ფერები 🎨':[{ka:'წითელი',en:'red',emoji:'🟥'},{ka:'ლურჯი',en:'blue',emoji:'🟦'},{ka:'მწვანე',en:'green',emoji:'🟩'},{ka:'ყვითელი',en:'yellow',emoji:'🟨'}],
+  'საკვები 🍎':[{ka:'პური',en:'bread',emoji:'🍞'},{ka:'რძე',en:'milk',emoji:'🥛'},{ka:'კვერცხი',en:'egg',emoji:'🥚'},{ka:'ვაშლი',en:'apple',emoji:'🍎'},{ka:'ბანანი',en:'banana',emoji:'🍌'}],
+  'ოჯახი 👨‍👩‍👧':[{ka:'დედა',en:'mother',emoji:'👩'},{ka:'მამა',en:'father',emoji:'👨'},{ka:'და',en:'sister',emoji:'👧'},{ka:'ძმა',en:'brother',emoji:'👦'},{ka:'ბავშვი',en:'baby',emoji:'👶'}],
+  'სხეული 🖐️':[{ka:'ხელი',en:'hand',emoji:'✋'},{ka:'თვალი',en:'eye',emoji:'👁️'},{ka:'ფეხი',en:'foot',emoji:'🦶'},{ka:'ცხვირი',en:'nose',emoji:'👃'},{ka:'ყური',en:'ear',emoji:'👂'}],
+  'ბუნება 🌳':[{ka:'მზე',en:'sun',emoji:'☀️'},{ka:'მთვარე',en:'moon',emoji:'🌙'},{ka:'ხე',en:'tree',emoji:'🌳'},{ka:'ყვავილი',en:'flower',emoji:'🌼'},{ka:'წვიმა',en:'rain',emoji:'🌧️'}]
 };
 
 // Alphabets — letter + example word + emoji. Item {l, word, emoji}.
@@ -48,7 +52,9 @@ const PHRASES = {
   '👋 მისალმება':[{ka:'გამარჯობა',en:'Hello'},{ka:'როგორ ხარ?',en:'How are you?'},{ka:'კარგად ვარ',en:"I'm fine"},{ka:'ნახვამდის',en:'Goodbye'}],
   '🙏 თავაზიანობა':[{ka:'გმადლობ',en:'Thank you'},{ka:'გთხოვ',en:'Please'},{ka:'ბოდიში',en:'Sorry'},{ka:'არაუშავს',en:"It's okay"}],
   '🏫 სკოლა':[{ka:'შემიძლია წყალი დავლიო?',en:'Can I drink water?'},{ka:'არ მესმის',en:"I don't understand"},{ka:'მზად ვარ',en:"I'm ready"},{ka:'დამეხმარე',en:'Help me, please'}],
-  '😊 გრძნობები':[{ka:'მშია',en:"I'm hungry"},{ka:'დავიღალე',en:"I'm tired"},{ka:'ბედნიერი ვარ',en:"I'm happy"},{ka:'მიყვარს ეს',en:'I like it'}]
+  '😊 გრძნობები':[{ka:'მშია',en:"I'm hungry"},{ka:'დავიღალე',en:"I'm tired"},{ka:'ბედნიერი ვარ',en:"I'm happy"},{ka:'მიყვარს ეს',en:'I like it'}],
+  '❓ კითხვები':[{ka:'ეს რა არის?',en:'What is this?'},{ka:'სად არის?',en:'Where is it?'},{ka:'რა ფერია?',en:'What colour is it?'},{ka:'შემიძლია?',en:'Can I?'}],
+  '⭐ ყოველდღე':[{ka:'დილა მშვიდობისა',en:'Good morning'},{ka:'ღამე მშვიდობისა',en:'Good night'},{ka:'წავიდეთ',en:"Let's go"},{ka:'მიყვარხარ',en:'I love you'}]
 };
 
 const PRAISE_KA = ['ყოჩაღ!','ბრავო!','მართალია!','სუპერ!','აფერი!'];

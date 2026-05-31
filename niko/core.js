@@ -32,13 +32,32 @@ function distractors(pool, correct, keyFn){
 }
 
 // Shared end-of-round screen.
-function results(right, total, againFn){
+function results(right, total, againFn, extra){
+  const perfect = right === total;
   const stars = '⭐'.repeat(right) + '·'.repeat(Math.max(0, total-right));
-  app(`<div class="center" style="margin-top:14vh">
-    <div style="font-size:4rem">🎉</div><div class="q">${right}/${total}</div>
+  app(`<div class="center" style="margin-top:12vh">
+    <div class="bounce" style="font-size:4.5rem">${perfect?'🏆':'🎉'}</div>
+    <div class="q">${right}/${total}</div>
     <div class="emojis">${stars}</div>
-    <button class="btn big" id="again">კიდევ</button>
-    <button class="btn ghost big" id="menu">მენიუ</button></div>`);
+    ${extra||''}
+    <button class="btn big" id="show">📣 მაჩვენე მშობელს</button>
+    <button class="btn ghost big" id="again">კიდევ</button>
+    <button class="btn ghost" id="menu">მენიუ</button></div>`);
+  $('#again').onclick = againFn; $('#menu').onclick = renderMenu;
+  $('#show').onclick = () => celebrate(right, total, againFn);
+}
+
+// Warm "show mom & dad" moment — the child shows the parent what they learned (success = warmth + trust).
+function celebrate(right, total, againFn){
+  const p = prog(); p.shown = (p.shown||0)+1; save();
+  const k = kid();
+  app(`<div class="center" style="margin-top:12vh">
+    <div class="bounce" style="font-size:5rem">🌟🎉🌟</div>
+    <div class="q" style="font-size:1.5rem">${esc(k.name)}-მ ${right}/${total} ისწავლა!</div>
+    <div style="font-size:1.2rem;color:var(--muted)">დედა და მამა, შეაქეთ! 👏❤️</div>
+    <button class="btn big" id="again">კიდევ თამაში</button>
+    <button class="btn ghost" id="menu">მენიუ</button></div>`);
+  praise();
   $('#again').onclick = againFn; $('#menu').onclick = renderMenu;
 }
 

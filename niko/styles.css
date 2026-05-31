@@ -41,4 +41,6 @@ body{font-family:'FiraGO','Noto Sans Georgian','Segoe UI',system-ui,sans-serif;b
 .toast{position:fixed;left:50%;top:16%;transform:translateX(-50%);background:var(--accent);color:#fff;padding:14px 24px;border-radius:999px;
   font-weight:800;font-size:1.3rem;box-shadow:var(--shadow);z-index:50;animation:pop .25s ease}
 @keyframes pop{from{transform:translateX(-50%) scale(.7);opacity:0}to{transform:translateX(-50%) scale(1);opacity:1}}
+.bounce{animation:bounce .6s ease infinite alternate}
+@keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-14px)}}
 @media(min-width:600px){body{font-size:19px}#app{padding-top:24px}}

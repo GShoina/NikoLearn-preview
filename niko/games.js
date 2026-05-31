@@ -104,14 +104,7 @@ function mathResults(right, total, lvl){
   let note = '';
   if(pct >= 85 && lvl < MATH_LEVELS.length-1){ p.mathLevel = lvl+1; save(); note = `⬆️ ახალი დონე: ${MATH_LEVELS[lvl+1]}`; }
   else if(pct < 50 && lvl > 0){ p.mathLevel = lvl-1; save(); note = `↩️ ცოტა გავიმეოროთ`; }
-  const stars = '⭐'.repeat(right) + '·'.repeat(Math.max(0,total-right));
-  app(`<div class="center" style="margin-top:12vh">
-    <div style="font-size:4rem">🎉</div><div class="q">${right}/${total}</div>
-    <div class="emojis">${stars}</div>${note?`<div class="pill">${note}</div>`:''}
-    <button class="btn big" id="again">კიდევ</button>
-    <button class="btn ghost big" id="menu">მენიუ</button></div>`);
-  $('#again').onclick = startMath;
-  $('#menu').onclick = renderMenu;
+  results(right, total, startMath, note ? `<div class="pill">${note}</div>` : '');
 }
 
 // ── Everyday English phrases (reader feature). Hear/see EN phrase → pick the Georgian meaning. ──
