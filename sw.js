@@ -1,5 +1,5 @@
 // NikoLearn service worker — offline-first app shell (HANDOFF §6 priority 5).
-const CACHE = 'nikolearn-v11';
+const CACHE = 'nikolearn-v12';
 const ASSETS = [
   './',
   './index.html',
@@ -13,7 +13,9 @@ const ASSETS = [
   './niko/games.js',
   './niko/alpha.js',
   './niko/owl.js',
-  './niko/parent.js'
+  './niko/parent.js',
+  './niko/tweaks.js',
+  './favicon.svg'
 ];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));

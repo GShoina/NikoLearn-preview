@@ -1,150 +1,276 @@
-// Screens: login, add-kid (reader toggle — improvement over age-only isYoung), home, menu. HANDOFF §4
-// Warm landing / hero — makes a parent (and child) WANT to enter. First screen for new visitors.
-function renderLanding(){
-  app(`<div class="hero">
-    <div class="hero-deco"><span>📚</span><span>⭐</span><span>🔢</span><span>🎈</span><span>✏️</span></div>
-    <div class="hero-badge">5–8 წელი · Cambridge YLE მზადება</div>
-    <div class="hero-owl-wrap"><div class="hero-owl bounce">🦉</div></div>
-    <h1 class="hero-title">NikoLearn</h1>
-    <div class="hero-sub">ისწავლე თამაშით 🎉</div>
-    <p class="hero-lead">ინგლისური, ქართული ანბანი, თვლა და მათემატიკა — პატარებისთვის. სახალისო, უსაფრთხო და ინტერნეტის გარეშეც მუშაობს.</p>
-    <div class="chips">
-      <span class="chip">🎯 ინგლისური</span><span class="chip">🇬🇪 ანბანი</span>
-      <span class="chip">🔢 მათემატიკა</span><span class="chip">🦉 ბუ-მასწავლებელი</span>
+/* ═══════════════════════════════════════════════════════════
+   NIKO LEARN — screens: home, auth, onboarding, profile, menu
+   ═══════════════════════════════════════════════════════════ */
+
+/* ═══════════════ SCREENS ═══════════════ */
+function goHome(){
+  profile=null;state=load();
+  if(!state.onboarded)return welcome();
+  const cards=state.kids.map(k=>{
+    const p=k.id,s=state[p],lv=levelOf(p),init=(k.name||'?')[0];
+    const meta=s.shields>0?`<div class="pmeta"><span>${I.shield}</span> ${s.shields} · ${lv.ic} ${lv.name}</div>`
+      :`<div class="pmeta">დაიწყე →</div>`;
+    return `<div class="pcard" onclick="selectProfile('${p}')">
+      <button class="pcard-del" onclick="event.stopPropagation();deleteKid('${p}')" aria-label="${k.name}-ს წაშლა">🗑️</button>
+      <div class="avatar a-${k.color||'sky'}">${init}</div>
+      <div class="pname">${k.name}</div>
+      <div class="page">${k.age} წლის</div>
+      ${meta}
+    </div>`;
+  }).join('');
+  const addCard=`<div class="pcard add" onclick="addChild()">
+      <div class="avatar add-av">＋</div>
+      <div class="pname" style="color:var(--muted)">დაამატე ბავშვი</div>
+    </div>`;
+  render(`<div class="screen home">
+    <div class="brand">
+      <div class="sun-badge">${I.sun}</div>
+      <div class="mark">NikoLearn</div>
+      <div class="tag">ისწავლე თამაშით</div>
     </div>
-    <button class="btn big" id="start">დაიწყე ✨</button>
-    <button class="btn ghost" id="haveacc">უკვე მაქვს ანგარიში</button>
-    <div class="hero-trust">🔒 მონაცემი ამ მოწყობილობაზე რჩება · რეკლამა არ არის</div>
-  </div>`);
-  $('#start').onclick = renderRegister;
-  $('#haveacc').onclick = () => state.account ? renderLogin() : renderRegister();
+    <div class="profile-grid">
+      ${cards}
+      ${addCard}
+      <div class="pcard parent" style="grid-column:span 2" onclick="openGate()">
+        <div class="avatar a-purple">${I.lock}</div>
+        <div><div class="pname">მშობლის სივრცე</div>
+        <div class="lockwrap">${I.lock} დაცულია</div></div>
+      </div>
+    </div>
+    <div class="trustline">${I.privacy} მონაცემები ამ მოწყობილობაზე რჩება</div>
+  </div>`,false);
 }
 
-// Dead-simple registration — username + password, NO verification (accept whatever they type).
-function renderRegister(){
-  app(`<div class="hero">
-    <div class="hero-owl">🦉</div>
-    <h1>შექმენი ანგარიში</h1>
-    <input class="input" id="ru" placeholder="მომხმარებლის სახელი" autocomplete="off">
-    <input class="input" id="rp" type="password" placeholder="პაროლი" autocomplete="new-password">
-    <button class="btn big" id="reg">შექმნა ✨</button>
-    <button class="btn ghost" id="back">⬅️</button>
-  </div>`);
-  $('#back').onclick = renderLanding;
-  const go = () => {
-    const u = $('#ru').value.trim() || 'მშობელი';
-    const p = $('#rp').value;                 // accepted as-is, no verification
-    state.account = { user:u, pass:p }; state.session = true; save();
-    toast('კეთილი იყოს 🎉'); boot();
-  };
-  $('#reg').onclick = go;
-  $('#rp').addEventListener('keydown', e => { if(e.key==='Enter') go(); });
+/* ── auth gate (simple shared password) ── */
+function boot(){ if(!state.authed) return showLogin(); goHome(); }
+function showLogin(){
+  render(`<div class="screen home" style="gap:20px;justify-content:center">
+    <div class="brand">
+      <div class="sun-badge" style="width:74px;height:74px">${I.sun}</div>
+      <div class="mark">NikoLearn</div>
+      <div class="tag">შესვლა</div>
+    </div>
+    <div class="login-card">
+      <label class="login-lbl">მომხმარებელი</label>
+      <input class="login-in" id="lg-user" value="nikolozi" autocomplete="username">
+      <label class="login-lbl">პაროლი</label>
+      <input class="login-in num" id="lg-pass" type="password" inputmode="numeric" placeholder="•••••" autocomplete="current-password">
+      <div class="login-err" id="lg-err"></div>
+      <button class="btn btn-primary btn-block" onclick="doLogin()">შესვლა →</button>
+    </div>
+    <div class="trustline">${I.privacy} მონაცემები ამ მოწყობილობაზე რჩება</div>
+  </div>`,false);
+  const pw=$('#lg-pass'); if(pw){ pw.focus(); pw.onkeydown=e=>{if(e.key==='Enter')doLogin();}; }
+}
+function doLogin(){
+  const pw=($('#lg-pass')||{}).value||'';
+  if(pw.trim()==='12345'){ state.authed=true; save(); goHome(); return; }
+  const e=$('#lg-err'); if(e)e.textContent='პაროლი არასწორია';
+  const inp=$('#lg-pass'); if(inp){ inp.classList.add('shake'); inp.value=''; inp.focus(); setTimeout(()=>inp.classList.remove('shake'),420); }
+}
+function logout(){ state.authed=false; save(); showLogin(); }
+
+/* ── onboarding ── */
+function welcome(){
+  render(`<div class="screen home" style="gap:22px">
+    <div class="brand">
+      <div class="sun-badge" style="width:74px;height:74px">${I.sun}</div>
+      <div class="mark">NikoLearn</div>
+      <div class="tag">თბილი სასწავლო სივრცე შენი ბავშვისთვის</div>
+    </div>
+    <div class="perm-points" style="max-width:330px;margin:0 auto">
+      <div class="perm-point">${I.check} ინგლისური · მათემატიკა · Kings (Cambridge YLE) გამოცდისთვის</div>
+      <div class="perm-point">${I.privacy} <b>მონაცემები ამ მოწყობილობაზე რჩება</b> — ღრუბელი არ არის</div>
+      <div class="perm-point">${I.check} <b>ნული</b> რეკლამა · ნული გარე ბმული · მშობლის დაცული სივრცე</div>
+    </div>
+    <div class="actions" style="display:flex;flex-direction:column;gap:10px;width:100%;max-width:330px;margin:0 auto">
+      <button class="btn btn-primary btn-block" onclick="finishOnboard()">დავიწყოთ 🌟</button>
+    </div>
+  </div>`,false);
+}
+function finishOnboard(){state.onboarded=true;save();goHome();}
+
+let draft={name:'',age:6,color:'green'};
+function addChild(){
+  draft={name:'',age:6,color:AV_COLORS[(state.kids.length)%AV_COLORS.length],langs:['ka'],by:null};
+  renderInitiator();
+}
+function renderInitiator(){
+  render(`<div class="screen" style="justify-content:flex-start">
+    ${topbarPlain('ახალი პროფილი','goHome()')}
+    <div class="init-intro">ვინ ქმნის პროფილს?</div>
+    <div class="init-grid">
+      <button class="init-card" onclick="draft.by='parent';renderAddChild()">
+        <div class="init-emoji">👨‍👩‍👧</div><div class="init-t">მე მშობელი ვარ</div>
+        <div class="init-s">ვქმნი ჩემი შვილის პროფილს</div></button>
+      <button class="init-card" onclick="draft.by='child';renderConsent()">
+        <div class="init-emoji">🧒</div><div class="init-t">მე ბავშვი ვარ</div>
+        <div class="init-s">საჭიროა მშობლის თანხმობა</div></button>
+    </div>
+  </div>`,false);
+}
+function renderConsent(){
+  render(`<div class="screen" style="justify-content:flex-start">
+    ${topbarPlain('მშობლის თანხმობა','renderInitiator()')}
+    <div class="consent-box">
+      <div class="consent-ico">${I.privacy}</div>
+      <div class="consent-h">მშობელო, საჭიროა შენი თანხმობა</div>
+      <div class="perm-points">
+        <div class="perm-point">${I.check} პროფილი იქმნება ბავშვისთვის</div>
+        <div class="perm-point">${I.privacy} ყველა მონაცემი <b>ამ მოწყობილობაზე</b> ინახება</div>
+        <div class="perm-point">${I.check} რეკლამა — ნული · გარე ბმული — ნული</div>
+      </div>
+      <button class="btn btn-primary btn-block" onclick="renderAddChild()">მე, მშობელი, ვეთანხმები ✓</button>
+      <button class="btn btn-ghost btn-block mt" onclick="renderInitiator()">უკან</button>
+    </div>
+  </div>`,false);
+}
+function toggleLang(c){ if(c==='ka')return; const i=draft.langs.indexOf(c); if(i>=0)draft.langs.splice(i,1); else draft.langs.push(c); renderAddChild(); }
+function renderAddChild(){
+  const init=draft.name?draft.name[0]:'?';
+  render(`<div class="screen" style="justify-content:flex-start">
+    ${topbarPlain('ახალი ბავშვი','goHome()')}
+    <div class="center" style="margin:14px 0 18px">
+      <div class="avatar a-${draft.color}" style="width:84px;height:84px;border-radius:26px;font-size:2.2rem;margin:0 auto">${init}</div>
+    </div>
+    <div class="section-label">სახელი</div>
+    <input class="spell-input" id="kid-name" style="text-align:left;letter-spacing:0;font-family:'Noto Sans Georgian'" placeholder="მაგ. ლუკა" value="${draft.name}" oninput="draft.name=this.value;document.querySelector('.avatar.a-${draft.color}').textContent=this.value?this.value[0]:'?'">
+    <div class="section-label mt">ასაკი — <b class="num">${draft.age}</b> წლის</div>
+    <div class="age-row" id="age-row">${[3,4,5,6,7,8,9,10,11,12].map(a=>`<button class="age-chip num ${draft.age===a?'on':''}" onclick="draft.age=${a};renderAddChild()">${a}</button>`).join('')}</div>
+    <div class="lvl-hint" style="margin:6px 2px">${draft.age<=5?'🧸 პატარებისთვის: ტექსტის გარეშე, ხატულა + ხმა':'🎒 დაიწყებს ინგლისურს, მათემატიკას და Kings-ს'}</div>
+    <div class="section-label mt">რა ენებზე საუბრობს ბავშვი?</div>
+    <div class="lang-row">${[['ka','ქართული'],['en','English'],['ru','Русский']].map(([c,n])=>`<button class="lang-chip ${draft.langs.includes(c)?'on':''} ${c==='ka'?'lock':''}" onclick="toggleLang('${c}')">${n}</button>`).join('')}</div>
+    <div class="lvl-hint" style="margin:6px 2px">🔊 გახმოვანება და ახსნა ამ ენებზე. ინგლისურს მაინც ისწავლის თამაშით.</div>
+    <div class="section-label mt">ფერი</div>
+    <div class="color-row">${AV_COLORS.map(c=>`<button class="color-dot a-${c} ${draft.color===c?'on':''}" onclick="draft.color='${c}';renderAddChild()"></button>`).join('')}</div>
+    <div class="spacer"></div>
+    <button class="btn btn-primary btn-block mt" onclick="createChild()">შექმენი პროფილი</button>
+  </div>`,false);
+  const n=$('#kid-name');if(n){n.focus();n.setSelectionRange(n.value.length,n.value.length);}
+}
+function createChild(){
+  const name=(draft.name||'').trim();
+  if(!name){const n=$('#kid-name');if(n){n.style.borderColor='var(--red)';n.focus();}return;}
+  const id='k'+Date.now();
+  state.kids.push({id,name,age:draft.age,color:draft.color,langs:(draft.langs&&draft.langs.length?draft.langs:['ka'])});
+  state[id]=blankKid();save();
+  selectProfile(id);
+}
+function topbarPlain(title,back){
+  return `<div class="topbar"><button class="iconbtn" onclick="${back}">←</button><div class="who">${title}</div></div>`;
 }
 
-// Returning login — lenient, never locks you out (always an escape to a new account).
-function renderLogin(){
-  const u = (state.account && state.account.user) || '';
-  app(`<div class="hero">
-    <div class="hero-owl">🦉</div>
-    <h1>კეთილი იყოს დაბრუნება 👋</h1>
-    <input class="input" id="lu" placeholder="მომხმარებლის სახელი" value="${esc(u)}" autocomplete="off">
-    <input class="input" id="lp" type="password" placeholder="პაროლი" autocomplete="current-password">
-    <button class="btn big" id="login">შესვლა</button>
-    <button class="btn ghost" id="newacc">ახალი ანგარიში</button>
-  </div>`);
-  const go = () => {
-    const p = $('#lp').value;
-    if(!state.account || p === state.account.pass){ state.session = true; save(); boot(); }
-    else toast('პაროლი არ ემთხვევა 🙂');
-  };
-  $('#login').onclick = go;
-  $('#lp').addEventListener('keydown', e => { if(e.key==='Enter') go(); });
-  $('#newacc').onclick = renderRegister;
+function selectProfile(p){
+  profile=p;game.start=Date.now();game.cat=null;game.pcat=null;
+  const s=state[p],lv=levelOf(p),isKid=isYoung(p);
+  let subjects;
+  if(isKid){
+    subjects=`<div class="subj-grid">
+      <div class="subj kids" onclick="openMenu('counting')"><div class="s-ico">🔢</div><div class="s-name num">1 2 3</div></div>
+      <div class="subj kids" onclick="openMenu('ka-alpha')"><div class="s-ico">🇬🇪</div><div class="s-name">ა ბ გ</div></div>
+      <div class="subj kids eng" onclick="openMenu('en-alpha')"><div class="s-ico">🇬🇧</div><div class="s-name en">A B C</div></div>
+      <div class="subj kids maths" onclick="openMenu('math')"><div class="s-ico">➕➖</div><div class="s-name num">➕</div></div>
+    </div>`;
+  } else {
+    const wc=Object.values(s.words).filter(w=>w.correct>=3).length;
+    subjects=`<div class="subj-grid">
+      <div class="subj crown" onclick="openMenu('kings-eng')"><span class="s-badge">👑 Exam</span><div class="s-ico">👑</div><div class="s-name">Kings English</div><div class="s-sub">Cambridge YLE</div></div>
+      <div class="subj crown maths" onclick="openMenu('kings-math')"><span class="s-badge">👑 Exam</span><div class="s-ico">📐</div><div class="s-name">Kings Math</div><div class="s-sub">ოლიმპიადა</div></div>
+      <div class="subj eng" onclick="openMenu('english')"><span class="s-badge">${wc} სიტყვა</span><div class="s-ico">🔤</div><div class="s-name">ინგლისური</div><div class="s-sub">5 რეჟიმი</div></div>
+      <div class="subj maths" onclick="openMenu('math')"><div class="s-ico">🧮</div><div class="s-name">მათემატიკა</div><div class="s-sub">graded 1–100</div></div>
+    </div>`;
+  }
+  render(`<div class="screen">
+    ${topbar(nameOf(p),lv.name+' · '+lv.ic,'goHome()')}
+    ${isKid?'':`<div class="levelcard">
+      <div class="lvl-top"><span class="rankpill"><span class="rk">${lv.ic}</span>${lv.name}</span><span class="lvl-num">${lv.learned} სიტყვა</span></div>
+      <div class="bar"><i style="width:${lv.pct}%"></i></div>
+      <div class="lvl-hint">${lv.need>=999?'მაქსიმალური დონე! 🎉':`შემდეგ დონემდე: ${lv.need-lv.learned} სიტყვა`}</div>
+    </div>`}
+    ${subjects}
+  </div>`,'home');
 }
 
-let _newReader = false;
-function renderAddKid(){
-  _newReader = false;
-  const colors = ['#ff8a65','#4db6ac','#7986cb','#f06292','#ffd54f','#81c784'];
-  app(`<div class="hdr"><h1>ვინ ისწავლის? 🌟</h1></div>
-   <div class="center">
-    <input class="input" id="nm" placeholder="სახელი">
-    <div style="width:100%;font-weight:700">ასაკი</div>
-    <div class="row" id="ages">${[4,5,6,7,8].map(a=>`<button class="btn ghost" data-a="${a}">${a}</button>`).join('')}</div>
-    <div style="width:100%;font-weight:700">კითხვა იცის?</div>
-    <div class="toggle" style="width:100%"><button id="rno" aria-pressed="true">ჯერ არა 🖼️</button><button id="ryes" aria-pressed="false">კი 📖</button></div>
-    <div class="row" id="cols">${colors.map(c=>`<button class="btn" style="background:${c};width:54px;height:54px;border-radius:50%;padding:0" data-c="${c}"></button>`).join('')}</div>
-    <button class="btn big" id="add">დამატება</button>
-   </div>`);
-  let age = 6, color = colors[0];
-  $('#ages').onclick = e => { const b=e.target.closest('[data-a]'); if(!b) return; age=+b.dataset.a;
-    [...$('#ages').children].forEach(x=>x.classList.add('ghost')); b.classList.remove('ghost'); };
-  $('#cols').onclick = e => { const b=e.target.closest('[data-c]'); if(!b) return; color=b.dataset.c; };
-  $('#rno').onclick = () => { _newReader=false; $('#rno').setAttribute('aria-pressed','true');  $('#ryes').setAttribute('aria-pressed','false'); };
-  $('#ryes').onclick = () => { _newReader=true;  $('#ryes').setAttribute('aria-pressed','true'); $('#rno').setAttribute('aria-pressed','false'); };
-  $('#add').onclick = () => {
-    const nm = $('#nm').value.trim() || 'ბავშვი';
-    const id = 'k' + Date.now();
-    state.kids.push({ id, name:nm, age, color, reader:_newReader, langs:['ka'] });
-    state.onboarded = true; profile = id; save(); touchDay(); renderMenu();
-  };
+/* ── mode menu ── */
+const MODE_TITLES={english:'🔤 ინგლისური',math:'🧮 მათემატიკა','kings-eng':'👑 Kings English','kings-math':'👑 Kings Math',counting:'🔢 დათვლა','ka-alpha':'🇬🇪 ანბანი','en-alpha':'🇬🇧 Alphabet'};
+function openMenu(subj){
+  game.subj=subj;
+  let body;
+  if(subj==='english'){
+    const cat=game.cat;
+    body=`<div class="cat-chip-row">
+        <button class="cat-chip ${cat?'on':''}" onclick="openTopics()">📚 ${cat?cat:'ყველა თემა'} ${cat?'<span class="cx">✕</span>':'▾'}</button>
+      </div>
+      <div class="mode-grid">
+      ${mode('quiz','🎯','მოისმინე','ქართ → ინგლ')}
+      ${mode('reverse','🔄','Reading','ინგლ → ქართ')}
+      ${mode('listen','👂','სურათი','🔊 → emoji')}
+      ${mode('match','🧩','დააწყვილე','ka ↔ en')}
+      ${mode('spell','✍️','დაწერე','spelling')}
+      ${mode('phrases','💬','ფრაზები','everyday')}
+    </div>`;
+  } else if(subj==='kings-eng'){
+    body=`<div class="mode-grid">
+      <div class="mode feature" onclick="startKings('eng')"><div class="m-ico">👑</div><div><div class="m-name">Kings ტესტი</div><div class="m-sub">picture · translate · spelling · grammar</div></div></div>
+      ${mode('quiz','🎯','Vocabulary','')}
+      ${mode('listen','👂','Listening','')}
+      ${mode('spell','✍️','Spelling','')}
+      ${mode('match','🧩','Match','')}
+    </div>`;
+  } else if(subj==='kings-math'){
+    body=`<div class="mode-grid">
+      <div class="mode feature" onclick="startKings('math')"><div class="m-ico">👑</div><div><div class="m-name">Kings ოლიმპიადა</div><div class="m-sub">word problems + ლოგიკა</div></div></div>
+      ${mode('math-add','➕','Addition','1–100')}
+      ${mode('math-sub','➖','Subtraction','1–100')}
+      ${mode('math-mul','✖️','Multiply','×2–×9')}
+    </div>`;
+  } else if(subj==='math'){
+    const kid=isYoung(profile);
+    body=`<div class="mode-grid">
+      ${mode('math-add','➕',kid?'':'შეკრება',kid?'':mathRangeLabel('math-add'))}
+      ${mode('math-sub','➖',kid?'':'გამოკლება',kid?'':mathRangeLabel('math-sub'))}
+      ${kid?'':mode('math-mul','✖️','გამრავლება',mathRangeLabel('math-mul'))}
+      ${mode('math-pat','🧩',kid?'':'პატერნები','')}
+    </div>`;
+  } else if(subj==='counting'){
+    body=`<div class="mode-grid">
+      <div class="mode" style="min-height:130px;grid-column:span 2" onclick="startCount('pick')"><div class="kids-ico">🍎🍎🍎</div><div class="m-name">დათვალე</div><div class="m-sub">რამდენია? აირჩიე რიცხვი</div></div>
+    </div>`;
+  } else { /* alphabets — Georgian & English */
+    body=`<div class="mode-grid">
+      <div class="mode" style="min-height:120px" onclick="alphaLearn('${subj}',0)"><div class="kids-ico">📖</div><div class="m-name">სწავლა</div></div>
+      <div class="mode" style="min-height:120px" onclick="alphaQuiz('${subj}')"><div class="kids-ico">🎯</div><div class="m-name">ქვიზი</div></div>
+    </div>`;
+  }
+  render(`<div class="screen">
+    ${topbar(MODE_TITLES[subj]||subj,null,'selectProfile(profile)')}
+    ${body}
+  </div>`,'home');
+}
+function mode(m,ic,name,sub){
+  return `<div class="mode" onclick="startGame('${m}')"><div class="m-ico">${ic}</div><div class="m-name">${name||'&nbsp;'}</div>${sub?`<div class="m-sub">${sub}</div>`:''}</div>`;
 }
 
-function renderHome(){
-  app(`<div class="hdr"><h1>NikoLearn 🦉</h1><button class="pill" id="parent">👪</button></div>
-    <div class="grid">${state.kids.map(k=>`<button class="card" data-k="${k.id}">
-      <span class="ico" style="color:${k.color}">🙂</span><span class="lbl">${esc(k.name)}</span>
-      <span class="pill">🔥 ${(state[k.id]&&state[k.id].dayStreak)||0} · 🪙 ${(state[k.id]&&state[k.id].coins)||0}</span></button>`).join('')}
-      <button class="card" id="addk"><span class="ico">➕</span><span class="lbl">ბავშვი</span></button></div>
-    ${canInstall()?`<div class="center" style="margin-top:18px"><button class="btn" id="install">📲 დააყენე ტელეფონზე</button></div>`:''}`);
-  document.querySelectorAll('[data-k]').forEach(b => b.onclick = () => { profile=b.dataset.k; touchDay(); renderMenu(); });
-  $('#addk').onclick = renderAddKid;
-  $('#parent').onclick = parentGate;
-  if($('#install')) $('#install').onclick = doInstall;
-}
-
-function renderMenu(){
-  const k = kid();
-  app(`<div class="hdr"><button class="pill" id="home">⬅️</button><h1>${esc(k.name)}</h1><span class="pill">🪙 ${prog().coins}</span></div>
-   <div class="grid">
-    <button class="card" id="counting"><span class="ico">🔢</span><span class="lbl">${k.reader?'1 2 3':'🍎🍎🍎'}</span></button>
-    <button class="card" id="alphabet"><span class="ico">🔡</span><span class="lbl">${k.reader?'ანბანი':'ა ბ გ'}</span></button>
-    <button class="card" id="words"><span class="ico">🔤</span><span class="lbl">${k.reader?'სიტყვები':'🐈🐕🐟'}</span></button>
-    <button class="card" id="math"><span class="ico">➕</span><span class="lbl">${k.reader?'მათემატიკა':'➕➖'}</span></button>
-    ${k.reader?`<button class="card" id="phrases"><span class="ico">💬</span><span class="lbl">ფრაზები</span></button>`:''}
-   </div>`);
-  $('#home').onclick = renderHome;
-  $('#counting').onclick = () => startCounting();
-  $('#alphabet').onclick = () => openAlpha();
-  $('#words').onclick = () => openTopics();
-  $('#math').onclick = () => startMath();
-  if($('#phrases')) $('#phrases').onclick = () => openPhraseCats();
-}
-
-// Phrase-group picker (readers). Mirrors openTopics. HANDOFF §4 phrases.
-function openPhraseCats(){
-  const grps = Object.keys(PHRASES);
-  app(`<div class="hdr"><button class="pill" id="back">⬅️</button><h1>ფრაზები 💬</h1><span class="pill">🪙 ${prog().coins}</span></div>
-   <div class="grid">
-     ${grps.map(g => { const parts=g.split(' '); const ico=parts[0]; const lbl=parts.slice(1).join(' ');
-       return `<button class="card" data-g="${esc(g)}"><span class="ico">${ico}</span><span class="lbl">${esc(lbl)}</span></button>`; }).join('')}
-     <button class="card" id="allp"><span class="ico">🌈</span><span class="lbl">ყველა</span></button>
-   </div>`);
-  $('#back').onclick = renderMenu;
-  document.querySelectorAll('[data-g]').forEach(b => b.onclick = () => startPhrases(b.dataset.g));
-  $('#allp').onclick = () => startPhrases(null);
-}
-
-// Category picker (HANDOFF §4 — the "categories don't navigate" fix: a real picker that scopes the game)
+/* ── category pickers ── */
 function openTopics(){
-  const cats = Object.keys(WORDS);
-  app(`<div class="hdr"><button class="pill" id="back">⬅️</button><h1>აირჩიე</h1><span class="pill">🪙 ${prog().coins}</span></div>
-   <div class="grid">
-     ${cats.map(c => { const parts=c.split(' '); const ico=parts[parts.length-1]; const lbl=parts.slice(0,-1).join(' ');
-       return `<button class="card" data-c="${esc(c)}"><span class="ico">${ico}</span><span class="lbl">${esc(lbl)}</span></button>`; }).join('')}
-     <button class="card" id="all"><span class="ico">🌈</span><span class="lbl">ყველა</span></button>
-   </div>`);
-  $('#back').onclick = renderMenu;
-  document.querySelectorAll('[data-c]').forEach(b => b.onclick = () => startWords(b.dataset.c));
-  $('#all').onclick = () => startWords(null);
+  const cats=Object.keys(WORDS);
+  const card=(c)=>{const m=c.match(/(.+?)\s*(\p{Emoji})\s*$/u);const name=m?m[1]:c;const ic=m?m[2]:'📚';
+    return `<button class="topic-card" onclick="pickTopic('${c.replace(/'/g,"\\'")}')"><div class="topic-ic">${ic}</div><div class="topic-name">${name}</div><div class="topic-n">${WORDS[c].length} სიტყვა</div></button>`;};
+  render(`<div class="screen">
+    ${topbar('📚 კატეგორიები','აირჩიე თემა',"openMenu('english')")}
+    <button class="topic-all ${game.cat?'':'on'}" onclick="pickTopic('')">🌈 ყველა თემა <span class="topic-n">${Object.values(WORDS).reduce((a,v)=>a+v.length,0)} სიტყვა</span></button>
+    <div class="topic-grid">${cats.map(card).join('')}</div>
+  </div>`,'home');
 }
+function pickTopic(c){game.cat=c||null;openMenu('english');}
+function openPhraseCats(){
+  const cats=Object.keys(PHRASES);
+  const card=(c)=>{const m=c.match(/(.+?)\s*(\p{Emoji})\s*$/u);const name=m?m[1]:c;const ic=m?m[2]:'💬';
+    return `<button class="topic-card" onclick="startPhrases('${c.replace(/'/g,"\\'")}')"><div class="topic-ic">${ic}</div><div class="topic-name">${name}</div><div class="topic-n">${PHRASES[c].length} ფრაზა</div></button>`;};
+  render(`<div class="screen">
+    ${topbar('💬 ფრაზები','აირჩიე თემა',"openMenu('english')")}
+    <button class="topic-all on" onclick="startPhrases('')">🌈 ყველა ფრაზა <span class="topic-n">${Object.values(PHRASES).reduce((a,v)=>a+v.length,0)} ფრაზა</span></button>
+    <div class="topic-grid">${cats.map(card).join('')}</div>
+  </div>`,'home');
+}
+

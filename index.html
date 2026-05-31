@@ -1,28 +1,69 @@
-<!doctype html>
-<html lang="ka" data-theme="sunlit">
+<!DOCTYPE html>
+<html lang="ka">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#ffb74d">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#f4ead9">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <title>NikoLearn</title>
-<link rel="icon" href="data:,">
+<link rel="icon" href="favicon.svg">
 <link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=FiraGO:wght@400;500;600;700&family=Noto+Sans+Georgian:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="niko/styles.css">
 </head>
 <body>
-<div id="app"></div>
-<!-- Fixed load order (HANDOFF §2). BOOT lives at the end of parent.js. -->
+<div class="stage">
+  <div class="device" data-screen-label="NikoLearn app">
+    <div class="app" id="app"></div>
+    <nav class="bottomnav hidden" id="bottomnav">
+      <button data-nav="home" onclick="goHome()"><span></span></button>
+      <button data-nav="abc" onclick="profile&&openMenu(isYoung(profile)?'en-alpha':'english')"><span></span></button>
+      <button data-nav="math" onclick="profile&&openMenu('math')"><span></span></button>
+    </nav>
+  </div>
+</div>
+
+<!-- tweak defaults (host rewrites this block on change) -->
+<script>
+window.__NIKO_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "aesthetic": "calm",
+  "aiRole": "coach"
+}/*EDITMODE-END*/;
+</script>
+
 <script src="niko/data.js"></script>
-<script src="niko/core.js"></script>
 <script src="niko/tutor.js"></script>
+<script src="niko/core.js"></script>
 <script src="niko/audio.js"></script>
 <script src="niko/screens.js"></script>
 <script src="niko/games.js"></script>
-<script src="niko/alpha.js"></script>
 <script src="niko/owl.js"></script>
+<script src="niko/alpha.js"></script>
 <script src="niko/parent.js"></script>
+<script src="niko/tweaks.js"></script>
+<script>
+// fill bottom-nav icons (after app.js defines I)
+(function(){
+  const b=document.querySelectorAll('#bottomnav button');
+  b[0].innerHTML=I.home+'<span class="navdot"></span>';
+  b[1].innerHTML=I.abc+'<span class="navdot"></span>';
+  b[2].innerHTML=I.calc+'<span class="navdot"></span>';
+})();
+</script>
+
+<!-- PWA: offline + installable (layered on, non-invasive) -->
 <script>if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});</script>
+
+<template id="__bundler_thumbnail">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect width="100" height="100" rx="22" fill="#f4ead9"/>
+  <circle cx="50" cy="42" r="17" fill="#e8c45f"/>
+  <circle cx="50" cy="42" r="9" fill="#fff"/>
+  <text x="50" y="78" font-size="13" font-weight="700" text-anchor="middle" fill="#8a5a3a" font-family="sans-serif">Niko</text>
+</svg>
+</template>
 </body>
 </html>

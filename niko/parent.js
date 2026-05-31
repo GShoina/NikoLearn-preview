@@ -1,66 +1,160 @@
-// Parent space: math gate (not solvable by a 5-yo) + plain-language dashboard + report export. HANDOFF §4
-const SUBJECTS = [
-  {k:'counting', n:'თვლა'}, {k:'words', n:'სიტყვები'}, {k:'phrases', n:'ფრაზები'},
-  {k:'math', n:'მათემატიკა'}, {k:'alpha', n:'ანბანი'}
-];
+/* ═══════════════════════════════════════════════════════════
+   NIKO LEARN — parent: gate, dashboard, BOOT
+   ═══════════════════════════════════════════════════════════ */
 
-function parentGate(){
-  const a = rnd(3,9), b = rnd(3,9), ans = a*b;
-  app(`<div class="hdr"><button class="pill" id="back">⬅️</button><h1>მშობლის სივრცე 👪</h1><span class="pill">🔒</span></div>
-    <div class="center" style="margin-top:10vh">
-      <div class="q">გადაამოწმე: ${a} × ${b} = ?</div>
-      <input class="input" id="g" inputmode="numeric" autocomplete="off">
-      <button class="btn big" id="ok">შესვლა</button>
-    </div>`);
-  const submit = () => { if(+$('#g').value === ans) renderParent(); else { $('#g').value=''; toast('თავიდან 🙂'); } };
-  $('#ok').onclick = submit;
-  $('#g').addEventListener('keydown', e => { if(e.key==='Enter') submit(); });
-  $('#back').onclick = renderHome;
+/* ═══════════════ PARENT GATE + DASHBOARD ═══════════════ */
+let gate={a:0,b:0,buf:''};
+function openGate(){
+  gate.a=ri(3,9);gate.b=ri(2,8);gate.buf='';
+  const el=document.createElement('div');el.className='gate';el.id='gate';
+  el.innerHTML=`<div class="gate-card">
+    <h3>${I.lock} მშობლის სივრცე</h3>
+    <p>ეს კარი ბავშვებისთვის არ არის. ამოხსენი მაგალითი გასაგrძელებლად.</p>
+    <div class="gate-q">${gate.a} + ${gate.b} = ?</div>
+    <div class="gate-display" id="gdisp"></div>
+    <div class="gate-keys">${[1,2,3,4,5,6,7,8,9].map(n=>`<button onclick="gateKey(${n})">${n}</button>`).join('')}
+      <button onclick="gateClear()">✕</button><button onclick="gateKey(0)">0</button><button onclick="gateOk()">${I.check}</button></div>
+  </div>`;
+  el.onclick=e=>{if(e.target===el)el.remove();};
+  $('.device').appendChild(el);
 }
+function gateKey(n){gate.buf=(gate.buf+n).slice(0,2);$('#gdisp').textContent=gate.buf;}
+function gateClear(){gate.buf='';$('#gdisp').textContent='';}
+function gateOk(){if(parseInt(gate.buf)===gate.a+gate.b){$('#gate').remove();parentDash();}else{const d=$('#gdisp');d.textContent='✕';d.style.color='var(--red)';gate.buf='';setTimeout(()=>{d.textContent='';d.style.color='';},700);}}
 
-function kidInsight(p){
-  const scored = SUBJECTS.map(s => ({ ...s, acc: accuracy(p[s.k]) })).filter(s => s.acc !== null);
-  if(!scored.length) return 'ჯერ არ უთამაშია — წაახალისე დაიწყოს 🌟';
-  const best = scored.reduce((a,b) => b.acc > a.acc ? b : a);
-  const worst = scored.reduce((a,b) => b.acc < a.acc ? b : a);
-  let t = `ძლიერია: <b>${best.n}</b> (${best.acc}%).`;
-  if(worst.k !== best.k && worst.acc < 80) t += ` დასახმარებელია: <b>${worst.n}</b> (${worst.acc}%).`;
-  return t;
-}
-
-function renderParent(){
-  const cards = state.kids.map(k => {
-    const p = state[k.id] || {};
-    const subj = SUBJECTS.map(s => { const a = accuracy(p[s.k]); return a===null ? '' : `${s.n} ${a}%`; }).filter(Boolean).join(' · ');
-    return `<div class="card" style="align-items:stretch;text-align:left;cursor:default">
-      <div style="font-weight:800;font-size:1.1rem">${esc(k.name)} <span style="color:var(--muted)">${k.reader?'📖':'🖼️'}</span></div>
-      <div>🔥 ${p.dayStreak||0} დღე · 🪙 ${p.coins||0} · 🎮 ${p.sessions||0} სესია · საუკეთესო რიგი ${p.maxCombo||0}${p.shown?` · 📣 ${p.shown}`:''}</div>
-      <div style="margin-top:4px">${kidInsight(p)}</div>
-      ${subj?`<div style="color:var(--muted);font-size:.9rem;margin-top:4px">${subj}</div>`:''}
+function parentDash(){
+  profile=profile||'niko';
+  let html=`<div class="screen parent">${topbar('მშობლის სივრცე',null,'goHome()')}`;
+  html+=`<div class="privacy-card" style="margin-bottom:16px">${I.privacy}<div class="pt"><b>ყველაფერი ამ მოწყობილობაზე რჩება.</b> პროგრესი ინახება მხოლოდ აქ. რეკლამა — ნული. გარე ბმულები — ნული.</div></div>`;
+  [...state.kids.map(k=>k.id),'guest'].forEach(p=>{
+    const s=state[p];if(!s||(s.sessions===0&&s.shields===0))return;
+    const lv=levelOf(p);const words=Object.entries(s.words);
+    const cor=words.reduce((a,[,v])=>a+v.correct,0),wr=words.reduce((a,[,v])=>a+v.wrong,0);
+    const acc=cor+wr?Math.round(cor/(cor+wr)*100):0;
+    const weak=words.filter(([,v])=>v.wrong>v.correct).map(([k])=>k).slice(0,5);
+    const strong=words.filter(([,v])=>v.correct>=3&&v.wrong===0).map(([k])=>k).slice(0,5);
+    const mins=Math.round((s.totalTime||0)/60000);
+    html+=`<div class="kid-head"><div class="avatar a-${kidObj(p).color}">${nameOf(p)[0]}</div><div class="kh-meta"><div class="kn">${nameOf(p)}</div><div class="kr">${lv.ic} ${lv.name} · ბოლოს ${s.lastPlayed?new Date(s.lastPlayed).toLocaleDateString('ka-GE'):'—'}</div></div>${p!=='guest'?`<button class="kh-del" onclick="deleteKid('${p}')" aria-label="პროფილის წაშლა">🗑️</button>`:''}</div>
+    <div class="stat-grid">
+      <div class="scard"><div class="sv" style="color:var(--sun-d)">${s.shields}</div><div class="sl">🪙 მონეტა</div></div>
+      <div class="scard"><div class="sv">${lv.learned}</div><div class="sl">ნასწავლი</div></div>
+      <div class="scard"><div class="sv" style="color:${acc>=70?'var(--green-d)':'var(--primary-d)'}">${acc}%</div><div class="sl">სიზუსტე</div></div>
     </div>`;
-  }).join('');
-  app(`<div class="hdr"><button class="pill" id="back">⬅️</button><h1>მშობლის სივრცე 👪</h1><span class="pill" id="exp">📋</span></div>
-    <div class="grid" style="grid-template-columns:1fr">${cards}</div>
-    <div class="center" style="margin-top:16px">
-      <button class="btn ghost big" id="export">📋 ანგარიშის კოპირება</button>
-      <button class="btn ghost" id="logout">🚪 გასვლა</button>
-      <div style="color:var(--muted);font-size:.9rem;text-align:center">🔒 თქვენი შვილის მონაცემები მხოლოდ ამ მოწყობილობაზე რჩება.<br>რეკლამა და გარე ბმულები — არ არის.</div>
-    </div>`);
-  $('#back').onclick = renderHome;
-  $('#logout').onclick = () => { state.session = false; save(); boot(); };
-  const doExport = () => {
-    const lines = state.kids.map(k => {
-      const p = state[k.id] || {};
-      const subj = SUBJECTS.map(s => { const a = accuracy(p[s.k]); return a===null ? null : `${s.n}: ${a}%`; }).filter(Boolean).join(', ');
-      return `${k.name} (${k.reader?'reader':'pre-reader'}) — ${p.dayStreak||0}d streak, ${p.coins||0} coins, ${p.sessions||0} sessions. ${subj}`;
-    });
-    const text = 'NikoLearn — progress\n' + lines.join('\n');
-    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(()=>toast('დაკოპირდა 📋'), ()=>toast('ვერ მოხერხდა')); }
-    else toast('ვერ მოხერხდა');
-  };
-  $('#export').onclick = doExport; $('#exp').onclick = doExport;
+    // dynamic "where is the child getting stuck / what to improve"
+    const opNm={'math-add':'შეკრება','math-sub':'გამოკლება','math-mul':'გამრავლება','math-pat':'პატერნები'};
+    const weakMath=Object.entries(s.math||{}).filter(([,v])=>{const t=v.correct+v.wrong;return t>=3&&v.correct/t<0.6;}).map(([k])=>opNm[k]||k);
+    const weakAlpha=Object.entries(s.alpha||{}).filter(([,v])=>{const t=v.correct+v.wrong;return t>=3&&v.correct/t<0.7;}).map(([k])=>k==='ka-alpha'?'ქართული ანბანი':'English ანბანი');
+    const recs=[];
+    if(weak.length)recs.push(`სიტყვები <b>${weak.slice(0,3).join(', ')}</b> — გაიმეორეთ მოსმენით 🔊`);
+    if(weakMath.length)recs.push(`მათემატიკა: <b>${weakMath.join(', ')}</b> — დაბალი დონიდან, ბუს მინიშნებებით`);
+    if(weakAlpha.length)recs.push(`ანბანი: <b>${weakAlpha.join(', ')}</b> — „სწავლა" რეჟიმი ხმით`);
+    let recBody;
+    if(recs.length)recBody=`<b>შემდეგი ნაბიჯი — ერთად:</b><br>${recs.map(r=>'• '+r).join('<br>')}<br><span class="rec-push">👉 დააჭირეთ ერთად 5 წუთი — ${nameOf(p)} მალე დაიჭერს თავს ამ თემაში.</span>`;
+    else if(s.sessions>0)recBody=`<b>${nameOf(p)} მშვენივრად მიდის! 🌟</b> სიზუსტე ${acc}%. შემდეგი ნაბიჯი: სცადეთ ერთი დონით მაღლა — მზად არის.`;
+    else recBody=`ჯერ საკმარისი მონაცემი არ არის — როცა ${nameOf(p)} ითამაშებს, აქ გამოჩნდება სად იჭედება და რა გასაუმჯობესებია.`;
+    html+=`<div class="insight"><div class="ii">${I.spark}</div><div class="it"><b>📊 გასაუმჯობესები</b><br>${recBody}</div></div>`;
+    if(strong.length)html+=`<div class="tagrow">${strong.map(w=>`<span class="tag strong">✓ ${w}</span>`).join('')}</div>`;
+    if(weak.length)html+=`<div class="tagrow">${weak.map(w=>`<span class="tag weak">↻ ${w}</span>`).join('')}</div>`;
+    if(Object.keys(s.math||{}).length){
+      html+=`<div class="section-label" style="color:var(--purple)">მათემატიკა</div><div class="stat-grid">${Object.entries(s.math).map(([k,v])=>{const nm={'math-add':'➕','math-sub':'➖','math-mul':'✖️','math-pat':'🧩'}[k]||k;const a=v.correct+v.wrong?Math.round(v.correct/(v.correct+v.wrong)*100):0;return `<div class="scard"><div class="sv">${nm}</div><div class="sl">${a}% · ${v.correct}✓</div></div>`;}).join('')}</div>`;
+    }
+    // engagement / healthy-use (Case 17): frequency + gentle nudge, not a long win-log
+    const avg=s.sessions?Math.round(mins/s.sessions):0;
+    let engNote;
+    if(s.sessions>=8)engNote=`✅ <b>რეგულარული რიტმი</b> — ${nameOf(p)} ხშირად ბრუნდება. შესანიშნავი ჩვევა! შეინარჩუნეთ მოკლე, ყოველდღიური სესიები.`;
+    else if(avg>=22)engNote=`💡 ერთ ჯერზე საკმაოდ დიდხანს თამაშობს (~${avg} წთ). სჯობს <b>მოკლე, ხშირი</b> სესიები — დღეში 10–15 წუთი უკეთ მუშაობს მეხსიერებაზე.`;
+    else engNote=`🌱 კარგი დასაწყისია. იდეალური რიტმი — <b>დღეში 10–15 წუთი</b>, რეგულარულად.`;
+    html+=`<div class="engage">
+      <div class="eng-row">
+        <div class="eng-cell"><div class="eng-v">${s.sessions}</div><div class="eng-l">სესია</div></div>
+        <div class="eng-cell"><div class="eng-v">${mins}</div><div class="eng-l">წუთი სულ</div></div>
+        <div class="eng-cell"><div class="eng-v">${avg}</div><div class="eng-l">წთ/სესია</div></div>
+        <div class="eng-cell"><div class="eng-v" style="color:var(--primary-d)">${s.maxStreak||0}</div><div class="eng-l">🔥 რეკორდი</div></div>
+      </div>
+      <div class="eng-note">${engNote}</div>
+    </div>`;
+    html+=`<div class="divider"></div>`;
+  });
+  html+=`<div class="section-label">📤 რეპორტი</div>
+    <button class="btn btn-sky btn-block mt" onclick="exportReport()">📋 დააკოპირე რეპორტი — გაუზიარე მასწავლებელს</button>`;
+  html+=`<div class="section-label">⏱️ დრო · 🔥 ჩვევა · 🎙️ ხმოვანი თანხმობა</div>
+    <button class="btn btn-ghost btn-block mt" onclick="logout()">🔒 გასვლა (ჩაკეტვა)</button>
+    <button class="btn btn-ghost btn-block mt" onclick="if(confirm('წავშალო პროგრესი?')){localStorage.removeItem('${SK}');state=load();goHome();}">🗑️ პროგრესის გასუფთავება</button>`;
+  html+=`</div>`;
+  render(html,false);
 }
 
-// ── BOOT — must stay LAST (HANDOFF §2) ──
-state = load();
-boot();
+/* ── profile delete (parental consent: type the confirm word in the profile's language) ── */
+const DEL_WORD={ka:'წაშლა',en:'DELETE',ru:'УДАЛИТЬ'};
+function confirmDelete(id){
+  const k=kidObj(id);const lang=(Array.isArray(k.langs)&&k.langs[0])||'ka';
+  const word=DEL_WORD[lang]||DEL_WORD.ka;
+  const el=document.createElement('div');el.className='gate';el.id='delmodal';
+  el.innerHTML=`<div class="gate-card del-card">
+    <div class="del-ico">🗑️</div>
+    <h3>${nameOf(id)} — პროფილის წაშლა</h3>
+    <p>ეს სამუდამოდ წაშლის ${nameOf(id)}-ს და მთელ პროგრესს. დასადასტურებლად საჭიროა <b>მშობლის თანხმობა</b>.</p>
+    <div class="del-instr">ჩაწერე <b>«${word}»</b> ქვემოთ:</div>
+    <input class="login-in del-in" id="delin" autocomplete="off" autocapitalize="characters" placeholder="${word}">
+    <button class="btn btn-block del-go" id="delgo" disabled onclick="doDeleteKid('${id}')">წაშლა</button>
+    <button class="btn btn-ghost btn-block mt" onclick="document.getElementById('delmodal').remove()">გაუქმება</button>
+  </div>`;
+  el.onclick=e=>{if(e.target===el)el.remove();};
+  $('.device').appendChild(el);
+  const inp=$('#delin'),go=$('#delgo');
+  inp.oninput=()=>{const ok=inp.value.trim().toLowerCase()===word.toLowerCase();go.disabled=!ok;go.classList.toggle('armed',ok);};
+  inp.focus();
+}
+function doDeleteKid(id){
+  const m=$('#delmodal');if(m)m.remove();
+  state.kids=state.kids.filter(x=>x.id!==id);
+  delete state[id];
+  save();
+  if(profile==null) goHome(); else parentDash();
+}
+// kept for any old callers
+function deleteKid(id){confirmDelete(id);}
+
+/* ── export report (offline: copy a plain-text summary to share) ── */
+function buildReport(){
+  const lines=['NIKO LEARN — პროგრესის რეპორტი',new Date().toLocaleString('ka-GE'),''];
+  [...state.kids.map(k=>k.id),'guest'].forEach(p=>{
+    const s=state[p];if(!s||(s.sessions===0&&s.shields===0))return;
+    const lv=levelOf(p);const words=Object.values(s.words);
+    const cor=words.reduce((a,v)=>a+v.correct,0),wr=words.reduce((a,v)=>a+v.wrong,0);
+    const acc=cor+wr?Math.round(cor/(cor+wr)*100):0;
+    const mins=Math.round((s.totalTime||0)/60000);
+    lines.push(`■ ${nameOf(p)} (${kidObj(p).age} წ.)`);
+    lines.push(`  დონე: ${lv.name} · მონეტა: ${s.shields} · ნასწავლი: ${lv.learned} სიტყვა`);
+    lines.push(`  სიზუსტე: ${acc}% · სესია: ${s.sessions} · დრო: ${mins} წთ · 🔥 რეკორდი: ${s.maxStreak||0}`);
+    const weak=Object.entries(s.words).filter(([,v])=>v.wrong>v.correct).map(([k])=>k).slice(0,6);
+    if(weak.length)lines.push(`  გასამეორებელი: ${weak.join(', ')}`);
+    const opNm={'math-add':'შეკრება','math-sub':'გამოკლება','math-mul':'გამრავლება','math-pat':'პატერნები'};
+    Object.entries(s.math||{}).forEach(([k,v])=>{const a=v.correct+v.wrong?Math.round(v.correct/(v.correct+v.wrong)*100):0;lines.push(`  ${opNm[k]||k}: ${a}%`);});
+    lines.push('');
+  });
+  return lines.join('\n');
+}
+function exportReport(){
+  const txt=buildReport();
+  const done=()=>toast('✓ რეპორტი კოპირებულია — ჩასვი და გაუზიარე');
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(done).catch(()=>fallbackCopy(txt,done));
+  } else fallbackCopy(txt,done);
+}
+function fallbackCopy(txt,cb){
+  const ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';
+  document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}
+  document.body.removeChild(ta);cb&&cb();
+}
+function toast(msg){
+  let t=$('#toast');if(t)t.remove();
+  t=document.createElement('div');t.id='toast';t.className='toast';t.textContent=msg;
+  $('.device').appendChild(t);setTimeout(()=>{if($('#toast'))$('#toast').remove();},2400);
+}
+
+/* ═══════════════ BOOT ═══════════════ */
+state=load();boot();
+// re-render on theme/ai tweak change
+window.addEventListener('niko-tweak',()=>{ if($('#aifab')) syncAiFab(); });
+if('serviceWorker'in navigator){/* PWA: registered in production build */}

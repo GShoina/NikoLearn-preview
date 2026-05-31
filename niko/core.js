@@ -1,131 +1,148 @@
-// Core: state, persistence, render router, voice (with Georgian-voice guard). HANDOFF §3, §8.4
-const SK = 'nikolearn_p2';
-let state, profile = null;
+/* ═══════════════════════════════════════════════════════════
+   NIKO LEARN — core: icons, state, helpers, levels, languages, TTS
+   ═══════════════════════════════════════════════════════════ */
 
-function defaultState(){ return { account:null, session:false, onboarded:false, kids:[] }; }
-function load(){ try { return Object.assign(defaultState(), JSON.parse(localStorage.getItem(SK) || '{}')); } catch(e){ return defaultState(); } }
-function save(){ localStorage.setItem(SK, JSON.stringify(state)); }
 
-function kid(){ return state.kids.find(k => k.id === profile) || null; }
-function prog(){
-  const id = profile;
-  if(!state[id]) state[id] = { coins:0, combo:0, maxCombo:0, dayStreak:0, lastDay:null, counting:{correct:0,wrong:0}, words:{correct:0,wrong:0}, phrases:{correct:0,wrong:0}, math:{correct:0,wrong:0}, alpha:{correct:0,wrong:0}, mathLevel:0, sessions:0 };
-  const s = state[id];
-  ['counting','words','phrases','math','alpha'].forEach(k => { if(!s[k]) s[k] = {correct:0,wrong:0}; });
-  if(typeof s.mathLevel !== 'number') s.mathLevel = 0;
-  return state[id];
+/* ── inline icons ── */
+const I = {
+  shield:'<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5.6" fill="none" stroke="#fff" stroke-width="1.7" opacity="0.6"/></svg>',
+  flame:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1 3-2 4-2 7a2 2 0 104 0c0-1 1-2 1-2 2 2 3 4 3 7a6 6 0 11-12 0c0-4 3-6 4-9 1 0 2-2 2-3z"/></svg>',
+  speaker:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 010 7"/><path d="M18.5 6a8 8 0 010 12"/></svg>',
+  lock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>',
+  mic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg>',
+  home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg>',
+  abc:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18l3.5-10L10 18M4 14.5h5"/><path d="M14 18V8h2.6a2.4 2.4 0 010 4.8H14m0 0h3a2.5 2.5 0 010 5.2h-3"/></svg>',
+  calc:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h2M8 15h2M14 11h2M14 15h2M12 11v0M12 15v0"/></svg>',
+  privacy:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.4-3 8.2-7 9-4-.8-7-4.6-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>',
+  sun:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5" fill="#fff"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg>',
+  spark:'✦'
+};
+
+/* ── state ── */
+const SK='nikolearn_p2';
+let state, profile, game={}, ai={role:'companion'};
+const $=(s,r=document)=>r.querySelector(s);
+
+function blankKid(){return{shields:0,streak:0,maxStreak:0,words:{},sessions:0,math:{},best:{},lastPlayed:null,totalTime:0,dadMessages:[]};}
+function load(){
+  let s=null;try{s=JSON.parse(localStorage.getItem(SK));}catch{}
+  if(!s)return def();
+  if(!Array.isArray(s.kids))s.kids=[{id:'niko',name:'ნიკოლოზი',age:7,color:'sky'},{id:'masho',name:'მაშო',age:5,color:'sun'}];
+  if(s.onboarded===undefined)s.onboarded=true;
+  s.kids.forEach(k=>{if(!s[k.id])s[k.id]=blankKid();});
+  if(!s.guest)s.guest=blankKid();
+  return s;
 }
-function app(html){ const o = document.getElementById('owl'); if(o) o.remove(); document.getElementById('app').innerHTML = html; }
-function $(sel){ return document.querySelector(sel); }
-function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
-function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
-function rnd(min, max){ return Math.floor(Math.random()*(max-min+1)) + min; }
-function accuracy(o){ if(!o) return null; const t=(o.correct||0)+(o.wrong||0); return t ? Math.round(100*o.correct/t) : null; }
-
-// Build answer choices: the correct item + distinct distractors, capped at pool size (never freezes
-// on small pools — latent bug guard), shuffled. keyFn dedupes by a stable key.
-function distractors(pool, correct, keyFn){
-  const need = Math.min(3, pool.length);
-  const m = new Map(); m.set(keyFn(correct), correct);
-  let g = 0; while(m.size < need && g++ < 200){ const c = pick(pool); m.set(keyFn(c), c); }
-  return [...m.values()].sort(() => Math.random() - 0.5);
-}
-
-// Shared end-of-round screen.
-function results(right, total, againFn, extra){
-  const perfect = right === total;
-  const stars = '⭐'.repeat(right) + '·'.repeat(Math.max(0, total-right));
-  app(`<div class="center" style="margin-top:12vh">
-    <div class="bounce" style="font-size:4.5rem">${perfect?'🏆':'🎉'}</div>
-    <div class="q">${right}/${total}</div>
-    <div class="emojis">${stars}</div>
-    ${extra||''}
-    <button class="btn big" id="show">📣 მაჩვენე მშობელს</button>
-    <button class="btn ghost big" id="again">კიდევ</button>
-    <button class="btn ghost" id="menu">მენიუ</button></div>`);
-  $('#again').onclick = nextOrBreak(againFn); $('#menu').onclick = renderMenu;
-  $('#show').onclick = () => celebrate(right, total, againFn);
-}
-
-// ── Physical-break reminder (~15 min of play). Healthy use → parent trust. HANDOFF §4 ──
-let _breakDue = 0;
-function breakDue(){ const now = Date.now(); if(!_breakDue){ _breakDue = now + 15*60*1000; return false; } return now >= _breakDue; }
-function showBreak(after){
-  _breakDue = Date.now() + 15*60*1000;
-  app(`<div class="center" style="margin-top:16vh">
-    <div class="bounce" style="font-size:5rem">🤸</div>
-    <div class="q">დროა პატარა შესვენება!</div>
-    <div style="color:var(--muted)">წამოდექი, გაიწელე, დალიე წყალი 💧</div>
-    <button class="btn big" id="ok">გავაგრძელოთ</button></div>`);
-  $('#ok').onclick = after;
-}
-// "Play again" handler that slips in a break when one is due.
-function nextOrBreak(againFn){ return () => { if(breakDue()) showBreak(againFn); else againFn(); }; }
-
-// Warm "show mom & dad" moment — the child shows the parent what they learned (success = warmth + trust).
-function celebrate(right, total, againFn){
-  const p = prog(); p.shown = (p.shown||0)+1; save();
-  const k = kid();
-  app(`<div class="center" style="margin-top:12vh">
-    <div class="bounce" style="font-size:5rem">🌟🎉🌟</div>
-    <div class="q" style="font-size:1.5rem">${esc(k.name)}-მ ${right}/${total} ისწავლა!</div>
-    <div style="font-size:1.2rem;color:var(--muted)">დედა და მამა, შეაქეთ! 👏❤️</div>
-    <button class="btn big" id="again">კიდევ თამაში</button>
-    <button class="btn ghost" id="menu">მენიუ</button></div>`);
-  praise();
-  $('#again').onclick = nextOrBreak(againFn); $('#menu').onclick = renderMenu;
+function def(){return{
+  onboarded:false,
+  kids:[{id:'niko',name:'ნიკოლოზი',age:7,color:'sky'},{id:'masho',name:'მაშო',age:5,color:'sun'}],
+  niko:demoNiko(),masho:blankKid(),guest:blankKid()
+};}
+function save(){localStorage.setItem(SK,JSON.stringify(state));}
+const AV_COLORS=['sky','primary','green','sun','purple'];
+function kidObj(p){return ((state&&state.kids)||[]).find(k=>k.id===p)||(p==='guest'?{id:'guest',name:'სტუმარი',age:0,color:'green'}:{id:p,name:p,age:7,color:'sky'});}
+function isYoung(p){const a=kidObj(p).age;return a>0&&a<=5;}
+function catsFor(p){return isYoung(p)?AGE_CATS.masho:AGE_CATS.niko;}
+function demoNiko(){ // seeded so the prototype shows realistic data
+  const k=blankKid();k.shields=148;k.streak=6;k.maxStreak=11;k.sessions=23;k.lastPlayed=new Date().toISOString();k.totalTime=3600000*2.4;
+  ['red','blue','green','dog','cat','apple','book','sun','star','mother','father','horse','fish','milk','tree'].forEach(w=>k.words[w]={correct:4,wrong:0});
+  ['lion','elephant','pencil','cheese','moon','flower','rabbit'].forEach(w=>k.words[w]={correct:3,wrong:0});
+  ['rain','snow','bag','teacher','grandmother'].forEach(w=>k.words[w]={correct:1,wrong:3});
+  k.math={'math-add':{correct:54,wrong:6},'math-sub':{correct:38,wrong:9},'math-mul':{correct:22,wrong:14}};
+  k.best={quiz:9,'kings-eng':10,'kings-math':8,'math-add':10};
+  k.dadMessages=[
+    {date:new Date(Date.now()-3600000*5).toLocaleString('ka-GE'),text:'🏅 ნიკოლოზი ახალ დონეზე გავიდა: 🚀 Learner!'},
+    {date:new Date(Date.now()-86400000).toLocaleString('ka-GE'),text:'ნიკოლოზმ Kings English-ში 10 🪙 მოაგროვა (100%)!'}
+  ];
+  return k;
 }
 
-// ── Voice ── NEVER read Georgian text with the English voice (HANDOFF §8.4).
-function voices(){ return (window.speechSynthesis && speechSynthesis.getVoices()) || []; }
-function hasVoiceFor(lang){ return voices().some(v => v.lang && v.lang.toLowerCase().startsWith(lang)); }
-if('speechSynthesis' in window) speechSynthesis.onvoiceschanged = () => voices();
-function speak(text, lang){
-  if(lang === 'ka'){ if(window.playClip && playClip(text)) return; if(!hasVoiceFor('ka')) return; } // clip or silent — never gibberish
-  if(!('speechSynthesis' in window)) return;
-  speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.rate = 0.9; u.lang = lang === 'ka' ? 'ka-GE' : 'en-US';
-  const v = voices().find(v => v.lang && v.lang.toLowerCase().startsWith(lang)); if(v) u.voice = v;
+/* ── render helpers ── */
+function render(html,nav){
+  $('#app').innerHTML=html;
+  $('#app').scrollTop=0;
+  const n=$('#bottomnav');
+  if(nav){n.classList.remove('hidden');setNav(nav);} else n.classList.add('hidden');
+  syncAiFab();
+}
+function setNav(active){
+  $('#bottomnav').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.nav===active));
+}
+function topbar(title,sub,back){
+  const s=state[profile]||{shields:0,streak:0};
+  return `<div class="topbar">
+    ${back?`<button class="iconbtn" onclick="${back}">←</button>`:''}
+    <div class="who">${title}${sub?`<small>${sub}</small>`:''}</div>
+    <div class="chips">
+      <span class="chip shield">${I.shield}<span class="num">${s.shields}</span></span>
+      <span class="chip streak">${I.flame}<span class="num">${s.streak}</span></span>
+    </div>
+  </div>`;
+}
+function nameOf(p){return kidObj(p).name;}
+function voc(){if(profile==='niko')return'ნიკოლოზ';if(profile==='masho')return'მაშო';if(profile==='guest')return'მეგობარ';return nameOf(profile);}
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function ri(a,b){return a+Math.floor(Math.random()*(b-a+1));}
+// brief visual pulse when a child taps something (so silent taps still give feedback)
+function pulseTap(el){if(!el)return;el.classList.remove('tapped');void el.offsetWidth;el.classList.add('tapped');}
+// reveal text letter-by-letter ("writing" effect) into an element
+function spellOut(el,text,opts){
+  if(!el)return;opts=opts||{};
+  clearInterval(el._tw);el.textContent='';el.classList.add('typing');
+  const chars=[...String(text)];let i=0;
+  el._tw=setInterval(()=>{
+    if(i>=chars.length){clearInterval(el._tw);el._tw=null;el.classList.remove('typing');return;}
+    el.textContent+=chars[i++];
+  },opts.speed||150);
+}
+
+/* ── levels (YLE proxy) ── */
+const LEVELS=[{n:'Starter',ic:'🐣',need:8},{n:'Grower',ic:'🌱',need:20},{n:'Learner',ic:'🚀',need:40},{n:'Explorer',ic:'⭐',need:60},{n:'Champion',ic:'🏆',need:999}];
+function levelOf(p){
+  const s=state[p];const learned=Object.values(s.words).filter(w=>w.correct>=3).length;
+  let i=0;for(;i<LEVELS.length-1;i++){if(learned<LEVELS[i].need)break;}
+  const cur=LEVELS[i],prev=i>0?LEVELS[i-1].need:0;
+  return{name:cur.n,ic:cur.ic,learned,need:cur.need,pct:cur.need>=999?100:Math.round(((learned-prev)/(cur.need-prev))*100)};
+}
+function levelIdx(p){const n=levelOf(p).name;return LEVELS.findIndex(x=>x.n===n);}
+
+/* ── languages the child KNOWS (drives instruction/voicing language) ── */
+function kidLangs(p){const k=kidObj(p);if(Array.isArray(k.langs)&&k.langs.length)return k.langs;return isYoung(p)?['ka']:['ka','en'];}
+function knows(p,c){return kidLangs(p).includes(c);}
+const LANG_CODE={ka:'ka-GE',en:'en-US',ru:'ru-RU'};
+function instrCode(p){const ls=kidLangs(p);const c=ls.includes('ka')?'ka':ls[0];return LANG_CODE[c]||'ka-GE';}
+
+/* ── TTS ── */
+function pickVoice(lang){
+  const vs=speechSynthesis.getVoices();
+  if(lang&&lang.startsWith('ka')){return vs.find(x=>x.lang.startsWith('ka'))||vs.find(x=>x.lang.startsWith('ru'))||null;}
+  if(lang&&lang.startsWith('ru')){return vs.find(x=>x.lang.startsWith('ru'))||null;}
+  const warmEn=['Samantha','Karen','Moira','Tessa','Google US English','Microsoft Aria','Microsoft Jenny','Fiona'];
+  for(const n of warmEn){const v=vs.find(x=>x.name.includes(n)&&x.lang.startsWith('en'));if(v)return v;}
+  return vs.find(x=>x.lang.startsWith('en'))||null;
+}
+// young children need a noticeably slower, calmer pace
+function defaultRate(lang){const slow=isYoung(profile)?0.82:1;return (lang&&lang.startsWith('ka')?0.6:0.8)*slow;}
+function speakOne(t,lang,opts){
+  if(!('speechSynthesis'in window)||!t)return;
+  const u=new SpeechSynthesisUtterance(t);
+  u.lang=lang||'en-US';
+  u.rate=(opts&&opts.rate!=null)?opts.rate:defaultRate(u.lang);
+  u.pitch=u.lang.startsWith('ka')?1.04:1.1;u.volume=1;
+  const v=pickVoice(u.lang);if(v)u.voice=v;
   speechSynthesis.speak(u);
 }
-function toast(msg){ const t=document.createElement('div'); t.className='toast'; t.textContent=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),1100); }
-function praise(){ const p = pick(PRAISE_KA); toast(p); speak(p,'ka'); }
+function speak(t,lang,opts){if(!('speechSynthesis'in window))return;speechSynthesis.cancel();speakOne(t,lang,opts);}
+// queue several utterances back-to-back, e.g. Georgian then English
+function speakSeq(parts){if(!('speechSynthesis'in window))return;speechSynthesis.cancel();parts.forEach(p=>speakOne(p.t,p.lang,p.rate!=null?{rate:p.rate}:null));}
+// say an English word, but for a child who only speaks Georgian, give the meaning first
+function sayWord(ka,en){if(knows(profile,'en'))speak(en,'en-US');else speakSeq([{t:ka,lang:'ka-GE'},{t:en,lang:'en-US'}]);}
+function praise(){ // warm spoken encouragement in the child's own language
+  const code=instrCode(profile);
+  const sets={'ka-GE':['ყოჩაღ','ბრავო','მართალია','შესანიშნავია'],'ru-RU':['молодец','отлично','верно'],'en-US':['well done','great job','you did it','nice work']};
+  const list=sets[code]||sets['ka-GE'];
+  speak(list[ri(0,list.length-1)],code);
+}
+if('speechSynthesis'in window)speechSynthesis.onvoiceschanged=()=>speechSynthesis.getVoices();
 
-// ── Day streak (calendar days) — separate from in-a-row combo. Improvement over HANDOFF §7. ──
-function dayKey(d){ return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); }
-function touchDay(){
-  const p = prog(), t = dayKey(new Date());
-  if(p.lastDay === t) return;
-  const ys = dayKey(new Date(Date.now()-864e5));
-  p.dayStreak = (p.lastDay === ys) ? (p.dayStreak||0)+1 : 1;
-  p.lastDay = t; p.sessions = (p.sessions||0)+1; save();
-}
-
-// ── Data durability (pilot needs progress to survive; iOS evicts non-installed PWA storage ~7d) ──
-async function requestPersist(){
-  try {
-    if(navigator.storage && navigator.storage.persist){
-      const already = navigator.storage.persisted ? await navigator.storage.persisted() : false;
-      if(!already) await navigator.storage.persist();
-    }
-  } catch(e){}
-}
-let _installPrompt = null;
-window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); _installPrompt = e; });
-function canInstall(){ return !!_installPrompt; }
-async function doInstall(){
-  if(!_installPrompt) return;
-  _installPrompt.prompt();
-  try { await _installPrompt.userChoice; } catch(e){}
-  _installPrompt = null;
-  if(typeof renderHome === 'function') renderHome();
-}
-
-function boot(){
-  requestPersist();
-  if(!state.account) return renderLanding();   // new visitor → warm landing
-  if(!state.session) return renderLogin();      // has account, logged out → simple login
-  if(!state.kids.length) return renderAddKid();
-  renderHome();
-}

@@ -1,78 +1,94 @@
-// Alphabet module: Georgian ა–ჰ & English A–Z. Learn (flip + sound) + visual-first quiz. HANDOFF §4, §8.5
-function alphaSet(lang){ return lang === 'en' ? EN_ALPHA : KA_ALPHA; }
+/* ═══════════════════════════════════════════════════════════
+   NikoLearn — Alphabet module (Georgian ა-ჰ & English A-Z)
+   Learn (flip + sound) and Quiz (find the starting letter).
+   Voicing follows the child's language; pictures carry meaning.
+   ═══════════════════════════════════════════════════════════ */
 
-// Entry: pick language (ka always; en only if the child speaks it), then learn / quiz.
-function openAlpha(){
-  const k = kid();
-  const en = k.langs && k.langs.includes('en');
-  app(`<div class="hdr"><button class="pill" id="back">⬅️</button><h1>ანბანი</h1><span class="pill">🪙 ${prog().coins}</span></div>
-   <div class="grid">
-     <button class="card" data-l="ka"><span class="ico">🇬🇪</span><span class="lbl">ა ბ გ</span></button>
-     ${en?`<button class="card" data-l="en"><span class="ico">🇬🇧</span><span class="lbl">A B C</span></button>`:''}
-   </div>`);
-  $('#back').onclick = renderMenu;
-  document.querySelectorAll('[data-l]').forEach(b => b.onclick = () => alphaModes(b.dataset.l));
-}
+function alphaData(subj){return subj==='ka-alpha'?KA_ALPHA:EN_ALPHA;}
+function alphaIsKa(subj){return subj==='ka-alpha';}
 
-function alphaModes(lang){
-  app(`<div class="hdr"><button class="pill" id="back">⬅️</button><h1>${lang==='en'?'A B C':'ა ბ გ'}</h1><span class="pill">🪙 ${prog().coins}</span></div>
-   <div class="grid">
-     <button class="card" id="learn"><span class="ico">👀</span><span class="lbl">ისწავლე</span></button>
-     <button class="card" id="quiz"><span class="ico">🎯</span><span class="lbl">ვიქტორინა</span></button>
-   </div>`);
-  $('#back').onclick = openAlpha;
-  $('#learn').onclick = () => learnAlpha(lang);
-  $('#quiz').onclick = () => quizAlpha(lang);
-}
-
-// Learn: grid of letters → tap a letter → big card (letter + word + picture + sound). English speaks; ka stays silent (no English-voice gibberish).
-function learnAlpha(lang){
-  const set = alphaSet(lang);
-  app(`<div class="hdr"><button class="pill" id="back">⬅️</button><h1>ისწავლე</h1><span class="pill">🪙 ${prog().coins}</span></div>
-    <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(70px,1fr))">
-      ${set.map((a,i)=>`<button class="card" data-i="${i}" style="min-height:70px;padding:10px"><span class="ico" style="font-size:1.8rem">${esc(a.l)}</span></button>`).join('')}
-    </div>`);
-  $('#back').onclick = () => alphaModes(lang);
-  document.querySelectorAll('[data-i]').forEach(b => b.onclick = () => {
-    const a = set[+b.dataset.i];
-    app(`<div class="hdr"><button class="pill" id="back">⬅️</button><h1>${esc(a.l)}</h1><span class="pill">🪙 ${prog().coins}</span></div>
-      <div class="center" style="margin-top:6vh">
-        <div style="font-size:6rem;font-weight:800;color:var(--primary)">${esc(a.l)}</div>
-        <div class="emojis" style="font-size:4rem">${a.emoji}</div>
-        <div class="q">${esc(a.word)}</div>
-        <button class="btn" id="say">🔊</button>
-        <button class="btn ghost big" id="more">სხვა ასო</button>
-      </div>`);
-    $('#back').onclick = () => learnAlpha(lang);
-    $('#more').onclick = () => learnAlpha(lang);
-    $('#say').onclick = () => speak(a.word, lang);   // en speaks; ka routed through guard (clip or silent)
-    if(lang==='en') setTimeout(()=>speak(a.word,'en'), 250);
-  });
-}
-
-// Quiz (visual-first): see a picture → pick the starting letter (3 options). No reading required.
-function quizAlpha(lang){
-  const set = alphaSet(lang);
-  let round = 0, right = 0; const total = 6;
-  function next(){
-    if(round >= total) return results(right, total, () => quizAlpha(lang));
-    round++;
-    const item = pick(set);
-    const choices = distractors(set, item, c => c.l);
-    app(`<div class="hdr"><button class="pill" id="x">✕</button><h1>რომელი ასო?</h1><span class="pill">${round}/${total}</span></div>
-      <div class="center">
-        <div class="emojis" style="font-size:4.5rem">${item.emoji}</div>
-        ${lang==='en'?`<button class="btn ghost" id="say">🔊 ${esc(item.word)}</button>`:`<div class="q">${esc(item.word)}</div>`}
-        <div class="opts">${choices.map(c=>`<button class="btn opt" data-l="${esc(c.l)}">${esc(c.l)}</button>`).join('')}</div>
-      </div>`);
-    $('#x').onclick = renderMenu;
-    if(lang==='en'){ $('#say').onclick = () => speak(item.word,'en'); setTimeout(()=>speak(item.word,'en'),300); }
-    document.querySelectorAll('[data-l]').forEach(b => b.onclick = () => {
-      const p = prog();
-      if(b.dataset.l === item.l){ b.classList.add('good'); right++; p.coins++; p.combo=(p.combo||0)+1; p.maxCombo=Math.max(p.maxCombo||0,p.combo);
-        p.alpha.correct++; save(); praise(); setTimeout(next, 700); }
-      else { b.classList.add('bad'); p.combo=0; p.alpha.wrong++; save(); showOwl('alpha', item); setTimeout(()=>b.classList.remove('bad'), 500); }
-    });
+/* speak one alphabet item, age- & language-appropriate */
+function alphaSay(subj,it){
+  if(alphaIsKa(subj)){
+    // letter sound lives inside the example word → say the word, slowly
+    speak(it.w,'ka-GE',{rate:isYoung(profile)?0.5:0.6});
+  } else {
+    // English letter name + example word
+    speak(it.l+'. '+it.w,'en-US',{rate:isYoung(profile)?0.66:0.78});
   }
-  next();
+}
+
+/* ── LEARN: one card per letter, flip with big arrows ── */
+function alphaLearn(subj,idx){
+  const data=alphaData(subj),n=data.length;
+  idx=Math.max(0,Math.min(idx,n-1));
+  game.subj=subj;
+  const it=data[idx],last=idx>=n-1,first=idx<=0;
+  render(`<div class="screen">
+    ${topbar(MODE_TITLES[subj]||subj,`სწავლა · ${idx+1}/${n}`,`openMenu('${subj}')`)}
+    <div class="alpha-stage">
+      <div class="alpha-card" onclick="alphaSay('${subj}',alphaData('${subj}')[${idx}])">
+        <div class="alpha-letter">${it.l}</div>
+        <div class="alpha-pic">${it.e}</div>
+        <div class="alpha-word">${it.w}</div>
+        <button class="speakbtn big" onclick="event.stopPropagation();alphaSay('${subj}',alphaData('${subj}')[${idx}]);pulseTap(this)">${I.speaker} მისმინე</button>
+      </div>
+    </div>
+    <div class="alpha-nav">
+      <button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="alphaLearn('${subj}',${idx-1})">←</button>
+      <div class="alpha-dots">${idx+1} / ${n}</div>
+      ${last
+        ? `<button class="abtn go" onclick="alphaQuiz('${subj}')">ქვიზი 🎯</button>`
+        : `<button class="abtn" onclick="alphaLearn('${subj}',${idx+1})">→</button>`}
+    </div>
+  </div>`,false);
+  setTimeout(()=>alphaSay(subj,it),220);
+}
+
+/* ── QUIZ: see picture+word, pick the starting letter ── */
+function alphaQuiz(subj){
+  const data=alphaData(subj);
+  game.mode=subj;game.subj=subj;game.i=0;game.shields=0;game.wrong=0;
+  game.start=Date.now();game.preLvl=levelIdx(profile);
+  game.qs=shuffle(data).slice(0,8);
+  nextAlpha();
+}
+function alphaOpts(data,correct){
+  const set=new Set([correct.l]);
+  for(const it of shuffle(data)){if(set.size>=4)break;set.add(it.l);}
+  return shuffle([...set]);
+}
+function nextAlpha(){
+  if(game.i>=game.qs.length)return results();
+  const subj=game.mode,data=alphaData(subj),q=game.qs[game.i];
+  const opts=alphaOpts(data,q);
+  alphaSay(subj,q);
+  // visual-first: picture carries meaning, word shows the missing FIRST letter as a slot.
+  const rest=q.w.slice(q.l.length);
+  const area=`<div class="prompt alpha-q">
+      <div class="p-emoji" style="font-size:4.6rem">${q.e}</div>
+      <div class="alpha-wordgap ${alphaIsKa(subj)?'':'en'}"><span class="gap-slot">?</span><span>${rest}</span></div>
+      <button class="speakbtn pulse-tap" onclick="alphaSay('${subj}',game.qs[${game.i}]);pulseTap(this)">${I.speaker} მისმინე</button>
+      <div class="finger-hint">👆 აირჩიე ასო</div>
+    </div>
+    <div class="options alpha-opts">${opts.map(L=>`<button class="opt letter ${alphaIsKa(subj)?'':'en'}" onclick="answerAlpha(this,'${L}','${q.l}')">${L}</button>`).join('')}</div>`;
+  gameShell(area);
+  const c=$('#gcount');if(c)c.textContent=`${game.i+1}/${game.qs.length}`;
+}
+function alphaRec(ok){
+  const s=state[profile];if(!s.alpha)s.alpha={};
+  if(!s.alpha[game.mode])s.alpha[game.mode]={correct:0,wrong:0};
+  s.alpha[game.mode][ok?'correct':'wrong']++;
+}
+function answerAlpha(btn,sel,cor){
+  if(sel===cor){
+    document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));
+    btn.classList.remove('dim');btn.classList.add('correct');
+    const s=state[profile];s.shields++;game.shields++;s.streak++;s.maxStreak=Math.max(s.maxStreak,s.streak);
+    alphaRec(true);save();praise();feedback(true);
+    setTimeout(()=>{game.i++;closeFeedback();nextAlpha();},1000);
+  } else {
+    btn.classList.add('wrong','dim');state[profile].streak=0;game.wrong++;alphaRec(false);save();
+    setTimeout(maybeOfferHelp,350);
+  }
 }
