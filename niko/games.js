@@ -22,7 +22,7 @@ function startCounting(){
       const v = +b.dataset.n, p = prog();
       if(v === item.n){ b.classList.add('good'); right++; p.coins++; p.combo=(p.combo||0)+1; p.maxCombo=Math.max(p.maxCombo||0,p.combo);
         p.counting.correct++; save(); praise(); setTimeout(next, 700); }
-      else { b.classList.add('bad'); p.combo=0; p.counting.wrong++; save(); speak(item.en,'en'); setTimeout(()=>b.classList.remove('bad'), 500); }
+      else { b.classList.add('bad'); p.combo=0; p.counting.wrong++; save(); showOwl('counting', item); setTimeout(()=>b.classList.remove('bad'), 500); }
     });
   }
   next();
@@ -37,7 +37,7 @@ function startWords(cat){
     const p = prog();
     if(btn.dataset.v === item.en){ btn.classList.add('good'); right++; p.coins++; p.combo=(p.combo||0)+1; p.maxCombo=Math.max(p.maxCombo||0,p.combo);
       p.words.correct++; save(); speak(item.en,'en'); praise(); setTimeout(next, 800); }
-    else { btn.classList.add('bad'); p.combo=0; p.words.wrong++; save(); setTimeout(()=>btn.classList.remove('bad'), 500); }
+    else { btn.classList.add('bad'); p.combo=0; p.words.wrong++; save(); showOwl('words', item); setTimeout(()=>btn.classList.remove('bad'), 500); }
   }
   function next(){
     if(round >= total) return results(right, total, () => startWords(cat));
@@ -94,7 +94,7 @@ function startMath(){
       const p = prog();
       if(+b.dataset.v === prob.ans){ b.classList.add('good'); right++; p.coins++; p.combo=(p.combo||0)+1; p.maxCombo=Math.max(p.maxCombo||0,p.combo);
         p.math.correct++; save(); praise(); setTimeout(next, 650); }
-      else { b.classList.add('bad'); p.combo=0; p.math.wrong++; save(); setTimeout(()=>b.classList.remove('bad'), 500); }
+      else { b.classList.add('bad'); p.combo=0; p.math.wrong++; save(); showOwl('math', prob); setTimeout(()=>b.classList.remove('bad'), 500); }
     });
   }
   next();
@@ -128,7 +128,7 @@ function startPhrases(grp){
       const p = prog();
       if(b.dataset.v === item.en){ b.classList.add('good'); right++; p.coins++; p.combo=(p.combo||0)+1; p.maxCombo=Math.max(p.maxCombo||0,p.combo);
         p.phrases.correct++; save(); praise(); setTimeout(next, 800); }
-      else { b.classList.add('bad'); p.combo=0; p.phrases.wrong++; save(); setTimeout(()=>b.classList.remove('bad'), 500); }
+      else { b.classList.add('bad'); p.combo=0; p.phrases.wrong++; save(); showOwl('phrases', item); setTimeout(()=>b.classList.remove('bad'), 500); }
     });
   }
   next();

@@ -71,7 +71,7 @@ function quizAlpha(lang){
       const p = prog();
       if(b.dataset.l === item.l){ b.classList.add('good'); right++; p.coins++; p.combo=(p.combo||0)+1; p.maxCombo=Math.max(p.maxCombo||0,p.combo);
         p.alpha.correct++; save(); praise(); setTimeout(next, 700); }
-      else { b.classList.add('bad'); p.combo=0; p.alpha.wrong++; save(); setTimeout(()=>b.classList.remove('bad'), 500); }
+      else { b.classList.add('bad'); p.combo=0; p.alpha.wrong++; save(); showOwl('alpha', item); setTimeout(()=>b.classList.remove('bad'), 500); }
     });
   }
   next();

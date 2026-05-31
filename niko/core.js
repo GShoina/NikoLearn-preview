@@ -15,7 +15,7 @@ function prog(){
   if(typeof s.mathLevel !== 'number') s.mathLevel = 0;
   return state[id];
 }
-function app(html){ document.getElementById('app').innerHTML = html; }
+function app(html){ const o = document.getElementById('owl'); if(o) o.remove(); document.getElementById('app').innerHTML = html; }
 function $(sel){ return document.querySelector(sel); }
 function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
