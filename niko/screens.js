@@ -1,14 +1,65 @@
 // Screens: login, add-kid (reader toggle — improvement over age-only isYoung), home, menu. HANDOFF §4
-function renderLogin(){
-  app(`<div class="center" style="margin-top:18vh">
-    <div style="font-size:4rem">🦉</div>
-    <h1>NikoLearn</h1>
-    <input class="input" id="pw" inputmode="numeric" placeholder="••••" autocomplete="off">
-    <button class="btn big" id="go">შესვლა</button>
+// Warm landing / hero — makes a parent (and child) WANT to enter. First screen for new visitors.
+function renderLanding(){
+  app(`<div class="hero">
+    <div class="hero-deco"><span>📚</span><span>⭐</span><span>🔢</span><span>🎈</span><span>✏️</span></div>
+    <div class="hero-badge">5–8 წელი · Cambridge YLE მზადება</div>
+    <div class="hero-owl-wrap"><div class="hero-owl bounce">🦉</div></div>
+    <h1 class="hero-title">NikoLearn</h1>
+    <div class="hero-sub">ისწავლე თამაშით 🎉</div>
+    <p class="hero-lead">ინგლისური, ქართული ანბანი, თვლა და მათემატიკა — პატარებისთვის. სახალისო, უსაფრთხო და ინტერნეტის გარეშეც მუშაობს.</p>
+    <div class="chips">
+      <span class="chip">🎯 ინგლისური</span><span class="chip">🇬🇪 ანბანი</span>
+      <span class="chip">🔢 მათემატიკა</span><span class="chip">🦉 ბუ-მასწავლებელი</span>
+    </div>
+    <button class="btn big" id="start">დაიწყე ✨</button>
+    <button class="btn ghost" id="haveacc">უკვე მაქვს ანგარიში</button>
+    <div class="hero-trust">🔒 მონაცემი ამ მოწყობილობაზე რჩება · რეკლამა არ არის</div>
   </div>`);
-  const submit = () => { if($('#pw').value.trim()==='12345'){ state.authed=true; save(); boot(); } else { $('#pw').value=''; toast('თავიდან 🙂'); } };
-  $('#go').onclick = submit;
-  $('#pw').addEventListener('keydown', e => { if(e.key==='Enter') submit(); });
+  $('#start').onclick = renderRegister;
+  $('#haveacc').onclick = () => state.account ? renderLogin() : renderRegister();
+}
+
+// Dead-simple registration — username + password, NO verification (accept whatever they type).
+function renderRegister(){
+  app(`<div class="hero">
+    <div class="hero-owl">🦉</div>
+    <h1>შექმენი ანგარიში</h1>
+    <input class="input" id="ru" placeholder="მომხმარებლის სახელი" autocomplete="off">
+    <input class="input" id="rp" type="password" placeholder="პაროლი" autocomplete="new-password">
+    <button class="btn big" id="reg">შექმნა ✨</button>
+    <button class="btn ghost" id="back">⬅️</button>
+  </div>`);
+  $('#back').onclick = renderLanding;
+  const go = () => {
+    const u = $('#ru').value.trim() || 'მშობელი';
+    const p = $('#rp').value;                 // accepted as-is, no verification
+    state.account = { user:u, pass:p }; state.session = true; save();
+    toast('კეთილი იყოს 🎉'); boot();
+  };
+  $('#reg').onclick = go;
+  $('#rp').addEventListener('keydown', e => { if(e.key==='Enter') go(); });
+}
+
+// Returning login — lenient, never locks you out (always an escape to a new account).
+function renderLogin(){
+  const u = (state.account && state.account.user) || '';
+  app(`<div class="hero">
+    <div class="hero-owl">🦉</div>
+    <h1>კეთილი იყოს დაბრუნება 👋</h1>
+    <input class="input" id="lu" placeholder="მომხმარებლის სახელი" value="${esc(u)}" autocomplete="off">
+    <input class="input" id="lp" type="password" placeholder="პაროლი" autocomplete="current-password">
+    <button class="btn big" id="login">შესვლა</button>
+    <button class="btn ghost" id="newacc">ახალი ანგარიში</button>
+  </div>`);
+  const go = () => {
+    const p = $('#lp').value;
+    if(!state.account || p === state.account.pass){ state.session = true; save(); boot(); }
+    else toast('პაროლი არ ემთხვევა 🙂');
+  };
+  $('#login').onclick = go;
+  $('#lp').addEventListener('keydown', e => { if(e.key==='Enter') go(); });
+  $('#newacc').onclick = renderRegister;
 }
 
 let _newReader = false;

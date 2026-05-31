@@ -43,6 +43,37 @@ body{font-family:'FiraGO','Noto Sans Georgian','Segoe UI',system-ui,sans-serif;b
 @keyframes pop{from{transform:translateX(-50%) scale(.7);opacity:0}to{transform:translateX(-50%) scale(1);opacity:1}}
 .bounce{animation:bounce .6s ease infinite alternate}
 @keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-14px)}}
+/* Landing / hero — vibrant, playful, emotional */
+.hero{position:relative;overflow:hidden;min-height:calc(100dvh - 40px);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;gap:14px;padding:5vh 20px;
+  background:radial-gradient(125% 85% at 50% -8%, #fff6e9 0%, #ffe3c7 32%, #ffc8d8 72%, #f6b9e6 100%)}
+.hero-deco{position:absolute;inset:0;pointer-events:none;z-index:0}
+.hero-deco span{position:absolute;font-size:2rem;opacity:.5;animation:float 6s ease-in-out infinite}
+.hero-deco span:nth-child(1){left:8%;top:12%}
+.hero-deco span:nth-child(2){right:9%;top:15%;font-size:2.4rem;animation-delay:1.2s}
+.hero-deco span:nth-child(3){left:13%;bottom:17%;font-size:2.2rem;animation-delay:.6s}
+.hero-deco span:nth-child(4){right:11%;bottom:13%;animation-delay:1.8s}
+.hero-deco span:nth-child(5){left:50%;top:5%;animation-delay:.9s}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-14px) rotate(5deg)}}
+.hero>*{position:relative;z-index:1}
+.hero-badge{background:rgba(255,255,255,.7);border-radius:999px;padding:6px 14px;font-weight:800;font-size:.82rem;color:var(--primary-d)}
+.hero-owl-wrap{display:grid;place-items:center;width:148px;height:148px;
+  background:radial-gradient(circle at 50% 42%, #fff 0%, #ffe2b8 68%, transparent 70%)}
+.hero-owl{font-size:5.4rem;line-height:1;filter:drop-shadow(0 10px 16px rgba(0,0,0,.2))}
+.hero-title{font-size:2.6rem;margin:0;font-weight:900;letter-spacing:-.5px;
+  background:linear-gradient(90deg,#ff7043,#ff4081);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-sub{font-size:1.35rem;font-weight:800;color:#5d4037}
+.hero-lead{color:#6d5145;max-width:38ch;margin:0 auto;font-size:1.08rem;line-height:1.6}
+.chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:6px 0}
+.chip{border-radius:999px;padding:9px 15px;font-weight:800;font-size:.95rem;color:#fff;box-shadow:var(--shadow)}
+.chip:nth-child(1){background:#26a69a}.chip:nth-child(2){background:#ff7043}
+.chip:nth-child(3){background:#29b6f6}.chip:nth-child(4){background:#ec407a}
+.hero .input{max-width:330px;background:rgba(255,255,255,.92)}
+.hero .btn.big{max-width:330px;margin-top:6px;background:linear-gradient(90deg,#ff7043,#ffa726);
+  font-size:1.3rem;box-shadow:0 10px 24px rgba(255,112,67,.45)}
+.hero .btn.ghost{background:rgba(255,255,255,.72)}
+.hero-trust{color:#7a6a60;font-size:.85rem;margin-top:8px}
+
 /* Owl "ბუ" hint bubble */
 .owl{position:fixed;left:12px;right:12px;bottom:calc(16px + env(safe-area-inset-bottom));display:flex;gap:10px;align-items:flex-end;z-index:60;animation:pop .25s ease}
 .owl-av{font-size:3rem;flex:none;line-height:1}

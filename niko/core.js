@@ -2,7 +2,7 @@
 const SK = 'nikolearn_p2';
 let state, profile = null;
 
-function defaultState(){ return { authed:false, onboarded:false, kids:[] }; }
+function defaultState(){ return { account:null, session:false, onboarded:false, kids:[] }; }
 function load(){ try { return Object.assign(defaultState(), JSON.parse(localStorage.getItem(SK) || '{}')); } catch(e){ return defaultState(); } }
 function save(){ localStorage.setItem(SK, JSON.stringify(state)); }
 
@@ -124,7 +124,8 @@ async function doInstall(){
 
 function boot(){
   requestPersist();
-  if(!state.authed) return renderLogin();
+  if(!state.account) return renderLanding();   // new visitor → warm landing
+  if(!state.session) return renderLogin();      // has account, logged out → simple login
   if(!state.kids.length) return renderAddKid();
   renderHome();
 }

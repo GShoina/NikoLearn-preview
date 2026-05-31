@@ -43,9 +43,11 @@ function renderParent(){
     <div class="grid" style="grid-template-columns:1fr">${cards}</div>
     <div class="center" style="margin-top:16px">
       <button class="btn ghost big" id="export">📋 ანგარიშის კოპირება</button>
+      <button class="btn ghost" id="logout">🚪 გასვლა</button>
       <div style="color:var(--muted);font-size:.9rem;text-align:center">🔒 თქვენი შვილის მონაცემები მხოლოდ ამ მოწყობილობაზე რჩება.<br>რეკლამა და გარე ბმულები — არ არის.</div>
     </div>`);
   $('#back').onclick = renderHome;
+  $('#logout').onclick = () => { state.session = false; save(); boot(); };
   const doExport = () => {
     const lines = state.kids.map(k => {
       const p = state[k.id] || {};
