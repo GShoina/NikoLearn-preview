@@ -1,56 +1,66 @@
 # NikoLearn — Session Handoff (2026-05-31)
 
-## ⛔ READ FIRST — the #1 next action
-The owner has a **real, hand-designed** version of the app (`NikoLearn Phase 1.html`) in a
-**claude.ai/design** artifact. It was **never on disk or in any repo** — so this session built the
-app **from scratch off `docs/HANDOFF.md` (a text spec)**. The owner found that rebuild visually
-**worse** than his design. **DO NOT rebuild from scratch again.**
+## ▶ How to resume (LAUNCH BY NAME — never bare `claude` from home)
+In a fresh PowerShell type **`NikoLearn`** OR **`NikoLand`** (both work; alias). Each one:
+cd → `...\AI_Projects\NikoLand`, runs `claude --dangerously-skip-permissions`, loads this repo's
+`CLAUDE.md` → which tells you to read THIS file first. If launched bare from home, the global
+Bivision router hijacks with a stale Apr-8 note — that already happened once. Always use the names.
 
-**Next action:** the owner will drop his real `NikoLearn Phase 1.html` into
-`C:\Users\gela.shonia\Downloads\` (the claude.ai link is auth-gated → 403, cannot fetch it).
-When it arrives:
-1. Use **his design as the visual/structural BASE — do not degrade his visuals.**
-2. Layer on ONLY the functional improvements clarified this session (list below).
-3. Re-deploy. Keep the visuals his; add our function.
+## ⛔ #1 ACTION — use the OWNER'S REAL DESIGN as the base (RESOLVED: files are here now)
+The owner's real, polished project is in Downloads:
+- `C:\Users\gela.shonia\Downloads\NIKO LEARN.zip`  ← full project (unzip this)
+- `C:\Users\gela.shonia\Downloads\NikoLearn Phase 1.html` ← loose entry shell (same as in the zip)
 
-If the file isn't there yet, ask for it (or paste / Google Drive). Do not proceed without it.
+**The zip is the source of truth.** It contains the owner's hand-built app, far richer than the
+from-scratch rebuild now in this repo:
+- entry `NikoLearn Phase 1.html` (~2.4KB shell) + `niko/`: `styles.css` **~42KB**, `data.js` ~20KB,
+  `games.js` ~21KB, `screens.js` ~18KB, `parent.js` ~14KB, `tutor.js` ~12KB, `owl.js` ~10KB,
+  `core.js` ~10KB, `tweaks.js` (in-design theme/AI panel), `alpha.js`, `audio.js`.
+- also: `app.js` (original monolith), root `data.js`, `PHASE2_PROMPT.md` (intended kickoff),
+  `PATCHES.md`, `MASTER_ACTION_PLAN.md`, `CLAUDE.md`, `STAGING_GIT_SETUP.md`, og/favicon assets.
+  (The `Bivision *` / `BiHub*` / `bivision_real_*` files in the zip are unrelated — ignore.)
+
+### Do this (do NOT rebuild from scratch — that was the mistake)
+1. Unzip `NIKO LEARN.zip` to a temp folder; read `PHASE2_PROMPT.md` + `PATCHES.md` first.
+2. Put the owner's REAL `NikoLearn Phase 1.html` + `niko/` (+ assets) into this repo as the app,
+   **replacing the inferior from-scratch versions** here. His `styles.css`/modules are the design he
+   spent real effort on — preserve them; do not overwrite with the 8KB rebuild.
+3. Compare his app against the functional improvements we clarified (below) and layer in ONLY what's
+   genuinely missing — without degrading his visuals.
+4. Re-test (Playwright on local/live), commit, redeploy. Bump `sw.js` cache version.
 
 ## Operating agreement (authoritative: `CLAUDE.md` in repo root)
-- Standalone NikoLearn session — do NOT load Bivision agent identities.
-- Owner is **non-technical**: don't hand back technical decisions — make the best-practice call,
-  explain in **business language**, execute. No "yes/yes" pauses. Run `--dangerously-skip-permissions`.
-- **Challenge** the owner on design/function. Reserve questions for genuine business/money/privacy forks
-  (with a recommendation + default).
-- Self-test every change (Playwright on the live/local URL). Backup/commit before risky changes.
-- Match the owner's language (Georgian).
+Standalone (no Bivision identity) · owner NON-technical → make the best-practice call, explain in
+business language, execute, no "yes/yes" pauses, `--dangerously-skip-permissions` · CHALLENGE the
+owner · self-test every change · reserve questions for genuine business/money/privacy forks (with a
+recommendation) · Georgian language.
 
-## Launch
-- Short command **`NikoLearn`** (PowerShell profile function) → cd to NikoLand → `claude --dangerously-skip-permissions`.
+## What exists
+- **Repo:** github.com/GShoina/NikoLearn (public). **Live:** https://gshoina.github.io/NikoLearn/
+  — currently serving the FROM-SCRATCH rebuild (owner found it visually worse; replace with his design).
+- **Local root:** `...\AI_Projects\NikoLand` (~14 commits, 2026-05-31). Vanilla JS, no build,
+  localStorage `nikolearn_p2`, PWA `manifest.json`+`sw.js` (cache v11). SW caches hard → in tests
+  unregister SW + clear caches + reload to see fresh code.
 
-## What exists right now
-- **Repo:** github.com/GShoina/NikoLearn (public, for Pages). **Live:** https://gshoina.github.io/NikoLearn/
-- **Local root:** `C:\Users\gela.shonia\Documents\NGT 2020-07\AI_Projects\NikoLand` (13 commits, 2026-05-31).
-- **Architecture (this session's build):** `index.html` + `niko/`: data, core, tutor, audio, screens,
-  games, alpha, owl, parent (BOOT last). Vanilla JS, no build. localStorage key `nikolearn_p2`.
-  PWA: `manifest.json` + `sw.js` (cache **v11** — bump on every asset change or returning users get stale code).
-- **Test loop:** `python -m http.server 8765` in NikoLand → Playwright. SW caches aggressively →
-  in tests, unregister SW + clear caches + reload to see fresh code.
-
-## Functional improvements implemented this session (to carry onto his design)
-reader/non-reader toggle (not age-only) · day-streak vs in-a-row combo (separate) · English words (6
-cats/30) · everyday **phrases** (6 groups/24) · graded **math** (±20/±100/×÷ adaptive) · **alphabet**
-ka33/en26 (learn+quiz) · **owl "ბუ"** hint on wrong answers · **"📣 მაჩვენე მშობელს"** celebration ·
-**break reminder** (~15min) · **parent dashboard** (math gate + plain-language insight + export +
-trust line) · **landing/hero + simple account** (user+pass, no verification) · PWA offline/install +
-persistent storage. Docs: `MVP.md`, `PARENT-GUIDE.md`, `PILOT-SURVEY.md`, `HANDOFF.md`.
+## Functional improvements clarified this session (layer onto his design if not already present)
+reader/non-reader toggle (not age-only) · day-streak vs in-a-row combo (separate) · everyday English
+**phrases** · graded **math** adaptive · **alphabet** ka/en learn+quiz · **owl "ბუ"** hint on wrong
+answers · **"📣 მაჩვენე მშობელს"** celebration · **break reminder** (~15min) · **parent dashboard**
+(math gate + plain-language insight + export + trust line) · frictionless entry (landing/hero +
+simple username+password, NO verification) · PWA offline/install + persistent storage.
+Pilot docs already in repo: `MVP.md`, `PARENT-GUIDE.md`, `PILOT-SURVEY.md`.
+NOTE: his version likely already has most of these (tutor/owl/parent/tweaks/alpha present) — verify,
+don't duplicate.
 
 ## Open decisions (owner)
-1. **Design base** — provide his `NikoLearn Phase 1.html` (BLOCKER above).
-2. **Georgian audio** — code ready (`AUDIO_MANIFEST` + speak() guard). Pick: (a) Google ka-GE TTS
-   (free, fast) or (b) record ~55 clips himself (warmer). ~half day, $0, offline-bundled.
-   Impact: huge for pre-readers (Georgian is silent now). Don't read Georgian with the English voice.
-3. **Consented anonymous quant pipe** for pilot insight — deferred unless he wants hard numbers.
-4. **Pilot** — 20-25 classmates; shared device (parent phone / class tablets), qual-first (survey + interviews).
+1. **Georgian audio** — code path ready (`AUDIO_MANIFEST` + speak() guard, don't read Georgian with
+   the English voice). Pick: Google ka-GE TTS (free/fast) OR record ~55 clips himself (warmer).
+   Huge impact for pre-readers (Georgian is silent now). ~half day, $0, offline-bundled.
+2. **Deploy** — gate already passed once; pushes auto-deploy to Pages. Verify on phone after changes.
+3. **Pilot** — 20-25 classmates, shared device (parent phone / class tablets), qualitative-first
+   (survey + interviews). Optional consented anonymous quant pipe later.
 
-## Background processes (this session) — stop on cleanup
-- `python -m http.server 8765` (local test server), and a keep-awake PowerShell loop. Safe to kill.
+## Launchers (PowerShell profile, Windows PowerShell 5.1)
+`NikoLearn` and `NikoLand` both → cd NikoLand + claude (skip-permissions). `claude` itself is
+profile-wrapped to always pass `--dangerously-skip-permissions`. Background test processes from the
+prior session were stopped.
