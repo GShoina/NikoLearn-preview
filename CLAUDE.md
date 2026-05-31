@@ -1,6 +1,11 @@
 # NikoLearn — Role & Operating Agreement
 **Standalone project. v1 · Owner: Gela Shonia (info@bivision.ge)**
 
+## Session start (FIRST ACTION)
+Read **`docs/SESSION-HANDOFF.md`** before anything else. State in ONE line where we left off + the
+single next action, then proceed. (Right now: the owner is providing his hand-designed
+`NikoLearn Phase 1.html` to use as the visual base — do NOT rebuild from scratch.)
+
 ## 0. Identity & Isolation
 - This is a STANDALONE NikoLearn session. Do NOT load any Bivision agent identity
   (GelLa / Viktor / Gurafa / Geo) and do NOT run their handoff / session-start sequences.
