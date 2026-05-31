@@ -55,10 +55,26 @@ function renderMenu(){
    <div class="grid">
     <button class="card" id="counting"><span class="ico">🔢</span><span class="lbl">${k.reader?'1 2 3':'🍎🍎🍎'}</span></button>
     <button class="card" id="words"><span class="ico">🔤</span><span class="lbl">${k.reader?'სიტყვები':'🐈🐕🐟'}</span></button>
+    ${k.reader?`<button class="card" id="phrases"><span class="ico">💬</span><span class="lbl">ფრაზები</span></button>`:''}
    </div>`);
   $('#home').onclick = renderHome;
   $('#counting').onclick = () => startCounting();
   $('#words').onclick = () => openTopics();
+  if($('#phrases')) $('#phrases').onclick = () => openPhraseCats();
+}
+
+// Phrase-group picker (readers). Mirrors openTopics. HANDOFF §4 phrases.
+function openPhraseCats(){
+  const grps = Object.keys(PHRASES);
+  app(`<div class="hdr"><button class="pill" id="back">⬅️</button><h1>ფრაზები 💬</h1><span class="pill">🪙 ${prog().coins}</span></div>
+   <div class="grid">
+     ${grps.map(g => { const parts=g.split(' '); const ico=parts[0]; const lbl=parts.slice(1).join(' ');
+       return `<button class="card" data-g="${esc(g)}"><span class="ico">${ico}</span><span class="lbl">${esc(lbl)}</span></button>`; }).join('')}
+     <button class="card" id="allp"><span class="ico">🌈</span><span class="lbl">ყველა</span></button>
+   </div>`);
+  $('#back').onclick = renderMenu;
+  document.querySelectorAll('[data-g]').forEach(b => b.onclick = () => startPhrases(b.dataset.g));
+  $('#allp').onclick = () => startPhrases(null);
 }
 
 // Category picker (HANDOFF §4 — the "categories don't navigate" fix: a real picker that scopes the game)

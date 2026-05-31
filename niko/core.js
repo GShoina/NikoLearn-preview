@@ -9,14 +9,35 @@ function save(){ localStorage.setItem(SK, JSON.stringify(state)); }
 function kid(){ return state.kids.find(k => k.id === profile) || null; }
 function prog(){
   const id = profile;
-  if(!state[id]) state[id] = { coins:0, combo:0, maxCombo:0, dayStreak:0, lastDay:null, counting:{correct:0,wrong:0}, words:{correct:0,wrong:0}, sessions:0 };
+  if(!state[id]) state[id] = { coins:0, combo:0, maxCombo:0, dayStreak:0, lastDay:null, counting:{correct:0,wrong:0}, words:{correct:0,wrong:0}, phrases:{correct:0,wrong:0}, sessions:0 };
   if(!state[id].words) state[id].words = {correct:0,wrong:0};
+  if(!state[id].phrases) state[id].phrases = {correct:0,wrong:0};
   return state[id];
 }
 function app(html){ document.getElementById('app').innerHTML = html; }
 function $(sel){ return document.querySelector(sel); }
 function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+// Build answer choices: the correct item + distinct distractors, capped at pool size (never freezes
+// on small pools — latent bug guard), shuffled. keyFn dedupes by a stable key.
+function distractors(pool, correct, keyFn){
+  const need = Math.min(3, pool.length);
+  const m = new Map(); m.set(keyFn(correct), correct);
+  let g = 0; while(m.size < need && g++ < 200){ const c = pick(pool); m.set(keyFn(c), c); }
+  return [...m.values()].sort(() => Math.random() - 0.5);
+}
+
+// Shared end-of-round screen.
+function results(right, total, againFn){
+  const stars = '⭐'.repeat(right) + '·'.repeat(Math.max(0, total-right));
+  app(`<div class="center" style="margin-top:14vh">
+    <div style="font-size:4rem">🎉</div><div class="q">${right}/${total}</div>
+    <div class="emojis">${stars}</div>
+    <button class="btn big" id="again">კიდევ</button>
+    <button class="btn ghost big" id="menu">მენიუ</button></div>`);
+  $('#again').onclick = againFn; $('#menu').onclick = renderMenu;
+}
 
 // ── Voice ── NEVER read Georgian text with the English voice (HANDOFF §8.4).
 function voices(){ return (window.speechSynthesis && speechSynthesis.getVoices()) || []; }
