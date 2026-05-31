@@ -9,7 +9,8 @@ function save(){ localStorage.setItem(SK, JSON.stringify(state)); }
 function kid(){ return state.kids.find(k => k.id === profile) || null; }
 function prog(){
   const id = profile;
-  if(!state[id]) state[id] = { coins:0, combo:0, maxCombo:0, dayStreak:0, lastDay:null, counting:{correct:0,wrong:0}, sessions:0 };
+  if(!state[id]) state[id] = { coins:0, combo:0, maxCombo:0, dayStreak:0, lastDay:null, counting:{correct:0,wrong:0}, words:{correct:0,wrong:0}, sessions:0 };
+  if(!state[id].words) state[id].words = {correct:0,wrong:0};
   return state[id];
 }
 function app(html){ document.getElementById('app').innerHTML = html; }

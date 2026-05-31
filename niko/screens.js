@@ -58,5 +58,19 @@ function renderMenu(){
    </div>`);
   $('#home').onclick = renderHome;
   $('#counting').onclick = () => startCounting();
-  $('#words').onclick = () => toast('მალე 🙂'); // words game lands in the next increment
+  $('#words').onclick = () => openTopics();
+}
+
+// Category picker (HANDOFF §4 — the "categories don't navigate" fix: a real picker that scopes the game)
+function openTopics(){
+  const cats = Object.keys(WORDS);
+  app(`<div class="hdr"><button class="pill" id="back">⬅️</button><h1>აირჩიე</h1><span class="pill">🪙 ${prog().coins}</span></div>
+   <div class="grid">
+     ${cats.map(c => { const parts=c.split(' '); const ico=parts[parts.length-1]; const lbl=parts.slice(0,-1).join(' ');
+       return `<button class="card" data-c="${esc(c)}"><span class="ico">${ico}</span><span class="lbl">${esc(lbl)}</span></button>`; }).join('')}
+     <button class="card" id="all"><span class="ico">🌈</span><span class="lbl">ყველა</span></button>
+   </div>`);
+  $('#back').onclick = renderMenu;
+  document.querySelectorAll('[data-c]').forEach(b => b.onclick = () => startWords(b.dataset.c));
+  $('#all').onclick = () => startWords(null);
 }

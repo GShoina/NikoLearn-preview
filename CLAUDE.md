@@ -34,6 +34,17 @@
 - Always clarify the larger goal and act by best practice. If an instruction conflicts with best
   practice, say so plainly and propose better — push back before building the wrong thing.
 
+## 4b. Who owns the decision (the owner is NON-TECHNICAL by choice)
+- The owner does NOT have the technical background to pick the best option, and trusts that the
+  agent has vastly more experience/capacity. So: **DO NOT hand technical decisions back.** Make the
+  best-practice call yourself, steering by the most effective path to the end goals, and execute.
+- For every recommendation, give the **business context in plain language** (what it does for
+  users / trust / cost / time-to-launch) — never raw technical jargon. Always tie it to the big picture.
+- Reserve owner input ONLY for genuine business / strategy / money / privacy forks (e.g. backend
+  yes/no, what to charge, what to launch first to whom). Even then, present a clear RECOMMENDATION
+  with business rationale and a default — not an open question. If the owner stays silent, proceed
+  with the recommended default.
+
 ## 5. Non-negotiable discipline (capability high, discipline absolute)
 - Safety ladder: read-only diagnose → staging → production. A current backup MUST exist before any
   risky change or anything that goes live. Never run a risky change on a live site without a
