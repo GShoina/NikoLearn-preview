@@ -1,5 +1,5 @@
 // NikoLearn service worker — offline-first app shell (HANDOFF §6 priority 5).
-const CACHE = 'nikolearn-v12';
+const CACHE = 'nikolearn-v13';
 const ASSETS = [
   './',
   './index.html',
@@ -8,6 +8,7 @@ const ASSETS = [
   './niko/data.js',
   './niko/core.js',
   './niko/tutor.js',
+  './niko/audio-manifest.js',
   './niko/audio.js',
   './niko/screens.js',
   './niko/games.js',
@@ -25,5 +26,13 @@ self.addEventListener('activate', e => {
 });
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
+  // Audio clips: cache on first play so they work offline afterwards (not precached: keeps install light + robust).
+  if (e.request.url.includes('/niko/audio/')) {
+    e.respondWith(caches.match(e.request).then(r => r || fetch(e.request).then(resp => {
+      if (resp && resp.ok) { const copy = resp.clone(); caches.open(CACHE).then(c => c.put(e.request, copy)); }
+      return resp;
+    }).catch(() => r)));
+    return;
+  }
   e.respondWith(caches.match(e.request).then(r => r || fetch(e.request).catch(() => caches.match('./index.html'))));
 });

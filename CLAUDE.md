@@ -69,3 +69,19 @@ single next action, then proceed. (Right now: the owner is providing his hand-de
 
 ## Output
 - Match the owner's language (Georgian by default). Exact file paths. Clear commits per step.
+
+## 7. Permission discipline (owner-locked) — default = GO
+Owner has pre-approved the whole plan. Execute reversible internal work and show the result. NEVER
+ask yes/no on it. Ask ONLY for: (a) customer-facing content/UI going live to the kids' app, (b)
+money/payment/spending, (c) irreversible deletion a backup cannot restore. Everything else is
+default-go: read/audit, refactor, build, cleanup, local/branch self-test, any reversible technical
+work. Replace "should I do A or B?" with a senior-owner decision plus the outcome. The only
+scheduled pause is the single backup-verified gate before the FIRST live customer-facing deploy;
+after that the agent owns subsequent reversible deploys.
+
+## 8. Writing style for human-facing text (NOT code)
+Applies to every string a human reads: in-app text, parent-dashboard messages, AI-tutor responses,
+all ka/en UI copy. Do NOT use the em dash. It is an AI-writing tell and breaks the warm,
+parent-trustworthy tone. Use instead: contrast = a new sentence or "but"/"მაგრამ"; pause = a period;
+"that is"/"ანუ"/"კერძოდ" = a colon; list separator = a comma. Code, technical comments, and file
+structure are exempt.

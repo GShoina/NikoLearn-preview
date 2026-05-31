@@ -6,7 +6,23 @@ cd → `...\AI_Projects\NikoLand`, runs `claude --dangerously-skip-permissions`,
 `CLAUDE.md` → which tells you to read THIS file first. If launched bare from home, the global
 Bivision router hijacks with a stale Apr-8 note — that already happened once. Always use the names.
 
-## ⛔ #1 ACTION — use the OWNER'S REAL DESIGN as the base (RESOLVED: files are here now)
+## ✅ #1 ACTION — DONE (2026-05-31): owner's REAL design is now the base, LIVE
+Commit `1res4t8` — repo's from-scratch rebuild REPLACED by the owner's hand-built design from
+`NIKO LEARN.zip`. `niko/styles.css` 6.8KB → **42.8KB**, all `niko/*.js` swapped to his richer
+modules, `niko/tweaks.js` added, `index.html` = his entry shell + PWA (manifest + SW registration)
+layered on, `sw.js` cache v11→v12. Verified locally (renders, login→welcome, 0 console errors) and
+LIVE (`https://gshoina.github.io/NikoLearn/` serving styles 42883b + tweaks.js 200).
+Rollback if needed: `git checkout pre-realdesign-swap-2026-05-31` (tag) or
+`C:\Users\gela.shonia\Downloads\_niko_repo_backup_2026-05-31\`.
+
+### ▶ NEXT ACTION (Step 2): feature-gap pass — compare his real `niko/*.js` against the clarified
+functional list below; layer in ONLY genuinely-missing items WITHOUT degrading his visuals. His
+design already has tutor/owl/parent/tweaks/alpha — verify, don't duplicate. Then re-test + redeploy.
+Open owner decision blocking full value: **Georgian audio** (see "Open decisions" below).
+
+---
+
+### (history) original #1 action — owner's real project in Downloads:
 The owner's real, polished project is in Downloads:
 - `C:\Users\gela.shonia\Downloads\NIKO LEARN.zip`  ← full project (unzip this)
 - `C:\Users\gela.shonia\Downloads\NikoLearn Phase 1.html` ← loose entry shell (same as in the zip)
