@@ -1,5 +1,5 @@
 // NikoLearn service worker — offline-first app shell (HANDOFF §6 priority 5).
-const CACHE = 'nikolearn-v19';
+const CACHE = 'nikolearn-v20';
 const ASSETS = [
   './',
   './index.html',
@@ -20,7 +20,12 @@ const ASSETS = [
   './favicon.svg'
 ];
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
+  // Force-fetch each asset fresh from network (bypass HTTP cache) so a cache-version
+  // bump always lands the latest files, even for returning visitors. Resilient: one
+  // failed asset does not abort the whole install.
+  e.waitUntil(caches.open(CACHE).then(c => Promise.all(
+    ASSETS.map(u => fetch(u, { cache: 'reload' }).then(resp => { if (resp && resp.ok) return c.put(u, resp); }).catch(() => {}))
+  )).then(() => self.skipWaiting()));
 });
 self.addEventListener('activate', e => {
   e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim()));
