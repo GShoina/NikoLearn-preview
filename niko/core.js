@@ -28,7 +28,7 @@ function blankKid(){return{shields:0,streak:0,maxStreak:0,words:{},sessions:0,ma
 function load(){
   let s=null;try{s=JSON.parse(localStorage.getItem(SK));}catch{}
   if(!s)return def();
-  if(!Array.isArray(s.kids))s.kids=[{id:'niko',name:'ნიკოლოზი',age:7,color:'sky'},{id:'masho',name:'მაშო',age:5,color:'sun'}];
+  if(!Array.isArray(s.kids))s.kids=[];
   if(s.onboarded===undefined)s.onboarded=true;
   s.kids.forEach(k=>{if(!s[k.id])s[k.id]=blankKid();});
   if(!s.guest)s.guest=blankKid();
@@ -36,8 +36,8 @@ function load(){
 }
 function def(){return{
   onboarded:false,
-  kids:[{id:'niko',name:'ნიკოლოზი',age:7,color:'sky'},{id:'masho',name:'მაშო',age:5,color:'sun'}],
-  niko:demoNiko(),masho:blankKid(),guest:blankKid()
+  kids:[],
+  guest:blankKid()
 };}
 function save(){localStorage.setItem(SK,JSON.stringify(state));}
 const AV_COLORS=['sky','primary','green','sun','purple'];
