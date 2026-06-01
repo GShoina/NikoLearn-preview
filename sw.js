@@ -1,8 +1,9 @@
 // NikoLearn service worker — offline-first app shell (HANDOFF §6 priority 5).
-const CACHE = 'nikolearn-v15';
+const CACHE = 'nikolearn-v16';
 const ASSETS = [
   './',
   './index.html',
+  './landing.html',
   './manifest.json',
   './niko/styles.css',
   './niko/data.js',

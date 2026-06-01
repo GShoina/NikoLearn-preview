@@ -44,6 +44,9 @@ function goHome(){
 /* ── landing page (real marketing landing: what + why; desktop + mobile) ── */
 function enterApp(){ if(state&&state.authed) return goHome(); showLogin(); }
 function landing(){
+  // owner's standalone landing (Downloads v4) is deployed as landing.html
+  try{sessionStorage.removeItem('niko_enter');}catch(e){}
+  location.href='landing.html'; return;
   render(`<div class="screen landing">
     <div class="lp-hero">
       <div class="sun-badge lp-badge">${I.sun}</div>
@@ -78,7 +81,15 @@ function landing(){
 }
 
 /* ── auth gate (simple shared password) ── */
-function boot(){ if(!state.authed) return landing(); goHome(); }
+function boot(){
+  var enter=false;
+  try{ enter=(new URLSearchParams(location.search).get('app')==='1')||sessionStorage.getItem('niko_enter')==='1'; }catch(e){}
+  if(!state.authed){
+    if(enter){ try{sessionStorage.setItem('niko_enter','1');}catch(e){} return showLogin(); }
+    location.href='landing.html'; return;   // first stop = owner's landing page
+  }
+  goHome();
+}
 function showLogin(){
   render(`<div class="screen home" style="gap:18px;justify-content:center">
     <button class="iconbtn" style="position:absolute;top:16px;left:16px;z-index:5" onclick="landing()" aria-label="უკან landing გვერდზე">←</button>
