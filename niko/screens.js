@@ -85,7 +85,7 @@ function boot(){
   var enter=false;
   try{ enter=(new URLSearchParams(location.search).get('app')==='1')||sessionStorage.getItem('niko_enter')==='1'; }catch(e){}
   if(!state.authed){
-    if(enter){ try{sessionStorage.setItem('niko_enter','1');}catch(e){} return showLogin(); }
+    if(enter){ try{sessionStorage.setItem('niko_enter','1');}catch(e){} state.authed=true; save(); return goHome(); }
     location.href='landing.html'; return;   // first stop = owner's landing page
   }
   goHome();
