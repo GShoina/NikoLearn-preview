@@ -735,7 +735,7 @@ h1,h2,h3{font-weight:800;line-height:1.08;letter-spacing:-0.02em;text-wrap:balan
   box-shadow:var(--shadow);position:relative;overflow:hidden;display:flex;flex-direction:column;gap:10px;
   transition:transform .25s var(--ease),box-shadow .25s,border-color .25s;
 }
-.feat:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+@media (hover:hover) and (pointer:fine){.feat:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}}
 .feat .fic{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;font-size:1.8rem;
   box-shadow:var(--shadow);flex:none}
 .feat .fhead{display:flex;align-items:center;gap:14px}
@@ -857,7 +857,7 @@ h1,h2,h3{font-weight:800;line-height:1.08;letter-spacing:-0.02em;text-wrap:balan
   background:linear-gradient(120deg,color-mix(in oklch,var(--sky) 12%,var(--card)),color-mix(in oklch,var(--purple) 9%,var(--card)));
   border:1.5px solid color-mix(in oklch,var(--sky) 24%,var(--line));box-shadow:var(--shadow);
   transition:transform .2s var(--ease),box-shadow .2s,border-color .2s}
-.curriculum:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:color-mix(in oklch,var(--sky) 42%,var(--line))}
+@media (hover:hover) and (pointer:fine){.curriculum:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:color-mix(in oklch,var(--sky) 42%,var(--line))}}
 .cur-ic{width:46px;height:46px;flex:none;border-radius:13px;display:grid;place-items:center;color:var(--sky-d);
   background:color-mix(in oklch,var(--sky) 16%,var(--card))}
 .cur-ic svg{width:24px;height:24px}
@@ -909,7 +909,7 @@ h1,h2,h3{font-weight:800;line-height:1.08;letter-spacing:-0.02em;text-wrap:balan
 .fb-item{display:flex;flex-direction:column;gap:9px;
   padding:15px 17px;border-radius:16px;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);
   transition:transform .2s var(--ease),box-shadow .2s}
-.fb-item:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+@media (hover:hover) and (pointer:fine){.fb-item:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}}
 .fb-head{display:flex;align-items:center;gap:12px}
 .fb-item .info-ic{width:40px;height:40px;border-radius:12px;flex:none}
 .fb-item .info-ic svg{width:21px;height:21px}
