@@ -3,13 +3,10 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.6';
 function goHome(){
   profile=null;state=load();
-  if(!state.onboarded){state.onboarded=true;save();} // landing already explains the app — skip the duplicate welcome
-  const kids=state.kids||[];
-  const isNew=kids.length===0;
-  const cards=kids.map(k=>{
+  if(!state.onboarded)return welcome();
+  const cards=state.kids.map(k=>{
     const p=k.id,s=state[p],lv=levelOf(p),init=(k.name||'?')[0];
     const meta=s.shields>0?`<div class="pmeta"><span>${I.shield}</span> ${s.shields} · ${lv.ic} ${lv.name}</div>`
       :`<div class="pmeta">დაიწყე →</div>`;
@@ -23,13 +20,13 @@ function goHome(){
   }).join('');
   const addCard=`<div class="pcard add" onclick="addChild()">
       <div class="avatar add-av">＋</div>
-      <div class="pname"${isNew?'':' style="color:var(--muted)"'}>${isNew?'შექმენი ბავშვის პროფილი':'დაამატე ბავშვი'}</div>
+      <div class="pname" style="color:var(--muted)">დაამატე ბავშვი</div>
     </div>`;
   render(`<div class="screen home">
     <div class="brand brand-btn" onclick="landing()" title="landing გვერდი">
       <div class="sun-badge">${I.sun}</div>
       <div class="mark">NikoLearn</div>
-      <div class="tag">${isNew?'მოგესალმები 👋 — შექმენი ბავშვის პროფილი დასაწყებად':'ვინ თამაშობს?'}</div>
+      <div class="tag">ისწავლე თამაშით · ℹ️ აპის შესახებ</div>
     </div>
     <div class="profile-grid">
       ${cards}
@@ -41,7 +38,6 @@ function goHome(){
       </div>
     </div>
     <div class="trustline">${I.privacy} მონაცემები ამ მოწყობილობაზე რჩება</div>
-    <div style="margin-top:14px;font-size:.78rem;color:var(--muted);text-align:center">NikoLearn v${APP_VERSION} · <a href="https://wa.me/995593255385?text=NikoLearn%20feedback" target="_blank" rel="noopener" style="color:var(--primary-d);font-weight:600;text-decoration:none">დაგვიკავშირდი 💬</a> · <a href="mailto:gela.shonia@bivision.ge?subject=NikoLearn%20feedback" style="color:var(--muted);text-decoration:none">✉️</a></div>
   </div>`,false);
 }
 
@@ -86,11 +82,10 @@ function landing(){
 
 /* ── auth gate (simple shared password) ── */
 function boot(){
-  try{ if(new URLSearchParams(location.search).get('admin')==='1') return adminGate(); }catch(e){}
   var enter=false;
   try{ enter=(new URLSearchParams(location.search).get('app')==='1')||sessionStorage.getItem('niko_enter')==='1'; }catch(e){}
   if(!state.authed){
-    if(enter){ try{sessionStorage.setItem('niko_enter','1');}catch(e){} state.authed=true; save(); return goHome(); }
+    if(enter){ try{sessionStorage.setItem('niko_enter','1');}catch(e){} return showLogin(); }
     location.href='landing.html'; return;   // first stop = owner's landing page
   }
   goHome();
@@ -122,40 +117,6 @@ function doLogin(){
   const inp=$('#lg-pass'); if(inp){ inp.classList.add('shake'); inp.value=''; inp.focus(); setTimeout(()=>inp.classList.remove('shake'),420); }
 }
 function logout(){ state.authed=false; save(); showLogin(); }
-
-/* ── admin (owner only): version + insights. URL: ?admin=1 ── */
-function adminGate(){
-  // remember the unlock on this device so the owner does not retype the code every load
-  var ok=false; try{ok=localStorage.getItem('niko_admin')==='1';}catch(e){}
-  if(!ok){
-    const code=prompt('ადმინ კოდი:');
-    if(code!=='niko-admin'){ location.href='index.html?app=1'; return; }
-    try{localStorage.setItem('niko_admin','1');}catch(e){}
-  }
-  adminView();
-}
-function adminLogout(){ try{localStorage.removeItem('niko_admin');}catch(e){} location.href='index.html?app=1'; }
-function adminView(){
-  state=load();
-  const kids=state.kids||[];
-  const sessions=kids.reduce((a,k)=>a+(((state[k.id]||{}).sessions)||0),0);
-  render(`<div class="screen home" style="gap:16px;justify-content:flex-start">
-    <div class="brand" style="margin-top:8px">
-      <div class="sun-badge" style="width:64px;height:64px">${I.sun}</div>
-      <div class="mark">NikoLearn · Admin</div>
-      <div class="tag">ვერსია v${APP_VERSION}</div>
-    </div>
-    <div class="perm-points" style="max-width:360px;margin:0 auto;text-align:left">
-      <div class="perm-point">${I.check} ვერსია: <b>v${APP_VERSION}</b> (deploy-ის შესამოწმებლად)</div>
-      <div class="perm-point">${I.check} პროფილები <b>ამ ბრაუზერში</b>: <b>${kids.length}</b></div>
-      <div class="perm-point">${I.check} სესიები <b>ამ ბრაუზერში</b>: <b>${sessions}</b></div>
-      <div class="perm-point">ℹ️ ეს რიცხვები მხოლოდ <b>ამ მოწყობილობას/ბრაუზერს</b> ეხება. მონაცემი თითო მოწყობილობაზე რჩება (privacy), ამიტომ აქ სხვა ტელეფონის რეგისტრაცია ვერ გამოჩნდება.</div>
-      <div class="perm-point">📊 <b>ყველა მოწყობილობის</b> ჯამური რეგისტრაცია → <a href="https://analytics.google.com/" target="_blank" rel="noopener" style="color:var(--primary-d);font-weight:600">GA4 → Realtime / Events</a> (event: <b>sign_up</b>).</div>
-    </div>
-    <button class="btn btn-primary btn-block" style="max-width:360px" onclick="location.href='index.html?app=1'">← აპში დაბრუნება</button>
-    <button class="btn btn-ghost btn-block" style="max-width:360px;margin-top:8px" onclick="adminLogout()">ადმინიდან გასვლა (კოდის თავიდან შეყვანა)</button>
-  </div>`,false);
-}
 
 /* ── onboarding ── */
 function welcome(){
@@ -230,9 +191,6 @@ function renderAddChild(){
     <div class="lvl-hint" style="margin:6px 2px">🔊 გახმოვანება და ახსნა ამ ენებზე. ინგლისურს მაინც ისწავლის თამაშით.</div>
     <div class="section-label mt">ფერი</div>
     <div class="color-row">${AV_COLORS.map(c=>`<button class="color-dot a-${c} ${draft.color===c?'on':''}" onclick="draft.color='${c}';renderAddChild()"></button>`).join('')}</div>
-    <div class="section-label mt">მშობლის ტელეფონი (არასავალდებულო)</div>
-    <input class="spell-input" id="kid-phone" type="tel" inputmode="tel" style="text-align:left;letter-spacing:0" placeholder="თუ გსურს დაგიკავშირდეთ" value="${draft.phone||''}" oninput="draft.phone=this.value">
-    <div class="lvl-hint" style="margin:6px 2px">📞 ნებაყოფლობითი — მხოლოდ თუ შეავსებ, დახმარებისთვის დაგიკავშირდებით.</div>
     <div class="spacer"></div>
     <button class="btn btn-primary btn-block mt" onclick="createChild()">შექმენი პროფილი</button>
   </div>`,false);
@@ -244,15 +202,7 @@ function createChild(){
   const id='k'+Date.now();
   state.kids.push({id,name,age:draft.age,color:draft.color,langs:(draft.langs&&draft.langs.length?draft.langs:['ka'])});
   state[id]=blankKid();save();
-  try{gtag('event','sign_up',{method:'profile'});}catch(e){}
-  const phone=(draft.phone||'').trim();
-  if(phone){ try{submitLead(name,draft.age,phone);}catch(e){} }
   selectProfile(id);
-}
-// opt-in lead capture -> owner's Google Form/Sheet (only fires if parent entered a phone)
-function submitLead(name,age,phone){
-  const b=new URLSearchParams({name:(name||'')+' ('+age+'წ)', phone:phone||'', source:'NikoLearn'});
-  fetch('https://script.google.com/macros/s/AKfycbxcfEjEWFSQlU_NCBJ7cB4VwZrel-Thl-NYdND5p4dKSWQj_ZvrhnpxDfSBzHD2ndfx/exec',{method:'POST',mode:'no-cors',body:b}).catch(()=>{});
 }
 function topbarPlain(title,back){
   return `<div class="topbar"><button class="iconbtn" onclick="${back}">←</button><div class="who">${title}</div></div>`;
