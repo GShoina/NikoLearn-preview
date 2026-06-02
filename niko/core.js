@@ -29,6 +29,9 @@ function load(){
   let s=null;try{s=JSON.parse(localStorage.getItem(SK));}catch{}
   if(!s)return def();
   if(!Array.isArray(s.kids))s.kids=[];
+  // one-time cleanup: drop legacy seeded demo profiles so each parent sees only their own
+  // (seed used ids 'niko'/'masho'; real profiles use 'k'+timestamp)
+  s.kids=s.kids.filter(k=>k.id!=='niko'&&k.id!=='masho'); delete s.niko; delete s.masho;
   if(s.onboarded===undefined)s.onboarded=true;
   s.kids.forEach(k=>{if(!s[k.id])s[k.id]=blankKid();});
   if(!s.guest)s.guest=blankKid();
