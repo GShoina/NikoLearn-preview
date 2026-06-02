@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.2';
+const APP_VERSION='1.3';
 function goHome(){
   profile=null;state=load();
   if(!state.onboarded){state.onboarded=true;save();} // landing already explains the app — skip the duplicate welcome
@@ -233,6 +233,7 @@ function createChild(){
   const id='k'+Date.now();
   state.kids.push({id,name,age:draft.age,color:draft.color,langs:(draft.langs&&draft.langs.length?draft.langs:['ka'])});
   state[id]=blankKid();save();
+  try{gtag('event','sign_up',{method:'profile'});}catch(e){}
   selectProfile(id);
 }
 function topbarPlain(title,back){
