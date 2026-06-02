@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.3';
+const APP_VERSION='1.4';
 function goHome(){
   profile=null;state=load();
   if(!state.onboarded){state.onboarded=true;save();} // landing already explains the app — skip the duplicate welcome
@@ -222,6 +222,9 @@ function renderAddChild(){
     <div class="lvl-hint" style="margin:6px 2px">🔊 გახმოვანება და ახსნა ამ ენებზე. ინგლისურს მაინც ისწავლის თამაშით.</div>
     <div class="section-label mt">ფერი</div>
     <div class="color-row">${AV_COLORS.map(c=>`<button class="color-dot a-${c} ${draft.color===c?'on':''}" onclick="draft.color='${c}';renderAddChild()"></button>`).join('')}</div>
+    <div class="section-label mt">მშობლის ტელეფონი (არასავალდებულო)</div>
+    <input class="spell-input" id="kid-phone" type="tel" inputmode="tel" style="text-align:left;letter-spacing:0" placeholder="თუ გსურს დაგიკავშირდეთ" value="${draft.phone||''}" oninput="draft.phone=this.value">
+    <div class="lvl-hint" style="margin:6px 2px">📞 ნებაყოფლობითი — მხოლოდ თუ შეავსებ, დახმარებისთვის დაგიკავშირდებით.</div>
     <div class="spacer"></div>
     <button class="btn btn-primary btn-block mt" onclick="createChild()">შექმენი პროფილი</button>
   </div>`,false);
@@ -234,7 +237,16 @@ function createChild(){
   state.kids.push({id,name,age:draft.age,color:draft.color,langs:(draft.langs&&draft.langs.length?draft.langs:['ka'])});
   state[id]=blankKid();save();
   try{gtag('event','sign_up',{method:'profile'});}catch(e){}
+  const phone=(draft.phone||'').trim();
+  if(phone){ try{submitLead(name,draft.age,phone);}catch(e){} }
   selectProfile(id);
+}
+// opt-in lead capture -> owner's Google Form/Sheet (only fires if parent entered a phone)
+function submitLead(name,age,phone){
+  const fd=new FormData();
+  fd.append('entry.2005620554', (name||'')+' ('+age+'წ)');
+  fd.append('entry.1166974658', phone);
+  fetch('https://docs.google.com/forms/d/e/1FAIpQLSfn4uD2xhTeigRBekDpBUzzm7hbAkx1brLkaNLai0wO27daiw/formResponse',{method:'POST',mode:'no-cors',body:fd}).catch(()=>{});
 }
 function topbarPlain(title,back){
   return `<div class="topbar"><button class="iconbtn" onclick="${back}">←</button><div class="who">${title}</div></div>`;
