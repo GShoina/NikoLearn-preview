@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.4';
+const APP_VERSION='1.5';
 function goHome(){
   profile=null;state=load();
   if(!state.onboarded){state.onboarded=true;save();} // landing already explains the app — skip the duplicate welcome
@@ -243,10 +243,8 @@ function createChild(){
 }
 // opt-in lead capture -> owner's Google Form/Sheet (only fires if parent entered a phone)
 function submitLead(name,age,phone){
-  const fd=new FormData();
-  fd.append('entry.2005620554', (name||'')+' ('+age+'წ)');
-  fd.append('entry.1166974658', phone);
-  fetch('https://docs.google.com/forms/d/e/1FAIpQLSfn4uD2xhTeigRBekDpBUzzm7hbAkx1brLkaNLai0wO27daiw/formResponse',{method:'POST',mode:'no-cors',body:fd}).catch(()=>{});
+  const b=new URLSearchParams({name:(name||'')+' ('+age+'წ)', phone:phone||'', source:'NikoLearn'});
+  fetch('https://script.google.com/macros/s/AKfycbxcfEjEWFSQlU_NCBJ7cB4VwZrel-Thl-NYdND5p4dKSWQj_ZvrhnpxDfSBzHD2ndfx/exec',{method:'POST',mode:'no-cors',body:b}).catch(()=>{});
 }
 function topbarPlain(title,back){
   return `<div class="topbar"><button class="iconbtn" onclick="${back}">←</button><div class="who">${title}</div></div>`;
