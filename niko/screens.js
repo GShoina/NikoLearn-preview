@@ -3,10 +3,13 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
+const APP_VERSION='1.0';
 function goHome(){
   profile=null;state=load();
-  if(!state.onboarded)return welcome();
-  const cards=state.kids.map(k=>{
+  if(!state.onboarded){state.onboarded=true;save();} // landing already explains the app — skip the duplicate welcome
+  const kids=state.kids||[];
+  const isNew=kids.length===0;
+  const cards=kids.map(k=>{
     const p=k.id,s=state[p],lv=levelOf(p),init=(k.name||'?')[0];
     const meta=s.shields>0?`<div class="pmeta"><span>${I.shield}</span> ${s.shields} · ${lv.ic} ${lv.name}</div>`
       :`<div class="pmeta">დაიწყე →</div>`;
@@ -20,13 +23,13 @@ function goHome(){
   }).join('');
   const addCard=`<div class="pcard add" onclick="addChild()">
       <div class="avatar add-av">＋</div>
-      <div class="pname" style="color:var(--muted)">დაამატე ბავშვი</div>
+      <div class="pname"${isNew?'':' style="color:var(--muted)"'}>${isNew?'შექმენი ბავშვის პროფილი':'დაამატე ბავშვი'}</div>
     </div>`;
   render(`<div class="screen home">
     <div class="brand brand-btn" onclick="landing()" title="landing გვერდი">
       <div class="sun-badge">${I.sun}</div>
       <div class="mark">NikoLearn</div>
-      <div class="tag">ისწავლე თამაშით · ℹ️ აპის შესახებ</div>
+      <div class="tag">${isNew?'მოგესალმები 👋 — შექმენი ბავშვის პროფილი დასაწყებად':'ვინ თამაშობს?'}</div>
     </div>
     <div class="profile-grid">
       ${cards}
@@ -38,6 +41,7 @@ function goHome(){
       </div>
     </div>
     <div class="trustline">${I.privacy} მონაცემები ამ მოწყობილობაზე რჩება</div>
+    <div style="margin-top:14px;font-size:.78rem;color:var(--muted);text-align:center">NikoLearn v${APP_VERSION} · <a href="mailto:info@bivision.ge?subject=NikoLearn%20feedback" style="color:var(--primary-d);font-weight:600;text-decoration:none">უკუკავშირი ✉️</a></div>
   </div>`,false);
 }
 
@@ -82,6 +86,7 @@ function landing(){
 
 /* ── auth gate (simple shared password) ── */
 function boot(){
+  try{ if(new URLSearchParams(location.search).get('admin')==='1') return adminGate(); }catch(e){}
   var enter=false;
   try{ enter=(new URLSearchParams(location.search).get('app')==='1')||sessionStorage.getItem('niko_enter')==='1'; }catch(e){}
   if(!state.authed){
@@ -117,6 +122,32 @@ function doLogin(){
   const inp=$('#lg-pass'); if(inp){ inp.classList.add('shake'); inp.value=''; inp.focus(); setTimeout(()=>inp.classList.remove('shake'),420); }
 }
 function logout(){ state.authed=false; save(); showLogin(); }
+
+/* ── admin (owner only): version + insights. URL: ?admin=1 ── */
+function adminGate(){
+  const code=prompt('ადმინ კოდი:');
+  if(code!=='niko-admin'){ location.href='index.html?app=1'; return; }
+  adminView();
+}
+function adminView(){
+  state=load();
+  const kids=state.kids||[];
+  const sessions=kids.reduce((a,k)=>a+(((state[k.id]||{}).sessions)||0),0);
+  render(`<div class="screen home" style="gap:16px;justify-content:flex-start">
+    <div class="brand" style="margin-top:8px">
+      <div class="sun-badge" style="width:64px;height:64px">${I.sun}</div>
+      <div class="mark">NikoLearn · Admin</div>
+      <div class="tag">ვერსია v${APP_VERSION}</div>
+    </div>
+    <div class="perm-points" style="max-width:360px;margin:0 auto;text-align:left">
+      <div class="perm-point">${I.check} ვერსია: <b>v${APP_VERSION}</b> (deploy-ის შესამოწმებლად)</div>
+      <div class="perm-point">${I.check} პროფილები ამ მოწყობილობაზე: <b>${kids.length}</b></div>
+      <div class="perm-point">${I.check} სესიები ამ მოწყობილობაზე: <b>${sessions}</b></div>
+      <div class="perm-point">⚠️ <b>ყველა მომხმარებლის</b> რეგისტრაცია/ინსაიტი (ყველა მოწყობილობა) მხოლოდ GA4-ში ჩანს — საჭიროა GA4 Measurement ID (მონაცემები მოწყობილობაზე რჩება, ამიტომ ცენტრალური დათვლა ანალიტიკას სჭირდება).</div>
+    </div>
+    <button class="btn btn-primary btn-block" style="max-width:360px" onclick="location.href='index.html?app=1'">← აპში დაბრუნება</button>
+  </div>`,false);
+}
 
 /* ── onboarding ── */
 function welcome(){
