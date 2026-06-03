@@ -1,5 +1,5 @@
 # NikoLearn — Session Handoff
-**Updated: 2026-06-02 23:34 | Resume pointer: full MVP loop is LIVE (lean site + entry flow + GA4 + lead capture to owner's Sheet, all verified). Waiting on owner post-clear actions + pilot prep.**
+**Updated: 2026-06-03 ~22:52 | Resume pointer: landing + admin polished and live at v2.0; GA4 live-metrics proxy is CODED but NOT deployed — it waits on ONE owner step (`clasp login`). Do that first on resume, or take a new request from live diagnosis.**
 
 ## ▶ How to resume (LAUNCH BY NAME)
 Fresh PowerShell → type **`NikoLearn`** or **`NikoLand`** → loads repo `CLAUDE.md` → read THIS file first.
@@ -7,36 +7,38 @@ Standalone project. Do NOT load any Bivision identity.
 
 ## Live / repo facts
 - **Live:** https://gshoina.github.io/NikoLearn/  (⚠️ CASE-SENSITIVE: capital N and L. lowercase = 404.)
-- **Repo:** github.com/GShoina/NikoLearn · branch `main` · last commit `224b14a`.
-- **App version scheme:** `APP_VERSION` in `niko/screens.js` + landing footer (`· vX.Y`). **Bump +0.1 every deploy** (currently **v1.5**) — this is the owner's deploy-monitoring signal (he checks the footer to confirm a deploy landed).
-- **Service worker:** `sw.js` — robust install (`fetch(..,{cache:'reload'})`) so version bumps reliably reach returning visitors. **Bump `CACHE` const every deploy** (currently `nikolearn-v30`).
-- **Admin view:** `index.html?admin=1` → prompt code **`niko-admin`** → version + local stats + GA4 note.
+  - Landing (marketing): `/landing.html`. App: `/index.html` (root redirects fresh visitors to landing).
+- **Repo:** github.com/GShoina/NikoLearn · branch `main` · last commit `a6a1182`.
+- **App version:** `APP_VERSION` in `niko/screens.js` + landing footer (`· vX.Y`). Currently **v2.0**. Bump +0.1 every deploy (owner's deploy-landed signal — he checks the footer).
+- **Service worker:** `sw.js` — bump `CACHE` const every deploy (currently **nikolearn-v35**).
+- **Admin view:** `index.html?admin=1` → code **`niko-admin`** (remembered per device in `localStorage.niko_admin`).
+  - **NEW re-entry:** tap the **version number `v2.0` in the landing footer** → opens `?admin=1` (no more hand-typing the URL).
 
 ## Integrations (owner-provided, wired + verified)
-- **GA4:** Measurement ID **G-WMVHNYSZ3P** (account 396601949 / property 539978869). gtag in app + landing `<head>`; events: `page_view` (auto) + `sign_up` (on createChild). Owner sees counts in GA4 → Realtime / Events.
-- **Lead capture → owner's Google Sheet:** registration optional phone → POST to **Apps Script web app** `https://script.google.com/macros/s/AKfycbxcfEjEWFSQlU_NCBJ7cB4VwZrel-Thl-NYdND5p4dKSWQj_ZvrhnpxDfSBzHD2ndfx/exec` → appends to Sheet `1PYAVFlLBVhj9rKORKw0ZC3j0yjpYZ1mlwr1pgeMroFA` tab **"Leads"** (Timestamp,Name,Phone,Source). VERIFIED end-to-end (real live row landed). `submitLead()` in screens.js, no-cors POST.
-  - NOTE: the Google **Form** approach was abandoned — Google blocks cross-origin programmatic POST (400 + per-load token). Apps Script replaced it.
+- **GA4:** Measurement ID **G-WMVHNYSZ3P** · account **396601949** · property **539978869**. Events: `page_view` + `sign_up`.
+- **Lead capture → Google Sheet:** Apps Script web app (`APPS_SCRIPT_EXEC`) appends to Sheet `1PYAVFlLBVhj9rKORKw0ZC3j0yjpYZ1mlwr1pgeMroFA` tab "Leads". VERIFIED end-to-end.
+- **Secrets:** `NikoLand/.env` (gitignored via `.env*` — confirmed never committed). Holds `GOOGLE_EMAIL` (owner's personal Google account that owns the GA4 property) + password, GA4 IDs, sheet/script URLs. `GA4_METRICS_EXEC=__PENDING_DEPLOY__` (fill after deploy). Do NOT echo the personal email into this public-repo file.
 - **Feedback:** footer WhatsApp `wa.me/995593255385` + email `gela.shonia@bivision.ge`.
 
-## ✅ Completed this session (2026-06-02) — all pushed + live-verified
-1. **Mobile layout fixes:** killed horizontal overflow (cut-off trust/benefits band), hero trust band spacing + stray dividers, footer tap targets, nav hamburger overflow. Verified 360/390/461/900/1280, overflow 0.
-2. **Card restructure (icon+title one row, desc below):** parents band (.fb-head), bento (.fhead ×6), steps (.shead ×3). All 3 "designer changes" present.
-3. **Lean re-architecture:** 1.5MB single bundle → modular `landing.html` (~31KB) + `assets/landing.css` (~64KB) + `assets/landing.js` (~9KB) + `assets/fonts/*.woff2` (self-hosted, 10 files). Dropped React+ReactDOM+Babel+tweaks (editor-only, ~1.4MB). Extracted from bundle's manifest/template via PowerShell. Pixel-verified. Backup of old bundle: `landing.html.bundle-bak` (local) + git history.
-4. **Funnel fix:** "დაიწყე უფასოდ" no longer dead-ends on an unguessable PIN login → app entry direct.
-5. **New users start empty** (removed seeded niko/masho demo profiles from `def()`); **migration** in `load()` strips legacy `id==='niko'|'masho'` so existing/polluted devices also see only their own kids. Verified.
-6. **Entry flow:** removed redundant "welcome" interstitial; clear new (register) vs returning (select); version + feedback footer.
-7. **Admin** (?admin=1) + **GA4** + **WhatsApp/email feedback** + **lead capture** (above).
-8. **emil-design-eng skill** installed (`~/.agents/skills`) + applied: guarded card hover-lift behind `@media (hover:hover)` (touch fix).
+## ✅ Completed this session (2026-06-03) — all pushed + live-verified
+1. **Admin re-entry fixed** (v1.7): tap footer `vX.Y` → `?admin=1`. Root cause was discoverability, not a code bug (unlock persists in localStorage).
+2. **Admin GA4 link fixed** (v1.7): was generic `analytics.google.com` (opened the default/bivision account) → now deep-links to **NikoLearn property** `#/p539978869/realtime/overview`.
+3. **Admin redesigned to an owner console** (v1.7): device stats + 📊 GA4 button + 📇 Leads-Sheet button + privacy note. **Child-safety decision: phone numbers (PII) are NEVER pulled into the public app** — they live only behind the owner's Google login. Hold this line.
+4. **Mobile trims via `.hide-mobile` utility** (`@media max-width:620px{display:none}`): hidden on mobile = marquee, rewards section, "ეროვნული სასწავლო პროგრამა" curriculum badge, hero trust-band. (v1.7 / v1.8 / v1.9)
+5. **Landing copy** (v1.8, both viewports): hero = "ბავშვი **სწავლობს** და **ვითარდება**, თამაშით" (both words in `.hl` span); "ყველაფერი რაც **გჭირდება**"; "გაიცანი **ნიკო ბუ**, რომელიც **გელაპარაკება**".
+6. **Mobile hero order fix** (v2.0): `assets/landing.css` `@media max-width:900px` `.hero-visual{order:-1→order:1}` so the title/CTA come first and the phone mockup second. (The phone's subject cards were what looked like a "სასწავლო პროგრამა" section appearing first.)
+7. **GA4 live-metrics proxy — CODED, not deployed.** `apps-script/ga4-metrics/Code.gs` + `appsscript.json` (reads aggregate GA4 counts only, NO PII, via the deploying user's own OAuth — no service account, no billing). Admin tiles scaffold `loadGA4Metrics()` + `const GA4_METRICS_URL=''` in `niko/screens.js` (shows "მალე ჩაირთვება" until URL set). `clasp` 3.3.0 installed globally.
 
 ## ⚠️ Open / in flight
-- **Owner actions (post-clear):** (1) **CHANGE Google password** — it was shared in chat + used in the automation browser (not saved by agent). (2) **Delete 3 test rows** from Sheet "Leads" (APPSCRIPT-TEST, ლაივ-ტესტი, DIRECT-TEST). (3) optional: rename Apps Script project "Untitled project" → "NikoLearn Leads". (4) verify GA4 Realtime.
-- **Owner working agreements (durable):** agent may use **Playwright for Google-account tasks; owner provides 2FA codes when prompted**. Deploy without yes/yes (best-practice), bump version +0.1 each deploy, verify live, snapshot at clear.
-- **Optional polish not done (minor, owner's call):** transitions `ease`→`var(--ease)`; `.phone-dots i` `transition:all`→specific. Left as negligible.
-- **Pilot prep pending:** class pilot (20-25 kids, shared device) — `docs/MVP.md`, `PARENT-GUIDE.md`, `PILOT-SURVEY.md` already in repo.
-- **Housekeeping (this machine only, ignore):** local servers on ports 8765/8788/8799 + a keep-awake PowerShell job were started; harmless, die with session.
+- **OWNER — the one gate to finish GA4 tiles:** run in terminal →
+  `! clasp login --extra-scopes https://www.googleapis.com/auth/analytics.readonly`
+  and **log in as the personal Google account in `.env` (`GOOGLE_EMAIL`)** — the GA4 property owner; NOT gela.shonia@bivision.ge, which is what gcloud is authed as and which can't read this property.
+- **AGENT — after that login:** `cd apps-script/ga4-metrics` → `clasp create-script --type webapp --title "NikoLearn GA4 Metrics"` → `clasp push -f` → `clasp create-deployment` → take the `/exec` URL → if it returns an auth error, owner does one "authorize" click → set `GA4_METRICS_URL` in `niko/screens.js` + `GA4_METRICS_EXEC` in `.env` → bump version + sw cache → commit + push + live-verify the 4 tiles (users/signups today + 7d).
+- **DROPPED (owner said not worth it):** the prior handoff's 3 post-clear chores (delete test rows / rename Apps Script / change Google password — owner: password use is fine, will not change).
+- **Pilot prep still pending:** class pilot (20-25 kids, shared device); `docs/MVP.md`, `PARENT-GUIDE.md`, `PILOT-SURVEY.md` in repo.
 
 ## ▶ Next action on resume (single first move)
-Ask owner: did the friend's re-test show only their own profiles, and is the lead capture/GA flow good? If yes → move to **pilot prep** (finalize PARENT-GUIDE + survey, plan the 1-class week). If a new request → handle from live diagnosis.
+Ask the owner: did you run `clasp login` as the personal Google account (`.env` `GOOGLE_EMAIL`)? **If yes** → deploy the GA4 proxy and finish the live admin tiles (steps above). **If no / new request** → handle from live diagnosis.
 
 ## Operating agreement (authoritative: repo `CLAUDE.md`)
-Standalone (no Bivision identity) · owner NON-technical → make best-practice call, explain in business language, execute, no yes/yes pauses, `--dangerously-skip-permissions` · CHALLENGE the owner · self-test every change · subsequent reversible deploys agent-owned · em dash forbidden in human-facing text · Georgian by default.
+Standalone (no Bivision identity) · owner NON-technical → make the best-practice call, explain in business language, execute, no yes/yes pauses, `--dangerously-skip-permissions` · CHALLENGE the owner · self-test + live-verify every deploy · bump version +0.1 + sw cache each deploy · em dash forbidden in human-facing text · Georgian by default · child-safety/PII line absolute (no PII in the public app).
