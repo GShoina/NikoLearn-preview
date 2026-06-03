@@ -3,7 +3,9 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.7';
+const APP_VERSION='1.8';
+/* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
+const GA4_METRICS_URL='';
 function goHome(){
   profile=null;state=load();
   if(!state.onboarded){state.onboarded=true;save();} // landing already explains the app — skip the duplicate welcome
@@ -149,14 +151,35 @@ function adminView(){
       <div class="perm-point">${I.check} ვერსია: <b>v${APP_VERSION}</b> (deploy-ის შესამოწმებლად)</div>
       <div class="perm-point">${I.check} პროფილები <b>ამ ბრაუზერში</b>: <b>${kids.length}</b></div>
       <div class="perm-point">${I.check} სესიები <b>ამ ბრაუზერში</b>: <b>${sessions}</b></div>
-      <div class="perm-point">ℹ️ ეს რიცხვები მხოლოდ <b>ამ მოწყობილობას</b> ეხება. ნამდვილ, ყველა მოწყობილობის მონაცემს ქვემოთ ღილაკებზე ნახავ.</div>
+      <div class="perm-point">ℹ️ ეს რიცხვები მხოლოდ <b>ამ მოწყობილობას</b> ეხება. ყველა მოწყობილობის ნამდვილ რიცხვებს ქვემოთ ხედავ.</div>
     </div>
-    <button class="btn btn-primary btn-block" style="max-width:360px" onclick="window.open('https://analytics.google.com/analytics/web/#/p539978869/realtime/overview','_blank')">📊 GA4 — ვიზიტები და რეგისტრაციები</button>
+    <div id="ga4box" style="max-width:360px;margin:0 auto;width:100%"></div>
+    <button class="btn btn-primary btn-block" style="max-width:360px" onclick="window.open('https://analytics.google.com/analytics/web/#/p539978869/realtime/overview','_blank')">📊 GA4 — სრული რეპორტი</button>
     <button class="btn btn-primary btn-block" style="max-width:360px;margin-top:8px" onclick="window.open('https://docs.google.com/spreadsheets/d/1PYAVFlLBVhj9rKORKw0ZC3j0yjpYZ1mlwr1pgeMroFA/edit','_blank')">📇 ლიდები — სახელი და ტელეფონი</button>
     <div class="perm-point" style="max-width:360px;margin:10px auto 0;font-size:.76rem;opacity:.82">🔒 ტელეფონის ნომრები აპში არ ჩანს — ისინი მხოლოდ შენს Google-ში (დაცული, შესვლით) ჩანს. ბავშვების უსაფრთხოებისთვის public გვერდს არასდროს აქვს წვდომა PII-ზე.</div>
     <button class="btn btn-ghost btn-block" style="max-width:360px;margin-top:10px" onclick="location.href='index.html?app=1'">← აპში დაბრუნება</button>
     <button class="btn btn-ghost btn-block" style="max-width:360px;margin-top:8px" onclick="adminLogout()">ადმინიდან გასვლა (კოდის თავიდან შეყვანა)</button>
   </div>`,false);
+  loadGA4Metrics();
+}
+/* fetch aggregate GA4 numbers from the Apps Script proxy and render the live tiles */
+function loadGA4Metrics(){
+  const box=$('#ga4box'); if(!box) return;
+  if(!GA4_METRICS_URL){
+    box.innerHTML='<div class="perm-point" style="opacity:.7;font-size:.8rem">📈 ცოცხალი GA4 რიცხვები მალე ჩაირთვება (proxy deploy მიმდინარეობს). მანამდე — „სრული რეპორტი" ღილაკი.</div>';
+    return;
+  }
+  box.innerHTML='<div class="perm-point" style="opacity:.7;font-size:.8rem">⏳ GA4 რიცხვები იტვირთება…</div>';
+  fetch(GA4_METRICS_URL,{cache:'no-store'}).then(r=>r.json()).then(d=>{
+    if(!d||!d.ok){ box.innerHTML='<div class="perm-point" style="opacity:.7;font-size:.8rem">GA4 ვერ ჩაიტვირთა, სცადე „სრული რეპორტი".</div>'; return; }
+    const tile=(n,l)=>`<div style="flex:1;min-width:96px;background:var(--card,#fff);border:1px solid var(--line,#e7dcc8);border-radius:14px;padding:12px 10px;text-align:center"><div style="font-size:1.5rem;font-weight:800;color:var(--primary-d)">${n}</div><div style="font-size:.72rem;opacity:.75;margin-top:2px">${l}</div></div>`;
+    box.innerHTML=`<div style="display:flex;gap:8px;flex-wrap:wrap">
+      ${tile(d.usersToday,'მომხ. დღეს')}
+      ${tile(d.signupsToday,'რეგ. დღეს')}
+      ${tile(d.users7,'მომხ. 7 დღე')}
+      ${tile(d.signups7,'რეგ. 7 დღე')}
+    </div>`;
+  }).catch(()=>{ box.innerHTML='<div class="perm-point" style="opacity:.7;font-size:.8rem">GA4 ვერ ჩაიტვირთა, სცადე „სრული რეპორტი".</div>'; });
 }
 
 /* ── onboarding ── */
