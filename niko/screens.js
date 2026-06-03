@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.6';
+const APP_VERSION='1.7';
 function goHome(){
   profile=null;state=load();
   if(!state.onboarded){state.onboarded=true;save();} // landing already explains the app — skip the duplicate welcome
@@ -149,10 +149,12 @@ function adminView(){
       <div class="perm-point">${I.check} ვერსია: <b>v${APP_VERSION}</b> (deploy-ის შესამოწმებლად)</div>
       <div class="perm-point">${I.check} პროფილები <b>ამ ბრაუზერში</b>: <b>${kids.length}</b></div>
       <div class="perm-point">${I.check} სესიები <b>ამ ბრაუზერში</b>: <b>${sessions}</b></div>
-      <div class="perm-point">ℹ️ ეს რიცხვები მხოლოდ <b>ამ მოწყობილობას/ბრაუზერს</b> ეხება. მონაცემი თითო მოწყობილობაზე რჩება (privacy), ამიტომ აქ სხვა ტელეფონის რეგისტრაცია ვერ გამოჩნდება.</div>
-      <div class="perm-point">📊 <b>ყველა მოწყობილობის</b> ჯამური რეგისტრაცია → <a href="https://analytics.google.com/" target="_blank" rel="noopener" style="color:var(--primary-d);font-weight:600">GA4 → Realtime / Events</a> (event: <b>sign_up</b>).</div>
+      <div class="perm-point">ℹ️ ეს რიცხვები მხოლოდ <b>ამ მოწყობილობას</b> ეხება. ნამდვილ, ყველა მოწყობილობის მონაცემს ქვემოთ ღილაკებზე ნახავ.</div>
     </div>
-    <button class="btn btn-primary btn-block" style="max-width:360px" onclick="location.href='index.html?app=1'">← აპში დაბრუნება</button>
+    <button class="btn btn-primary btn-block" style="max-width:360px" onclick="window.open('https://analytics.google.com/analytics/web/#/p539978869/realtime/overview','_blank')">📊 GA4 — ვიზიტები და რეგისტრაციები</button>
+    <button class="btn btn-primary btn-block" style="max-width:360px;margin-top:8px" onclick="window.open('https://docs.google.com/spreadsheets/d/1PYAVFlLBVhj9rKORKw0ZC3j0yjpYZ1mlwr1pgeMroFA/edit','_blank')">📇 ლიდები — სახელი და ტელეფონი</button>
+    <div class="perm-point" style="max-width:360px;margin:10px auto 0;font-size:.76rem;opacity:.82">🔒 ტელეფონის ნომრები აპში არ ჩანს — ისინი მხოლოდ შენს Google-ში (დაცული, შესვლით) ჩანს. ბავშვების უსაფრთხოებისთვის public გვერდს არასდროს აქვს წვდომა PII-ზე.</div>
+    <button class="btn btn-ghost btn-block" style="max-width:360px;margin-top:10px" onclick="location.href='index.html?app=1'">← აპში დაბრუნება</button>
     <button class="btn btn-ghost btn-block" style="max-width:360px;margin-top:8px" onclick="adminLogout()">ადმინიდან გასვლა (კოდის თავიდან შეყვანა)</button>
   </div>`,false);
 }

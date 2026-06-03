@@ -1031,3 +1031,6 @@ h1,h2,h3{font-weight:800;line-height:1.08;letter-spacing:-0.02em;text-wrap:balan
   .reveal{opacity:1;transform:none}
   .hero-copy>*,.hero-visual{opacity:1;transform:none}
 }
+
+/* Mobile MVP: trim decorative bands so the funnel stays light on phones */
+@media (max-width:620px){.hide-mobile{display:none !important}}
