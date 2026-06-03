@@ -968,7 +968,7 @@ h1,h2,h3{font-weight:800;line-height:1.08;letter-spacing:-0.02em;text-wrap:balan
   .hero-copy .eyebrow{margin:0 auto}
   .hero .lead{margin-left:auto;margin-right:auto}
   .hero-cta,.hero-trust{justify-content:center}
-  .hero-visual{order:-1;min-height:520px;margin-bottom:10px;padding-left:0}
+  .hero-visual{order:1;min-height:480px;margin-top:18px;padding-left:0}
   .start-parents .parent-grid{margin-top:clamp(36px,6vh,60px)}
   .owl-grid{grid-template-columns:1fr}
   .owl-card{order:-1}
