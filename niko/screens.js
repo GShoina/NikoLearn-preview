@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='2.9';
+const APP_VERSION='3.0';
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -300,7 +300,7 @@ function selectProfile(p){
       <div class="subj crown" onclick="openMenu('kings-eng')"><span class="s-badge">👑 Exam</span><div class="s-ico">👑</div><div class="s-name">Kings English</div><div class="s-sub">Cambridge YLE</div></div>
       <div class="subj crown maths" onclick="openMenu('kings-math')"><span class="s-badge">👑 Exam</span><div class="s-ico">📐</div><div class="s-name">Kings Math</div><div class="s-sub">ოლიმპიადა</div></div>
       <div class="subj eng" onclick="openMenu('english')"><span class="s-badge">${wc} სიტყვა</span><div class="s-ico">🔤</div><div class="s-name">ინგლისური</div><div class="s-sub">5 რეჟიმი</div></div>
-      <div class="subj maths" onclick="openMenu('math')"><div class="s-ico">🧮</div><div class="s-name">მათემატიკა</div><div class="s-sub">graded 1–100</div></div>
+      <div class="subj maths" onclick="openMenu('math')"><div class="s-ico">🧮</div><div class="s-name">მათემატიკა</div><div class="s-sub">დონეებით 1–100</div></div>
     </div>`;
   }
   render(`<div class="screen">
@@ -326,26 +326,26 @@ function openMenu(subj){
       </div>
       <div class="mode-grid">
       ${mode('quiz','🎯','მოისმინე','ქართ → ინგლ')}
-      ${mode('reverse','🔄','Reading','ინგლ → ქართ')}
+      ${mode('reverse','🔄','კითხვა','ინგლ → ქართ')}
       ${mode('listen','👂','სურათი','🔊 → emoji')}
       ${mode('match','🧩','დააწყვილე','ka ↔ en')}
-      ${mode('spell','✍️','დაწერე','spelling')}
-      ${mode('phrases','💬','ფრაზები','everyday')}
+      ${mode('spell','✍️','დაწერე','მართლწერა')}
+      ${mode('phrases','💬','ფრაზები','ყოველდღიური')}
     </div>`;
   } else if(subj==='kings-eng'){
     body=`<div class="mode-grid">
-      <div class="mode feature" onclick="startKings('eng')"><div class="m-ico">👑</div><div><div class="m-name">Kings ტესტი</div><div class="m-sub">picture · translate · spelling · grammar</div></div></div>
-      ${mode('quiz','🎯','Vocabulary','')}
-      ${mode('listen','👂','Listening','')}
-      ${mode('spell','✍️','Spelling','')}
-      ${mode('match','🧩','Match','')}
+      <div class="mode feature" onclick="startKings('eng')"><div class="m-ico">👑</div><div><div class="m-name">Kings ტესტი</div><div class="m-sub">სურათი · თარგმანი · მართლწერა · გრამატიკა</div></div></div>
+      ${mode('quiz','🎯','ლექსიკა','')}
+      ${mode('listen','👂','მოსმენა','')}
+      ${mode('spell','✍️','მართლწერა','')}
+      ${mode('match','🧩','დააწყვილე','')}
     </div>`;
   } else if(subj==='kings-math'){
     body=`<div class="mode-grid">
-      <div class="mode feature" onclick="startKings('math')"><div class="m-ico">👑</div><div><div class="m-name">Kings ოლიმპიადა</div><div class="m-sub">word problems + ლოგიკა</div></div></div>
-      ${mode('math-add','➕','Addition','1–100')}
-      ${mode('math-sub','➖','Subtraction','1–100')}
-      ${mode('math-mul','✖️','Multiply','×2–×9')}
+      <div class="mode feature" onclick="startKings('math')"><div class="m-ico">👑</div><div><div class="m-name">Kings ოლიმპიადა</div><div class="m-sub">ამოცანები + ლოგიკა</div></div></div>
+      ${mode('math-add','➕','შეკრება','1–100')}
+      ${mode('math-sub','➖','გამოკლება','1–100')}
+      ${mode('math-mul','✖️','გამრავლება','×2–×9')}
     </div>`;
   } else if(subj==='math'){
     const kid=isYoung(profile);
