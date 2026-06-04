@@ -1,0 +1,14 @@
+# GitHub Pages (Jekyll) config.
+# Keep internal/owner-only files OUT of the public Pages site.
+# (The repo is private, so source is already hidden on GitHub; this also stops
+#  the published site at gshoina.github.io from serving these by direct URL.)
+exclude:
+  - docs
+  - output
+  - backups
+  - "*.py"
+  - "*.bak"
+  - "*.log"
+  - LICENSE
+  - README.md
+  - .gitignore
