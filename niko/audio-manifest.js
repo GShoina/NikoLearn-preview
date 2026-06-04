@@ -1,6 +1,20 @@
 // Auto-generated Georgian audio manifest (edge-tts ka-GE-EkaNeural). Load BEFORE niko/audio.js.
 // Key = exact spoken text (lowercased). Value = filename under niko/audio/ (audio.js prepends the dir).
 window.AUDIO_MANIFEST = {
+ "5-ჯერ ახტი": "clip_281.mp3",
+ "10-ჯერ შემოუარე ოთახს": "clip_282.mp3",
+ "გაიჭიმე მაღლა": "clip_283.mp3",
+ "დალიე წყალი": "clip_284.mp3",
+ "ყოჩაღ! 15 წუთი ისწავლე.": "clip_285.mp3",
+ "დროა პატარა შესვენების.": "clip_286.mp3",
+ "ახალი დონე!": "clip_287.mp3",
+ "ადექი და აჩვენე დედას ან მამას": "clip_288.mp3",
+ "დამწყები": "clip_289.mp3",
+ "მზარდი": "clip_290.mp3",
+ "მსწავლელი": "clip_291.mp3",
+ "მკვლევარი": "clip_292.mp3",
+ "ჩემპიონი": "clip_293.mp3",
+
  "ადექი.": "clip_000.mp3",
  "ავტობუსი": "clip_001.mp3",
  "ათი": "clip_002.mp3",

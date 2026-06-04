@@ -33,7 +33,7 @@ const WORDS = {
   "სკოლა 🏫":[
     {ka:"წიგნი",en:"book",emoji:"📖"},{ka:"კალამი",en:"pen",emoji:"🖊️"},{ka:"ფანქარი",en:"pencil",emoji:"✏️"},
     {ka:"მასწავლებელი",en:"teacher",emoji:"👨‍🏫"},{ka:"სკოლა",en:"school",emoji:"🏫"},{ka:"ჩანთა",en:"bag",emoji:"🎒"},
-    {ka:"რვეული",en:"notebook",emoji:"📓"},{ka:"მაგიდა",en:"desk",emoji:"🪑"}
+    {ka:"რვეული",en:"notebook",emoji:"📓"},{ka:"სკამი",en:"chair",emoji:"🪑"}
   ],
   "ტანსაცმელი 👕":[
     {ka:"პერანგი",en:"shirt",emoji:"👕"},{ka:"კაბა",en:"dress",emoji:"👗"},{ka:"ქურთუკი",en:"jacket",emoji:"🧥"},
@@ -59,7 +59,7 @@ const WORDS = {
   ],
   "პლანეტები 🪐":[
     {ka:"მზე",en:"the Sun",emoji:"☀️"},{ka:"დედამიწა",en:"Earth",emoji:"🌍"},{ka:"მთვარე",en:"the Moon",emoji:"🌙"},
-    {ka:"მარსი",en:"Mars",emoji:"🔴"},{ka:"იუპიტერი",en:"Jupiter",emoji:"🪐"},{ka:"სატურნი",en:"Saturn",emoji:"🪐"},
+    {ka:"მარსი",en:"Mars",emoji:"🔴"},{ka:"იუპიტერი",en:"Jupiter",emoji:"🟠"},{ka:"სატურნი",en:"Saturn",emoji:"🪐"},
     {ka:"ვენერა",en:"Venus",emoji:"🌕"},{ka:"მერკური",en:"Mercury",emoji:"🌑"},{ka:"ვარსკვლავი",en:"a star",emoji:"⭐"},
     {ka:"კომეტა",en:"a comet",emoji:"☄️"},{ka:"რაკეტა",en:"a rocket",emoji:"🚀"},{ka:"კოსმოსი",en:"space",emoji:"🌌"}
   ],

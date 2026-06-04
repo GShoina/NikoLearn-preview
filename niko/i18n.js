@@ -162,6 +162,8 @@
     "🪙 მონეტა":"🪙 Coins",
     "· ბოლოს":"· last",
     "🔥 რეკორდი":"🔥 best streak",
+    "🔊 → ხატულა":"🔊 → emoji",
+    "ქართ ↔ ინგლ":"ka ↔ en",
     "შენს მოწყობილობაზე":"on your device",
     "ვსმენთ მხოლოდ მაშინ, როცა მიკროფონს დააჭერ":"We listen only when you press the mic",
     "ხმა მუშავდება":"Voice is processed",

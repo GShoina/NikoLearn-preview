@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='3.1';
+const APP_VERSION='3.2';
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -317,8 +317,8 @@ function openMenu(subj){
       <div class="mode-grid">
       ${mode('quiz','🎯','მოისმინე','ქართ → ინგლ')}
       ${mode('reverse','🔄','კითხვა','ინგლ → ქართ')}
-      ${mode('listen','👂','სურათი','🔊 → emoji')}
-      ${mode('match','🧩','დააწყვილე','ka ↔ en')}
+      ${mode('listen','👂','სურათი','🔊 → ხატულა')}
+      ${mode('match','🧩','დააწყვილე','ქართ ↔ ინგლ')}
       ${mode('spell','✍️','დაწერე','მართლწერა')}
       ${mode('phrases','💬','ფრაზები','ყოველდღიური')}
     </div>`;

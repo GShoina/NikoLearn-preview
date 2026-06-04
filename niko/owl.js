@@ -160,11 +160,14 @@ function voiceResult(){
 /* ═══════════════ BREAK ═══════════════ */
 function showBreak(){
   const acts=['5-ჯერ ახტი 🤸','10-ჯერ შემოუარე ოთახს 🏃','გაიჭიმე მაღლა 🙆','დალიე წყალი 💧'];
+  const act=acts[ri(0,acts.length-1)];
   const el=document.createElement('div');el.className='breakscreen';el.id='breakscr';
   el.innerHTML=`<div class="b-ico">🌈</div><div class="b-txt">ყოჩაღ! 15 წუთი ისწავლე.<br>დროა პატარა შესვენების.</div>
-    <div class="b-act">${acts[ri(0,acts.length-1)]}</div>
+    <div class="b-act">${act}</div>
     <button class="btn" onclick="document.getElementById('breakscr').remove()">მზად ვარ! 💪</button>`;
   if(window.applyLang)applyLang(el);
   $('.device').appendChild(el);
+  // voice it for pre-readers (recorded ka clips)
+  try{speakSeq([{t:'დროა პატარა შესვენების.',lang:'ka-GE'},{t:act.replace(/[←-➿⬀-⯿️\u{1F000}-\u{1FAFF}]/gu,'').trim(),lang:'ka-GE'}]);}catch(e){}
 }
 

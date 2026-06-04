@@ -407,6 +407,7 @@ function results(){
       </div>
     </div>
   </div>`,'home');
+  try{if(isYoung(profile))praise();}catch(e){}
   // level-up → "go show mom/dad" movement + bonding moment
   if(game.preLvl!=null){const now=levelIdx(profile);if(now>game.preLvl){const L=LEVELS[now];game.preLvl=now;setTimeout(()=>levelUpMoment(L.n,L.ic),750);}}
 }
@@ -448,6 +449,7 @@ function levelUpMoment(lvlName,ic){
   el.appendChild(confettiEl());
   if(window.applyLang)applyLang(el);
   $('.device').appendChild(el);
-  praise();
+  // voice the level-up for pre-readers (recorded ka clips: "ახალი დონე!" + level name + show mom/dad)
+  try{speakSeq([{t:'ახალი დონე!',lang:'ka-GE'},{t:lvlName,lang:'ka-GE'},{t:'ადექი და აჩვენე დედას ან მამას',lang:'ka-GE'}]);}catch(e){praise();}
 }
 
