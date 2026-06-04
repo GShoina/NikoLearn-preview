@@ -77,6 +77,11 @@
     /* subjects / menu */
     "ინგლისური":"English",
     "მათემატიკა":"Math",
+    "მოძრაობა":"Move",
+    "პატარა შესვენება":"Quick break",
+    "მოდი ცოტა ვიმოძრაოთ! 🤸":"Let's move a little! 🤸",
+    "დაიწყე 🎬":"Start 🎬",
+    "მზად ვარ! ✅":"I'm ready! ✅",
     "Kings ტესტი":"Kings test",
     "Kings ოლიმპიადა":"Kings olympiad",
     "ოლიმპიადა":"olympiad",

@@ -157,17 +157,69 @@ function voiceResult(){
   },1400);
 }
 
-/* ═══════════════ BREAK ═══════════════ */
-function showBreak(){
-  const acts=['5-ჯერ ახტი 🤸','10-ჯერ შემოუარე ოთახს 🏃','გაიჭიმე მაღლა 🙆','დალიე წყალი 💧'];
-  const act=acts[ri(0,acts.length-1)];
+/* ═══════════════ MOVEMENT BREAK (O2) ═══════════════ */
+// Each exercise: name (ka, voiced via recorded clip), emoji, n (count), unit.
+// 'reps' counts UP and voices each number (1-20 clips); 'secs' holds + counts DOWN.
+const MOVE_POOL=[
+  {name:'ბუქნი',            emoji:'🏋️', n:5,  unit:'reps'},
+  {name:'ახტომა',           emoji:'🤸', n:8,  unit:'reps'},
+  {name:'პლანკა',           emoji:'🧘', n:10, unit:'secs'},
+  {name:'ცალ ფეხზე დგომა',  emoji:'🦩', n:10, unit:'secs'},
+  {name:'ხელების ტრიალი',   emoji:'🙆', n:8,  unit:'reps'},
+  {name:'წვერებზე აწევა',   emoji:'🦵', n:8,  unit:'reps'},
+  {name:'დათვივით სიარული', emoji:'🐻', n:6,  unit:'reps'},
+  {name:'კენგურუსავით ხტომა',emoji:'🦘', n:6,  unit:'reps'}
+];
+let _mvTimer=null;
+// manual=true when the child taps the 🤸 tile; false on the auto 15-min break.
+function showBreak(manual){
+  if(document.getElementById('breakscr'))return; // guard against a double-open
+  const ex=MOVE_POOL[ri(0,MOVE_POOL.length-1)];
+  const intro=manual?'მოდი ვიმოძრაოთ':'დროა მოძრაობის';
+  const unitLabel=ex.unit==='secs'?(ex.n+' წამი'):(ex.n+'-ჯერ');
   const el=document.createElement('div');el.className='breakscreen';el.id='breakscr';
-  el.innerHTML=`<div class="b-ico">🌈</div><div class="b-txt">ყოჩაღ! 15 წუთი ისწავლე.<br>დროა პატარა შესვენების.</div>
-    <div class="b-act">${act}</div>
-    <button class="btn" onclick="document.getElementById('breakscr').remove()">მზად ვარ! 💪</button>`;
+  el.innerHTML=`
+    <div class="b-ico">${ex.emoji}</div>
+    <div class="b-txt" id="mvTxt">${manual?'მოდი ცოტა ვიმოძრაოთ! 🤸':'ყოჩაღ! ცოტა ვისწავლეთ.<br>დროა მოძრაობის 🤸'}</div>
+    <div class="b-act mv-name">${ex.name} · <b>${unitLabel}</b></div>
+    <div class="mv-count" id="mvCount" style="display:none">0</div>
+    <button class="btn mv-go" id="mvGo">დაიწყე 🎬</button>`;
   if(window.applyLang)applyLang(el);
   $('.device').appendChild(el);
-  // voice it for pre-readers (recorded ka clips)
-  try{speakSeq([{t:'დროა პატარა შესვენების.',lang:'ka-GE'},{t:act.replace(/[←-➿⬀-⯿️\u{1F000}-\u{1FAFF}]/gu,'').trim(),lang:'ka-GE'}]);}catch(e){}
+  // voice the prompt + the exercise name (recorded ka clips, no robot TTS)
+  try{speakSeq([{t:intro,lang:'ka-GE'},{t:ex.name,lang:'ka-GE'}]);}catch(e){}
+  const go=document.getElementById('mvGo');if(go)go.onclick=()=>runMove(ex);
+}
+function runMove(ex){
+  const go=document.getElementById('mvGo');if(!go)return;
+  const countEl=document.getElementById('mvCount');
+  go.style.display='none';countEl.style.display='';
+  clearInterval(_mvTimer);
+  if(ex.unit==='secs'){            // hold: count seconds DOWN
+    let t=ex.n;countEl.textContent=t;
+    _mvTimer=setInterval(()=>{
+      t--;
+      if(t<=0){countEl.textContent=0;clearInterval(_mvTimer);_mvTimer=null;setTimeout(finishMove,700);return;}
+      countEl.textContent=t;pulseTap(countEl);
+    },1000);
+  } else {                          // reps: count UP, voice each number
+    let i=0;
+    const step=()=>{
+      i++;countEl.textContent=i;pulseTap(countEl);
+      try{speak(String(i),'ka-GE');}catch(e){}
+      if(i>=ex.n){clearInterval(_mvTimer);_mvTimer=null;setTimeout(finishMove,1000);}
+    };
+    _mvTimer=setInterval(step,1100);step();
+  }
+}
+function finishMove(){
+  clearInterval(_mvTimer);_mvTimer=null;
+  const el=document.getElementById('breakscr');if(!el)return;
+  const c=el.querySelector('#mvCount');if(c)c.style.display='none';
+  const txt=el.querySelector('#mvTxt');if(txt)txt.innerHTML='ყოჩაღ! 💪';
+  const name=el.querySelector('.mv-name');if(name)name.style.display='none';
+  const btn=el.querySelector('#mvGo');
+  if(btn){btn.style.display='';btn.textContent='მზად ვარ! ✅';btn.onclick=()=>el.remove();}
+  try{speak('ყოჩაღ','ka-GE');}catch(e){}
 }
 

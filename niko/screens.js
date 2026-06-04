@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.50';
+const APP_VERSION='1.51';
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -284,6 +284,7 @@ function selectProfile(p){
       ${tiny
         ? `<div class="subj kids" onclick="startGame('shapes')"><div class="s-ico">🔷</div><div class="s-name">ფიგურები</div></div>`
         : `<div class="subj kids maths" onclick="openMenu('math')"><div class="s-ico">➕➖</div><div class="s-name num">➕</div></div>`}
+      <div class="subj kids move" onclick="showBreak(true)"><div class="s-ico">🤸</div><div class="s-name">მოძრაობა</div></div>
     </div>`;
   } else {
     const wc=Object.values(s.words).filter(w=>w.correct>=3).length;
@@ -292,6 +293,7 @@ function selectProfile(p){
       <div class="subj crown maths" onclick="openMenu('kings-math')"><span class="s-badge">👑 გამოცდა</span><div class="s-ico">📐</div><div class="s-name">კინგსი მათემატიკა</div><div class="s-sub">ოლიმპიადა</div></div>
       <div class="subj eng" onclick="openMenu('english')"><span class="s-badge">${wc} სიტყვა</span><div class="s-ico">🔤</div><div class="s-name">ინგლისური</div><div class="s-sub">5 რეჟიმი</div></div>
       <div class="subj maths" onclick="openMenu('math')"><div class="s-ico">🧮</div><div class="s-name">მათემატიკა</div><div class="s-sub">დონეებით 1–100</div></div>
+      <div class="subj move" onclick="showBreak(true)"><div class="s-ico">🤸</div><div class="s-name">მოძრაობა</div><div class="s-sub">პატარა შესვენება</div></div>
     </div>`;
   }
   render(`<div class="screen">

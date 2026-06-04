@@ -1,7 +1,7 @@
 # NikoLearn — Product Ideas Backlog (living)
 
 **Owner:** Gela Shonia · **Maintained by:** weekly "Product Owner" routine + ad-hoc.
-**Last updated:** 2026-06-04 (v3.3 era)
+**Last updated:** 2026-06-05 (owner-confirmed monetization roadmap a/b/c added)
 
 This is the single source of truth for product ideas. Every idea is logged, scored,
 and given a roadmap decision. The weekly Product Owner routine appends competitor
@@ -19,6 +19,77 @@ findings + new ideas and re-scores open ones.
 Georgian-first (real recorded ka audio, no robot voice) · bilingual ka/en · all data
 on-device, no ads, no external links in the kids' app · age-appropriate tiers
 (3-4 / 5 / 6-12) · works offline (PWA) · warm, pre-reader-friendly (voiced).
+
+---
+
+## ⭐ Monetization roadmap — owner-confirmed 2026-06-05 (SSOT)
+
+Owner, acting as Product Owner, filtered the backlog into three buckets (a/b/c) and a
+recommended sequence. This is the authoritative go-forward plan. The backlog tables below
+feed these buckets; this section decides ORDER and what gates behind payment.
+
+### a) Premium / paid-version features ("N1" — the value people pay for)
+This group = the heart of the paid version. **Enforced ONLY by a backend** (client can't unlock).
+
+| Feature | Why premium | Needs backend? |
+|---|---|---|
+| Parent-voice stories (O3) | flagship, emotional, unique | Partial (local works; cloud-sync better) |
+| English deep (sentences, phonics, stories) | serious learning value | No (content) but needs premium-gate |
+| Georgian reading (syllable→word→sentence) | core local value | No |
+| Parent dashboard + cross-device progress | parents love it | Yes (sync) |
+| Full Kings + levels path (ABCmouse-style) | structured program | No (content) |
+| Drawing — themed + print (O4 full) | creativity | No |
+
+### b) Build NOW (free, no backend, grows the audience)
+Ship these into the free app immediately — keeps testers engaged, audience grows.
+
+| Feature | Effect | Work |
+|---|---|---|
+| 🤸 Movement breaks (O2) | high delight | ~1 session |
+| 🦉 Choose tutor animal avatar (O1) | personalization + Duolingo-differentiation | ~1 session |
+| Drag letter into word (Endless-style, existing voice) | signature mechanic | ~1-2 sessions |
+| Drawing — free canvas (O4a) | motor skills | ~1-2 sessions |
+| More questions per category | less repetition | small |
+| PWA "install" prompt | retention | small |
+
+### c) Backend MVP — the gate for paid + copy-protection
+backend = the door to paid AND content copy-protection. Minimal MVP:
+1. **Auth** — PARENT account (not child); email/simple login. (Kid-privacy: account lives on the parent.)
+2. **Payment** — **Paddle, ONE-TIME unlock** (owner-confirmed 2026-06-05; subscription = future Niko Plus). Verify Paddle GE-seller support; fallback Lemon Squeezy / direct BOG/TBC.
+3. **Entitlement check** — server confirms premium (client can't self-unlock).
+4. **Content behind auth** — premium voice/stories served only to payers = the anti-copy moat.
+5. **Hosting** — solo-fast: Supabase (auth+DB+storage+edge funcs in one) or Firebase.
+6. **(later) cross-device sync** — progress in the cloud.
+
+Priority: **#1 Auth + #2 Payment + #3 Entitlement = MVP. #4 = moat. #6 sync = last.**
+
+### 🧭 Recommended sequence
+1. **NOW:** 2-3 quick wins from (b) → O2 (movement) then O1 (animal). Audience + feedback.
+2. **THEN:** watch for a willingness-to-pay signal (did anyone want to pay?).
+3. **THEN:** (c) minimal backend — Supabase + Paddle/Stripe + entitlement.
+4. **LAST:** (a) premium features behind the paywall.
+
+### ✅ CONFIRMED PRODUCT DIRECTION — owner-locked 2026-06-05 (SSOT, supersedes any earlier note)
+
+**Current stage = MVP. Main goal: ship fast, validate real parent payments, evolve gradually.**
+- **Platform:** Web / PWA first. NO native iOS/Android yet.
+- **Monetization v1:** ONE-TIME premium unlock (NOT subscription yet). Free tier stays strong; unlock tests willingness to pay.
+- **Payment:** Paddle (Merchant of Record, handles VAT). ⚠️ verify Paddle supports a Georgia-based seller/payout before committing; fallback = Lemon Squeezy or direct BOG/TBC.
+- **Auth + DB:** Supabase.
+- **Repo:** stays PRIVATE. Frontend stays static/PWA-deployable. No secrets/API keys in the frontend bundle. Premium content eventually moves behind backend/API.
+- **Future (Niko Plus, later stages only):** hybrid = free tier + one-time unlock + OPTIONAL monthly subscription. The owner's earlier "monthly subscription via Bank of Georgia / TBC" idea lands HERE, not now.
+
+**Implementation priority (build order):**
+1. Parent account / login (Supabase)
+2. Payment flow (Paddle)
+3. Premium-unlock flag in DB
+4. Gate premium lessons/features behind it
+5. Later: progress sync across devices
+6. Later: AI / personalization / backend-heavy features
+
+**DO NOT (owner-stated):** build native mobile yet · build unnecessary infra · add subscription billing now · over-engineer scaling/security before monetization is validated.
+
+Sequence still holds: free features (b) first → willingness-to-pay signal → this backend.
 
 ---
 

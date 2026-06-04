@@ -6,6 +6,20 @@ Read **`docs/SESSION-HANDOFF.md`** before anything else. State in ONE line where
 single next action, then proceed. (Right now: the owner is providing his hand-designed
 `NikoLearn Phase 1.html` to use as the visual base — do NOT rebuild from scratch.)
 
+## Session end / before /clear (LAST ACTION) — DISK IS THE ONLY MEMORY
+`/clear` deletes the entire conversation. ONLY what is written to a file on disk survives.
+NikoLand is standalone, so the Bivision `clear-bi` skill does NOT cover it — this project has its
+own discipline:
+1. **Persist as you go.** The moment a decision, roadmap, scope, or open question is settled in
+   chat, write it to disk immediately (`docs/PRODUCT_IDEAS.md` = product/strategy SSOT,
+   `docs/SESSION-HANDOFF.md` = resume pointer). Never let a decision live only in the conversation.
+2. **Close-out flush.** When the owner says "მოემზადე clear" / "save and clear" / signals the
+   session is ending, BEFORE he runs `/clear`: update `SESSION-HANDOFF.md` (resume pointer + any
+   open owner decision) and `PRODUCT_IDEAS.md`, then show the owner a short list of exactly what was
+   written so he can verify nothing was lost. Only then is it safe to `/clear`.
+3. If unsure whether something is saved, assume it is NOT — re-write it. Cheap to repeat, expensive
+   to lose.
+
 ## 0. Identity & Isolation
 - This is a STANDALONE NikoLearn session. Do NOT load any Bivision agent identity
   (GelLa / Viktor / Gurafa / Geo) and do NOT run their handoff / session-start sequences.
