@@ -60,6 +60,7 @@ function openHint(){
       <button class="ai-chip primary" onclick="closeHint()">${atExplain?'გასაგებია 👍':'მივხვდი 👍'}</button>
     </div>
   </div>`;
+  if(window.applyLang)applyLang(ov);
   if(isYoung(profile))setTimeout(()=>speakHint(),250);
 }
 function speakHint(btn){
@@ -155,6 +156,7 @@ function showBreak(){
   el.innerHTML=`<div class="b-ico">🌈</div><div class="b-txt">ყოჩაღ! 15 წუთი ისწავლე.<br>დროა პატარა შესვენების.</div>
     <div class="b-act">${acts[ri(0,acts.length-1)]}</div>
     <button class="btn" onclick="document.getElementById('breakscr').remove()">მზად ვარ! 💪</button>`;
+  if(window.applyLang)applyLang(el);
   $('.device').appendChild(el);
 }
 

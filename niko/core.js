@@ -64,6 +64,7 @@ function demoNiko(){ // seeded so the prototype shows realistic data
 /* ── render helpers ── */
 function render(html,nav){
   $('#app').innerHTML=html;
+  if(window.applyLang)applyLang($('#app'));
   $('#app').scrollTop=0;
   document.body.classList.remove('on-landing');
   const n=$('#bottomnav');

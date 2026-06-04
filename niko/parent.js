@@ -16,6 +16,7 @@ function openGate(){
       <button onclick="gateClear()">✕</button><button onclick="gateKey(0)">0</button><button onclick="gateOk()">${I.check}</button></div>
   </div>`;
   el.onclick=e=>{if(e.target===el)el.remove();};
+  if(window.applyLang)applyLang(el);
   $('.device').appendChild(el);
 }
 function gateKey(n){gate.buf=(gate.buf+n).slice(0,2);$('#gdisp').textContent=gate.buf;}
@@ -100,6 +101,7 @@ function confirmDelete(id){
     <button class="btn btn-ghost btn-block mt" onclick="document.getElementById('delmodal').remove()">გაუქმება</button>
   </div>`;
   el.onclick=e=>{if(e.target===el)el.remove();};
+  if(window.applyLang)applyLang(el);
   $('.device').appendChild(el);
   const inp=$('#delin'),go=$('#delgo');
   inp.oninput=()=>{const ok=inp.value.trim().toLowerCase()===word.toLowerCase();go.disabled=!ok;go.classList.toggle('armed',ok);};
@@ -149,7 +151,7 @@ function fallbackCopy(txt,cb){
 }
 function toast(msg){
   let t=$('#toast');if(t)t.remove();
-  t=document.createElement('div');t.id='toast';t.className='toast';t.textContent=msg;
+  t=document.createElement('div');t.id='toast';t.className='toast';t.textContent=(window.UILANG==='en'&&window.t_en)?window.t_en(msg):msg;
   $('.device').appendChild(t);setTimeout(()=>{if($('#toast'))$('#toast').remove();},2400);
 }
 

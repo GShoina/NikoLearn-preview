@@ -273,6 +273,7 @@ function feedback(ok){
   const el=document.createElement('div');el.className='overlay';el.id='fbov';
   el.innerHTML=`<div class="fb"><div class="fb-ico">${ok?'🎉':'💪'}</div><div class="fb-txt">${ok?'ყოჩაღ, '+voc()+'!':voc()+', კიდევ ცადე!'}</div></div>`;
   if(ok)el.appendChild(confettiEl());
+  if(window.applyLang)applyLang(el);
   $('.device').appendChild(el);
 }
 function closeFeedback(){const e=$('#fbov');if(e)e.remove();}
@@ -336,7 +337,7 @@ function showDad(pct){
   logDad(`${nameOf(profile)}მ ${game.shields} 🪙 მოაგროვა (${pct}%)!`);
   const el=document.createElement('div');el.className='overlay';el.id='fbov';
   el.innerHTML=`<div class="fb"><div class="fb-ico">🎉</div><div class="fb-txt">${voc()}მ ${game.shields} 🪙 მოაგროვა!</div><div class="fb-sub">მშობელი დაინახავს მშობლის სივრცეში ❤️</div></div>`;
-  el.appendChild(confettiEl());el.onclick=()=>el.remove();$('.device').appendChild(el);
+  el.appendChild(confettiEl());el.onclick=()=>el.remove();if(window.applyLang)applyLang(el);$('.device').appendChild(el);
   setTimeout(()=>{if($('#fbov'))$('#fbov').remove();},2600);
 }
 // LEVEL-UP: push the child off-screen, toward a parent
@@ -348,6 +349,7 @@ function levelUpMoment(lvlName,ic){
     <div class="b-act">ადექი და აჩვენე<br>დედას ან მამას 🤝</div>
     <button class="btn" onclick="document.getElementById('lvlup').remove()">ვაჩვენე! ❤️</button>`;
   el.appendChild(confettiEl());
+  if(window.applyLang)applyLang(el);
   $('.device').appendChild(el);
   praise();
 }

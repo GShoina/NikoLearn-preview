@@ -92,7 +92,7 @@
       var p = document.querySelector('[data-subject="'+key+'"]');
       if(!p) return;
       p.style.opacity = '0';
-      setTimeout(function(){ p.textContent = map[key]; p.style.opacity = '1'; }, reduce?0:160);
+      setTimeout(function(){ p.textContent = (window.UILANG==='en'&&window.t_en)?window.t_en(map[key]):map[key]; p.style.opacity = '1'; }, reduce?0:160);
     });
   }
   ageChips.forEach(function(c){
@@ -175,5 +175,25 @@
     function sync(){ d.classList.toggle('is-open', d.open); }
     sync();
     d.addEventListener('toggle', sync);
+  });
+
+  /* ── i18n: hero headline + page title need structural handling
+        (the short words „და"/„ბავშვი" double as learning content, so they are
+         translated here, not via the global text-node dictionary). ── */
+  var heroH1 = document.querySelector('.hero h1');
+  var heroKa = heroH1 ? heroH1.innerHTML : '';
+  var hlStyle = 'font-weight: 800; font-size: clamp(2.2rem, 4.9vw, 47px)';
+  var heroEn = 'Your child <span class="hl" style="'+hlStyle+'">learns</span> and <span class="hl" style="'+hlStyle+'">grows</span>, through play';
+  var titleKa = document.title;
+  function applyHeroLang(){
+    var en = (window.UILANG === 'en');
+    if(heroH1){ heroH1.innerHTML = en ? heroEn : heroKa; buildSketchUnderline(); }
+    document.title = en ? 'NikoLearn — learn through play' : titleKa;
+  }
+  applyHeroLang();
+  window.addEventListener('niko-lang-change', function(){
+    applyHeroLang();
+    var on = document.querySelector('.age-chip.on');
+    if(on) setAge(on.dataset.age);
   });
 })();
