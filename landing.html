@@ -8,8 +8,73 @@
 <meta name="description" content="ქართული სასწავლო აპი ბავშვებისთვის. ანბანი, ინგლისური, მათემატიკა. AI რეპეტიტორი ნიკო ელაპარაკება და გისმენს. მონაცემები მოწყობილობაზე რჩება.">
 <meta name="theme-color" content="#f6ecda">
 
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Noto+Sans+Georgian:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/landing.css">
+
+<!-- ═══════════ THEME SWITCHER (self-contained: style + apply-before-paint) ═══════════ -->
+<style id="theme-switcher">
+  /* Theme palettes — override only background + primary tokens, accents stay */
+  html[data-theme="ocean"]{
+    --bg:oklch(0.965 0.020 230);--bg-2:oklch(0.945 0.030 232);--bg-3:oklch(0.925 0.038 234);
+    --primary:oklch(0.660 0.135 238);--primary-d:oklch(0.555 0.130 240);
+    --line:oklch(0.890 0.024 235);
+  }
+  html[data-theme="forest"]{
+    --bg:oklch(0.966 0.020 142);--bg-2:oklch(0.945 0.030 146);--bg-3:oklch(0.925 0.038 150);
+    --primary:oklch(0.640 0.130 150);--primary-d:oklch(0.535 0.125 150);
+    --line:oklch(0.890 0.024 145);
+  }
+  html[data-theme="berry"]{
+    --bg:oklch(0.966 0.020 320);--bg-2:oklch(0.946 0.030 318);--bg-3:oklch(0.926 0.038 316);
+    --primary:oklch(0.600 0.150 300);--primary-d:oklch(0.505 0.145 300);
+    --line:oklch(0.890 0.024 318);
+  }
+  /* control */
+  .theme-switch{position:relative;display:flex;align-items:center}
+  .theme-btn{
+    width:42px;height:42px;border-radius:50%;border:1.5px solid var(--line);
+    background:var(--card);color:var(--ink);display:grid;place-items:center;
+    cursor:pointer;transition:transform .15s var(--ease),border-color .15s,background .15s;
+  }
+  .theme-btn:hover{transform:translateY(-1px);border-color:var(--primary)}
+  .theme-btn svg{width:21px;height:21px}
+  .theme-pop{
+    position:absolute;top:calc(100% + 12px);right:0;
+    background:var(--card);border:1.5px solid var(--line);border-radius:var(--radius-sm);
+    box-shadow:var(--shadow-lg);padding:14px;display:flex;gap:10px;
+    opacity:0;visibility:hidden;transform:translateY(-8px) scale(.96);transform-origin:top right;
+    transition:opacity .18s var(--ease),transform .18s var(--ease),visibility .18s;z-index:60;
+  }
+  .theme-pop.open{opacity:1;visibility:visible;transform:translateY(0) scale(1)}
+  .theme-pop::before{
+    content:"";position:absolute;top:-7px;right:14px;width:12px;height:12px;
+    background:var(--card);border-left:1.5px solid var(--line);border-top:1.5px solid var(--line);
+    transform:rotate(45deg);
+  }
+  .sw{
+    width:34px;height:34px;border-radius:50%;cursor:pointer;border:2px solid transparent;
+    position:relative;transition:transform .14s var(--ease);padding:0;
+  }
+  .sw:hover{transform:scale(1.1)}
+  .sw[aria-pressed="true"]{border-color:var(--ink)}
+  .sw-sunlit{background:oklch(0.680 0.165 42)}
+  .sw-ocean {background:oklch(0.660 0.135 238)}
+  .sw-forest{background:oklch(0.640 0.130 150)}
+  .sw-berry {background:oklch(0.600 0.150 300)}
+  /* mobile: keep the bar = wordmark + CTA + hamburger; the language toggle and
+     the theme switcher move INSIDE the hamburger menu (handled by the script below). */
+  @media (max-width:620px){
+    .nav-links .theme-switch{margin:10px 0 2px;align-self:flex-start}
+    .nav-links .theme-pop{right:auto;left:0;transform-origin:top left}
+    .nav-links #langtgl{position:static!important;margin:2px 0 4px!important;align-self:flex-start}
+  }
+</style>
+<script>
+  /* apply saved theme before first paint to avoid flash */
+  (function(){try{var t=localStorage.getItem('niko-theme');if(t&&t!=='sunlit')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
+</script>
 
 </head>
 <body>
@@ -28,6 +93,17 @@
       <a href="#niko">AI ნიკო</a>
       <a href="#parents">მშობლებს</a>
     </nav>
+    <div class="theme-switch">
+      <button class="theme-btn" id="themeBtn" aria-label="ფერის თემა" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18c1 0 1.6-.8 1.6-1.6 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-.9.7-1.6 1.6-1.6H16a5 5 0 0 0 5-5c0-3.9-4-7.4-9-7.4z"></path><circle cx="7.5" cy="11" r="1.1" fill="currentColor" stroke="none"></circle><circle cx="11" cy="7.5" r="1.1" fill="currentColor" stroke="none"></circle><circle cx="15.5" cy="8.5" r="1.1" fill="currentColor" stroke="none"></circle></svg>
+      </button>
+      <div class="theme-pop" id="themePop" role="group" aria-label="ფერის არჩევა">
+        <button class="sw sw-sunlit" data-theme="sunlit" aria-label="მზიანი" title="მზიანი"></button>
+        <button class="sw sw-ocean" data-theme="ocean" aria-label="ოკეანე" title="ოკეანე"></button>
+        <button class="sw sw-forest" data-theme="forest" aria-label="ტყე" title="ტყე"></button>
+        <button class="sw sw-berry" data-theme="berry" aria-label="მაყვალი" title="მაყვალი"></button>
+      </div>
+    </div>
     <a class="btn btn-primary nav-cta" href="index.html?app=1">დაიწყე უფასოდ</a>
     <button class="menu-toggle" aria-label="მენიუ">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
@@ -37,7 +113,7 @@
 
 <!-- ═══════════ HERO ═══════════ -->
 <section class="hero" id="top" data-screen-label="Hero">
-  <div class="wrap" data-comment-anchor="e358a8ff23-div">
+  <div class="wrap">
     <div class="hero-copy">
       <span class="eyebrow">🇬🇪 ქართული სასწავლო აპი</span>
       <h1 style="line-height: 1.1">ბავშვი <span class="hl" style="font-weight: 800; font-size: clamp(2.2rem, 4.9vw, 47px)">სწავლობს</span> და <span class="hl" style="font-weight: 800; font-size: clamp(2.2rem, 4.9vw, 47px)">ვითარდება</span>, თამაშით</h1>
@@ -216,9 +292,9 @@
           </div>
         </div>
       </div>
-      <div class="owl-card reveal d1" data-comment-anchor="ac63934871-div" style="padding: 35px">
+      <div class="owl-card reveal d1" style="padding: 35px">
         <div class="owl-big">🦉<span class="ping" aria-hidden="true"></span></div>
-        <div class="owl-chat" data-comment-anchor="9c6da67ed8-div" style="width: 100%; max-width: 400px; margin-top: 22px"><span class="who">ნიკო</span>"ლომი" ინგლისურად არის <b>lion</b>. სცადე ხმამაღლა წარმოთქმა 🦁</div>
+        <div class="owl-chat" style="width: 100%; max-width: 400px; margin-top: 22px"><span class="who">ნიკო</span>"ლომი" ინგლისურად არის <b>lion</b>. სცადე ხმამაღლა წარმოთქმა 🦁</div>
         <div class="owl-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
       </div>
     </div>
@@ -274,12 +350,12 @@
           <span class="da">ნ</span>
           <div><div class="dn">ნიკოლოზი</div><div class="dr">7 წლის · Learner</div></div>
         </div>
-        <div class="dash-stats" data-comment-anchor="fc5380f700-div">
+        <div class="dash-stats">
           <div class="dstat"><div class="dv">12</div><div class="dl">დღის სერია</div></div>
           <div class="dstat"><div class="dv">86%</div><div class="dl">სიზუსტე</div></div>
           <div class="dstat"><div class="dv">247</div><div class="dl">მონეტა</div></div>
         </div>
-        <div class="dash-insight" data-comment-anchor="1dd8c9ed87-div" style="margin: 36px 0 0; width: 100%; justify-content: center">
+        <div class="dash-insight" style="margin: 36px 0 0; width: 100%; justify-content: center">
           <div class="ii">💡</div>
           <div class="it">ნიკოლოზი <b>ცხოველებში</b> ძლიერია, თუმცა <b>მართლწერა</b> ცოტა უჭირს. ამ კვირაში სცადეთ მართლწერის რეჟიმი.</div>
         </div>
@@ -372,21 +448,75 @@
       <a href="#parents">მშობლებს</a>
       <a href="index.html?app=1">აპის გახსნა</a>
     </nav>
-    <div class="foot-note">🔒 მონაცემები რჩება მოწყობილობაზე · © 2026 NikoLearn · შექმნილია ქართველი ბავშვებისთვის · <a href="index.html?admin=1" style="color:inherit;text-decoration:none" title="owner">v2.1</a></div>
+    <div class="foot-note">🔒 მონაცემები რჩება მოწყობილობაზე · © 2026 NikoLearn · შექმნილია ქართველი ბავშვებისთვის · <a href="index.html?admin=1" style="color:inherit;text-decoration:none" title="owner">v2.2</a></div>
   </div>
 </footer>
-
-
-
-
-
-
-
-
-
 
 <script src="niko/i18n.js"></script>
 <script src="assets/landing.js"></script>
 
+<!-- ═══════════ THEME SWITCHER logic ═══════════ -->
+<script>
+(function(){
+  var btn=document.getElementById('themeBtn'),pop=document.getElementById('themePop');
+  if(!btn||!pop)return;
+  var meta=document.querySelector('meta[name="theme-color"]');
+  var bgFor={sunlit:'#f6ecda',ocean:'#e6eef6',forest:'#e7f1e8',berry:'#f1e8f2'};
+  var root=document.documentElement;
+  function current(){return root.getAttribute('data-theme')||'sunlit';}
+  function mark(){
+    pop.querySelectorAll('.sw').forEach(function(s){
+      s.setAttribute('aria-pressed',s.dataset.theme===current()?'true':'false');
+    });
+  }
+  // single source of truth for the color theme — nav swatches AND the Tweaks
+  // "ფერის თემა" control both call this. Loop-guarded: no-op + no event if unchanged.
+  window.__nikoSetTheme=function(t){
+    if(current()===t){mark();return;}
+    if(t==='sunlit')root.removeAttribute('data-theme');
+    else root.setAttribute('data-theme',t);
+    try{localStorage.setItem('niko-theme',t);}catch(e){}
+    if(meta&&bgFor[t])meta.setAttribute('content',bgFor[t]);
+    mark();
+    window.dispatchEvent(new CustomEvent('niko-theme-change',{detail:t}));
+  };
+  function open(o){pop.classList.toggle('open',o);btn.setAttribute('aria-expanded',o?'true':'false');}
+  btn.addEventListener('click',function(e){e.stopPropagation();open(!pop.classList.contains('open'));});
+  pop.addEventListener('click',function(e){
+    var s=e.target.closest('.sw');if(!s)return;window.__nikoSetTheme(s.dataset.theme);open(false);
+  });
+  document.addEventListener('click',function(e){
+    if(!pop.contains(e.target)&&e.target!==btn)open(false);
+  });
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')open(false);});
+  mark();
+})();
+</script>
+
+<!-- mobile: move language toggle + theme switcher INTO the hamburger menu;
+     desktop keeps them in the top bar. Pure DOM relocation, responsive. -->
+<script>
+(function(){
+  var wrap=document.querySelector('.nav .wrap');
+  var links=document.querySelector('.nav-links');
+  var navCta=document.querySelector('.nav-cta');
+  var themeSwitch=document.querySelector('.theme-switch');
+  if(!wrap||!links)return;
+  var mq=window.matchMedia('(max-width:620px)');
+  function place(){
+    var lang=document.getElementById('langtgl'); // injected by niko/i18n.js
+    if(mq.matches){
+      if(themeSwitch&&themeSwitch.parentNode!==links)links.appendChild(themeSwitch);
+      if(lang&&lang.parentNode!==links)links.appendChild(lang);
+    }else{
+      if(themeSwitch&&themeSwitch.parentNode!==wrap)wrap.insertBefore(themeSwitch,navCta);
+      if(lang&&lang.parentNode!==wrap)wrap.appendChild(lang);
+    }
+  }
+  place();
+  if(!document.getElementById('langtgl')){var n=0,iv=setInterval(function(){n++;if(document.getElementById('langtgl')||n>20){place();clearInterval(iv);}},50);}
+  if(mq.addEventListener)mq.addEventListener('change',place);else if(mq.addListener)mq.addListener(place);
+})();
+</script>
 
 </body></html>

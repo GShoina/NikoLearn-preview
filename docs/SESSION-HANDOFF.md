@@ -1,5 +1,13 @@
 # NikoLearn — Session Handoff
-**Updated: 2026-06-03 ~22:52 | Resume pointer: landing + admin polished and live at v2.0; GA4 live-metrics proxy is CODED but NOT deployed — it waits on ONE owner step (`clasp login`). Do that first on resume, or take a new request from live diagnosis.**
+**Updated: 2026-06-04 ~13:55 | Resume pointer: English UI language shipped & live at v2.1 (ka/EN toggle). GA4 live-metrics proxy is still CODED but NOT deployed — blocked by Google (clasp's OAuth app is hard-blocked for sensitive scopes; would need a self-owned GCP OAuth client). Owner decided GA4 live tiles not worth it for now (admin already deep-links to GA4 + Leads). On resume: take a new request, or finish GA4 only if owner wants the GCP OAuth-client route.**
+
+## ✅ Completed 2026-06-04 — English UI language (v2.1), pushed + live-verified
+- **Additive i18n layer** (`niko/i18n.js`, new): render-time text-node translation (ka source/default, EN layered on). Floating ka/EN toggle (top-right in app, in nav on landing). Choice persisted in `localStorage.niko_uilang`. **Missing strings fall back to Georgian — cannot break the app.** Default stays Georgian, so existing users see zero change.
+- Wired: `core.render()` applies translation per screen; overlays (feedback, owl bubble, break, parent gate, delete modal, toast) call `applyLang` too. `landing.html`/`landing.js` load i18n; hero headline + page `<title>` swap via `applyHeroLang()`; age-picker copy translated.
+- Dictionary covers: full landing, app home/login/onboarding/menus/games UI/results/parent dashboard chrome/owl chips/voice mode/break. **Teaching content (taught ka↔en words/phrases) intentionally untouched.**
+- `sw.js` cache v35→**v36** (+ i18n.js cached); `APP_VERSION` 2.0→**2.1**; landing footer v2.1.
+- Backup before work: `AI_Projects/backups/NikoLand_pre-i18n_2026-06-04.zip`. Commit `24172f7` on `main`.
+- **KNOWN GAPS (safe Georgian fallback, not bugs):** (1) owl/tutor HINT BODIES still render in Georgian in EN mode (pedagogy strings in `tutor.js`, not yet translated). (2) Some dynamic parent-dashboard insight SENTENCES (interpolated) stay Georgian. Both degrade gracefully. Finish later if an English-only audience needs them.
 
 ## ▶ How to resume (LAUNCH BY NAME)
 Fresh PowerShell → type **`NikoLearn`** or **`NikoLand`** → loads repo `CLAUDE.md` → read THIS file first.
