@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='3.3';
+const APP_VERSION='3.4';
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -155,8 +155,6 @@ function adminView(){
     </div>
     <div id="ga4box" style="max-width:360px;margin:0 auto;width:100%"></div>
     <button class="btn btn-primary btn-block" style="max-width:360px" onclick="window.open('https://analytics.google.com/analytics/web/#/p539978869/realtime/overview','_blank')">📊 GA4 — სრული რეპორტი</button>
-    <button class="btn btn-primary btn-block" style="max-width:360px;margin-top:8px" onclick="window.open('https://docs.google.com/spreadsheets/d/1PYAVFlLBVhj9rKORKw0ZC3j0yjpYZ1mlwr1pgeMroFA/edit','_blank')">📇 ლიდები — სახელი და ტელეფონი</button>
-    <div class="perm-point" style="max-width:360px;margin:10px auto 0;font-size:.76rem;opacity:.82">🔒 ტელეფონის ნომრები აპში არ ჩანს — ისინი მხოლოდ შენს Google-ში (დაცული, შესვლით) ჩანს. ბავშვების უსაფრთხოებისთვის public გვერდს არასდროს აქვს წვდომა PII-ზე.</div>
     <button class="btn btn-ghost btn-block" style="max-width:360px;margin-top:10px" onclick="location.href='index.html?app=1'">← აპში დაბრუნება</button>
     <button class="btn btn-ghost btn-block" style="max-width:360px;margin-top:8px" onclick="adminLogout()">ადმინიდან გასვლა (კოდის თავიდან შეყვანა)</button>
   </div>`,false);
