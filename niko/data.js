@@ -224,3 +224,13 @@ const KINGS_MATH = [
   {q:'კიბეს 11 საფეხური აქვს. შუა საფეხური რომელია?',a:6,opts:[6,5,7],emoji:'🪜',kind:'logic'},
   {q:'10 ფანქარი 2 ბავშვმა თანაბრად გაიყო. რამდენი ერგო თითოს?',a:5,opts:[5,4,6],emoji:'✏️',kind:'div',hintA:10,hintB:2}
 ];
+
+/* ── SHAPES (geometry, ka/en + emoji) ── */
+const SHAPES = [
+  {ka:'წრე',en:'circle',e:'⭕'},
+  {ka:'კვადრატი',en:'square',e:'🟦'},
+  {ka:'სამკუთხედი',en:'triangle',e:'🔺'},
+  {ka:'ვარსკვლავი',en:'star',e:'⭐'},
+  {ka:'გული',en:'heart',e:'❤️'},
+  {ka:'რომბი',en:'diamond',e:'🔷'}
+];

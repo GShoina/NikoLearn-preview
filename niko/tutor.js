@@ -93,6 +93,27 @@
     ], explain:`ჯერ მოისმინე სიტყვა, იპოვე პირველი ბგერა, მერე აირჩიე იგივე ასო. შენ შეგიძლია! 🌟`};
   }
 
+  // ── A: comparison / skip-counting / shapes ──
+  function compareT(q){
+    return {hints:[
+      `შეადარე: ${q?q.a:'პირველი'} და ${q?q.b:'მეორე'} — რომელია უფრო დიდი?`,
+      `ნიშნის ღია მხარე დიდი რიცხვისკენ იყურება. „>" = მეტი, „<" = ნაკლები, „=" = ტოლი.`
+    ], explain:`დიდი რიცხვი მარცხნივ → „>"; პატარა მარცხნივ → „<"; ერთნაირი → „=".`};
+  }
+  function skipT(q){
+    const st=q&&q.step?q.step:5;
+    return {hints:[
+      `ყოველ ნაბიჯზე ერთი და იგივე რიცხვი ემატება: ${st}.`,
+      `ბოლო რიცხვს დაუმატე ${st} და მიიღებ პასუხს.`
+    ], explain:`${st}-ობით დათვლა: ${st}, ${st*2}, ${st*3}… ყოველ ჯერზე ${st} ემატება.`};
+  }
+  function shapesT(q){
+    return {hints:[
+      `დააკვირდი ფორმას — რამდენი გვერდი და კუთხე აქვს?`,
+      `მრგვალია → წრე. სამი კუთხე → სამკუთხედი. ოთხი თანაბარი გვერდი → კვადრატი.`
+    ], explain:`დაითვალე გვერდები და კუთხეები — ისინი გეტყვის ფიგურის სახელს.`};
+  }
+
   // ── public ──
   window.Tutor = {
     build(ctx){
@@ -104,10 +125,14 @@
         case 'kings-math': r=kingsMath(ctx.q,kid); break;
         case 'counting': r=counting(kid); break;
         case 'alpha': r=alpha(ctx.q); break;
+        case 'compare': r=compareT(ctx.q); break;
+        case 'skip': r=skipT(ctx.q); break;
+        case 'shapes': r=shapesT(ctx.q); break;
         default: r=vocab(ctx.q,ctx.mode,kid);
       }
+      const mathish=(ctx.subject==='math'||ctx.subject==='kings-math'||ctx.subject==='compare'||ctx.subject==='skip'||ctx.subject==='shapes');
       r.name = ctx.aiRole==='coach'
-        ? (ctx.subject==='alpha'?'ბუ · ანბანის ქოუჩი':(ctx.subject==='math'||ctx.subject==='kings-math')?'ბუ · მათემატიკის ქოუჩი':'ბუ · ინგლისურის ქოუჩი')
+        ? (ctx.subject==='alpha'?'ბუ · ანბანის ქოუჩი':mathish?'ბუ · მათემატიკის ქოუჩი':'ბუ · ინგლისურის ქოუჩი')
         : 'ბუ · შენი მეგობარი';
       return r;
     }

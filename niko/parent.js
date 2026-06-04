@@ -42,7 +42,7 @@ function parentDash(){
       <div class="scard"><div class="sv" style="color:${acc>=70?'var(--green-d)':'var(--primary-d)'}">${acc}%</div><div class="sl">სიზუსტე</div></div>
     </div>`;
     // dynamic "where is the child getting stuck / what to improve"
-    const opNm={'math-add':'შეკრება','math-sub':'გამოკლება','math-mul':'გამრავლება','math-pat':'პატერნები'};
+    const opNm={'math-add':'შეკრება','math-sub':'გამოკლება','math-mul':'გამრავლება','math-pat':'პატერნები','compare':'შედარება','skip':'დათვლა 5/10','shapes':'ფიგურები'};
     const weakMath=Object.entries(s.math||{}).filter(([,v])=>{const t=v.correct+v.wrong;return t>=3&&v.correct/t<0.6;}).map(([k])=>opNm[k]||k);
     const weakAlpha=Object.entries(s.alpha||{}).filter(([,v])=>{const t=v.correct+v.wrong;return t>=3&&v.correct/t<0.7;}).map(([k])=>k==='ka-alpha'?'ქართული ანბანი':'English ანბანი');
     const recs=[];
@@ -57,7 +57,7 @@ function parentDash(){
     if(strong.length)html+=`<div class="tagrow">${strong.map(w=>`<span class="tag strong">✓ ${w}</span>`).join('')}</div>`;
     if(weak.length)html+=`<div class="tagrow">${weak.map(w=>`<span class="tag weak">↻ ${w}</span>`).join('')}</div>`;
     if(Object.keys(s.math||{}).length){
-      html+=`<div class="section-label" style="color:var(--purple)">მათემატიკა</div><div class="stat-grid">${Object.entries(s.math).map(([k,v])=>{const nm={'math-add':'➕','math-sub':'➖','math-mul':'✖️','math-pat':'🧩'}[k]||k;const a=v.correct+v.wrong?Math.round(v.correct/(v.correct+v.wrong)*100):0;return `<div class="scard"><div class="sv">${nm}</div><div class="sl">${a}% · ${v.correct}✓</div></div>`;}).join('')}</div>`;
+      html+=`<div class="section-label" style="color:var(--purple)">მათემატიკა</div><div class="stat-grid">${Object.entries(s.math).map(([k,v])=>{const nm={'math-add':'➕','math-sub':'➖','math-mul':'✖️','math-pat':'🧩','compare':'⚖️','skip':'🔢','shapes':'🔷'}[k]||k;const a=v.correct+v.wrong?Math.round(v.correct/(v.correct+v.wrong)*100):0;return `<div class="scard"><div class="sv">${nm}</div><div class="sl">${a}% · ${v.correct}✓</div></div>`;}).join('')}</div>`;
     }
     // engagement / healthy-use (Case 17): frequency + gentle nudge, not a long win-log
     const avg=s.sessions?Math.round(mins/s.sessions):0;
@@ -131,7 +131,7 @@ function buildReport(){
     lines.push(`  სიზუსტე: ${acc}% · სესია: ${s.sessions} · დრო: ${mins} წთ · 🔥 რეკორდი: ${s.maxStreak||0}`);
     const weak=Object.entries(s.words).filter(([,v])=>v.wrong>v.correct).map(([k])=>k).slice(0,6);
     if(weak.length)lines.push(`  გასამეორებელი: ${weak.join(', ')}`);
-    const opNm={'math-add':'შეკრება','math-sub':'გამოკლება','math-mul':'გამრავლება','math-pat':'პატერნები'};
+    const opNm={'math-add':'შეკრება','math-sub':'გამოკლება','math-mul':'გამრავლება','math-pat':'პატერნები','compare':'შედარება','skip':'დათვლა 5/10','shapes':'ფიგურები'};
     Object.entries(s.math||{}).forEach(([k,v])=>{const a=v.correct+v.wrong?Math.round(v.correct/(v.correct+v.wrong)*100):0;lines.push(`  ${opNm[k]||k}: ${a}%`);});
     lines.push('');
   });

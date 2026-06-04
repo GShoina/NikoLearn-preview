@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='2.5';
+const APP_VERSION='2.6';
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -354,6 +354,9 @@ function openMenu(subj){
       ${mode('math-sub','➖',kid?'':'გამოკლება',kid?'':mathRangeLabel('math-sub'))}
       ${kid?'':mode('math-mul','✖️','გამრავლება',mathRangeLabel('math-mul'))}
       ${mode('math-pat','🧩',kid?'':'პატერნები','')}
+      ${kid?'':mode('compare','⚖️','შედარება','&gt; &lt; =')}
+      ${kid?'':mode('skip','🔢','დათვლა','ხუთობით · ათობით')}
+      ${mode('shapes','🔷','ფიგურები','')}
     </div>`;
   } else if(subj==='counting'){
     body=`<div class="mode-grid">

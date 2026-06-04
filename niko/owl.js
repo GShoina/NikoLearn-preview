@@ -11,6 +11,9 @@ function gameSubject(){
   if(m.startsWith('math-'))return 'math';
   if(m==='count')return 'counting';
   if(m==='ka-alpha'||m==='en-alpha')return 'alpha';
+  if(m==='compare')return 'compare';
+  if(m==='skip')return 'skip';
+  if(m==='shapes')return 'shapes';
   return 'vocab';
 }
 function curQ(){return (game.mode||'').startsWith('math-')?game.cur:(game.qs?game.qs[game.i]:null);}

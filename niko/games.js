@@ -14,6 +14,9 @@ function phrasePool(){
 function startGame(m){
   if(m==='topics'){return openTopics();}
   if(m==='phrases'){return openPhraseCats();}
+  if(m==='compare')return cmpRound();
+  if(m==='skip')return skipRound();
+  if(m==='shapes')return shapeRound();
   game.mode=m;game.i=0;game.shields=0;game.wrong=0;game.start=Date.now();game.preLvl=levelIdx(profile);
   if(m.startsWith('math-'))return mathRound(m);
   const pool=wordPool();
@@ -216,6 +219,49 @@ function answerMath(btn,sel,cor){
 }
 function mrec(ok){const s=state[profile];if(ok){s.shields++;game.shields++;s.streak++;s.maxStreak=Math.max(s.maxStreak,s.streak);if(!s.math[game.mode])s.math[game.mode]={correct:0,wrong:0};s.math[game.mode].correct++;}else{game.wrong++;s.streak=0;if(!s.math[game.mode])s.math[game.mode]={correct:0,wrong:0};s.math[game.mode].wrong++;}save();}
 
+/* ════════ A: comparison (>/<), skip-counting (5s/10s), shapes ════════ */
+/* ── comparison: a ? b → pick > < = ── */
+function cmpRound(){game.mode='compare';game.qs=Array.from({length:8},()=>{const a=ri(1,20);let b=ri(1,20);if(Math.random()<0.25)b=a;return{a:a,b:b,ans:a>b?'>':(a<b?'<':'=')};});game.i=0;game.shields=0;game.wrong=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextCmp();}
+function nextCmp(){
+  if(game.i>=game.qs.length)return results();
+  const q=game.qs[game.i];game.cur=q;
+  gameShell(`<div class="prompt"><div class="p-word num" style="font-size:2.6rem;letter-spacing:6px">${q.a} <span style="opacity:.35">?</span> ${q.b}</div><div class="p-sub">მეტი, ნაკლები თუ ტოლი?</div></div>
+    <div class="options">${shuffle(['>','<','=']).map(o=>`<button class="opt num" style="font-size:2rem" onclick="answerCmp(this,'${o}','${q.ans}')">${o}</button>`).join('')}</div>`);
+  $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
+}
+function answerCmp(btn,sel,cor){
+  if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);praise();feedback(true);setTimeout(()=>{game.i++;closeFeedback();nextCmp();},950);}
+  else{btn.classList.add('wrong','dim');mrec(false);setTimeout(maybeOfferHelp,350);}
+}
+/* ── skip-counting by 5 or 10 ── */
+function skipRound(){game.mode='skip';const step=Math.random()<0.5?5:10;game.qs=Array.from({length:8},()=>{const s0=step*ri(1,6);const seq=[s0,s0+step,s0+step*2,s0+step*3];return{seq:seq,step:step,a:s0+step*4};});game.i=0;game.shields=0;game.wrong=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextSkip();}
+function nextSkip(){
+  if(game.i>=game.qs.length)return results();
+  const q=game.qs[game.i];game.cur=q;
+  gameShell(`<div class="prompt"><div class="p-word num" style="font-size:1.9rem;letter-spacing:1px">${q.seq.join(', ')}, ?</div><div class="p-sub">${q.step===5?'დაითვალე ხუთობით':'დაითვალე ათობით'}</div></div>
+    <div class="options">${mathOpts(q.a).map(o=>`<button class="opt num" onclick="answerSkip(this,${o},${q.a})">${o}</button>`).join('')}</div>`);
+  $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
+}
+function answerSkip(btn,sel,cor){
+  if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);praise();feedback(true);setTimeout(()=>{game.i++;closeFeedback();nextSkip();},950);}
+  else{btn.classList.add('wrong','dim');mrec(false);setTimeout(maybeOfferHelp,350);}
+}
+/* ── shapes: see a shape → pick its name (name shown in the UI language) ── */
+function shapeRound(){game.mode='shapes';game.qs=shuffle(SHAPES).slice(0,Math.min(8,SHAPES.length));game.i=0;game.shields=0;game.wrong=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextShape();}
+function nextShape(){
+  if(game.i>=game.qs.length)return results();
+  const q=game.qs[game.i];game.cur=q;
+  let opts=[q];const pool=SHAPES;while(opts.length<Math.min(4,pool.length)){const r=pool[ri(0,pool.length-1)];if(!opts.find(o=>o.en===r.en))opts.push(r);}opts=shuffle(opts);
+  const en=(window.UILANG==='en');
+  gameShell(`<div class="prompt"><div class="p-emoji" style="font-size:5rem">${q.e}</div><div class="p-sub">რა ფიგურაა?</div></div>
+    <div class="options">${opts.map(o=>`<button class="opt" onclick="speak('${o.en}','en-US');answerShape(this,'${o.en}','${q.en}')">${en?o.en:o.ka}</button>`).join('')}</div>`);
+  $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
+}
+function answerShape(btn,sel,cor){
+  if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);praise();feedback(true);setTimeout(()=>{game.i++;closeFeedback();nextShape();},950);}
+  else{btn.classList.add('wrong','dim');mrec(false);setTimeout(maybeOfferHelp,350);}
+}
+
 /* ── counting (Masho, zero-text) ── */
 function startCount(mode){game.mode='count';game.cmode=mode;game.qs=shuffle(COUNTING).slice(0,6);game.i=0;game.shields=0;game.wrong=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextCount();}
 function nextCount(){
@@ -328,6 +374,9 @@ function results(){
 }
 function replay(){
   const m=game.mode;
+  if(m==='compare')return cmpRound();
+  if(m==='skip')return skipRound();
+  if(m==='shapes')return shapeRound();
   if(m==='kings-eng')return startKings('eng');
   if(m==='kings-math')return startKings('math');
   if(m==='count')return startCount(game.cmode);
