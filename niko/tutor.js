@@ -114,6 +114,9 @@
     ], explain:`დაითვალე გვერდები და კუთხეები — ისინი გეტყვის ფიგურის სახელს.`};
   }
 
+  function moneyT(q){return {hints:['დაითვალე მონეტები: ერთმანეთს მიუმატე მათი რიცხვები.','დაიწყე დიდი მონეტიდან და დაუმატე დანარჩენი.'],explain:'მონეტების ჯამი = ფულის რაოდენობა. შეკრიბე ყველა მონეტა.'};}
+  function clockT(q){return {hints:['პატარა ისარი აჩვენებს საათს, დიდი ისარი — წუთებს.','დიდი ისარი 12-ზე = ზუსტი საათი; 6-ზე = ნახევარი (:30).'],explain:'საათის ისარი = საათი, წუთის ისარი = წუთები. იპოვე სად დგას ისრები.'};}
+
   // ── public ──
   window.Tutor = {
     build(ctx){
@@ -128,11 +131,13 @@
         case 'compare': r=compareT(ctx.q); break;
         case 'skip': r=skipT(ctx.q); break;
         case 'shapes': r=shapesT(ctx.q); break;
+        case 'money': r=moneyT(ctx.q); break;
+        case 'clock': r=clockT(ctx.q); break;
         default: r=vocab(ctx.q,ctx.mode,kid);
       }
-      const mathish=(ctx.subject==='math'||ctx.subject==='kings-math'||ctx.subject==='compare'||ctx.subject==='skip'||ctx.subject==='shapes');
+      const mathish=(ctx.subject==='math'||ctx.subject==='kings-math'||ctx.subject==='compare'||ctx.subject==='skip'||ctx.subject==='shapes'||ctx.subject==='money'||ctx.subject==='clock');
       r.name = ctx.aiRole==='coach'
-        ? (ctx.subject==='alpha'?'ბუ · ანბანის ქოუჩი':mathish?'ბუ · მათემატიკის ქოუჩი':'ბუ · ინგლისურის ქოუჩი')
+        ? (ctx.subject==='alpha'?'ბუ · ანბანის მასწავლებელი':mathish?'ბუ · მათემატიკის მასწავლებელი':'ბუ · ინგლისურის მასწავლებელი')
         : 'ბუ · შენი მეგობარი';
       return r;
     }

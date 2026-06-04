@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='2.7';
+const APP_VERSION='2.8';
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -357,6 +357,8 @@ function openMenu(subj){
       ${kid?'':mode('compare','⚖️','შედარება','&gt; &lt; =')}
       ${kid?'':mode('skip','🔢','დათვლა','ხუთობით · ათობით')}
       ${mode('shapes','🔷','ფიგურები','')}
+      ${kid?'':mode('money','💰','ფული','₾ · თეთრი')}
+      ${kid?'':mode('clock','🕐','საათი','დრო')}
     </div>`;
   } else if(subj==='counting'){
     body=`<div class="mode-grid">
@@ -364,8 +366,8 @@ function openMenu(subj){
     </div>`;
   } else { /* alphabets — Georgian & English */
     body=`<div class="mode-grid">
-      <div class="mode" style="min-height:120px" onclick="alphaLearn('${subj}',0)"><div class="kids-ico">📖</div><div class="m-name">სწავლა</div></div>
-      <div class="mode" style="min-height:120px" onclick="alphaQuiz('${subj}')"><div class="kids-ico">🎯</div><div class="m-name">ქვიზი</div></div>
+      <div class="mode" style="min-height:120px" onclick="alphaLearn('${subj}',0)"><div class="kids-ico">📖</div><div class="m-name">ისწავლე</div></div>
+      <div class="mode" style="min-height:120px" onclick="alphaQuiz('${subj}')"><div class="kids-ico">🎯</div><div class="m-name">ტესტები</div></div>
     </div>`;
   }
   render(`<div class="screen">

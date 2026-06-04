@@ -14,6 +14,8 @@ function gameSubject(){
   if(m==='compare')return 'compare';
   if(m==='skip')return 'skip';
   if(m==='shapes')return 'shapes';
+  if(m==='money')return 'money';
+  if(m==='clock')return 'clock';
   return 'vocab';
 }
 function curQ(){return (game.mode||'').startsWith('math-')?game.cur:(game.qs?game.qs[game.i]:null);}
@@ -74,7 +76,10 @@ function speakHint(btn){
   // device has a real voice for the instruction language → read the hint
   if(typeof hasVoiceFor==='function'&&hasVoiceFor(code)){speak(raw,code,{rate:isYoung(profile)?0.62:0.78});return;}
   // no native voice (e.g. Georgian on iOS): don't read garbled — speak the English target if it makes sense
-  const q=curQ();const en=q&&(q.en||q.a);
+  const q=curQ();
+  // can't voice the hint text → at least voice the example WORD/letter (a recorded ka clip exists for it)
+  if(q&&q.w){ speak(q.w,(typeof alphaIsKa==='function'&&alphaIsKa(game.mode))?'ka-GE':'en-US',{rate:isYoung(profile)?0.6:0.78}); return; }
+  const en=q&&(q.en||q.a);
   if(en&&knows(profile,'en')&&typeof en==='string')speak(en,'en-US',{rate:isYoung(profile)?0.7:0.82});
   // else: stay silent rather than mispronounce; the visual pulse already gave feedback
 }

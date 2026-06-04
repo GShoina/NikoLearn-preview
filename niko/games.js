@@ -17,6 +17,8 @@ function startGame(m){
   if(m==='compare')return cmpRound();
   if(m==='skip')return skipRound();
   if(m==='shapes')return shapeRound();
+  if(m==='money')return moneyRound();
+  if(m==='clock')return clockRound();
   game.mode=m;game.i=0;game.shields=0;game.wrong=0;game.start=Date.now();game.preLvl=levelIdx(profile);
   if(m.startsWith('math-'))return mathRound(m);
   const pool=wordPool();
@@ -262,6 +264,41 @@ function answerShape(btn,sel,cor){
   else{btn.classList.add('wrong','dim');mrec(false);setTimeout(maybeOfferHelp,350);}
 }
 
+/* ── money: count coins (tetri) → total ── */
+const COINS=[5,10,20,50];
+function moneyRound(){game.mode='money';game.qs=Array.from({length:8},()=>{const n=ri(2,3);const coins=[];let total=0;for(let i=0;i<n;i++){const v=COINS[ri(0,COINS.length-1)];coins.push(v);total+=v;}return{coins:coins,total:total};});game.i=0;game.shields=0;game.wrong=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextMoney();}
+function nextMoney(){
+  if(game.i>=game.qs.length)return results();
+  const q=game.qs[game.i];game.cur=q;
+  const coins=q.coins.map(v=>`<span style="display:inline-flex;flex-direction:column;align-items:center;margin:2px 6px"><span style="font-size:2.6rem;line-height:1">🪙</span><b class="num" style="font-size:.95rem">${v}</b></span>`).join('');
+  gameShell(`<div class="prompt"><div style="display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-end">${coins}</div><div class="p-sub">რამდენი თეთრია?</div></div>
+    <div class="options">${mathOpts(q.total).map(o=>`<button class="opt num" onclick="answerMoney(this,${o},${q.total})">${o}</button>`).join('')}</div>`);
+  $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
+}
+function answerMoney(btn,sel,cor){
+  if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);praise();feedback(true);setTimeout(()=>{game.i++;closeFeedback();nextMoney();},950);}
+  else{btn.classList.add('wrong','dim');mrec(false);setTimeout(maybeOfferHelp,350);}
+}
+/* ── clock: read an analog clock (o'clock / half past) ── */
+const CLOCK_OCLOCK=['🕛','🕐','🕑','🕒','🕓','🕔','🕕','🕖','🕗','🕘','🕙','🕚'];
+const CLOCK_HALF=['🕧','🕜','🕝','🕞','🕟','🕠','🕡','🕢','🕣','🕤','🕥','🕦'];
+function clockEmoji(h,half){const i=h%12;return half?CLOCK_HALF[i]:CLOCK_OCLOCK[i];}
+function timeLabel(h,half){return h+':'+(half?'30':'00');}
+function clockRound(){game.mode='clock';game.qs=Array.from({length:8},()=>{return{h:ri(1,12),half:Math.random()<0.5?1:0};});game.i=0;game.shields=0;game.wrong=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextClock();}
+function nextClock(){
+  if(game.i>=game.qs.length)return results();
+  const q=game.qs[game.i];game.cur=q;
+  const correct=timeLabel(q.h,q.half);
+  const set=new Set([correct]);while(set.size<4){set.add(timeLabel(ri(1,12),Math.random()<0.5?1:0));}
+  gameShell(`<div class="prompt"><div class="p-emoji" style="font-size:6rem">${clockEmoji(q.h,q.half)}</div><div class="p-sub">რომელ საათს უჩვენებს?</div></div>
+    <div class="options">${shuffle([...set]).map(o=>`<button class="opt num" onclick="answerClock(this,'${o}','${correct}')">${o}</button>`).join('')}</div>`);
+  $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
+}
+function answerClock(btn,sel,cor){
+  if(String(sel)===String(cor)){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);praise();feedback(true);setTimeout(()=>{game.i++;closeFeedback();nextClock();},950);}
+  else{btn.classList.add('wrong','dim');mrec(false);setTimeout(maybeOfferHelp,350);}
+}
+
 /* ── counting (Masho, zero-text) ── */
 function startCount(mode){game.mode='count';game.cmode=mode;game.qs=shuffle(COUNTING).slice(0,6);game.i=0;game.shields=0;game.wrong=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextCount();}
 function nextCount(){
@@ -273,10 +310,11 @@ function nextCount(){
     </div>`;
   gameShell(`${prompt}<div class="options">${shuffle([...opts]).map(n=>`<button class="opt emoji num" onclick="answerCount(this,${n},${q.num})">${n}</button>`).join('')}</div>`);
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
+  try{speak('რამდენია?',instrCode(profile));}catch(e){}
 }
 function answerCount(btn,sel,cor){
   if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');
-    const s=state[profile];s.shields++;game.shields++;s.streak++;save();praise();feedback(true);setTimeout(()=>{game.i++;closeFeedback();nextCount();},1000);}
+    const s=state[profile];s.shields++;game.shields++;s.streak++;save();const cq=game.qs[game.i];try{speak(knows(profile,'en')?cq.en:cq.ka,knows(profile,'en')?'en-US':'ka-GE');}catch(e){}feedback(true);setTimeout(()=>{game.i++;closeFeedback();nextCount();},1000);}
   else{btn.classList.add('wrong','dim');state[profile].streak=0;game.wrong++;save();}
 }
 
@@ -377,6 +415,8 @@ function replay(){
   if(m==='compare')return cmpRound();
   if(m==='skip')return skipRound();
   if(m==='shapes')return shapeRound();
+  if(m==='money')return moneyRound();
+  if(m==='clock')return clockRound();
   if(m==='kings-eng')return startKings('eng');
   if(m==='kings-math')return startKings('math');
   if(m==='count')return startCount(game.cmode);

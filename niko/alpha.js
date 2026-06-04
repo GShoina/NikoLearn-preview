@@ -25,7 +25,7 @@ function alphaLearn(subj,idx){
   game.subj=subj;
   const it=data[idx],last=idx>=n-1,first=idx<=0;
   render(`<div class="screen">
-    ${topbar(MODE_TITLES[subj]||subj,`სწავლა · ${idx+1}/${n}`,`openMenu('${subj}')`)}
+    ${topbar(MODE_TITLES[subj]||subj,`ისწავლე · ${idx+1}/${n}`,`openMenu('${subj}')`)}
     <div class="alpha-stage">
       <div class="alpha-card" onclick="alphaSay('${subj}',alphaData('${subj}')[${idx}])">
         <div class="alpha-letter">${it.l}</div>
@@ -38,7 +38,7 @@ function alphaLearn(subj,idx){
       <button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="alphaLearn('${subj}',${idx-1})">←</button>
       <div class="alpha-dots">${idx+1} / ${n}</div>
       ${last
-        ? `<button class="abtn go" onclick="alphaQuiz('${subj}')">ქვიზი 🎯</button>`
+        ? `<button class="abtn go" onclick="alphaQuiz('${subj}')">ტესტები 🎯</button>`
         : `<button class="abtn" onclick="alphaLearn('${subj}',${idx+1})">→</button>`}
     </div>
   </div>`,false);
@@ -58,6 +58,8 @@ function alphaOpts(data,correct){
   for(const it of shuffle(data)){if(set.size>=4)break;set.add(it.l);}
   return shuffle([...set]);
 }
+// voice the tapped letter via its example word (recorded clip), so a pre-reader hears each letter
+function alphaTapSay(subj,L){ const it=alphaData(subj).find(x=>x.l===L); if(it)alphaSay(subj,it); }
 function nextAlpha(){
   if(game.i>=game.qs.length)return results();
   const subj=game.mode,data=alphaData(subj),q=game.qs[game.i];
@@ -71,7 +73,7 @@ function nextAlpha(){
       <button class="speakbtn pulse-tap" onclick="alphaSay('${subj}',game.qs[${game.i}]);pulseTap(this)">${I.speaker} მისმინე</button>
       <div class="finger-hint">👆 აირჩიე ასო</div>
     </div>
-    <div class="options alpha-opts">${opts.map(L=>`<button class="opt letter ${alphaIsKa(subj)?'':'en'}" onclick="answerAlpha(this,'${L}','${q.l}')">${L}</button>`).join('')}</div>`;
+    <div class="options alpha-opts">${opts.map(L=>`<button class="opt letter ${alphaIsKa(subj)?'':'en'}" onclick="alphaTapSay('${subj}','${L}');answerAlpha(this,'${L}','${q.l}')">${L}</button>`).join('')}</div>`;
   gameShell(area);
   const c=$('#gcount');if(c)c.textContent=`${game.i+1}/${game.qs.length}`;
 }
