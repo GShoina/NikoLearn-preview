@@ -46,6 +46,7 @@ function save(){localStorage.setItem(SK,JSON.stringify(state));}
 const AV_COLORS=['sky','primary','green','sun','purple'];
 function kidObj(p){return ((state&&state.kids)||[]).find(k=>k.id===p)||(p==='guest'?{id:'guest',name:'სტუმარი',age:0,color:'green'}:{id:p,name:p,age:7,color:'sky'});}
 function isYoung(p){const a=kidObj(p).age;return a>0&&a<=5;}
+function isTiny(p){const a=kidObj(p).age;return a>0&&a<=4;} // pre-arithmetic: counting/alphabet/shapes only
 function catsFor(p){return isYoung(p)?AGE_CATS.masho:AGE_CATS.niko;}
 function demoNiko(){ // seeded so the prototype shows realistic data
   const k=blankKid();k.shields=148;k.streak=6;k.maxStreak=11;k.sessions=23;k.lastPlayed=new Date().toISOString();k.totalTime=3600000*2.4;

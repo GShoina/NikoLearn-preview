@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='3.2';
+const APP_VERSION='3.3';
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -278,11 +278,14 @@ function selectProfile(p){
   const s=state[p],lv=levelOf(p),isKid=isYoung(p);
   let subjects;
   if(isKid){
+    const tiny=isTiny(profile);
     subjects=`<div class="subj-grid">
       <div class="subj kids" onclick="openMenu('counting')"><div class="s-ico">🔢</div><div class="s-name num">1 2 3</div></div>
       <div class="subj kids" onclick="openMenu('ka-alpha')"><div class="s-ico">🇬🇪</div><div class="s-name">ა ბ გ</div></div>
       <div class="subj kids eng" onclick="openMenu('en-alpha')"><div class="s-ico">🇬🇧</div><div class="s-name en">A B C</div></div>
-      <div class="subj kids maths" onclick="openMenu('math')"><div class="s-ico">➕➖</div><div class="s-name num">➕</div></div>
+      ${tiny
+        ? `<div class="subj kids" onclick="startGame('shapes')"><div class="s-ico">🔷</div><div class="s-name">ფიგურები</div></div>`
+        : `<div class="subj kids maths" onclick="openMenu('math')"><div class="s-ico">➕➖</div><div class="s-name num">➕</div></div>`}
     </div>`;
   } else {
     const wc=Object.values(s.words).filter(w=>w.correct>=3).length;
@@ -339,11 +342,12 @@ function openMenu(subj){
     </div>`;
   } else if(subj==='math'){
     const kid=isYoung(profile);
+    const tiny=isTiny(profile);
     body=`<div class="mode-grid">
-      ${mode('math-add','➕',kid?'':'შეკრება',kid?'':mathRangeLabel('math-add'))}
-      ${mode('math-sub','➖',kid?'':'გამოკლება',kid?'':mathRangeLabel('math-sub'))}
+      ${tiny?'':mode('math-add','➕',kid?'':'შეკრება',kid?'':mathRangeLabel('math-add'))}
+      ${tiny?'':mode('math-sub','➖',kid?'':'გამოკლება',kid?'':mathRangeLabel('math-sub'))}
       ${kid?'':mode('math-mul','✖️','გამრავლება',mathRangeLabel('math-mul'))}
-      ${mode('math-pat','🧩',kid?'':'პატერნები','')}
+      ${tiny?'':mode('math-pat','🧩',kid?'':'პატერნები','')}
       ${kid?'':mode('compare','⚖️','შედარება','&gt; &lt; =')}
       ${kid?'':mode('skip','🔢','დათვლა','ხუთობით · ათობით')}
       ${mode('shapes','🔷','ფიგურები','')}
