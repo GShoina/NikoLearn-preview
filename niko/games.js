@@ -165,8 +165,8 @@ function matchTap(el){
    L1 starts easy (±20 = 1st grade); ramps up only when the child is ready,
    drops back if they struggle — so nobody gets blocked by numbers they don't know yet. */
 const MATH_LV = {
-  'math-add':[{max:20,label:'1–20'},{max:100,label:'1–100'}],
-  'math-sub':[{max:20,label:'1–20'},{max:100,label:'1–100'}],
+  'math-add':[{max:20,label:'1–20'},{max:40,label:'1–40'},{max:70,label:'1–70'},{max:100,label:'1–100'}],
+  'math-sub':[{max:20,label:'1–20'},{max:40,label:'1–40'},{max:70,label:'1–70'},{max:100,label:'1–100'}],
   'math-mul':[{tmax:5,label:'×2–×5'},{tmax:9,label:'×2–×9'}],
   'math-pat':[{span:2,label:''},{span:3,label:''}]
 };
@@ -177,11 +177,18 @@ function mathLvl(type){
 }
 function mathRangeLabel(type){const lv=MATH_LV[type];return lv?(lv[mathLvl(type)].label||''):'';}
 function rampMath(type,pct){
-  const s=state[profile]; if(!s.mathLevel)s.mathLevel={};
+  const s=state[profile]; if(!s.mathLevel)s.mathLevel={}; if(!s.mathUp)s.mathUp={};
   const cur=mathLvl(type), max=(MATH_LV[type]||[{}]).length-1;
   game.leveledMath=null;
-  if(pct>=85 && cur<max){ s.mathLevel[type]=cur+1; game.leveledMath=(MATH_LV[type][cur+1].label||''); }
-  else if(pct<50 && cur>0){ s.mathLevel[type]=cur-1; }
+  // gentle progression: move up only after TWO strong rounds in a row (no sudden 1–20 → 1–100 jump);
+  // step back quickly after a weak round so the test stays at the child's real level.
+  if(pct>=85){
+    s.mathUp[type]=(s.mathUp[type]||0)+1;
+    if(s.mathUp[type]>=2 && cur<max){ s.mathLevel[type]=cur+1; s.mathUp[type]=0; game.leveledMath=(MATH_LV[type][cur+1].label||''); }
+  } else {
+    s.mathUp[type]=0;
+    if(pct<50 && cur>0){ s.mathLevel[type]=cur-1; }
+  }
   save();
 }
 function genMath(type){
