@@ -80,3 +80,22 @@ on-device, no ads, no external links in the kids' app · age-appropriate tiers
 | C10 · One-time-unlock pricing option (vs subscription fatigue) for GE | Gus/Endless | 3 | 2 | 3 | Maybe | Proposed |
 | C11 · Gentle daily-goal/streak (stars, not leagues), ages 6-12 only | Duolingo | 3 | 3 | 2 | Maybe | Proposed |
 | C12 · Cultural micro-cards (Georgian objects/places) on vocab | Gus (maps) | 3 | 3 | 2 | Maybe | Proposed |
+
+### 2026-06-04 — Owner ideas (Gela)
+
+| Idea | Source | Impact | Effort | Prio | Roadmap? | Status |
+|---|---|:--:|:--:|:--:|:--:|---|
+| O1 · Child picks the tutor ANIMAL avatar (not only the owl) | owner | 4 | 3 | 3 | Yes | Proposed |
+| O2 · Movement / exercise breaks (squats, plank, jumps…) — not step-tracking | owner | 4 | 2 | 4 | Yes | Proposed |
+| O3 · Bedtime stories & poems read in the PARENT'S recorded voice | owner | 5 | 5 | 2 | Yes | Proposed (flagship) |
+| O4 · Drawing / coloring (finger paint + themed coloring pages + print) | owner | 4 | 4 | 2 | Yes | Proposed |
+
+**O1 — choose-your-tutor-animal.** Let the child pick which animal teaches them (🦉 owl, 🐱 cat, 🦁 lion, 🐶 dog, 🐰 rabbit, 🐼 panda…), stored per profile. Visual only — the recorded ka voice stays the same. Bonus: also resolves backlog #10 (Duolingo-owl differentiation) — our mascot becomes "the child's chosen friend", which Duolingo can't claim. *Touches: owl fab, hint bubble avatar, voice screen, a small picker on profile create/edit.*
+
+**O2 — movement breaks (brainstorm).** Extend the existing 15-min break screen into a real "მოძრაობა / Move" moment, illustrated + voiced in ka. Exercise pool ideas: ბუქნი (squats), პლანკა (plank, hold + count), ახტომა მაღლა (jumps), ცალ ფეხზე დგომა (stand on one leg), ხელების ტრიალი (arm circles), წვერებზე აწევა (tip-toes), დათვივით სიარული (bear walk), კენგურუსავით ხტომა (kangaroo hops), ცხოველის მიბაძვა (mimic an animal). Add a simple count/seconds timer + "ყოჩაღ!" reward. Optional: a dedicated "🤸 მოძრაობა" tile, not only the auto-break. *Needs new ka clips for exercise names (edge-tts, same pipeline).*
+
+**O3 — parent-voice stories (flagship, phase it).** A bedtime "ზღაპრები და ლექსები" section. Parent records their voice per story line (MediaRecorder), audio stored ON-DEVICE (IndexedDB — keeps the privacy promise), then the story plays page-by-page in mom's/dad's voice with the text/picture. Doesn't replace the parent — lets the app read in *their* voice when they can't. Phase 1: 3-4 short ka stories/poems + record/playback. Big build; highest emotional payoff & retention. *Privacy: audio never leaves device.*
+
+**O4 — drawing / coloring.** Motor-skill + creative, screen-positive. Sub-options: (a) free finger-paint canvas (touch, color palette, brush sizes, undo/clear); (b) themed coloring pages — pick a character from a theme (animals, space, Niko & friends) and fill it in; (c) save/print the result (export PNG / window.print). Phase 1: (a) free-paint + (b) a few coloring templates; (c) print later. *Works offline; no PII.*
+
+**PO recommendation (build order):** quick wins first → **O2 (movement)** then **O1 (animal avatar)** [each ~1 session, high delight]; then **O4 (drawing)** [medium]; then **O3 (parent-voice stories)** [flagship, multi-session — worth a dedicated push].
