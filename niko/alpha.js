@@ -6,6 +6,8 @@
 
 function alphaData(subj){return subj==='ka-alpha'?KA_ALPHA:EN_ALPHA;}
 function alphaIsKa(subj){return subj==='ka-alpha';}
+// each letter holds several example words (x:[[word,emoji],...]); pick one at random for variety
+function alphaItem(entry){const p=entry.x[ri(0,entry.x.length-1)];return {l:entry.l,w:p[0],e:p[1]};}
 
 /* speak one alphabet item, age- & language-appropriate */
 function alphaSay(subj,it){
@@ -23,15 +25,16 @@ function alphaLearn(subj,idx){
   const data=alphaData(subj),n=data.length;
   idx=Math.max(0,Math.min(idx,n-1));
   game.subj=subj;
-  const it=data[idx],last=idx>=n-1,first=idx<=0;
+  const entry=data[idx],last=idx>=n-1,first=idx<=0;
+  const it=alphaItem(entry); game.alphaIt=it;   // random example word, kept so re-taps say the same one
   render(`<div class="screen">
     ${topbar(MODE_TITLES[subj]||subj,`ისწავლე · ${idx+1}/${n}`,`openMenu('${subj}')`)}
     <div class="alpha-stage">
-      <div class="alpha-card" onclick="alphaSay('${subj}',alphaData('${subj}')[${idx}])">
+      <div class="alpha-card" onclick="alphaSay('${subj}',game.alphaIt)">
         <div class="alpha-letter">${it.l}</div>
         <div class="alpha-pic">${it.e}</div>
         <div class="alpha-word">${it.w}</div>
-        <button class="speakbtn big" onclick="event.stopPropagation();alphaSay('${subj}',alphaData('${subj}')[${idx}]);pulseTap(this)">${I.speaker} მისმინე</button>
+        <button class="speakbtn big" onclick="event.stopPropagation();alphaSay('${subj}',game.alphaIt);pulseTap(this)">${I.speaker} მისმინე</button>
       </div>
     </div>
     <div class="alpha-nav">
@@ -50,7 +53,7 @@ function alphaQuiz(subj){
   const data=alphaData(subj);
   game.mode=subj;game.subj=subj;game.i=0;game.shields=0;game.wrong=0;
   game.start=Date.now();game.preLvl=levelIdx(profile);
-  game.qs=shuffle(data).slice(0,8);
+  game.qs=shuffle(data).slice(0,8).map(alphaItem);
   nextAlpha();
 }
 function alphaOpts(data,correct){
@@ -59,7 +62,7 @@ function alphaOpts(data,correct){
   return shuffle([...set]);
 }
 // voice the tapped letter via its example word (recorded clip), so a pre-reader hears each letter
-function alphaTapSay(subj,L){ const it=alphaData(subj).find(x=>x.l===L); if(it)alphaSay(subj,it); }
+function alphaTapSay(subj,L){ const e=alphaData(subj).find(x=>x.l===L); if(e)alphaSay(subj,alphaItem(e)); }
 function nextAlpha(){
   if(game.i>=game.qs.length)return results();
   const subj=game.mode,data=alphaData(subj),q=game.qs[game.i];
