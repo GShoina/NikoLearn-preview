@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='3.0';
+const APP_VERSION='3.1';
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -107,7 +107,7 @@ function showLogin(){
     </div>
     <div class="login-card">
       <label class="login-lbl">მომხმარებელი</label>
-      <input class="login-in" id="lg-user" value="nikolozi" autocomplete="username">
+      <input class="login-in" id="lg-user" value="" placeholder="მომხმარებელი" autocomplete="username">
       <label class="login-lbl">პაროლი</label>
       <input class="login-in num" id="lg-pass" type="password" inputmode="numeric" placeholder="•••••" autocomplete="current-password">
       <div class="login-err" id="lg-err"></div>
@@ -255,9 +255,6 @@ function renderAddChild(){
     <div class="lvl-hint" style="margin:6px 2px">🔊 გახმოვანება და ახსნა ამ ენებზე. ინგლისურს მაინც ისწავლის თამაშით.</div>
     <div class="section-label mt">ფერი</div>
     <div class="color-row">${AV_COLORS.map(c=>`<button class="color-dot a-${c} ${draft.color===c?'on':''}" onclick="draft.color='${c}';renderAddChild()"></button>`).join('')}</div>
-    <div class="section-label mt">მშობლის ტელეფონი (არასავალდებულო)</div>
-    <input class="spell-input" id="kid-phone" type="tel" inputmode="tel" style="text-align:left;letter-spacing:0" placeholder="თუ გსურს დაგიკავშირდეთ" value="${draft.phone||''}" oninput="draft.phone=this.value">
-    <div class="lvl-hint" style="margin:6px 2px">📞 ნებაყოფლობითი — მხოლოდ თუ შეავსებ, დახმარებისთვის დაგიკავშირდებით.</div>
     <div class="spacer"></div>
     <button class="btn btn-primary btn-block mt" onclick="createChild()">შექმენი პროფილი</button>
   </div>`,false);
@@ -270,14 +267,7 @@ function createChild(){
   state.kids.push({id,name,age:draft.age,color:draft.color,langs:(draft.langs&&draft.langs.length?draft.langs:['ka'])});
   state[id]=blankKid();save();
   try{gtag('event','sign_up',{method:'profile'});}catch(e){}
-  const phone=(draft.phone||'').trim();
-  if(phone){ try{submitLead(name,draft.age,phone);}catch(e){} }
   selectProfile(id);
-}
-// opt-in lead capture -> owner's Google Form/Sheet (only fires if parent entered a phone)
-function submitLead(name,age,phone){
-  const b=new URLSearchParams({name:(name||'')+' ('+age+'წ)', phone:phone||'', source:'NikoLearn'});
-  fetch('https://script.google.com/macros/s/AKfycbxcfEjEWFSQlU_NCBJ7cB4VwZrel-Thl-NYdND5p4dKSWQj_ZvrhnpxDfSBzHD2ndfx/exec',{method:'POST',mode:'no-cors',body:b}).catch(()=>{});
 }
 function topbarPlain(title,back){
   return `<div class="topbar"><button class="iconbtn" onclick="${back}">←</button><div class="who">${title}</div></div>`;
@@ -297,8 +287,8 @@ function selectProfile(p){
   } else {
     const wc=Object.values(s.words).filter(w=>w.correct>=3).length;
     subjects=`<div class="subj-grid">
-      <div class="subj crown" onclick="openMenu('kings-eng')"><span class="s-badge">👑 Exam</span><div class="s-ico">👑</div><div class="s-name">Kings English</div><div class="s-sub">Cambridge YLE</div></div>
-      <div class="subj crown maths" onclick="openMenu('kings-math')"><span class="s-badge">👑 Exam</span><div class="s-ico">📐</div><div class="s-name">Kings Math</div><div class="s-sub">ოლიმპიადა</div></div>
+      <div class="subj crown" onclick="openMenu('kings-eng')"><span class="s-badge">👑 გამოცდა</span><div class="s-ico">👑</div><div class="s-name">კინგსი ინგლისური</div><div class="s-sub">Cambridge YLE</div></div>
+      <div class="subj crown maths" onclick="openMenu('kings-math')"><span class="s-badge">👑 გამოცდა</span><div class="s-ico">📐</div><div class="s-name">კინგსი მათემატიკა</div><div class="s-sub">ოლიმპიადა</div></div>
       <div class="subj eng" onclick="openMenu('english')"><span class="s-badge">${wc} სიტყვა</span><div class="s-ico">🔤</div><div class="s-name">ინგლისური</div><div class="s-sub">5 რეჟიმი</div></div>
       <div class="subj maths" onclick="openMenu('math')"><div class="s-ico">🧮</div><div class="s-name">მათემატიკა</div><div class="s-sub">დონეებით 1–100</div></div>
     </div>`;
@@ -315,7 +305,7 @@ function selectProfile(p){
 }
 
 /* ── mode menu ── */
-const MODE_TITLES={english:'🔤 ინგლისური',math:'🧮 მათემატიკა','kings-eng':'👑 Kings English','kings-math':'👑 Kings Math',counting:'🔢 დათვლა','ka-alpha':'🇬🇪 ანბანი','en-alpha':'🇬🇧 Alphabet'};
+const MODE_TITLES={english:'🔤 ინგლისური',math:'🧮 მათემატიკა','kings-eng':'👑 კინგსი ინგლისური','kings-math':'👑 კინგსი მათემატიკა',counting:'🔢 დათვლა','ka-alpha':'🇬🇪 ანბანი','en-alpha':'🇬🇧 ანბანი'};
 function openMenu(subj){
   game.subj=subj;
   let body;
@@ -334,7 +324,7 @@ function openMenu(subj){
     </div>`;
   } else if(subj==='kings-eng'){
     body=`<div class="mode-grid">
-      <div class="mode feature" onclick="startKings('eng')"><div class="m-ico">👑</div><div><div class="m-name">Kings ტესტი</div><div class="m-sub">სურათი · თარგმანი · მართლწერა · გრამატიკა</div></div></div>
+      <div class="mode feature" onclick="startKings('eng')"><div class="m-ico">👑</div><div><div class="m-name">კინგსის ტესტი</div><div class="m-sub">სურათი · თარგმანი · მართლწერა · გრამატიკა</div></div></div>
       ${mode('quiz','🎯','ლექსიკა','')}
       ${mode('listen','👂','მოსმენა','')}
       ${mode('spell','✍️','მართლწერა','')}
@@ -342,7 +332,7 @@ function openMenu(subj){
     </div>`;
   } else if(subj==='kings-math'){
     body=`<div class="mode-grid">
-      <div class="mode feature" onclick="startKings('math')"><div class="m-ico">👑</div><div><div class="m-name">Kings ოლიმპიადა</div><div class="m-sub">ამოცანები + ლოგიკა</div></div></div>
+      <div class="mode feature" onclick="startKings('math')"><div class="m-ico">👑</div><div><div class="m-name">კინგსის ოლიმპიადა</div><div class="m-sub">ამოცანები + ლოგიკა</div></div></div>
       ${mode('math-add','➕','შეკრება','1–100')}
       ${mode('math-sub','➖','გამოკლება','1–100')}
       ${mode('math-mul','✖️','გამრავლება','×2–×9')}

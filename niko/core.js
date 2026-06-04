@@ -103,7 +103,7 @@ function spellOut(el,text,opts){
 }
 
 /* ── levels (YLE proxy) ── */
-const LEVELS=[{n:'Starter',ic:'🐣',need:8},{n:'Grower',ic:'🌱',need:20},{n:'Learner',ic:'🚀',need:40},{n:'Explorer',ic:'⭐',need:60},{n:'Champion',ic:'🏆',need:999}];
+const LEVELS=[{n:'დამწყები',ic:'🐣',need:8},{n:'მზარდი',ic:'🌱',need:20},{n:'მსწავლელი',ic:'🚀',need:40},{n:'მკვლევარი',ic:'⭐',need:60},{n:'ჩემპიონი',ic:'🏆',need:999}];
 function levelOf(p){
   const s=state[p];const learned=Object.values(s.words).filter(w=>w.correct>=3).length;
   let i=0;for(;i<LEVELS.length-1;i++){if(learned<LEVELS[i].need)break;}

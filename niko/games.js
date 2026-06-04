@@ -144,7 +144,7 @@ function matchRound(){
   const col=arr=>arr.map(c=>`<div class="mtile ${c.l==='en'?'en':''}" data-w="${c.w}" data-l="${c.l}" onclick="matchTap(this)">${c.t}</div>`).join('');
   gameShell(`<div class="match-cols">
     <div class="match-col"><div class="match-head">🇬🇪 ქართული</div>${col(ka)}</div>
-    <div class="match-col"><div class="match-head en">🇬🇧 English</div>${col(en)}</div>
+    <div class="match-col"><div class="match-head en">🇬🇧 ინგლისური</div>${col(en)}</div>
   </div>`);
   $('#gcount').textContent=`0/${pool.length}`;
 }
@@ -396,7 +396,7 @@ function results(){
     <div class="stat-row">
       <div class="stat"><div class="v" style="color:var(--sun-d)">${game.shields}</div><div class="l">🪙 მონეტა</div></div>
       <div class="stat"><div class="v">${pct}%</div><div class="l">სიზუსტე</div></div>
-      <div class="stat"><div class="v" style="color:var(--primary-d)">${s.streak}</div><div class="l">🔥 streak</div></div>
+      <div class="stat"><div class="v" style="color:var(--primary-d)">${s.streak}</div><div class="l">🔥 სერია</div></div>
     </div>
     ${beat}
     <div class="actions">
@@ -412,6 +412,7 @@ function results(){
 }
 function replay(){
   const m=game.mode;
+  if(m==='phrases')return startPhrases(game.pcat);
   if(m==='compare')return cmpRound();
   if(m==='skip')return skipRound();
   if(m==='shapes')return shapeRound();
