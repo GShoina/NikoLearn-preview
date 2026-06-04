@@ -534,6 +534,10 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .breakscreen .mv-name b{font-size:1.15em}
 .breakscreen .mv-count{font-family:'Fredoka';font-weight:600;font-size:5.5rem;line-height:1;min-width:1.6em}
 .breakscreen .mv-go{font-size:1.15rem;padding:14px 30px}
+.breakscreen .b-back{position:absolute;top:16px;left:16px;width:46px;height:46px;border-radius:50%;
+  background:rgba(255,255,255,.22);color:#fff;font-size:1.5rem;line-height:1;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;padding:0}
+.breakscreen .b-back:active{background:rgba(255,255,255,.4)}
 .breakscreen button{background:#fff;color:var(--ink)}
 
 /* ── MIC PERMISSION ── */

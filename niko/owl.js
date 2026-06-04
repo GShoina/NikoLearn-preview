@@ -171,6 +171,12 @@ const MOVE_POOL=[
   {name:'კენგურუსავით ხტომა',emoji:'🦘', n:6,  unit:'reps'}
 ];
 let _mvTimer=null;
+// exit the break at any moment (stops the timer, returns to the screen underneath)
+function closeBreak(){
+  clearInterval(_mvTimer);_mvTimer=null;
+  try{speechSynthesis.cancel();}catch(e){}
+  const el=document.getElementById('breakscr');if(el)el.remove();
+}
 // manual=true when the child taps the 🤸 tile; false on the auto 15-min break.
 function showBreak(manual){
   if(document.getElementById('breakscr'))return; // guard against a double-open
@@ -179,6 +185,7 @@ function showBreak(manual){
   const unitLabel=ex.unit==='secs'?(ex.n+' წამი'):(ex.n+'-ჯერ');
   const el=document.createElement('div');el.className='breakscreen';el.id='breakscr';
   el.innerHTML=`
+    <button class="b-back" onclick="closeBreak()" aria-label="უკან">←</button>
     <div class="b-ico">${ex.emoji}</div>
     <div class="b-txt" id="mvTxt">${manual?'მოდი ცოტა ვიმოძრაოთ! 🤸':'ყოჩაღ! ცოტა ვისწავლეთ.<br>დროა მოძრაობის 🤸'}</div>
     <div class="b-act mv-name">${ex.name} · <b>${unitLabel}</b></div>
