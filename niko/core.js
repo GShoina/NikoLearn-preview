@@ -147,7 +147,15 @@ function praise(){ // warm spoken encouragement in the child's own language
   const code=instrCode(profile);
   const sets={'ka-GE':['ყოჩაღ','ბრავო','მართალია','შესანიშნავია'],'ru-RU':['молодец','отлично','верно'],'en-US':['well done','great job','you did it','nice work']};
   const list=sets[code]||sets['ka-GE'];
-  speak(list[ri(0,list.length-1)],code);
+  let word=list[ri(0,list.length-1)], useCode=code;
+  // NEVER read Georgian/Russian with an English voice (it sounds like garbage, e.g. „ყოჩაღ"→"kochas").
+  // If there's no recorded clip AND no real device voice for the language, praise in English instead —
+  // the English voice says it correctly and the app teaches English anyway.
+  const clip=window.AUDIO_MANIFEST&&window.AUDIO_MANIFEST[(word||'').toLowerCase()];
+  if(code!=='en-US' && !clip && (typeof hasVoiceFor!=='function' || !hasVoiceFor(code))){
+    const en=sets['en-US']; word=en[ri(0,en.length-1)]; useCode='en-US';
+  }
+  speak(word,useCode);
 }
 if('speechSynthesis'in window)speechSynthesis.onvoiceschanged=()=>speechSynthesis.getVoices();
 
