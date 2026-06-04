@@ -23,3 +23,6 @@ backups/
 
 # Test / tooling artifacts
 .playwright-mcp/
+
+# Owner-facing HTML deliverables — keep LOCAL, do not publish on the public Pages site
+output/
