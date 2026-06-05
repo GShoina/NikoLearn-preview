@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NikoLearn · მოძრაობის შესვენება</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Noto+Sans+Georgian:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════
+   NikoLearn — Movement Break (corrected visual)
+   Rigged-SVG characters, named limb groups, CSS-driven loops.
+   Offline · lightweight · vector · editable.
+   ═══════════════════════════════════════════════════════════ */
+:root{
+  --bg:        oklch(0.965 0.020 78);
+  --bg-tint:   oklch(0.945 0.030 70);
+  --card:      oklch(0.995 0.010 85);
+  --card-2:    oklch(0.975 0.016 80);
+  --ink:       oklch(0.330 0.038 52);
+  --muted:     oklch(0.520 0.034 58);
+  --faint:     oklch(0.640 0.028 62);
+  --line:      oklch(0.895 0.022 72);
+  --primary:   oklch(0.685 0.158 42);
+  --primary-d: oklch(0.585 0.150 40);
+  --green:     oklch(0.660 0.135 150);
+  --green-d:   oklch(0.560 0.130 150);
+  --sky:       oklch(0.685 0.120 238);
+  --sky-d:     oklch(0.585 0.120 240);
+  --sun:       oklch(0.820 0.150 88);
+  --radius:    22px;
+  --radius-sm: 14px;
+  --shadow:    0 1px 2px oklch(0.40 0.04 55 / .06), 0 8px 22px oklch(0.45 0.05 55 / .10);
+  --shadow-lg: 0 2px 6px oklch(0.40 0.04 55 / .08), 0 20px 44px oklch(0.45 0.05 55 / .16);
+}
+/* theme follows the host app (document.documentElement[data-theme]) */
+[data-theme="playground"]{
+  --bg:oklch(0.975 0.012 235); --bg-tint:oklch(0.945 0.030 230); --card:oklch(1 0 0);
+  --ink:oklch(0.285 0.045 262); --muted:oklch(0.500 0.045 258); --faint:oklch(0.620 0.040 256);
+  --line:oklch(0.905 0.020 250); --primary:oklch(0.640 0.195 26); --primary-d:oklch(0.550 0.190 25);
+  --green:oklch(0.700 0.165 150); --sky:oklch(0.655 0.165 245); --sun:oklch(0.820 0.165 86);
+  --radius:24px; --radius-sm:16px;
+  --shadow:0 2px 3px oklch(0.40 0.06 250 / .07), 0 10px 26px oklch(0.45 0.08 250 / .13);
+  --shadow-lg:0 3px 8px oklch(0.40 0.06 250 / .10), 0 24px 50px oklch(0.45 0.10 250 / .20);
+}
+[data-theme="calm"]{
+  --bg:oklch(0.960 0.006 250); --bg-tint:oklch(0.935 0.010 250); --card:oklch(0.992 0.004 250);
+  --ink:oklch(0.305 0.022 262); --muted:oklch(0.520 0.020 258); --faint:oklch(0.640 0.016 256);
+  --line:oklch(0.900 0.010 252); --primary:oklch(0.585 0.105 248); --primary-d:oklch(0.500 0.100 248);
+  --green:oklch(0.620 0.075 162); --sky:oklch(0.640 0.080 232); --sun:oklch(0.790 0.090 84);
+  --radius:15px; --radius-sm:11px;
+  --shadow:0 1px 2px oklch(0.40 0.02 255 / .05), 0 6px 18px oklch(0.45 0.03 255 / .08);
+  --shadow-lg:0 2px 5px oklch(0.40 0.02 255 / .07), 0 16px 38px oklch(0.45 0.03 255 / .13);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{
+  font-family:'Noto Sans Georgian',system-ui,sans-serif;
+  color:var(--ink);
+  background:radial-gradient(140% 100% at 50% 0%, var(--bg-tint), transparent 55%), var(--bg);
+  display:flex;align-items:center;justify-content:center;min-height:100dvh;
+  overflow:hidden;
+}
+.num,.en{font-family:'Fredoka',sans-serif}
+
+/* ── PHONE FRAME ── */
+.phone{
+  position:relative;width:100%;max-width:404px;height:100dvh;
+  background:linear-gradient(180deg, oklch(0.985 0.018 230) 0%, var(--bg) 42%);
+  display:flex;flex-direction:column;overflow:hidden;
+}
+@media (min-width:720px){
+  body{padding:28px}
+  .phone{height:min(884px,94dvh);border-radius:42px;box-shadow:var(--shadow-lg),0 0 0 10px oklch(0.30 0.03 55 / .9),0 0 0 12px oklch(0.22 0.02 55)}
+}
+
+/* ── TOP BAR ── */
+.topbar{display:flex;align-items:center;gap:12px;padding:14px 16px 4px;flex:0 0 auto}
+.iconbtn{width:44px;height:44px;flex:none;border:none;background:var(--card);color:var(--ink);
+  border-radius:13px;font-size:1.25rem;cursor:pointer;display:grid;place-items:center;box-shadow:var(--shadow)}
+.iconbtn:active{transform:scale(.92)}
+.topbar .who{flex:1;font-weight:700;font-size:1.04rem;line-height:1.15}
+.topbar .who small{display:block;font-weight:500;color:var(--muted);font-size:.74rem}
+.pill{display:inline-flex;align-items:center;gap:6px;background:var(--card);border-radius:999px;
+  padding:8px 13px;font-weight:700;font-size:.9rem;box-shadow:var(--shadow)}
+.pill .num{color:var(--primary-d)}
+
+/* ── SCENE ── */
+.scene{position:relative;flex:1 1 auto;min-height:0;display:flex;align-items:flex-end;justify-content:center;
+  overflow:hidden}
+.room{position:absolute;inset:0;background:
+   radial-gradient(120% 70% at 50% 12%, oklch(0.93 0.06 235), transparent 70%);
+   z-index:0}
+.cloud{position:absolute;border-radius:999px;background:oklch(0.99 0.01 230 / .85);filter:blur(.4px)}
+.cloud.a{width:78px;height:26px;top:11%;left:13%}
+.cloud.b{width:54px;height:20px;top:20%;right:16%}
+.cloud.c{width:40px;height:15px;top:7%;right:34%}
+.mat{position:absolute;left:50%;bottom:30px;width:280px;height:128px;
+  transform:translateX(-50%) perspective(360px) rotateX(57deg);transform-origin:center bottom;
+  border-radius:20px;
+  background:
+    repeating-linear-gradient(0deg, oklch(0.78 0.08 158 / .35) 0 1px, transparent 1px 26px),
+    repeating-linear-gradient(90deg, oklch(0.78 0.08 158 / .35) 0 1px, transparent 1px 26px),
+    linear-gradient(180deg, oklch(0.90 0.07 150), oklch(0.84 0.09 150));
+  box-shadow:0 20px 30px oklch(0.45 0.06 150 / .22), inset 0 0 0 3px oklch(0.74 0.10 152 / .5);
+  z-index:1}
+.chars{position:relative;z-index:2;display:flex;align-items:flex-end;justify-content:center;gap:6px;
+  width:100%;padding-bottom:26px}
+.char{width:148px;height:auto;max-width:44%}
+@media (max-width:380px){.char{width:130px}.mat{width:250px}}
+
+/* ── RIG: named limb groups animate here ── */
+.seg{transform-box:fill-box;transform-origin:50% 0%}
+.figure{transform-box:fill-box;transform-origin:50% 74%}
+.squash{transform-box:fill-box;transform-origin:50% 100%}
+.shadow{transform-box:fill-box;transform-origin:50% 50%}
+
+/* idle defaults (no move selected) */
+.figure{animation:idleBob 2.8s ease-in-out infinite}
+.armL .seg{animation:idleArmL 2.8s ease-in-out infinite}
+.armR .seg{animation:idleArmR 2.8s ease-in-out infinite}
+.char.lag .figure,.char.lag .armL .seg,.char.lag .armR .seg,
+.char.lag .legL .seg,.char.lag .legR .seg,.char.lag .squash,.char.lag .shadow{animation-delay:-.18s}
+
+.scene.paused *{animation-play-state:paused!important}
+
+@keyframes idleBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes idleArmL{0%,100%{transform:rotate(11deg)}50%{transform:rotate(15deg)}}
+@keyframes idleArmR{0%,100%{transform:rotate(-11deg)}50%{transform:rotate(-15deg)}}
+
+/* 1 · SQUAT */
+.scene[data-move="squat"] .figure{animation:figSquat var(--dur) ease-in-out infinite}
+.scene[data-move="squat"] .squash{animation:sqSquash var(--dur) ease-in-out infinite}
+.scene[data-move="squat"] .armL .seg{animation:armLSquat var(--dur) ease-in-out infinite}
+.scene[data-move="squat"] .armR .seg{animation:armRSquat var(--dur) ease-in-out infinite}
+.scene[data-move="squat"] .legL .seg{animation:legLSquat var(--dur) ease-in-out infinite}
+.scene[data-move="squat"] .legR .seg{animation:legRSquat var(--dur) ease-in-out infinite}
+@keyframes figSquat{0%,100%{transform:translateY(0)}50%{transform:translateY(22px)}}
+@keyframes sqSquash{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.93)}}
+@keyframes armLSquat{0%,100%{transform:rotate(11deg)}50%{transform:rotate(94deg)}}
+@keyframes armRSquat{0%,100%{transform:rotate(-11deg)}50%{transform:rotate(-94deg)}}
+@keyframes legLSquat{0%,100%{transform:rotate(0)}50%{transform:rotate(12deg)}}
+@keyframes legRSquat{0%,100%{transform:rotate(0)}50%{transform:rotate(-12deg)}}
+
+/* 2 · JUMP */
+.scene[data-move="jump"] .figure{animation:figJump var(--dur) ease-in-out infinite}
+.scene[data-move="jump"] .squash{animation:sqJump var(--dur) ease-in-out infinite}
+.scene[data-move="jump"] .armL .seg{animation:armLJump var(--dur) ease-in-out infinite}
+.scene[data-move="jump"] .armR .seg{animation:armRJump var(--dur) ease-in-out infinite}
+.scene[data-move="jump"] .legL .seg{animation:legLJump var(--dur) ease-in-out infinite}
+.scene[data-move="jump"] .legR .seg{animation:legRJump var(--dur) ease-in-out infinite}
+.scene[data-move="jump"] .shadow{animation:shJump var(--dur) ease-in-out infinite}
+@keyframes figJump{0%{transform:translateY(0)}18%{transform:translateY(15px)}42%{transform:translateY(-48px)}62%{transform:translateY(-48px)}82%{transform:translateY(7px)}100%{transform:translateY(0)}}
+@keyframes sqJump{0%,100%{transform:scaleY(1)}18%{transform:scaleY(.84)}42%{transform:scaleY(1.09)}82%{transform:scaleY(.92)}}
+@keyframes armLJump{0%,100%{transform:rotate(11deg)}18%{transform:rotate(-26deg)}45%{transform:rotate(168deg)}}
+@keyframes armRJump{0%,100%{transform:rotate(-11deg)}18%{transform:rotate(26deg)}45%{transform:rotate(-168deg)}}
+@keyframes legLJump{0%,100%{transform:rotate(0)}42%{transform:rotate(7deg)}}
+@keyframes legRJump{0%,100%{transform:rotate(0)}42%{transform:rotate(-7deg)}}
+@keyframes shJump{0%,100%{transform:scale(1);opacity:.5}42%,62%{transform:scale(.6);opacity:.28}}
+
+/* 3 · PLANK (hold) — horizontal pose: allow overflow, pivot at hips, stagger depth */
+.scene[data-move="plank"] .char,.scene[data-move="bear"] .char{overflow:visible}
+.scene[data-move="plank"] .chars,.scene[data-move="bear"] .chars{gap:46px;padding-bottom:54px}
+.scene[data-move="plank"] .char.lag,.scene[data-move="bear"] .char.lag{transform:translate(6px,-66px) scale(.8)}
+.scene[data-move="plank"] .figure,.scene[data-move="bear"] .figure{transform-origin:50% 60%}
+.scene[data-move="plank"] .figure{animation:figPlank var(--dur) ease-in-out infinite}
+.scene[data-move="plank"] .armL .seg{animation:armLPlank var(--dur) ease-in-out infinite}
+.scene[data-move="plank"] .armR .seg{animation:armRPlank var(--dur) ease-in-out infinite}
+.scene[data-move="plank"] .legL .seg{animation:legLPlank var(--dur) ease-in-out infinite}
+.scene[data-move="plank"] .legR .seg{animation:legRPlank var(--dur) ease-in-out infinite}
+@keyframes figPlank{0%,100%{transform:translateY(40px) rotate(78deg) scale(.82)}50%{transform:translateY(36px) rotate(79deg) scale(.82)}}
+@keyframes armLPlank{0%,100%{transform:rotate(-76deg)}50%{transform:rotate(-78deg)}}
+@keyframes armRPlank{0%,100%{transform:rotate(-80deg)}50%{transform:rotate(-82deg)}}
+@keyframes legLPlank{0%,100%{transform:rotate(2deg)}50%{transform:rotate(0deg)}}
+@keyframes legRPlank{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(-4deg)}}
+
+/* 4 · ONE-LEG BALANCE (hold) */
+.scene[data-move="balance"] .figure{animation:figBal var(--dur) ease-in-out infinite}
+.scene[data-move="balance"] .armL .seg{animation:armLBal var(--dur) ease-in-out infinite}
+.scene[data-move="balance"] .armR .seg{animation:armRBal var(--dur) ease-in-out infinite}
+.scene[data-move="balance"] .legL .seg{animation:legLBal var(--dur) ease-in-out infinite}
+.scene[data-move="balance"] .legR .seg{animation:legRBal var(--dur) ease-in-out infinite}
+@keyframes figBal{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
+@keyframes armLBal{0%,100%{transform:rotate(66deg)}50%{transform:rotate(74deg)}}
+@keyframes armRBal{0%,100%{transform:rotate(-66deg)}50%{transform:rotate(-74deg)}}
+@keyframes legLBal{0%,100%{transform:rotate(2deg)}50%{transform:rotate(-2deg)}}
+@keyframes legRBal{0%,100%{transform:rotate(-38deg)}50%{transform:rotate(-46deg)}}
+
+/* 5 · ARM CIRCLES */
+.scene[data-move="armcircles"] .armL .seg{animation:armCircleL var(--dur) linear infinite}
+.scene[data-move="armcircles"] .armR .seg{animation:armCircleR var(--dur) linear infinite}
+@keyframes armCircleL{0%{transform:rotate(8deg)}100%{transform:rotate(368deg)}}
+@keyframes armCircleR{0%{transform:rotate(-8deg)}100%{transform:rotate(-368deg)}}
+
+/* 6 · OVERHEAD REACH */
+.scene[data-move="overhead"] .figure{animation:figOver var(--dur) ease-in-out infinite}
+.scene[data-move="overhead"] .armL .seg{animation:armLOver var(--dur) ease-in-out infinite}
+.scene[data-move="overhead"] .armR .seg{animation:armROver var(--dur) ease-in-out infinite}
+@keyframes figOver{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes armLOver{0%,100%{transform:rotate(156deg)}50%{transform:rotate(174deg)}}
+@keyframes armROver{0%,100%{transform:rotate(-156deg)}50%{transform:rotate(-174deg)}}
+
+/* 7 · BEAR WALK */
+.scene[data-move="bear"] .figure{animation:figBear var(--dur) ease-in-out infinite}
+.scene[data-move="bear"] .armL .seg{animation:armLBear var(--dur) ease-in-out infinite}
+.scene[data-move="bear"] .armR .seg{animation:armRBear var(--dur) ease-in-out infinite}
+.scene[data-move="bear"] .legL .seg{animation:legLBear var(--dur) ease-in-out infinite}
+.scene[data-move="bear"] .legR .seg{animation:legRBear var(--dur) ease-in-out infinite}
+@keyframes figBear{0%,100%{transform:translateY(34px) rotate(50deg) scale(.86)}50%{transform:translateY(31px) rotate(50deg) scale(.86)}}
+@keyframes armLBear{0%,100%{transform:rotate(-40deg)}50%{transform:rotate(-62deg)}}
+@keyframes armRBear{0%,100%{transform:rotate(-62deg)}50%{transform:rotate(-40deg)}}
+@keyframes legLBear{0%,100%{transform:rotate(-58deg)}50%{transform:rotate(-40deg)}}
+@keyframes legRBear{0%,100%{transform:rotate(-40deg)}50%{transform:rotate(-58deg)}}
+
+/* 8 · KANGAROO */
+.scene[data-move="kangaroo"] .figure{animation:figKang var(--dur) ease-in-out infinite}
+.scene[data-move="kangaroo"] .squash{animation:sqKang var(--dur) ease-in-out infinite}
+.scene[data-move="kangaroo"] .armL .seg{animation:armLKang var(--dur) ease-in-out infinite}
+.scene[data-move="kangaroo"] .armR .seg{animation:armRKang var(--dur) ease-in-out infinite}
+.scene[data-move="kangaroo"] .shadow{animation:shJump var(--dur) ease-in-out infinite}
+@keyframes figKang{0%{transform:translateY(0)}30%{transform:translateY(13px)}55%{transform:translateY(-34px)}80%{transform:translateY(5px)}100%{transform:translateY(0)}}
+@keyframes sqKang{0%,100%{transform:scaleY(1)}30%{transform:scaleY(.82)}55%{transform:scaleY(1.12)}}
+@keyframes armLKang{0%,100%{transform:rotate(133deg)}55%{transform:rotate(150deg)}}
+@keyframes armRKang{0%,100%{transform:rotate(-133deg)}55%{transform:rotate(-150deg)}}
+
+/* 9 · JUMPING JACKS */
+.scene[data-move="jacks"] .figure{animation:figJacks var(--dur) ease-in-out infinite}
+.scene[data-move="jacks"] .armL .seg{animation:armLJacks var(--dur) ease-in-out infinite}
+.scene[data-move="jacks"] .armR .seg{animation:armRJacks var(--dur) ease-in-out infinite}
+.scene[data-move="jacks"] .legL .seg{animation:legLJacks var(--dur) ease-in-out infinite}
+.scene[data-move="jacks"] .legR .seg{animation:legRJacks var(--dur) ease-in-out infinite}
+@keyframes figJacks{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes armLJacks{0%,100%{transform:rotate(14deg)}50%{transform:rotate(166deg)}}
+@keyframes armRJacks{0%,100%{transform:rotate(-14deg)}50%{transform:rotate(-166deg)}}
+@keyframes legLJacks{0%,100%{transform:rotate(2deg)}50%{transform:rotate(22deg)}}
+@keyframes legRJacks{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(-22deg)}}
+
+/* 10 · HIGH KNEES / MARCH */
+.scene[data-move="march"] .armL .seg{animation:armLMarch var(--dur) ease-in-out infinite}
+.scene[data-move="march"] .armR .seg{animation:armRMarch var(--dur) ease-in-out infinite}
+.scene[data-move="march"] .legL .seg{animation:legLMarch var(--dur) ease-in-out infinite}
+.scene[data-move="march"] .legR .seg{animation:legRMarch var(--dur) ease-in-out infinite}
+@keyframes legLMarch{0%,100%{transform:rotate(-30deg)}50%{transform:rotate(3deg)}}
+@keyframes legRMarch{0%,100%{transform:rotate(3deg)}50%{transform:rotate(-30deg)}}
+@keyframes armLMarch{0%,100%{transform:rotate(26deg)}50%{transform:rotate(-18deg)}}
+@keyframes armRMarch{0%,100%{transform:rotate(-26deg)}50%{transform:rotate(18deg)}}
+
+/* 11 · SIDE BENDS */
+.scene[data-move="sidebend"] .figure{animation:figSide var(--dur) ease-in-out infinite}
+.scene[data-move="sidebend"] .armL .seg{animation:armLSide var(--dur) ease-in-out infinite}
+.scene[data-move="sidebend"] .armR .seg{animation:armRSide var(--dur) ease-in-out infinite}
+@keyframes figSide{0%,100%{transform:rotate(-11deg)}50%{transform:rotate(11deg)}}
+@keyframes armLSide{0%,100%{transform:rotate(40deg)}50%{transform:rotate(156deg)}}
+@keyframes armRSide{0%,100%{transform:rotate(-156deg)}50%{transform:rotate(-40deg)}}
+
+/* 12 · TORSO TWIST */
+.scene[data-move="twist"] .armL .seg{animation:armLTwist var(--dur) ease-in-out infinite}
+.scene[data-move="twist"] .armR .seg{animation:armRTwist var(--dur) ease-in-out infinite}
+@keyframes armLTwist{0%,100%{transform:rotate(85deg)}50%{transform:rotate(-15deg)}}
+@keyframes armRTwist{0%,100%{transform:rotate(15deg)}50%{transform:rotate(-85deg)}}
+
+/* 13 · TOE TOUCH */
+.scene[data-move="toetouch"] .char{overflow:visible}
+.scene[data-move="toetouch"] .figure{transform-origin:50% 62%;animation:figToe var(--dur) ease-in-out infinite}
+.scene[data-move="toetouch"] .armL .seg{animation:armLToe var(--dur) ease-in-out infinite}
+.scene[data-move="toetouch"] .armR .seg{animation:armRToe var(--dur) ease-in-out infinite}
+@keyframes figToe{0%,100%{transform:rotate(0)}50%{transform:translateY(4px) rotate(42deg)}}
+@keyframes armLToe{0%,100%{transform:rotate(12deg)}50%{transform:rotate(-34deg)}}
+@keyframes armRToe{0%,100%{transform:rotate(-12deg)}50%{transform:rotate(34deg)}}
+
+/* 14 · OVERHEAD CLAPS */
+.scene[data-move="clap"] .armL .seg{animation:armLClap var(--dur) ease-in-out infinite}
+.scene[data-move="clap"] .armR .seg{animation:armRClap var(--dur) ease-in-out infinite}
+@keyframes armLClap{0%,100%{transform:rotate(150deg)}50%{transform:rotate(176deg)}}
+@keyframes armRClap{0%,100%{transform:rotate(-150deg)}50%{transform:rotate(-176deg)}}
+
+/* 15 · RUN IN PLACE */
+.scene[data-move="run"] .figure{animation:figRun var(--dur) ease-in-out infinite}
+.scene[data-move="run"] .armL .seg{animation:armLRun var(--dur) ease-in-out infinite}
+.scene[data-move="run"] .armR .seg{animation:armRRun var(--dur) ease-in-out infinite}
+.scene[data-move="run"] .legL .seg{animation:legLRun var(--dur) ease-in-out infinite}
+.scene[data-move="run"] .legR .seg{animation:legRRun var(--dur) ease-in-out infinite}
+@keyframes figRun{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes legLRun{0%,100%{transform:rotate(-32deg)}50%{transform:rotate(28deg)}}
+@keyframes legRRun{0%,100%{transform:rotate(28deg)}50%{transform:rotate(-32deg)}}
+@keyframes armLRun{0%,100%{transform:rotate(50deg)}50%{transform:rotate(-30deg)}}
+@keyframes armRRun{0%,100%{transform:rotate(-50deg)}50%{transform:rotate(30deg)}}
+
+/* 16 · AIRPLANE (hold) */
+.scene[data-move="airplane"] .figure{animation:figAir var(--dur) ease-in-out infinite}
+.scene[data-move="airplane"] .armL .seg{animation:armLAir var(--dur) ease-in-out infinite}
+.scene[data-move="airplane"] .armR .seg{animation:armRAir var(--dur) ease-in-out infinite}
+.scene[data-move="airplane"] .legR .seg{animation:legRAir var(--dur) ease-in-out infinite}
+@keyframes figAir{0%,100%{transform:rotate(-7deg)}50%{transform:rotate(7deg)}}
+@keyframes armLAir{0%,100%{transform:rotate(92deg)}50%{transform:rotate(86deg)}}
+@keyframes armRAir{0%,100%{transform:rotate(-92deg)}50%{transform:rotate(-86deg)}}
+@keyframes legRAir{0%,100%{transform:rotate(-12deg)}50%{transform:rotate(-19deg)}}
+
+/* 17 · BOXING */
+.scene[data-move="punch"] .armL .seg{animation:armLPunch var(--dur) ease-in-out infinite}
+.scene[data-move="punch"] .armR .seg{animation:armRPunch var(--dur) ease-in-out infinite}
+@keyframes armLPunch{0%,50%,100%{transform:rotate(38deg)}25%{transform:rotate(94deg)}}
+@keyframes armRPunch{0%,50%,100%{transform:rotate(-38deg)}75%{transform:rotate(-94deg)}}
+
+/* 18 · DANCE WIGGLE */
+.scene[data-move="dance"] .figure{animation:figDance var(--dur) ease-in-out infinite}
+.scene[data-move="dance"] .armL .seg{animation:armLDance var(--dur) ease-in-out infinite}
+.scene[data-move="dance"] .armR .seg{animation:armRDance var(--dur) ease-in-out infinite}
+@keyframes figDance{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-5px) rotate(5deg)}}
+@keyframes armLDance{0%,100%{transform:rotate(120deg)}50%{transform:rotate(150deg)}}
+@keyframes armRDance{0%,100%{transform:rotate(-150deg)}50%{transform:rotate(-120deg)}}
+
+/* 19 · FROG JUMPS */
+.scene[data-move="frog"] .figure{animation:figFrog var(--dur) ease-in-out infinite}
+.scene[data-move="frog"] .squash{animation:sqFrog var(--dur) ease-in-out infinite}
+.scene[data-move="frog"] .armL .seg{animation:armLFrog var(--dur) ease-in-out infinite}
+.scene[data-move="frog"] .armR .seg{animation:armRFrog var(--dur) ease-in-out infinite}
+.scene[data-move="frog"] .legL .seg{animation:legLFrog var(--dur) ease-in-out infinite}
+.scene[data-move="frog"] .legR .seg{animation:legRFrog var(--dur) ease-in-out infinite}
+.scene[data-move="frog"] .shadow{animation:shJump var(--dur) ease-in-out infinite}
+@keyframes figFrog{0%,100%{transform:translateY(18px)}45%{transform:translateY(-26px)}70%{transform:translateY(18px)}}
+@keyframes sqFrog{0%,100%{transform:scaleY(.88)}45%{transform:scaleY(1.08)}}
+@keyframes armLFrog{0%,100%{transform:rotate(42deg)}45%{transform:rotate(150deg)}}
+@keyframes armRFrog{0%,100%{transform:rotate(-42deg)}45%{transform:rotate(-150deg)}}
+@keyframes legLFrog{0%,100%{transform:rotate(20deg)}45%{transform:rotate(4deg)}}
+@keyframes legRFrog{0%,100%{transform:rotate(-20deg)}45%{transform:rotate(-4deg)}}
+
+/* 20 · FLAMINGO (hold) */
+.scene[data-move="flamingo"] .figure{animation:figFla var(--dur) ease-in-out infinite}
+.scene[data-move="flamingo"] .armL .seg{animation:armLFla var(--dur) ease-in-out infinite}
+.scene[data-move="flamingo"] .armR .seg{animation:armRFla var(--dur) ease-in-out infinite}
+.scene[data-move="flamingo"] .legR .seg{animation:legRFla var(--dur) ease-in-out infinite}
+@keyframes figFla{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+@keyframes armLFla{0%,100%{transform:rotate(104deg)}50%{transform:rotate(120deg)}}
+@keyframes armRFla{0%,100%{transform:rotate(-104deg)}50%{transform:rotate(-120deg)}}
+@keyframes legRFla{0%,100%{transform:rotate(-42deg)}50%{transform:rotate(-50deg)}}
+
+/* ── NOW PLAYING ── */
+.now{flex:0 0 auto;text-align:center;padding:6px 18px 2px}
+.now .name{font-weight:700;font-size:1.5rem;line-height:1.1}
+.now .sub{font-family:'Fredoka',sans-serif;font-weight:500;font-size:.8rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--faint);margin-top:3px}
+.count{display:inline-flex;align-items:baseline;gap:7px;margin-top:9px;background:var(--card);
+  border-radius:999px;padding:7px 16px;box-shadow:var(--shadow)}
+.count .big{font-family:'Fredoka',sans-serif;font-weight:700;font-size:1.7rem;color:var(--primary-d);line-height:1}
+.count .tot{font-family:'Fredoka',sans-serif;font-weight:500;font-size:1rem;color:var(--faint)}
+.count .lbl{font-size:.8rem;color:var(--muted);font-weight:600}
+.bar{height:7px;border-radius:99px;background:var(--line);margin:11px auto 0;max-width:280px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--sun),var(--primary));transition:width .3s}
+
+/* ── CONTROLS ── */
+.controls{flex:0 0 auto;display:flex;align-items:center;justify-content:center;gap:14px;padding:10px 0 4px}
+.ctl{width:44px;height:44px;border:none;border-radius:50%;background:var(--card);color:var(--ink);
+  font-size:1.05rem;cursor:pointer;display:grid;place-items:center;box-shadow:var(--shadow)}
+.ctl:active{transform:translateY(2px)}
+.ctl.play{width:51px;height:51px;background:var(--primary);color:#fff;font-size:1.22rem;
+  box-shadow:0 3px 0 var(--primary-d),var(--shadow)}
+.ctl.play:active{box-shadow:0 0 0 var(--primary-d),var(--shadow)}
+
+/* ── RAIL ── */
+.rail{flex:0 0 auto;display:flex;gap:9px;overflow-x:auto;padding:10px 16px calc(16px + env(safe-area-inset-bottom));
+  scrollbar-width:none}
+.rail::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:64px;padding:9px 6px;
+  border:2px solid transparent;border-radius:16px;background:var(--card);cursor:pointer;box-shadow:var(--shadow);
+  transition:transform .12s}
+.chip:active{transform:scale(.95)}
+.chip .n{font-family:'Fredoka',sans-serif;font-weight:700;width:24px;height:24px;border-radius:50%;
+  background:var(--bg-tint);color:var(--muted);display:grid;place-items:center;font-size:.85rem}
+.chip .t{font-size:.66rem;font-weight:600;color:var(--muted);text-align:center;line-height:1.1;height:2.2em;
+  display:flex;align-items:center}
+.chip.on{border-color:var(--primary);background:linear-gradient(180deg,oklch(0.97 0.05 50),var(--card))}
+.chip.on .n{background:var(--primary);color:#fff}
+.chip.on .t{color:var(--ink)}
+
+.toast{position:absolute;left:50%;top:16%;transform:translateX(-50%) translateY(-8px);z-index:30;
+  background:var(--green);color:#fff;font-weight:700;padding:10px 20px;border-radius:999px;
+  box-shadow:var(--shadow-lg);opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;font-size:1.05rem}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="phone" data-screen-label="Movement Break">
+  <header class="topbar">
+    <button class="iconbtn" aria-label="უკან">‹</button>
+    <div class="who">მოძრაობის შესვენება<small>გავიმოძრაოთ ერთად 🙌</small></div>
+    <div class="pill"><span class="num" id="prog">1</span>/<span id="ptot">8</span></div>
+  </header>
+
+  <div class="scene" id="scene" data-move="squat" style="--dur:1.4s">
+    <div class="room"></div>
+    <div class="cloud a"></div><div class="cloud b"></div><div class="cloud c"></div>
+    <div class="mat"></div>
+    <div class="chars" id="chars"></div>
+    <div class="toast" id="toast">ყოჩაღ! 💪</div>
+  </div>
+
+  <div class="now">
+    <div class="name" id="mName">ბუქნი</div>
+    <div class="sub en" id="mEn">SQUATS</div>
+    <div class="count"><span class="big" id="cNow">0</span><span class="tot" id="cTot">/18</span><span class="lbl" id="cLbl">გამეორება</span></div>
+    <div class="bar"><i id="cBar"></i></div>
+  </div>
+
+  <div class="controls">
+    <button class="ctl" id="prev" aria-label="წინა">‹</button>
+    <button class="ctl play" id="play" aria-label="დაპაუზება">⏸</button>
+    <button class="ctl" id="next" aria-label="შემდეგი">›</button>
+  </div>
+
+  <div class="rail" id="rail"></div>
+</div>
+
+<script>
+const MOVES = [
+  {id:'squat',      ka:'ბუქნი',                en:'Squats',          short:'ბუქნი',     reps:18, dur:1.4, type:'rep'},
+  {id:'jump',       ka:'ახტომა მაღლა',          en:'Jump Up',         short:'ახტომა',    reps:14, dur:1.3, type:'rep'},
+  {id:'plank',      ka:'პლანკა',               en:'Plank Hold',      short:'პლანკა',    reps:20, dur:3.0, type:'hold'},
+  {id:'balance',    ka:'ცალ ფეხზე დგომა',       en:'One-leg Stand',   short:'ბალანსი',   reps:15, dur:2.4, type:'hold'},
+  {id:'armcircles', ka:'ხელების ტრიალი',        en:'Arm Circles',     short:'ტრიალი',    reps:18, dur:1.2, type:'rep'},
+  {id:'overhead',   ka:'ხელების აწევა',         en:'Overhead Reach',  short:'აწევა',     reps:16, dur:1.4, type:'rep'},
+  {id:'bear',       ka:'დათვივით სიარული',      en:'Bear Walk',       short:'დათვი',     reps:12, dur:1.1, type:'rep'},
+  {id:'kangaroo',   ka:'კენგურუსავით ხტომა',    en:'Kangaroo Hops',   short:'კენგურუ',   reps:16, dur:0.9, type:'rep'},
+  {id:'jacks',      ka:'ვარსკვლავური ხტომა',     en:'Jumping Jacks',   short:'ვარსკვლავი',reps:16, dur:0.85,type:'rep'},
+  {id:'march',      ka:'მაღალი ნაბიჯი',          en:'High Knees',      short:'ნაბიჯი',    reps:18, dur:0.9, type:'rep'},
+  {id:'sidebend',   ka:'გვერდითი მოხრა',         en:'Side Bends',      short:'მოხრა',     reps:12, dur:1.8, type:'rep'},
+  {id:'twist',      ka:'ტანის ტრიალი',           en:'Torso Twist',     short:'ტანი',      reps:16, dur:1.2, type:'rep'},
+  {id:'toetouch',   ka:'წვერებამდე წვდომა',      en:'Toe Touch',       short:'წვერები',   reps:12, dur:1.7, type:'rep'},
+  {id:'clap',       ka:'ტაში მაღლა',             en:'Overhead Claps',  short:'ტაში',      reps:18, dur:0.7, type:'rep'},
+  {id:'run',        ka:'ადგილზე სირბილი',        en:'Run in Place',    short:'სირბილი',   reps:24, dur:0.5, type:'rep'},
+  {id:'airplane',   ka:'თვითმფრინავი',           en:'Airplane',        short:'თვითმფ.',   reps:15, dur:2.4, type:'hold'},
+  {id:'punch',      ka:'ბოქსი',                  en:'Boxing',          short:'ბოქსი',     reps:20, dur:0.6, type:'rep'},
+  {id:'dance',      ka:'ცეკვა',                  en:'Dance Wiggle',    short:'ცეკვა',     reps:16, dur:1.0, type:'rep'},
+  {id:'frog',       ka:'ბაყაყივით ხტომა',        en:'Frog Jumps',      short:'ბაყაყი',    reps:14, dur:1.0, type:'rep'},
+  {id:'flamingo',   ka:'ფლამინგო',               en:'Flamingo',        short:'ფლამინგო',  reps:15, dur:2.6, type:'hold'},
+];
+
+/* ── RIGGED CHARACTER (named limb groups) ────────────────────
+   groups: .figure > .squash > [.legL .legR .body .armL .armR .head]
+   limbs pivot at their joint via .seg{transform-origin:50% 0}      */
+function char(c, lag){
+  const arm = (cls,x)=>`<g class="limb ${cls}" transform="translate(${x},84)"><g class="seg">
+      <rect x="-6.5" y="0" width="13" height="13" rx="6" fill="#ffffff" stroke="#dcdcdc" stroke-width="0.6"/>
+      <rect x="-6.5" y="10.5" width="13" height="3.4" rx="1.6" fill="#da291c"/>
+      <rect x="-5" y="13" width="10" height="30" rx="5" fill="${c.skin}"/>
+      <circle cx="0" cy="44" r="6.3" fill="${c.skin}"/></g></g>`;
+  const leg = (cls,x)=>`<g class="limb ${cls}" transform="translate(${x},133)"><g class="seg">
+      <rect x="-6.7" y="0" width="13.4" height="21" rx="5" fill="#da291c" stroke="#bf2317" stroke-width="0.5"/>
+      <rect x="-4.6" y="18" width="9.2" height="19" rx="4" fill="${c.skin}"/>
+      <rect x="-5.4" y="35" width="10.8" height="9" rx="3" fill="#ffffff"/>
+      <ellipse cx="1" cy="47" rx="9.3" ry="5.8" fill="#da291c"/></g></g>`;
+  const smallCross = (cx,cy)=>`<rect x="${cx-1}" y="${cy-3}" width="2" height="6" rx="0.6" fill="#da291c"/><rect x="${cx-3}" y="${cy-1}" width="6" height="2" rx="0.6" fill="#da291c"/>`;
+  return `<svg class="char${lag?' lag':''}" viewBox="0 0 120 210" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <ellipse class="shadow" cx="60" cy="201" rx="31" ry="7" fill="oklch(0.45 0.05 150 / .28)"/>
+    <g class="figure"><g class="squash">
+      ${leg('legL',53)}${leg('legR',67)}
+      <rect class="body" x="42" y="70" width="36" height="66" rx="17" fill="#ffffff" stroke="#dcdcdc" stroke-width="0.8"/>
+      <rect x="42" y="70" width="36" height="5" rx="6" fill="#da291c"/>
+      <rect x="56.9" y="75" width="6.2" height="57" fill="#da291c"/>
+      <rect x="43.5" y="100" width="33" height="6.2" fill="#da291c"/>
+      ${smallCross(49,91)}${smallCross(71,91)}${smallCross(49,117)}${smallCross(71,117)}
+      ${arm('armL',44)}${arm('armR',76)}
+      <g class="head">
+        <circle cx="60" cy="40" r="27" fill="${c.skin}"/>
+        ${c.hair}
+        <circle cx="52.5" cy="40" r="3.8" fill="${c.ink}"/><circle cx="53.7" cy="38.7" r="1.2" fill="#fff"/>
+        <circle cx="67.5" cy="40" r="3.8" fill="${c.ink}"/><circle cx="68.7" cy="38.7" r="1.2" fill="#fff"/>
+        <circle cx="46.5" cy="48" r="4" fill="oklch(0.78 0.13 26 / .42)"/>
+        <circle cx="73.5" cy="48" r="4" fill="oklch(0.78 0.13 26 / .42)"/>
+        <path d="M54 49 q6 6 12 0" stroke="${c.ink}" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+      </g>
+    </g></g></svg>`;
+}
+const niko = {skin:'#f3c79a', ink:'#4a3a2c',
+  hair:'<path d="M34 37 q1-27 26-27 q25 0 26 27 q-10-12-26-12 q-16 0-26 12z" fill="#5a3d28"/>'};
+const masho = {skin:'#f6d1aa', ink:'#4a3a2c',
+  hair:'<path d="M33 44 q-2-31 27-31 q29 0 27 31 q-5-12-13-13 q-2 6-14 6 q-12 0-14-6 q-8 1-13 13z" fill="#3a2a1c"/>'+
+       '<ellipse cx="33" cy="41" rx="5" ry="5.5" fill="#3a2a1c"/><circle cx="24" cy="38" r="5.5" fill="#3a2a1c"/><circle cx="16" cy="35" r="4.3" fill="#3a2a1c"/><path d="M16 35 q-7 -2 -10 2 q5 1.5 10 -2z" fill="#3a2a1c"/><rect x="29.5" y="37" width="3.2" height="8" rx="1.6" fill="#e8b54a"/>'+
+       '<ellipse cx="87" cy="41" rx="5" ry="5.5" fill="#3a2a1c"/><circle cx="96" cy="38" r="5.5" fill="#3a2a1c"/><circle cx="104" cy="35" r="4.3" fill="#3a2a1c"/><path d="M104 35 q7 -2 10 2 q-5 1.5 -10 -2z" fill="#3a2a1c"/><rect x="87.3" y="37" width="3.2" height="8" rx="1.6" fill="#e8b54a"/>'};
+
+document.getElementById('chars').innerHTML = char(niko,false) + char(masho,true);
+
+/* ── PLAYER ── */
+const scene=document.getElementById('scene'), rail=document.getElementById('rail');
+const elName=document.getElementById('mName'), elEn=document.getElementById('mEn');
+const elNow=document.getElementById('cNow'), elTot=document.getElementById('cTot'), elLbl=document.getElementById('cLbl');
+const elBar=document.getElementById('cBar'), elProg=document.getElementById('prog'), elToast=document.getElementById('toast');
+const btnPlay=document.getElementById('play');
+let idx=0, playing=true, count=0, timer=null;
+
+MOVES.forEach((m,i)=>{
+  const b=document.createElement('button'); b.className='chip'; b.dataset.i=i;
+  b.innerHTML=`<span class="n">${i+1}</span><span class="t">${m.short}</span>`;
+  b.onclick=()=>select(i,true);
+  rail.appendChild(b);
+});
+
+function fmt(s){const m=Math.floor(s/60),x=s%60;return m+':'+String(x).padStart(2,'0');}
+function render(){
+  const m=MOVES[idx];
+  scene.dataset.move=m.id; scene.style.setProperty('--dur', m.dur+'s');
+  elName.textContent=m.ka; elEn.textContent=m.en.toUpperCase(); elProg.textContent=idx+1; document.getElementById('ptot').textContent=MOVES.length;
+  [...rail.children].forEach((c,i)=>c.classList.toggle('on', i===idx));
+  rail.children[idx].scrollIntoView?.({inline:'center',block:'nearest',behavior:'smooth'});
+  count=0; updateCount(); restartTimer();
+}
+function updateCount(){
+  const m=MOVES[idx];
+  if(m.type==='hold'){ elNow.textContent=fmt(Math.max(0,m.reps-count)); elTot.textContent=''; elLbl.textContent='დაიჭირე'; elBar.style.width=(count/m.reps*100)+'%'; }
+  else { elNow.textContent=count; elTot.textContent='/'+m.reps; elLbl.textContent='გამეორება'; elBar.style.width=(count/m.reps*100)+'%'; }
+}
+function restartTimer(){
+  clearInterval(timer); if(!playing) return;
+  const m=MOVES[idx];
+  const step=m.type==='hold'?1000:Math.round(m.dur*1000);
+  timer=setInterval(()=>{
+    count++;
+    if(count>=m.reps){ updateCount(); cheer(); count=0; setTimeout(updateCount,650); }
+    else updateCount();
+  }, step);
+}
+function cheer(){ elToast.classList.add('show'); setTimeout(()=>elToast.classList.remove('show'),900); }
+function select(i,user){ idx=(i+MOVES.length)%MOVES.length; render(); }
+function setPlay(p){ playing=p; scene.classList.toggle('paused',!p); btnPlay.textContent=p?'⏸':'▶'; restartTimer(); }
+
+document.getElementById('prev').onclick=()=>select(idx-1);
+document.getElementById('next').onclick=()=>select(idx+1);
+btnPlay.onclick=()=>setPlay(!playing);
+/* theme: mirror the host app's choice (persisted in localStorage 'niko-theme') */
+(function(){
+  function applyTheme(t){ if(!t||t==='sunlit') document.documentElement.removeAttribute('data-theme');
+    else document.documentElement.setAttribute('data-theme',t); }
+  try{ applyTheme(localStorage.getItem('niko-theme')); }catch(e){}
+  window.addEventListener('storage',e=>{ if(e.key==='niko-theme') applyTheme(e.newValue); });
+  window.addEventListener('message',e=>{ if(e.data&&e.data.type==='niko-theme') applyTheme(e.data.theme); });
+  window.__nikoSetTheme=function(t){ applyTheme(t); try{localStorage.setItem('niko-theme',t);}catch(e){} };
+})();
+render();
+</script>
+</body>
+</html>
