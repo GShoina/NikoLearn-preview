@@ -159,3 +159,68 @@ function answerDigit(btn,sel,cor){
     try{speakSeq([{t:numWord(sel,profile),lang:vCode(profile)},{t:retryWord(profile),lang:vCode(profile)}]);}catch(e){}
   }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   #1 GEORGIAN READING (V1) — syllable → word blending.
+   The biggest gap + Georgian-first differentiator: today ka has only the
+   alphabet. Here the child taps each syllable (hears it), then blends the
+   whole word. Recorded ka clips per syllable + word — never robot TTS.
+   ═══════════════════════════════════════════════════════════ */
+function readSay(t){speak(t,'ka-GE',{rate:isYoung(profile)?0.58:0.7});}
+function readBlend(it){ // sound out each syllable, then say the whole word
+  speakSeq(it.syl.map(s=>({t:s,lang:'ka-GE',rate:0.62})).concat([{t:it.w,lang:'ka-GE',rate:0.68}]));
+}
+function readLearn(idx){
+  const data=READING_KA,n=data.length;
+  idx=Math.max(0,Math.min(idx,n-1));
+  const it=data[idx],last=idx>=n-1,first=idx<=0;
+  game.readIt=it;
+  const chips=it.syl.map(s=>`<button class="syl" onclick="readSay('${s}');pulseTap(this)">${s}</button>`).join('<span class="syl-plus">+</span>');
+  render(`<div class="screen">
+    ${topbar('📖 კითხვა',`ისწავლე · ${idx+1}/${n}`,"openMenu('ka-alpha')")}
+    <div class="read-stage">
+      <div class="read-emoji">${it.e}</div>
+      <div class="read-word">${chips}</div>
+      <button class="speakbtn big" onclick="readBlend(game.readIt);pulseTap(this)">${I.speaker} წაიკითხე</button>
+    </div>
+    <div class="alpha-nav">
+      <button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="readLearn(${idx-1})">←</button>
+      <div class="alpha-dots">${idx+1} / ${n}</div>
+      ${last
+        ? `<button class="abtn go" onclick="startReadQuiz()">ტესტები 🎯</button>`
+        : `<button class="abtn" onclick="readLearn(${idx+1})">→</button>`}
+    </div>
+  </div>`,false);
+  setTimeout(()=>readBlend(it),260);
+}
+function startReadQuiz(){
+  game.mode='read';game.subj='ka-alpha';game.i=0;game.shields=0;game.wrong=0;
+  game.start=Date.now();game.preLvl=levelIdx(profile);
+  game.qs=shuffle(READING_KA).slice(0,8);
+  nextRead();
+}
+function nextRead(){
+  if(game.i>=game.qs.length)return results();
+  const q=game.qs[game.i];
+  const opts=new Set([q.w]);while(opts.size<4)opts.add(READING_KA[ri(0,READING_KA.length-1)].w);
+  readSay(q.w);   // hear the word, then find it written
+  const area=`<div class="prompt">
+      <div class="count-q">რომელია?</div>
+      <div class="p-emoji" style="font-size:3.4rem">${q.e}</div>
+      <button class="speakbtn pulse-tap" onclick="readSay('${q.w}');pulseTap(this)">${I.speaker} მისმინე</button>
+      <div class="finger-hint">👆 აირჩიე სიტყვა</div>
+    </div>
+    <div class="options">${shuffle([...opts]).map(w=>`<button class="opt" style="font-size:1.18rem" onclick="answerRead(this,'${w}','${q.w}')">${w}</button>`).join('')}</div>`;
+  gameShell(area);
+  const c=$('#gcount');if(c)c.textContent=`${game.i+1}/${game.qs.length}`;
+}
+function answerRead(btn,sel,cor){
+  if(sel===cor){
+    document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');
+    const s=state[profile];s.shields++;game.shields++;s.streak++;s.maxStreak=Math.max(s.maxStreak,s.streak);save();
+    sayThenPraise(cor,'ka-GE',()=>{game.i++;closeFeedback();nextRead();});
+  } else {
+    btn.classList.add('wrong','dim');state[profile].streak=0;game.wrong++;save();
+    try{speakSeq([{t:sel,lang:'ka-GE'},{t:'კიდევ სცადე.',lang:'ka-GE'}]);}catch(e){}
+  }
+}

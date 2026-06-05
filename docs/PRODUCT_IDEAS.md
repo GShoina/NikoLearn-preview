@@ -160,6 +160,22 @@ Sequence still holds: free features (b) first → willingness-to-pay signal → 
 | C11 · Gentle daily-goal/streak (stars, not leagues), ages 6-12 only | Duolingo | 3 | 3 | 2 | Maybe | Proposed |
 | C12 · Cultural micro-cards (Georgian objects/places) on vocab | Gus (maps) | 3 | 3 | 2 | Maybe | Proposed |
 
+### 2026-06-05 — Owner architecture insight: developmental-fit + age-appropriate motivation
+
+**O5 · Drive tiers/levels by DEVELOPMENT, not grade.** The real axis is **cognitive capacity ·
+reading ability · abstraction level · motivation type** — school grade + the national curriculum are
+a **GUIDE** (relevance for Georgian kids), NOT the rigid spine. Don't over-fit to the curriculum.
+
+**O6 · Age-appropriate motivation & tracking (design principle + feature).** Motivation flips with age:
+- **Under ~8:** intrinsic, no-fail, play-first. **Minimal/soft tracking** — counting/metrics/leaderboards
+  add performance pressure that DE-motivates little kids. Progress = warmth (stars, character cheers).
+- **9-12:** the opposite — **visible progress motivates.** Owner's example: a kid resists "mandatory
+  exercises," but in sports clothes + engaged + *seeing* "how many done / how many left" he does them.
+  So for older kids: real progress, goals, streaks, mastery %, "X done · Y left".
+- **Concrete tie-in (movement):** older kids → count reps honestly (anti-cheat: tap-per-rep / visible
+  counter) + done-vs-remaining + gamify; younger → fun + cheer only, no counting pressure.
+- This is cross-cutting (applies to every subject + the movement break), gated by tier.
+
 ### 2026-06-04 — Owner ideas (Gela)
 
 | Idea | Source | Impact | Effort | Prio | Roadmap? | Status |

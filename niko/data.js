@@ -203,6 +203,21 @@ const COUNTING = [];
   for(let i=1;i<=10;i++)COUNTING.push({num:i,emoji:e[i-1].repeat(i),ka:ka[i],en:en[i]});
 })();
 
+/* ── #1 GEORGIAN READING (V1): syllable→word blending. lvl = difficulty (extensible
+   per the v2.00 level-tag architecture: lvl 1 = 2 syllables, lvl 2 = 3 syllables). ── */
+const READING_KA=[
+  {w:'მამა',   syl:['მა','მა'],       e:'👨', lvl:1},
+  {w:'დედა',   syl:['დე','და'],       e:'👩', lvl:1},
+  {w:'ბაბუ',   syl:['ბა','ბუ'],       e:'👴', lvl:1},
+  {w:'კატა',   syl:['კა','ტა'],       e:'🐱', lvl:1},
+  {w:'პური',   syl:['პუ','რი'],       e:'🍞', lvl:1},
+  {w:'ბანანი', syl:['ბა','ნა','ნი'],  e:'🍌', lvl:2},
+  {w:'ლიმონი', syl:['ლი','მო','ნი'],  e:'🍋', lvl:2},
+  {w:'ბაყაყი', syl:['ბა','ყა','ყი'],  e:'🐸', lvl:2},
+  {w:'ტომატი', syl:['ტო','მა','ტი'],  e:'🍅', lvl:2},
+  {w:'მანქანა',syl:['მან','ქა','ნა'], e:'🚗', lvl:2}
+];
+
 /* ── KINGS ENGLISH — expanded (Cambridge YLE Starters→Movers) ── */
 const KINGS_ENG = [
   // Task: picture → word
