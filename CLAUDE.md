@@ -126,11 +126,12 @@ Every owner-facing report is HTML and is dropped into `NikoLand/output/`, named
 output/ is gitignored = the owner's local deliverable folder. A living/maintained SSOT
 artifact may also keep a copy in docs/, but the dated owner report always lands in output/.
 
-## 6f. Copy-QA workflow (owner pref 2026-06-05) — don't auto-Gemini everything
-Default for Georgian copy review: do NOT round-trip every string through Gemini. Either (a) verify
-with the owner directly (he is the native speaker), or (b) hand him an HTML list of all the Georgian
-copy (numbered) and let him mark which to change. Use Gemini cross-model only for a genuinely hard
-call or when the owner asks. The owner is the final Georgian filter.
+## 6f. Copy-QA workflow (owner-corrected 2026-06-05) — Gemini default, THEN owner validates (both)
+Default for Georgian copy: ALWAYS run it through Gemini (cross-model second opinion) AND then give
+the result to the owner to validate the Georgian. Both layers, not either/or — Gemini catches
+anglicism / literal-translation a same-model reviewer misses; the owner (native speaker) is the
+final human filter. Keep the Gemini step by default; do NOT skip it. The numbered HTML copy-list
+is the tool the owner uses to mark which strings to change.
 
 ## 7. Permission discipline (owner-locked) — default = GO
 Owner has pre-approved the whole plan. Execute reversible internal work and show the result. NEVER
