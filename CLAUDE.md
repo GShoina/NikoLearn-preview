@@ -99,6 +99,20 @@ frame. Operate from an ABUNDANCE frame — a competitor proves a market and a pl
 read is "where is the extra opportunity here, and where could collaboration expand/pull the market".
 Lead every competitor insight with opportunity + collaboration angles, not defense.
 
+## 6c. "DONE" CRITERION — visual verification is MANDATORY for any UI/visual change (owner-locked 2026-06-05)
+A change is NOT done until the RENDERED result is verified visually, not just by isolated logic/unit
+checks. Root cause of the v1.58 regression: opacity logic was unit-tested in isolation but the actual
+page was never rendered + looked at, so a CSS-specificity bug (`html.js .reveal` beat `.reveal.in`)
+shipped and hid every section below the hero. Required "done" gate for ANY visual/landing/app-UI change:
+1. Render the real page (local server or live URL) in a browser.
+2. Exercise the real interaction (scroll the whole page / play the screen), then assert the key
+   sections/elements are actually visible (computed opacity ≥ 0.9 / present), not just that a rule exists.
+3. Take a full-page screenshot and LOOK at it (save under an allowed root, e.g.
+   `C:\Users\gela.shonia\<name>.jpeg`, then Read it).
+4. Only then deploy. After deploy, re-verify the LIVE URL the same way (cache-bypass with a `?v=` query).
+Test the SETTLED state, not mid-transition (disable transitions or wait), and test the visible-path
+(e.g. that `.in`/active state actually shows), not only the hidden default.
+
 ## 7. Permission discipline (owner-locked) — default = GO
 Owner has pre-approved the whole plan. Execute reversible internal work and show the result. NEVER
 ask yes/no on it. Ask ONLY for: (a) customer-facing content/UI going live to the kids' app, (b)
