@@ -432,6 +432,7 @@ function replay(){
   if(m==='kings-eng')return startKings('eng');
   if(m==='kings-math')return startKings('math');
   if(m==='count')return startCount(game.cmode);
+  if(m==='digit')return startDigitQuiz();
   if(m&&m.startsWith('math-'))return mathRound(m);
   if(m==='ka-alpha'||m==='en-alpha')return alphaQuiz(m);
   startGame(m);

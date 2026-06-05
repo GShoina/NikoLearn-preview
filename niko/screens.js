@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.54';
+const APP_VERSION='1.55';
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -355,7 +355,10 @@ function openMenu(subj){
       ${kid?'':mode('clock','🕐','საათი','დრო')}
     </div>`;
   } else if(subj==='counting'){
+    // F2: digits come BEFORE counting — learn the numeral 1-9, quiz, THEN count.
     body=`<div class="mode-grid">
+      <div class="mode" style="min-height:120px" onclick="digitLearn(0)"><div class="kids-ico">🔢</div><div class="m-name">ისწავლე ციფრები</div><div class="m-sub">1 – 9</div></div>
+      <div class="mode" style="min-height:120px" onclick="startDigitQuiz()"><div class="kids-ico">🎯</div><div class="m-name">ციფრების ტესტი</div></div>
       <div class="mode" style="min-height:130px;grid-column:span 2" onclick="startCount('pick')"><div class="kids-ico">🍎🍎🍎</div><div class="m-name">დათვალე</div><div class="m-sub">რამდენია? აირჩიე რიცხვი</div></div>
     </div>`;
   } else { /* alphabets — Georgian & English */
