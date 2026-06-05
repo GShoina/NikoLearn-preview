@@ -33,6 +33,7 @@ function gameShell(area){
     <div class="progress-row">
       <button class="iconbtn" onclick="openMenu(game.subj)" style="width:40px;height:40px;font-size:1.1rem">←</button>
       <div class="bar"><i id="gbar" style="width:${(game.i/tot)*100}%"></i></div>
+      ${voiceToggleBtn()}
       <span class="q-count" id="gcount">${Math.min(game.i+1,tot)}/${tot}</span>
     </div>
     <div class="game" id="garea">${area}</div>
@@ -310,16 +311,16 @@ function nextCount(){
     </div>`;
   gameShell(`${prompt}<div class="options">${shuffle([...opts]).map(n=>`<button class="opt emoji num" onclick="answerCount(this,${n},${q.num})">${n}</button>`).join('')}</div>`);
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
-  try{speak('რამდენია?',instrCode(profile));}catch(e){}
+  try{speak(voiceLang(profile)==='en'?'how many?':'რამდენია?',vCode(profile));}catch(e){}
 }
 function answerCount(btn,sel,cor){
   if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');
     const s=state[profile];s.shields++;game.shields++;s.streak++;save();
     // F3/F4: say the NUMBER first, hold a beat, THEN praise + celebrate (never praise before the answer)
-    sayThenPraise(cor,'ka-GE',()=>{game.i++;closeFeedback();nextCount();});}
+    sayThenPraise(numWord(cor,profile),vCode(profile),()=>{game.i++;closeFeedback();nextCount();});}
   else{btn.classList.add('wrong','dim');state[profile].streak=0;game.wrong++;save();
-    // voice the chosen (wrong) number + gentle "try again" (recorded clips)
-    try{speakSeq([{t:String(sel),lang:'ka-GE'},{t:'კიდევ სცადე.',lang:'ka-GE'}]);}catch(e){}}
+    // voice the chosen (wrong) number + gentle "try again" (chosen voicing language)
+    try{speakSeq([{t:numWord(sel,profile),lang:vCode(profile)},{t:retryWord(profile),lang:vCode(profile)}]);}catch(e){}}
 }
 
 /* ── Kings tests ── */

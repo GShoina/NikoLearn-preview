@@ -51,6 +51,18 @@ function isTiny(p){const a=kidObj(p).age;return a>0&&a<=4;} // pre-arithmetic: c
 const TUTOR_ANIMALS=['🦉','🐱','🦁','🐶','🐰','🐼','🦊','🐵'];
 function tutorAva(p){const k=kidObj(p);return (k&&k.tutor)||'🦉';}
 function setTutor(p,emoji){const k=kidObj(p);if(k){k.tutor=emoji;save();}}
+
+/* ── voicing language (F5): pick ka vs en for spoken praise/numbers/words, ANY time.
+   SAFE rule: never read Georgian-only text with an English voice — ka uses recorded
+   clips, en uses the device English voice + English equivalents. ── */
+function voiceLang(p){const k=kidObj(p);return (k&&k.voice)?k.voice:(knows(p,'en')?'en':'ka');}
+function setVoice(p,l){const k=kidObj(p);if(k){k.voice=(l==='en')?'en':'ka';save();}}
+function vCode(p){return voiceLang(p)==='en'?'en-US':'ka-GE';}
+const EN_NUM=['','one','two','three','four','five','six','seven','eight','nine','ten'];
+function numWord(n,p){return voiceLang(p)==='en'?(EN_NUM[n]||String(n)):String(n);} // ka digit → recorded clip
+function retryWord(p){return voiceLang(p)==='en'?'try again':'კიდევ სცადე.';}
+function voiceToggleBtn(){return `<button class="vtgl" onclick="toggleVoice(event)" aria-label="გახმოვანების ენა" title="გახმოვანების ენა">🔊 ${voiceLang(profile)==='en'?'ENG':'ქარ'}</button>`;}
+function toggleVoice(e){if(e)e.stopPropagation();setVoice(profile,voiceLang(profile)==='en'?'ka':'en');document.querySelectorAll('.vtgl').forEach(b=>{b.innerHTML='🔊 '+(voiceLang(profile)==='en'?'ENG':'ქარ');});}
 function catsFor(p){return isYoung(p)?AGE_CATS.masho:AGE_CATS.niko;}
 function demoNiko(){ // seeded so the prototype shows realistic data
   const k=blankKid();k.shields=148;k.streak=6;k.maxStreak=11;k.sessions=23;k.lastPlayed=new Date().toISOString();k.totalTime=3600000*2.4;
@@ -85,6 +97,7 @@ function topbar(title,sub,back){
     ${back?`<button class="iconbtn" onclick="${back}">←</button>`:''}
     <div class="who">${title}${sub?`<small>${sub}</small>`:''}</div>
     <div class="chips">
+      ${voiceToggleBtn()}
       <span class="chip shield">${I.shield}<span class="num">${s.shields}</span></span>
       <span class="chip streak">${I.flame}<span class="num">${s.streak}</span></span>
     </div>
@@ -147,9 +160,9 @@ function speak(t,lang,opts){if(!('speechSynthesis'in window))return;speechSynthe
 // queue several utterances back-to-back, e.g. Georgian then English
 function speakSeq(parts){if(!('speechSynthesis'in window))return;speechSynthesis.cancel();parts.forEach(p=>speakOne(p.t,p.lang,p.rate!=null?{rate:p.rate}:null));}
 // say an English word, but for a child who only speaks Georgian, give the meaning first
-function sayWord(ka,en){if(knows(profile,'en'))speak(en,'en-US');else speakSeq([{t:ka,lang:'ka-GE'},{t:en,lang:'en-US'}]);}
-function praise(){ // warm spoken encouragement in the child's own language
-  const code=instrCode(profile);
+function sayWord(ka,en){if(voiceLang(profile)==='en')speak(en,'en-US');else speakSeq([{t:ka,lang:'ka-GE'},{t:en,lang:'en-US'}]);}
+function praise(){ // warm spoken encouragement in the chosen voicing language
+  const code=vCode(profile);
   const sets={'ka-GE':['ყოჩაღ','ბრავო','მართალია','შესანიშნავია'],'ru-RU':['молодец','отлично','верно'],'en-US':['well done','great job','you did it','nice work']};
   const list=sets[code]||sets['ka-GE'];
   let word=list[ri(0,list.length-1)], useCode=code;

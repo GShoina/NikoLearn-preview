@@ -104,7 +104,7 @@ function answerAlpha(btn,sel,cor){
    don't know the digits yet, so counting can't be the first step.)
    ═══════════════════════════════════════════════════════════ */
 function digitData(){return COUNTING.slice(0,9);}            // {num,emoji,ka,en} for 1..9
-function digitSay(num){speak(String(num),'ka-GE',{rate:isYoung(profile)?0.6:0.7});} // recorded number clip
+function digitSay(num){speak(numWord(num,profile),vCode(profile),{rate:isYoung(profile)?0.6:0.7});} // ka clip or en voice
 function digitLearn(idx){
   const data=digitData(),n=data.length;
   idx=Math.max(0,Math.min(idx,n-1));
@@ -153,9 +153,9 @@ function answerDigit(btn,sel,cor){
   if(sel===cor){
     document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');
     const s=state[profile];s.shields++;game.shields++;s.streak++;s.maxStreak=Math.max(s.maxStreak,s.streak);save();
-    sayThenPraise(cor,'ka-GE',()=>{game.i++;closeFeedback();nextDigit();});   // number first, pause, then praise
+    sayThenPraise(numWord(cor,profile),vCode(profile),()=>{game.i++;closeFeedback();nextDigit();});   // number first, pause, then praise
   } else {
     btn.classList.add('wrong','dim');state[profile].streak=0;game.wrong++;save();
-    try{speakSeq([{t:String(sel),lang:'ka-GE'},{t:'კიდევ სცადე.',lang:'ka-GE'}]);}catch(e){}
+    try{speakSeq([{t:numWord(sel,profile),lang:vCode(profile)},{t:retryWord(profile),lang:vCode(profile)}]);}catch(e){}
   }
 }

@@ -552,6 +552,12 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .tutor-modal-h{font-family:'Fredoka';font-size:1.2rem;font-weight:600;text-align:center;margin-bottom:14px}
 .ai-ava.alive{cursor:pointer}
 
+/* ── voicing-language toggle (F5) ── */
+.vtgl{border:1.5px solid var(--line,#e7ddc9);background:var(--card,#fff);color:var(--ink,#3a2a1a);
+  border-radius:999px;padding:5px 10px;font:700 .76rem/1 inherit;cursor:pointer;white-space:nowrap;opacity:.92}
+.vtgl:active{transform:scale(.95)}
+.progress-row .vtgl{flex:0 0 auto}
+
 /* ── MIC PERMISSION ── */
 .permwrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center}
 .permwrap .perm-ico{width:88px;height:88px;border-radius:28px;background:linear-gradient(150deg,var(--sky),var(--purple));

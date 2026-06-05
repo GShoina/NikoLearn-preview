@@ -84,6 +84,21 @@ own discipline:
 ## Output
 - Match the owner's language (Georgian by default). Exact file paths. Clear commits per step.
 
+## 6b. MAX AUTONOMY (owner-hardened 2026-06-05) — stop asking, go to the end
+Owner directive: stop requesting his confirmation or action on development work. His conscious
+impact on these is ~zero and the agent can finish end-to-end. For ANY ongoing development task —
+features, improvements, bug fixes, refactors, QA, deploys — the agent: defines the Output + the
+"done" criteria itself, then executes fully autonomously to completion (build → self-test →
+live-verify → deploy → persist), and reports the RESULT, not a checkpoint. Do NOT end turns with
+"should I continue / shall I build / ok?" on dev work. The ONLY pauses are (a) money/payment/spend
+and (b) genuine strategic/business-direction decisions. Everything else = just do it and show the
+outcome.
+
+Competitor lens (owner-set 2026-06-05): when analysing competitors, do NOT operate from a THREAT
+frame. Operate from an ABUNDANCE frame — a competitor proves a market and a playbook exist, so the
+read is "where is the extra opportunity here, and where could collaboration expand/pull the market".
+Lead every competitor insight with opportunity + collaboration angles, not defense.
+
 ## 7. Permission discipline (owner-locked) — default = GO
 Owner has pre-approved the whole plan. Execute reversible internal work and show the result. NEVER
 ask yes/no on it. Ask ONLY for: (a) customer-facing content/UI going live to the kids' app, (b)
