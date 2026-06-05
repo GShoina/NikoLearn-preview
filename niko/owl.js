@@ -204,16 +204,20 @@ const MV_MOVES=[
 ];
 // rigged character: .figure > .squash > [legs, body+flag, arms, head]; limbs pivot at the joint
 function mvChar(c,lag){
-  const arm=(cls,x)=>`<g class="limb ${cls}" transform="translate(${x},84)"><g class="seg">
-      <rect x="-6.5" y="0" width="13" height="13" rx="6" fill="#ffffff" stroke="#dcdcdc" stroke-width="0.6"/>
-      <rect x="-6.5" y="10.5" width="13" height="3.4" rx="1.6" fill="#da291c"/>
-      <rect x="-5" y="13" width="10" height="30" rx="5" fill="${c.skin}"/>
-      <circle cx="0" cy="44" r="6.3" fill="${c.skin}"/></g></g>`;
-  const leg=(cls,x)=>`<g class="limb ${cls}" transform="translate(${x},133)"><g class="seg">
-      <rect x="-6.7" y="0" width="13.4" height="21" rx="5" fill="#da291c" stroke="#bf2317" stroke-width="0.5"/>
-      <rect x="-4.6" y="18" width="9.2" height="19" rx="4" fill="${c.skin}"/>
-      <rect x="-5.4" y="35" width="10.8" height="9" rx="3" fill="#ffffff"/>
-      <ellipse cx="1" cy="47" rx="9.3" ry="5.8" fill="#da291c"/></g></g>`;
+  const arm=(cls,x)=>`<g class="limb ${cls}" transform="translate(${x},84)"><g class="seg up">
+      <rect x="-6.3" y="0" width="12.6" height="13" rx="6" fill="#ffffff" stroke="#dcdcdc" stroke-width="0.6"/>
+      <rect x="-6.3" y="10.5" width="12.6" height="3.2" rx="1.6" fill="#da291c"/>
+      <rect x="-4.8" y="12.5" width="9.6" height="13" rx="4.8" fill="${c.skin}"/>
+      <g class="jt" transform="translate(0,24)"><g class="seg2">
+        <rect x="-4.6" y="0" width="9.2" height="19" rx="4.6" fill="${c.skin}"/>
+        <circle cx="0" cy="20" r="6" fill="${c.skin}"/></g></g></g></g>`;
+  const leg=(cls,x)=>`<g class="limb ${cls}" transform="translate(${x},133)"><g class="seg up">
+      <rect x="-6.7" y="0" width="13.4" height="20" rx="5" fill="#da291c" stroke="#bf2317" stroke-width="0.5"/>
+      <rect x="-4.8" y="17" width="9.6" height="9" rx="4.4" fill="${c.skin}"/>
+      <g class="jt" transform="translate(0,24)"><g class="seg2">
+        <rect x="-4.6" y="0" width="9.2" height="13" rx="4.4" fill="${c.skin}"/>
+        <rect x="-5.2" y="11" width="10.4" height="8" rx="3" fill="#ffffff"/>
+        <ellipse cx="1" cy="22" rx="9" ry="5.6" fill="#da291c"/></g></g></g></g>`;
   const sc=(cx,cy)=>`<rect x="${cx-1}" y="${cy-3}" width="2" height="6" rx="0.6" fill="#da291c"/><rect x="${cx-3}" y="${cy-1}" width="6" height="2" rx="0.6" fill="#da291c"/>`;
   return `<svg class="char${lag?' lag':''}" viewBox="0 0 120 210" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <ellipse class="shadow" cx="60" cy="201" rx="31" ry="7" fill="oklch(0.45 0.05 150 / .28)"/>
@@ -226,19 +230,22 @@ function mvChar(c,lag){
       ${sc(49,91)}${sc(71,91)}${sc(49,117)}${sc(71,117)}
       ${arm('armL',44)}${arm('armR',76)}
       <g class="head">
-        <circle cx="60" cy="40" r="27" fill="${c.skin}"/>
+        <ellipse cx="60" cy="40.5" rx="26" ry="28.5" fill="${c.skin}"/>
         ${c.hair}
-        <circle cx="52.5" cy="40" r="3.8" fill="${c.ink}"/><circle cx="53.7" cy="38.7" r="1.2" fill="#fff"/>
-        <circle cx="67.5" cy="40" r="3.8" fill="${c.ink}"/><circle cx="68.7" cy="38.7" r="1.2" fill="#fff"/>
-        <circle cx="46.5" cy="48" r="4" fill="oklch(0.78 0.13 26 / .42)"/>
-        <circle cx="73.5" cy="48" r="4" fill="oklch(0.78 0.13 26 / .42)"/>
-        <path d="M54 49 q6 6 12 0" stroke="${c.ink}" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+        <path d="M48.5 34.5 q4 -2.6 8.2 -0.8" stroke="${c.brow}" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+        <path d="M63.3 33.7 q4.2 -1.8 8.2 0.8" stroke="${c.brow}" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+        <g class="eyes"><circle cx="52.5" cy="40" r="3.6" fill="${c.ink}"/><circle cx="53.6" cy="38.8" r="1.1" fill="#fff"/>
+        <circle cx="67.5" cy="40" r="3.6" fill="${c.ink}"/><circle cx="68.6" cy="38.8" r="1.1" fill="#fff"/></g>
+        <path d="M60 42.5 q1.9 3.6 -1 5.3" stroke="${c.skin2}" stroke-width="1.7" fill="none" stroke-linecap="round"/>
+        <circle cx="46.5" cy="49" r="3.8" fill="oklch(0.78 0.13 26 / .42)"/>
+        <circle cx="73.5" cy="49" r="3.8" fill="oklch(0.78 0.13 26 / .42)"/>
+        <path d="M53.5 50 q6.5 6 13 0" stroke="${c.mouth}" stroke-width="${c.mouthW}" fill="none" stroke-linecap="round"/>
       </g>
     </g></g></svg>`;
 }
-const MV_NIKO={skin:'#f3c79a', ink:'#4a3a2c',
+const MV_NIKO={skin:'#f3c79a', skin2:'#d59f6d', ink:'#33291f', brow:'#5a3d28', mouth:'#9c5a44', mouthW:2.8,
   hair:'<path d="M34 37 q1-27 26-27 q25 0 26 27 q-10-12-26-12 q-16 0-26 12z" fill="#5a3d28"/>'};
-const MV_MASHO={skin:'#f6d1aa', ink:'#4a3a2c',
+const MV_MASHO={skin:'#f6d1aa', skin2:'#dcab7e', ink:'#33291f', brow:'#3a2a1c', mouth:'#d24a5e', mouthW:3.6,
   hair:'<path d="M33 44 q-2-31 27-31 q29 0 27 31 q-5-12-13-13 q-2 6-14 6 q-12 0-14-6 q-8 1-13 13z" fill="#3a2a1c"/>'+
        '<ellipse cx="33" cy="41" rx="5" ry="5.5" fill="#3a2a1c"/><circle cx="24" cy="38" r="5.5" fill="#3a2a1c"/><circle cx="16" cy="35" r="4.3" fill="#3a2a1c"/><path d="M16 35 q-7 -2 -10 2 q5 1.5 10 -2z" fill="#3a2a1c"/><rect x="29.5" y="37" width="3.2" height="8" rx="1.6" fill="#e8b54a"/>'+
        '<ellipse cx="87" cy="41" rx="5" ry="5.5" fill="#3a2a1c"/><circle cx="96" cy="38" r="5.5" fill="#3a2a1c"/><circle cx="104" cy="35" r="4.3" fill="#3a2a1c"/><path d="M104 35 q7 -2 10 2 q-5 1.5 -10 -2z" fill="#3a2a1c"/><rect x="87.3" y="37" width="3.2" height="8" rx="1.6" fill="#e8b54a"/>'};

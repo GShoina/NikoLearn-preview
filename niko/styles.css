@@ -555,7 +555,11 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .mv2 .char{width:148px;height:auto;max-width:44%}
 @media (max-width:380px){.mv2 .char{width:130px}.mv2 .mat{width:250px}}
 /* rig: named limb groups pivot at their joint */
-.mv2 .seg{transform-box:fill-box;transform-origin:50% 0%}
+.mv2 .seg,.mv2 .seg2{transform-box:fill-box;transform-origin:50% 0%}
+.mv2 .eyes{transform-box:fill-box;transform-origin:50% 50%;animation:blink 4.6s ease-in-out infinite}
+.mv2 .char.lag .eyes{animation-delay:-2.3s}
+.mv2 .char.lag .seg2{animation-delay:-.18s}
+@keyframes blink{0%,92%,100%{transform:scaleY(1)}96%{transform:scaleY(.12)}}
 .mv2 .figure{transform-box:fill-box;transform-origin:50% 74%}
 .mv2 .squash{transform-box:fill-box;transform-origin:50% 100%}
 .mv2 .shadow{transform-box:fill-box;transform-origin:50% 50%}
@@ -574,12 +578,16 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .mv2 .scene[data-move="squat"] .armR .seg{animation:armRSquat var(--dur) ease-in-out infinite}
 .mv2 .scene[data-move="squat"] .legL .seg{animation:legLSquat var(--dur) ease-in-out infinite}
 .mv2 .scene[data-move="squat"] .legR .seg{animation:legRSquat var(--dur) ease-in-out infinite}
-@keyframes figSquat{0%,100%{transform:translateY(0)}50%{transform:translateY(22px)}}
-@keyframes sqSquash{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.93)}}
-@keyframes armLSquat{0%,100%{transform:rotate(11deg)}50%{transform:rotate(94deg)}}
-@keyframes armRSquat{0%,100%{transform:rotate(-11deg)}50%{transform:rotate(-94deg)}}
-@keyframes legLSquat{0%,100%{transform:rotate(0)}50%{transform:rotate(12deg)}}
-@keyframes legRSquat{0%,100%{transform:rotate(0)}50%{transform:rotate(-12deg)}}
+.mv2 .scene[data-move="squat"] .legL .seg2{animation:kneeSquatL var(--dur) ease-in-out infinite}
+.mv2 .scene[data-move="squat"] .legR .seg2{animation:kneeSquatR var(--dur) ease-in-out infinite}
+@keyframes figSquat{0%,100%{transform:translateY(0)}50%{transform:translateY(30px)}}
+@keyframes sqSquash{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.9)}}
+@keyframes armLSquat{0%,100%{transform:rotate(11deg)}50%{transform:rotate(84deg)}}
+@keyframes armRSquat{0%,100%{transform:rotate(-11deg)}50%{transform:rotate(-84deg)}}
+@keyframes legLSquat{0%,100%{transform:rotate(0)}50%{transform:rotate(15deg)}}
+@keyframes legRSquat{0%,100%{transform:rotate(0)}50%{transform:rotate(-15deg)}}
+@keyframes kneeSquatL{0%,100%{transform:rotate(0)}50%{transform:rotate(-26deg)}}
+@keyframes kneeSquatR{0%,100%{transform:rotate(0)}50%{transform:rotate(26deg)}}
 /* 2 JUMP */
 .mv2 .scene[data-move="jump"] .figure{animation:figJump var(--dur) ease-in-out infinite}
 .mv2 .scene[data-move="jump"] .squash{animation:sqJump var(--dur) ease-in-out infinite}
@@ -760,6 +768,33 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .mv2 .chip.on .t{color:var(--ink)}
 .mv2 .toast{position:absolute;left:50%;top:16%;transform:translateX(-50%) translateY(-8px);z-index:30;background:var(--green);color:#fff;font-weight:700;padding:10px 20px;border-radius:999px;box-shadow:var(--bshadow-lg);opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;font-size:1.05rem}
 .mv2 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* ── JOINTS: elbows & knees (two-segment limbs), per move ── */
+.mv2 .scene[data-move="jump"] .legL .seg2,.mv2 .scene[data-move="jump"] .legR .seg2{animation:kneeJump var(--dur) ease-in-out infinite}
+@keyframes kneeJump{0%,100%{transform:rotate(0)}18%{transform:rotate(32deg)}42%{transform:rotate(0)}}
+.mv2 .scene[data-move="balance"] .legR .seg2{animation:kneeBal var(--dur) ease-in-out infinite}
+@keyframes kneeBal{0%,100%{transform:rotate(72deg)}50%{transform:rotate(80deg)}}
+.mv2 .scene[data-move="kangaroo"] .legL .seg2,.mv2 .scene[data-move="kangaroo"] .legR .seg2{animation:kneeKang var(--dur) ease-in-out infinite}
+@keyframes kneeKang{0%,100%{transform:rotate(10deg)}55%{transform:rotate(50deg)}}
+.mv2 .scene[data-move="run"] .legL .seg2{animation:kneeRunL var(--dur) ease-in-out infinite}
+.mv2 .scene[data-move="run"] .legR .seg2{animation:kneeRunR var(--dur) ease-in-out infinite}
+@keyframes kneeRunL{0%,100%{transform:rotate(8deg)}50%{transform:rotate(48deg)}}
+@keyframes kneeRunR{0%,100%{transform:rotate(48deg)}50%{transform:rotate(8deg)}}
+.mv2 .scene[data-move="frog"] .legL .seg2,.mv2 .scene[data-move="frog"] .legR .seg2{animation:kneeFrog var(--dur) ease-in-out infinite}
+@keyframes kneeFrog{0%,100%{transform:rotate(42deg)}45%{transform:rotate(6deg)}}
+.mv2 .scene[data-move="bear"] .legL .seg2,.mv2 .scene[data-move="bear"] .legR .seg2{animation:kneeBear var(--dur) ease-in-out infinite}
+.mv2 .scene[data-move="bear"] .armL .seg2,.mv2 .scene[data-move="bear"] .armR .seg2{animation:elbowBear var(--dur) ease-in-out infinite}
+@keyframes kneeBear{0%,100%{transform:rotate(34deg)}50%{transform:rotate(46deg)}}
+@keyframes elbowBear{0%,100%{transform:rotate(-12deg)}50%{transform:rotate(-22deg)}}
+.mv2 .scene[data-move="punch"] .armL .seg2{animation:elbowPunchL var(--dur) ease-in-out infinite}
+.mv2 .scene[data-move="punch"] .armR .seg2{animation:elbowPunchR var(--dur) ease-in-out infinite}
+@keyframes elbowPunchL{0%,50%,100%{transform:rotate(72deg)}25%{transform:rotate(2deg)}}
+@keyframes elbowPunchR{0%,50%,100%{transform:rotate(-72deg)}75%{transform:rotate(-2deg)}}
+.mv2 .scene[data-move="flamingo"] .legR .seg2{animation:kneeFla var(--dur) ease-in-out infinite}
+@keyframes kneeFla{0%,100%{transform:rotate(82deg)}50%{transform:rotate(90deg)}}
+.mv2 .scene[data-move="dance"] .armL .seg2{animation:elbowDanceL var(--dur) ease-in-out infinite}
+.mv2 .scene[data-move="dance"] .armR .seg2{animation:elbowDanceR var(--dur) ease-in-out infinite}
+@keyframes elbowDanceL{0%,100%{transform:rotate(30deg)}50%{transform:rotate(60deg)}}
+@keyframes elbowDanceR{0%,100%{transform:rotate(-60deg)}50%{transform:rotate(-30deg)}}
 @media (prefers-reduced-motion:reduce){.mv2 .scene *{animation:none!important}}
 
 /* ── tutor animal picker (O1) ── */
