@@ -60,7 +60,7 @@ function openHint(){
     <div class="ai-top"><div class="ai-ava alive" onclick="event.stopPropagation();pickTutor()" title="შეცვალე მასწავლებელი">${tutorAva(profile)}</div><div class="ai-name">${t.name}</div></div>
     <div class="ai-text">${text}</div>
     <div class="hint-dots">${dots}</div>
-    <button class="ai-listen-big" onclick="speakHint(this)">${I.speaker} მისმინე</button>
+    <button class="ai-listen-big" onclick="speakHint(this)">${I.speaker} მოისმინე</button>
     <div class="ai-chips">
       ${chips}
       <button class="ai-chip primary" onclick="closeHint()">${atExplain?'გასაგებია 👍':'მივხვდი 👍'}</button>
@@ -275,7 +275,7 @@ function finishMove(){
   clearInterval(_mvTimer);_mvTimer=null;
   const el=document.getElementById('breakscr');if(!el)return;
   const fig=el.querySelector('.mv-fig');if(fig)fig.setAttribute('class','mv-fig fig-cheer');   // happy jump (SVG: setAttribute, not .className)
-  const play=el.querySelector('#mvPlay');if(play)play.innerHTML='ყოჩაღ! 🎉';
+  const play=el.querySelector('#mvPlay');if(play)play.innerHTML='ბრავო! 🎉';
   const prog=el.querySelector('#mvProg');if(prog)prog.innerHTML='';
   const go=el.querySelector('#mvGo');
   if(go){go.style.display='';go.textContent='მზად ვარ! ✅';go.onclick=()=>el.remove();}

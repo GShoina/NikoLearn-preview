@@ -367,7 +367,7 @@ function record(word,ok){
 /* ── feedback overlay ── */
 function feedback(ok){
   const el=document.createElement('div');el.className='overlay';el.id='fbov';
-  el.innerHTML=`<div class="fb"><div class="fb-ico">${ok?'🎉':'💪'}</div><div class="fb-txt">${ok?'ყოჩაღ, '+voc()+'!':voc()+', კიდევ ცადე!'}</div></div>`;
+  el.innerHTML=`<div class="fb"><div class="fb-ico">${ok?'🎉':'💪'}</div><div class="fb-txt">${ok?'ბრავო, '+voc()+'!':voc()+', კიდევ ცადე!'}</div></div>`;
   if(ok)el.appendChild(confettiEl());
   if(window.applyLang)applyLang(el);
   $('.device').appendChild(el);

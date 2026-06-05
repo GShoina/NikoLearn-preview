@@ -34,7 +34,7 @@ function alphaLearn(subj,idx){
         <div class="alpha-letter">${it.l}</div>
         <div class="alpha-pic">${it.e}</div>
         <div class="alpha-word">${it.w}</div>
-        <button class="speakbtn big" onclick="event.stopPropagation();alphaSay('${subj}',game.alphaIt);pulseTap(this)">${I.speaker} მისმინე</button>
+        <button class="speakbtn big" onclick="event.stopPropagation();alphaSay('${subj}',game.alphaIt);pulseTap(this)">${I.speaker} მოისმინე</button>
       </div>
     </div>
     <div class="alpha-nav">
@@ -73,7 +73,7 @@ function nextAlpha(){
   const area=`<div class="prompt alpha-q">
       <div class="p-emoji" style="font-size:4.6rem">${q.e}</div>
       <div class="alpha-wordgap ${alphaIsKa(subj)?'':'en'}"><span class="gap-slot">?</span><span>${rest}</span></div>
-      <button class="speakbtn pulse-tap" onclick="alphaSay('${subj}',game.qs[${game.i}]);pulseTap(this)">${I.speaker} მისმინე</button>
+      <button class="speakbtn pulse-tap" onclick="alphaSay('${subj}',game.qs[${game.i}]);pulseTap(this)">${I.speaker} მოისმინე</button>
       <div class="finger-hint">👆 აირჩიე ასო</div>
     </div>
     <div class="options alpha-opts">${opts.map(L=>`<button class="opt letter ${alphaIsKa(subj)?'':'en'}" onclick="alphaTapSay('${subj}','${L}');answerAlpha(this,'${L}','${q.l}')">${L}</button>`).join('')}</div>`;
@@ -116,7 +116,7 @@ function digitLearn(idx){
         <div class="alpha-letter">${d.num}</div>
         <div class="alpha-pic">${d.emoji}</div>
         <div class="alpha-word">${d.ka}</div>
-        <button class="speakbtn big" onclick="event.stopPropagation();digitSay(${d.num});pulseTap(this)">${I.speaker} მისმინე</button>
+        <button class="speakbtn big" onclick="event.stopPropagation();digitSay(${d.num});pulseTap(this)">${I.speaker} მოისმინე</button>
       </div>
     </div>
     <div class="alpha-nav">
@@ -142,7 +142,7 @@ function nextDigit(){
   digitSay(q.num);  // hear the number, then find its numeral
   const area=`<div class="prompt">
       <div class="count-q">რომელია?</div>
-      <button class="speakbtn pulse-tap" onclick="digitSay(${q.num});pulseTap(this)">${I.speaker} მისმინე</button>
+      <button class="speakbtn pulse-tap" onclick="digitSay(${q.num});pulseTap(this)">${I.speaker} მოისმინე</button>
       <div class="finger-hint">👆 აირჩიე ციფრი</div>
     </div>
     <div class="options">${shuffle([...opts]).map(nn=>`<button class="opt num" onclick="answerDigit(this,${nn},${q.num})">${nn}</button>`).join('')}</div>`;
@@ -207,7 +207,7 @@ function nextRead(){
   const area=`<div class="prompt">
       <div class="count-q">რომელია?</div>
       <div class="p-emoji" style="font-size:3.4rem">${q.e}</div>
-      <button class="speakbtn pulse-tap" onclick="readSay('${q.w}');pulseTap(this)">${I.speaker} მისმინე</button>
+      <button class="speakbtn pulse-tap" onclick="readSay('${q.w}');pulseTap(this)">${I.speaker} მოისმინე</button>
       <div class="finger-hint">👆 აირჩიე სიტყვა</div>
     </div>
     <div class="options">${shuffle([...opts]).map(w=>`<button class="opt" style="font-size:1.18rem" onclick="answerRead(this,'${w}','${q.w}')">${w}</button>`).join('')}</div>`;

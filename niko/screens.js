@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.67';
+const APP_VERSION='1.68';
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -74,7 +74,7 @@ function landing(){
     <div class="lp-section">
       <div class="lp-h2">რატომ NikoLearn</div>
       <div class="lp-grid">
-        <div class="lp-card"><div class="lp-ic">🔒</div><div class="lp-ct">სრული privacy</div><div class="lp-cs">ყველა მონაცემი ტელეფონზე რჩება. ღრუბელი არ არის.</div></div>
+        <div class="lp-card"><div class="lp-ic">🔒</div><div class="lp-ct">სრული privacy</div><div class="lp-cs">ყველა მონაცემი ტელეფონზე რჩება. ონლაინ სინქრონიზაციის გარეშე.</div></div>
         <div class="lp-card"><div class="lp-ic">🚫</div><div class="lp-ct">ნული რეკლამა</div><div class="lp-cs">გარე ბმული არ არის. მშობლის დაცული სივრცე.</div></div>
         <div class="lp-card"><div class="lp-ic">🦉</div><div class="lp-ct">ბუ დაეხმარება</div><div class="lp-cs">მინიშნება და წახალისება ყოველ ნაბიჯზე.</div></div>
         <div class="lp-card"><div class="lp-ic">🔊</div><div class="lp-ct">ქართული ხმა</div><div class="lp-cs">პატარებისთვის, ვინც ჯერ ვერ კითხულობს.</div></div>
@@ -190,8 +190,8 @@ function welcome(){
     </div>
     <div class="perm-points" style="max-width:330px;margin:0 auto">
       <div class="perm-point">${I.check} ინგლისური · მათემატიკა · Kings (Cambridge YLE) გამოცდისთვის</div>
-      <div class="perm-point">${I.privacy} <b>მონაცემები ამ მოწყობილობაზე რჩება</b> — ღრუბელი არ არის</div>
-      <div class="perm-point">${I.check} <b>ნული</b> რეკლამა · ნული გარე ბმული · მშობლის დაცული სივრცე</div>
+      <div class="perm-point">${I.privacy} <b>მონაცემები ამ მოწყობილობაზე რჩება</b> — ონლაინ სინქრონიზაციის გარეშე</div>
+      <div class="perm-point">${I.check} <b>ნული</b> რეკლამა · გარე ბმულების გარეშე · მშობლის დაცული სივრცე</div>
     </div>
     <div class="actions" style="display:flex;flex-direction:column;gap:10px;width:100%;max-width:330px;margin:0 auto">
       <button class="btn btn-primary btn-block" onclick="finishOnboard()">დავიწყოთ 🌟</button>
@@ -228,7 +228,7 @@ function renderConsent(){
       <div class="perm-points">
         <div class="perm-point">${I.check} პროფილი იქმნება ბავშვისთვის</div>
         <div class="perm-point">${I.privacy} ყველა მონაცემი <b>ამ მოწყობილობაზე</b> ინახება</div>
-        <div class="perm-point">${I.check} რეკლამა — ნული · გარე ბმული — ნული</div>
+        <div class="perm-point">${I.check} რეკლამა — ნული · გარე ბმულების გარეშე</div>
       </div>
       <button class="btn btn-primary btn-block" onclick="renderAddChild()">მე, მშობელი, ვეთანხმები ✓</button>
       <button class="btn btn-ghost btn-block mt" onclick="renderInitiator()">უკან</button>

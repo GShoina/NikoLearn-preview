@@ -5,7 +5,7 @@
    ═══════════════════════════════════════════════════════════ */
 (function(){
   const big=(a,b)=>Math.max(a,b), small=(a,b)=>Math.min(a,b);
-  const warm=k=>k?['ერთად შევძლებთ! ','ყოჩაღ, ვცადოთ ერთად. ',''][Math.floor(Math.random()*3)]:'';
+  const warm=k=>k?['ერთად შევძლებთ! ','ბრავო, ვცადოთ ერთად. ',''][Math.floor(Math.random()*3)]:'';
 
   // ── MATH (structured q: {op,a1,a2,seq,step,a}) ──
   function math(q,kid){

@@ -40,9 +40,9 @@
     "თბილი სასწავლო სივრცე შენი ბავშვისთვის":"A warm learning space for your child",
     "ინგლისური · მათემატიკა · Kings (Cambridge YLE) გამოცდისთვის":"English · Math · Kings (Cambridge YLE) prep",
     "მონაცემები ამ მოწყობილობაზე რჩება":"Your data stays on this device",
-    "— ღრუბელი არ არის":"— no cloud",
+    "— ონლაინ სინქრონიზაციის გარეშე":"— no online sync",
     "ნული":"Zero",
-    "რეკლამა · ნული გარე ბმული · მშობლის დაცული სივრცე":"ads · zero external links · a protected parent space",
+    "რეკლამა · გარე ბმულების გარეშე · მშობლის დაცული სივრცე":"ads · zero external links · a protected parent space",
     "დავიწყოთ 🌟":"Let's start 🌟",
 
     /* add child / consent */
@@ -58,7 +58,7 @@
     "ყველა მონაცემი":"All data",
     "ამ მოწყობილობაზე":"on this device",
     "ინახება":"is stored",
-    "რეკლამა — ნული · გარე ბმული — ნული":"Ads — zero · external links — zero",
+    "რეკლამა — ნული · გარე ბმულების გარეშე":"Ads — zero · external links — zero",
     "მე, მშობელი, ვეთანხმები ✓":"I, the parent, agree ✓",
     "უკან":"Back",
     "ახალი ბავშვი":"New child",
@@ -71,7 +71,7 @@
     "🎒 დაიწყებს ინგლისურს, მათემატიკას და Kings-ს":"🎒 Starts English, Math and Kings",
     "ფერი":"Colour",
     "მშობლის ტელეფონი (არასავალდებულო)":"Parent's phone (optional)",
-    "📞 ნებაყოფლობითი — მხოლოდ თუ შეავსებ, დახმარებისთვის დაგიკავშირდებით.":"📞 Optional — only if you fill it in, we'll reach out to help.",
+    "📞 არასავალდებულო — მხოლოდ თუ შეავსებ, დახმარებისთვის დაგიკავშირდებით.":"📞 Optional — only if you fill it in, we'll reach out to help.",
     "შექმენი პროფილი":"Create profile",
 
     /* subjects / menu */
@@ -100,7 +100,7 @@
     "აირჩიე თემა":"Pick a topic",
     "ფრაზები":"Phrases",
     "მოისმინე":"Listen",
-    "მისმინე":"Listen",
+    "მოისმინე":"Listen",
     "სცადე ხელახლა":"Try again",
     "შეამოწმე":"Check",
     "დაწერე":"Write",
@@ -228,7 +228,7 @@
     "კარგია! ცოტა გავაუმჯობესოთ":"Good! Let's polish it a little",
 
     /* break */
-    "ყოჩაღ! 15 წუთი ისწავლე.":"Well done! You studied for 15 minutes.",
+    "ბრავო! 15 წუთი ისწავლე.":"Well done! You studied for 15 minutes.",
     "დროა პატარა შესვენების.":"Time for a little break.",
     "მზად ვარ! 💪":"I'm ready! 💪",
     "5-ჯერ ახტი 🤸":"Jump 5 times 🤸",
@@ -328,7 +328,7 @@
     "სიტყვები":"Words",
     "ამოცანები":"problems",
     "ცხოველები 🐾":"Animals 🐾",
-    "ყოჩაღ, მაშო! გამოთქმა მშვენიერი იყო 🌟":"Well done, Masho! Great pronunciation 🌟",
+    "ბრავო, მაშო! გამოთქმა მშვენიერი იყო 🌟":"Well done, Masho! Great pronunciation 🌟",
     "სცადოთ კიდევ ერთი სიტყვა?":"Shall we try another word?",
 
     /* hero lead + curriculum */
@@ -409,7 +409,7 @@
     [/^(.+?)\s*წლის$/, function(m){return m[1]+' yrs';}],
     [/^(.+?)-ს წაშლა$/, function(m){return 'Delete '+m[1];}],
     [/^პროფილის წაშლა$/, function(){return 'Delete profile';}],
-    [/^ყოჩაღ,\s*(.+?)!$/, function(m){return 'Well done, '+m[1]+'!';}],
+    [/^ბრავო,\s*(.+?)!$/, function(m){return 'Well done, '+m[1]+'!';}],
     [/^(.+?),\s*კიდევ ცადე!$/, function(m){return m[1]+', try again!';}],
     [/^(.+?),\s*შესანიშნავია! 🌟$/, function(m){return m[1]+', brilliant! 🌟';}],
     [/^(.+?),\s*კარგად მიდიხარ! 💪$/, function(m){return m[1]+", you're doing great! 💪";}],

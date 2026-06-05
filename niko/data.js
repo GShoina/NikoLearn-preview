@@ -90,7 +90,7 @@ const PHRASES = {
     {ka:"დაჯექი, გთხოვ.",en:"Sit down, please."},{ka:"ადექი.",en:"Stand up."},{ka:"გახსენი წიგნი.",en:"Open your book."},
     {ka:"დახურე წიგნი.",en:"Close your book."},{ka:"მომისმინე, გთხოვ.",en:"Listen, please."},{ka:"გაჩუმდი, გთხოვ.",en:"Be quiet, please."},
     {ka:"ხელი ასწიე.",en:"Raise your hand."},{ka:"შემიძლია გავიდე?",en:"May I go out?"},{ka:"ვერ გავიგე.",en:"I don't understand."},
-    {ka:"შეგიძლია დამეხმარო?",en:"Can you help me?"},{ka:"ყოჩაღ!",en:"Well done!"},{ka:"კიდევ სცადე.",en:"Try again."},
+    {ka:"შეგიძლია დამეხმარო?",en:"Can you help me?"},{ka:"ბრავო!",en:"Well done!"},{ka:"კიდევ სცადე.",en:"Try again."},
     {ka:"დავამთავრე!",en:"I'm finished!"},{ka:"არ ვიცი.",en:"I don't know."}
   ],
   "სახლი 🏠":[
