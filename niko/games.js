@@ -314,8 +314,12 @@ function nextCount(){
 }
 function answerCount(btn,sel,cor){
   if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');
-    const s=state[profile];s.shields++;game.shields++;s.streak++;save();const cq=game.qs[game.i];try{speak(knows(profile,'en')?cq.en:cq.ka,knows(profile,'en')?'en-US':'ka-GE');}catch(e){}feedback(true);setTimeout(()=>{game.i++;closeFeedback();nextCount();},1000);}
-  else{btn.classList.add('wrong','dim');state[profile].streak=0;game.wrong++;save();}
+    const s=state[profile];s.shields++;game.shields++;s.streak++;save();
+    // F3/F4: say the NUMBER first, hold a beat, THEN praise + celebrate (never praise before the answer)
+    sayThenPraise(cor,'ka-GE',()=>{game.i++;closeFeedback();nextCount();});}
+  else{btn.classList.add('wrong','dim');state[profile].streak=0;game.wrong++;save();
+    // voice the chosen (wrong) number + gentle "try again" (recorded clips)
+    try{speakSeq([{t:String(sel),lang:'ka-GE'},{t:'კიდევ სცადე.',lang:'ka-GE'}]);}catch(e){}}
 }
 
 /* ── Kings tests ── */
@@ -368,6 +372,12 @@ function feedback(ok){
   $('.device').appendChild(el);
 }
 function closeFeedback(){const e=$('#fbov');if(e)e.remove();}
+// F4 (systemic): voice the ANSWER first, hold a beat so the child hears it, THEN praise + show
+// the celebration. Prevents the "ყოჩაღ flashes before the answer is spoken" ordering bug.
+function sayThenPraise(answerText,lang,after){
+  try{if(answerText!=null&&answerText!=='')speak(String(answerText),lang||'ka-GE');}catch(e){}
+  setTimeout(()=>{try{praise();}catch(e){}feedback(true);if(after)setTimeout(after,1100);},1100);
+}
 function confettiEl(){
   const c=document.createElement('div');c.className='confetti';
   const cols=['var(--primary)','var(--sun)','var(--green)','var(--sky)','var(--purple)'];
