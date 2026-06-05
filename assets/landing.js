@@ -33,7 +33,7 @@
     entries.forEach(function(en){
       if(en.isIntersecting){ en.target.classList.add('in'); countMaybe(en.target); io.unobserve(en.target); }
     });
-  }, {threshold:0.18, rootMargin:'0px 0px -8% 0px'});
+  }, {threshold:0, rootMargin:'0px 0px 25% 0px'});  // generous: slide-in fires before the block enters view (smoother; opacity stays 1 so capture/no-JS is already safe)
   document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
 
   /* ── count up ── */

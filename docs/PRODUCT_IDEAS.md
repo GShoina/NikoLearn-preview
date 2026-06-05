@@ -112,7 +112,7 @@ Sequence still holds: free features (b) first → willingness-to-pay signal → 
 | 5 | Voiced result/break sentences for pre-readers | tester (3yo) | 4 | 2 | 4 | Yes | **Done v3.2** | clips generated |
 | 6 | Age-appropriate tiers (hide arithmetic for ages 3-4) | tester (3yo) | 5 | 1 | 5 | Yes | **Done v3.3** | isTiny |
 | 7 | Parent weekly progress email/summary (opt-in, off-device) | session | 4 | 3 | 3 | Maybe | Proposed | privacy: explicit opt-in only |
-| 8 | GA4 live metric tiles inside admin console | start of session | 2 | 3 | 1 | Maybe | Blocked | needs self-owned GCP OAuth client |
+| 8 | GA4 live metric tiles inside admin console | start of session | 2 | 3 | 1 | Maybe | **PARKED** | Architect decision 2026-06-05: redundant now (GA4 dashboard + Clarity both show users/signups), same GCP/OAuth blocker, zero new info. Code stays ready (`GA4_METRICS_URL=''` + loadGA4Metrics scaffold). REVISIT when the backend exists — server-side GA4 read becomes trivial then, add tiles for free. |
 | 9 | Owl/tutor hint bodies translated in EN mode | QA | 2 | 3 | 1 | Maybe | Proposed | only matters for EN-mode users |
 | 10 | Distinct mascot identity (avoid Duolingo-owl association) | owner | 2 | 3 | 1 | Maybe | Proposed | low legal risk today; brand polish |
 | 11 | PWA "install to home screen" prompt + onboarding | session | 3 | 2 | 3 | Yes | Proposed | better retention for testers |
