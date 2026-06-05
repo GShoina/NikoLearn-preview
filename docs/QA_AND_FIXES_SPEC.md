@@ -44,6 +44,10 @@ Output = a dated report (console + saved file) listing each issue by dimension.
 - [ ] Audio language switchable anywhere; takes effect on the next spoken item.
 - [ ] QA pass runs headless and prints every console-error / missing-clip / mismatch it finds.
 
-## D. Running status (single light track — no parallel agents, per owner's "don't overload the PC")
-- [ ] F4 praise-order (systemic)  ·  [ ] F3 count voicing  ·  [ ] F2 digit-learn  ·  [ ] F1 movement safe+match  ·  [ ] F5 audio-lang selector  ·  [ ] O1 animal avatar  ·  [ ] A. QA tester script
+## D. Running status — ALL DONE (2026-06-05)
+- [x] F4 praise-order (v1.53) · [x] F3 count voicing (v1.53) · [x] F2 digit-learn (v1.55) · [x] F1 movement safe+match (v1.54) · [x] F5 audio-lang selector (v1.57) · [x] O1 animal avatar (v1.56) · [x] A. QA tester (qa/qa-check.mjs + scheduled night routine)
+- Plus landing fixes (v1.58): progressive-enhancement reveal + OG/favicon share preview.
+- **Night QA routine LIVE:** "NikoLearn QA Tester" `trig_017M47saqRQL4f1373rQ3WNi`, cron `0 22 * * 0`
+  (Sun 22:00 UTC = Mon 02:00 Tbilisi) — runs FIRST, before PO (05:00 UTC) + Security (06:00 UTC);
+  fetches live files (no GitHub login), runs the 4 dimensions, emails gela.shonia@bivision.ge. Sourceless + Gmail.
 </content>
