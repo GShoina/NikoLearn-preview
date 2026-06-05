@@ -6,9 +6,10 @@ Owner (as Product Owner) LOCKED the go-forward plan into `docs/PRODUCT_IDEAS.md`
 - **(a) Premium/paid features** — O3 parent-voice stories (flagship), English-deep, Georgian reading, parent dashboard+sync, full Kings path, drawing+print. Enforced ONLY by backend.
 - **(b) Build NOW (free, no backend, grows audience):** O2 movement breaks → O1 animal avatar → drag-letter-into-word → free-canvas drawing (O4a) → more questions/category → PWA install prompt.
 - **(c) Backend MVP:** #1 Auth (parent acct) + #2 Payment (Stripe/Paddle) + #3 Entitlement = MVP; #4 content-behind-auth = anti-copy moat; #5 host on Supabase/Firebase; #6 sync last.
-- **Recommended sequence:** NOW do 2-3 quick wins from (b) starting **O2 movement** → watch willingness-to-pay → then (c) backend → then (a) paywall features.
+- **Recommended sequence:** NOW do 2-3 quick wins from (b) → ✅ **O2 movement DONE (v1.52, live)** → next **O1 animal avatar** → watch willingness-to-pay → then (c) backend → then (a) paywall features.
+- **✅ O2 SHIPPED (v1.52):** interactive movement break — 8 voiced exercises (reps count-up + voiced numbers; timed holds count down), 🤸 home tile on both grids, back/exit button (closeBreak), 12 new ka clips clip_294-305. Files: owl.js (showBreak/runMove/finishMove/closeBreak + MOVE_POOL) · screens.js tiles · styles.css · i18n.js · audio-manifest.js.
 - **✅ CONFIRMED DIRECTION 2026-06-05 (owner-locked, SSOT in PRODUCT_IDEAS.md):** MVP = web/PWA · monetization v1 = ONE-TIME premium unlock (NOT subscription yet) · payment = Paddle (verify GE-seller support; fallback Lemon Squeezy / BOG-TBC) · auth+DB = Supabase · repo stays PRIVATE, no secrets in frontend. Build order: parent login → payment → unlock flag → gate premium → (later) sync → (later) AI. DO NOT: native apps, subscription billing, over-engineer before payments validate. Monthly subscription (BOG/TBC) = FUTURE "Niko Plus" only. Sequence: (b) free features → pay signal → backend.
-- **Default next move if owner says "go":** start **(b) O2 movement breaks** while monetization is being decided.
+- **Default next move if owner says "go":** start **(b) O1 — child picks the tutor animal avatar**.
 Weekly routines run autonomously (sourceless + Gmail, no GitHub login needed): PO competitor scan (Mon 05:00 UTC) and Security & IP audit (Mon 06:00 UTC) — both EMAIL findings to gela.shonia@bivision.ge.
 On ANY deploy: run `node bump.mjs` from repo root (never hand-edit the version strings).
 

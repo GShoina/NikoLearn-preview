@@ -157,7 +157,7 @@ Sequence still holds: free features (b) first → willingness-to-pay signal → 
 | Idea | Source | Impact | Effort | Prio | Roadmap? | Status |
 |---|---|:--:|:--:|:--:|:--:|---|
 | O1 · Child picks the tutor ANIMAL avatar (not only the owl) | owner | 4 | 3 | 3 | Yes | Proposed |
-| O2 · Movement / exercise breaks (squats, plank, jumps…) — not step-tracking | owner | 4 | 2 | 4 | Yes | Proposed |
+| O2 · Movement / exercise breaks (squats, plank, jumps…) — not step-tracking | owner | 4 | 2 | 4 | Yes | **Done v1.52** |
 | O3 · Bedtime stories & poems read in the PARENT'S recorded voice | owner | 5 | 5 | 2 | Yes | Proposed (flagship) |
 | O4 · Drawing / coloring (finger paint + themed coloring pages + print) | owner | 4 | 4 | 2 | Yes | Proposed |
 
