@@ -280,6 +280,8 @@ function finishMove(){
   const go=el.querySelector('#mvGo');
   if(go){go.style.display='';go.textContent='მზად ვარ! ✅';go.onclick=()=>el.remove();}
   try{ if(typeof confettiEl==='function') el.appendChild(confettiEl()); }catch(e){}
-  try{speak('ყოჩაღ','ka-GE');}catch(e){}
+  // praise() has the no-mispronounce guard (uses a recorded clip, or an English word if the
+  // device has no Georgian voice) — never reads Georgian text with an English voice ("yochag").
+  try{praise();}catch(e){}
 }
 
