@@ -957,8 +957,11 @@ h1,h2,h3{font-weight:800;line-height:1.08;letter-spacing:-0.02em;text-wrap:balan
 .calm .owl-big,.calm .owl-big .ping,.calm .m-owl .owl-ava{animation:none !important}
 
 /* ═══════════ REVEAL ═══════════ */
-.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
-.reveal.in{opacity:1;transform:none}
+/* Content is NEVER hidden (opacity stays 1) — only the slide animates. So no-JS, crawlers,
+   full-page screenshots and PDF export all see the whole page; JS adds the slide-in on scroll.
+   Simpler + more robust than opacity-hiding (no blank-below-hero in any renderer). */
+.reveal{transform:translateY(22px);transition:transform .7s var(--ease)}
+.reveal.in{transform:none}
 .reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}.reveal.d4{transition-delay:.32s}
 
 /* ═══════════ RESPONSIVE ═══════════ */
@@ -1028,7 +1031,7 @@ h1,h2,h3{font-weight:800;line-height:1.08;letter-spacing:-0.02em;text-wrap:balan
 @media (prefers-reduced-motion:reduce){
   .fq.is-open .fq-a > p{animation:none}
   *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important}
-  .reveal{opacity:1;transform:none}
+  .reveal{transform:none}
   .hero-copy>*,.hero-visual{opacity:1;transform:none}
 }
 
