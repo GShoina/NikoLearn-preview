@@ -113,6 +113,13 @@ shipped and hid every section below the hero. Required "done" gate for ANY visua
 Test the SETTLED state, not mid-transition (disable transitions or wait), and test the visible-path
 (e.g. that `.in`/active state actually shows), not only the hidden default.
 
+## 6d. Every version must EARN its number (owner preference, 2026-06-05)
+The owner values that each new release is genuinely better — a real, visible improvement, not just a
+version bump — and that the care/effort shows in the product itself. So per deploy: ship real user
+value (a fix or a feature a child/parent will actually feel), make the improvement tangible, and keep
+quality high (see §6c visual-verification gate). A version that doesn't make the app meaningfully
+better shouldn't ship on its own. This is a motivation + quality bar, held alongside the autonomy rule.
+
 ## 7. Permission discipline (owner-locked) — default = GO
 Owner has pre-approved the whole plan. Execute reversible internal work and show the result. NEVER
 ask yes/no on it. Ask ONLY for: (a) customer-facing content/UI going live to the kids' app, (b)
