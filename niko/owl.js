@@ -22,7 +22,8 @@ function curQ(){return (game.mode||'').startsWith('math-')?game.cur:(game.qs?gam
 function syncAiFab(){
   let fab=$('#aifab');const inGame=$('#gscreen');
   if(inGame){
-    if(!fab){fab=document.createElement('button');fab.id='aifab';fab.className='ai-fab';fab.onclick=openHint;fab.innerHTML=`<span class="ping"></span>🦉`;$('.device').appendChild(fab);}
+    if(!fab){fab=document.createElement('button');fab.id='aifab';fab.className='ai-fab';fab.onclick=openHint;$('.device').appendChild(fab);}
+    fab.innerHTML=`<span class="ping"></span>${tutorAva(profile)}`;   // shows the chosen tutor animal
   } else if(fab) fab.remove();
 }
 let helpTimer=null;
@@ -56,7 +57,7 @@ function openHint(){
   if(!ov){ov=document.createElement('div');ov.className='overlay';ov.id='aiov';ov.style.alignItems='flex-end';ov.style.padding='0 16px 96px';ov.onclick=closeHint;$('.device').appendChild(ov);}
   ov.innerHTML=`<div class="ai-bubble" onclick="event.stopPropagation()">
     <button class="ai-close" onclick="closeHint()" aria-label="დახურვა">✕</button>
-    <div class="ai-top"><div class="ai-ava alive">🦉</div><div class="ai-name">${t.name}</div></div>
+    <div class="ai-top"><div class="ai-ava alive" onclick="event.stopPropagation();pickTutor()" title="შეცვალე მასწავლებელი">${tutorAva(profile)}</div><div class="ai-name">${t.name}</div></div>
     <div class="ai-text">${text}</div>
     <div class="hint-dots">${dots}</div>
     <button class="ai-listen-big" onclick="speakHint(this)">${I.speaker} მისმინე</button>
@@ -87,6 +88,26 @@ function advanceHint(){game.hintLevel++;openHint();}
 function explainNow(){const t=game.tutor;if(t)game.hintLevel=t.hints.length;openHint();}
 function closeHint(){const o=$('#aiov');if(o)o.remove();}
 
+/* ── O1: pick the tutor animal (reachable any time by tapping the tutor face) ── */
+function pickTutor(){
+  if(!profile)return;
+  const ov=document.createElement('div');ov.className='overlay';ov.id='tutorpick';ov.style.zIndex='80';
+  ov.onclick=()=>ov.remove();
+  ov.innerHTML=`<div class="tutor-modal" onclick="event.stopPropagation()">
+    <button class="ai-close" onclick="document.getElementById('tutorpick').remove()" aria-label="დახურვა">✕</button>
+    <div class="tutor-modal-h">აირჩიე მასწავლებელი</div>
+    <div class="tutor-grid">${TUTOR_ANIMALS.map(a=>`<button class="tutor-pick ${tutorAva(profile)===a?'on':''}" onclick="chooseTutor('${a}')">${a}</button>`).join('')}</div>
+  </div>`;
+  $('.device').appendChild(ov);
+}
+function chooseTutor(a){
+  setTutor(profile,a);
+  const o=$('#tutorpick');if(o)o.remove();
+  syncAiFab();                       // update the floating tutor button
+  if($('#aiov'))openHint();          // refresh the open hint bubble with the new face
+  if($('.voice'))voiceScreen('idle');// refresh voice screen if open
+}
+
 /* ── VOICE MODE ── */
 function openVoice(){
   if($('#aiov'))$('#aiov').remove();
@@ -114,9 +135,9 @@ function voiceScreen(stateName){
   const target=game.qs&&game.qs[game.i]?(game.qs[game.i].en||game.qs[game.i].q):'apple';
   const tk=game.qs&&game.qs[game.i]?(game.qs[game.i].ka||''):'ვაშლი';
   const states={
-    idle:{s:'დააჭირე და თქვი',h:'წარმოთქვი სიტყვა ხმამაღლა — ბუ მოგისმენს',ava:'🦉'},
+    idle:{s:'დააჭირე და თქვი',h:'წარმოთქვი სიტყვა ხმამაღლა — მასწავლებელი მოგისმენს',ava:tutorAva(profile)},
     listening:{s:'გისმენ…',h:'ლაპარაკობ ნათლად 🎙️',ava:'👂'},
-    thinking:{s:'ვფიქრობ…',h:'',ava:'🦉'},
+    thinking:{s:'ვფიქრობ…',h:'',ava:tutorAva(profile)},
     speaking:{s:'ბუ პასუხობს',h:'',ava:'🗣️'}
   };
   const st=states[stateName];
@@ -144,7 +165,7 @@ function voiceResult(){
     const good=score>=85;
     render(`<div class="screen voice">
       <button class="iconbtn" style="position:absolute;top:18px;left:18px" onclick="game.subj?openMenu(game.subj):selectProfile(profile)">←</button>
-      <div class="v-ava">🦉</div>
+      <div class="v-ava">${tutorAva(profile)}</div>
       <div class="scorering" style="--sc:${score}%"><i>${score}</i></div>
       <div class="v-state">${good?'ჩინებული გამოთქმა! 🌟':'კარგია! ცოტა გავაუმჯობესოთ'}</div>
       <div class="v-hint">${good?`„${target}" ნათლად წარმოთქვი.`:`სცადე ბგერა <b>/${target[0]}/</b> უფრო მკაფიოდ.`}</div>

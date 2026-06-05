@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.55';
+const APP_VERSION='1.56';
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -202,7 +202,7 @@ function finishOnboard(){state.onboarded=true;save();goHome();}
 
 let draft={name:'',age:6,color:'green'};
 function addChild(){
-  draft={name:'',age:6,color:AV_COLORS[(state.kids.length)%AV_COLORS.length],langs:['ka'],by:null};
+  draft={name:'',age:6,color:AV_COLORS[(state.kids.length)%AV_COLORS.length],langs:['ka'],tutor:'🦉',by:null};
   renderInitiator();
 }
 function renderInitiator(){
@@ -253,6 +253,9 @@ function renderAddChild(){
     <div class="lvl-hint" style="margin:6px 2px">🔊 გახმოვანება და ახსნა ამ ენებზე. ინგლისურს მაინც ისწავლის თამაშით.</div>
     <div class="section-label mt">ფერი</div>
     <div class="color-row">${AV_COLORS.map(c=>`<button class="color-dot a-${c} ${draft.color===c?'on':''}" onclick="draft.color='${c}';renderAddChild()"></button>`).join('')}</div>
+    <div class="section-label mt">მასწავლებელი 🐾</div>
+    <div class="tutor-grid">${TUTOR_ANIMALS.map(a=>`<button class="tutor-pick ${(draft.tutor||'🦉')===a?'on':''}" onclick="draft.tutor='${a}';renderAddChild()">${a}</button>`).join('')}</div>
+    <div class="lvl-hint" style="margin:6px 2px">ბავშვი აირჩევს, რომელი ცხოველი ასწავლის. შემდეგ შეცვლაც შეიძლება.</div>
     <div class="spacer"></div>
     <button class="btn btn-primary btn-block mt" onclick="createChild()">შექმენი პროფილი</button>
   </div>`,false);
@@ -262,7 +265,7 @@ function createChild(){
   const name=(draft.name||'').trim();
   if(!name){const n=$('#kid-name');if(n){n.style.borderColor='var(--red)';n.focus();}return;}
   const id='k'+Date.now();
-  state.kids.push({id,name,age:draft.age,color:draft.color,langs:(draft.langs&&draft.langs.length?draft.langs:['ka'])});
+  state.kids.push({id,name,age:draft.age,color:draft.color,langs:(draft.langs&&draft.langs.length?draft.langs:['ka']),tutor:draft.tutor||'🦉'});
   state[id]=blankKid();save();
   try{gtag('event','sign_up',{method:'profile'});}catch(e){}
   selectProfile(id);
