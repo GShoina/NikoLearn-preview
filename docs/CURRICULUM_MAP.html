@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ka"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NikoLearn — სასწავლო რუკა (ასაკი × საგანი)</title>
+<style>
+  :root{--ink:#3a2a1a;--mut:#8a7a66;--line:#e7ddc9;--card:#fff;--bg:#faf4e8;
+        --have:#1e9e5a;--part:#e0a32b;--gap:#d2553f;--accent:#6f76c4}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Noto Sans Georgian',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;padding:24px}
+  .wrap{max-width:1080px;margin:0 auto}
+  h1{font-size:1.55rem;margin:0 0 2px}
+  .sub{color:var(--mut);margin:0 0 20px;font-size:.92rem}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:.82rem;margin-bottom:18px}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .dot{width:11px;height:11px;border-radius:50%;display:inline-block}
+  .d-have{background:var(--have)}.d-part{background:var(--part)}.d-gap{background:var(--gap)}
+  table{width:100%;border-collapse:separate;border-spacing:8px}
+  th{font-size:.82rem;color:var(--mut);text-align:left;padding:0 8px;font-weight:600}
+  th.subj{width:120px}
+  td{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 13px;vertical-align:top;font-size:.86rem}
+  td.subj{background:transparent;border:none;font-weight:700;font-size:1rem;padding-left:2px}
+  .tag{display:inline-block;font-size:.72rem;font-weight:700;border-radius:999px;padding:2px 9px;margin-bottom:6px;color:#fff}
+  .t-have{background:var(--have)}.t-part{background:var(--part)}.t-gap{background:var(--gap)}
+  ul{margin:4px 0 0;padding-left:16px}li{margin:1px 0}
+  .miss{color:var(--gap);font-weight:600}
+  .prio{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin-top:24px}
+  .prio h2{margin:0 0 12px;font-size:1.15rem}
+  .prio ol{margin:0;padding-left:20px}.prio li{margin:8px 0}
+  .num{color:var(--accent);font-weight:700}
+  .note{background:#fff7e9;border:1px solid #f0dcae;border-radius:14px;padding:14px 16px;margin-top:18px;font-size:.86rem}
+  .foot{color:var(--mut);font-size:.78rem;margin-top:22px}
+  b.k{color:var(--accent)}
+</style></head>
+<body><div class="wrap">
+
+<h1>NikoLearn — სასწავლო რუკა</h1>
+<p class="sub">რას ვთავაზობთ ბავშვს ასაკის × საგნის მიხედვით — რა გვაქვს, რა აკლია, რა საჭიროებს გაუმჯობესებას. Product Owner-ის ცოცხალი დოკუმენტი. წყარო: აპის რეალური კონტენტი (data.js / menu-ლოგიკა), 2026-06-05.</p>
+
+<div class="legend">
+  <span><i class="dot d-have"></i> ძლიერი — სრულად დაფარული</span>
+  <span><i class="dot d-part"></i> ნაწილობრივი — არსებობს, მაგრამ თხელია</span>
+  <span><i class="dot d-gap"></i> ხვრელი — არ არსებობს</span>
+</div>
+
+<table>
+  <tr><th class="subj"></th><th>3-4 წელი (პატარები)</th><th>5 წელი</th><th>6-12 წელი</th></tr>
+
+  <tr>
+    <td class="subj">🇬🇪 ქართული</td>
+    <td><span class="tag t-part">ნაწილობრივი</span>
+      <ul><li>ანბანი — 33 ასო (ისწავლე + ტესტი, 3 მაგალითი/ასო, ხმით)</li><li>ციფრები 1-9 (ქართ. ხმა)</li>
+      <li class="miss">კითხვა — არ არის</li></ul></td>
+    <td><span class="tag t-part">ნაწილობრივი</span>
+      <ul><li>ანბანი ✓ · ციფრები ✓</li><li class="miss">მარცვალი → სიტყვა — არ არის</li></ul></td>
+    <td><span class="tag t-gap">ხვრელი</span>
+      <ul><li>ანბანი ✓ (იგივე რაც პატარებს)</li>
+      <li class="miss">კითხვა (მარცვალი→სიტყვა→წინადადება) — არ არის</li>
+      <li class="miss">ქართ. ლექსიკა / გაგება — არ არის</li></ul></td>
+  </tr>
+
+  <tr>
+    <td class="subj">🇬🇧 ინგლისური</td>
+    <td><span class="tag t-part">ნაწილობრივი</span>
+      <ul><li>ABC — 26 ასო (ისწავლე + ტესტი)</li><li>სიტყვა-სურათით (მოსმენა)</li></ul></td>
+    <td><span class="tag t-have">ძლიერი</span>
+      <ul><li>ABC ✓</li><li>116 სიტყვა / 13 თემა — მოსმენა + სურათი</li></ul></td>
+    <td><span class="tag t-have">ძლიერი</span>
+      <ul><li>116 სიტყვა / 13 თემა — 5 რეჟიმი (ქვიზი, თარგმანი, მოსმენა, დაწყვილება, მართლწერა)</li>
+      <li>ფრაზები · Kings (33 კითხვა, Cambridge YLE)</li>
+      <li class="miss">წინადადება / phonics / მოთხრობა — არ არის</li></ul></td>
+  </tr>
+
+  <tr>
+    <td class="subj">🧮 მათემატიკა</td>
+    <td><span class="tag t-have">ძლიერი</span>
+      <ul><li>დათვლა 1-10 · ციფრები 1-9 · ფიგურები</li><li>არითმეტიკა დამალულია (ასაკის დაცვა)</li></ul></td>
+    <td><span class="tag t-have">ძლიერი</span>
+      <ul><li>დათვლა · ციფრები · ფიგურები</li><li>შეკრება / გამოკლება · პატერნები</li></ul></td>
+    <td><span class="tag t-have">ძლიერი</span>
+      <ul><li>+ − × · პატერნები · შედარება · ხუთობით დათვლა</li><li>ფული ₾ · საათი · ფიგურები · Kings (14 კ.)</li>
+      <li class="miss">წილადები / ამოცანები (word problems) — არ არის</li></ul></td>
+  </tr>
+
+  <tr>
+    <td class="subj">🤸 მოძრაობა + ჯილდო</td>
+    <td colspan="3"><span class="tag t-have">ძლიერი — ყველა ასაკზე</span>
+      <ul><li>8 ვარჯიში, 2 ანიმირებული გმირი, ხმით + dots-პროგრესი + confetti (3-4-ზე მხოლოდ უსაფრთხო ვარჯიშები)</li>
+      <li>მონეტები · სერია · დონეები · რანგები · მშობლის dashboard</li></ul></td>
+  </tr>
+</table>
+
+<div class="prio">
+  <h2>🎯 დეველოპმენტის პრიორიტეტი (PO-რეკომენდაცია, ხვრელებზე დაყრდნობით)</h2>
+  <ol>
+    <li><span class="num">#1 — ქართული კითხვა</span> (მარცვალი → სიტყვა → წინადადება). ეს არის ყველაზე დიდი ხვრელი და <b class="k">Georgian-first პოზიციონირების გული</b>: დღეს ქართულში მხოლოდ ანბანი გვაქვს. კონკურენტებს ქართული კითხვა არ აქვთ — ეს ჩვენი მთავარი differentiator-ი უნდა იყოს.</li>
+    <li><span class="num">#2 — English deep</span> (წინადადება / phonics / მოთხრობა). სასწავლო ღირებულება + ბუნებრივი <b class="k">premium-კანდიდატი</b> (ფასიანი ვერსიის გული).</li>
+    <li><span class="num">#3 — 5-წლის math გაღრმავება</span> + უფროსებზე word-problems / წილადები.</li>
+    <li><span class="num">#4 — წვრილი:</span> EN-რეჟიმის i18n leaks (კონტროლი / თემების სახელები).</li>
+  </ol>
+</div>
+
+<div class="note">
+  <b>📊 GA სტატისტიკა — გულახდილად:</b> GA4 თვისება (539978869) შენს <b>პირად Google-ანგარიშზეა</b>, API-წვდომა აქედან არ მაქვს, ამიტომ რიცხვებს ვერ გამოვწევ. ნახვა: აპში <code>?admin=1</code> → <b>📊 GA4</b> (პირდაპირ realtime/overview-ზე), ან analytics.google.com. აპშივე ცოცხალი GA-ფილები რომ გამოჩნდეს, საჭიროა გაჩერებული GCP-OAuth გზა (clasp login პირადი ანგარიშით) — ადრე გადაწყდა „ჯერ არ ღირს", მაგრამ ნებისმიერ დროს ჩავრთავ თუ გინდა.
+</div>
+
+<p class="foot">ეს რუკა Product Owner-ის ცოცხალი დოკუმენტია — ყოველი ახალი კონტენტის შემდეგ ნახდება. ღამის PO-აგენტი (ორშ 02:00) ამ რუკას ანახლებს ხვრელების მიხედვით.</p>
+
+</div></body></html>

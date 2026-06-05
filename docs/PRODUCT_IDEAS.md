@@ -7,6 +7,14 @@ This is the single source of truth for product ideas. Every idea is logged, scor
 and given a roadmap decision. The weekly Product Owner routine appends competitor
 findings + new ideas and re-scores open ones.
 
+## 🗺️ Curriculum coverage map (PO's living artifact)
+`docs/CURRICULUM_MAP.html` — age × subject (Georgian / English / Math / Movement) coverage:
+have / partial / gap, with ranked dev priorities. Built from the real app content
+(data.js: ka-alpha 33, en-alpha 26, 116 EN words/13 topics, Kings-eng 33, Kings-math 14,
+counting 1-10, digits 1-9). **Biggest gap = Georgian reading (syllable→word→sentence)** —
+absent today, and the core of Georgian-first differentiation. This map is the Product
+Owner's scope: keep it current as content ships; the weekly PO pass re-checks the gaps.
+
 ## How ideas are scored
 - **Impact 1-5** — value to the child's learning / parent trust / growth.
 - **Effort 1-5** — build cost (1 = hours, 5 = weeks).
