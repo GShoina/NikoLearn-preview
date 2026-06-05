@@ -178,25 +178,46 @@ function voiceResult(){
   },1400);
 }
 
-/* ═══════════════ MOVEMENT BREAK (O2) ═══════════════ */
-// Each exercise: name (ka, voiced via recorded clip), emoji, n (count), unit,
-//   hint (short ka "how", shown as text so the picture is never ambiguous),
-//   tiny (safe + doable for ages 3-4 → only these show for isTiny kids).
-// 'reps' counts UP and voices each number (1-20 clips); 'secs' holds + counts DOWN.
-// anim = a CSS class that makes the big emoji MIMIC the movement, so a pre-reader
-// child SEES what to do (not just a static picture + text).
+/* ═══════════════ MOVEMENT BREAK (O2) — animated character (V1) ═══════════════ */
+// A friendly SVG character actually PERFORMS each move (arms/legs animate), so a
+// pre-reader child mirrors it. Text is secondary (one short playful caption).
+//   name = voiced ka clip · emoji = small accent · play = playful caption ·
+//   fig = the figure-motion class · tiny = safe for ages 3-4 · n/unit = count.
 const MOVE_POOL=[
-  {name:'ბუქნი',            emoji:'🏋️', n:5,  unit:'reps', hint:'მოიხარე და ადექი',        tiny:true,  anim:'mv-squat'   },
-  {name:'ახტომა',           emoji:'🤸', n:8,  unit:'reps', hint:'ახტი მაღლა',              tiny:true,  anim:'mv-jump'    },
-  {name:'პლანკა',           emoji:'💪', n:10, unit:'secs', hint:'დაიჭირე სხეული სწორად',   tiny:false, anim:'mv-hold'    },
-  {name:'ცალ ფეხზე დგომა',  emoji:'🦩', n:10, unit:'secs', hint:'დადექი ერთ ფეხზე',        tiny:false, anim:'mv-balance' },
-  {name:'ხელების ტრიალი',   emoji:'🙆', n:8,  unit:'reps', hint:'ატრიალე ხელები',          tiny:true,  anim:'mv-rotate'  },
-  {name:'წვერებზე აწევა',   emoji:'🦶', n:8,  unit:'reps', hint:'ფეხის წვერებზე ადექი',    tiny:true,  anim:'mv-tiptoe'  },
-  {name:'დათვივით სიარული', emoji:'🐻', n:6,  unit:'reps', hint:'იარე დათვივით',           tiny:true,  anim:'mv-bearwalk'},
-  {name:'კენგურუსავით ხტომა',emoji:'🦘', n:6,  unit:'reps', hint:'ახტი კენგურუსავით',       tiny:true,  anim:'mv-hop'     }
+  {name:'ბუქნი',            emoji:'🏋️', n:5,  unit:'reps', play:'დავიჩუჩქოთ!',           tiny:true,  fig:'fig-squat'  },
+  {name:'ახტომა',           emoji:'⬆️', n:8,  unit:'reps', play:'ვიხტუნოთ მაღლა!',        tiny:true,  fig:'fig-jump'   },
+  {name:'პლანკა',           emoji:'💪', n:10, unit:'secs', play:'გავიჭიმოთ, დავიჭიროთ!',  tiny:false, fig:'fig-plank'  },
+  {name:'ცალ ფეხზე დგომა',  emoji:'🦩', n:10, unit:'secs', play:'ერთ ფეხზე დავდგეთ!',      tiny:false, fig:'fig-balance'},
+  {name:'ხელების ტრიალი',   emoji:'🔄', n:8,  unit:'reps', play:'ხელები ვატრიალოთ!',       tiny:true,  fig:'fig-arms'   },
+  {name:'წვერებზე აწევა',   emoji:'⬆️', n:8,  unit:'reps', play:'წვერებზე ავიწიოთ!',       tiny:true,  fig:'fig-reach'  },
+  {name:'დათვივით სიარული', emoji:'🐻', n:6,  unit:'reps', play:'დათვებივით ვიაროთ!',      tiny:true,  fig:'fig-sway'   },
+  {name:'კენგურუსავით ხტომა',emoji:'🦘', n:6,  unit:'reps', play:'კენგურუსავით ვიხტუნოთ!',  tiny:true,  fig:'fig-jump'   }
 ];
+// TWO friendly characters do the move together on a mat (ref: owner's kids-workout image).
+// Flat + CSS-animated (V1, offline, no assets). Real 3D/studio look = V2 (garnamatac/Lottie).
+function oneChar(){
+  return `<g class="fig">
+      <g class="leg leg-l"><rect x="56" y="120" width="13" height="40" rx="6.5"/></g>
+      <g class="leg leg-r"><rect x="71" y="120" width="13" height="40" rx="6.5"/></g>
+      <ellipse class="body" cx="70" cy="96" rx="30" ry="30"/>
+      <g class="arm arm-l"><rect x="33" y="74" width="12" height="42" rx="6"/></g>
+      <g class="arm arm-r"><rect x="95" y="74" width="12" height="42" rx="6"/></g>
+      <g class="head">
+        <circle cx="70" cy="42" r="27"/>
+        <circle class="cheek" cx="54" cy="49" r="5"/><circle class="cheek" cx="86" cy="49" r="5"/>
+        <circle class="eye" cx="61" cy="40" r="3.6"/><circle class="eye" cx="79" cy="40" r="3.6"/>
+        <path class="smile" d="M60 50 q10 9 20 0"/>
+      </g>
+    </g>`;
+}
+function moveFigure(){
+  return `<svg class="mv-fig" viewBox="0 0 250 152" aria-hidden="true">
+    <ellipse class="mat" cx="125" cy="145" rx="118" ry="9"/>
+    <g class="char a" transform="translate(2,9) scale(0.82)">${oneChar()}</g>
+    <g class="char b" transform="translate(126,9) scale(0.82)">${oneChar()}</g>
+  </svg>`;
+}
 let _mvTimer=null;
-// exit the break at any moment (stops the timer, returns to the screen underneath)
 function closeBreak(){
   clearInterval(_mvTimer);_mvTimer=null;
   try{speechSynthesis.cancel();}catch(e){}
@@ -204,57 +225,61 @@ function closeBreak(){
 }
 // manual=true when the child taps the 🤸 tile; false on the auto 15-min break.
 function showBreak(manual){
-  if(document.getElementById('breakscr'))return; // guard against a double-open
-  // age 3-4 (isTiny) only get the safe, simple moves — no plank / one-leg balance holds
+  if(document.getElementById('breakscr'))return;
   const pool=isTiny(profile)?MOVE_POOL.filter(e=>e.tiny):MOVE_POOL;
   const ex=pool[ri(0,pool.length-1)];
   const intro=manual?'მოდი ვიმოძრაოთ':'დროა მოძრაობის';
-  const unitLabel=ex.unit==='secs'?(ex.n+' წამი'):(ex.n+'-ჯერ');
   const el=document.createElement('div');el.className='breakscreen';el.id='breakscr';
   el.innerHTML=`
     <button class="b-back" onclick="closeBreak()" aria-label="უკან">←</button>
-    <div class="b-ico ${ex.anim||''}">${ex.emoji}</div>
-    <div class="b-txt" id="mvTxt">${manual?'მოდი ცოტა ვიმოძრაოთ! 🤸':'ყოჩაღ! ცოტა ვისწავლეთ.<br>დროა მოძრაობის 🤸'}</div>
-    <div class="b-act mv-name">${ex.name} · <b>${unitLabel}</b></div>
-    <div class="mv-hint">${ex.hint}</div>
-    <div class="mv-count" id="mvCount" style="display:none">0</div>
-    <button class="btn mv-go" id="mvGo">დაიწყე 🎬</button>`;
+    <div class="mv-stage">${moveFigure()}</div>
+    <div class="mv-play" id="mvPlay">${ex.play} <span class="mv-emoji">${ex.emoji}</span></div>
+    <div class="mv-prog" id="mvProg"></div>
+    <button class="btn mv-go" id="mvGo">დავიწყოთ! 🎬</button>`;
+  el.querySelector('.mv-fig').classList.add(ex.fig);   // character demos the move on a loop
   if(window.applyLang)applyLang(el);
   $('.device').appendChild(el);
-  // voice the prompt + the exercise name (recorded ka clips, no robot TTS)
   try{speakSeq([{t:intro,lang:'ka-GE'},{t:ex.name,lang:'ka-GE'}]);}catch(e){}
-  const go=document.getElementById('mvGo');if(go)go.onclick=()=>runMove(ex);
+  const go=el.querySelector('#mvGo');if(go)go.onclick=()=>runMove(ex);
 }
 function runMove(ex){
-  const go=document.getElementById('mvGo');if(!go)return;
-  const countEl=document.getElementById('mvCount');
-  go.style.display='none';countEl.style.display='';
+  const el=document.getElementById('breakscr');if(!el)return;
+  const go=el.querySelector('#mvGo'),prog=el.querySelector('#mvProg');
+  if(go)go.style.display='none';
   clearInterval(_mvTimer);
-  if(ex.unit==='secs'){            // hold: count seconds DOWN
-    let t=ex.n;countEl.textContent=t;
-    _mvTimer=setInterval(()=>{
-      t--;
-      if(t<=0){countEl.textContent=0;clearInterval(_mvTimer);_mvTimer=null;setTimeout(finishMove,700);return;}
-      countEl.textContent=t;pulseTap(countEl);
-    },1000);
-  } else {                          // reps: count UP, voice each number
-    let i=0;
+  if(ex.unit==='reps'){            // visual progress = filling dots (not just a number)
+    prog.className='mv-prog dots';
+    prog.innerHTML=Array.from({length:ex.n},()=>'<i></i>').join('');
+    const dots=[...prog.children];
+    let done=0;
     const step=()=>{
-      i++;countEl.textContent=i;pulseTap(countEl);
-      try{speak(String(i),'ka-GE');}catch(e){}
-      if(i>=ex.n){clearInterval(_mvTimer);_mvTimer=null;setTimeout(finishMove,1000);}
+      if(dots[done])dots[done].classList.add('on');
+      done++; pulseTap(prog);
+      try{speak(numWord(done,profile),vCode(profile));}catch(e){}
+      if(done>=ex.n){clearInterval(_mvTimer);_mvTimer=null;setTimeout(finishMove,1000);}
     };
     _mvTimer=setInterval(step,1100);step();
+  } else {                          // hold = a depleting ring with the seconds inside
+    prog.className='mv-prog ring';
+    let t=ex.n;
+    const draw=()=>{prog.style.setProperty('--p',Math.round(t/ex.n*100)+'%');prog.innerHTML='<b>'+t+'</b>';};
+    draw();
+    _mvTimer=setInterval(()=>{
+      t--;
+      if(t<=0){prog.style.setProperty('--p','0%');prog.innerHTML='<b>0</b>';clearInterval(_mvTimer);_mvTimer=null;setTimeout(finishMove,600);return;}
+      draw();pulseTap(prog);
+    },1000);
   }
 }
 function finishMove(){
   clearInterval(_mvTimer);_mvTimer=null;
   const el=document.getElementById('breakscr');if(!el)return;
-  const c=el.querySelector('#mvCount');if(c)c.style.display='none';
-  const txt=el.querySelector('#mvTxt');if(txt)txt.innerHTML='ყოჩაღ! 💪';
-  const name=el.querySelector('.mv-name');if(name)name.style.display='none';
-  const btn=el.querySelector('#mvGo');
-  if(btn){btn.style.display='';btn.textContent='მზად ვარ! ✅';btn.onclick=()=>el.remove();}
+  const fig=el.querySelector('.mv-fig');if(fig)fig.setAttribute('class','mv-fig fig-cheer');   // happy jump (SVG: setAttribute, not .className)
+  const play=el.querySelector('#mvPlay');if(play)play.innerHTML='ყოჩაღ! 🎉';
+  const prog=el.querySelector('#mvProg');if(prog)prog.innerHTML='';
+  const go=el.querySelector('#mvGo');
+  if(go){go.style.display='';go.textContent='მზად ვარ! ✅';go.onclick=()=>el.remove();}
+  try{ if(typeof confettiEl==='function') el.appendChild(confettiEl()); }catch(e){}
   try{speak('ყოჩაღ','ka-GE');}catch(e){}
 }
 
