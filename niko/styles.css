@@ -532,6 +532,7 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .breakscreen .b-txt{font-size:1.25rem;line-height:1.6;font-weight:600}
 .breakscreen .b-act{font-family:'Fredoka';font-size:1.6rem;font-weight:600}
 .breakscreen .mv-name b{font-size:1.15em}
+.breakscreen .mv-hint{font-size:1rem;opacity:.92;margin-top:-6px}
 .breakscreen .mv-count{font-family:'Fredoka';font-weight:600;font-size:5.5rem;line-height:1;min-width:1.6em}
 .breakscreen .mv-go{font-size:1.15rem;padding:14px 30px}
 .breakscreen .b-back{position:absolute;top:16px;left:16px;width:46px;height:46px;border-radius:50%;

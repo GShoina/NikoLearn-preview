@@ -158,17 +158,19 @@ function voiceResult(){
 }
 
 /* ═══════════════ MOVEMENT BREAK (O2) ═══════════════ */
-// Each exercise: name (ka, voiced via recorded clip), emoji, n (count), unit.
+// Each exercise: name (ka, voiced via recorded clip), emoji, n (count), unit,
+//   hint (short ka "how", shown as text so the picture is never ambiguous),
+//   tiny (safe + doable for ages 3-4 → only these show for isTiny kids).
 // 'reps' counts UP and voices each number (1-20 clips); 'secs' holds + counts DOWN.
 const MOVE_POOL=[
-  {name:'ბუქნი',            emoji:'🏋️', n:5,  unit:'reps'},
-  {name:'ახტომა',           emoji:'🤸', n:8,  unit:'reps'},
-  {name:'პლანკა',           emoji:'🧘', n:10, unit:'secs'},
-  {name:'ცალ ფეხზე დგომა',  emoji:'🦩', n:10, unit:'secs'},
-  {name:'ხელების ტრიალი',   emoji:'🙆', n:8,  unit:'reps'},
-  {name:'წვერებზე აწევა',   emoji:'🦵', n:8,  unit:'reps'},
-  {name:'დათვივით სიარული', emoji:'🐻', n:6,  unit:'reps'},
-  {name:'კენგურუსავით ხტომა',emoji:'🦘', n:6,  unit:'reps'}
+  {name:'ბუქნი',            emoji:'🏋️', n:5,  unit:'reps', hint:'მოიხარე და ადექი',        tiny:true },
+  {name:'ახტომა',           emoji:'🤸', n:8,  unit:'reps', hint:'ახტი მაღლა',              tiny:true },
+  {name:'პლანკა',           emoji:'💪', n:10, unit:'secs', hint:'დაიჭირე სხეული სწორად',   tiny:false},
+  {name:'ცალ ფეხზე დგომა',  emoji:'🦩', n:10, unit:'secs', hint:'დადექი ერთ ფეხზე',        tiny:false},
+  {name:'ხელების ტრიალი',   emoji:'🙆', n:8,  unit:'reps', hint:'ატრიალე ხელები',          tiny:true },
+  {name:'წვერებზე აწევა',   emoji:'🦶', n:8,  unit:'reps', hint:'ფეხის წვერებზე ადექი',    tiny:true },
+  {name:'დათვივით სიარული', emoji:'🐻', n:6,  unit:'reps', hint:'იარე დათვივით',           tiny:true },
+  {name:'კენგურუსავით ხტომა',emoji:'🦘', n:6,  unit:'reps', hint:'ახტი კენგურუსავით',       tiny:true }
 ];
 let _mvTimer=null;
 // exit the break at any moment (stops the timer, returns to the screen underneath)
@@ -180,7 +182,9 @@ function closeBreak(){
 // manual=true when the child taps the 🤸 tile; false on the auto 15-min break.
 function showBreak(manual){
   if(document.getElementById('breakscr'))return; // guard against a double-open
-  const ex=MOVE_POOL[ri(0,MOVE_POOL.length-1)];
+  // age 3-4 (isTiny) only get the safe, simple moves — no plank / one-leg balance holds
+  const pool=isTiny(profile)?MOVE_POOL.filter(e=>e.tiny):MOVE_POOL;
+  const ex=pool[ri(0,pool.length-1)];
   const intro=manual?'მოდი ვიმოძრაოთ':'დროა მოძრაობის';
   const unitLabel=ex.unit==='secs'?(ex.n+' წამი'):(ex.n+'-ჯერ');
   const el=document.createElement('div');el.className='breakscreen';el.id='breakscr';
@@ -189,6 +193,7 @@ function showBreak(manual){
     <div class="b-ico">${ex.emoji}</div>
     <div class="b-txt" id="mvTxt">${manual?'მოდი ცოტა ვიმოძრაოთ! 🤸':'ყოჩაღ! ცოტა ვისწავლეთ.<br>დროა მოძრაობის 🤸'}</div>
     <div class="b-act mv-name">${ex.name} · <b>${unitLabel}</b></div>
+    <div class="mv-hint">${ex.hint}</div>
     <div class="mv-count" id="mvCount" style="display:none">0</div>
     <button class="btn mv-go" id="mvGo">დაიწყე 🎬</button>`;
   if(window.applyLang)applyLang(el);
