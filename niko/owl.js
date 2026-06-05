@@ -178,110 +178,138 @@ function voiceResult(){
   },1400);
 }
 
-/* ═══════════════ MOVEMENT BREAK (O2) — animated character (V1) ═══════════════ */
-// A friendly SVG character actually PERFORMS each move (arms/legs animate), so a
-// pre-reader child mirrors it. Text is secondary (one short playful caption).
-//   name = voiced ka clip · emoji = small accent · play = playful caption ·
-//   fig = the figure-motion class · tiny = safe for ages 3-4 · n/unit = count.
-const MOVE_POOL=[
-  {name:'ბუქნი',            emoji:'🏋️', n:5,  unit:'reps', play:'დავიჩუჩქოთ!',           tiny:true,  fig:'fig-squat'  },
-  {name:'ახტომა',           emoji:'⬆️', n:8,  unit:'reps', play:'ვიხტუნოთ მაღლა!',        tiny:true,  fig:'fig-jump'   },
-  {name:'პლანკა',           emoji:'💪', n:10, unit:'secs', play:'გავიჭიმოთ, დავიჭიროთ!',  tiny:false, fig:'fig-plank'  },
-  {name:'ცალ ფეხზე დგომა',  emoji:'🦩', n:10, unit:'secs', play:'ერთ ფეხზე დავდგეთ!',      tiny:false, fig:'fig-balance'},
-  {name:'ხელების ტრიალი',   emoji:'🔄', n:8,  unit:'reps', play:'ხელები ვატრიალოთ!',       tiny:true,  fig:'fig-arms'   },
-  {name:'წვერებზე აწევა',   emoji:'⬆️', n:8,  unit:'reps', play:'წვერებზე ავიწიოთ!',       tiny:true,  fig:'fig-reach'  },
-  {name:'დათვივით სიარული', emoji:'🐻', n:6,  unit:'reps', play:'დათვებივით ვიაროთ!',      tiny:true,  fig:'fig-sway'   },
-  {name:'კენგურუსავით ხტომა',emoji:'🦘', n:6,  unit:'reps', play:'კენგურუსავით ვიხტუნოთ!',  tiny:true,  fig:'fig-jump'   }
+/* ═══════════════ MOVEMENT BREAK v2 — rigged-SVG kids in the Georgian kit ═══════════════
+   Ported from the owner's reference design (movement/Movement Break v2 (Georgia kit).html).
+   Two rigged SVG kids (named limb groups) loop the moves via CSS keyframes only — offline,
+   vector, zero media. A player UI (now-playing + prev/play/next + a numbered rail) lets the
+   child pick. Owner removed 3 moves (high-knees/march, torso-twist, toe-touch). Praise = ბრავო. */
+const MV_MOVES=[
+  {id:'squat',      ka:'ბუქნი',                en:'Squats',          short:'ბუქნი',     reps:18, dur:1.4, type:'rep'},
+  {id:'jump',       ka:'ახტომა მაღლა',          en:'Jump Up',         short:'ახტომა',    reps:14, dur:1.3, type:'rep'},
+  {id:'plank',      ka:'პლანკა',               en:'Plank Hold',      short:'პლანკა',    reps:20, dur:3.0, type:'hold'},
+  {id:'balance',    ka:'ცალ ფეხზე დგომა',       en:'One-leg Stand',   short:'ბალანსი',   reps:15, dur:2.4, type:'hold'},
+  {id:'armcircles', ka:'ხელების ტრიალი',        en:'Arm Circles',     short:'ტრიალი',    reps:18, dur:1.2, type:'rep'},
+  {id:'overhead',   ka:'ხელების აწევა',         en:'Overhead Reach',  short:'აწევა',     reps:16, dur:1.4, type:'rep'},
+  {id:'bear',       ka:'დათვივით სიარული',      en:'Bear Walk',       short:'დათვი',     reps:12, dur:1.1, type:'rep'},
+  {id:'kangaroo',   ka:'კენგურუსავით ხტომა',    en:'Kangaroo Hops',   short:'კენგურუ',   reps:16, dur:0.9, type:'rep'},
+  {id:'jacks',      ka:'ვარსკვლავური ხტომა',     en:'Jumping Jacks',   short:'ვარსკვლავი',reps:16, dur:0.85,type:'rep'},
+  {id:'sidebend',   ka:'გვერდითი მოხრა',         en:'Side Bends',      short:'მოხრა',     reps:12, dur:1.8, type:'rep'},
+  {id:'clap',       ka:'ტაში მაღლა',             en:'Overhead Claps',  short:'ტაში',      reps:18, dur:0.7, type:'rep'},
+  {id:'run',        ka:'ადგილზე სირბილი',        en:'Run in Place',    short:'სირბილი',   reps:24, dur:0.5, type:'rep'},
+  {id:'airplane',   ka:'თვითმფრინავი',           en:'Airplane',        short:'თვითმფ.',   reps:15, dur:2.4, type:'hold'},
+  {id:'punch',      ka:'ბოქსი',                  en:'Boxing',          short:'ბოქსი',     reps:20, dur:0.6, type:'rep'},
+  {id:'dance',      ka:'ცეკვა',                  en:'Dance Wiggle',    short:'ცეკვა',      reps:16, dur:1.0, type:'rep'},
+  {id:'frog',       ka:'ბაყაყივით ხტომა',        en:'Frog Jumps',      short:'ბაყაყი',    reps:14, dur:1.0, type:'rep'},
+  {id:'flamingo',   ka:'ფლამინგო',               en:'Flamingo',        short:'ფლამინგო',  reps:15, dur:2.6, type:'hold'}
 ];
-// TWO friendly characters do the move together on a mat (ref: owner's kids-workout image).
-// Flat + CSS-animated (V1, offline, no assets). Real 3D/studio look = V2 (garnamatac/Lottie).
-function oneChar(){
-  return `<g class="fig">
-      <g class="leg leg-l"><rect x="56" y="120" width="13" height="40" rx="6.5"/></g>
-      <g class="leg leg-r"><rect x="71" y="120" width="13" height="40" rx="6.5"/></g>
-      <ellipse class="body" cx="70" cy="96" rx="30" ry="30"/>
-      <g class="arm arm-l"><rect x="33" y="74" width="12" height="42" rx="6"/></g>
-      <g class="arm arm-r"><rect x="95" y="74" width="12" height="42" rx="6"/></g>
+// rigged character: .figure > .squash > [legs, body+flag, arms, head]; limbs pivot at the joint
+function mvChar(c,lag){
+  const arm=(cls,x)=>`<g class="limb ${cls}" transform="translate(${x},84)"><g class="seg">
+      <rect x="-6.5" y="0" width="13" height="13" rx="6" fill="#ffffff" stroke="#dcdcdc" stroke-width="0.6"/>
+      <rect x="-6.5" y="10.5" width="13" height="3.4" rx="1.6" fill="#da291c"/>
+      <rect x="-5" y="13" width="10" height="30" rx="5" fill="${c.skin}"/>
+      <circle cx="0" cy="44" r="6.3" fill="${c.skin}"/></g></g>`;
+  const leg=(cls,x)=>`<g class="limb ${cls}" transform="translate(${x},133)"><g class="seg">
+      <rect x="-6.7" y="0" width="13.4" height="21" rx="5" fill="#da291c" stroke="#bf2317" stroke-width="0.5"/>
+      <rect x="-4.6" y="18" width="9.2" height="19" rx="4" fill="${c.skin}"/>
+      <rect x="-5.4" y="35" width="10.8" height="9" rx="3" fill="#ffffff"/>
+      <ellipse cx="1" cy="47" rx="9.3" ry="5.8" fill="#da291c"/></g></g>`;
+  const sc=(cx,cy)=>`<rect x="${cx-1}" y="${cy-3}" width="2" height="6" rx="0.6" fill="#da291c"/><rect x="${cx-3}" y="${cy-1}" width="6" height="2" rx="0.6" fill="#da291c"/>`;
+  return `<svg class="char${lag?' lag':''}" viewBox="0 0 120 210" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <ellipse class="shadow" cx="60" cy="201" rx="31" ry="7" fill="oklch(0.45 0.05 150 / .28)"/>
+    <g class="figure"><g class="squash">
+      ${leg('legL',53)}${leg('legR',67)}
+      <rect class="body" x="42" y="70" width="36" height="66" rx="17" fill="#ffffff" stroke="#dcdcdc" stroke-width="0.8"/>
+      <rect x="42" y="70" width="36" height="5" rx="6" fill="#da291c"/>
+      <rect x="56.9" y="75" width="6.2" height="57" fill="#da291c"/>
+      <rect x="43.5" y="100" width="33" height="6.2" fill="#da291c"/>
+      ${sc(49,91)}${sc(71,91)}${sc(49,117)}${sc(71,117)}
+      ${arm('armL',44)}${arm('armR',76)}
       <g class="head">
-        <circle cx="70" cy="42" r="27"/>
-        <circle class="cheek" cx="54" cy="49" r="5"/><circle class="cheek" cx="86" cy="49" r="5"/>
-        <circle class="eye" cx="61" cy="40" r="3.6"/><circle class="eye" cx="79" cy="40" r="3.6"/>
-        <path class="smile" d="M60 50 q10 9 20 0"/>
+        <circle cx="60" cy="40" r="27" fill="${c.skin}"/>
+        ${c.hair}
+        <circle cx="52.5" cy="40" r="3.8" fill="${c.ink}"/><circle cx="53.7" cy="38.7" r="1.2" fill="#fff"/>
+        <circle cx="67.5" cy="40" r="3.8" fill="${c.ink}"/><circle cx="68.7" cy="38.7" r="1.2" fill="#fff"/>
+        <circle cx="46.5" cy="48" r="4" fill="oklch(0.78 0.13 26 / .42)"/>
+        <circle cx="73.5" cy="48" r="4" fill="oklch(0.78 0.13 26 / .42)"/>
+        <path d="M54 49 q6 6 12 0" stroke="${c.ink}" stroke-width="2.8" fill="none" stroke-linecap="round"/>
       </g>
-    </g>`;
+    </g></g></svg>`;
 }
-function moveFigure(){
-  return `<svg class="mv-fig" viewBox="0 0 250 152" aria-hidden="true">
-    <ellipse class="mat" cx="125" cy="145" rx="118" ry="9"/>
-    <g class="char a" transform="translate(2,9) scale(0.82)">${oneChar()}</g>
-    <g class="char b" transform="translate(126,9) scale(0.82)">${oneChar()}</g>
-  </svg>`;
-}
-let _mvTimer=null;
-function closeBreak(){
-  clearInterval(_mvTimer);_mvTimer=null;
-  try{speechSynthesis.cancel();}catch(e){}
-  const el=document.getElementById('breakscr');if(el)el.remove();
-}
-// manual=true when the child taps the 🤸 tile; false on the auto 15-min break.
+const MV_NIKO={skin:'#f3c79a', ink:'#4a3a2c',
+  hair:'<path d="M34 37 q1-27 26-27 q25 0 26 27 q-10-12-26-12 q-16 0-26 12z" fill="#5a3d28"/>'};
+const MV_MASHO={skin:'#f6d1aa', ink:'#4a3a2c',
+  hair:'<path d="M33 44 q-2-31 27-31 q29 0 27 31 q-5-12-13-13 q-2 6-14 6 q-12 0-14-6 q-8 1-13 13z" fill="#3a2a1c"/>'+
+       '<ellipse cx="33" cy="41" rx="5" ry="5.5" fill="#3a2a1c"/><circle cx="24" cy="38" r="5.5" fill="#3a2a1c"/><circle cx="16" cy="35" r="4.3" fill="#3a2a1c"/><path d="M16 35 q-7 -2 -10 2 q5 1.5 10 -2z" fill="#3a2a1c"/><rect x="29.5" y="37" width="3.2" height="8" rx="1.6" fill="#e8b54a"/>'+
+       '<ellipse cx="87" cy="41" rx="5" ry="5.5" fill="#3a2a1c"/><circle cx="96" cy="38" r="5.5" fill="#3a2a1c"/><circle cx="104" cy="35" r="4.3" fill="#3a2a1c"/><path d="M104 35 q7 -2 10 2 q-5 1.5 -10 -2z" fill="#3a2a1c"/><rect x="87.3" y="37" width="3.2" height="8" rx="1.6" fill="#e8b54a"/>'};
+let _mvIdx=0,_mvPlaying=true,_mvCount=0,_mvTimer=null;
+function closeBreak(){clearInterval(_mvTimer);_mvTimer=null;try{speechSynthesis.cancel();}catch(e){}const el=document.getElementById('breakscr');if(el)el.remove();}
 function showBreak(manual){
   if(document.getElementById('breakscr'))return;
-  const pool=isTiny(profile)?MOVE_POOL.filter(e=>e.tiny):MOVE_POOL;
-  const ex=pool[ri(0,pool.length-1)];
-  const intro=manual?'მოდი ვიმოძრაოთ':'დროა მოძრაობის';
-  const el=document.createElement('div');el.className='breakscreen';el.id='breakscr';
+  const el=document.createElement('div');el.className='breakscreen mv2';el.id='breakscr';
   el.innerHTML=`
-    <button class="b-back" onclick="closeBreak()" aria-label="უკან">←</button>
-    <div class="mv-stage">${moveFigure()}</div>
-    <div class="mv-play" id="mvPlay">${ex.play} <span class="mv-emoji">${ex.emoji}</span></div>
-    <div class="mv-prog" id="mvProg"></div>
-    <button class="btn mv-go" id="mvGo">დავიწყოთ! 🎬</button>`;
-  el.querySelector('.mv-fig').classList.add(ex.fig);   // character demos the move on a loop
-  if(window.applyLang)applyLang(el);
+    <header class="mv-top">
+      <button class="iconbtn" onclick="closeBreak()" aria-label="უკან">←</button>
+      <div class="who">მოძრაობის შესვენება<small>გავიმოძრაოთ ერთად 🙌</small></div>
+      <div class="pill"><span class="num" id="mvProg">1</span>/<span id="mvPtot">${MV_MOVES.length}</span></div>
+    </header>
+    <div class="scene" id="mvScene" data-move="squat" style="--dur:1.4s">
+      <div class="room"></div><div class="cloud a"></div><div class="cloud b"></div><div class="cloud c"></div>
+      <div class="mat"></div>
+      <div class="chars" id="mvChars"></div>
+      <div class="toast" id="mvToast">ბრავო! 💪</div>
+    </div>
+    <div class="now">
+      <div class="name" id="mvName">ბუქნი</div>
+      <div class="sub en" id="mvEn">SQUATS</div>
+      <div class="count"><span class="big" id="mvNow">0</span><span class="tot" id="mvTot">/18</span><span class="lbl" id="mvLbl">გამეორება</span></div>
+      <div class="bar"><i id="mvBar"></i></div>
+    </div>
+    <div class="controls">
+      <button class="ctl" id="mvPrev" aria-label="წინა">‹</button>
+      <button class="ctl play" id="mvPlay" aria-label="დაპაუზება">⏸</button>
+      <button class="ctl" id="mvNext" aria-label="შემდეგი">›</button>
+    </div>
+    <div class="rail" id="mvRail"></div>`;
   $('.device').appendChild(el);
-  try{speakSeq([{t:intro,lang:'ka-GE'},{t:ex.name,lang:'ka-GE'}]);}catch(e){}
-  const go=el.querySelector('#mvGo');if(go)go.onclick=()=>runMove(ex);
+  el.querySelector('#mvChars').innerHTML=mvChar(MV_NIKO,false)+mvChar(MV_MASHO,true);
+  const rail=el.querySelector('#mvRail');
+  MV_MOVES.forEach((m,i)=>{const b=document.createElement('button');b.className='chip';b.dataset.i=i;
+    b.innerHTML=`<span class="n">${i+1}</span><span class="t">${m.short}</span>`;b.onclick=()=>mvSelect(i);rail.appendChild(b);});
+  el.querySelector('#mvPrev').onclick=()=>mvSelect(_mvIdx-1);
+  el.querySelector('#mvNext').onclick=()=>mvSelect(_mvIdx+1);
+  el.querySelector('#mvPlay').onclick=()=>mvSetPlay(!_mvPlaying);
+  _mvIdx=0;_mvPlaying=true;_mvCount=0;
+  mvRender();
 }
-function runMove(ex){
+function _mvFmt(s){const m=Math.floor(s/60),x=s%60;return m+':'+String(x).padStart(2,'0');}
+function mvRender(){
   const el=document.getElementById('breakscr');if(!el)return;
-  const go=el.querySelector('#mvGo'),prog=el.querySelector('#mvProg');
-  if(go)go.style.display='none';
-  clearInterval(_mvTimer);
-  if(ex.unit==='reps'){            // visual progress = filling dots (not just a number)
-    prog.className='mv-prog dots';
-    prog.innerHTML=Array.from({length:ex.n},()=>'<i></i>').join('');
-    const dots=[...prog.children];
-    let done=0;
-    const step=()=>{
-      if(dots[done])dots[done].classList.add('on');
-      done++; pulseTap(prog);
-      try{speak(numWord(done,profile),vCode(profile));}catch(e){}
-      if(done>=ex.n){clearInterval(_mvTimer);_mvTimer=null;setTimeout(finishMove,1000);}
-    };
-    _mvTimer=setInterval(step,1100);step();
-  } else {                          // hold = a depleting ring with the seconds inside
-    prog.className='mv-prog ring';
-    let t=ex.n;
-    const draw=()=>{prog.style.setProperty('--p',Math.round(t/ex.n*100)+'%');prog.innerHTML='<b>'+t+'</b>';};
-    draw();
-    _mvTimer=setInterval(()=>{
-      t--;
-      if(t<=0){prog.style.setProperty('--p','0%');prog.innerHTML='<b>0</b>';clearInterval(_mvTimer);_mvTimer=null;setTimeout(finishMove,600);return;}
-      draw();pulseTap(prog);
-    },1000);
-  }
+  const m=MV_MOVES[_mvIdx],sc=el.querySelector('#mvScene');
+  sc.dataset.move=m.id;sc.style.setProperty('--dur',m.dur+'s');
+  el.querySelector('#mvName').textContent=m.ka;el.querySelector('#mvEn').textContent=m.en.toUpperCase();
+  el.querySelector('#mvProg').textContent=_mvIdx+1;
+  [...el.querySelectorAll('#mvRail .chip')].forEach((c,i)=>c.classList.toggle('on',i===_mvIdx));
+  const chip=el.querySelector('#mvRail').children[_mvIdx];if(chip&&chip.scrollIntoView)chip.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});
+  _mvCount=0;mvUpdateCount();mvRestartTimer();
 }
-function finishMove(){
-  clearInterval(_mvTimer);_mvTimer=null;
+function mvUpdateCount(){
   const el=document.getElementById('breakscr');if(!el)return;
-  const fig=el.querySelector('.mv-fig');if(fig)fig.setAttribute('class','mv-fig fig-cheer');   // happy jump (SVG: setAttribute, not .className)
-  const play=el.querySelector('#mvPlay');if(play)play.innerHTML='ბრავო! 🎉';
-  const prog=el.querySelector('#mvProg');if(prog)prog.innerHTML='';
-  const go=el.querySelector('#mvGo');
-  if(go){go.style.display='';go.textContent='მზად ვარ! ✅';go.onclick=()=>el.remove();}
-  try{ if(typeof confettiEl==='function') el.appendChild(confettiEl()); }catch(e){}
-  // praise() has the no-mispronounce guard (uses a recorded clip, or an English word if the
-  // device has no Georgian voice) — never reads Georgian text with an English voice ("yochag").
-  try{praise();}catch(e){}
+  const m=MV_MOVES[_mvIdx];
+  if(m.type==='hold'){el.querySelector('#mvNow').textContent=_mvFmt(Math.max(0,m.reps-_mvCount));el.querySelector('#mvTot').textContent='';el.querySelector('#mvLbl').textContent='დაიჭირე';}
+  else{el.querySelector('#mvNow').textContent=_mvCount;el.querySelector('#mvTot').textContent='/'+m.reps;el.querySelector('#mvLbl').textContent='გამეორება';}
+  el.querySelector('#mvBar').style.width=(_mvCount/m.reps*100)+'%';
 }
+function mvRestartTimer(){
+  clearInterval(_mvTimer);if(!_mvPlaying)return;
+  const m=MV_MOVES[_mvIdx],step=m.type==='hold'?1000:Math.round(m.dur*1000);
+  _mvTimer=setInterval(()=>{_mvCount++;if(_mvCount>=m.reps){mvUpdateCount();mvCheer();_mvCount=0;setTimeout(mvUpdateCount,650);}else mvUpdateCount();},step);
+}
+function mvCheer(){
+  const el=document.getElementById('breakscr');if(!el)return;
+  const t=el.querySelector('#mvToast');if(t){t.classList.add('show');setTimeout(()=>t.classList.remove('show'),900);}
+  try{praise();}catch(e){}   // voiced ბრავო/მართალია/შესანიშნავია (recorded clip, never garbled)
+}
+function mvSelect(i){_mvIdx=(i+MV_MOVES.length)%MV_MOVES.length;mvRender();}
+function mvSetPlay(p){const el=document.getElementById('breakscr');if(!el)return;_mvPlaying=p;el.querySelector('#mvScene').classList.toggle('paused',!p);el.querySelector('#mvPlay').textContent=p?'⏸':'▶';mvRestartTimer();}
 
