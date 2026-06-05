@@ -1,0 +1,32 @@
+# NikoLearn telemetry Worker — privacy-minimized, aggregated before storage.
+# This config DISABLES every observability / logging path so no IP or raw request
+# metadata is ever retained at the edge (GPT review pt.2, acceptance item c).
+name = "nikolearn-t"
+main = "telemetry-worker.js"
+compatibility_date = "2026-06-06"
+workers_dev = true
+
+# ── KV: aggregate counters ONLY (no per-user rows). Replace id after `wrangler kv:namespace create NIKO_T`.
+[[kv_namespaces]]
+binding = "NIKO_T"
+id = "REPLACE_WITH_KV_NAMESPACE_ID"
+
+# ── Observability OFF — no request logs, no traces. (Cloudflare default is off for new Workers;
+#    we pin it explicitly so it can never be silently enabled.)
+[observability]
+enabled = false
+
+[observability.logs]
+enabled = false
+
+# ── DO NOT ADD any of the following for /v1/t (left here as an explicit deny-list):
+#   • [[tail_consumers]]            → Tail Workers (streams live request data incl. IP) — FORBIDDEN
+#   • [[analytics_engine_datasets]] → Analytics Engine (can write IP/geo) — FORBIDDEN
+#   • [[logpush]] / Logpush job     → exports request logs externally — FORBIDDEN
+#   • [[services]] / origin fetch   → if ever added, strip CF-Connecting-IP / X-Forwarded-For /
+#                                      True-Client-IP before forwarding.
+#
+# Dashboard mirror (Workers & Pages → nikolearn-t → Settings):
+#   • Observability / Workers Logs  = OFF
+#   • Logpush                       = no jobs
+#   • Trace / Tail                  = none attached

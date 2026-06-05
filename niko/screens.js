@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.70';
+const APP_VERSION='1.71';
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -267,7 +267,7 @@ function createChild(){
   const id='k'+Date.now();
   state.kids.push({id,name,age:draft.age,color:draft.color,langs:(draft.langs&&draft.langs.length?draft.langs:['ka']),tutor:draft.tutor||'🦉'});
   state[id]=blankKid();save();
-  try{gtag('event','sign_up',{method:'profile'});}catch(e){}
+  // (GA4 sign_up event removed 2026-06-06 — privacy baseline, no third-party analytics in the kids' app)
   selectProfile(id);
 }
 function topbarPlain(title,back){

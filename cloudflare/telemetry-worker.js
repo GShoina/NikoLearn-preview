@@ -1,17 +1,24 @@
 /**
- * NikoLearn — privacy-first anonymous telemetry endpoint (Cloudflare Worker, free tier).
+ * NikoLearn — privacy-minimized telemetry, aggregated before storage (Cloudflare Worker, free tier).
  * Route: POST /v1/t   ·   Binding: KV namespace "NIKO_T" (aggregate counters only).
  *
- * HARD GUARANTEES (see the data-scrubbing manifest):
- *  - IP is NEVER read, logged, stored, or forwarded. We don't touch request.cf.ip / CF-Connecting-IP.
- *  - User-agent is coarsened to {deviceType, os} buckets ONLY (no raw UA stored).
+ * IP FRAMING (truthful — GPT review pt.2): Cloudflare transiently processes network metadata as
+ * our infrastructure processor. NikoLearn application code below NEVER reads, stores, logs, hashes,
+ * or forwards visitor IP addresses. Specifically this Worker does NOT touch:
+ *   CF-Connecting-IP · X-Forwarded-For · True-Client-IP · request.cf.* (geo / asn / city / country).
+ * It forwards NO request headers to any origin or storage. If an origin subrequest is ever added,
+ * strip all IP-related headers before forwarding. Observability (logs/traces/Tail/Logpush/Analytics
+ * Engine/external exports) is DISABLED in wrangler.toml — see cloudflare/wrangler.toml + DEPLOY.md.
+ *
+ * HARD GUARANTEES (see the data manifest):
+ *  - User-agent is coarsened to {deviceType, os} buckets ONLY (raw UA is never stored).
  *  - Every event is validated against an ALLOW-LIST of names + numeric/enum props.
  *    Anything with free text / unexpected keys is REJECTED (prevents accidental PII).
  *  - We write AGGREGATE counters (KV increments) keyed by date+event+coarse dims — never a
- *    per-child row, never an identity, never a cross-day id.
- *  - No cookies set. No persistent identifier. The 24h "session salt" lives only client-side.
+ *    per-child row, never an identity, never a cross-day/cross-session id.
+ *  - No cookies set. No persistent identifier. No client salt. No return/retention tracking.
  *
- * Deploy: see cloudflare/DEPLOY.md. Do NOT enable Logpush / retain client IP on this Worker.
+ * Deploy: see cloudflare/DEPLOY.md. Do NOT enable Logpush / observability / retain client IP.
  */
 
 // ── allow-list: event name → permitted props (type 'int' | enum array) ───────────────────────
@@ -19,7 +26,6 @@ const EVENTS = {
   profile_created:    { age_band: ['3-5','6-8','9-12'] },
   lesson_started:     { mode: ['alphabet','english','math','counting','kings','reading','movement'] },
   lesson_completed:   { mode: ['alphabet','english','math','counting','kings','reading','movement'], time_to_success_ms: 'int' },
-  same_day_return:    {},
   drop_off:           { screen: ['home','menu','game','results','break','voice'], mode: ['alphabet','english','math','counting','kings','reading','movement','none'] },
   difficulty:         { mode: ['alphabet','english','math','counting','kings','reading'], retries: 'int', errors: 'int', time_to_success_ms: 'int' },
   interaction_latency:{ ms: 'int' },
