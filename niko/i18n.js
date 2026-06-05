@@ -262,7 +262,7 @@
   /* ── landing-page strings (static HTML) ── */
   var LANDING={
     "რას ვასწავლით":"What we teach",
-    "AI ნიკო":"AI Niko",
+    "AI ნიკო ბუ":"AI Niko",
     "მშობლებს":"For parents",
     "დაიწყე უფასოდ":"Start free",
     "🇬🇪 ქართული სასწავლო აპი":"🇬🇪 A Georgian learning app",
@@ -292,7 +292,7 @@
     "ხმოვანი რეჟიმი":"Voice mode",
     "ჭკვიანი მინიშნებები":"Smart hints",
     "მოთმინება და წახალისება":"Patience and encouragement",
-    "ნიკო":"Niko",
+    "ნიკო ბუ":"Niko",
     "⚡ მარტივი დასაწყები":"⚡ Easy to start",
     "სამ ნაბიჯში მზად ხარ":"Ready in three steps",
     "აირჩიე პროფილი":"Pick a profile",
@@ -332,23 +332,23 @@
     "სცადოთ კიდევ ერთი სიტყვა?":"Shall we try another word?",
 
     /* hero lead + curriculum */
-    "NikoLearn ასწავლის მათემატიკას, ინგლისურს და ქართულ ანბანს. ყველა გაკვეთილი მოკლე თამაშია, ხოლო AI რეპეტიტორი ნიკო ელაპარაკება, უსმენს გამოთქმას და ეხმარება ყოველ ნაბიჯზე.":"NikoLearn teaches math, English and the Georgian alphabet. Every lesson is a short game, and Niko the AI tutor talks, listens to pronunciation and helps at every step.",
+    "NikoLearn ასწავლის მათემატიკას, ინგლისურს და ქართულ ანბანს. ყველა გაკვეთილი მოკლე თამაშია, ხოლო AI რეპეტიტორი ნიკო ბუ ელაპარაკება, უსმენს გამოთქმას და ეხმარება ყოველ ნაბიჯზე.":"NikoLearn teaches math, English and the Georgian alphabet. Every lesson is a short game, and Niko the AI tutor talks, listens to pronunciation and helps at every step.",
     "შედგენილია ეროვნული სასწავლო პროგრამის მიხედვით":"Built to follow the national curriculum",
     "გაკვეთილები ეხმიანება კინგსის პროგრამასა და მის ტესტებს, რათა ბავშვი ტესტებს თავდაჯერებულად შეხვდეს.":"Lessons echo the Kings programme and its tests, so children meet exams with confidence.",
 
     /* owl section */
-    "ნიკო ბუ არ არის უბრალო ღილაკი. ის ესაუბრება ბავშვს, უსმენს გამოთქმას და აძლევს მინიშნებებს. როცა რთულდება, ხსნის. როცა გამოსდის, აქებს.":"Niko the owl isn't just a button. He talks with the child, listens to pronunciation and gives hints. When it gets hard, he explains. When it goes well, he praises.",
-    "ბავშვი ლაპარაკობს, ნიკო უსმენს და ასწორებს გამოთქმას.":"The child speaks, Niko listens and corrects pronunciation.",
-    "პასუხს არ გასცემს მაშინვე. ჯერ ბიძგს აძლევს, რომ ბავშვმა თვითონ მიხვდეს.":"He doesn't give the answer right away. First he nudges, so the child works it out.",
+    "ნიკო ბუ არ არის უბრალო ღილაკი. ის ესაუბრება ბავშვს, უსმენს გამოთქმას და აძლევს მინიშნებებს. როცა რთულდება, უხსნის. როცა გამოსდის, აქებს.":"Niko the owl isn't just a button. He talks with the child, listens to pronunciation and gives hints. When it gets hard, he explains. When it goes well, he praises.",
+    "ბავშვი ლაპარაკობს, ნიკო ბუ უსმენს და ასწორებს გამოთქმას.":"The child speaks, Niko listens and corrects pronunciation.",
+    "პასუხს არ გასცემს მაშინვე. ჯერ მინიშნებას აძლევს, რომ ბავშვმა თვითონ მიხვდეს.":"He doesn't give the answer right away. First he nudges, so the child works it out.",
     "ყოველთვის მშვიდი ტონი. შეცდომა სწავლის ნაწილია, არა ჩავარდნა.":"Always a calm tone. A mistake is part of learning, not a failure.",
     '"ლომი" ინგლისურად არის':'"Lion" in English is',
     ". სცადე ხმამაღლა წარმოთქმა 🦁":". Try saying it out loud 🦁",
 
     /* mid cta + steps */
-    "ერთ წუთში დაიწყებ და ნიკო გელოდება.":"Start in one minute and Niko is waiting.",
+    "ერთ წუთში დაიწყებ და ნიკო ბუ გელოდება.":"Start in one minute and Niko is waiting.",
     "უფასო · რეგისტრაციის გარეშე · მუშაობს ოფლაინ":"Free · no sign-up · works offline",
     "დაამატე ბავშვი და მიუთითე ასაკი. აპი თავად მოარგებს გაკვეთილებს.":"Add a child and set the age. The app tunes the lessons itself.",
-    "მოკლე, სახალისო რაუნდები. ნიკო ეხმარება, როცა საჭიროა.":"Short, fun rounds. Niko helps when needed.",
+    "მოკლე, სახალისო რაუნდები. ნიკო ბუ ეხმარება, როცა საჭიროა.":"Short, fun rounds. Niko helps when needed.",
     "მონეტები და სერიები ბავშვს, ცხადი პროგრესი მშობელს.":"Coins and streaks for the child, clear progress for the parent.",
 
     /* parents */
@@ -359,7 +359,7 @@
     "მონაცემები რჩება მხოლოდ შენს მოწყობილობაზე, არსად იგზავნება.":"Data stays only on your device, nothing is sent anywhere.",
     "დაცული შესვლა.":"Protected access.",
     "მშობლის სივრცე PIN-კოდითაა დაცული, ბავშვი ვერ შევა.":"The parent space is protected with a PIN, the child can't get in.",
-    "7 წლის · Learner":"7 yrs · Learner",
+    "7 წლის · მოსწავლე":"7 yrs · Learner",
     "დღის სერია":"day streak",
     "GDPR & KIDS, მონაცემები დაცულია.":"GDPR & KIDS, data is protected.",
     "ნიკოლოზი":"Nikolozi",
@@ -384,7 +384,7 @@
     "ახლა უფასოა, რეგისტრაციის გარეშე. უბრალოდ გახსენი და დაიწყე თამაში.":"Right now it's free, no sign-up. Just open it and start playing.",
 
     /* final cta + footer */
-    "ნიკო ელოდება. გახსენი აპი, აირჩიე ბავშვის პროფილი და პირველი თამაში ერთ წუთში იწყება.":"Niko is waiting. Open the app, pick your child's profile and the first game starts in one minute.",
+    "ნიკო ბუ ელოდება. გახსენი აპი, აირჩიე ბავშვის პროფილი და პირველი თამაში ერთ წუთში იწყება.":"Niko is waiting. Open the app, pick your child's profile and the first game starts in one minute.",
     "🔒 მონაცემები რჩება მოწყობილობაზე · © 2026 NikoLearn · შექმნილია ქართველი ბავშვებისთვის ·":"🔒 Data stays on the device · © 2026 NikoLearn · made for children ·",
 
     /* age-picker copy */

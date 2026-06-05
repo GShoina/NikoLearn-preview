@@ -132,6 +132,9 @@ the result to the owner to validate the Georgian. Both layers, not either/or —
 anglicism / literal-translation a same-model reviewer misses; the owner (native speaker) is the
 final human filter. Keep the Gemini step by default; do NOT skip it. The numbered HTML copy-list
 is the tool the owner uses to mark which strings to change.
+**1-hour timeout:** after Gemini's pass, surface it to the owner (HTML) for validation, but if he
+does NOT respond within ~1 hour, proceed with Gemini's result — do not block/wait indefinitely.
+(Owner-dictated exact corrections are already his validation → apply directly, no Gemini needed.)
 
 ## 7. Permission discipline (owner-locked) — default = GO
 Owner has pre-approved the whole plan. Execute reversible internal work and show the result. NEVER

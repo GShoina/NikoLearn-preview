@@ -72,7 +72,7 @@ function demoNiko(){ // seeded so the prototype shows realistic data
   k.math={'math-add':{correct:54,wrong:6},'math-sub':{correct:38,wrong:9},'math-mul':{correct:22,wrong:14}};
   k.best={quiz:9,'kings-eng':10,'kings-math':8,'math-add':10};
   k.dadMessages=[
-    {date:new Date(Date.now()-3600000*5).toLocaleString('ka-GE'),text:'🏅 ნიკოლოზი ახალ დონეზე გავიდა: 🚀 Learner!'},
+    {date:new Date(Date.now()-3600000*5).toLocaleString('ka-GE'),text:'🏅 ნიკოლოზი ახალ დონეზე გავიდა: 🚀 მოსწავლე!'},
     {date:new Date(Date.now()-86400000).toLocaleString('ka-GE'),text:'ნიკოლოზმ Kings English-ში 10 🪙 მოაგროვა (100%)!'}
   ];
   return k;
