@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NikoLearn landing.html — აუდიტი (2026-06-05)</title>
+<style>
+  :root{--ink:#1f2430;--muted:#5b6472;--line:#e6e3dc;--bg:#faf8f4;--card:#fff;--p0:#c0392b;--p1:#d98300;--p2:#4a7;--good:#2e9e5b;--accent:#6B63B5}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Noto Sans Georgian","Segoe UI",system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55}
+  .wrap{max-width:900px;margin:0 auto;padding:32px 20px 80px}
+  h1{font-size:1.7rem;margin:0 0 4px}
+  h2{font-size:1.2rem;margin:34px 0 10px;border-bottom:2px solid var(--line);padding-bottom:6px}
+  h3{font-size:1.02rem;margin:18px 0 4px}
+  .meta{color:var(--muted);font-size:.86rem;margin-bottom:18px}
+  .ep0{display:inline-block;background:var(--accent);color:#fff;border-radius:6px;padding:4px 12px;font-weight:700;font-size:.92rem}
+  .lead{background:#fff7ed;border:1px solid #f3d9b5;border-radius:10px;padding:14px 16px;margin:16px 0}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.92rem}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:#f1eee8}
+  .sev{font-weight:700;white-space:nowrap}
+  .p0{color:var(--p0)}.p1{color:var(--p1)}.p2{color:var(--p2)}
+  .tag{font-size:.72rem;font-weight:700;border-radius:4px;padding:1px 6px;background:#eef;color:#334}
+  .fact{background:#e7f5ec;color:#1c6b3a}.inf{background:#fdf0e3;color:#9a5a00}
+  code{background:#f0ede7;padding:1px 5px;border-radius:4px;font-size:.86em}
+  ul{margin:6px 0 6px 0;padding-left:20px}
+  li{margin:3px 0}
+  img{max-width:100%;border:1px solid var(--line);border-radius:8px;display:block;margin:8px 0}
+  .shots{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .shots figcaption{font-size:.8rem;color:var(--muted);text-align:center}
+  .good{color:var(--good);font-weight:600}
+  .foot{margin-top:40px;border-top:1px solid var(--line);padding-top:14px;color:var(--muted);font-size:.82rem}
+  @media(max-width:640px){.shots{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>NikoLearn — <code>landing.html</code> აუდიტი</h1>
+  <div class="meta">URL: https://gshoina.github.io/NikoLearn/landing.html &nbsp;·&nbsp; თარიღი: 2026-06-05 &nbsp;·&nbsp; აუდიტორი: Viktor (audit only) &nbsp;·&nbsp; მეთოდი: curl source + Chromium render + computed styles + scroll/console/network/responsive ტესტი</div>
+  <span class="ep0">EP0: 9/10 (O) — live-verified</span>
+
+  <div class="lead">
+    <strong>Bottom line:</strong> კოდი სუფთაა (0 JS error), responsive მყარია, ვიზუალი ლამაზია — მაგრამ <strong>ერთი არქიტექტურული ხარვეზი</strong> გვერდის უდიდეს ნაწილს უხილავს ხდის share/preview/crawler/no-JS კონტექსტში, და <strong>social/SEO ფენა თხელია</strong>. ყველა აღმოჩენა reversible. <em>ფიქსი = Geo-ს lane (site-dev), არა Viktor.</em>
+  </div>
+
+  <h2>#1 — Reveal animation = blank-below-hero share/preview-ში <span class="tag fact">FACT</span></h2>
+  <p>28 ბლოკი (6 feature ბარათი, age picker, ტელეფონის mockup, curriculum, FAQ) <code>.reveal</code> კლასით იწყება <code>opacity:0</code>-ით და ჩანს მხოლოდ scroll-ზე (JS IntersectionObserver ამატებს <code>.in</code>-ს → <code>.reveal.in{opacity:1}</code>).</p>
+  <ul>
+    <li class="good">✅ ჩვეულებრივი მომხმარებელი რომელიც ასქროლებს — ხედავს ყველაფერს (გადამოწმდა: scroll-ის შემდეგ 28/28 გამოჩნდა).</li>
+    <li>❌ <strong>ცარიელ გვერდს ხედავს:</strong> Google/AI crawler (არ ასქროლებს) · social/link-preview (FB/WhatsApp/LinkedIn share) · screenshot · PDF · JS-გათიშული ან JS-error.</li>
+  </ul>
+  <p><strong>რატომ:</strong> <code>opacity:0</code> default JS-ზეა დამოკიდებული, no-JS fallback არ აქვს (მხოლოდ <code>prefers-reduced-motion</code> ხსნის). ანუ ლენდინგის უდიდესი ნაწილი უხილავია სწორედ იქ, სადაც პირველი შთაბეჭდილება იქმნება.</p>
+  <p><strong>გასწორების მიმართულება (Geo-სთვის):</strong> <code>.reveal{opacity:0}</code> → <code>html.js .reveal{opacity:0}</code>, და <code>&lt;html&gt;</code>-ს დაამატე <code>js</code> კლასი JS-ის დასაწყისში. default = ხილული, reveal = მხოლოდ JS/scroll გამოცდილებაში (progressive enhancement).</p>
+
+  <h2>🐞 Bugs / ფუნქცია</h2>
+  <table>
+    <tr><th>#</th><th>severity</th><th>აღმოჩენა</th></tr>
+    <tr><td>B1</td><td class="sev p1">🟡 P2</td><td><strong>favicon 404</strong> <span class="tag fact">FACT</span> — console-ში ყოველ ჩატვირთვაზე 1 error (<code>favicon.ico</code> არ არსებობს). 1-ხაზიანი fix.</td></tr>
+    <tr><td>B2</td><td class="sev p1">🟡 P2</td><td><strong>meta-ენა ↔ კონტენტის ენა არ ემთხვევა</strong> <span class="tag fact">FACT</span> — meta description ქართულია, en-ბრაუზერზე კი გვერდი ინგლისურად ირენდერება + <code>&lt;html lang&gt;</code> <code>ka</code>→<code>en</code> იცვლება. SEO/share-ში არეული სიგნალი.</td></tr>
+    <tr><td>B3</td><td class="sev p2">🟢 P3</td><td><strong>i18n გაჟონვა EN რეჟიმში</strong> <span class="tag fact">FACT</span> — UI სტრინგები ინგლისურ რეჟიმშიც ქართულად რჩება: „კონტროლი", თემების სახელები (მზიანი/ოკეანე/ტყე/მაყვალი). (alphabet მაგალითები — ვაშლი/კატა/მზე — ქართულად სწორია, ის კონტენტია.)</td></tr>
+    <tr><td>B4</td><td class="sev p2">🟢 P3</td><td><strong>copy review</strong> <span class="tag inf">INFERENCE</span> — EN სტრინგი „Built to follow the national curriculum… Kings programme" placeholder/მთარგმნელს ჰგავს. ადამიანის copy-review.</td></tr>
+  </table>
+  <p class="good">კარგი ამბავი <span class="tag fact">FACT</span>: 0 JS error, ყველა asset 200, ყველა CTA ერთ სუფთა მისამართზე (<code>index.html?app=1</code>), GA page_view ფიქსირდება.</p>
+
+  <h2>📱 Visual / Responsive / Performance</h2>
+  <ul>
+    <li class="good">✅ mobile (390px): horizontal overflow არ არის; body text 16.8px (iOS zoom-ს არ იწვევს); 31-დან მხოლოდ 2 tap-target &lt;44px.</li>
+    <li class="good">✅ მთლიანი ვიზუალი SVG/emoji-ზეა (23 svg, 0 <code>&lt;img&gt;</code>) — მკვეთრი ნებისმიერ ეკრანზე, მსუბუქი, alt-debt 0.</li>
+    <li>⚠️ <span class="tag inf">INFERENCE</span> muted ტექსტი (<code>oklch 0.64</code> კრემზე) — წვრილ ფონტზე WCAG AA-ს ქვემოთ შეიძლება იყოს; გადასამოწმებელი.</li>
+    <li>⚠️ <span class="tag fact">FACT</span> წონა ~618KB (480KB Google gtag.js — async/cached). საკუთარი კოდი ~100KB; <code>landing.css</code> 64KB ცოტა მძიმე, მაგრამ ok.</li>
+    <li>🟢 lang-toggle („ქარ") tap-target desktop-ზე &lt;44px.</li>
+  </ul>
+
+  <h2>🔍 SEO / Share — თხელია</h2>
+  <p>🟡 <span class="tag fact">FACT</span> არ აქვს <strong>Open Graph tags, Twitter card, favicon</strong>. ანუ FB/WhatsApp/LinkedIn share-ზე preview ცარიელი/ულამაზო — #1-თან (blank-below-hero) ერთად share-ის გამოცდილებას კლავს. og:image + 1 favicon = დიდი მოგება მცირე ხარჯში.</p>
+
+  <h2>💡 Conversion (challenger)</h2>
+  <ul>
+    <li class="good">✅ „მონაცემები მოწყობილობაზე რჩება" — ძლიერი ნდობის სიგნალი მშობელს.</li>
+    <li>⚠️ <span class="tag inf">INFERENCE</span> hero-ში 2 CTA თანაბარი წონისაა; primary ღილაკი თეთრ ფონზე ვიზუალურად არ დომინირებს. ერთი მკაფიო primary action უკეთ конvertирებს.</li>
+    <li>⚠️ გვერდი გრძელია (desktop 5755px / mobile 7870px, 8 სექცია); sticky „Start free" header ანაზღაურებს.</li>
+  </ul>
+
+  <h2>🔒 კოდის დაცვა — გულახდილად</h2>
+  <p>ამ არქიტექტურაში front-end-ის დაცვა <strong>შეუძლებელია და ეს ნორმალურია</strong> <span class="tag fact">FACT</span>. Public GitHub Pages — მთელი HTML/CSS/JS 1 წამში ჩამოიწერა. Anti-copy ხრიკები trivially-bypass-დება და UX/perf-ს აფუჭებს — შენს გვერდს ასეთი არაფერი აქვს, <strong>სწორი არჩევანია, ნუ დაამატებ</strong>. რეალური IP = AI-ტუტორის backend/curriculum/მონაცემები (server-ზე), არა front-end. კოპირებისგან რეალური დაცვა იურიდიულია (© footer-ში გაქვს ✅), არა ტექნიკური.</p>
+
+  <h2>📸 რენდერი</h2>
+  <div class="shots">
+    <figure><img src="niko-audit-desktop.jpeg" alt="desktop render — hero-ს ქვემოთ ცარიელი"><figcaption>Desktop full-page — hero + word-strip ჩანს, ქვემოთ ცარიელი (reveal stuck)</figcaption></figure>
+    <figure><img src="niko-audit-mobile.jpeg" alt="mobile render"><figcaption>Mobile (390px)</figcaption></figure>
+  </div>
+
+  <h2>თანმიმდევრობა (იაფი→დიდი მოგება)</h2>
+  <ol>
+    <li><strong>#1 reveal no-JS fallback</strong> — ერთი CSS/JS ხაზი, ხსნის share/SEO/preview-ს.</li>
+    <li><strong>SEO ფენა</strong> — favicon + og:image + twitter card.</li>
+    <li><strong>B2 meta-ენა</strong> — lang/description კონტენტის ენას მიჰყვეს.</li>
+  </ol>
+  <p><em>ფიქსების შესრულება Viktor-ის lane არ არის — ეს spec Geo-ს (site-dev) გადაეცემა, ან owner უშვებს.</em></p>
+
+  <div class="foot">
+    Generated by Viktor · audit-only (ფიქსს არ ვასრულებ — §1). მეთოდი: live curl + Playwright/Chromium render + computed-style + scroll/console/network/responsive ტესტი. ყველა FACT in-response verified; INFERENCE ცალკე ტეგით.
+  </div>
+
+</div>
+</body>
+</html>
