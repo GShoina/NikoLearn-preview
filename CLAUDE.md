@@ -120,6 +120,12 @@ value (a fix or a feature a child/parent will actually feel), make the improveme
 quality high (see §6c visual-verification gate). A version that doesn't make the app meaningfully
 better shouldn't ship on its own. This is a motivation + quality bar, held alongside the autonomy rule.
 
+## 6e. Report output convention (owner-locked 2026-06-05)
+Every owner-facing report is HTML and is dropped into `NikoLand/output/`, named
+`YYYY-MM-DD-<report title> by Niko.html` (e.g. `2026-06-05-სასწავლო რუკა by Niko.html`).
+output/ is gitignored = the owner's local deliverable folder. A living/maintained SSOT
+artifact may also keep a copy in docs/, but the dated owner report always lands in output/.
+
 ## 7. Permission discipline (owner-locked) — default = GO
 Owner has pre-approved the whole plan. Execute reversible internal work and show the result. NEVER
 ask yes/no on it. Ask ONLY for: (a) customer-facing content/UI going live to the kids' app, (b)
