@@ -183,15 +183,17 @@ function voiceResult(){
 //   hint (short ka "how", shown as text so the picture is never ambiguous),
 //   tiny (safe + doable for ages 3-4 → only these show for isTiny kids).
 // 'reps' counts UP and voices each number (1-20 clips); 'secs' holds + counts DOWN.
+// anim = a CSS class that makes the big emoji MIMIC the movement, so a pre-reader
+// child SEES what to do (not just a static picture + text).
 const MOVE_POOL=[
-  {name:'ბუქნი',            emoji:'🏋️', n:5,  unit:'reps', hint:'მოიხარე და ადექი',        tiny:true },
-  {name:'ახტომა',           emoji:'🤸', n:8,  unit:'reps', hint:'ახტი მაღლა',              tiny:true },
-  {name:'პლანკა',           emoji:'💪', n:10, unit:'secs', hint:'დაიჭირე სხეული სწორად',   tiny:false},
-  {name:'ცალ ფეხზე დგომა',  emoji:'🦩', n:10, unit:'secs', hint:'დადექი ერთ ფეხზე',        tiny:false},
-  {name:'ხელების ტრიალი',   emoji:'🙆', n:8,  unit:'reps', hint:'ატრიალე ხელები',          tiny:true },
-  {name:'წვერებზე აწევა',   emoji:'🦶', n:8,  unit:'reps', hint:'ფეხის წვერებზე ადექი',    tiny:true },
-  {name:'დათვივით სიარული', emoji:'🐻', n:6,  unit:'reps', hint:'იარე დათვივით',           tiny:true },
-  {name:'კენგურუსავით ხტომა',emoji:'🦘', n:6,  unit:'reps', hint:'ახტი კენგურუსავით',       tiny:true }
+  {name:'ბუქნი',            emoji:'🏋️', n:5,  unit:'reps', hint:'მოიხარე და ადექი',        tiny:true,  anim:'mv-squat'   },
+  {name:'ახტომა',           emoji:'🤸', n:8,  unit:'reps', hint:'ახტი მაღლა',              tiny:true,  anim:'mv-jump'    },
+  {name:'პლანკა',           emoji:'💪', n:10, unit:'secs', hint:'დაიჭირე სხეული სწორად',   tiny:false, anim:'mv-hold'    },
+  {name:'ცალ ფეხზე დგომა',  emoji:'🦩', n:10, unit:'secs', hint:'დადექი ერთ ფეხზე',        tiny:false, anim:'mv-balance' },
+  {name:'ხელების ტრიალი',   emoji:'🙆', n:8,  unit:'reps', hint:'ატრიალე ხელები',          tiny:true,  anim:'mv-rotate'  },
+  {name:'წვერებზე აწევა',   emoji:'🦶', n:8,  unit:'reps', hint:'ფეხის წვერებზე ადექი',    tiny:true,  anim:'mv-tiptoe'  },
+  {name:'დათვივით სიარული', emoji:'🐻', n:6,  unit:'reps', hint:'იარე დათვივით',           tiny:true,  anim:'mv-bearwalk'},
+  {name:'კენგურუსავით ხტომა',emoji:'🦘', n:6,  unit:'reps', hint:'ახტი კენგურუსავით',       tiny:true,  anim:'mv-hop'     }
 ];
 let _mvTimer=null;
 // exit the break at any moment (stops the timer, returns to the screen underneath)
@@ -211,7 +213,7 @@ function showBreak(manual){
   const el=document.createElement('div');el.className='breakscreen';el.id='breakscr';
   el.innerHTML=`
     <button class="b-back" onclick="closeBreak()" aria-label="უკან">←</button>
-    <div class="b-ico">${ex.emoji}</div>
+    <div class="b-ico ${ex.anim||''}">${ex.emoji}</div>
     <div class="b-txt" id="mvTxt">${manual?'მოდი ცოტა ვიმოძრაოთ! 🤸':'ყოჩაღ! ცოტა ვისწავლეთ.<br>დროა მოძრაობის 🤸'}</div>
     <div class="b-act mv-name">${ex.name} · <b>${unitLabel}</b></div>
     <div class="mv-hint">${ex.hint}</div>
