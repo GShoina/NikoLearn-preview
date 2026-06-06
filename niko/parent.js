@@ -35,8 +35,14 @@ function parentDash(){
     const weak=words.filter(([,v])=>v.wrong>v.correct).map(([k])=>k).slice(0,5);
     const strong=words.filter(([,v])=>v.correct>=3&&v.wrong===0).map(([k])=>k).slice(0,5);
     const mins=Math.round((s.totalTime||0)/60000);
-    html+=`<div class="kid-head"><div class="avatar a-${kidObj(p).color}">${nameOf(p)[0]}</div><div class="kh-meta"><div class="kn">${nameOf(p)}</div><div class="kr">${lv.ic} ${lv.name} · ბოლოს ${s.lastPlayed?new Date(s.lastPlayed).toLocaleDateString('ka-GE'):'-'}</div></div>${p!=='guest'?`<button class="kh-del" onclick="deleteKid('${p}')" aria-label="პროფილის წაშლა">🗑️</button>`:''}</div>
-    <div class="stat-grid">
+    html+=`<div class="kidcard" id="kc-${p}">
+      <button class="kid-head-btn" onclick="toggleKid('${p}')" aria-expanded="false">
+        <div class="avatar a-${kidObj(p).color}">${nameOf(p)[0]}</div>
+        <div class="kh-meta"><div class="kn">${nameOf(p)}</div><div class="kr">${lv.ic} ${lv.name} · 🪙 ${s.shields} · სიზუსტე ${acc}%</div></div>
+        <span class="kid-chev">▾</span>
+      </button>
+      <div class="kid-body" id="kb-${p}" hidden>
+      <div class="stat-grid">
       <div class="scard"><div class="sv" style="color:var(--sun-d)">${s.shields}</div><div class="sl">🪙 მონეტა</div></div>
       <div class="scard"><div class="sv">${lv.learned}</div><div class="sl">ნასწავლი</div></div>
       <div class="scard"><div class="sv" style="color:${acc>=70?'var(--green-d)':'var(--primary-d)'}">${acc}%</div><div class="sl">სიზუსტე</div></div>
@@ -74,7 +80,8 @@ function parentDash(){
       </div>
       <div class="eng-note">${engNote}</div>
     </div>`;
-    html+=`<div class="divider"></div>`;
+    if(p!=='guest')html+=`<button class="btn btn-ghost btn-block" onclick="deleteKid('${p}')" style="margin-top:14px">🗑️ პროფილის წაშლა</button>`;
+    html+=`</div></div>`;
   });
   html+=`<div class="section-label">📤 რეპორტი</div>
     <button class="btn btn-sky btn-block mt" onclick="exportReport()">📋 დააკოპირე რეპორტი, გაუზიარე მასწავლებელს</button>`;
@@ -88,6 +95,15 @@ function parentDash(){
     <button class="btn btn-ghost btn-block mt" onclick="if(confirm('წავშალო პროგრესი?')){localStorage.removeItem('${SK}');state=load();goHome();}">🗑️ პროგრესის გასუფთავება</button>`;
   html+=`</div>`;
   render(html,false);
+}
+// collapsible per-child cards: default collapsed (name + quick summary), tap to expand details
+function toggleKid(p){
+  const card=document.getElementById('kc-'+p), body=document.getElementById('kb-'+p);
+  if(!body)return;
+  const willOpen=body.hasAttribute('hidden');
+  if(willOpen){body.removeAttribute('hidden');card&&card.classList.add('open');}
+  else{body.setAttribute('hidden','');card&&card.classList.remove('open');}
+  const btn=card&&card.querySelector('.kid-head-btn'); if(btn)btn.setAttribute('aria-expanded',String(willOpen));
 }
 
 /* ── profile delete (parental consent: type the confirm word in the profile's language) ── */

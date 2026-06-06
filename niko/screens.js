@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.74';
+const APP_VERSION='1.75';
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -44,7 +44,7 @@ function goHome(){
     </div>
     <div class="trustline">${I.privacy} მონაცემები ამ მოწყობილობაზე რჩება</div>
     <div style="margin-top:14px;font-size:.78rem;color:var(--muted);text-align:center">NikoLearn v${APP_VERSION}</div>
-  </div>`,false);
+  </div>`,'home');
 }
 
 /* ── landing page (real marketing landing: what + why; desktop + mobile) ── */

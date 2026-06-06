@@ -85,7 +85,8 @@ function render(html,nav){
   $('#app').scrollTop=0;
   document.body.classList.remove('on-landing');
   const n=$('#bottomnav');
-  if(nav){n.classList.remove('hidden');setNav(nav);} else n.classList.add('hidden');
+  if(nav){ n.classList.remove('hidden'); n.classList.toggle('slim', nav==='slim'); setNav(nav==='slim'?'':nav); }
+  else { n.classList.add('hidden'); n.classList.remove('slim'); }
   syncAiFab();
 }
 function setNav(active){

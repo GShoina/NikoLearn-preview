@@ -2,6 +2,23 @@
 
 Human-readable log. Full audit trail = git history (`git log`, 70+ commits).
 
+## v1.75 — 2026-06-06 (UX batch, owner-requested)
+- **Theme button in the bottom nav** (home · 🎨 theme · abc · math). Cycles the visual themes
+  (sunlit → playground → calm) and remembers the choice. `niko/tweaks.js` + `index.html`.
+- **Bottom nav now shows everywhere** (home + inside games/tests, not just menus), and is
+  **slimmer inside games/tests** for easier navigation. `niko/core.js`, `niko/screens.js`,
+  `niko/games.js`, `niko/styles.css`.
+- **Georgian voice clearer for little ones:** recorded clips (numbers, letters, all ka) now play
+  ~15% slower with pitch preserved and a Web Audio loudness boost, so a small child can follow.
+  `niko/audio.js`.
+- **Correct answer is now voiced first, then a bigger pause before the "ბრავო/ყოჩაღ" screen** —
+  the child hears the answer before the praise pops. Applied across all game modes. `niko/games.js`.
+- **Subject cards gently animate** ("pick me" idle bob on the icon) on the profile screen.
+  `niko/styles.css`.
+- **Parent space: collapsible per-child cards.** With more than one child, profiles are collapsed
+  by default (name + level + coins + accuracy); tap to expand the full detail. Cleaner layout.
+  `niko/parent.js`, `niko/styles.css`.
+
 ## v1.74 — 2026-06-06
 - **Clock game: real analog clock face.** Replaced the tiny emoji clock (🕐) with a drawn SVG dial
   showing the numerals 12 / 3 / 6 / 9, the hour tick divisions around the rim, and a black hour hand

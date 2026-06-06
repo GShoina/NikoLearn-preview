@@ -2,7 +2,18 @@
 (function(){
   const DEF = window.__NIKO_DEFAULTS || {aesthetic:'sunlit', aiRole:'companion'};
   let values = {...DEF};
+  // remember the chosen theme across sessions
+  try{ const _t = localStorage.getItem('niko_theme'); if(_t) values.aesthetic = _t; }catch(e){}
   window.NIKO_TWEAKS = values;
+  // bottom-nav theme button: cycle the visual themes and persist the choice
+  const THEME_CYCLE = ['sunlit','playground','calm'];
+  window.cycleTheme = function(){
+    let i = THEME_CYCLE.indexOf(values.aesthetic); i = (i+1) % THEME_CYCLE.length;
+    values = {...values, aesthetic: THEME_CYCLE[i]};
+    try{ localStorage.setItem('niko_theme', THEME_CYCLE[i]); }catch(e){}
+    apply();
+    try{ if(window.toast) toast('🎨 '+THEME_CYCLE[i]); }catch(e){}
+  };
 
   function apply(){
     document.documentElement.setAttribute('data-theme', values.aesthetic);

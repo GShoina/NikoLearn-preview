@@ -18,6 +18,23 @@
   }
   function stopClip(){ if(curClip){ try{curClip.pause();}catch(e){} curClip=null; } }
 
+  // ── clarity for little ones: recorded ka clips play a touch slower (pitch kept) and louder.
+  //    A small child was missing fast/quiet numbers & letters; this makes them easy to follow.
+  const CLIP_RATE = 0.85;   // ~15% slower, pitch preserved
+  const CLIP_GAIN = 1.8;    // Web Audio loudness boost
+  let _actx = null;
+  function tuneClip(a){
+    a.volume = 1;
+    try{ a.playbackRate = CLIP_RATE; a.preservesPitch = true; a.mozPreservesPitch = true; a.webkitPreservesPitch = true; }catch(e){}
+    try{
+      _actx = _actx || new (window.AudioContext||window.webkitAudioContext)();
+      if(_actx.state === 'suspended') _actx.resume();
+      const src = _actx.createMediaElementSource(a);
+      const g = _actx.createGain(); g.gain.value = CLIP_GAIN;
+      src.connect(g); g.connect(_actx.destination);
+    }catch(e){ /* no Web Audio: element still plays at volume 1 */ }
+  }
+
   // ── duplicate guard ── ignore an identical utterance fired within the window
   let last = {key:'', t:0};
   const GUARD_MS = 500;

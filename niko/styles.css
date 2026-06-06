@@ -971,6 +971,35 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .pulse-tap.tapped,.speakbtn.tapped{animation:taphit .4s ease}
 @keyframes taphit{0%{transform:scale(1)}35%{transform:scale(1.12);background:color-mix(in oklch,var(--sky) 22%,var(--card))}100%{transform:scale(1)}}
 
+/* ── subject cards: gentle "pick me" idle motion on the icon (owner request) ── */
+@keyframes subjBob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-3px) rotate(-3deg)}}
+.subj .s-ico{animation:subjBob 2.6s ease-in-out infinite;will-change:transform}
+.subj:nth-child(2) .s-ico{animation-delay:.3s}
+.subj:nth-child(3) .s-ico{animation-delay:.6s}
+.subj:nth-child(4) .s-ico{animation-delay:.9s}
+.subj:nth-child(5) .s-ico{animation-delay:1.2s}
+@media (prefers-reduced-motion:reduce){.subj .s-ico{animation:none}}
+
+/* ── bottom nav: theme emoji + slim variant inside games/tests (owner request) ── */
+.navemoji{font-size:21px;line-height:1}
+.bottomnav.slim{padding-top:4px;padding-bottom:calc(4px + env(safe-area-inset-bottom))}
+.bottomnav.slim button{padding:4px 12px;gap:0}
+.bottomnav.slim button svg{width:19px;height:19px}
+.bottomnav.slim .navemoji{font-size:18px}
+.bottomnav.slim .navdot{display:none}
+
+/* ── parent dashboard: collapsible per-child cards (names by default, tap to expand) ── */
+.kidcard{border:1px solid var(--line);border-radius:16px;background:var(--card);margin:0 0 12px;overflow:hidden}
+.kid-head-btn{width:100%;display:flex;align-items:center;gap:12px;padding:13px 14px;background:none;border:none;cursor:pointer;font-family:inherit;text-align:left;color:var(--ink)}
+.kid-head-btn .avatar{width:42px;height:42px;border-radius:13px;font-size:1.1rem;flex:0 0 auto}
+.kid-head-btn .kh-meta{flex:1;min-width:0}
+.kid-head-btn .kn{font-weight:700;font-size:1.02rem}
+.kid-head-btn .kr{font-size:.8rem;color:var(--muted);margin-top:1px}
+.kid-chev{font-size:.9rem;color:var(--muted);transition:transform .2s;flex:0 0 auto}
+.kidcard.open .kid-chev{transform:rotate(180deg)}
+.kid-body{padding:2px 14px 14px;animation:fade .2s ease}
+.kid-body[hidden]{display:none}
+
 /* ── owl close + alive ── */
 .ai-bubble{position:relative}
 .ai-close{position:absolute;top:10px;right:10px;width:38px;height:38px;border-radius:50%;border:1.5px solid var(--line);

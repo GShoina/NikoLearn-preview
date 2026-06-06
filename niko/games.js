@@ -37,7 +37,7 @@ function gameShell(area){
       <span class="q-count" id="gcount">${Math.min(game.i+1,tot)}/${tot}</span>
     </div>
     <div class="game" id="garea">${area}</div>
-  </div>`,false);
+  </div>`,'slim');
   syncAiFab();
 }
 function nextWord(){
@@ -75,12 +75,18 @@ function nextWord(){
   if(game.mode==='reverse')spellOut($('#spellrev'),q.en);
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
 }
+// after a correct answer: VOICE the answer first, hold a beat, THEN show the praise screen.
+// bigger pause so a small child hears the answer before "ბრავო/ყოჩაღ" pops (owner request).
+function winStep(say,lang,next){
+  if(say){ try{ speak(String(say), lang||'en-US'); }catch(e){} }
+  setTimeout(()=>{ try{praise();}catch(e){} feedback(true); }, 1200);
+  setTimeout(()=>{ closeFeedback(); if(next) next(); }, 2500);
+}
 function answer(btn,sel,cor){
   if(sel===cor){
     document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));
     btn.classList.remove('dim');btn.classList.add('correct');
-    record(cor,true);praise();feedback(true);
-    setTimeout(()=>{game.i++;closeFeedback();advance();},1050);
+    record(cor,true);winStep(cor,'en-US',()=>{game.i++;advance();});
   } else {
     btn.classList.add('wrong','dim');record(cor,false);
     setTimeout(()=>maybeOfferHelp(),350);
@@ -88,7 +94,7 @@ function answer(btn,sel,cor){
 }
 function checkSpell(cor){
   const e=$('#sp'),v=(e?e.value:'').trim().toLowerCase();
-  if(v===cor.toLowerCase()){record(cor,true);praise();feedback(true);setTimeout(()=>{game.i++;closeFeedback();advance();},1100);}
+  if(v===cor.toLowerCase()){record(cor,true);winStep(cor,'en-US',()=>{game.i++;advance();});}
   else{record(cor,false);if(e){e.value='';e.style.borderColor='var(--red)';setTimeout(()=>e.style.borderColor='',500);e.focus();}maybeOfferHelp();}
 }
 function advance(){
@@ -132,8 +138,7 @@ function answerPhrase(btn,sel,cor){
   if(sel===cor){
     document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));
     btn.classList.remove('dim');btn.classList.add('correct');
-    recordPhrase(cor,true);praise();feedback(true);
-    setTimeout(()=>{game.i++;closeFeedback();nextPhrase();},1050);
+    recordPhrase(cor,true);winStep(null,null,()=>{game.i++;nextPhrase();});
   } else {
     btn.classList.add('wrong','dim');recordPhrase(cor,false);
     setTimeout(()=>maybeOfferHelp(),350);
@@ -220,7 +225,7 @@ function nextMath(){
 }
 function answerMath(btn,sel,cor){
   if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');
-    mrec(true);praise();feedback(true);setTimeout(()=>{game.i++;closeFeedback();nextMath();},1000);}
+    mrec(true);winStep(null,null,()=>{game.i++;nextMath();});}
   else{btn.classList.add('wrong','dim');mrec(false);setTimeout(maybeOfferHelp,350);}
 }
 function mrec(ok){const s=state[profile];if(ok){s.shields++;game.shields++;s.streak++;s.maxStreak=Math.max(s.maxStreak,s.streak);if(!s.math[game.mode])s.math[game.mode]={correct:0,wrong:0};s.math[game.mode].correct++;}else{game.wrong++;s.streak=0;if(!s.math[game.mode])s.math[game.mode]={correct:0,wrong:0};s.math[game.mode].wrong++;}save();}
@@ -236,7 +241,7 @@ function nextCmp(){
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
 }
 function answerCmp(btn,sel,cor){
-  if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);praise();feedback(true);setTimeout(()=>{game.i++;closeFeedback();nextCmp();},950);}
+  if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);winStep(null,null,()=>{game.i++;nextCmp();});}
   else{btn.classList.add('wrong','dim');mrec(false);setTimeout(maybeOfferHelp,350);}
 }
 /* ── skip-counting by 5 or 10 ── */
@@ -249,7 +254,7 @@ function nextSkip(){
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
 }
 function answerSkip(btn,sel,cor){
-  if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);praise();feedback(true);setTimeout(()=>{game.i++;closeFeedback();nextSkip();},950);}
+  if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);winStep(null,null,()=>{game.i++;nextSkip();});}
   else{btn.classList.add('wrong','dim');mrec(false);setTimeout(maybeOfferHelp,350);}
 }
 /* ── shapes: see a shape → pick its name (name shown in the UI language) ── */
@@ -264,7 +269,7 @@ function nextShape(){
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
 }
 function answerShape(btn,sel,cor){
-  if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);praise();feedback(true);setTimeout(()=>{game.i++;closeFeedback();nextShape();},950);}
+  if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);winStep(cor,'en-US',()=>{game.i++;nextShape();});}
   else{btn.classList.add('wrong','dim');mrec(false);setTimeout(maybeOfferHelp,350);}
 }
 
@@ -280,7 +285,7 @@ function nextMoney(){
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
 }
 function answerMoney(btn,sel,cor){
-  if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);praise();feedback(true);setTimeout(()=>{game.i++;closeFeedback();nextMoney();},950);}
+  if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);winStep(null,null,()=>{game.i++;nextMoney();});}
   else{btn.classList.add('wrong','dim');mrec(false);setTimeout(maybeOfferHelp,350);}
 }
 /* ── clock: read an analog clock (o'clock / half past) ── */
@@ -312,7 +317,7 @@ function nextClock(){
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
 }
 function answerClock(btn,sel,cor){
-  if(String(sel)===String(cor)){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);praise();feedback(true);setTimeout(()=>{game.i++;closeFeedback();nextClock();},950);}
+  if(String(sel)===String(cor)){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);winStep(null,null,()=>{game.i++;nextClock();});}
   else{btn.classList.add('wrong','dim');mrec(false);setTimeout(maybeOfferHelp,350);}
 }
 
@@ -366,8 +371,7 @@ function nextKings(){
 }
 function answerKings(btn,sel,cor){
   if(String(sel)===String(cor)){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');
-    const s=state[profile];s.shields++;game.shields++;s.streak++;s.maxStreak=Math.max(s.maxStreak,s.streak);save();praise();feedback(true);
-    setTimeout(()=>{game.i++;closeFeedback();nextKings();},1050);}
+    const s=state[profile];s.shields++;game.shields++;s.streak++;s.maxStreak=Math.max(s.maxStreak,s.streak);save();winStep(null,null,()=>{game.i++;nextKings();});}
   else{btn.classList.add('wrong','dim');state[profile].streak=0;game.wrong++;save();setTimeout(maybeOfferHelp,350);}
 }
 
