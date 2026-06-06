@@ -2,6 +2,17 @@
 
 Human-readable log. Full audit trail = git history (`git log`, 70+ commits).
 
+## v1.76 — 2026-06-06 (#1 priority: Georgian sentence reading)
+- **New: Georgian SENTENCE reading** (the #1 learning gap, Georgian-first differentiator).
+  The child reads a short sentence, hears it read aloud (real recorded EkaNeural audio, never robot
+  TTS), then picks the matching picture (comprehension). 8 sentences to start (subject + verb).
+  New "📝 წინადადება" tile in the Georgian-alphabet menu, next to the existing "📖 კითხვა"
+  (syllable→word). Files: `niko/data.js` (READING_SENT_KA), `niko/alpha.js` (sentLearn / startSentQuiz
+  / nextSent / answerSent), `niko/screens.js` (menu tile), `niko/games.js` (replay), `niko/styles.css`,
+  8 new `niko/audio/sent_*.mp3` clips + manifest entries.
+- Note: validated that syllable→word Georgian reading already existed and works (the learning map had
+  wrongly marked Georgian reading as absent; corrected). This release adds the sentence tier on top.
+
 ## v1.75 — 2026-06-06 (UX batch, owner-requested)
 - **Theme button in the bottom nav** (home · 🎨 theme · abc · math). Cycles the visual themes
   (sunlit → playground → calm) and remembers the choice. `niko/tweaks.js` + `index.html`.

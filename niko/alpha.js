@@ -224,3 +224,62 @@ function answerRead(btn,sel,cor){
     try{speakSeq([{t:sel,lang:'ka-GE'},{t:'კიდევ სცადე.',lang:'ka-GE'}]);}catch(e){}
   }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   #1 next step — GEORGIAN SENTENCE READING. Read a short sentence,
+   hear it (recorded EkaNeural clip, never robot TTS), then pick the
+   matching picture (comprehension). Source: READING_SENT_KA.
+   ═══════════════════════════════════════════════════════════ */
+function sentSay(s){speak(s,'ka-GE');}   // recorded clip via AUDIO_MANIFEST
+function sentLearn(idx){
+  const data=READING_SENT_KA,n=data.length;
+  idx=Math.max(0,Math.min(idx,n-1));
+  const it=data[idx],last=idx>=n-1,first=idx<=0;
+  game.sentIt=it;
+  render(`<div class="screen">
+    ${topbar('📝 წინადადება',`ისწავლე · ${idx+1}/${n}`,"openMenu('ka-alpha')")}
+    <div class="read-stage">
+      <div class="read-emoji">${it.e}</div>
+      <div class="read-sent">${it.s}</div>
+      <button class="speakbtn big" onclick="sentSay('${it.s}');pulseTap(this)">${I.speaker} წაიკითხე</button>
+    </div>
+    <div class="alpha-nav">
+      <button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="sentLearn(${idx-1})">←</button>
+      <div class="alpha-dots">${idx+1} / ${n}</div>
+      ${last
+        ? `<button class="abtn go" onclick="startSentQuiz()">ტესტები 🎯</button>`
+        : `<button class="abtn" onclick="sentLearn(${idx+1})">→</button>`}
+    </div>
+  </div>`,false);
+  setTimeout(()=>sentSay(it.s),260);
+}
+function startSentQuiz(){
+  game.mode='sent';game.subj='ka-alpha';game.i=0;game.shields=0;game.wrong=0;
+  game.start=Date.now();game.preLvl=levelIdx(profile);
+  game.qs=shuffle(READING_SENT_KA).slice(0,Math.min(8,READING_SENT_KA.length));
+  nextSent();
+}
+function nextSent(){
+  if(game.i>=game.qs.length)return results();
+  const q=game.qs[game.i];game.cur=q;
+  const opts=new Set([q.e]);while(opts.size<4)opts.add(READING_SENT_KA[ri(0,READING_SENT_KA.length-1)].e);
+  sentSay(q.s);   // hear/read the sentence, then pick the matching picture
+  const area=`<div class="prompt">
+      <div class="read-sent" style="font-size:1.5rem">${q.s}</div>
+      <button class="speakbtn pulse-tap" onclick="sentSay('${q.s}');pulseTap(this)">${I.speaker} მოისმინე</button>
+      <div class="finger-hint">👆 აირჩიე სურათი</div>
+    </div>
+    <div class="options">${shuffle([...opts]).map(e=>`<button class="opt emoji" onclick="answerSent(this,'${e}','${q.e}')">${e}</button>`).join('')}</div>`;
+  gameShell(area);
+  const c=$('#gcount');if(c)c.textContent=`${game.i+1}/${game.qs.length}`;
+}
+function answerSent(btn,sel,cor){
+  if(sel===cor){
+    document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');
+    const s=state[profile];s.shields++;game.shields++;s.streak++;s.maxStreak=Math.max(s.maxStreak,s.streak);save();
+    sayThenPraise((game.cur&&game.cur.s)||'','ka-GE',()=>{game.i++;closeFeedback();nextSent();});   // re-read sentence, pause, praise
+  } else {
+    btn.classList.add('wrong','dim');state[profile].streak=0;game.wrong++;save();
+    try{speak('კიდევ სცადე.','ka-GE');}catch(e){}
+  }
+}

@@ -218,6 +218,19 @@ const READING_KA=[
   {w:'მანქანა',syl:['მან','ქა','ნა'], e:'🚗', lvl:2}
 ];
 
+/* #1 (next step) Georgian SENTENCE reading: read a short sentence, hear it (recorded EkaNeural
+   clips, never robot TTS), then pick the matching picture. Subject + verb, early-reader simple. */
+const READING_SENT_KA=[
+  {s:'კატა დარბის',     e:'🐱'},
+  {s:'ძაღლი ყეფს',      e:'🐶'},
+  {s:'მზე ანათებს',     e:'☀️'},
+  {s:'ჩიტი ფრინავს',    e:'🐦'},
+  {s:'თევზი ცურავს',    e:'🐟'},
+  {s:'ბაყაყი ხტება',    e:'🐸'},
+  {s:'ბავშვი თამაშობს', e:'🧒'},
+  {s:'ყვავილი იზრდება', e:'🌸'}
+];
+
 /* ── KINGS ENGLISH, expanded (Cambridge YLE Starters→Movers) ── */
 const KINGS_ENG = [
   // Task: picture → word
