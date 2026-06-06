@@ -78,6 +78,11 @@ function parentDash(){
   });
   html+=`<div class="section-label">📤 რეპორტი</div>
     <button class="btn btn-sky btn-block mt" onclick="exportReport()">📋 დააკოპირე რეპორტი, გაუზიარე მასწავლებელს</button>`;
+  html+=`<div class="section-label">💬 უკუკავშირი</div>
+    <div style="text-align:center;font-size:.85rem;color:var(--muted);margin-top:6px">
+      <a href="https://wa.me/995593255385?text=NikoLearn%20feedback" target="_blank" rel="noopener" style="color:var(--primary-d);font-weight:600;text-decoration:none">დაგვიკავშირდი 💬</a>
+      · <a href="mailto:gela.shonia@bivision.ge?subject=NikoLearn%20feedback" style="color:var(--muted);text-decoration:none">✉️ ელფოსტა</a>
+    </div>`;
   html+=`<div class="section-label">⏱️ დრო · 🔥 ჩვევა · 🎙️ ხმოვანი თანხმობა</div>
     <button class="btn btn-ghost btn-block mt" onclick="logout()">🔒 გასვლა (ჩაკეტვა)</button>
     <button class="btn btn-ghost btn-block mt" onclick="if(confirm('წავშალო პროგრესი?')){localStorage.removeItem('${SK}');state=load();goHome();}">🗑️ პროგრესის გასუფთავება</button>`;

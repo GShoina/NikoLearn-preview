@@ -2,6 +2,16 @@
 
 Human-readable log. Full audit trail = git history (`git log`, 70+ commits).
 
+## v1.74 — 2026-06-06
+- **Clock game: real analog clock face.** Replaced the tiny emoji clock (🕐) with a drawn SVG dial
+  showing the numerals 12 / 3 / 6 / 9, the hour tick divisions around the rim, and a black hour hand
+  + green minute hand at the correct time. Owner request. Game logic unchanged (o'clock / half past).
+  Visually verified at 3:00 and 6:30. (Fixed a sizing bug first: a global `svg{width:18px}` rule was
+  shrinking the dial; the clock SVG now sets its own size inline.)
+- **Privacy: moved the WhatsApp + email feedback links off the child home screen** into the
+  parent space (behind the math gate), per the no-external-links-in-the-kids-app rule. The child
+  home footer now shows only the version. (Audit item from v1.73, owner-approved.)
+
 ## v1.73 — 2026-06-06 (code audit + bug-fix pass, 5-agent parallel audit)
 - **Bug (CRITICAL): wrong-answer mis-scoring in Listen mode.** Distractor options were de-duplicated
   only by English word, so two different words sharing one emoji (☀️ sun/sunny, 🔴 red/Mars, ⭐ star,

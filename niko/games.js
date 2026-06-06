@@ -287,6 +287,19 @@ function answerMoney(btn,sel,cor){
 const CLOCK_OCLOCK=['🕛','🕐','🕑','🕒','🕓','🕔','🕕','🕖','🕗','🕘','🕙','🕚'];
 const CLOCK_HALF=['🕧','🕜','🕝','🕞','🕟','🕠','🕡','🕢','🕣','🕤','🕥','🕦'];
 function clockEmoji(h,half){const i=h%12;return half?CLOCK_HALF[i]:CLOCK_OCLOCK[i];}
+// real analog clock face: 12/3/6/9 numerals + hour ticks (განაყოფები) + hour & minute hands
+function clockFace(h,half){
+  const cx=50,cy=50,R=46;
+  const pt=(a,r)=>{const t=a*Math.PI/180;return [cx+r*Math.sin(t),cy-r*Math.cos(t)];};
+  let ticks='';
+  for(let i=0;i<12;i++){const big=i%3===0;const [x1,y1]=pt(i*30,big?R-9:R-5);const [x2,y2]=pt(i*30,R-1.5);
+    ticks+=`<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="#6B63B5" stroke-width="${big?2.4:1}" stroke-linecap="round"/>`;}
+  const num=(n,a)=>{const [x,y]=pt(a,R-19);return `<text x="${x.toFixed(1)}" y="${(y+4).toFixed(1)}" text-anchor="middle" font-size="11.5" font-weight="800" fill="#2b2740" font-family="system-ui,sans-serif">${n}</text>`;};
+  const nums=num(12,0)+num(3,90)+num(6,180)+num(9,270);
+  const hand=(a,len,w,col)=>{const [x,y]=pt(a,len);return `<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="${col}" stroke-width="${w}" stroke-linecap="round"/>`;};
+  const hands=hand(((h%12)+(half?0.5:0))/12*360,22,3.4,'#2b2740')+hand(half?180:0,32,2.6,'#00A651');
+  return `<svg viewBox="0 0 100 100" width="172" height="172" style="width:172px;height:172px;display:block;margin:2px auto" role="img" aria-label="საათი"><circle cx="${cx}" cy="${cy}" r="${R}" fill="#fff" stroke="#e7dcc8" stroke-width="2"/>${ticks}${nums}${hands}<circle cx="${cx}" cy="${cy}" r="2.8" fill="#2b2740"/></svg>`;
+}
 function timeLabel(h,half){return h+':'+(half?'30':'00');}
 function clockRound(){game.mode='clock';game.qs=Array.from({length:8},()=>{return{h:ri(1,12),half:Math.random()<0.5?1:0};});game.i=0;game.shields=0;game.wrong=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextClock();}
 function nextClock(){
@@ -294,7 +307,7 @@ function nextClock(){
   const q=game.qs[game.i];game.cur=q;
   const correct=timeLabel(q.h,q.half);
   const set=new Set([correct]);while(set.size<4){set.add(timeLabel(ri(1,12),Math.random()<0.5?1:0));}
-  gameShell(`<div class="prompt"><div class="p-emoji" style="font-size:6rem">${clockEmoji(q.h,q.half)}</div><div class="p-sub">რომელ საათს უჩვენებს?</div></div>
+  gameShell(`<div class="prompt"><div class="p-emoji clockface">${clockFace(q.h,q.half)}</div><div class="p-sub">რომელ საათს უჩვენებს?</div></div>
     <div class="options">${shuffle([...set]).map(o=>`<button class="opt num" onclick="answerClock(this,'${o}','${correct}')">${o}</button>`).join('')}</div>`);
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
 }

@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.73';
+const APP_VERSION='1.74';
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -43,7 +43,7 @@ function goHome(){
       </div>
     </div>
     <div class="trustline">${I.privacy} მონაცემები ამ მოწყობილობაზე რჩება</div>
-    <div style="margin-top:14px;font-size:.78rem;color:var(--muted);text-align:center">NikoLearn v${APP_VERSION} · <a href="https://wa.me/995593255385?text=NikoLearn%20feedback" target="_blank" rel="noopener" style="color:var(--primary-d);font-weight:600;text-decoration:none">დაგვიკავშირდი 💬</a> · <a href="mailto:gela.shonia@bivision.ge?subject=NikoLearn%20feedback" style="color:var(--muted);text-decoration:none">✉️</a></div>
+    <div style="margin-top:14px;font-size:.78rem;color:var(--muted);text-align:center">NikoLearn v${APP_VERSION}</div>
   </div>`,false);
 }
 
