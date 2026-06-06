@@ -151,3 +151,15 @@ all ka/en UI copy. Do NOT use the em dash. It is an AI-writing tell and breaks t
 parent-trustworthy tone. Use instead: contrast = a new sentence or "but"/"მაგრამ"; pause = a period;
 "that is"/"ანუ"/"კერძოდ" = a colon; list separator = a comma. Code, technical comments, and file
 structure are exempt.
+
+## 9. Working protocol — Go vs Plan (owner-locked 2026-06-06)
+Two lanes, signalled by the owner:
+- **"Go" (or გააკეთე / execute; also the DEFAULT for any reversible dev task)** = LANE A, BUILD: act
+  with full autonomy — build, self-test, live-verify, deploy, report the RESULT. No pausing (per §6b).
+- **"Plan" (or ვგეგმავთ / დავფიქრდეთ / strategy / სტრატეგია)** = LANE B, STRATEGY: think first,
+  build NOTHING. Enter Plan Mode — research and propose a written plan, make ZERO changes until the
+  owner approves. Discuss, refine, capture to docs.
+Default routing when untagged: clean dev/feature/fix/content → Lane A; mission / KVP / positioning /
+pricing / roadmap / "what should we do" / customer-facing strategy → Lane B; if ambiguous, ask ONE
+line "build or plan?" before acting. Parking board lives in docs/SESSION-HANDOFF.md (NOW = build
+queue, PARKED = strategy/later) so nothing is lost.

@@ -32,6 +32,11 @@ function alphaLearn(subj,idx){
     <div class="alpha-stage">
       <div class="alpha-card" onclick="alphaSay('${subj}',game.alphaIt)">
         <div class="alpha-letter">${it.l}</div>
+        ${alphaIsKa(subj)?`<div class="alpha-variants" aria-hidden="true" title="იგივე ასო სხვადასხვა შრიფტში">
+          <span style="font-family:'Noto Sans Georgian',sans-serif">${it.l}</span>
+          <span style="font-family:'Noto Serif Georgian',serif">${it.l}</span>
+          <span style="font-family:'FiraGO',sans-serif">${it.l}</span>
+        </div>`:''}
         <div class="alpha-pic">${it.e}</div>
         <div class="alpha-word">${it.w}</div>
         <button class="speakbtn big" onclick="event.stopPropagation();alphaSay('${subj}',game.alphaIt);pulseTap(this)">${I.speaker} მოისმინე</button>

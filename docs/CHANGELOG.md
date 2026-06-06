@@ -2,6 +2,14 @@
 
 Human-readable log. Full audit trail = git history (`git log`, 70+ commits).
 
+## v1.77 — 2026-06-06 (v2.0 feature track: alphabet in multiple Georgian fonts)
+- Alphabet "learn" cards now show each Georgian letter in **3 different Georgian typefaces**
+  (Noto Sans Georgian / Noto Serif Georgian / FiraGO) under the big letter, so the child learns to
+  recognise the letter across fonts (a real reading skill). Georgian alphabet only; English unchanged.
+  Files: `index.html` (added Noto Serif Georgian), `niko/alpha.js` (.alpha-variants row in alphaLearn),
+  `niko/styles.css`. (More distinct/handwritten fonts to follow via self-hosted BPG.)
+- Process: locked the Go/Plan working protocol (CLAUDE.md §9) + NOW/PARKED board in the handoff.
+
 ## v1.76 — 2026-06-06 (#1 priority: Georgian sentence reading)
 - **New: Georgian SENTENCE reading** (the #1 learning gap, Georgian-first differentiator).
   The child reads a short sentence, hears it read aloud (real recorded EkaNeural audio, never robot
