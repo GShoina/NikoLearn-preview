@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════
-   NIKO LEARN — owl: tutor hints, voice mode, break
+   NIKO LEARN: owl: tutor hints, voice mode, break
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ AI TUTOR ═══════════════ */
@@ -76,7 +76,7 @@ function speakHint(btn){
   const code=instrCode(profile);
   // device has a real voice for the instruction language → read the hint
   if(typeof hasVoiceFor==='function'&&hasVoiceFor(code)){speak(raw,code,{rate:isYoung(profile)?0.62:0.78});return;}
-  // no native voice (e.g. Georgian on iOS): don't read garbled — speak the English target if it makes sense
+  // no native voice (e.g. Georgian on iOS): don't read garbled, speak the English target if it makes sense
   const q=curQ();
   // can't voice the hint text → at least voice the example WORD/letter (a recorded ka clip exists for it)
   if(q&&q.w){ speak(q.w,(typeof alphaIsKa==='function'&&alphaIsKa(game.mode))?'ka-GE':'en-US',{rate:isYoung(profile)?0.6:0.78}); return; }
@@ -119,15 +119,15 @@ function micPermission(){
   render(`<div class="screen permwrap">
     <div class="perm-ico">${I.mic}</div>
     <h2>ხმოვანი რეჟიმი</h2>
-    <p>ბუ მოგისმენს, როცა მიკროფონს დააჭერ — და დაგეხმარება გამოთქმაში.</p>
+    <p>ბუ მოგისმენს, როცა მიკროფონს დააჭერ, და დაგეხმარება გამოთქმაში.</p>
     <div class="perm-points">
       <div class="perm-point">${I.check} ვსმენთ მხოლოდ მაშინ, როცა მიკროფონს დააჭერ</div>
-      <div class="perm-point">${I.privacy} ხმა მუშავდება <b>შენს მოწყობილობაზე</b> — არსად იგზავნება</div>
+      <div class="perm-point">${I.privacy} ხმა მუშავდება <b>შენს მოწყობილობაზე</b>, არსად იგზავნება</div>
       <div class="perm-point">${I.check} არაფერი ინახება და არ ზიარდება</div>
     </div>
     <button class="btn btn-primary btn-block" style="max-width:320px" onclick="grantMic()">დართე ნება (მშობელი)</button>
     <button class="btn btn-ghost btn-block" style="max-width:320px" onclick="game.subj?openMenu(game.subj):selectProfile(profile)">ახლა არა</button>
-    <p class="consent-note">ეს ერთჯერადი თანხმობაა. ხმის დამუშავება ხდება მხოლოდ მოწყობილობაზე — ღრუბელში არ იგზავნება.</p>
+    <p class="consent-note">ეს ერთჯერადი თანხმობაა. ხმის დამუშავება ხდება მხოლოდ მოწყობილობაზე, ღრუბელში არ იგზავნება.</p>
   </div>`,false);
 }
 function grantMic(){game.micOk=true;voiceScreen('idle');}
@@ -135,7 +135,7 @@ function voiceScreen(stateName){
   const target=game.qs&&game.qs[game.i]?(game.qs[game.i].en||game.qs[game.i].q):'apple';
   const tk=game.qs&&game.qs[game.i]?(game.qs[game.i].ka||''):'ვაშლი';
   const states={
-    idle:{s:'დააჭირე და თქვი',h:'წარმოთქვი სიტყვა ხმამაღლა — მასწავლებელი მოგისმენს',ava:tutorAva(profile)},
+    idle:{s:'დააჭირე და თქვი',h:'წარმოთქვი სიტყვა ხმამაღლა, მასწავლებელი მოგისმენს',ava:tutorAva(profile)},
     listening:{s:'გისმენ…',h:'ლაპარაკობ ნათლად 🎙️',ava:'👂'},
     thinking:{s:'ვფიქრობ…',h:'',ava:tutorAva(profile)},
     speaking:{s:'ბუ პასუხობს',h:'',ava:'🗣️'}
@@ -178,9 +178,9 @@ function voiceResult(){
   },1400);
 }
 
-/* ═══════════════ MOVEMENT BREAK v2 — rigged-SVG kids in the Georgian kit ═══════════════
+/* ═══════════════ MOVEMENT BREAK v2, rigged-SVG kids in the Georgian kit ═══════════════
    Ported from the owner's reference design (movement/Movement Break v2 (Georgia kit).html).
-   Two rigged SVG kids (named limb groups) loop the moves via CSS keyframes only — offline,
+   Two rigged SVG kids (named limb groups) loop the moves via CSS keyframes only, offline,
    vector, zero media. A player UI (now-playing + prev/play/next + a numbered rail) lets the
    child pick. Owner removed 3 moves (high-knees/march, torso-twist, toe-touch). Praise = ბრავო. */
 const MV_MOVES=[

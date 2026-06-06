@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════
-   NIKO LEARN — games: engine, vocab, match, math, counting, kings, results
+   NIKO LEARN: games: engine, vocab, match, math, counting, kings, results
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ GAME ENGINE ═══════════════ */
@@ -31,7 +31,7 @@ function gameShell(area){
   const tot=game.qs?game.qs.length:8;
   render(`<div class="screen game" id="gscreen">
     <div class="progress-row">
-      <button class="iconbtn" onclick="openMenu(game.subj)" style="width:40px;height:40px;font-size:1.1rem">←</button>
+      <button class="iconbtn" onclick="openMenu(game.subj||'math')" style="width:40px;height:40px;font-size:1.1rem">←</button>
       <div class="bar"><i id="gbar" style="width:${(game.i/tot)*100}%"></i></div>
       ${voiceToggleBtn()}
       <span class="q-count" id="gcount">${Math.min(game.i+1,tot)}/${tot}</span>
@@ -43,7 +43,10 @@ function gameShell(area){
 function nextWord(){
   if(game.i>=game.qs.length)return results();
   const q=game.qs[game.i],pool=wordPool();
-  let opts=[q];while(opts.length<4){const r=pool[ri(0,pool.length-1)];if(!opts.find(o=>o.en===r.en))opts.push(r);}
+  // dedup distractors by what the child actually SEES in this mode (emoji in listen, ka in reverse,
+  // en otherwise) so two visually-identical options can never appear and mis-score a correct tap.
+  const disp=game.mode==='listen'?(o=>o.emoji):game.mode==='reverse'?(o=>o.ka):(o=>o.en);
+  let opts=[q],_g=0;while(opts.length<4&&_g++<300){const r=pool[ri(0,pool.length-1)];if(!opts.find(o=>o.en===r.en||disp(o)===disp(r)))opts.push(r);}
   opts=shuffle(opts);
   let area;
   if(game.mode==='quiz'){
@@ -169,7 +172,7 @@ function matchTap(el){
 
 /* ── math ── graded levels + adaptive readiness ramp ──
    L1 starts easy (±20 = 1st grade); ramps up only when the child is ready,
-   drops back if they struggle — so nobody gets blocked by numbers they don't know yet. */
+   drops back if they struggle, so nobody gets blocked by numbers they don't know yet. */
 const MATH_LV = {
   'math-add':[{max:20,label:'1–20'},{max:40,label:'1–40'},{max:70,label:'1–70'},{max:100,label:'1–100'}],
   'math-sub':[{max:20,label:'1–20'},{max:40,label:'1–40'},{max:70,label:'1–70'},{max:100,label:'1–100'}],
@@ -250,7 +253,7 @@ function answerSkip(btn,sel,cor){
   else{btn.classList.add('wrong','dim');mrec(false);setTimeout(maybeOfferHelp,350);}
 }
 /* ── shapes: see a shape → pick its name (name shown in the UI language) ── */
-function shapeRound(){game.mode='shapes';game.qs=shuffle(SHAPES).slice(0,Math.min(8,SHAPES.length));game.i=0;game.shields=0;game.wrong=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextShape();}
+function shapeRound(){game.mode='shapes';game.subj='math';game.qs=shuffle(SHAPES).slice(0,Math.min(8,SHAPES.length));game.i=0;game.shields=0;game.wrong=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextShape();}
 function nextShape(){
   if(game.i>=game.qs.length)return results();
   const q=game.qs[game.i];game.cur=q;
@@ -399,7 +402,7 @@ function results(){
   let beat='';
   if(best>0){if(game.shields>best)beat=`<div class="beat up">🎉 გაჯობე გუშინს! ${best} → ${game.shields}</div>`;
     else if(game.shields===best)beat=`<div class="beat same">🤝 გუშინდელი გაიმეორე: ${game.shields}</div>`;
-    else beat=`<div class="beat down">💪 გუშინ ${best} გქონდა — ხვალ აჯობებ!</div>`;}
+    else beat=`<div class="beat down">💪 გუშინ ${best} გქონდა, ხვალ აჯობებ!</div>`;}
   if(game.leveledMath)beat=`<div class="beat up">🚀 ახალი დონე გაიხსნა: <b>${game.leveledMath}</b></div>`+beat;
   render(`<div class="screen results" style="--pct:${pct}%">
     <div class="r-ring"><i>${pct>=80?'🏆':pct>=50?'⭐':'🌱'}</i></div>
@@ -413,7 +416,7 @@ function results(){
     <div class="actions">
       <button class="btn btn-sun btn-block" onclick="showDad(${pct})">🎉 მამას &amp; დედას აჩვენე</button>
       <div class="btn-row">
-        <button class="btn btn-ghost" onclick="openMenu(game.subj||'english')">📋 მენიუ</button>
+        <button class="btn btn-ghost" onclick="openMenu(game.subj||'math')">📋 მენიუ</button>
         <button class="btn btn-primary" onclick="replay()">↻ ისევ</button>
       </div>
     </div>

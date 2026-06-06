@@ -1,14 +1,14 @@
 /* ═══════════════════════════════════════════════════════════
-   NIKO LEARN — screens: home, auth, onboarding, profile, menu
+   NIKO LEARN: screens: home, auth, onboarding, profile, menu
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.72';
+const APP_VERSION='1.73';
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
   profile=null;state=load();
-  if(!state.onboarded){state.onboarded=true;save();} // landing already explains the app — skip the duplicate welcome
+  if(!state.onboarded){state.onboarded=true;save();} // landing already explains the app, skip the duplicate welcome
   const kids=state.kids||[];
   const isNew=kids.length===0;
   const cards=kids.map(k=>{
@@ -31,7 +31,7 @@ function goHome(){
     <div class="brand brand-btn" onclick="landing()" title="landing გვერდი">
       <div class="sun-badge">${I.sun}</div>
       <div class="mark">NikoLearn</div>
-      <div class="tag">${isNew?'მოგესალმები 👋 — შექმენი ბავშვის პროფილი დასაწყებად':'ვინ თამაშობს?'}</div>
+      <div class="tag">${isNew?'მოგესალმები 👋, შექმენი ბავშვის პროფილი დასაწყებად':'ვინ თამაშობს?'}</div>
     </div>
     <div class="profile-grid">
       ${cards}
@@ -58,16 +58,16 @@ function landing(){
       <div class="sun-badge lp-badge">${I.sun}</div>
       <div class="lp-title">NikoLearn</div>
       <div class="lp-headline">ისწავლე თამაშით</div>
-      <div class="lp-sub">თბილი სასწავლო სივრცე შენი ბავშვისთვის. ინგლისური, მათემატიკა და ანბანი — ხმით, სურათით და პატარა ბუს დახმარებით.</div>
+      <div class="lp-sub">თბილი სასწავლო სივრცე შენი ბავშვისთვის. ინგლისური, მათემატიკა და ანბანი, ხმით, სურათით და პატარა ბუს დახმარებით.</div>
       <button class="btn btn-primary lp-cta" onclick="enterApp()">დაიწყე უფასოდ →</button>
       <div class="lp-note">${I.privacy} მონაცემები მხოლოდ ამ მოწყობილობაზე რჩება</div>
     </div>
     <div class="lp-section">
       <div class="lp-h2">რას ისწავლის ბავშვი</div>
       <div class="lp-grid">
-        <div class="lp-card"><div class="lp-ic">🔤</div><div class="lp-ct">ინგლისური</div><div class="lp-cs">სიტყვები, ფრაზები, მართლწერა — 5 რეჟიმი</div></div>
-        <div class="lp-card"><div class="lp-ic">🧮</div><div class="lp-ct">მათემატიკა</div><div class="lp-cs">შეკრება, გამოკლება, გამრავლება — დონეებით</div></div>
-        <div class="lp-card"><div class="lp-ic">🇬🇪</div><div class="lp-ct">ანბანი</div><div class="lp-cs">ქართული და English — სწავლა და ქვიზი</div></div>
+        <div class="lp-card"><div class="lp-ic">🔤</div><div class="lp-ct">ინგლისური</div><div class="lp-cs">სიტყვები, ფრაზები, მართლწერა, 5 რეჟიმი</div></div>
+        <div class="lp-card"><div class="lp-ic">🧮</div><div class="lp-ct">მათემატიკა</div><div class="lp-cs">შეკრება, გამოკლება, გამრავლება, დონეებით</div></div>
+        <div class="lp-card"><div class="lp-ic">🇬🇪</div><div class="lp-ct">ანბანი</div><div class="lp-cs">ქართული და English, სწავლა და ქვიზი</div></div>
         <div class="lp-card"><div class="lp-ic">👑</div><div class="lp-ct">Kings</div><div class="lp-cs">Cambridge YLE გამოცდისთვის მზადება</div></div>
       </div>
     </div>
@@ -154,7 +154,7 @@ function adminView(){
       <div class="perm-point">ℹ️ ეს რიცხვები მხოლოდ <b>ამ მოწყობილობას</b> ეხება. ყველა მოწყობილობის ნამდვილ რიცხვებს ქვემოთ ხედავ.</div>
     </div>
     <div id="ga4box" style="max-width:360px;margin:0 auto;width:100%"></div>
-    <button class="btn btn-primary btn-block" style="max-width:360px" onclick="window.open('https://analytics.google.com/analytics/web/#/p539978869/realtime/overview','_blank')">📊 GA4 — სრული რეპორტი</button>
+    <button class="btn btn-primary btn-block" style="max-width:360px" onclick="window.open('https://analytics.google.com/analytics/web/#/p539978869/realtime/overview','_blank')">📊 GA4, სრული რეპორტი</button>
     <button class="btn btn-ghost btn-block" style="max-width:360px;margin-top:10px" onclick="location.href='index.html?app=1'">← აპში დაბრუნება</button>
     <button class="btn btn-ghost btn-block" style="max-width:360px;margin-top:8px" onclick="adminLogout()">ადმინიდან გასვლა (კოდის თავიდან შეყვანა)</button>
   </div>`,false);
@@ -164,7 +164,7 @@ function adminView(){
 function loadGA4Metrics(){
   const box=$('#ga4box'); if(!box) return;
   if(!GA4_METRICS_URL){
-    box.innerHTML='<div class="perm-point" style="opacity:.7;font-size:.8rem">📈 ცოცხალი GA4 რიცხვები მალე ჩაირთვება (proxy deploy მიმდინარეობს). მანამდე — „სრული რეპორტი" ღილაკი.</div>';
+    box.innerHTML='<div class="perm-point" style="opacity:.7;font-size:.8rem">📈 ცოცხალი GA4 რიცხვები მალე ჩაირთვება (proxy deploy მიმდინარეობს). მანამდე, „სრული რეპორტი" ღილაკი.</div>';
     return;
   }
   box.innerHTML='<div class="perm-point" style="opacity:.7;font-size:.8rem">⏳ GA4 რიცხვები იტვირთება…</div>';
@@ -190,7 +190,7 @@ function welcome(){
     </div>
     <div class="perm-points" style="max-width:330px;margin:0 auto">
       <div class="perm-point">${I.check} ინგლისური · მათემატიკა · Kings (Cambridge YLE) გამოცდისთვის</div>
-      <div class="perm-point">${I.privacy} <b>მონაცემები ამ მოწყობილობაზე რჩება</b> — ონლაინ სინქრონიზაციის გარეშე</div>
+      <div class="perm-point">${I.privacy} <b>მონაცემები ამ მოწყობილობაზე რჩება</b>, ონლაინ სინქრონიზაციის გარეშე</div>
       <div class="perm-point">${I.check} <b>ნული</b> რეკლამა · გარე ბმულების გარეშე · მშობლის დაცული სივრცე</div>
     </div>
     <div class="actions" style="display:flex;flex-direction:column;gap:10px;width:100%;max-width:330px;margin:0 auto">
@@ -228,7 +228,7 @@ function renderConsent(){
       <div class="perm-points">
         <div class="perm-point">${I.check} პროფილი იქმნება ბავშვისთვის</div>
         <div class="perm-point">${I.privacy} ყველა მონაცემი <b>ამ მოწყობილობაზე</b> ინახება</div>
-        <div class="perm-point">${I.check} რეკლამა — ნული · გარე ბმულების გარეშე</div>
+        <div class="perm-point">${I.check} რეკლამა: ნული · გარე ბმულების გარეშე</div>
       </div>
       <button class="btn btn-primary btn-block" onclick="renderAddChild()">მე, მშობელი, ვეთანხმები ✓</button>
       <button class="btn btn-ghost btn-block mt" onclick="renderInitiator()">უკან</button>
@@ -245,7 +245,7 @@ function renderAddChild(){
     </div>
     <div class="section-label">სახელი</div>
     <input class="spell-input" id="kid-name" style="text-align:left;letter-spacing:0;font-family:'Noto Sans Georgian'" placeholder="მაგ. ლუკა" value="${draft.name}" oninput="draft.name=this.value;document.querySelector('.avatar.a-${draft.color}').textContent=this.value?this.value[0]:'?'">
-    <div class="section-label mt">ასაკი — <b class="num">${draft.age}</b> წლის</div>
+    <div class="section-label mt">ასაკი: <b class="num">${draft.age}</b> წლის</div>
     <div class="age-row" id="age-row">${[3,4,5,6,7,8,9,10,11,12].map(a=>`<button class="age-chip num ${draft.age===a?'on':''}" onclick="draft.age=${a};renderAddChild()">${a}</button>`).join('')}</div>
     <div class="lvl-hint" style="margin:6px 2px">${draft.age<=5?'🧸 პატარებისთვის: ტექსტის გარეშე, ხატულა + ხმა':'🎒 დაიწყებს ინგლისურს, მათემატიკას და Kings-ს'}</div>
     <div class="section-label mt">რა ენებზე საუბრობს ბავშვი?</div>
@@ -267,7 +267,7 @@ function createChild(){
   const id='k'+Date.now();
   state.kids.push({id,name,age:draft.age,color:draft.color,langs:(draft.langs&&draft.langs.length?draft.langs:['ka']),tutor:draft.tutor||'🦉'});
   state[id]=blankKid();save();
-  // (GA4 sign_up event removed 2026-06-06 — privacy baseline, no third-party analytics in the kids' app)
+  // (GA4 sign_up event removed 2026-06-06, privacy baseline, no third-party analytics in the kids' app)
   selectProfile(id);
 }
 function topbarPlain(title,back){
@@ -358,14 +358,14 @@ function openMenu(subj){
       ${kid?'':mode('clock','🕐','საათი','დრო')}
     </div>`;
   } else if(subj==='counting'){
-    // F2: digits come BEFORE counting — learn the numeral 1-9, quiz, THEN count.
+    // F2: digits come BEFORE counting, learn the numeral 1-9, quiz, THEN count.
     body=`<div class="mode-grid">
       <div class="mode" style="min-height:120px" onclick="digitLearn(0)"><div class="kids-ico">🔢</div><div class="m-name">ისწავლე ციფრები</div><div class="m-sub">1 – 9</div></div>
       <div class="mode" style="min-height:120px" onclick="startDigitQuiz()"><div class="kids-ico">🎯</div><div class="m-name">ციფრების ტესტი</div></div>
       <div class="mode" style="min-height:130px;grid-column:span 2" onclick="startCount('pick')"><div class="kids-ico">🍎🍎🍎</div><div class="m-name">დათვალე</div><div class="m-sub">რამდენია? აირჩიე რიცხვი</div></div>
     </div>`;
-  } else { /* alphabets — Georgian & English */
-    // Georgian also gets READING (syllable→word) — the #1 gap + Georgian-first differentiator.
+  } else { /* alphabets, Georgian & English */
+    // Georgian also gets READING (syllable→word), the #1 gap + Georgian-first differentiator.
     const reading = subj==='ka-alpha' ? `<div class="mode" style="min-height:120px" onclick="readLearn(0)"><div class="kids-ico">📖</div><div class="m-name">კითხვა</div><div class="m-sub">მარცვალი → სიტყვა</div></div>` : '';
     body=`<div class="mode-grid">
       <div class="mode" style="min-height:120px" onclick="alphaLearn('${subj}',0)"><div class="kids-ico">🔡</div><div class="m-name">ისწავლე ასოები</div></div>

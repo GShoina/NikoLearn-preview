@@ -1,4 +1,4 @@
-/* NikoLearn — data (expanded) */
+/* NikoLearn, data (expanded) */
 
 const WORDS = {
   "ფერები 🎨":[
@@ -71,7 +71,7 @@ const WORDS = {
   ]
 };
 
-/* ── PHRASES — ~100 short, everyday English (grouped by theme) ── */
+/* ── PHRASES, ~100 short, everyday English (grouped by theme) ── */
 const PHRASES = {
   "მისალმება 👋":[
     {ka:"გამარჯობა!",en:"Hello!"},{ka:"სალამი!",en:"Hi!"},{ka:"დილა მშვიდობისა!",en:"Good morning!"},
@@ -218,7 +218,7 @@ const READING_KA=[
   {w:'მანქანა',syl:['მან','ქა','ნა'], e:'🚗', lvl:2}
 ];
 
-/* ── KINGS ENGLISH — expanded (Cambridge YLE Starters→Movers) ── */
+/* ── KINGS ENGLISH, expanded (Cambridge YLE Starters→Movers) ── */
 const KINGS_ENG = [
   // Task: picture → word
   {type:'pic2word',emoji:'🖊️',q:'It is a _____.',opts:['pen','book','car'],a:'pen',hint:'ცი (c)'},
@@ -240,9 +240,9 @@ const KINGS_ENG = [
   // Task: spelling
   {type:'spelling',q:'Which is correct?',opts:['book','buuk','bok'],a:'book'},
   {type:'spelling',q:'Which is correct?',opts:['lovelly','lovly','lovely'],a:'lovely'},
-  {type:'spelling',q:'შენობა — Which is correct?',opts:['bulding','bilding','building'],a:'building'},
-  {type:'spelling',q:'პარასკევი — Which is correct?',opts:['Friday','Fridey','Friady'],a:'Friday'},
-  {type:'spelling',q:'მეგობარი — Which is correct?',opts:['freind','friend','frend'],a:'friend'},
+  {type:'spelling',q:'შენობა: Which is correct?',opts:['bulding','bilding','building'],a:'building'},
+  {type:'spelling',q:'პარასკევი: Which is correct?',opts:['Friday','Fridey','Friady'],a:'Friday'},
+  {type:'spelling',q:'მეგობარი: Which is correct?',opts:['freind','friend','frend'],a:'friend'},
   // Task: numbers
   {type:'number',emoji:'7️⃣',q:'7',opts:['seven','one','six'],a:'seven'},
   {type:'number',emoji:'🔟',q:'10',opts:['nine','ten','seven'],a:'ten'},
@@ -261,7 +261,7 @@ const KINGS_ENG = [
 ];
 const TYPE_LABEL={pic2word:'🖼️ Picture',translate:'🇬🇪→🇬🇧 Translate',spelling:'✍️ Spelling',number:'🔢 Number',grammar:'📝 Grammar'};
 
-/* ── KINGS MATH — expanded (word problems / logic / sequences) ── */
+/* ── KINGS MATH, expanded (word problems / logic / sequences) ── */
 const KINGS_MATH = [
   {q:'რამდენი ფეხი აქვს 3 კატას ჯამში?',a:12,opts:[12,6,8],emoji:'🐱🐱🐱',kind:'mul',hintA:3,hintB:4},
   {q:'რამდენი ფეხი აქვს 2 ძაღლს ჯამში?',a:8,opts:[8,6,4],emoji:'🐕🐕',kind:'mul',hintA:2,hintB:4},
@@ -269,10 +269,10 @@ const KINGS_MATH = [
   {q:'8 ბურთიდან 3 დაიკარგა. რამდენი დარჩა?',a:5,opts:[5,6,4],emoji:'⚽',kind:'sub',hintA:8,hintB:3},
   {q:'5 ბავშვს თითო 2 ტკბილეული აქვს. ჯამში რამდენია?',a:10,opts:[10,7,12],emoji:'🧒🧒🧒🧒🧒',kind:'mul',hintA:5,hintB:2},
   {q:'მაღაზიაში 6 ვაშლი იყო, კიდევ 7 მოიტანეს. ახლა რამდენია?',a:13,opts:[13,12,14],emoji:'🍎',kind:'add',hintA:6,hintB:7},
-  {q:'5, 7, 9, ?, 13 — რა უნდა იყოს ?-ის ნაცვლად?',a:11,opts:[11,15,10],emoji:'🔢',kind:'pat',step:2},
-  {q:'2, 4, 6, 8, ? — შემდეგი?',a:10,opts:[10,9,12],emoji:'🔢',kind:'pat',step:2},
-  {q:'19, 15, 11, 7, ? — შემდეგი?',a:3,opts:[3,5,6],emoji:'🔢',kind:'pat',step:-4},
-  {q:'3, 6, 12, 24, ? — შემდეგი?',a:48,opts:[48,36,30],emoji:'🔢',kind:'double'},
+  {q:'5, 7, 9, ?, 13. რა უნდა იყოს ?-ის ნაცვლად?',a:11,opts:[11,15,10],emoji:'🔢',kind:'pat',step:2},
+  {q:'2, 4, 6, 8, ?. შემდეგი?',a:10,opts:[10,9,12],emoji:'🔢',kind:'pat',step:2},
+  {q:'19, 15, 11, 7, ?. შემდეგი?',a:3,opts:[3,5,6],emoji:'🔢',kind:'pat',step:-4},
+  {q:'3, 6, 12, 24, ?. შემდეგი?',a:48,opts:[48,36,30],emoji:'🔢',kind:'double'},
   {q:'რომელი არ უდრის 11-ს?',a:'3+7',opts:['5+6','13-2','3+7'],emoji:'🤔',text:true,kind:'logic'},
   {q:'რომელი არ უდრის 10-ს?',a:'6+5',opts:['7+3','15-5','6+5'],emoji:'🤔',text:true,kind:'logic'},
   {q:'კიბეს 11 საფეხური აქვს. შუა საფეხური რომელია?',a:6,opts:[6,5,7],emoji:'🪜',kind:'logic'},

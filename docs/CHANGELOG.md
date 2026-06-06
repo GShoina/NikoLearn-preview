@@ -2,6 +2,26 @@
 
 Human-readable log. Full audit trail = git history (`git log`, 70+ commits).
 
+## v1.73 — 2026-06-06 (code audit + bug-fix pass, 5-agent parallel audit)
+- **Bug (CRITICAL): wrong-answer mis-scoring in Listen mode.** Distractor options were de-duplicated
+  only by English word, so two different words sharing one emoji (☀️ sun/sunny, 🔴 red/Mars, ⭐ star,
+  etc.) could render as two identical emoji buttons. A child tapping the visually-correct emoji was
+  marked wrong ~half the time. Options are now de-duplicated by what the child actually SEES in each
+  mode (emoji in Listen, Georgian in Reverse, English otherwise). Verified: 0 duplicate option
+  screens across 640 generated rounds (was failing before).
+- **Bug (HIGH): same duplicate-option flaw in Reverse mode** (Georgian options). Same fix. Verified 0/640.
+- **Bug (MED): broken back-navigation for little ones (age ≤4) in Shapes.** A tiny child entering
+  Shapes had no subject set, so the in-game Back button and the results Menu button went to an
+  "undefined" screen that loaded the English alphabet. Shapes now sets its subject; Back/Menu fall
+  back safely to the math menu. Verified back lands on "🧮 მათემატიკა", never "undefined".
+- **Copy: removed every em dash from human-facing text** (108 occurrences across app + landing),
+  per the no-em-dash rule. Replaced with colon (labels), comma (clauses) or a clean break. English
+  i18n re-verified (toggle still translates correctly; 0 em dashes in either language).
+- Audit also cleared (no action needed): audio coverage 100% (346 clips, 0 missing/orphan), no
+  secrets, no XSS sinks, GA4 fully gone from the kids' app, service-worker cache correct.
+- Deferred to owner (customer-facing / by-design, logged in the audit report): feedback links on the
+  home screen, Microsoft Clarity on the landing page, cosmetic login/admin codes.
+
 ## v3.4 — 2026-06-05
 - Security: scanned client JS for secrets (none found). Removed owner Leads-sheet ID
   + button from the admin view. Added `docs/SECURITY_RULES.md`.

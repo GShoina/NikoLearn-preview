@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════
-   NIKO LEARN — parent: gate, dashboard, BOOT
+   NIKO LEARN: parent: gate, dashboard, BOOT
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ PARENT GATE + DASHBOARD ═══════════════ */
@@ -26,7 +26,7 @@ function gateOk(){if(parseInt(gate.buf)===gate.a+gate.b){$('#gate').remove();par
 function parentDash(){
   profile=profile||'niko';
   let html=`<div class="screen parent">${topbar('მშობლის სივრცე',null,'goHome()')}`;
-  html+=`<div class="privacy-card" style="margin-bottom:16px">${I.privacy}<div class="pt"><b>ყველაფერი ამ მოწყობილობაზე რჩება.</b> პროგრესი ინახება მხოლოდ აქ. რეკლამა — ნული. გარე ბმულები — ნული.</div></div>`;
+  html+=`<div class="privacy-card" style="margin-bottom:16px">${I.privacy}<div class="pt"><b>ყველაფერი ამ მოწყობილობაზე რჩება.</b> პროგრესი ინახება მხოლოდ აქ. რეკლამა: ნული. გარე ბმულები: ნული.</div></div>`;
   [...state.kids.map(k=>k.id),'guest'].forEach(p=>{
     const s=state[p];if(!s||(s.sessions===0&&s.shields===0))return;
     const lv=levelOf(p);const words=Object.entries(s.words);
@@ -35,7 +35,7 @@ function parentDash(){
     const weak=words.filter(([,v])=>v.wrong>v.correct).map(([k])=>k).slice(0,5);
     const strong=words.filter(([,v])=>v.correct>=3&&v.wrong===0).map(([k])=>k).slice(0,5);
     const mins=Math.round((s.totalTime||0)/60000);
-    html+=`<div class="kid-head"><div class="avatar a-${kidObj(p).color}">${nameOf(p)[0]}</div><div class="kh-meta"><div class="kn">${nameOf(p)}</div><div class="kr">${lv.ic} ${lv.name} · ბოლოს ${s.lastPlayed?new Date(s.lastPlayed).toLocaleDateString('ka-GE'):'—'}</div></div>${p!=='guest'?`<button class="kh-del" onclick="deleteKid('${p}')" aria-label="პროფილის წაშლა">🗑️</button>`:''}</div>
+    html+=`<div class="kid-head"><div class="avatar a-${kidObj(p).color}">${nameOf(p)[0]}</div><div class="kh-meta"><div class="kn">${nameOf(p)}</div><div class="kr">${lv.ic} ${lv.name} · ბოლოს ${s.lastPlayed?new Date(s.lastPlayed).toLocaleDateString('ka-GE'):'-'}</div></div>${p!=='guest'?`<button class="kh-del" onclick="deleteKid('${p}')" aria-label="პროფილის წაშლა">🗑️</button>`:''}</div>
     <div class="stat-grid">
       <div class="scard"><div class="sv" style="color:var(--sun-d)">${s.shields}</div><div class="sl">🪙 მონეტა</div></div>
       <div class="scard"><div class="sv">${lv.learned}</div><div class="sl">ნასწავლი</div></div>
@@ -46,13 +46,13 @@ function parentDash(){
     const weakMath=Object.entries(s.math||{}).filter(([,v])=>{const t=v.correct+v.wrong;return t>=3&&v.correct/t<0.6;}).map(([k])=>opNm[k]||k);
     const weakAlpha=Object.entries(s.alpha||{}).filter(([,v])=>{const t=v.correct+v.wrong;return t>=3&&v.correct/t<0.7;}).map(([k])=>k==='ka-alpha'?'ქართული ანბანი':'English ანბანი');
     const recs=[];
-    if(weak.length)recs.push(`სიტყვები <b>${weak.slice(0,3).join(', ')}</b> — გაიმეორეთ მოსმენით 🔊`);
-    if(weakMath.length)recs.push(`მათემატიკა: <b>${weakMath.join(', ')}</b> — დაბალი დონიდან, ბუს მინიშნებებით`);
-    if(weakAlpha.length)recs.push(`ანბანი: <b>${weakAlpha.join(', ')}</b> — „სწავლა" რეჟიმი ხმით`);
+    if(weak.length)recs.push(`სიტყვები <b>${weak.slice(0,3).join(', ')}</b>, გაიმეორეთ მოსმენით 🔊`);
+    if(weakMath.length)recs.push(`მათემატიკა: <b>${weakMath.join(', ')}</b>, დაბალი დონიდან, ბუს მინიშნებებით`);
+    if(weakAlpha.length)recs.push(`ანბანი: <b>${weakAlpha.join(', ')}</b>, „სწავლა" რეჟიმი ხმით`);
     let recBody;
-    if(recs.length)recBody=`<b>შემდეგი ნაბიჯი — ერთად:</b><br>${recs.map(r=>'• '+r).join('<br>')}<br><span class="rec-push">👉 დააჭირეთ ერთად 5 წუთი — ${nameOf(p)} მალე დაიჭერს თავს ამ თემაში.</span>`;
-    else if(s.sessions>0)recBody=`<b>${nameOf(p)} მშვენივრად მიდის! 🌟</b> სიზუსტე ${acc}%. შემდეგი ნაბიჯი: სცადეთ ერთი დონით მაღლა — მზად არის.`;
-    else recBody=`ჯერ საკმარისი მონაცემი არ არის — როცა ${nameOf(p)} ითამაშებს, აქ გამოჩნდება სად იჭედება და რა გასაუმჯობესებია.`;
+    if(recs.length)recBody=`<b>შემდეგი ნაბიჯი ერთად:</b><br>${recs.map(r=>'• '+r).join('<br>')}<br><span class="rec-push">👉 დააჭირეთ ერთად 5 წუთი, ${nameOf(p)} მალე დაიჭერს თავს ამ თემაში.</span>`;
+    else if(s.sessions>0)recBody=`<b>${nameOf(p)} მშვენივრად მიდის! 🌟</b> სიზუსტე ${acc}%. შემდეგი ნაბიჯი: სცადეთ ერთი დონით მაღლა, მზად არის.`;
+    else recBody=`ჯერ საკმარისი მონაცემი არ არის, როცა ${nameOf(p)} ითამაშებს, აქ გამოჩნდება სად იჭედება და რა გასაუმჯობესებია.`;
     html+=`<div class="insight"><div class="ii">${I.spark}</div><div class="it"><b>📊 გასაუმჯობესები</b><br>${recBody}</div></div>`;
     if(strong.length)html+=`<div class="tagrow">${strong.map(w=>`<span class="tag strong">✓ ${w}</span>`).join('')}</div>`;
     if(weak.length)html+=`<div class="tagrow">${weak.map(w=>`<span class="tag weak">↻ ${w}</span>`).join('')}</div>`;
@@ -62,9 +62,9 @@ function parentDash(){
     // engagement / healthy-use (Case 17): frequency + gentle nudge, not a long win-log
     const avg=s.sessions?Math.round(mins/s.sessions):0;
     let engNote;
-    if(s.sessions>=8)engNote=`✅ <b>რეგულარული რიტმი</b> — ${nameOf(p)} ხშირად ბრუნდება. შესანიშნავი ჩვევა! შეინარჩუნეთ მოკლე, ყოველდღიური სესიები.`;
-    else if(avg>=22)engNote=`💡 ერთ ჯერზე საკმაოდ დიდხანს თამაშობს (~${avg} წთ). სჯობს <b>მოკლე, ხშირი</b> სესიები — დღეში 10–15 წუთი უკეთ მუშაობს მეხსიერებაზე.`;
-    else engNote=`🌱 კარგი დასაწყისია. იდეალური რიტმი — <b>დღეში 10–15 წუთი</b>, რეგულარულად.`;
+    if(s.sessions>=8)engNote=`✅ <b>რეგულარული რიტმი</b>, ${nameOf(p)} ხშირად ბრუნდება. შესანიშნავი ჩვევა! შეინარჩუნეთ მოკლე, ყოველდღიური სესიები.`;
+    else if(avg>=22)engNote=`💡 ერთ ჯერზე საკმაოდ დიდხანს თამაშობს (~${avg} წთ). სჯობს <b>მოკლე, ხშირი</b> სესიები, დღეში 10–15 წუთი უკეთ მუშაობს მეხსიერებაზე.`;
+    else engNote=`🌱 კარგი დასაწყისია. იდეალური რიტმი, <b>დღეში 10–15 წუთი</b>, რეგულარულად.`;
     html+=`<div class="engage">
       <div class="eng-row">
         <div class="eng-cell"><div class="eng-v">${s.sessions}</div><div class="eng-l">სესია</div></div>
@@ -77,7 +77,7 @@ function parentDash(){
     html+=`<div class="divider"></div>`;
   });
   html+=`<div class="section-label">📤 რეპორტი</div>
-    <button class="btn btn-sky btn-block mt" onclick="exportReport()">📋 დააკოპირე რეპორტი — გაუზიარე მასწავლებელს</button>`;
+    <button class="btn btn-sky btn-block mt" onclick="exportReport()">📋 დააკოპირე რეპორტი, გაუზიარე მასწავლებელს</button>`;
   html+=`<div class="section-label">⏱️ დრო · 🔥 ჩვევა · 🎙️ ხმოვანი თანხმობა</div>
     <button class="btn btn-ghost btn-block mt" onclick="logout()">🔒 გასვლა (ჩაკეტვა)</button>
     <button class="btn btn-ghost btn-block mt" onclick="if(confirm('წავშალო პროგრესი?')){localStorage.removeItem('${SK}');state=load();goHome();}">🗑️ პროგრესის გასუფთავება</button>`;
@@ -93,7 +93,7 @@ function confirmDelete(id){
   const el=document.createElement('div');el.className='gate';el.id='delmodal';
   el.innerHTML=`<div class="gate-card del-card">
     <div class="del-ico">🗑️</div>
-    <h3>${nameOf(id)} — პროფილის წაშლა</h3>
+    <h3>${nameOf(id)}: პროფილის წაშლა</h3>
     <p>ეს სამუდამოდ წაშლის ${nameOf(id)}-ს და მთელ პროგრესს. დასადასტურებლად საჭიროა <b>მშობლის თანხმობა</b>.</p>
     <div class="del-instr">ჩაწერე <b>«${word}»</b> ქვემოთ:</div>
     <input class="login-in del-in" id="delin" autocomplete="off" autocapitalize="characters" placeholder="${word}">
@@ -119,7 +119,7 @@ function deleteKid(id){confirmDelete(id);}
 
 /* ── export report (offline: copy a plain-text summary to share) ── */
 function buildReport(){
-  const lines=['NIKO LEARN — პროგრესის რეპორტი',new Date().toLocaleString('ka-GE'),''];
+  const lines=['NIKO LEARN: პროგრესის რეპორტი',new Date().toLocaleString('ka-GE'),''];
   [...state.kids.map(k=>k.id),'guest'].forEach(p=>{
     const s=state[p];if(!s||(s.sessions===0&&s.shields===0))return;
     const lv=levelOf(p);const words=Object.values(s.words);
@@ -139,7 +139,7 @@ function buildReport(){
 }
 function exportReport(){
   const txt=buildReport();
-  const done=()=>toast('✓ რეპორტი კოპირებულია — ჩასვი და გაუზიარე');
+  const done=()=>toast('✓ რეპორტი კოპირებულია, ჩასვი და გაუზიარე');
   if(navigator.clipboard&&navigator.clipboard.writeText){
     navigator.clipboard.writeText(txt).then(done).catch(()=>fallbackCopy(txt,done));
   } else fallbackCopy(txt,done);
