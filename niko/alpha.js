@@ -288,3 +288,62 @@ function answerSent(btn,sel,cor){
     try{speak('კიდევ სცადე.','ka-GE');}catch(e){}
   }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   #2 — INTERACTIVE SYLLABLE BUILDER ("our მარცვლობანა"). The child
+   ASSEMBLES the word from shuffled syllable chips (active, not pick-one).
+   Each tap plays that syllable's recorded clip; correct = whole word + praise.
+   ═══════════════════════════════════════════════════════════ */
+function startBuild(){
+  game.mode='build';game.subj='ka-alpha';game.i=0;game.shields=0;game.wrong=0;
+  game.start=Date.now();game.preLvl=levelIdx(profile);
+  game.qs=shuffle(READING_KA).slice(0,Math.min(8,READING_KA.length));
+  nextBuild();
+}
+function nextBuild(){
+  if(game.i>=game.qs.length)return results();
+  const q=game.qs[game.i];game.cur=q;game.built=[];
+  game.chips=shuffle(q.syl.map((s,idx)=>({s,id:idx,used:false})));
+  speak(q.w,'ka-GE');   // hear the target word once
+  renderBuild();
+  const c=$('#gcount');if(c)c.textContent=`${game.i+1}/${game.qs.length}`;
+}
+function renderBuild(){
+  const q=game.cur;
+  const slots=q.syl.map((_,i)=>{const v=game.built[i];return `<span class="syl-slot ${v!=null?'filled':''}" onclick="buildUndo(${i})">${v!=null?v:''}</span>`;}).join('<span class="syl-plus">+</span>');
+  const chips=game.chips.map(c=>`<button class="syl ${c.used?'used':''}" ${c.used?'disabled':''} onclick="buildTap(${c.id})">${c.s}</button>`).join('');
+  gameShell(`<div class="prompt">
+      <div class="p-emoji" style="font-size:4.2rem">${q.e}</div>
+      <button class="speakbtn pulse-tap" onclick="speak('${q.w}','ka-GE');pulseTap(this)">${I.speaker} მოისმინე</button>
+      <div class="finger-hint">👆 ააწყვე სიტყვა მარცვლებით</div>
+    </div>
+    <div class="syl-slots">${slots}</div>
+    <div class="syl-bank">${chips}</div>`);
+  const c=$('#gcount');if(c)c.textContent=`${game.i+1}/${game.qs.length}`;
+}
+function buildTap(id){
+  if(game.built.length>=game.cur.syl.length)return;
+  const chip=game.chips.find(c=>c.id===id); if(!chip||chip.used)return;
+  chip.used=true; game.built.push(chip.s); readSay(chip.s);   // play the syllable clip
+  renderBuild();
+  if(game.built.length===game.cur.syl.length) checkBuild();
+}
+function buildUndo(i){
+  if(game.built[i]==null)return;
+  const s=game.built[i]; game.built.splice(i,1);
+  const chip=game.chips.find(c=>c.used&&c.s===s); if(chip)chip.used=false;
+  renderBuild();
+}
+function checkBuild(){
+  const ok=game.built.join('')===game.cur.w;
+  if(ok){
+    document.querySelectorAll('.syl-slot').forEach(b=>b.classList.add('correct'));
+    const s=state[profile];s.shields++;game.shields++;s.streak++;s.maxStreak=Math.max(s.maxStreak,s.streak);save();
+    sayThenPraise(game.cur.w,'ka-GE',()=>{game.i++;closeFeedback();nextBuild();});
+  } else {
+    document.querySelectorAll('.syl-slot').forEach(b=>b.classList.add('wrong'));
+    state[profile].streak=0;game.wrong++;save();
+    try{speak('კიდევ სცადე.','ka-GE');}catch(e){}
+    setTimeout(()=>{ game.built=[]; game.chips.forEach(c=>c.used=false); renderBuild(); },950);
+  }
+}

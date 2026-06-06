@@ -456,6 +456,7 @@ function replay(){
   if(m==='digit')return startDigitQuiz();
   if(m==='read')return startReadQuiz();
   if(m==='sent')return startSentQuiz();
+  if(m==='build')return startBuild();
   if(m&&m.startsWith('math-'))return mathRound(m);
   if(m==='ka-alpha'||m==='en-alpha')return alphaQuiz(m);
   startGame(m);

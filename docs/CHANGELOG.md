@@ -2,6 +2,14 @@
 
 Human-readable log. Full audit trail = git history (`git log`, 70+ commits).
 
+## v1.78 — 2026-06-06 (v2.0 feature track: interactive syllable builder)
+- New **"🧩 ააწყვე"** mode in the Georgian-alphabet menu: the child ASSEMBLES the word from
+  shuffled syllable chips (active, not pick-one). Each tap plays that syllable's recorded clip;
+  correct assembly plays the whole word then praise; wrong resets for a retry. Tap a filled slot to
+  undo. Uses READING_KA (10 words) + existing syllable clips. Files: `niko/alpha.js` (startBuild /
+  nextBuild / renderBuild / buildTap / buildUndo / checkBuild), `niko/screens.js` (tile),
+  `niko/games.js` (replay), `niko/styles.css` (.syl-slots/.syl-bank/.syl-slot).
+
 ## v1.77 — 2026-06-06 (v2.0 feature track: alphabet in multiple Georgian fonts)
 - Alphabet "learn" cards now show each Georgian letter in **3 different Georgian typefaces**
   (Noto Sans Georgian / Noto Serif Georgian / FiraGO) under the big letter, so the child learns to

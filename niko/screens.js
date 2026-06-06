@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.77';
+const APP_VERSION='1.78';
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -368,11 +368,13 @@ function openMenu(subj){
     // Georgian also gets READING (syllable→word), the #1 gap + Georgian-first differentiator.
     const reading = subj==='ka-alpha' ? `<div class="mode" style="min-height:120px" onclick="readLearn(0)"><div class="kids-ico">📖</div><div class="m-name">კითხვა</div><div class="m-sub">მარცვალი → სიტყვა</div></div>` : '';
     const sentence = subj==='ka-alpha' ? `<div class="mode" style="min-height:120px" onclick="sentLearn(0)"><div class="kids-ico">📝</div><div class="m-name">წინადადება</div><div class="m-sub">წაიკითხე და გაიგე</div></div>` : '';
+    const build = subj==='ka-alpha' ? `<div class="mode" style="min-height:120px" onclick="startBuild()"><div class="kids-ico">🧩</div><div class="m-name">ააწყვე</div><div class="m-sub">მარცვლებით სიტყვა</div></div>` : '';
     body=`<div class="mode-grid">
       <div class="mode" style="min-height:120px" onclick="alphaLearn('${subj}',0)"><div class="kids-ico">🔡</div><div class="m-name">ისწავლე ასოები</div></div>
       <div class="mode" style="min-height:120px" onclick="alphaQuiz('${subj}')"><div class="kids-ico">🎯</div><div class="m-name">ტესტები</div></div>
       ${reading}
       ${sentence}
+      ${build}
     </div>`;
   }
   render(`<div class="screen">
