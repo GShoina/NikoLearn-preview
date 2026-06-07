@@ -2,6 +2,18 @@
 
 Human-readable log. Full audit trail = git history (`git log`, 70+ commits).
 
+## v1.80 — 2026-06-07 (stroke-order ამოწერა + bigger syllable chips)
+- **✍️ ამოწერა stroke-order, virtual-pen draw.** The writing mode now shows the letter in the
+  high-quality FiraGO font and a **virtual pen ✏️ draws each stroke step-by-step in the right order
+  and direction** ("👀 უყურე" replays), then the child traces with the finger. Pilot strokes for
+  ა ბ გ დ (KA_STROKES); other letters fall back to free trace. (Iterated: hand-drawn SVG letterforms
+  looked wrong, then numbered markers were disproportionate per owner feedback, so pivoted to the
+  pen-draw concept the owner described.) Stroke paths are a first pass, can be fine-tuned per letter.
+  Files: `niko/alpha.js`, `niko/styles.css`, `niko/screens.js` (tile "წერა"→"ამოწერა").
+- **🧩 ააწყვე syllable chips bigger + livelier** (owner feedback). Chips are larger, coloured, with
+  a gentle bob animation and a "👇 აიღე მარცვალი და ჩასვი" pointer hint, so it's obvious they move.
+  Slots enlarged too. `niko/styles.css`, `niko/alpha.js`.
+
 ## v1.79 — 2026-06-07 (more reading content + writing/tracing)
 - **More reading content:** READING_KA 10 → **18 words** (ვაშლი, ლომი, ძაღლი, წიგნი, ბურთი, სახლი,
   მელა, ცხენი) and READING_SENT_KA 8 → **14 sentences**. All feed the read / build / sentence games.

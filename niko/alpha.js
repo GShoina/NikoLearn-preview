@@ -318,6 +318,7 @@ function renderBuild(){
       <div class="finger-hint">👆 ააწყვე სიტყვა მარცვლებით</div>
     </div>
     <div class="syl-slots">${slots}</div>
+    <div class="finger-hint sylhint">👇 აიღე მარცვალი და ჩასვი</div>
     <div class="syl-bank">${chips}</div>`);
   const c=$('#gcount');if(c)c.textContent=`${game.i+1}/${game.qs.length}`;
 }
@@ -349,37 +350,73 @@ function checkBuild(){
 }
 
 /* ═══════════════════════════════════════════════════════════
-   WRITING / TRACING — trace a Georgian letter with the finger over a
-   faint guide (free practice, no strict stroke check). Hear the letter too.
+   ✍️ ამოწერა (WRITING/TRACING). High-quality FiraGO guide letter +
+   stroke-order ANIMATION (the guide draws each stroke 1→2→3 in the right
+   direction, numbered) so the child sees HOW to write it, then traces with
+   the finger. Letters with stroke data animate; others fall back to free trace.
+   Stroke paths (SVG d, writing direction) over a 0..100 box; pilot: ა ბ გ დ.
    ═══════════════════════════════════════════════════════════ */
+// stroke centerlines (writing order/direction) per letter — drive the virtual-pen draw over the
+// faint high-quality font letter. Rough is OK: the font is the visual, the pen shows how to write.
+const KA_STROKES = {
+  'ა':['M46,60 C36,58 36,71 45,71 C52,71 52,61 47,60','M56,30 C61,28 59,40 57,49 C55,61 54,70 63,75'],
+  'ბ':['M52,30 C45,27 47,36 53,36 C58,35 56,45 54,52 L54,58','M54,58 C68,58 68,78 53,79','M53,79 C40,78 41,59 54,58'],
+  'გ':['M46,33 C53,28 59,35 54,43 L54,58','M54,58 C68,58 68,78 53,79','M53,79 C40,78 41,59 54,58'],
+  'დ':['M50,52 L66,79','M45,43 C40,30 53,28 52,43 C52,49 46,50 44,46','M55,43 C55,29 66,30 62,45 C61,50 56,50 54,46'],
+};
 function traceLearn(idx){
   const data=KA_ALPHA,n=data.length;
   idx=Math.max(0,Math.min(idx,n-1));
   const entry=data[idx]; const it=alphaItem(entry); game.traceIt={it,idx};
   const last=idx>=n-1,first=idx<=0;
+  const sd=KA_STROKES[entry.l];
+  const guide = sd ? `<svg id="sgsvg" class="stroke-guide" viewBox="0 0 100 100">${sd.map(d=>`<path class="sg-ink" d="${d}"/>`).join('')}<text class="sg-pen" style="opacity:0" font-size="11">✏️</text></svg>` : '';
   render(`<div class="screen">
-    ${topbar('✍️ წერა',`ასო ${idx+1}/${n}`,"openMenu('ka-alpha')")}
+    ${topbar('✍️ ამოწერა',`ასო ${idx+1}/${n}`,"openMenu('ka-alpha')")}
     <div class="trace-stage">
-      <div class="trace-letter">${entry.l}</div>
+      <div class="trace-letter ${sd?'guided':''}">${entry.l}</div>
+      ${guide}
       <canvas id="tracecv" class="trace-canvas"></canvas>
     </div>
     <div class="trace-tools">
+      ${sd?`<button class="btn btn-sky" onclick="watchStrokes()">👀 უყურე</button>`:''}
       <button class="btn btn-ghost" onclick="traceClear()">🧽 თავიდან</button>
       <button class="speakbtn" onclick="alphaSay('ka-alpha',game.traceIt.it);pulseTap(this)">${I.speaker} მოისმინე</button>
     </div>
+    <div class="finger-hint" style="margin-top:6px">👆 ამოწერე ასო თითით</div>
     <div class="alpha-nav">
       <button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="traceLearn(${idx-1})">←</button>
       <div class="alpha-dots">${idx+1} / ${n}</div>
       ${last?`<button class="abtn go" onclick="openMenu('ka-alpha')">დასასრული ✓</button>`:`<button class="abtn" onclick="traceLearn(${idx+1})">→</button>`}
     </div>
   </div>`,false);
-  setTimeout(()=>{ traceSetup(); alphaSay('ka-alpha',it); },200);
+  setTimeout(()=>{ traceSetup(); if(sd) watchStrokes(); alphaSay('ka-alpha',it); },220);
+}
+// virtual pen draws each stroke in order/direction over the faint font letter (handwriting effect)
+function watchStrokes(){
+  const svg=document.getElementById('sgsvg'); if(!svg)return;
+  const paths=[...svg.querySelectorAll('.sg-ink')], pen=svg.querySelector('.sg-pen');
+  paths.forEach(p=>{const L=p.getTotalLength(); p.style.transition='none'; p.style.strokeDasharray=L; p.style.strokeDashoffset=L;});
+  let i=0;
+  function stroke(){
+    if(i>=paths.length){ if(pen)pen.style.opacity='0'; return; }
+    const p=paths[i], L=p.getTotalLength(), dur=1100; let st=null;
+    if(pen)pen.style.opacity='1';
+    function frame(ts){
+      if(st==null)st=ts; const t=Math.min(1,(ts-st)/dur);
+      p.style.strokeDashoffset=L*(1-t);
+      if(pen){const pt=p.getPointAtLength(t*L); pen.setAttribute('x',pt.x-1); pen.setAttribute('y',pt.y+4);}
+      if(t<1) requestAnimationFrame(frame); else { i++; setTimeout(stroke,260); }
+    }
+    requestAnimationFrame(frame);
+  }
+  stroke();
 }
 function traceSetup(){
   const cv=document.getElementById('tracecv'); if(!cv)return;
   const r=cv.getBoundingClientRect();
   cv.width=Math.round(r.width); cv.height=Math.round(r.height);
-  const ctx=cv.getContext('2d'); ctx.lineCap='round'; ctx.lineJoin='round'; ctx.lineWidth=14; ctx.strokeStyle='#6B63B5';
+  const ctx=cv.getContext('2d'); ctx.lineCap='round'; ctx.lineJoin='round'; ctx.lineWidth=13; ctx.strokeStyle='#00A651';
   let drawing=false,last=null;
   const pos=e=>{const b=cv.getBoundingClientRect();return {x:e.clientX-b.left,y:e.clientY-b.top};};
   const start=e=>{drawing=true;last=pos(e);try{cv.setPointerCapture(e.pointerId);}catch(_){}; e.preventDefault();};

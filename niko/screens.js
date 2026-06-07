@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.79';
+const APP_VERSION='1.80';
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -369,7 +369,7 @@ function openMenu(subj){
     const reading = subj==='ka-alpha' ? `<div class="mode" style="min-height:120px" onclick="readLearn(0)"><div class="kids-ico">📖</div><div class="m-name">კითხვა</div><div class="m-sub">მარცვალი → სიტყვა</div></div>` : '';
     const sentence = subj==='ka-alpha' ? `<div class="mode" style="min-height:120px" onclick="sentLearn(0)"><div class="kids-ico">📝</div><div class="m-name">წინადადება</div><div class="m-sub">წაიკითხე და გაიგე</div></div>` : '';
     const build = subj==='ka-alpha' ? `<div class="mode" style="min-height:120px" onclick="startBuild()"><div class="kids-ico">🧩</div><div class="m-name">ააწყვე</div><div class="m-sub">მარცვლებით სიტყვა</div></div>` : '';
-    const trace = subj==='ka-alpha' ? `<div class="mode" style="min-height:120px" onclick="traceLearn(0)"><div class="kids-ico">✍️</div><div class="m-name">წერა</div><div class="m-sub">გადახაზე ასო თითით</div></div>` : '';
+    const trace = subj==='ka-alpha' ? `<div class="mode" style="min-height:120px" onclick="traceLearn(0)"><div class="kids-ico">✍️</div><div class="m-name">ამოწერა</div><div class="m-sub">ასოს წერა თითით</div></div>` : '';
     body=`<div class="mode-grid">
       <div class="mode" style="min-height:120px" onclick="alphaLearn('${subj}',0)"><div class="kids-ico">🔡</div><div class="m-name">ისწავლე ასოები</div></div>
       <div class="mode" style="min-height:120px" onclick="alphaQuiz('${subj}')"><div class="kids-ico">🎯</div><div class="m-name">ტესტები</div></div>

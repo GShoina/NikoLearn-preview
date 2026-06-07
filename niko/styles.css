@@ -1008,19 +1008,31 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .alpha-variants span{line-height:1}
 
 /* ── interactive syllable builder (#2 "our მარცვლობანა") ── */
-.syl-slots{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin:16px 0 6px}
-.syl-slot{min-width:62px;height:56px;display:inline-grid;place-items:center;padding:0 10px;border-radius:14px;font-size:1.6rem;font-weight:700;color:var(--primary-d);border:2px dashed color-mix(in oklch,var(--primary) 40%,var(--line));background:color-mix(in oklch,var(--primary) 8%,var(--card))}
+.syl-slots{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center;margin:18px 0 6px}
+.syl-slot{min-width:78px;height:68px;display:inline-grid;place-items:center;padding:0 12px;border-radius:16px;font-size:2rem;font-weight:800;color:var(--primary-d);border:2.5px dashed color-mix(in oklch,var(--primary) 42%,var(--line));background:color-mix(in oklch,var(--primary) 8%,var(--card))}
 .syl-slot.filled{border-style:solid;background:var(--card);cursor:pointer}
 .syl-slot.correct{border-color:var(--green);background:color-mix(in oklch,var(--green) 14%,var(--card));color:var(--green-d)}
 .syl-slot.wrong{border-color:var(--red);background:color-mix(in oklch,var(--red) 12%,var(--card))}
-.syl-bank{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:10px}
-.syl-bank .syl.used{opacity:.22;pointer-events:none}
+.sylhint{margin:10px 0 2px;animation:fingerbob 1.2s ease-in-out infinite}
+.syl-bank{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:6px}
+.syl-bank .syl{font-size:1.9rem;font-weight:800;padding:14px 24px;border-radius:18px;min-width:72px;background:color-mix(in oklch,var(--sun) 22%,var(--card));border:2px solid color-mix(in oklch,var(--sun) 50%,var(--line));color:var(--ink);box-shadow:0 4px 12px rgba(40,30,20,.12);animation:sylbob 1.7s ease-in-out infinite;cursor:grab}
+.syl-bank .syl:nth-child(2){animation-delay:.28s}
+.syl-bank .syl:nth-child(3){animation-delay:.56s}
+.syl-bank .syl:nth-child(4){animation-delay:.84s}
+.syl-bank .syl:active{transform:scale(.92)}
+@keyframes sylbob{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-6px) rotate(1deg)}}
+.syl-bank .syl.used{opacity:.2;pointer-events:none;animation:none;box-shadow:none}
 
 /* ── writing / tracing (trace a letter with the finger over a faint guide) ── */
 .trace-stage{position:relative;width:min(80vw,300px);height:min(80vw,300px);margin:12px auto;border-radius:24px;background:var(--card);border:2px solid var(--line);overflow:hidden;box-shadow:0 4px 16px rgba(40,30,20,.06)}
-.trace-letter{position:absolute;inset:0;display:grid;place-items:center;font-size:11rem;font-weight:800;line-height:1;color:color-mix(in oklch,var(--primary) 15%,var(--card));font-family:'Noto Sans Georgian',system-ui,sans-serif;user-select:none;pointer-events:none}
+.trace-letter{position:absolute;inset:0;display:grid;place-items:center;font-size:11rem;font-weight:700;line-height:1;color:color-mix(in oklch,var(--primary) 15%,var(--card));font-family:'FiraGO','Noto Sans Georgian',system-ui,sans-serif;user-select:none;pointer-events:none}
+.trace-letter.guided{color:color-mix(in oklch,var(--primary) 13%,var(--card))}
 .trace-canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair}
 .trace-tools{display:flex;gap:10px;justify-content:center;align-items:center;margin-top:12px;flex-wrap:wrap}
+/* virtual-pen stroke draw over the high-quality FiraGO letter (✍️ ამოწერა) */
+.stroke-guide{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.sg-ink{fill:none;stroke:var(--primary,#6B63B5);stroke-width:8;stroke-linecap:round;stroke-linejoin:round}
+.sg-pen{transition:opacity .2s}
 
 /* ── owl close + alive ── */
 .ai-bubble{position:relative}
