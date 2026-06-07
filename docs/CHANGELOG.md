@@ -2,6 +2,19 @@
 
 Human-readable log. Full audit trail = git history (`git log`, 70+ commits).
 
+## v1.85 — 2026-06-07 (ამოწერა: real Georgian font + perfect fit)
+- **Handwriting font swapped in: BPG Glaho** (clean, rounded, friendly mkhedruli, GPL/free) replaces
+  the generic Noto Sans for ამოწერა. Owner delegated the choice ("შენ გადაწყვიტე უჩემოდ"). I first
+  tried BPG DedaEna Block (the literal school-primer font) but it bakes a four-line practice-grid box
+  around every glyph (unusable for tracing), so I compared Glaho / Nino / Sans and picked Glaho for
+  the cleanest, most kid-readable letterforms. `niko/fonts/ka.ttf` (Glaho), old `ka.woff` removed.
+- **Glyph now fits the card perfectly.** Old code trusted opentype's bounding box (under-reads on
+  these fonts) so letters rendered 93% of the card height and looked cramped/overflowing. New
+  `fitGuide()` sets the SVG `viewBox` to the glyph's real DOM bbox + 16% padding with
+  `preserveAspectRatio`, so every letter sits centered at ~75% with even breathing room, regardless of
+  the font's metrics. `niko/alpha.js`, SW precache → `ka.ttf`. Verified ა + დ render correct shape,
+  fitted, filled, with the pen-draw animation (Playwright).
+
 ## v1.84 — 2026-06-07 (Georgian reading/writing for older kids too)
 - **Fixed the access gap:** older profiles (6+, e.g. Niko) had NO Georgian alphabet/reading tile —
   the whole Georgian reading+writing suite (ამოწერა / კითხვა / ააწყვე / წინადადება) was visible only

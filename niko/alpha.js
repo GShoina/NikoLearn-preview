@@ -359,11 +359,20 @@ function checkBuild(){
 // ✍️ ამოწერა — the letter draws itself AUTOMATICALLY from the font (opentype.js): every letter
 // matches its real shape with no hand-authored paths. The pen traces the glyph, then it fills in.
 let _kaFont=null, _kaRetry=0;
-(function loadKaFont(){ try{ if(window.opentype) opentype.load('niko/fonts/ka.woff',(e,f)=>{ if(!e) _kaFont=f; }); }catch(_){} })();
+(function loadKaFont(){ try{ if(window.opentype) opentype.load('niko/fonts/ka.ttf',(e,f)=>{ if(!e) _kaFont=f; }); }catch(_){} })();
 function glyphPathD(ch){
   if(!_kaFont) return null;
-  try{ let p=_kaFont.getPath(ch,0,0,72); const b=p.getBoundingBox();
-    return _kaFont.getPath(ch, 50-(b.x1+b.x2)/2, 50-(b.y1+b.y2)/2, 72).toPathData(2); }catch(_){ return null; }
+  // raw glyph outline; fitGuide() sets the SVG viewBox to this path's real bbox so it always
+  // fits + centers regardless of the font's own metrics (opentype's bbox math under-reads on BPG).
+  try{ return _kaFont.getPath(ch,0,0,100).toPathData(2); }catch(_){ return null; }
+}
+// fit the rendered glyph into the square stage with even padding, via the real DOM bbox
+function fitGuide(){
+  const svg=document.getElementById('sgsvg'), gd=document.getElementById('gd'); if(!svg||!gd) return;
+  let b; try{ b=gd.getBBox(); }catch(_){ return; }
+  if(!b||!b.width||!b.height) return;
+  const pad=Math.max(b.width,b.height)*0.16;
+  svg.setAttribute('viewBox', `${(b.x-pad).toFixed(2)} ${(b.y-pad).toFixed(2)} ${(b.width+pad*2).toFixed(2)} ${(b.height+pad*2).toFixed(2)}`);
 }
 function traceLearn(idx){
   const data=KA_ALPHA,n=data.length;
@@ -371,7 +380,7 @@ function traceLearn(idx){
   const entry=data[idx]; const it=alphaItem(entry); game.traceIt={it,idx};
   const last=idx>=n-1,first=idx<=0;
   const d=glyphPathD(entry.l);   // null only if the font is not parsed yet
-  const guide = d ? `<svg id="sgsvg" class="stroke-guide" viewBox="0 0 100 100"><path id="gd" class="gd" d="${d}"/><text class="sg-pen" style="opacity:0" font-size="15">✏️</text></svg>` : '';
+  const guide = d ? `<svg id="sgsvg" class="stroke-guide" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet"><path id="gd" class="gd" d="${d}"/><text class="sg-pen" style="opacity:0" font-size="13">✏️</text></svg>` : '';
   render(`<div class="screen">
     ${topbar('✍️ ამოწერა',`ასო ${idx+1}/${n}`,"openMenu('ka-alpha')")}
     <div class="trace-stage">
@@ -392,7 +401,7 @@ function traceLearn(idx){
     </div>
   </div>`,false);
   setTimeout(()=>{ traceSetup();
-    if(d){ _kaRetry=0; watchStrokes(); }
+    if(d){ _kaRetry=0; fitGuide(); watchStrokes(); }
     else if(!_kaFont && _kaRetry<10){ _kaRetry++; setTimeout(()=>{ if(game.traceIt&&game.traceIt.idx===idx) traceLearn(idx); },350); } // font still loading: retry shortly
     alphaSay('ka-alpha',it);
   },220);
