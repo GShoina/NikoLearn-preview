@@ -356,13 +356,13 @@ function checkBuild(){
    the finger. Letters with stroke data animate; others fall back to free trace.
    Stroke paths (SVG d, writing direction) over a 0..100 box; pilot: ა ბ გ დ.
    ═══════════════════════════════════════════════════════════ */
-// stroke centerlines (writing order/direction) per letter — drive the virtual-pen draw over the
-// faint high-quality font letter. Rough is OK: the font is the visual, the pen shows how to write.
+// ONE continuous centerline per letter — the pen starts at one point and draws the whole letter in
+// a single motion (owner: clearer than separate strokes). Drives the mask reveal of the font letter.
 const KA_STROKES = {
-  'ა':['M46,60 C36,58 36,71 45,71 C52,71 52,61 47,60','M56,30 C61,28 59,40 57,49 C55,61 54,70 63,75'],
-  'ბ':['M52,30 C45,27 47,36 53,36 C58,35 56,45 54,52 L54,58','M54,58 C68,58 68,78 53,79','M53,79 C40,78 41,59 54,58'],
-  'გ':['M46,33 C53,28 59,35 54,43 L54,58','M54,58 C68,58 68,78 53,79','M53,79 C40,78 41,59 54,58'],
-  'დ':['M50,52 L66,79','M45,43 C40,30 53,28 52,43 C52,49 46,50 44,46','M55,43 C55,29 66,30 62,45 C61,50 56,50 54,46'],
+  'ა':['M57,30 C61,28 58,42 57,52 C56,63 54,73 61,76 C51,75 44,71 44,64 C44,57 51,57 53,63'],
+  'ბ':['M51,30 C45,28 47,37 53,36 C57,35 55,46 54,53 C68,53 69,79 53,79 C40,79 41,56 54,57'],
+  'გ':['M46,33 C53,28 59,36 53,44 C53,52 53,54 53,57 C68,57 69,79 53,79 C40,79 41,56 54,57'],
+  'დ':['M58,30 C50,28 44,34 44,44 C44,55 50,60 56,60 C64,60 66,52 60,46 C56,43 52,40 52,52 C52,62 54,72 60,77'],
 };
 function traceLearn(idx){
   const data=KA_ALPHA,n=data.length;
@@ -371,7 +371,7 @@ function traceLearn(idx){
   const last=idx>=n-1,first=idx<=0;
   const sd=KA_STROKES[entry.l];
   // mask-reveal: the REAL font letter fills in as the pen sweeps along it (shape always matches)
-  const guide = sd ? `<svg id="sgsvg" class="stroke-guide" viewBox="0 0 100 100"><defs><mask id="penmask"><rect width="100" height="100" fill="black"/>${sd.map(d=>`<path class="rev" d="${d}" fill="none" stroke="#fff" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>`).join('')}</mask></defs><text class="penletter" x="50" y="73" text-anchor="middle" mask="url(#penmask)">${entry.l}</text><text class="sg-pen" style="opacity:0" font-size="11">✏️</text></svg>` : '';
+  const guide = sd ? `<svg id="sgsvg" class="stroke-guide" viewBox="0 0 100 100"><defs><mask id="penmask"><rect width="100" height="100" fill="black"/>${sd.map(d=>`<path class="rev" d="${d}" fill="none" stroke="#fff" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>`).join('')}</mask></defs><text class="penletter" x="50" y="73" text-anchor="middle" mask="url(#penmask)">${entry.l}</text><text class="sg-pen" style="opacity:0" font-size="15">✏️</text></svg>` : '';
   render(`<div class="screen">
     ${topbar('✍️ ამოწერა',`ასო ${idx+1}/${n}`,"openMenu('ka-alpha')")}
     <div class="trace-stage">
@@ -402,7 +402,7 @@ function watchStrokes(){
   let i=0;
   function stroke(){
     if(i>=paths.length){ if(pen)pen.style.opacity='0'; if(letter)setTimeout(()=>letter.removeAttribute('mask'),200); return; }
-    const p=paths[i], L=p.getTotalLength(), dur=1100; let st=null;
+    const p=paths[i], L=p.getTotalLength(), dur=2200; let st=null;
     if(pen)pen.style.opacity='1';
     function frame(ts){
       if(st==null)st=ts; const t=Math.min(1,(ts-st)/dur);

@@ -2,6 +2,12 @@
 
 Human-readable log. Full audit trail = git history (`git log`, 70+ commits).
 
+## v1.82 — 2026-06-07 (ამოწერა: one continuous motion)
+- **One continuous stroke (owner feedback).** Instead of several separate reveal sweeps (which
+  jumped and were confusing), each letter now has ONE continuous centerline path: the pen starts at
+  a single point and draws/reveals the whole letter in one smooth motion (~2.2s), then the full clean
+  letter stays. Clearer "how to write it." Bigger pen ✏️. Verified ა (mid + final). `niko/alpha.js`.
+
 ## v1.81 — 2026-06-07 (ამოწერა: the real letter fills in, matched)
 - **Fixed the ✍️ ამოწერა mismatch (owner feedback).** Before, a separately hand-drawn pen path
   didn't match the displayed letter (unclear what was being written). Now the pen sweeps along a
