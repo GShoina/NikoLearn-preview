@@ -2,6 +2,17 @@
 
 Human-readable log. Full audit trail = git history (`git log`, 70+ commits).
 
+## v1.84 — 2026-06-07 (Georgian reading/writing for older kids too)
+- **Fixed the access gap:** older profiles (6+, e.g. Niko) had NO Georgian alphabet/reading tile —
+  the whole Georgian reading+writing suite (ამოწერა / კითხვა / ააწყვე / წინადადება) was visible only
+  to ≤5. Since 6-9 is the accent age for reading (our #1), added a **"🇬🇪 ქართული — კითხვა · წერა ·
+  ამოწერა"** tile to the 6+ subject grid → opens the same ka-alpha menu. `niko/screens.js`. Verified
+  Niko's grid now shows it.
+- Note (font): the ideal ამოწერა font = BPG DedaEna (the school handwriting model, matches the
+  owner's worksheet), but no clean fetchable mkhedruli handwriting file was available (BPGNateli is
+  Mtavruli/uppercase = unsuitable; DedaEna is on box.com). Kept Noto Sans Georgian (clean, all
+  letters). Swap = replace `niko/fonts/ka.woff` once the owner provides/approves a handwriting font.
+
 ## v1.83 — 2026-06-07 (ამოწერა: auto from the font, every letter)
 - **The letter now draws itself from the FONT** (opentype.js): the glyph path is extracted from the
   Georgian font at runtime, so EVERY letter matches its exact real shape with zero hand-authored
