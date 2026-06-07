@@ -1016,6 +1016,12 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .syl-bank{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:10px}
 .syl-bank .syl.used{opacity:.22;pointer-events:none}
 
+/* ── writing / tracing (trace a letter with the finger over a faint guide) ── */
+.trace-stage{position:relative;width:min(80vw,300px);height:min(80vw,300px);margin:12px auto;border-radius:24px;background:var(--card);border:2px solid var(--line);overflow:hidden;box-shadow:0 4px 16px rgba(40,30,20,.06)}
+.trace-letter{position:absolute;inset:0;display:grid;place-items:center;font-size:11rem;font-weight:800;line-height:1;color:color-mix(in oklch,var(--primary) 15%,var(--card));font-family:'Noto Sans Georgian',system-ui,sans-serif;user-select:none;pointer-events:none}
+.trace-canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair}
+.trace-tools{display:flex;gap:10px;justify-content:center;align-items:center;margin-top:12px;flex-wrap:wrap}
+
 /* ── owl close + alive ── */
 .ai-bubble{position:relative}
 .ai-close{position:absolute;top:10px;right:10px;width:38px;height:38px;border-radius:50%;border:1.5px solid var(--line);

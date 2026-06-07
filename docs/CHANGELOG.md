@@ -2,6 +2,17 @@
 
 Human-readable log. Full audit trail = git history (`git log`, 70+ commits).
 
+## v1.79 — 2026-06-07 (more reading content + writing/tracing)
+- **More reading content:** READING_KA 10 → **18 words** (ვაშლი, ლომი, ძაღლი, წიგნი, ბურთი, სახლი,
+  მელა, ცხენი) and READING_SENT_KA 8 → **14 sentences**. All feed the read / build / sentence games.
+  25 new recorded EkaNeural clips (8 words + 11 syllables + 6 sentences); full audio coverage verified
+  (0 missing). Files: `niko/data.js`, `niko/audio-manifest.js`, `niko/audio/rword_*.mp3` /
+  `rsyl_*.mp3` / `sent_09..14.mp3`.
+- **New: ✍️ writing / tracing.** New "წერა" mode in the Georgian-alphabet menu: the child traces a
+  letter with the finger over a faint guide (free practice, finger-on-canvas, like Aso's pencil
+  tracing), with clear + hear-the-letter. 33 letters. Files: `niko/alpha.js` (traceLearn / traceSetup
+  / traceClear), `niko/screens.js` (tile), `niko/styles.css` (.trace-*).
+
 ## v1.78 — 2026-06-06 (v2.0 feature track: interactive syllable builder)
 - New **"🧩 ააწყვე"** mode in the Georgian-alphabet menu: the child ASSEMBLES the word from
   shuffled syllable chips (active, not pick-one). Each tap plays that syllable's recorded clip;

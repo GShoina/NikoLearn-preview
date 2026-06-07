@@ -347,3 +347,46 @@ function checkBuild(){
     setTimeout(()=>{ game.built=[]; game.chips.forEach(c=>c.used=false); renderBuild(); },950);
   }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   WRITING / TRACING — trace a Georgian letter with the finger over a
+   faint guide (free practice, no strict stroke check). Hear the letter too.
+   ═══════════════════════════════════════════════════════════ */
+function traceLearn(idx){
+  const data=KA_ALPHA,n=data.length;
+  idx=Math.max(0,Math.min(idx,n-1));
+  const entry=data[idx]; const it=alphaItem(entry); game.traceIt={it,idx};
+  const last=idx>=n-1,first=idx<=0;
+  render(`<div class="screen">
+    ${topbar('✍️ წერა',`ასო ${idx+1}/${n}`,"openMenu('ka-alpha')")}
+    <div class="trace-stage">
+      <div class="trace-letter">${entry.l}</div>
+      <canvas id="tracecv" class="trace-canvas"></canvas>
+    </div>
+    <div class="trace-tools">
+      <button class="btn btn-ghost" onclick="traceClear()">🧽 თავიდან</button>
+      <button class="speakbtn" onclick="alphaSay('ka-alpha',game.traceIt.it);pulseTap(this)">${I.speaker} მოისმინე</button>
+    </div>
+    <div class="alpha-nav">
+      <button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="traceLearn(${idx-1})">←</button>
+      <div class="alpha-dots">${idx+1} / ${n}</div>
+      ${last?`<button class="abtn go" onclick="openMenu('ka-alpha')">დასასრული ✓</button>`:`<button class="abtn" onclick="traceLearn(${idx+1})">→</button>`}
+    </div>
+  </div>`,false);
+  setTimeout(()=>{ traceSetup(); alphaSay('ka-alpha',it); },200);
+}
+function traceSetup(){
+  const cv=document.getElementById('tracecv'); if(!cv)return;
+  const r=cv.getBoundingClientRect();
+  cv.width=Math.round(r.width); cv.height=Math.round(r.height);
+  const ctx=cv.getContext('2d'); ctx.lineCap='round'; ctx.lineJoin='round'; ctx.lineWidth=14; ctx.strokeStyle='#6B63B5';
+  let drawing=false,last=null;
+  const pos=e=>{const b=cv.getBoundingClientRect();return {x:e.clientX-b.left,y:e.clientY-b.top};};
+  const start=e=>{drawing=true;last=pos(e);try{cv.setPointerCapture(e.pointerId);}catch(_){}; e.preventDefault();};
+  const move=e=>{if(!drawing)return;const p=pos(e);ctx.beginPath();ctx.moveTo(last.x,last.y);ctx.lineTo(p.x,p.y);ctx.stroke();last=p;e.preventDefault();};
+  const end=()=>{drawing=false;};
+  cv.addEventListener('pointerdown',start); cv.addEventListener('pointermove',move);
+  cv.addEventListener('pointerup',end); cv.addEventListener('pointerleave',end);
+  game._traceClear=()=>ctx.clearRect(0,0,cv.width,cv.height);
+}
+function traceClear(){ if(game._traceClear) game._traceClear(); }
