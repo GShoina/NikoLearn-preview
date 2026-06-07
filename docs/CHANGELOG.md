@@ -2,6 +2,14 @@
 
 Human-readable log. Full audit trail = git history (`git log`, 70+ commits).
 
+## v1.83 — 2026-06-07 (ამოწერა: auto from the font, every letter)
+- **The letter now draws itself from the FONT** (opentype.js): the glyph path is extracted from the
+  Georgian font at runtime, so EVERY letter matches its exact real shape with zero hand-authored
+  paths. The pen traces the glyph outline, then the letter fills in. Works for all 33 (verified the
+  glyph path generates for ა ბ გ დ ე ჯ; დ now renders as the exact correct letter). Self-hosted
+  `niko/opentype.min.js` + `niko/fonts/ka.woff` (Noto Sans Georgian subset, added to SW precache for
+  offline). Swapping in a handwriting font later = just replace ka.woff. `niko/alpha.js`, `index.html`.
+
 ## v1.82 — 2026-06-07 (ამოწერა: one continuous motion)
 - **One continuous stroke (owner feedback).** Instead of several separate reveal sweeps (which
   jumped and were confusing), each letter now has ONE continuous centerline path: the pen starts at

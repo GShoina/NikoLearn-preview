@@ -356,31 +356,31 @@ function checkBuild(){
    the finger. Letters with stroke data animate; others fall back to free trace.
    Stroke paths (SVG d, writing direction) over a 0..100 box; pilot: ა ბ გ დ.
    ═══════════════════════════════════════════════════════════ */
-// ONE continuous centerline per letter — the pen starts at one point and draws the whole letter in
-// a single motion (owner: clearer than separate strokes). Drives the mask reveal of the font letter.
-const KA_STROKES = {
-  'ა':['M57,30 C61,28 58,42 57,52 C56,63 54,73 61,76 C51,75 44,71 44,64 C44,57 51,57 53,63'],
-  'ბ':['M51,30 C45,28 47,37 53,36 C57,35 55,46 54,53 C68,53 69,79 53,79 C40,79 41,56 54,57'],
-  'გ':['M46,33 C53,28 59,36 53,44 C53,52 53,54 53,57 C68,57 69,79 53,79 C40,79 41,56 54,57'],
-  'დ':['M58,30 C50,28 44,34 44,44 C44,55 50,60 56,60 C64,60 66,52 60,46 C56,43 52,40 52,52 C52,62 54,72 60,77'],
-};
+// ✍️ ამოწერა — the letter draws itself AUTOMATICALLY from the font (opentype.js): every letter
+// matches its real shape with no hand-authored paths. The pen traces the glyph, then it fills in.
+let _kaFont=null, _kaRetry=0;
+(function loadKaFont(){ try{ if(window.opentype) opentype.load('niko/fonts/ka.woff',(e,f)=>{ if(!e) _kaFont=f; }); }catch(_){} })();
+function glyphPathD(ch){
+  if(!_kaFont) return null;
+  try{ let p=_kaFont.getPath(ch,0,0,72); const b=p.getBoundingBox();
+    return _kaFont.getPath(ch, 50-(b.x1+b.x2)/2, 50-(b.y1+b.y2)/2, 72).toPathData(2); }catch(_){ return null; }
+}
 function traceLearn(idx){
   const data=KA_ALPHA,n=data.length;
   idx=Math.max(0,Math.min(idx,n-1));
   const entry=data[idx]; const it=alphaItem(entry); game.traceIt={it,idx};
   const last=idx>=n-1,first=idx<=0;
-  const sd=KA_STROKES[entry.l];
-  // mask-reveal: the REAL font letter fills in as the pen sweeps along it (shape always matches)
-  const guide = sd ? `<svg id="sgsvg" class="stroke-guide" viewBox="0 0 100 100"><defs><mask id="penmask"><rect width="100" height="100" fill="black"/>${sd.map(d=>`<path class="rev" d="${d}" fill="none" stroke="#fff" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>`).join('')}</mask></defs><text class="penletter" x="50" y="73" text-anchor="middle" mask="url(#penmask)">${entry.l}</text><text class="sg-pen" style="opacity:0" font-size="15">✏️</text></svg>` : '';
+  const d=glyphPathD(entry.l);   // null only if the font is not parsed yet
+  const guide = d ? `<svg id="sgsvg" class="stroke-guide" viewBox="0 0 100 100"><path id="gd" class="gd" d="${d}"/><text class="sg-pen" style="opacity:0" font-size="15">✏️</text></svg>` : '';
   render(`<div class="screen">
     ${topbar('✍️ ამოწერა',`ასო ${idx+1}/${n}`,"openMenu('ka-alpha')")}
     <div class="trace-stage">
-      ${sd?'':`<div class="trace-letter">${entry.l}</div>`}
+      ${d?'':`<div class="trace-letter">${entry.l}</div>`}
       ${guide}
       <canvas id="tracecv" class="trace-canvas"></canvas>
     </div>
     <div class="trace-tools">
-      ${sd?`<button class="btn btn-sky" onclick="watchStrokes()">👀 უყურე</button>`:''}
+      ${d?`<button class="btn btn-sky" onclick="watchStrokes()">👀 უყურე</button>`:''}
       <button class="btn btn-ghost" onclick="traceClear()">🧽 თავიდან</button>
       <button class="speakbtn" onclick="alphaSay('ka-alpha',game.traceIt.it);pulseTap(this)">${I.speaker} მოისმინე</button>
     </div>
@@ -391,28 +391,27 @@ function traceLearn(idx){
       ${last?`<button class="abtn go" onclick="openMenu('ka-alpha')">დასასრული ✓</button>`:`<button class="abtn" onclick="traceLearn(${idx+1})">→</button>`}
     </div>
   </div>`,false);
-  setTimeout(()=>{ traceSetup(); if(sd) watchStrokes(); alphaSay('ka-alpha',it); },220);
+  setTimeout(()=>{ traceSetup();
+    if(d){ _kaRetry=0; watchStrokes(); }
+    else if(!_kaFont && _kaRetry<10){ _kaRetry++; setTimeout(()=>{ if(game.traceIt&&game.traceIt.idx===idx) traceLearn(idx); },350); } // font still loading: retry shortly
+    alphaSay('ka-alpha',it);
+  },220);
 }
-// virtual pen sweeps along each stroke and REVEALS (fills in) the real font letter, in order.
+// the pen traces the glyph outline (one continuous run over all contours), then the letter fills in.
 function watchStrokes(){
   const svg=document.getElementById('sgsvg'); if(!svg)return;
-  const letter=svg.querySelector('.penletter'); if(letter)letter.setAttribute('mask','url(#penmask)');
-  const paths=[...svg.querySelectorAll('.rev')], pen=svg.querySelector('.sg-pen');
-  paths.forEach(p=>{const L=p.getTotalLength(); p.style.transition='none'; p.style.strokeDasharray=L; p.style.strokeDashoffset=L;});
-  let i=0;
-  function stroke(){
-    if(i>=paths.length){ if(pen)pen.style.opacity='0'; if(letter)setTimeout(()=>letter.removeAttribute('mask'),200); return; }
-    const p=paths[i], L=p.getTotalLength(), dur=2200; let st=null;
-    if(pen)pen.style.opacity='1';
-    function frame(ts){
-      if(st==null)st=ts; const t=Math.min(1,(ts-st)/dur);
-      p.style.strokeDashoffset=L*(1-t);
-      if(pen){const pt=p.getPointAtLength(t*L); pen.setAttribute('x',pt.x-1); pen.setAttribute('y',pt.y+4);}
-      if(t<1) requestAnimationFrame(frame); else { i++; setTimeout(stroke,260); }
-    }
-    requestAnimationFrame(frame);
+  const p=svg.querySelector('#gd'), pen=svg.querySelector('.sg-pen'); if(!p)return;
+  let L; try{L=p.getTotalLength();}catch(_){return;}
+  const dur=2600; let st=null;
+  p.style.transition='none'; p.style.fillOpacity='0'; p.style.strokeDasharray=L; p.style.strokeDashoffset=L; p.getBoundingClientRect();
+  if(pen)pen.style.opacity='1';
+  function frame(ts){
+    if(st==null)st=ts; const t=Math.min(1,(ts-st)/dur);
+    p.style.strokeDashoffset=L*(1-t);
+    if(pen){ try{const pt=p.getPointAtLength(t*L); pen.setAttribute('x',pt.x-1); pen.setAttribute('y',pt.y+4);}catch(_){} }
+    if(t<1) requestAnimationFrame(frame); else { if(pen)pen.style.opacity='0'; p.style.transition='fill-opacity .5s ease'; p.style.fillOpacity='1'; }
   }
-  stroke();
+  requestAnimationFrame(frame);
 }
 function traceSetup(){
   const cv=document.getElementById('tracecv'); if(!cv)return;
