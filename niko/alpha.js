@@ -370,11 +370,12 @@ function traceLearn(idx){
   const entry=data[idx]; const it=alphaItem(entry); game.traceIt={it,idx};
   const last=idx>=n-1,first=idx<=0;
   const sd=KA_STROKES[entry.l];
-  const guide = sd ? `<svg id="sgsvg" class="stroke-guide" viewBox="0 0 100 100">${sd.map(d=>`<path class="sg-ink" d="${d}"/>`).join('')}<text class="sg-pen" style="opacity:0" font-size="11">✏️</text></svg>` : '';
+  // mask-reveal: the REAL font letter fills in as the pen sweeps along it (shape always matches)
+  const guide = sd ? `<svg id="sgsvg" class="stroke-guide" viewBox="0 0 100 100"><defs><mask id="penmask"><rect width="100" height="100" fill="black"/>${sd.map(d=>`<path class="rev" d="${d}" fill="none" stroke="#fff" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>`).join('')}</mask></defs><text class="penletter" x="50" y="73" text-anchor="middle" mask="url(#penmask)">${entry.l}</text><text class="sg-pen" style="opacity:0" font-size="11">✏️</text></svg>` : '';
   render(`<div class="screen">
     ${topbar('✍️ ამოწერა',`ასო ${idx+1}/${n}`,"openMenu('ka-alpha')")}
     <div class="trace-stage">
-      <div class="trace-letter ${sd?'guided':''}">${entry.l}</div>
+      ${sd?'':`<div class="trace-letter">${entry.l}</div>`}
       ${guide}
       <canvas id="tracecv" class="trace-canvas"></canvas>
     </div>
@@ -392,14 +393,15 @@ function traceLearn(idx){
   </div>`,false);
   setTimeout(()=>{ traceSetup(); if(sd) watchStrokes(); alphaSay('ka-alpha',it); },220);
 }
-// virtual pen draws each stroke in order/direction over the faint font letter (handwriting effect)
+// virtual pen sweeps along each stroke and REVEALS (fills in) the real font letter, in order.
 function watchStrokes(){
   const svg=document.getElementById('sgsvg'); if(!svg)return;
-  const paths=[...svg.querySelectorAll('.sg-ink')], pen=svg.querySelector('.sg-pen');
+  const letter=svg.querySelector('.penletter'); if(letter)letter.setAttribute('mask','url(#penmask)');
+  const paths=[...svg.querySelectorAll('.rev')], pen=svg.querySelector('.sg-pen');
   paths.forEach(p=>{const L=p.getTotalLength(); p.style.transition='none'; p.style.strokeDasharray=L; p.style.strokeDashoffset=L;});
   let i=0;
   function stroke(){
-    if(i>=paths.length){ if(pen)pen.style.opacity='0'; return; }
+    if(i>=paths.length){ if(pen)pen.style.opacity='0'; if(letter)setTimeout(()=>letter.removeAttribute('mask'),200); return; }
     const p=paths[i], L=p.getTotalLength(), dur=1100; let st=null;
     if(pen)pen.style.opacity='1';
     function frame(ts){

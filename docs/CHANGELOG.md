@@ -2,6 +2,16 @@
 
 Human-readable log. Full audit trail = git history (`git log`, 70+ commits).
 
+## v1.81 — 2026-06-07 (ამოწერა: the real letter fills in, matched)
+- **Fixed the ✍️ ამოწერა mismatch (owner feedback).** Before, a separately hand-drawn pen path
+  didn't match the displayed letter (unclear what was being written). Now the pen sweeps along a
+  thick **mask that REVEALS the actual font letter** — so the real, correct letter fills in as the
+  pen follows, shape always matches, and it's clear which letter it is. End state = the full clean
+  letter. Verified visually for ა and დ (both clear/correct). `niko/alpha.js` (mask-reveal +
+  `.penletter`), `niko/styles.css`.
+- Open/next: match the displayed font to the owner's handwriting reference (self-host a Georgian
+  handwriting font); refine per-letter reveal sweeps; extend pilot ა ბ გ დ to all 33.
+
 ## v1.80 — 2026-06-07 (stroke-order ამოწერა + bigger syllable chips)
 - **✍️ ამოწერა stroke-order, virtual-pen draw.** The writing mode now shows the letter in the
   high-quality FiraGO font and a **virtual pen ✏️ draws each stroke step-by-step in the right order

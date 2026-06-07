@@ -1029,9 +1029,9 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .trace-letter.guided{color:color-mix(in oklch,var(--primary) 13%,var(--card))}
 .trace-canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair}
 .trace-tools{display:flex;gap:10px;justify-content:center;align-items:center;margin-top:12px;flex-wrap:wrap}
-/* virtual-pen stroke draw over the high-quality FiraGO letter (✍️ ამოწერა) */
+/* virtual-pen REVEALS the real font letter as it sweeps (✍️ ამოწერა) */
 .stroke-guide{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
-.sg-ink{fill:none;stroke:var(--primary,#6B63B5);stroke-width:8;stroke-linecap:round;stroke-linejoin:round}
+.penletter{font-family:'FiraGO','Noto Sans Georgian',system-ui,sans-serif;font-weight:700;font-size:64px;fill:color-mix(in oklch,var(--primary) 62%,var(--card))}
 .sg-pen{transition:opacity .2s}
 
 /* ── owl close + alive ── */
