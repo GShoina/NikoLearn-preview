@@ -2,6 +2,12 @@
 
 Human-readable log. Full audit trail = git history (`git log`, 70+ commits).
 
+## v1.92 — 2026-06-09 (alphabet: explicit "A is for Apple" link, per teacher feedback)
+- Niko's teacher suggested a word per letter-sound ("Aa is for Apple"). The app ALREADY had 3 example
+  words + pictures per letter (voiced "A. apple"), so the core existed; this makes the LINK explicit in
+  the standard phonics format on the learn card: EN now reads "A is for Apple", KA "ვ: ვაშლი" (the
+  big letter + picture + voice are unchanged). `niko/alpha.js` (alphaLearn). Em dash avoided per style rule.
+
 ## v1.91 — 2026-06-08 ("რვა" pronunciation finalized)
 - **"რვა" (8) re-recorded with the owner-chosen rendering** (EkaNeural, spelled "რ ვა" with a small
   gap so the რ and ვა articulate clearly, +15Hz brighter, -5% rate). The owner A/B-listened to 9 variants
