@@ -61,6 +61,27 @@
   const _speakSeq = window.speakSeq;
   window.speakSeq = function(parts){ stopClip(); if(_speakSeq) _speakSeq(parts); };
 
+  // ── instant clip playback for DELIBERATE taps (syllable chips, letters) ──
+  // No 500ms duplicate-guard (a tap must ALWAYS sound, even the same syllable twice, e.g. მა-მა),
+  // no speechSynthesis dependency, and it stops the current clip + plays immediately so rapid taps
+  // keep pace with the child instead of lagging. Returns true if a recorded clip exists.
+  const _pre = {};
+  window.playClip = function(text){
+    const url = clipFor(text);
+    if(!url) return false;
+    stopClip();
+    try{
+      let a = _pre[url];
+      if(a){ try{ a.currentTime = 0; }catch(e){} } else { a = new Audio(url); }
+      curClip = a; a.play().catch(()=>{});
+    }catch(e){ return false; }
+    return true;
+  };
+  // warm the cache so the FIRST tap of each clip is instant (no load lag = the "slow" feel)
+  window.preloadClips = function(texts){
+    (texts||[]).forEach(t=>{ const u = clipFor(t); if(u && !_pre[u]){ try{ const a = new Audio(); a.preload = 'auto'; a.src = u; _pre[u] = a; }catch(e){} } });
+  };
+
   // does the device actually have a voice for this language? (UI can gray out audio if not)
   window.hasVoiceFor = function(lang){
     if(!('speechSynthesis' in window)) return false;

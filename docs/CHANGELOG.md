@@ -2,6 +2,18 @@
 
 Human-readable log. Full audit trail = git history (`git log`, 70+ commits).
 
+## v1.90 — 2026-06-08 (Georgian audio: syllable taps fixed + clearer "რვა")
+- **Syllable mode (ააწყვე) tap bug fixed.** Tapping a syllable chip sometimes played nothing (e.g. the
+  second "მა" in მა-მა) and sometimes lagged behind a fast-tapping child. Root cause: every tap went
+  through the speech pipeline's 500ms duplicate-guard (which swallowed a repeated syllable) and
+  `stopClip()` cut the previous one. Now deliberate taps use a new instant clip player
+  (`playClip` in `niko/audio.js`): no duplicate-guard (a tap ALWAYS sounds, even repeated), no
+  speechSynthesis dependency, stops-and-plays immediately so taps keep pace. The current word's syllable
+  clips are preloaded (`preloadClips`) so the first tap has no load lag. `niko/audio.js`, `niko/alpha.js`
+  (`readSay`, `renderBuild`).
+- **"რვა" (8) re-recorded** a touch slower (EkaNeural -12%) for clarity, as the old clip was hard to make
+  out. `niko/audio/clip_146.mp3`. (Voice quality / accent is a separate, larger question — see notes.)
+
 ## v1.89 — 2026-06-08 (launch-prep: privacy policy + honest privacy copy)
 - **New `privacy.html`** (Georgian + English, language toggle): a real privacy policy written to GDPR
   grade with COPPA (US) and Georgian Law on Personal Data Protection sections. Reflects the app's genuine

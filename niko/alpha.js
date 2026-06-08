@@ -171,7 +171,7 @@ function answerDigit(btn,sel,cor){
    alphabet. Here the child taps each syllable (hears it), then blends the
    whole word. Recorded ka clips per syllable + word — never robot TTS.
    ═══════════════════════════════════════════════════════════ */
-function readSay(t){speak(t,'ka-GE',{rate:isYoung(profile)?0.58:0.7});}
+function readSay(t){ if(window.playClip && playClip(t)) return; speak(t,'ka-GE',{rate:isYoung(profile)?0.58:0.7}); }
 function readBlend(it){ // sound out each syllable, then say the whole word
   speakSeq(it.syl.map(s=>({t:s,lang:'ka-GE',rate:0.62})).concat([{t:it.w,lang:'ka-GE',rate:0.68}]));
 }
@@ -320,6 +320,7 @@ function renderBuild(){
     <div class="syl-slots">${slots}</div>
     <div class="finger-hint sylhint">👇 აიღე მარცვალი და ჩასვი</div>
     <div class="syl-bank">${chips}</div>`);
+  if(window.preloadClips) preloadClips(game.chips.map(c=>c.s).concat([q.w]));   // instant taps, no load lag
   const c=$('#gcount');if(c)c.textContent=`${game.i+1}/${game.qs.length}`;
 }
 function buildTap(id){
