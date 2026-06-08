@@ -2,6 +2,27 @@
 
 Human-readable log. Full audit trail = git history (`git log`, 70+ commits).
 
+## v1.87 — 2026-06-08 (analytics architecture: pluggable facade + per-screen)
+- **Pluggable analytics facade** (`niko/analytics.js`): all tracking now goes through one tiny
+  interface (`Analytics.screen()` / `Analytics.event()`). Adding or removing a tool (Cloudflare now,
+  a custom backend or security/analytics tools in production) is a one-line `on:` flip in this file,
+  never a change in the app. Privacy-first: only coarse screen names, never any PII, skips localhost,
+  respects Do-Not-Track.
+- **Per-screen / per-subject tracking** wired at the central funnels (`openMenu` subject opens,
+  `goHome`, the movement break) so we can see which areas kids actually open. Routed to Cloudflare via
+  cookieless SPA hash routes that are reload- and Back-button-safe (the app never used the URL hash, so
+  zero navigation risk). Full per-screen reporting fully lights up when a production events tool is
+  enabled: no app changes needed, that's the point of the facade.
+- **Version-history view**: this compact, collapsible HTML changelog, generated from CHANGELOG.md by
+  `tools/changelog-html.mjs`.
+
+## v1.86 — 2026-06-08 (privacy-safe usage analytics)
+- **Cloudflare Web Analytics** added to the app + landing (cookieless, no PII, no IP stored,
+  child-safe). Replaces the analytics-blind state (GA4 was removed in v1.71): we can now see real
+  audience — visitors, app vs landing, country, device, daily trend — without touching child privacy.
+  Beacon is localhost-guarded so local testing never pollutes the data. Account created end-to-end via
+  browser automation (incl. email verification); dashboard at dash.cloudflare.com → Web Analytics.
+
 ## v1.85 — 2026-06-07 (ამოწერა: real Georgian font + perfect fit)
 - **Handwriting font swapped in: BPG Glaho** (clean, rounded, friendly mkhedruli, GPL/free) replaces
   the generic Noto Sans for ამოწერა. Owner delegated the choice ("შენ გადაწყვიტე უჩემოდ"). I first

@@ -3,10 +3,11 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.86';
+const APP_VERSION='1.87';
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
+  if(window.Analytics)Analytics.screen('home');
   profile=null;state=load();
   if(!state.onboarded){state.onboarded=true;save();} // landing already explains the app, skip the duplicate welcome
   const kids=state.kids||[];
@@ -315,6 +316,7 @@ function selectProfile(p){
 const MODE_TITLES={english:'🔤 ინგლისური',math:'🧮 მათემატიკა','kings-eng':'👑 კინგსი ინგლისური','kings-math':'👑 კინგსი მათემატიკა',counting:'🔢 დათვლა','ka-alpha':'🇬🇪 ანბანი','en-alpha':'🇬🇧 ანბანი'};
 function openMenu(subj){
   game.subj=subj;
+  if(window.Analytics)Analytics.screen('subject/'+subj);
   let body;
   if(subj==='english'){
     const cat=game.cat;

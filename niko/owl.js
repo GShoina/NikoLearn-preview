@@ -253,6 +253,7 @@ let _mvIdx=0,_mvPlaying=true,_mvCount=0,_mvTimer=null;
 function closeBreak(){clearInterval(_mvTimer);_mvTimer=null;try{speechSynthesis.cancel();}catch(e){}const el=document.getElementById('breakscr');if(el)el.remove();}
 function showBreak(manual){
   if(document.getElementById('breakscr'))return;
+  if(window.Analytics)Analytics.screen('movement');
   const el=document.createElement('div');el.className='breakscreen mv2';el.id='breakscr';
   el.innerHTML=`
     <header class="mv-top">
