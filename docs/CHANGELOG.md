@@ -2,6 +2,11 @@
 
 Human-readable log. Full audit trail = git history (`git log`, 70+ commits).
 
+## v1.91 — 2026-06-08 ("რვა" pronunciation finalized)
+- **"რვა" (8) re-recorded with the owner-chosen rendering** (EkaNeural, spelled "რ ვა" with a small
+  gap so the რ and ვა articulate clearly, +15Hz brighter, -5% rate). The owner A/B-listened to 9 variants
+  (voices/rates/pitches/spellings) and picked this one. `niko/audio/clip_146.mp3`.
+
 ## v1.90 — 2026-06-08 (Georgian audio: syllable taps fixed + clearer "რვა")
 - **Syllable mode (ააწყვე) tap bug fixed.** Tapping a syllable chip sometimes played nothing (e.g. the
   second "მა" in მა-მა) and sometimes lagged behind a fast-tapping child. Root cause: every tap went
