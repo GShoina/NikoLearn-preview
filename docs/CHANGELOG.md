@@ -2,6 +2,14 @@
 
 Human-readable log. Full audit trail = git history (`git log`, 70+ commits).
 
+## v1.88 — 2026-06-08 (launch-prep: analytics facade set dormant)
+- **Decision (owner):** keep the facade + per-screen hooks in the code but turn the provider **OFF**
+  for the production launch, so `Analytics.screen()` is a pure no-op and the app's URL never changes.
+  Audience stats keep flowing via the standalone Cloudflare Web Analytics beacon (separate from the
+  facade). Per-screen is a post-launch decision, taken only if a real product question needs it; if
+  enabled then first-party backend by default, else Plausible or GoatCounter, never PostHog. Analytics
+  is explicitly NOT on the launch critical path. `niko/analytics.js` (`cloudflare.on:false` + decision note).
+
 ## v1.87 — 2026-06-08 (analytics architecture: pluggable facade + per-screen)
 - **Pluggable analytics facade** (`niko/analytics.js`): all tracking now goes through one tiny
   interface (`Analytics.screen()` / `Analytics.event()`). Adding or removing a tool (Cloudflare now,

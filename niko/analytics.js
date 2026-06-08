@@ -38,7 +38,14 @@
     // harmless — reload-safe on GitHub Pages, Back button never polluted
     // (replaceState) — and hands any future SPA-aware provider the route for free.
     cloudflare: {
-      on: true,
+      // LAUNCH DECISION (owner, 2026-06-08): the facade + per-screen hooks STAY in the code, but
+      // the facade is DORMANT for the prod launch (~1 week out) — provider OFF, so Analytics.screen()
+      // is a pure no-op and the app's URL never changes. Audience stats keep flowing via the
+      // standalone Cloudflare Web Analytics beacon tag in index.html / landing.html (that beacon is
+      // NOT this facade). Per-screen is a POST-LAUNCH decision, taken only if a real product question
+      // needs it; if enabled then: default = first-party backend; if 3rd-party, Plausible or
+      // GoatCounter, never PostHog.
+      on: false,
       screen: function (path) {
         try {
           history.replaceState(history.state, '', location.pathname + location.search + '#/' + path);
