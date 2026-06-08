@@ -9,10 +9,13 @@ Human-readable log. Full audit trail = git history (`git log`, 70+ commits).
   never a change in the app. Privacy-first: only coarse screen names, never any PII, skips localhost,
   respects Do-Not-Track.
 - **Per-screen / per-subject tracking** wired at the central funnels (`openMenu` subject opens,
-  `goHome`, the movement break) so we can see which areas kids actually open. Routed to Cloudflare via
-  cookieless SPA hash routes that are reload- and Back-button-safe (the app never used the URL hash, so
-  zero navigation risk). Full per-screen reporting fully lights up when a production events tool is
-  enabled: no app changes needed, that's the point of the facade.
+  `goHome`, the movement break) so we can see which areas kids actually open. Each open sets a
+  cookieless, reload- and Back-button-safe hash route (the app never used the URL hash, so zero
+  navigation risk). **Verified:** Cloudflare's FREE Web Analytics does NOT ingest client-side route
+  changes (it records the initial page load only), so per-screen counts stay dark on CF. The wiring is
+  in place and inert: per-screen lights up the instant an events-capable provider is enabled in
+  `analytics.js` (a tiny custom endpoint, or a cookieless events tool) with NO app changes. That is the
+  point of the facade: the architecture is ready for production, the tool is a one-line swap.
 - **Version-history view**: this compact, collapsible HTML changelog, generated from CHANGELOG.md by
   `tools/changelog-html.mjs`.
 

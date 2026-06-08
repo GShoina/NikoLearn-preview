@@ -26,12 +26,17 @@
   var providers = {
 
     // Cloudflare Web Analytics — cookieless, no PII, no IP stored.
-    // It auto-tracks single-page navigations through the History API, so a
-    // screen change updates a virtual hash route (#/subject/math) and Cloudflare
-    // logs it as a navigation. Hash is used (not a real path) so a page reload is
-    // still safe on GitHub Pages and the browser Back button is never polluted.
-    // Note: CF's free tier has no custom-events API, so event() is a no-op here;
-    // events light up automatically once an events-capable provider is enabled.
+    // screen() sets a virtual hash route (#/subject/math) on each screen change.
+    // VERIFIED 2026-06-08: the FREE Web Analytics beacon does NOT ingest
+    // client-side History API route changes (replaceState/pushState, hash OR
+    // path OR query all produced zero new /cdn-cgi/rum hits in testing). It
+    // records the initial page load only. So CF gives audience-level stats
+    // (visitors, app-vs-landing, geo, device) but NOT per-screen.
+    // These hash routes are therefore WIRED + READY but inert for CF today: per-
+    // screen counts light up the moment an events-capable provider is enabled
+    // below (a tiny custom endpoint, or a cookieless events tool). The hash is
+    // harmless — reload-safe on GitHub Pages, Back button never polluted
+    // (replaceState) — and hands any future SPA-aware provider the route for free.
     cloudflare: {
       on: true,
       screen: function (path) {
@@ -39,7 +44,7 @@
           history.replaceState(history.state, '', location.pathname + location.search + '#/' + path);
         } catch (e) {}
       },
-      event: function () { /* not supported on CF Web Analytics free */ }
+      event: function () { /* CF Web Analytics free has no custom-events API */ }
     }
 
     // ── Future provider example (kept off; enable in production) ───────────────
