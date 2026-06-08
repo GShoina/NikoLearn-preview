@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+<meta name="robots" content="noindex,nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NikoLearn — სტრატეგიული გადაწყვეტილების მოდელი (2026-06-08)</title>
+<style>
+  :root{--p:#6B5BD0;--p2:#8a7be6;--g:#1f9d57;--ink:#1f2333;--mut:#6b7080;--line:#e6e3f5;--bg:#faf9ff;--warn:#c9772b;--no:#c0392b;}
+  *{box-sizing:border-box}
+  body{font-family:"Segoe UI",system-ui,sans-serif;color:var(--ink);background:var(--bg);margin:0;line-height:1.55;font-size:16px}
+  .wrap{max-width:1000px;margin:0 auto;padding:28px 22px 80px}
+  h1{font-size:25px;margin:0 0 4px;color:var(--p)}
+  h2{font-size:19px;margin:34px 0 12px;padding-bottom:6px;border-bottom:2px solid var(--line);color:var(--ink)}
+  h3{font-size:16px;margin:18px 0 8px;color:var(--p)}
+  .sub{color:var(--mut);font-size:14px;margin:0 0 18px}
+  .owner{background:#fff;border:1px solid var(--line);border-left:5px solid var(--p);border-radius:10px;padding:14px 16px;margin:14px 0 8px}
+  .owner b{color:var(--p)}
+  .act{background:#eef9f1;border:1px solid #cdeed8;border-left:5px solid var(--g);border-radius:10px;padding:12px 16px;margin:10px 0}
+  table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 0 var(--line);margin:8px 0 6px}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;font-size:14.5px}
+  th{background:#f1eefc;color:var(--ink);font-weight:600}
+  td.q{font-weight:600;width:30%}
+  .niko,.gem{width:24%}
+  .niko b{color:var(--g)}.gem b{color:var(--p2)}
+  .ans{width:14%;background:#fffdf4}
+  .pill{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:20px}
+  .yes{background:#e4f6ea;color:var(--g)} .pick{background:#eef0fb;color:var(--p)} .flag{background:#fbeae4;color:var(--no)}
+  .agree{color:var(--g);font-weight:700} .diverge{color:var(--warn);font-weight:700}
+  ol,ul{margin:8px 0 8px 4px;padding-left:22px}
+  li{margin:5px 0}
+  .grant{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+  .grant a{color:var(--p);word-break:break-all}
+  .warnbox{background:#fff7ee;border:1px solid #f0d8b8;border-left:5px solid var(--warn);border-radius:10px;padding:12px 16px;margin:10px 0}
+  .card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:8px 0}
+  .opt{display:block;margin:7px 0;padding:9px 12px;border:1px solid var(--line);border-radius:8px}
+  .opt b{color:var(--p)}
+  .rec{border-color:var(--g);background:#f4fbf6}
+  .rec::before{content:"⭐ ჩემი რეკომენდაცია · ";color:var(--g);font-weight:700;font-size:13px}
+  code{background:#f1eefc;padding:1px 6px;border-radius:5px;font-size:13px}
+  .foot{color:var(--mut);font-size:12.5px;margin-top:30px;border-top:1px solid var(--line);padding-top:12px}
+  .how{background:#eef0fb;border-radius:10px;padding:12px 16px;margin:10px 0;font-size:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>🦉 NikoLearn — სტრატეგიული გადაწყვეტილების მოდელი</h1>
+  <p class="sub">2026-06-08 · by Niko · Lane B (სტრატეგია, კოდი არ შეცვლილა) · ორმაგი ხედვა: Niko + Gemini (ალტერნატიული AI)</p>
+
+  <div class="owner">
+    <b>3 წინადადება შენთვის:</b><br>
+    1. ფაქტებმა fork გადაწყვიტა: <b>spearhead = დიასპორა (Version B)</b> — Niko-ც და Gemini-ც თანხმდებიან, PMF-იც და distribution-იც B-ს უჭერს მხარს.<br>
+    2. ქვემოთ <b>11 გადაწყვეტილებაა</b>, თითო yes/no ან არჩევანამდე დაყვანილი — სწრაფად მიპასუხე და execute.<br>
+    3. გრანტი ნამდვილია, მაგრამ პირდაპირ ვერ ვიღებთ — მხოლოდ <b>პარტნიორ საკვირაო-სკოლასთან ერთად</b> (ეს არც ცუდია: სწორედ ეს გვაიძულებს ფასიანი არხის აშენებას).
+  </div>
+  <div class="how">📝 <b>როგორ მიპასუხო:</b> უბრალოდ დამიწერე მაგ. „D1 დიახ · D2 დიახ · D5 b · D6 M1 · D9 a..." — ან სად არ ეთანხმები. ცარიელ პასუხებზე ვიყენებ ⭐ default-ს.</div>
+
+  <h2>0 · გრანტი — ზუსტი ლინკი + ვინ შეიძლება მონაწილეობდეს</h2>
+  <div class="grant">
+    <b>კონკურსი:</b> „ჩემი ქართული სკოლა" (My Georgian School) — საქართველოს საგარეო საქმეთა სამინისტრო, დიასპორის მიმართულება.<br>
+    <b>მიზანი:</b> საზღვარგარეთ ქართული ენის სწავლების ხარისხის გაუმჯობესება.<br>
+    <b>ოფიციალური გვერდი:</b><br>
+    <a href="https://mfa.gov.ge/news/077749-saqartvelos-sagareo-saqmeta-saministro-atskhadebs-sagranto-konkurss-chemi-qartuli-skola">https://mfa.gov.ge/news/077749-saqartvelos-sagareo-saqmeta-saministro-atskhadebs-sagranto-konkurss-chemi-qartuli-skola</a><br>
+    <span style="color:var(--mut);font-size:13px">(მსგავსი დედაენის გრანტი „ჩემი ენა ქართული" — news/058334; ანუ ეს ყოველწლიური, განმეორებადი დაფინანსების ხაზია.)</span><br>
+    <b>განაცხადი:</b> <code>diaspora@mfa.gov.ge</code> · <b>ვადა ამ ციკლზე:</b> ~28 ივნისი 2026.<br><br>
+    <b style="color:var(--no)">⚠️ ვინ შეუძლია მონაწილეობა (გადამწყვეტი):</b> საზღვარგარეთ მოქმედი <b>ქართული დიასპორული ორგანიზაციები · ქართული საკვირაო სკოლები · არაკომერციული იურიდიული პირები საზღვარგარეთ</b>. <b>NikoLearn (ქართული კომპანია საქართველოში) პირდაპირ ვერ აკეთებს განაცხადს.</b>
+  </div>
+  <div class="warnbox">
+    <b>გულახდილი წაკითხვა (არ გაგაბრუო):</b> 3 კვირაში ამ ციკლზე პარტნიორის მოძებნა + ერთობლივი განაცხადი რეალურად მჭიდროა. ამიტომ გრანტს ვუყურებ <b>არხად, არა deadline-სპრინტად</b>: (ა) ის ამტკიცებs რომ სახელმწიფო ფულს იხდის ზუსტად ჩვენი საქმისთვის, (ბ) გვაძლevs ლეგიტიმურ მიზეზს საკვირაო-სკოლებთან დასაკავშირებლად ახლავე, (გ) მომდევნო ციკლზე მზად ვიქნებით. <b>Gemini-ც ეთანხმება: გრანტი = „trojan horse" B2B2C პარტნიორობისთვის.</b>
+  </div>
+
+  <h2>1 · გადაწყვეტილების ცხრილი (yes / no / არჩევანი)</h2>
+  <table>
+    <tr><th>#</th><th class="q">გადაწყვეტილება</th><th class="niko">🦉 Niko-ს call</th><th class="gem">🔷 Gemini-ს call</th><th class="ans">შენი პასუხი</th></tr>
+
+    <tr>
+      <td>D1</td>
+      <td class="q">Spearhead = <b>დიასპორა (B)</b> ანაღდებს, საქართველო = უფასო funnel. <span class="pill pick">lock?</span></td>
+      <td class="niko"><b>B</b>. შენი ერთადერ moat (ქართ. ხმა/კითხვა) აქ „must-have", თბილისში „nice-to-have".</td>
+      <td class="gem"><b class="agree">B</b>. დიასპორას ენის არსებითი საჭიროება აქვს, თბილისს ინგლისი/მათემატიკა.</td>
+      <td class="ans">დიახ / არა</td>
+    </tr>
+    <tr>
+      <td>D2</td>
+      <td class="q">დიასპორის მონეტიზაცია = <b>subscription</b> (თვიური); GE = უფასო. <span class="pill yes">yes/no</span></td>
+      <td class="niko"><b>დიახ</b>. content-treadmill-ს subscription უხდება, არა ერთჯერადი.</td>
+      <td class="gem"><b class="agree">YES</b>. EU/US მშობელი subscription-ზე „pre-trained"-ია, WTP მაღალია.</td>
+      <td class="ans">დიახ / არა</td>
+    </tr>
+    <tr>
+      <td>D3</td>
+      <td class="q"><b>შევაჩეროთ ახალი უფასო feature-ები</b> და გადავინაცვლოთ production-readiness + გრანტ/პარტნ. მზადებაზე. <span class="pill yes">yes/no</span></td>
+      <td class="niko"><b>დიახ</b>. პროდუქტი უკვე საკმარისად მდიდარია; ახლა distribution + სანდოობა წყვეტს.</td>
+      <td class="gem"><b class="agree">YES</b>. დამატებითი feature = procrastination; მთავარია distribution + reliability.</td>
+      <td class="ans">დიახ / არა</td>
+    </tr>
+    <tr>
+      <td>D4</td>
+      <td class="q">გრანტი „ჩემი ქართული სკოლა" <b>პარტნიორ სკოლასთან ერთად</b> ვიგდოთ (B2B2C). <span class="pill yes">yes/no</span></td>
+      <td class="niko"><b>დიახ</b>, არხად — არა ამ deadline-ის სპრინტად. გვაიძულებს პარტნიორობას + ნდობას + არადამხსნელ ფულს.</td>
+      <td class="gem"><b class="agree">YES</b>. გრანტი = trojan horse სკოლებთან პარტნიორობისთვის.</td>
+      <td class="ans">დიახ / არა</td>
+    </tr>
+    <tr>
+      <td>D5</td>
+      <td class="q"><b>ამბიცია:</b> a) lifestyle/მისიის ბიზნესი · b) venture-scale heritage-language პლატფორმა (მოგვიანებით სხვა დიასპორებზეც) · c) უფასო საჩუქარი. <span class="pill pick">pick</span></td>
+      <td class="niko"><b>b</b>, ოღონ ფოკუსირებული დასაწყისით: ჯერ ქართული დიასპორა მაგრად, მერე abstraction.</td>
+      <td class="gem"><b class="diverge">b</b>. solo-AI-დამფუძნებელმა გლობალური ნიშა ააშენოს, templatable სომხურ/სხვა დიასპორებზე.</td>
+      <td class="ans">a / b / c</td>
+    </tr>
+    <tr>
+      <td>D6</td>
+      <td class="q"><b>მისია</b> — აირჩიე ფორმულირება (იხ. §3). <span class="pill pick">M1 / M2</span></td>
+      <td class="niko"><b>M1</b> (იდენტობა-ფოკუსი, ყველაზე ემოციური).</td>
+      <td class="gem">„ვერც ერთი ქართველი ბავშვი არ გაუცხ. მშობლ. ენას" (≈M1).</td>
+      <td class="ans">M1 / M2</td>
+    </tr>
+    <tr>
+      <td>D7</td>
+      <td class="q"><b>KVP</b> (key value proposition) — აირჩიე (იხ. §3). <span class="pill pick">K1 / K2</span></td>
+      <td class="niko"><b>K1</b> (კონკრეტული: ნამდვილი ხმა + ყოველდღე + სახლში).</td>
+      <td class="gem">„ციფრული ხიდი ფესვებთან, ნამდვილი ხმით" (≈K2).</td>
+      <td class="ans">K1 / K2</td>
+    </tr>
+    <tr>
+      <td>D8</td>
+      <td class="q"><b>Positioning</b> ერთხაზიანი — აირჩიე (იხ. §3). <span class="pill pick">P1 / P2</span></td>
+      <td class="niko"><b>P1</b> „შენი შვილი ქართველად დარჩება, სადაც უნდა ცხოვრობდე."</td>
+      <td class="gem">identity + preservation, არა „education" (≈P1).</td>
+      <td class="ans">P1 / P2</td>
+    </tr>
+    <tr>
+      <td>D9</td>
+      <td class="q"><b>პარტნიორი</b> — ვის ვეძებთ ჯერ? a) დიასპ. დისტრიბუცია/თემი · b) ქართ. content/პედაგოგიკა · c) კაპიტალი · d) ჯერ არავის. <span class="pill pick">pick</span></td>
+      <td class="niko"><b>a</b> (distribution). შენი ნაკლული რგოლი = დიასპორასთან წვდომა, არა პროდუქტი.</td>
+      <td class="gem">B2B2C სკოლები = კრიტიკული რგოლი (ეთანხმება a-ს ლოგიკას).</td>
+      <td class="ans">a/b/c/d</td>
+    </tr>
+    <tr>
+      <td>D10</td>
+      <td class="q"><b>Moat-ის გადააზრება:</b> „ნამდვილი ხმა" ცალკე საკმარისი moat აღარ იქნება — გადავინაცვლოთ <b>კურაცია + უსაფრთხოება + ნიკო ბუ ბრენდი + პედაგოგ. ავტორიტეტი</b>-ზე? <span class="pill yes">yes/no</span></td>
+      <td class="niko"><b>დიახ</b> (ეს უკვე challenge #5-ში გვქონდა; Gemini-მ გაამყარა).</td>
+      <td class="gem"><b class="diverge">გამოწვევა:</b> ქართ. AI-TTS უმჯობესდება, ხმის moat ქრება — გადადი „cultural pedagogical authority"-ზე.</td>
+      <td class="ans">დიახ / არა</td>
+    </tr>
+    <tr>
+      <td>D11</td>
+      <td class="q"><b>Retention = production-must:</b> streak/ყოველდღიური რიტუალი + მსუბუქი ნარატივი ჩავთვალოთ აუცილებლობად (არა მოგვიანებით). <span class="pill yes">yes/no</span></td>
+      <td class="niko"><b>დიახ</b>. subscription retention-ზე დგას.</td>
+      <td class="gem"><b class="diverge">#1 რისკი:</b> „heritage guilt" ყიდის, მაგრამ თუ Roblox-ივით არ ეჭიდება, ბავშვი თავს ანებებს → მშობელი cancel-ს. </td>
+      <td class="ans">დიახ / არა</td>
+    </tr>
+  </table>
+  <p class="sub">🟢 = Niko და Gemini თანხმდებიან &nbsp; · &nbsp; 🟠 = Gemini-მ გამოწვევა/დამატება შემოიტანა (D5 ამბიცია, D10 moat, D11 retention).</p>
+
+  <h2>2 · 9 სტრატეგიული გამოწვევა — ჩაკეტილი პოზიცია (დაადასტურე ან მონიშნე)</h2>
+  <div class="card">
+    <ol>
+      <li><b>მშობელი = მყიდველი, ბავშვი = მომხმარებელი.</b> Lock: dashboard/მშობლის გამოცდილება = პროდუქტი მყიდველისთვის; თამაში = მიწოდების მექანიზმი. <b>დიასპორაში მშობლის JTBD = „შვილს ქართული შევუნარჩუნე".</b> ✅</li>
+      <li><b>ქართული-ჯერ = moat, ინგლისი = commodity.</b> Lock: ✅ (იხ. D10 — ხმას ვამატებთ კურაცია+ბრენდ+ავტორიტეტს).</li>
+      <li><b>ორი აუდიტორია.</b> Lock: დიასპორა = ფასიანი spearhead, GE ინგლისი/მათემ. = უფასო funnel. „ორი პროდუქტის" შიში = მართვადი, ერთ data-ზე. ✅</li>
+      <li><b>ასაკი vs უნარი.</b> Lock: ახლა age-band UX; content კი skill-ატომებად (DAG + prerequisites + modality tags) — ეს ერთი არქიტექტურა ღირს დღესვე სწორად. ✅</li>
+      <li><b>AI content.</b> Lock: AI = backend-ფაბრიკა, არა სარეკლამო feature; moat = კურაცია + უსაფრთხ. + ბრენდი. ✅ (Gemini-მ გააძლიერა D10).</li>
+      <li><b>შედეგი vs პროცესი.</b> Lock: ვყიდით პროცესის მტკიცებას („ისწავლა N სიტყვა"), არა ტესტ-ქულას (გაზომვადობის ხაფანგი). ✅</li>
+      <li><b>Menu vs adventure = retention.</b> Lock: მშობელს streak/progress, ბავშვს მსუბუქი ნარატივი. ✅ (იხ. D11 — Gemini #1 რისკი).</li>
+      <li><b>ბიზნეს-მოდელი.</b> Lock: subscription დიასპორას, (მოგვ.) one-time/უფასო GE-ს. ✅ (D2).</li>
+      <li><b>Content hierarchy (შენი „უდიდესი უცნობი").</b> Lock: Skill-ატომი + სირთულე + prerequisites = DAG; UX დახატავs menu-დ (ახლა) ან path-ად (მერე) ერთსა და იმავe data-ზე. ✅</li>
+    </ol>
+    <b>კითხვა:</b> რომელ #-ს არ ეთანხმები? (თუ არცერთს — დაწერე „9 ჩაკეტილია".)
+  </div>
+
+  <h2>3 · მისია · KVP · Positioning — აირჩიე ჩასაკეტი ფორმულირება</h2>
+
+  <h3>მისია (D6)</h3>
+  <div class="card">
+    <span class="opt rec"><b>M1:</b> „რომ ვერც ერთი ქართველი ბავშვი არ გაუცხოვდეს მშობლიურ ენას, სადაც უნდა ცხოვრობდეს."</span>
+    <span class="opt"><b>M2:</b> „ვუნარჩუნებთ დიასპორის ბავშვებს ქართულ ენასა და იდენტობას — სახლის თბილი, უსაფრთხო გარემოთი."</span>
+  </div>
+
+  <h3>KVP — Key Value Proposition (D7)</h3>
+  <div class="card">
+    <span class="opt rec"><b>K1:</b> „ერთადერთი თამაშური აპი, რომელიც დიასპორელ ბავშვს ნამდვილი ქართული ხმით ასწავლის კითხვა-წერას — ყოველდღე, სახლში."</span>
+    <span class="opt"><b>K2:</b> „ციფრული ხიდი, რომელიც დიასპორის ბავშვს ფესვებთან აბრუნებს — ნამდვილი ქართული ხმითა და წიგნიერებით."</span>
+  </div>
+
+  <h3>Positioning ერთხაზიანი (D8)</h3>
+  <div class="card">
+    <span class="opt rec"><b>P1:</b> „NikoLearn — შენი შვილი ქართველად დარჩება, სადაც უნდა ცხოვრობდე."</span>
+    <span class="opt"><b>P2:</b> „NikoLearn — დიასპორის ბავშვის ქართული ენისა და იდენტობის სახლი."</span>
+  </div>
+
+  <h2>4 · მას შემდეგ რაც მიპასუხებ — „then execute" (რას ვაკეთებ ავტონომიურად)</h2>
+  <div class="act">
+    <b>თუ D1-D4 = დიახ, ვიწყებ (კოდი + მზადება, შენი ჩარევის გარეშე):</b>
+    <ol>
+      <li><b>Production-readiness sweep:</b> PWA install + offline + სიჩქარე/სანდოობა + onboarding დიასპორელი მშობლისთვის (ka/en) + retention მექანიკა (streak/ყოველდღ. რიტუალი — D11).</li>
+      <li><b>დიასპორა-positioning landing:</b> hero/მესიჯი P-ზე გადავწყობ (preservation, არა „education"); ka/en.</li>
+      <li><b>Subscription არქიტექტურის გეგმა</b> (Supabase auth + Paddle/Lemon Squeezy — GE-seller-check) — გეგმა ჯერ, ფული მერე, შენი „go"-ით.</li>
+      <li><b>გრანტ/პარტნ. პაკეტი:</b> 1-გვერდიანი outreach საკვირაო-სკოლებისთვის + სია (78-180 სკოლა, ქვეყნებად) + diaspora@mfa.gov.ge შაბლონი.</li>
+      <li><b>diaspora.ge-ს „დისტანციური სკოლის" შემოწმება</b> (ცოცხალი გაკვეთილი თუ აპი) — competitor/collaborator გასარკვევად.</li>
+    </ol>
+    ფული/გადახდა და customer-facing live-გაშვება = მხოლოდ შენი ცალკე „go". დანარჩენი = ვაკეთებ და გაჩვენებ შედეგს.
+  </div>
+
+  <div class="foot">
+    წყაროები: GeoStat/განათლების სამინ. 2025/26 (TAM) · MFA/Civil.ge (დიასპორა 1.5M) · diaspora-tv.com + edu.aris.ge + parliament.ge (78-180 საკვირაო სკოლა, 3000+ ბავშვი) · mfa.gov.ge/news/077749 (გრანტი „ჩემი ქართული სკოლა", დასაშვები განმცხადებლები) · diaspora.ge.<br>
+    SSOT: <code>docs/PRODUCT_IDEAS.md → 🧭 STRATEGIC EXPLORATION</code>. ეს ფაილი: <code>output/2026-06-08-NikoLearn სტრატეგიული გადაწყვეტილების მოდელი by Niko.html</code>. Gemini = ალტერნატიული AI მეორე აზრი (cross-model). კოდი არ შეცვლილა (Lane B).
+  </div>
+
+</div>
+</body>
+</html>
