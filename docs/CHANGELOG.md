@@ -2,6 +2,16 @@
 
 Human-readable log. Full audit trail = git history (`git log`, 70+ commits).
 
+## v1.89 — 2026-06-08 (launch-prep: privacy policy + honest privacy copy)
+- **New `privacy.html`** (Georgian + English, language toggle): a real privacy policy written to GDPR
+  grade with COPPA (US) and Georgian Law on Personal Data Protection sections. Reflects the app's genuine
+  privacy-by-design (on-device only, no accounts, no child PII), and discloses the cookieless Cloudflare
+  Web Analytics + landing-only Microsoft Clarity. Linked from the landing footer. (DRAFT v1: best-practice,
+  not legal advice — have a lawyer review the final wording before a US push, and confirm the controller entity.)
+- **Honest privacy copy:** the landing's absolute "მონაცემები ... არსად იგზავნება" (data is sent nowhere)
+  is now "ბავშვის სასწავლო მონაცემები რჩება მხოლოდ შენს მოწყობილობაზე" — true alongside the new cookieless
+  aggregate analytics. Closes the copy-vs-analytics gap introduced in v1.86.
+
 ## v1.88 — 2026-06-08 (launch-prep: analytics facade set dormant)
 - **Decision (owner):** keep the facade + per-screen hooks in the code but turn the provider **OFF**
   for the production launch, so `Analytics.screen()` is a pure no-op and the app's URL never changes.
