@@ -122,24 +122,30 @@ export default {
 
     const ua = coarseUA(request.headers.get('User-Agent')); // bucketed, never stored raw
     const date = today();
-    const ops = [];
 
+    // Tally per-key deltas for THIS request FIRST, then do one read-modify-write per unique key.
+    // (Writing one increment per event raced: two same-key events in a batch both read the old value
+    //  and both wrote old+1, losing a count. Summing deltas per key first fixes the within-request race.)
+    const deltas = new Map();
+    const add = (k, n) => deltas.set(k, (deltas.get(k) || 0) + n);
     for (const raw of events) {
       const e = clean(raw);
       if (!e) continue; // silently drop invalid (no error detail that could leak)
       // aggregate key: date | event | sorted enum dims (numeric props are summed, not keyed)
       const dims = Object.entries(e.props).filter(([, v]) => typeof v === 'string')
         .sort(([a], [b]) => a.localeCompare(b)).map(([k, v]) => `${k}=${v}`).join(',');
-      const key = `c|${date}|${e.name}|${ua.deviceType}|${dims}`;
-      ops.push(env.NIKO_T.get(key).then(cur => env.NIKO_T.put(key, String((parseInt(cur || '0', 10) || 0) + 1))));
+      add(`c|${date}|${e.name}|${ua.deviceType}|${dims}`, 1);
       // numeric measures → running sum + count for averages (e.g. time_to_success_ms)
       for (const [k, v] of Object.entries(e.props)) {
         if (typeof v === 'number') {
-          const sk = `s|${date}|${e.name}|${k}`, nk = `n|${date}|${e.name}|${k}`;
-          ops.push(env.NIKO_T.get(sk).then(cur => env.NIKO_T.put(sk, String((parseInt(cur || '0', 10) || 0) + v))));
-          ops.push(env.NIKO_T.get(nk).then(cur => env.NIKO_T.put(nk, String((parseInt(cur || '0', 10) || 0) + 1))));
+          add(`s|${date}|${e.name}|${k}`, v);
+          add(`n|${date}|${e.name}|${k}`, 1);
         }
       }
+    }
+    const ops = [];
+    for (const [key, delta] of deltas) {
+      ops.push(env.NIKO_T.get(key).then(cur => env.NIKO_T.put(key, String((parseInt(cur || '0', 10) || 0) + delta))));
     }
     await Promise.allSettled(ops);
     // 204: no body, nothing that could echo identity back

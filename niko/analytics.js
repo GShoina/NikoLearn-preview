@@ -52,16 +52,39 @@
         } catch (e) {}
       },
       event: function () { /* CF Web Analytics free has no custom-events API */ }
-    }
+    },
 
-    // ── Future provider example (kept off; enable in production) ───────────────
-    // custom: {
-    //   on: false,
-    //   screen: function (path)      { send({ t: 'screen', p: path }); },
-    //   event:  function (name, data){ send({ t: 'event', n: name, d: data }); }
-    // }
-    // function send(payload){ try{ navigator.sendBeacon('/__t', JSON.stringify(payload)); }catch(e){} }
+    // First-party telemetry Worker (privacy-minimized, aggregate-only) — deployed 2026-06-09.
+    // Receives ONLY a coarse subject/screen mapped to an allow-listed enum event; no PII, no cookies,
+    // no IP (the Worker never reads the IP — see cloudflare/telemetry-worker.js). The send() is fully
+    // try/caught + fire-and-forget: if the Worker is unreachable the app is completely unaffected.
+    custom: {
+      on: true,
+      screen: function (path) {
+        var mode = mapMode(path);
+        if (mode) send({ name: 'mode_usage', mode: mode });
+      },
+      event: function () { /* reserved: only allow-listed events; none wired yet */ }
+    }
   };
+
+  // map the app's screen path → the Worker's mode_usage enum (anything unmapped is NOT sent)
+  var ENDPOINT = 'https://nikolearn-t.bivision.workers.dev/v1/t';
+  function mapMode(path) {
+    if (path === 'movement') return 'movement';
+    if (path.indexOf('subject/') === 0) {
+      var M = { math: 'math', counting: 'counting', english: 'english',
+        'en-alpha': 'alphabet', 'ka-alpha': 'alphabet',
+        'kings-eng': 'kings', 'kings-math': 'kings', reading: 'reading' };
+      return M[path.slice(8)] || null;
+    }
+    return null; // 'home' etc. → not a lesson, not sent
+  }
+  function send(ev) {
+    var body = JSON.stringify({ events: [ev] });
+    try { if (navigator.sendBeacon && navigator.sendBeacon(ENDPOINT, body)) return; } catch (e) {}
+    try { fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body, keepalive: true, mode: 'no-cors' }); } catch (e) {}
+  }
 
   function fanout(method, a, b) {
     if (OFF) return;

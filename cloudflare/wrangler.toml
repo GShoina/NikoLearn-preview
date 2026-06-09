@@ -5,11 +5,12 @@ name = "nikolearn-t"
 main = "telemetry-worker.js"
 compatibility_date = "2026-06-06"
 workers_dev = true
+preview_urls = false   # only the stable workers.dev route is public; no extra preview surface
 
 # ── KV: aggregate counters ONLY (no per-user rows). Replace id after `wrangler kv:namespace create NIKO_T`.
 [[kv_namespaces]]
 binding = "NIKO_T"
-id = "REPLACE_WITH_KV_NAMESPACE_ID"
+id = "9dcf62cbcff34d6295f67d9d9227aa78"
 
 # ── Observability OFF — no request logs, no traces. (Cloudflare default is off for new Workers;
 #    we pin it explicitly so it can never be silently enabled.)
