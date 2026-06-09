@@ -7,6 +7,13 @@
 > audio to his speakers. EXCEPTION: when he must LISTEN to compare candidates (e.g. the "რვა" variants),
 > generate the files + open a LOCAL compare HTML he plays himself (that's his choice, not auto-blast).
 
+> **🧹 STANDING RULE (owner, 2026-06-09) — CLEAN UP MY OWN TEMP FILES.** Verification screenshots / audio
+> candidates / compare pages I generate land in `C:\Users\gela.shonia\` and pile up. Delete my own temp
+> artifacts at the end of each task (NikoLearn-named: `niko-*`, `rva*`, `num*`, `alpha-*`, `cf-*`,
+> `*-compare.html`, `privacy-live.*`) + clear `.playwright-mcp`. Do NOT touch other projects' files (silo).
+> NOTE: as of 2026-06-09 there are ~598 old screenshots (174MB) from OTHER projects' sessions in the home
+> root — flagged to owner, awaiting his OK to bulk-clear (outside NikoLearn lane).
+
 ## 📋 BOARD (Go vs Plan protocol — see CLAUDE.md §9)
 **NOW (Lane A, build queue, v1.7x NPV):** #1 alphabet multi-font ✅ v1.77 · #2 syllable builder ✅ v1.78 · more reading content (18 words / 14 sentences) ✅ v1.79 · writing/tracing ✅ v1.79. Georgian reading suite is now broad. NEXT ideas: even more words/sentences; trace stroke-order guides; English-side depth. **To add reading words/sentences: append to READING_KA / READING_SENT_KA + generate ka clips (edge-tts ka-GE-EkaNeural) + manifest entry (key = exact text lowercased).**
 **PARKED (Lane B, strategy, IN PROGRESS not finalized):** mission + KVP + positioning grilldown STARTED 2026-06-06 (see strategy blockquote below + `docs/PRODUCT_IDEAS.md` → "🧭 STRATEGIC EXPLORATION" SSOT + `output/2026-06-06-NikoLearn სტრატეგიული Grilldown by Niko.html`). LOCKED so far: NikoLearn = active venture (not hobby), owner may seek a partner; TAM facts (GeoStat 2025/26) = private-primary beachhead **40,672, growing**, 10% pen ≈ 0.6-1M ₾/yr. PAUSED at the spearhead fork (GE private-primary ICP=Ver.A narrowed vs diaspora=Ver.B). STILL TODO: pick fork → walk 9 challenges → lock mission/KVP, THEN redo competitor work as idea-mining/abundance lens. v2.0 = product milestone (design overhaul + premium/backend + 10-12 content; parent-voice stories = O3 flagship) — after features mature + a pay signal + mission/KVP.
