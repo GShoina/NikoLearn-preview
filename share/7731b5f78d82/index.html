@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>NikoLearn — სტრატეგიული სახელმძღვანელო</title>
+<title>NikoLearn — Grilldown v2 (ხელახლა გახსნილი)</title>
 <style>
   :root{--p:#6B5BD0;--p2:#8a7be6;--g:#1f9d57;--ink:#1f2333;--mut:#6b7080;--line:#e6e3f5;--bg:#faf9ff;--warn:#c9772b;--no:#c0392b;}
   *{box-sizing:border-box}
@@ -21,192 +21,148 @@
   @keyframes fade{from{opacity:.4}to{opacity:1}}
   h2{font-size:18px;margin:4px 0 10px}
   h3{font-size:15px;margin:15px 0 6px;color:var(--p)}
-  /* status pills */
-  .st{display:inline-block;font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:20px;vertical-align:middle}
-  .ok{background:#e4f6ea;color:var(--g)} .open{background:#fff3df;color:var(--warn)} .re{background:#eef0fb;color:var(--p)} .x{background:#fbeae4;color:var(--no)}
-  /* canvas rows */
-  .row{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 13px;margin:8px 0}
-  .row .lab{font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--mut);font-weight:700;margin-bottom:3px;display:flex;justify-content:space-between;align-items:center;gap:8px}
-  .row .val{font-size:14.5px}
-  .row.openrow{border-left:4px solid var(--warn)} .row.rerow{border-left:4px solid var(--p)} .row.okrow{border-left:4px solid var(--g)}
-  .tiny{color:var(--mut);font-size:12px}
-  .summary{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 4px}
-  .summary span{background:#fff;border:1px solid var(--line);border-radius:20px;padding:4px 11px;font-size:12.5px;font-weight:600}
+  .card{background:#fff;border:1px solid var(--line);border-radius:11px;padding:12px 15px;margin:9px 0}
+  .fix{background:#eef9f1;border:1px solid #cdeed8;border-left:5px solid var(--g);border-radius:11px;padding:12px 15px;margin:9px 0}
+  .fix b{color:var(--g)}
+  .truth{background:#fff;border:1px solid var(--line);border-left:5px solid var(--no);border-radius:11px;padding:11px 14px;margin:9px 0}
+  .truth b{color:var(--no)}
+  .big{background:linear-gradient(100deg,#6B5BD0,#8a7be6);color:#fff;border-radius:14px;padding:15px 17px;font-size:16px;font-weight:600;margin:10px 0}
+  .who{font-size:11px;font-weight:700;padding:1px 7px;border-radius:20px;background:#eef0fb;color:var(--p2)}
+  .who.nk{background:#e4f6ea;color:var(--g)}
   table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;font-size:13px;margin:8px 0}
-  th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--line);vertical-align:top}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
   th{background:#f1eefc;font-weight:600}
-  .big{background:linear-gradient(100deg,#6B5BD0,#8a7be6);color:#fff;border-radius:14px;padding:14px 16px;font-size:16px;font-weight:600;margin:10px 0}
-  .arc{display:grid;gap:10px;margin:10px 0}
-  .arc .c{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;border-left:5px solid var(--p2)}
-  .arc .c.now{border-left-color:var(--warn)} .arc .c.to{border-left-color:var(--g)}
-  .arc .c b{display:block;font-size:11px;text-transform:uppercase;color:var(--mut);margin-bottom:3px}
-  .rec{border:1.5px solid var(--g);background:#f4fbf6;border-radius:12px;padding:11px 14px;margin:9px 0}
-  .rec b{color:var(--g)}
-  .nod{background:#fff7ee;border:1px solid #f0d8b8;border-left:5px solid var(--warn);border-radius:10px;padding:10px 14px;margin:9px 0}
-  .step{position:relative;padding:9px 0 9px 20px;border-left:2px solid var(--line);margin-left:5px}
-  .step::before{content:"";position:absolute;left:-7px;top:13px;width:12px;height:12px;border-radius:50%;background:var(--p)}
-  .step .d{font-size:11.5px;color:var(--mut);font-weight:700}
-  .step .ch{color:var(--warn);font-weight:600;font-size:13.5px}
+  .ab{border:1.5px solid var(--line);border-radius:12px;padding:13px 15px;margin:10px 0;background:#fff}
+  .ab.a{border-color:var(--p2)} .ab.b{border-color:var(--g)}
+  .ab h3{margin-top:0}
+  .ab .dim{font-size:13.5px;margin:4px 0}
+  .ab .dim b{color:var(--mut);font-weight:700}
+  ul,ol{margin:5px 0;padding-left:19px}li{margin:4px 0}
   a.btn{display:block;background:#fff;border:1px solid var(--line);border-left:5px solid var(--p);border-radius:10px;padding:11px 14px;margin:8px 0;text-decoration:none;color:var(--ink)}
   a.btn b{color:var(--p)}
-  ul,ol{margin:5px 0;padding-left:19px}li{margin:4px 0}
   code{background:#f1eefc;padding:1px 5px;border-radius:5px;font-size:12px}
-  .leg{font-size:12px;color:var(--mut);margin:2px 0 10px}
+  .tiny{color:var(--mut);font-size:12px}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <h1>🦉 NikoLearn — სტრატეგიული სახელმძღვანელო</h1>
-    <p class="sub">2026-06-08 · by Niko · ერთიანი ცოცხალი დოკ. · 🦉 Niko + 🔷 Gemini · agile, მაგრამ მთლიანი სურათით</p>
+    <h1>🦉 NikoLearn — Grilldown v2 (ხელახლა გახსნილი)</h1>
+    <p class="sub">2026-06-09 · by Niko · Lane B / PLAN · არაფერია დაკეტილი · 🦉 Niko + 🔷 Gemini · <b>ორივე აუდიტორია</b></p>
   </header>
 
   <div class="tabs">
-    <button class="active" data-t="canvas">📌 სტრატეგია</button>
-    <button data-t="open">❓ ღია კითხვები</button>
-    <button data-t="arc">🧭 საიდან→სად</button>
-    <button data-t="pos">🎯 პოზიცია</button>
-    <button data-t="moat">🏰 Moat·ხარჯი</button>
-    <button data-t="dyn">🗺️ დინამიკა</button>
-    <button data-t="next">▶ შემდეგ</button>
+    <button class="active" data-t="fix">⚠️ რა გავასწორე</button>
+    <button data-t="truth">🔥 უხერხული სიმართლე</button>
+    <button data-t="engine">⚙️ ერთი ძრავა, ორი ლინზა</button>
+    <button data-t="ai">🤖 AI: moat vs theater</button>
+    <button data-t="va">🅰️ Version A</button>
+    <button data-t="vb">🅱️ Version B</button>
+    <button data-t="open">❓ ღია</button>
   </div>
 
-  <!-- CANVAS -->
-  <section id="canvas" class="active">
-    <h2>📌 სტრატეგია ერთ გვერდზე</h2>
-    <p class="leg">სტატუსი: <span class="st ok">✅ გვაქვს</span> ჩაკეტილია · <span class="st open">⏳ ღია</span> შენი პასუხი მჭირდება · <span class="st re">🤔 გადასააზრ.</span></p>
-    <div class="summary"><span>✅ ჩაკეტილი: 9</span><span>⏳ ღია: 6</span><span>🤔 გადასააზრ.: 2</span></div>
-
-    <div class="row okrow"><div class="lab">1 · მიზანი (Objective) <span class="st ok">✅</span></div><div class="val">გადამხდელი, დამოუკიდებელი venture (არა hobby) — heritage-language პლატფორმა.</div></div>
-    <div class="row okrow"><div class="lab">2 · ხედვა (Vision) <span class="st ok">✅</span></div><div class="val">ვერც ერთი დიასპორელი ქართველი ბავშვი არ დაკარგოს ქართული. მერე — იგივე ძრავა სხვა ენებზე.</div></div>
-    <div class="row okrow"><div class="lab">3 · მისია (Mission) <span class="st ok">✅</span></div><div class="val">„რომ ვერც ერთი ქართველი ბავშვი არ გაიზარდოს მშობლიური ენისთვის უცხოდ — სადაც უნდა ცხოვრობდეს."</div></div>
-    <div class="row okrow"><div class="lab">4 · აუდიტორია / ICP <span class="st ok">✅</span></div><div class="val">დიასპორელი ქართველი მშობელი (2nd-gen); ბავშვი ~4-10, ქართულს კარგავს; subscription-ს ჩვეული. <span class="tiny">(beachhead ქვეყანა → იხ. #5)</span></div></div>
-    <div class="row openrow"><div class="lab">5 · გეოგრაფია <span class="st open">⏳</span></div><div class="val">⭐ რეკ.: ჯერ EU/US (საბერძნეთი·იტალია·გერმანია·აშშ — გადახდისუნარი + ემოც. ფეშქაში). რუსეთი (700K) — მერე (payment friction). საქართველო = უფასო funnel. <b>რომელ ერთ ქვეყანას ვუმიზნებთ პირველს?</b></div></div>
-    <div class="row openrow"><div class="lab">6 · პოზიციონირება <span class="st open">⏳ N1</span></div><div class="val">იდენტობა/შენარჩუნება, არა „განათლება". (ფორმულირება — იხ. „🎯 პოზიცია", ელოდება N1.)</div></div>
-    <div class="row openrow"><div class="lab">7 · სლოგანი <span class="st open">⏳ N1</span></div><div class="val">⭐ „ილაპარაკე ქართულად. დარჩი ქართველად." (დასადასტურ.)</div></div>
-    <div class="row openrow"><div class="lab">8 · KVP <span class="st open">⏳ N1</span></div><div class="val">⭐ „შენი შვილი ბებიას ქართულად დაელაპარაკება — და ქართველად დარჩება." (დასადასტურ.)</div></div>
-    <div class="row okrow"><div class="lab">9 · ბიზნეს-მოდელი <span class="st ok">✅</span></div><div class="val">D2C subscription (პირდაპირ მშობელთან). GE = უფასო funnel. სკოლა = „ტროას-ცხენი" არხი, არა დამოკიდებულება.</div></div>
-    <div class="row openrow"><div class="lab">10 · ფასი <span class="st open">⏳</span></div><div class="val">⭐ რეკ.: ~$5-7/თვე ან წლიური ფასდაკლებით. <b>ფასი ჯერ არ დაგვიდგენია — შენი call.</b></div></div>
-    <div class="row okrow"><div class="lab">11 · Moat / დიფერენც. <span class="st ok">✅</span></div><div class="val">ბრენდი + Heritage Map (მონაცემი/switching cost) + ბებიის ხმა (UGC) + first-mover. <b>audio აღარ არის moat.</b></div></div>
-    <div class="row rerow"><div class="lab">12 · არხი / GTM <span class="st re">🤔</span></div><div class="val">D2C პირდაპირ (დამოუკიდებლობა) + სკოლა-trojan-horse. <b>პარტნიორის ზუსტი როლი გასარკვევია (#16).</b></div></div>
-    <div class="row okrow"><div class="lab">13 · პროდუქტი (scope) <span class="st ok">✅</span></div><div class="val">ქართ. კითხვა/წერა/ანბანი (ბირთვი) + retention. content-agnostic engine. Grandparent Portal (N2).</div></div>
-    <div class="row okrow"><div class="lab">14 · ამბიცია / Scale <span class="st ok">✅</span></div><div class="val">venture; templatable ES/FR/RU (12 თვის შემდეგ, ქართულის შემდეგ).</div></div>
-    <div class="row openrow"><div class="lab">15 · North-star მეტრიკა <span class="st open">⏳</span></div><div class="val">⭐ რეკ.: გადამხდელი, შენარჩუნებული ოჯახები (retained paying families). <b>ეთანხმები?</b></div></div>
-    <div class="row rerow"><div class="lab">16 · პარტნიორი <span class="st re">🤔</span></div><div class="val">distribution-პარტნ. (დიასპ. წვდომა) — მაგრამ გინდა მაქს. დამოუკიდებლობა. <b>როლი = მხოლოდ არხი? თუ თანადამფ.? გადასააზრ.</b></div></div>
+  <!-- FIX -->
+  <section id="fix" class="active">
+    <h2>⚠️ რა გავასწორე (გულახდილად)</h2>
+    <div class="truth"><b>ჩემი შეცდომა:</b> ძალიან მივაჭირე „დაკეტვას" და <b>დიასპორა მთელ მისიად ვაქციე</b>. შენი ორი-აუდიტორიის ხედვა (საქართველოს ბავშვები — ინგლისი/მათემატიკა/განვითარება) ჩავკუმშე და დავკარგე. შენი brief ჩემს კონტექსტში არ იყო — მხოლოდ შეკუმშული შეჯამება. ახლა <code>docs/OWNER_GRILLDOWN_BRIEF.md</code>-ში ზუსტად ინახება.</div>
+    <div class="big">Spearhead ≠ მისია. დიასპორა = სად არის <u>პირველი ფასიანი დოლარი</u> ყველაზე ადვილი. ეს არ ნიშნავს რომ საქართველოს ბავშვებს ვტოვებთ.</div>
+    <div class="fix"><b>გასწორებული მისია (ორივე აუდიტორია):</b><br>„რომ ყველა ქართველმა ბავშვმა — საქართველოში თუ მის გარეთ — მიიღოს უსაფრთხო, ხარისხიანი სივრცე, სადაც ისწავლის იმას, რაც სჭირდება (ინგლისი/მათემატიკა სახლში · ქართული/იდენტობა საზღვარგარეთ) და განვითარდება."</div>
+    <p class="tiny">ეს დოკ. = PLAN. არაფერი არ არის „locked". ყველაფერი შენი რეაქციისთვისაა. წინა „სახელმძღვანელო" (over-locked) ამით იცვლება.</p>
   </section>
 
-  <!-- OPEN QUESTIONS -->
-  <section id="open">
-    <h2>❓ ღია კითხვების რეესტრი</h2>
-    <p class="leg">ერთიანი სია: პირველი დღიდან + მერე გაჩენილი. ჯერ ის, რასაც <b>შენი პასუხი სჭირდება</b>, მერე უკვე ნაპასუხები.</p>
-
-    <h3>⏳ ღია — შენი პასუხი მჭირდება</h3>
-    <table>
-      <tr><th>#</th><th>კითხვა</th><th>სტატ.</th></tr>
-      <tr><td>N1</td><td>KVP + სლოგანის ფორმულირება — ვკეტავ ⭐ ვერსიებს?</td><td><span class="st open">⏳</span></td></tr>
-      <tr><td>N2</td><td>Grandparent Portal — phase-2 (ჯერ backend) თუ ახლავე flagship?</td><td><span class="st open">⏳</span></td></tr>
-      <tr><td>Q3</td><td><b>გეოგრაფია:</b> რომელ ერთ დიასპორა-ქვეყანას ვუმიზნებთ პირველს?</td><td><span class="st open">⏳</span></td></tr>
-      <tr><td>Q4</td><td><b>ფასი:</b> თვიური subscription რამდენი? (~$5-7 რეკ.)</td><td><span class="st open">⏳</span></td></tr>
-      <tr><td>Q5</td><td><b>North-star მეტრიკა:</b> retained paying families — ეთანხმები?</td><td><span class="st open">⏳</span></td></tr>
-      <tr><td>Q6</td><td><b>პარტნიორის როლი:</b> მხოლოდ არხი თუ თანადამფუძნებელი/კაპიტალი?</td><td><span class="st re">🤔</span></td></tr>
-      <tr><td>Q7</td><td><b>ასაკი დიასპორაში:</b> ფოკუსი 4-10 თუ მთლიანი 3-12?</td><td><span class="st re">🤔</span></td></tr>
-      <tr><td>Q8</td><td><b>Validation:</b> 2-3 საკვირაო-სკოლა/მშობელი — გადახდის სურვილი (მხოლოდ შენ შეგიძლია)</td><td><span class="st open">⏳</span></td></tr>
-    </table>
-
-    <h3>✅ ნაპასუხები / ჩაკეტილი</h3>
-    <table>
-      <tr><th>კითხვა</th><th>გადაწყვეტილება</th></tr>
-      <tr><td>Spearhead: GE vs დიასპორა</td><td>✅ <b>დიასპორა (B)</b></td></tr>
-      <tr><td>ბიზნეს-მოდელი</td><td>✅ subscription</td></tr>
-      <tr><td>თანმიმდევრობა</td><td>✅ feature-freeze → production-first</td></tr>
-      <tr><td>ამბიცია</td><td>✅ venture, templatable ES/FR/RU</td></tr>
-      <tr><td>მისია</td><td>✅ M1</td></tr>
-      <tr><td>retention მექანიკა</td><td>✅ აუცილებლობა</td></tr>
-      <tr><td>9 სტრატ. გამოწვევა</td><td>✅ თითო ჩაკეტილი</td></tr>
-      <tr><td>Moat-ის გადააზრება</td><td>✅ audio ≠ moat (ბრენდი+მონაცემი)</td></tr>
-      <tr><td>სახელმწიფო გრანტი</td><td>❌ <b>ამოღებული</b> (პოლიტ. ინსტრუმენტი)</td></tr>
-    </table>
-    <p class="tiny">+ ჩემი task (შენ არ გჭირდება): diaspora.ge-ს ფორმატის შემოწმება (competitor/collaborator).</p>
-    <div class="nod" style="margin-top:14px"><b>შენი GPT-ideation:</b> შენი საწყისი იდეები/სტრატეგიები უკვე ჩაქსოვილია SSOT-ში (<code>docs/PRODUCT_IDEAS.md</code>) და ამ canvas-ში. თუ GPT-სთან ცალკე დოკი გაქვს, რომელიც აქ არ ჩანს — მომაწოდე, პირდაპირ ჩავაერთებ.</div>
+  <!-- TRUTH -->
+  <section id="truth">
+    <h2>🔥 უხერხული სიმართლე (grilldown)</h2>
+    <div class="truth"><b>1. „ორმაგი მისიის" პარადოქსი <span class="who">🔷</span></b><br>solo-დამფუძნებელი ვერ აჭერს ორ მაღალი დონის კურიკულუმს. რისკი: ორივესთვის „ზედაპირული" → მშობელი 3 დღეში შლის. <span class="who nk">🦉 პასუხი:</span> ერთი ძრავა, ორი ლინზა (იხ. ⚙️ ტაბი) — ერთი content-ი ორივეს ემსახურება.</div>
+    <div class="truth"><b>2. „უსაფრთხო გარემო" ≠ USP <span class="who">🔷</span></b><br>უსაფრთხოება baseline-ია, არა გასაყიდი ღირებულება. მშობელი იხდის <b>გაზომვად პროგრესში</b>: „ჩემმა ბავშვმა ქართული წინადადება წაიკითხა" > „უსაფრთხოა". შენი საყვარელი positioning საჭიროა, მაგრამ ქვეშ პროგრესი უნდა ედოს.</div>
+    <div class="truth"><b>3. AI თეატრი <span class="who">🔷</span></b><br>ახლანდელი „tutor" = წესების hint-ძრავა, არა AI. მშობელს „AI"-ად მისი მიყიდვა გაგვიბრუნდება. ნამდვილი AI = content-pipeline ან feedback (იხ. 🤖 ტაბი).</div>
+    <div class="truth"><b>4. „ყველას ვემსახურები" ხაფანგი <span class="who nk">🦉</span></b><br>ორი აუდიტორია სწორია მისიად — მაგრამ <b>go-to-market-ში თანმიმდევრობა გჭირდება</b>. ერთდროულად ორ ბაზარზე მარკეტინგი solo-სთვის თვითმკვლელობაა. ერთით იწყებ ფასიანს (დიასპორა, მაღალი WTP), მეორეს უფასოდ ზრდი.</div>
+    <div class="truth"><b>5. 6-თვიანი შედეგი = პასუხისმგებლობა <span class="who">🔷</span></b><br>„Cambridge ქულა 6 თვეში" — თუ ვერ მიაღწიე, liability. გადაი „საფუძველზე": თავდაჯერება · ყოველდღ. რუტინა · სკოლისთვის მზაობა (უხილავი კურიკულუმი).</div>
   </section>
 
-  <!-- ARC -->
-  <section id="arc">
-    <div class="big">ზოგადი უფასო საბავშვო აპიდან → დიასპორის ფასიან, დამოუკიდებელ heritage-language პლატფორმამდე, სადაც ბავშვი ქართველად რჩება.</div>
-    <div class="arc">
-      <div class="c"><b>საიდან</b>საბავშვო აპი (ქართ.+ინგლ.+მათ.), ყველასთვის 3-12, უფასო. ღია: hobby თუ ბიზნესი? „მყიდველი არ არსებობს" (მცდარი).</div>
-      <div class="c now"><b>ახლა</b>TAM რეალურია. spearhead = დიასპორა. არხი მისაწვდომია (78-180 სკოლა, 3000+ ბავშვი). Niko+Gemini თანხმდებიან.</div>
-      <div class="c to"><b>სად</b>დიასპორა · subscription · D2C დამოუკიდებლობა (near-zero burn) · moat = ბრენდი+მონაცემი+ოჯახი · templatable ES/FR/RU.</div>
+  <!-- ENGINE -->
+  <section id="engine">
+    <h2>⚙️ ერთი ძრავა, ორი ლინზა — გასაღები</h2>
+    <div class="big" style="font-size:15px">ნუ ვტოტავთ პროდუქტს. ერთი ძრავა, „სამიზნე ენის" გადამრთველი.</div>
+    <table>
+      <tr><th>აუდიტორია</th><th>UI ენა (იცის)</th><th>სამიზნე (სწავლობს)</th></tr>
+      <tr><td>🇬🇪 საქართველო</td><td>ქართული</td><td><b>ინგლისური</b> + მათემატიკა</td></tr>
+      <tr><td>🌍 დიასპორა</td><td>ინგლისური/ადგ.</td><td><b>ქართული</b> + იდენტობა</td></tr>
+    </table>
+    <p>მშობელი setup-ზე ირჩევს სამიზნე ენას. ძრავა ცვლის რომელი მხარეა „კითხვა" და რომელი „პასუხი". <b>ერთი content-pair (KA / EN / emoji / audio) ორივე მიმართულებით მუშაობს.</b> <span class="who">🔷</span></p>
+    <h3>content-იერარქია (შენი „უდიდესი უცნობი")</h3>
+    <div class="card">
+      <b>Skill</b> (კითხვის სრბ., ლოგიკა, ლექსიკა) → <b>Module</b> („ტყე", „სკოლაში") → <b>Content-Pair</b> (KA/EN/emoji/audio) → <b>Directional logic</b> (რომელი მხარეა prompt/target).
+      <br><span class="tiny">ეს = content-agnostic engine, რომელზეც ვსაუბრობდით — ოღონ ახლა ორ <u>აუდიტორიას</u> ემსახურება, არა მხოლოდ მომავალ ენებს.</span>
+    </div>
+    <h3>ასაკი vs უნარი (grades 1-3)</h3>
+    <div class="card"><b>verdict:</b> cognitive-capacity. ასაკი = მოტორიკა/ყურადღება; უნარი = სირთულე.<br>
+    პატარებს <b>„რელსი"</b> (auto-progression): მენიუ კი არა, ერთი „დღევანდელი თავგადასავალი" ღილაკი. 3 სწორი = ზემოთ · 5 შეცდომა = ქვემოთ + მშობელს რეპორტი. <b>მენიუ მშობლისთვისაა, რელსი ბავშვისთვის.</b> <span class="who">🔷</span></div>
+  </section>
+
+  <!-- AI -->
+  <section id="ai">
+    <h2>🤖 AI — ნამდვილი moat vs theater</h2>
+    <div class="truth"><b>თეატრი (ყალბი moat):</b> AI ხმოვანი ავატარი, ბავშვს რომ პასუხს აძლევს. ბავშვის მეტყველება ცვალებადია; latency/შეცდომა 6 წლისას გააღიზიანებს.</div>
+    <div class="fix"><b>ნამდვილი moat #1 — AI content-pipeline:</b> LLM-ით ათასობით „Kings-სტილის" ამოცანა და ქართული საკითხავი ტექსტი <u>offline</u> გენერდება და აპში „ჩაცხვება". ეს wგვარს solo-დამფუძნებლის content-მოცულობის პრობლემას.</div>
+    <div class="fix"><b>ნამდვილი moat #2 — „მშობლის თარჯიმანი":</b> AI ნედლ „20/25 სწორი"-ს მშობლისთვის გასაგებ ტექსტად აქცევს: „ნიკომ ცხოველები აითვისა, მაგრამ ინგლისურ 'th' ბგერაზე უჭირს. დღეს [ფრაზა] ერთად წაიკითხეთ." <b>ეს არის „მშობლის სიმშვიდის" პროდუქტი.</b> <span class="who">🔷</span></div>
+    <p class="tiny">დასკვნა: AI-ს არ ვყიდით როგორც feature-ს. AI = backend-ფაბრიკა (content) + insight-ძრავა (მშობელი). ეს უხილავია და სწორედ ამიტომ moat.</p>
+  </section>
+
+  <!-- VERSION A -->
+  <section id="va">
+    <h2>🅰️ Version A — შენი ხედვის გახვეწილი</h2>
+    <div class="ab a">
+      <h3>„ორმაგ-მისიის" ბილინგვური პლატფორმა</h3>
+      <p class="dim"><b>არსი:</b> ერთი პროდუქტი, ერთი ძრავა, ორი ლინზა. ორივე აუდიტორია შიგნით.</p>
+      <p class="dim"><b>მოდელი:</b> freemium. ბირთვი უფასო; „Kings-მზადება" + „გაღრმავ. ქართული" + მშობლის insight = subscription. დიასპორა = პირველი ფასიანი wedge.</p>
+      <p class="dim"><b>პოზიცია:</b> „უსაფრთხო, ხარისხიანი სივრცე, სადაც ქართველი ბავშვი სწავლობს იმას, რაც სჭირდება — სახლში თუ საზღვარგარეთ."</p>
+      <p class="dim"><b>დიფერენციაცია:</b> ერთადერთი აპი, რომელიც ბილინგვურ ქართულ ოჯახს ორივე მიმართულებით ერგება + ნამდვილი ხმა + კურირებული უსაფრთხოება + ნიკო ბუ.</p>
+      <p class="dim"><b>რისკი:</b> content-დატვირთვა ორ მიმართულებაზე; „best-in-class" ვერც ერთში; საქართველოში ინგლისზე უფასო გიგანტებთან შეჯახება.</p>
+      <p class="dim"><b>retention:</b> ყოველდღ. რელსი + მშობლის dashboard + streak.</p>
+      <p class="dim"><b>მონეტიზაცია:</b> subscription (დიასპ.) + freemium-upsell (GE).</p>
+      <p class="dim"><b>scale:</b> content-agnostic engine → მეტი მოდული, მერე სხვა heritage ენები.</p>
     </div>
   </section>
 
-  <!-- POSITION -->
-  <section id="pos">
-    <h2>🎯 მისია · KVP · ბრენდი</h2>
-    <div class="rec"><b>მისია (✅):</b><br>„რომ ვერც ერთი ქართველი ბავშვი არ გაიზარდოს მშობლიური ენისთვის უცხოდ — სადაც უნდა ცხოვრობდეს."</div>
-    <div class="rec"><b>KVP (⏳ N1):</b><br>„შენი შვილი ბებიას ქართულად დაელაპარაკება — და ქართველად დარჩება, სადაც უნდა ცხოვრობდეთ."</div>
-    <div class="rec"><b>სლოგანი (⏳ N1):</b><br>„ილაპარაკე ქართულად. დარჩი ქართველად."</div>
-    <h3>გადახდის ტრიგერი</h3>
-    <div class="row">„მდუმარე ვახშამი ბებიასთან" + გაქრობის შიში: „თუ ახლა არ ვიმოქმედებ, ჩემი ოჯახის ენა ჩემს შვილზე მთავრდება." არა „განათლება".</div>
-    <h3>4 კუთხის ალტერნატივა (KVP)</h3>
-    <table>
-      <tr><th>კუთხე</th><th>KVP</th></tr>
-      <tr><td>კავშირი 👵</td><td>ბებიას ქართულად დაელაპარაკება <b>(⭐ ვიგებთ)</b></td></tr>
-      <tr><td>იდენტობა</td><td>ქართული გული ცემას არ შეწყვეტს</td></tr>
-      <tr><td>მომავალი</td><td>ორენოვნება სუპერ-ძალაა</td></tr>
-      <tr><td>შვება</td><td>screen-time, რომელიც სიამაყეს აჩენს</td></tr>
-    </table>
+  <!-- VERSION B -->
+  <section id="vb">
+    <h2>🅱️ Version B — დამოუკიდებელი, უფრო ძლიერი</h2>
+    <div class="ab b">
+      <h3>„უნარ-ძრავა ჯერ" (skill-engine first)</h3>
+      <p class="dim"><b>არსი:</b> ბირთვი = skill-based ადაპტური ძრავა (რელსი + მშობლის თარჯიმანი + AI content-pipeline). საგნები (ინგლ./ქართ./მათ.) = content-მოდულები ამ ძრავაზე.</p>
+      <p class="dim"><b>მოდელი:</b> subscription insight/advanced ფენაზე. (B2B2C = არჩევითი დამაჩქარებელი.)</p>
+      <p class="dim"><b>პოზიცია:</b> „იცოდე ზუსტად რა ისწავლა შენმა ბავშვმა და რა ქნა შემდეგ" — მშობლის სიმშვიდე + გაზომვადი პროგრესი, ნებისმიერ ენაზე.</p>
+      <p class="dim"><b>დიფერენციაცია:</b> ძრავა + „მშობლის თარჯიმანი" = ნამდვილი moat, ყველაზე ძნელად საკოპირებელი, ყველაზე დაბალი content-treadmill solo-სთვის.</p>
+      <p class="dim"><b>რისკი:</b> „უნარი/cognitive" უფრო ძნელი გასაყიდია ვიდრე „ინგლისი"; ბრწყინავს მხოლოდ ძრავის აშენების შემდეგ.</p>
+      <p class="dim"><b>retention:</b> ყველაზე მაღალი (ადაპტური + მშობლის insight-მარყუჟი).</p>
+      <p class="dim"><b>მონეტიზაცია:</b> subscription insight-ფენაზე.</p>
+      <p class="dim"><b>scale:</b> საუკეთესო — ძრავა + pipeline იაფად გადადის ნებისმიერ საგანზე/ენაზე.</p>
+    </div>
+    <h3>⚖️ Tradeoff + ჩემი რეკომენდაცია (შენი call, არა locked)</h3>
+    <div class="fix">
+      <b>A</b> დღეს უფრო ადვილი გასაყიდია (მშობელს ესმის „ინგლისი", „მათემატიკა"). <b>B</b> უფრო ძლიერი long-term moat solo-სთვის (სისტემა > content-treadmill).<br><br>
+      <b>🦉+🔷 სინთეზი:</b> აიღე <b>Version A-ის ლეიბლები</b> (ინგლისი/ქართული/მათემატიკა — რასაც მშობელი ხვდება და იხდის), მაგრამ ააშენე <b>Version B-ის ძრავა</b> (skill-based, ადაპტური, მშობლის თარჯიმანი, content-pipeline). GTM-ში დაიწყე დიასპორით (პირველი ფასიანი), საქართველო პირველივე დღიდან შიგნით იმავე ძრავაზე. <b>ორივე აუდიტორია რჩება.</b>
+    </div>
   </section>
 
-  <!-- MOAT -->
-  <section id="moat">
-    <h2>🏰 Moat · დამოუკიდებლობა · ხარჯები</h2>
-    <div class="big" style="font-size:15px">ფიქს. burn ფასიან გაშვებამდე ≈ $0. ~5-6 გამომწერი ფარავს ხარჯს. → გარე ფული/gatekeeper არ გჭირდება.</div>
+  <!-- OPEN -->
+  <section id="open">
+    <h2>❓ ღია — შენი რეაქცია</h2>
+    <p class="tiny">აღარაფერია „locked". ეს არის ის, რაზეც შენი აზრი მჭირდება.</p>
     <table>
-      <tr><th>კომპონენტი</th><th>ხარჯი</th></tr>
-      <tr><td>GitHub Pages</td><td>$0</td></tr>
-      <tr><td>Supabase</td><td>$0 → ~$25/თვე ზრდისას</td></tr>
-      <tr><td>Paddle/LemonSqueezy</td><td>~5%/ტრანზაქცია</td></tr>
-      <tr><td>edge-tts + ოჯახ. ჩანაწერი</td><td>$0</td></tr>
-      <tr><td>Claude Max</td><td>$100/თვე (არსებული)</td></tr>
+      <tr><th>#</th><th>კითხვა</th></tr>
+      <tr><td>1</td><td>გასწორებული მისია (ორივე აუდიტორია) — გერგება?</td></tr>
+      <tr><td>2</td><td>„ერთი ძრავა, ორი ლინზა" (სამიზნე-ენის გადამრთველი) — ეთანხმები ამ არქიტექტურას?</td></tr>
+      <tr><td>3</td><td>„A-ის ლეიბლები + B-ის ძრავა" სინთეზი — თუ სუფთა A, თუ სუფთა B?</td></tr>
+      <tr><td>4</td><td>GTM: ფასიანი ჯერ დიასპორაზე, საქართველო უფასო/მოგვიანებით — ოკ? (თუ ორივე ერთად?)</td></tr>
+      <tr><td>5</td><td>„უსაფრთხო low-chaos" + „გაზომვადი პროგრესი" — ორივე როგორც დაპირება, ოკ?</td></tr>
+      <tr><td>6</td><td>skill-based რელსი პატარებისთვის (მენიუს ნაცვლად) — ვცადოთ?</td></tr>
     </table>
-    <h3>დურable moat — audio აღარ არის</h3>
-    <table>
-      <tr><th>#</th><th>moat</th><th>რატომ ვერ კოპირდება</th></tr>
-      <tr><td>1</td><td>პედაგოგ. ავტორიტეტი</td><td>AI ვერ „ჰალუცინაცია" ნდობას</td></tr>
-      <tr><td>2</td><td>Heritage Language Map</td><td>switching cost = მონაცემი</td></tr>
-      <tr><td>3</td><td>ბებია-ბაბუის ხმა (UGC)</td><td>ოჯახური რელიქვია</td></tr>
-      <tr><td>4</td><td>first-mover ბრენდი</td><td>მცირე ბაზარზე default</td></tr>
-    </table>
-    <p class="tiny">ფიჩერები იაფი→ძვირი: Report Card → Grandparent Portal → Language Map → კულტ. მოდულები.</p>
-  </section>
-
-  <!-- DYNAMICS -->
-  <section id="dyn">
-    <h2>🗺️ დინამიკა — როგორ შეიცვალა აზროვნება</h2>
-    <div class="step"><div class="d">v0 · 06-06 · გრილდაუნი</div>TAM ჩაიკეტა. fork დაისვა.<div class="ch">„მყიდველი არ არსებობს" → მცდარი. „ორივე თანაბრად" → გამოწვეული.</div></div>
-    <div class="step"><div class="d">v1 · 06-08 · evidence</div>დიასპორა 1.5M, 78-180 სკოლა, 3000+ ბავშვი.<div class="ch">fork-ის „არ ვიცი" → ფაქტი → B.</div></div>
-    <div class="step"><div class="d">v1.5 · 06-08 · მოდელი</div>11 გადაწყვეტ. + Gemini r1.<div class="ch">Gemini: moat ქრება, retention = #1 რისკი.</div></div>
-    <div class="step"><div class="d">v2 · 06-08 · locks</div>6 lock. Gemini r2.<div class="ch">გრანტი ამოვარდა. დამოუკიდებლობა გადაწყდა. moat = ბრენდი. → ES/FR/RU.</div></div>
-    <div class="step"><div class="d">v3 · 06-08 · სახელმძღვანელო</div>ეს დოკ.<div class="ch">canvas + ღია-კითხვების რეესტრი (8 ღია გამოჩნდა: გეოგრ., ფასი, North-star, პარტნ. როლი...).</div></div>
-  </section>
-
-  <!-- NEXT -->
-  <section id="next">
-    <h2>▶ შემდეგ</h2>
-    <p>სწრაფი პასუხები ღია კითხვებზე (ტაბი „❓ ღია კითხვები") — მაგ.: <code>N1 დიახ · N2 phase-2 · Q3 აშშ · Q4 $6 · Q5 დიახ · Q6 მხოლოდ არხი · Q7 4-10</code>.</p>
-    <h3>პასუხების შემდეგ ვიწყებ (კოდი)</h3>
-    <ol>
-      <li>Content-agnostic engine lock (JSON-manifest player)</li>
-      <li>დიასპორა-positioning landing (ka/en)</li>
-      <li>Subscription backend გეგმა (Supabase + Paddle) — ფული/live ცალკე „go"</li>
-      <li>Retention + Heritage Report Card</li>
-      <li>Grandparent Portal (N2-ის მიხედვით)</li>
-    </ol>
-    <h3>📂 ღრმა დოკები</h3>
-    <a class="btn" href="strategy-v2.html"><b>სტრატეგია v2 →</b> independence · KVP · moat · ხარჯები</a>
-    <a class="btn" href="decision-model.html"><b>გადაწყვეტილების მოდელი →</b> 11 yes/no/pick + Gemini</a>
-    <p class="tiny" style="margin-top:16px">პირადი ბმული (noindex). GitHub Pages. კოდი არ შეცვლილა (Lane B).</p>
+    <h3>📂 ისტორია / ღრმა დოკები</h3>
+    <a class="btn" href="strategy-v2.html"><b>სტრატეგია v2 →</b> independence · moat · ხარჯები</a>
+    <a class="btn" href="decision-model.html"><b>გადაწყვეტილების მოდელი →</b> 11 pick + Gemini r1</a>
+    <p class="tiny" style="margin-top:14px">შენი brief = <code>docs/OWNER_GRILLDOWN_BRIEF.md</code> (canonical, verbatim). PLAN — კოდი არ შეცვლილა.</p>
   </section>
 
 </div>
