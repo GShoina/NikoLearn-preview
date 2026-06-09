@@ -179,7 +179,7 @@ const EN_ALPHA = [
   {l:'U',x:[['umbrella','☂️'],['unicorn','🦄'],['up','⬆️']]},
   {l:'V',x:[['violin','🎻'],['van','🚐'],['volcano','🌋']]},
   {l:'W',x:[['water','💧'],['whale','🐳'],['watch','⌚']]},
-  {l:'X',x:[['xylophone','🎹'],['box','📦'],['fox','🦊']]},
+  {l:'X',x:[['xylophone','🎹'],['x-ray','🩻']]},
   {l:'Y',x:[['yo-yo','🪀'],['yacht','⛵'],['yarn','🧶']]},
   {l:'Z',x:[['zebra','🦓'],['zoo','🦁'],['zero','0️⃣']]}
 ];

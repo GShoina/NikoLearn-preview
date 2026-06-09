@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+# Internal/owner files are kept off the published site via _config.yml (Jekyll exclude).

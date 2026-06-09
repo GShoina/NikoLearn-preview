@@ -9,6 +9,7 @@ exclude:
   - "*.py"
   - "*.mjs"
   - "*.bak"
+  - "*-bak"
   - "*.log"
   - LICENSE
   - README.md

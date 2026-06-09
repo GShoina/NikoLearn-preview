@@ -9,7 +9,7 @@ function openGate(){
   const el=document.createElement('div');el.className='gate';el.id='gate';
   el.innerHTML=`<div class="gate-card">
     <h3>${I.lock} მშობლის სივრცე</h3>
-    <p>ეს კარი ბავშვებისთვის არ არის. ამოხსენი მაგალითი გასაგrძელებლად.</p>
+    <p>ეს კარი ბავშვებისთვის არ არის. ამოხსენი მაგალითი გასაგრძელებლად.</p>
     <div class="gate-q">${gate.a} + ${gate.b} = ?</div>
     <div class="gate-display" id="gdisp"></div>
     <div class="gate-keys">${[1,2,3,4,5,6,7,8,9].map(n=>`<button onclick="gateKey(${n})">${n}</button>`).join('')}

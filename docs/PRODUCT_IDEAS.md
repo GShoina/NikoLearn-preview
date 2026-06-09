@@ -1,11 +1,122 @@
 # NikoLearn — Product Ideas Backlog (living)
 
 **Owner:** Gela Shonia · **Maintained by:** weekly "Product Owner" routine + ad-hoc.
-**Last updated:** 2026-06-05 (owner-confirmed monetization roadmap a/b/c added)
+**Last updated:** 2026-06-06 (strategic grilldown: mission/KVP exploration + GeoStat TAM facts added)
 
 This is the single source of truth for product ideas. Every idea is logged, scored,
 and given a roadmap decision. The weekly Product Owner routine appends competitor
 findings + new ideas and re-scores open ones.
+
+## 🧭 STRATEGIC EXPLORATION — mission / KVP / positioning (2026-06-06, IN PROGRESS, NOT LOCKED)
+
+Owner ran a deliberate strategic grilldown (vCEO/visionary partner mode). This is a brainstorm,
+NOT a finalized PRD. Full owner-facing report: `output/2026-06-06-NikoLearn სტრატეგიული Grilldown by Niko.html`.
+Backup: `~/.claude/plans/toasty-marinating-bird.md`.
+
+### Owner intent (LOCKED 2026-06-06)
+- **NikoLearn = active venture, NOT a hobby.** Owner wants to pursue seriously and, if needed, find
+  the right **partner**. The "strategy-session-without-execution" middle path is explicitly rejected.
+
+### TAM facts (LOCKED — GeoStat / Min. of Education 2025/26)
+- Total pupils **644,243**; primary grades 1-6 = **333,224**; ages 6-12 ≈ **369,900**.
+- **Private school total 71,979** (share 11.2%, GROWING: 2022/23 was 10.1%).
+- **Private primary (grades 1-6) = 40,672** = the proven-payer beachhead (Tbilisi holds ~35% of pupils).
+- Price anchor: Buckswood ~8,000-11,900 ₾/yr; owner pays 14,000 ₾. A 20 ₾/mo app = ~2-3% of one year's tuition.
+- TAM model (beachhead 40,672; ARPU/yr 150-240 ₾): 5% pen = 305K-488K ₾/yr · 10% = 610K-976K · 25% = 1.5M-2.4M.
+- → **Paying market exists and is growing. This is NOT a hobby TAM.** (Niko's earlier "no payers" claim was WRONG.)
+
+### Key strategic challenges raised (owner liked, will revisit one by one)
+1. **Parent = buyer, child = user — product is upside-down** (~90% effort on child, ~10% on parent).
+   Parent's real JTBD = "I'm a good parent" + proof + relief, NOT "my kid learns English". Dashboard =
+   the product for the buyer; the game = delivery mechanism.
+2. Georgian-first: ka pronunciation/ASR for kids = real moat (nobody has it); English = commodity.
+3. Two audiences: GE English/Math = red ocean (free giants) vs diaspora-Georgian = blue ocean
+   (subscription-comfortable, emotional urgency, zero competition). "Two products" fear: embrace, don't avoid.
+4. Age vs skill: skill-adaptive now = premature; age-band UX now, BUT model content as skill/difficulty
+   atoms (DAG + prerequisites + modality tags) — the one architecture worth getting right today.
+5. AI content: moat ≠ "we generate fast" (commodity + trust-killer); moat = curation + safety + Niko Bu
+   brand. AI = backend factory, not a marketed feature (AI theater).
+6. 6-month outcomes = measurement trap. Sell PROCESS proof (practiced, learned N words), not OUTCOME
+   proof (test scores) — outcomes you can't measure/attribute = liability.
+7. Menu vs adventure = UX question disguised as strategy. Real question = RETENTION. Parent-facing
+   streak/progress + child-facing light narrative.
+8. Business model: one-time unlock is wrong for a content-treadmill (paid once, pay forever to make
+   content). Subscription fits diaspora (EU/US comfortable); one-time fits GE price-sensitive.
+9. Content hierarchy (owner's "biggest unknown") = Skill atom + difficulty + prerequisites = DAG; UX
+   renders it as menu (now) or path (later) on the same data.
+
+### Two directions (draft, not chosen)
+- **Version A (from owner):** "Safe, low-chaos learning environment for Georgian children." One product,
+  two audiences, freemium (GE one-time / diaspora subscription). Risk: focus splits, mediocre at both,
+  collides with free giants on English/Math. NOTE: TAM research now gives A a real GE base IF narrowed
+  to the private-primary ICP (40,672), NOT "all Georgian kids".
+- **Version B (Niko's independent):** "Keep your child Georgian, wherever you live." Diaspora-Georgian =
+  subscription spearhead; English/Math = free funnel for GE. Positioning = identity + language
+  preservation + parental relief (not "education"). Out-of-box scale: abstract to a heritage-language
+  platform for diaspora kids (Georgian = first language). Risk: narrow market (lifestyle unless
+  abstracted); distribution depends on community; Georgian content depth is real work.
+
+### OPEN DECISIONS (owner returns to these)
+- **Spearhead fork:** GE private-primary ICP (Version A, narrowed) vs diaspora (Version B). Owner first
+  said "both equally" → Niko challenged: "equally" = deferring priority; strategy = priority. Now both
+  have a factual base. UNRESOLVED.
+- **Ambition level:** lifestyle/mission business vs venture-scale heritage-language platform vs free gift. UNRESOLVED.
+- **Partner question:** what role / what's missing on the team. UNDEFINED.
+- Revisit the 9 key challenges one by one.
+- FINAL OUTPUT pending: locked mission + KVP + positioning statement.
+
+### 📡 Distribution evidence — diaspora reachability (2026-06-08, desk research by Niko)
+The fork hinged on ONE unknown: can the diaspora be reached cheaply? Owner said "I don't know, must find
+out." Desk research answers it: YES — a concentrated, organized, state-backed channel already exists.
+- **Diaspora size:** MFA estimate 1.5M+ (Russia 700K, Greece 200K, US 120K, Italy 50K, Germany 50K);
+  conservative floors ~0.5-0.9M (UN 2024 ~496K; 2020 ~861K). Kids 6-14 subset = the addressable base.
+- **Sunday-school network (the B2B distribution layer):** ~78 (Diaspora Ministry count) to 180+
+  (diaspora-tv, ~50 countries) ქართული საკვირაო სკოლა. One source: 92 schools + 12 courses with
+  **3,000+ kids aged 6-14 already formally enrolled in Georgian-language learning abroad** = proven
+  demand, exact age band, exact JTBD (keep child Georgian). Each school = many families → one adoption
+  reaches dozens of kids.
+- **State infrastructure + funding + partner:** MFA Diaspora dept + diaspora.ge portal (runs distance
+  Georgian schooling). MFA grant **„ჩემი ქართული სკოლა"** to improve Georgian-language teaching abroad,
+  apply to diaspora@mfa.gov.ge — **deadline 2026-06-28** = non-dilutive funding + official channel +
+  credibility. TIME-SENSITIVE.
+- **Per-country FB pages** (GeoinGreece, GeorgiainCanada, …) = ready, free marketing channels.
+- **Model = B2B2C:** school / parent-org adopts → many families. NikoLearn = the daily home-practice
+  layer between weekly Sunday classes (complement, NOT a competitor to live schools).
+- **Adjacent to verify:** diaspora.ge "distance schooling" format (likely live Zoom classes, so
+  differentiated from a gamified self-serve app — confirm before claiming).
+- **Remaining validation (owner-only, the human step):** talk to 2-3 Sunday-school coordinators /
+  diaspora parents to confirm willingness to pay.
+- **Updated Niko recommendation:** lock spearhead = **Version B (diaspora heritage-language,
+  subscription)**, GE private-primary = free funnel. Evidence now supports B on BOTH product-market fit
+  (the ka-audio moat is a must-have here) AND distribution (the channel exists and is reachable).
+
+### 🧮 Decision model + Gemini second opinion (2026-06-08)
+Owner asked for a challenged decision model (Niko + Gemini, reduced to yes/no/pick) so he can answer fast, then execute.
+Deliverable: `output/2026-06-08-NikoLearn სტრატეგიული გადაწყვეტილების მოდელი by Niko.html` (11 decisions D1-D11 + 9 challenges locked + mission/KVP/positioning picks).
+- **Gemini (cross-model) AGREES:** D1 spearhead=B, D2 subscription, D3 freeze-features→productionize, D4 pursue grant via partner.
+- **Gemini CHALLENGES (new inputs, persisted):** (a) **moat decay** — Georgian AI-TTS is improving, so "real recorded audio" alone won't stay a moat; shift moat to curation + safety + Niko Bu brand + pedagogical authority. (b) **retention = #1 risk** — "heritage guilt" drives the first purchase but if the app isn't sticky the kid quits and the parent cancels the sub; make a daily-ritual/streak retention mechanic a production-MUST, not a later feature. (c) push ambition to **venture-scale heritage-language platform** (templatable to other small-language diasporas later).
+- **Grant eligibility (FACT, mfa.gov.ge/news/077749):** „ჩემი ქართული სკოლა" applicants = diaspora orgs / Sunday schools / non-commercial entities ABROAD. A Georgian for-profit (NikoLearn) is NOT directly eligible → access only via a partner school/org (B2B2C). Sibling grant „ჩემი ენა ქართული" (news/058334) = recurring annual funding stream. Treat as a CHANNEL, not a 28-Jun-2026 sprint.
+- **PENDING owner answers** to D1-D11 + the 3 picks (mission/KVP/positioning). On "go" for D1-D4, Niko executes: production-readiness sweep + diaspora-positioning landing + subscription-arch plan + grant/partner outreach pack + verify diaspora.ge format. Money/live customer-facing = separate owner "go".
+
+### ✅ LOCKED 2026-06-08 (owner answered) + strategy v2 deep-dive
+Deliverable: `output/2026-06-08-NikoLearn სტრატეგია v2 — independence, KVP, moat, ხარჯები by Niko.html`. Gemini round-2 (full brief) inside.
+**Owner LOCKED:** D1 spearhead = DIASPORA · D2 = subscription · D3 = freeze features, production-first · D5 = venture-scale heritage-language platform, templatable to ES/FR/RU later · D6 mission = M1 (polished) · D11 = retention mechanic is a must.
+**Owner DROPPED the government grant** (sees „ჩემი ქართული სკოლა" as a political-influence tool, not a clean grant). Do NOT re-surface the grant.
+**Mission (LOCKED):** „რომ ვერც ერთი ქართველი ბავშვი არ გაიზარდოს მშობლიური ენისთვის უცხოდ — სადაც უნდა ცხოვრობდეს."
+**KVP (recommended, awaiting N1 nod):** „შენი შვილი ბებიას ქართულად დაელაპარაკება — და ქართველად დარჩება, სადაც უნდა ცხოვრობდეთ." (connection + identity).
+**Positioning / brand line (awaiting N1):** „ილაპარაკე ქართულად. დარჩი ქართველად." (Gemini: Speak Georgian. Stay Georgian.)
+**Commercial independence (owner's core worry) — resolved:** spine = direct-to-parent (D2C) subscription; schools = optional accelerant via Gemini's "trojan-horse" free teacher-dashboard (parent subscribes to unlock home mode), NEVER a dependency. Near-zero fixed burn (GitHub Pages $0 + Supabase free→$25/mo + Paddle/LemonSqueezy MoR ~5%/txn + edge-tts $0 + Claude Max already paid) → ~5-6 paying families cover cost = no outside money, no gatekeeper. Real cost = build TIME, not money.
+**Durable moat (audio is NOT it — AI-replicable):** rank = (1) pedagogical authority/lineage (certified by a known GE educator/institution), (2) Heritage Language Map = accumulated progress data = switching cost, (3) Grandparent-voice UGC = family heirloom, (4) first-mover brand in a small diaspora.
+**Moat product features by cheap+defensible:** Heritage Report Card (parent email, cheap) → Grandparent Portal (medium, backend) → Heritage Language Map (medium) → cultural/dialect modules (content-ongoing). + "Summer in Georgia" offline mode (cheap).
+**ARCHITECTURE LOCK (do in production-sweep):** content-agnostic engine / "Heritage OS" — PWA = player consuming a JSON manifest; language assets fully decoupled from UI/logic; pedagogy logic language-agnostic. Makes ES/FR/RU cheap later (matches challenge #4 DAG). Hard-coding Georgian grammar in JS = fail.
+**OPEN (2 small nods):** N1 = confirm/tweak KVP + positioning wording. N2 = Grandparent Portal as phase-2 (after subscription backend) vs flagship-now. On N1/N2, Niko executes the §G build list (engine lock → diaspora landing → subscription backend plan → retention + Report Card → portal). Money/live = separate owner "go".
+
+### 📖 Strategy guidebook + OPEN-QUESTIONS REGISTER (2026-06-08)
+Owner asked for a consultant-grade single living strategy doc (point-by-point canvas: objective/vision/mission/audience/geography/positioning/slogan/KVP/model/price/moat/GTM/product/ambition + status tags) AND a consolidated open-questions register (he'd only answered part of day-1 questions and lost track of what's still open). Built as a tabbed HTML: `output/2026-06-08-NikoLearn სტრატეგიული სახელმძღვანელო by Niko.html`, published (noindex) at the owner's private mobile link `gshoina.github.io/NikoLearn/share/7731b5f78d82/` (repo folder `share/7731b5f78d82/`, NOT gitignored — this is the ONE owner doc intentionally on the public Pages site, by obscurity; delete on owner request).
+**Surfaced NEW open questions (were not tracked before):** Q3 geography (which ONE diaspora country first — Niko rec EU/US: Greece/Italy/Germany/US for subscription willingness, Russia later for payment friction); Q4 price (~$5-7/mo rec, undecided); Q5 north-star metric (rec: retained paying families); Q6 partner role (channel-only vs co-founder/capital — 🤔); Q7 diaspora age focus (4-10 vs 3-12 — 🤔); Q8 owner-only validation (talk to 2-3 Sunday-school coordinators/parents re willingness-to-pay). N1 (KVP/slogan wording) + N2 (Grandparent Portal phase) still pending. Niko task: verify diaspora.ge format.
+**Canvas tally:** 9 locked · 6 open · 2 rethink.
+
+---
 
 ## 🗺️ Curriculum coverage map (PO's living artifact)
 `docs/CURRICULUM_MAP.html` — age × subject (Georgian / English / Math / Movement) coverage:

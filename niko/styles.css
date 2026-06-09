@@ -906,7 +906,7 @@ body.on-landing #app{padding:0;padding-bottom:24px}
   gap:6px;cursor:pointer;animation:rise .3s}
 .alpha-letter{font-family:'Fredoka';font-weight:600;font-size:5.6rem;line-height:1;color:var(--primary-d)}
 .alpha-pic{font-size:4.2rem;line-height:1}
-.alpha-word{font-size:1.7rem;font-weight:700}
+.alpha-word{font-size:clamp(1.2rem,5.2vw,1.7rem);font-weight:700;text-align:center;max-width:100%;text-wrap:balance;line-height:1.15}
 .alpha-card.en .alpha-word,.opt.letter.en{font-family:'Fredoka';font-weight:500}
 .speakbtn.big{font-size:1rem;padding:11px 22px;margin-top:14px}
 .alpha-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px}

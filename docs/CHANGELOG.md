@@ -2,6 +2,27 @@
 
 Human-readable log. Full audit trail = git history (`git log`, 70+ commits).
 
+## v1.93 — 2026-06-09 (pre-launch QA team: security + copy + a11y fixes)
+- A 4-agent parallel review (code-regression / kids-UX & accessibility / Georgian copy / launch-readiness
+  & privacy) swept the app. Shipped fixes from it:
+- **Security (HIGH):** the child profile name is now stripped of HTML-special chars on input. It was
+  rendered unescaped into innerHTML, a shared-device stored-XSS vector on the kids' app. `niko/screens.js`.
+- **Privacy copy (HIGH):** removed the last absolute "data is sent nowhere" claim (landing FAQ), since the
+  page loads cookieless analytics; scoped to the child's LEARNING data. `landing.html`.
+- **Bug (HIGH):** the parent-gate word "გასაგრძელებლად" had a Latin "r" (broken glyph + broke the EN
+  translation lookup). `niko/parent.js`.
+- **Alphabet:** "X is for Box/Fox" fixed (X is now only xylophone / x-ray, which start with X), and the
+  v1.92 letter-word card now clamps + wraps so long English words ("X is for Xylophone") don't overflow on
+  a phone. `niko/data.js`, `niko/styles.css`.
+- **Em dashes removed** from human-facing text (privacy policy title + 3 body lines; 3 theme descriptions),
+  per the style rule. `privacy.html`, `niko/tweaks.js`.
+- **Accessibility:** bottom-nav home/abc/math buttons now have aria-labels. `index.html`.
+- **Anglicisms** "landing" to "მთავარი" in two in-app labels. `niko/screens.js`.
+- **Hygiene:** added robots.txt; excluded `*-bak` from the published site and deleted the stale 1.5MB
+  `landing.html.bundle-bak` (it could serve an old GA4 page). `_config.yml`.
+- Review confirmed GOOD (no fix needed): no dead-ends, the syllable-tap fix is correct, analytics is inert,
+  no leaked secrets, no eval, and privacy.html disclosures match what the code loads.
+
 ## v1.92 — 2026-06-09 (alphabet: explicit "A is for Apple" link, per teacher feedback)
 - Niko's teacher suggested a word per letter-sound ("Aa is for Apple"). The app ALREADY had 3 example
   words + pictures per letter (voiced "A. apple"), so the core existed; this makes the LINK explicit in

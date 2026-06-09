@@ -21,10 +21,10 @@
   <div class="device" data-screen-label="NikoLearn app">
     <div class="app" id="app"></div>
     <nav class="bottomnav hidden" id="bottomnav">
-      <button data-nav="home" onclick="goHome()"><span></span></button>
+      <button data-nav="home" onclick="goHome()" aria-label="მთავარი" title="მთავარი"><span></span></button>
       <button data-nav="theme" onclick="cycleTheme()" aria-label="თემა" title="თემა"><span></span></button>
-      <button data-nav="abc" onclick="profile&&openMenu(isYoung(profile)?'en-alpha':'english')"><span></span></button>
-      <button data-nav="math" onclick="profile&&openMenu('math')"><span></span></button>
+      <button data-nav="abc" onclick="profile&&openMenu(isYoung(profile)?'en-alpha':'english')" aria-label="ანბანი" title="ანბანი"><span></span></button>
+      <button data-nav="math" onclick="profile&&openMenu('math')" aria-label="მათემატიკა" title="მათემატიკა"><span></span></button>
     </nav>
   </div>
 </div>

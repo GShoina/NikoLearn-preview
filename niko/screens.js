@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.92';
+const APP_VERSION='1.93';
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -29,7 +29,7 @@ function goHome(){
       <div class="pname"${isNew?'':' style="color:var(--muted)"'}>${isNew?'შექმენი ბავშვის პროფილი':'დაამატე ბავშვი'}</div>
     </div>`;
   render(`<div class="screen home">
-    <div class="brand brand-btn" onclick="landing()" title="landing გვერდი">
+    <div class="brand brand-btn" onclick="landing()" title="მთავარი გვერდი">
       <div class="sun-badge">${I.sun}</div>
       <div class="mark">NikoLearn</div>
       <div class="tag">${isNew?'მოგესალმები 👋, შექმენი ბავშვის პროფილი დასაწყებად':'ვინ თამაშობს?'}</div>
@@ -100,7 +100,7 @@ function boot(){
 }
 function showLogin(){
   render(`<div class="screen home" style="gap:18px;justify-content:center">
-    <button class="iconbtn" style="position:absolute;top:16px;left:16px;z-index:5" onclick="landing()" aria-label="უკან landing გვერდზე">←</button>
+    <button class="iconbtn" style="position:absolute;top:16px;left:16px;z-index:5" onclick="landing()" aria-label="უკან მთავარ გვერდზე">←</button>
     <div class="brand">
       <div class="sun-badge" style="width:74px;height:74px">${I.sun}</div>
       <div class="mark">NikoLearn</div>
@@ -263,7 +263,7 @@ function renderAddChild(){
   const n=$('#kid-name');if(n){n.focus();n.setSelectionRange(n.value.length,n.value.length);}
 }
 function createChild(){
-  const name=(draft.name||'').trim();
+  const name=(draft.name||'').trim().replace(/[<>&"']/g,'');   // strip HTML-special chars (XSS: name flows into innerHTML)
   if(!name){const n=$('#kid-name');if(n){n.style.borderColor='var(--red)';n.focus();}return;}
   const id='k'+Date.now();
   state.kids.push({id,name,age:draft.age,color:draft.color,langs:(draft.langs&&draft.langs.length?draft.langs:['ka']),tutor:draft.tutor||'🦉'});

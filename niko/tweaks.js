@@ -55,9 +55,9 @@
   document.body.appendChild(panel);
 
   const AES=[
-    {v:'sunlit',name:'Sunlit',cols:['#e8945f','#7fb47e','#e8c45f'],desc:'თბილი, ნაღდი ფურცელი — მშობლისთვის სანდო, ბავშვისთვის მყუდრო.'},
-    {v:'playground',name:'Playground',cols:['#e85d4a','#56c08a','#5b9be8'],desc:'კაშკაშა და ენერგიული — პატარებისთვის სათამაშოდ.'},
-    {v:'calm',name:'Calm',cols:['#5a7fb5','#6fae8f','#c9a86a'],desc:'რბილი და თანამედროვე — ნაკლებად „ბავშვური", უფრო premium.'}
+    {v:'sunlit',name:'Sunlit',cols:['#e8945f','#7fb47e','#e8c45f'],desc:'თბილი, ნაღდი ფურცელი, მშობლისთვის სანდო და ბავშვისთვის მყუდრო.'},
+    {v:'playground',name:'Playground',cols:['#e85d4a','#56c08a','#5b9be8'],desc:'კაშკაშა და ენერგიული, პატარებისთვის სათამაშოდ.'},
+    {v:'calm',name:'Calm',cols:['#5a7fb5','#6fae8f','#c9a86a'],desc:'რბილი და თანამედროვე, ნაკლებად ბავშვური, უფრო დახვეწილი.'}
   ];
   const AI=[
     {v:'companion',name:'მეგობარი 🦉',desc:'AI მშვიდი დამხმარეა — ჩნდება მოთხოვნით, სითბო პირველ ადგილზე.'},
