@@ -359,8 +359,19 @@ function checkBuild(){
    ═══════════════════════════════════════════════════════════ */
 // ✍️ ამოწერა — the letter draws itself AUTOMATICALLY from the font (opentype.js): every letter
 // matches its real shape with no hand-authored paths. The pen traces the glyph, then it fills in.
-let _kaFont=null, _kaRetry=0;
-(function loadKaFont(){ try{ if(window.opentype) opentype.load('niko/fonts/ka.ttf',(e,f)=>{ if(!e) _kaFont=f; }); }catch(_){} })();
+let _kaFont=null, _kaRetry=0, _otLoading=false;
+function loadKaFont(){ try{ if(window.opentype && !_kaFont) opentype.load('niko/fonts/ka.ttf',(e,f)=>{ if(!e) _kaFont=f; }); }catch(_){} }
+// lazy-load opentype.js (~170KB) only when the ✍️ tracing screen is first opened — every other
+// screen boots without paying for it. Served from the SW cache, so it's instant + offline-safe.
+function ensureOpentype(){
+  if(window.opentype){ loadKaFont(); return; }
+  if(_otLoading) return;
+  _otLoading=true;
+  const s=document.createElement('script'); s.src='niko/opentype.min.js';
+  s.onload=()=>loadKaFont();
+  s.onerror=()=>{ _otLoading=false; };
+  document.head.appendChild(s);
+}
 function glyphPathD(ch){
   if(!_kaFont) return null;
   // raw glyph outline; fitGuide() sets the SVG viewBox to this path's real bbox so it always
@@ -376,6 +387,7 @@ function fitGuide(){
   svg.setAttribute('viewBox', `${(b.x-pad).toFixed(2)} ${(b.y-pad).toFixed(2)} ${(b.width+pad*2).toFixed(2)} ${(b.height+pad*2).toFixed(2)}`);
 }
 function traceLearn(idx){
+  ensureOpentype();   // first open: pull opentype.js; the retry loop below re-renders once the font parses
   const data=KA_ALPHA,n=data.length;
   idx=Math.max(0,Math.min(idx,n-1));
   const entry=data[idx]; const it=alphaItem(entry); game.traceIt={it,idx};
