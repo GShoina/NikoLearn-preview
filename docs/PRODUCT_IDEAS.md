@@ -9,6 +9,26 @@ findings + new ideas and re-scores open ones.
 
 ## 🧭 STRATEGIC EXPLORATION — mission / KVP / positioning (2026-06-06, IN PROGRESS, NOT LOCKED)
 
+> **🔴 RE-OPENED 2026-06-09 (owner correction) — do NOT read the '✅ LOCKED' blocks below as closed.**
+> Niko over-locked a diaspora-ONLY direction and compressed away the owner's full intent (BOTH audiences,
+> skill-based progression, AI-native, "safe low-chaos" positioning, Version A/B not a PRD). Owner's canonical
+> brief is now saved verbatim at `docs/OWNER_GRILLDOWN_BRIEF.md` (never compress it away again).
+> **Corrected frame: spearhead (diaspora = easiest FIRST paid dollar) ≠ MISSION.** Mission now holds BOTH:
+> Georgia kids (English/Math/development) + diaspora kids (Georgian/identity), on ONE skill-based engine.
+> **"One engine, two lenses":** parent picks TARGET language — Georgia target = English (UI Georgian),
+> diaspora target = Georgian (UI English); same KA/EN/emoji/audio content-pairs, directional logic swaps
+> prompt/target. Content hierarchy = Skill → Module → Content-Pair → Directional logic.
+> Re-opened grilldown (Niko + Gemini r3): `output/2026-06-09-NikoLearn Grilldown v2 — ხელახლა გახსნილი ...by Niko.html`
+> (live at the owner share link). **Version A** = dual-mission bilingual platform (owner thinking refined);
+> **Version B** = skill-engine-first (independent, content-light moat); **synthesis = A's labels + B's engine**,
+> GTM diaspora-first-paid + Georgia free on the same engine. Other Gemini challenges: "safe" = baseline not USP
+> (must show measurable progress); current tutor.js = rule-based, do NOT market as AI; real AI = offline
+> content-pipeline + "Parent Translator" (scores → human guidance); 6-month Cambridge claims = liability →
+> reframe to confidence/routine/school-readiness; grades 1-3 = auto-progression "Rail" not a menu.
+> **Nothing locked pending owner reaction (mission / engine / A-vs-B-vs-synthesis / GTM / 6 open Qs in the doc).**
+> LESSON (behavioral): in exploratory strategy, do NOT collapse to "locked" — preserve the owner's full brief
+> and optionality; a monetization spearhead is not a mission.
+
 Owner ran a deliberate strategic grilldown (vCEO/visionary partner mode). This is a brainstorm,
 NOT a finalized PRD. Full owner-facing report: `output/2026-06-06-NikoLearn სტრატეგიული Grilldown by Niko.html`.
 Backup: `~/.claude/plans/toasty-marinating-bird.md`.
