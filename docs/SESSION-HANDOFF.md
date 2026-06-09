@@ -14,6 +14,21 @@
 > NOTE: as of 2026-06-09 there are ~598 old screenshots (174MB) from OTHER projects' sessions in the home
 > root — flagged to owner, awaiting his OK to bulk-clear (outside NikoLearn lane).
 
+> **📌 SESSION CLOSE 2026-06-09 — shipped v1.86→v1.93 (all live).** Analytics: Cloudflare Web Analytics
+> LIVE (cookieless, 18 visits/24h verified; view at `dash.cloudflare.com/62f02b2a518a8e63eba0537f9162c0ec/web-analytics`
+> → click gshoina.github.io, NOT the account /home/overview) + pluggable facade set DORMANT for launch.
+> Privacy: privacy.html (GDPR+COPPA+GE-law, ka/EN) live + linked + copy reconciled. Audio: syllable-tap
+> guard bug FIXED + "რვა"=owner-chosen "რ ვა" spaced; cluster numbers kept as-is. Alphabet: explicit
+> "A is for Apple" / "ვ: ვაშლი" link (teacher Ana feedback). 4-agent pre-launch QA team → XSS name-strip,
+> FAQ privacy over-claim, parent.js Latin-r, X-is-for-Box, em-dashes, a11y, robots.txt, bundle-bak removed.
+> Tech report → `output/2026-06-09-NikoLearn ტექნიკური მიმოხილვა by Niko.html`.
+> **OPEN OWNER DECISIONS (resume here):** (1) launch SCOPE — class-pilot 6-9 vs public 3-12; (2) HOSTING
+> "home" — Cloudflare Pages (rec) vs GitHub Pages + custom domain, then buy domain; (3) privacy CONTROLLER
+> entity (personal vs Bivision) + lawyer review before US push; (4) per-screen analytics = post-launch only;
+> (5) delete ~598 old screenshots (174MB, OTHER projects) from `C:\Users\gela.shonia\`? (awaiting owner yes);
+> (6) home profile-select voicing for non-readers (HIGH UX enhancement, proposed by QA team). NEXT ACTION:
+> ask which of these to tackle, or take a new request.
+
 ## 📋 BOARD (Go vs Plan protocol — see CLAUDE.md §9)
 **NOW (Lane A, build queue, v1.7x NPV):** #1 alphabet multi-font ✅ v1.77 · #2 syllable builder ✅ v1.78 · more reading content (18 words / 14 sentences) ✅ v1.79 · writing/tracing ✅ v1.79. Georgian reading suite is now broad. NEXT ideas: even more words/sentences; trace stroke-order guides; English-side depth. **To add reading words/sentences: append to READING_KA / READING_SENT_KA + generate ka clips (edge-tts ka-GE-EkaNeural) + manifest entry (key = exact text lowercased).**
 **PARKED (Lane B, strategy, IN PROGRESS not finalized):** mission + KVP + positioning grilldown STARTED 2026-06-06 (see strategy blockquote below + `docs/PRODUCT_IDEAS.md` → "🧭 STRATEGIC EXPLORATION" SSOT + `output/2026-06-06-NikoLearn სტრატეგიული Grilldown by Niko.html`). LOCKED so far: NikoLearn = active venture (not hobby), owner may seek a partner; TAM facts (GeoStat 2025/26) = private-primary beachhead **40,672, growing**, 10% pen ≈ 0.6-1M ₾/yr. PAUSED at the spearhead fork (GE private-primary ICP=Ver.A narrowed vs diaspora=Ver.B). STILL TODO: pick fork → walk 9 challenges → lock mission/KVP, THEN redo competitor work as idea-mining/abundance lens. v2.0 = product milestone (design overhaul + premium/backend + 10-12 content; parent-voice stories = O3 flagship) — after features mature + a pay signal + mission/KVP.
