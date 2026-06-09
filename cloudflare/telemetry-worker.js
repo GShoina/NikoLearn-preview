@@ -1,6 +1,7 @@
 /**
  * NikoLearn — privacy-minimized telemetry, aggregated before storage (Cloudflare Worker, free tier).
- * Route: POST /v1/t   ·   Binding: KV namespace "NIKO_T" (aggregate counters only).
+ * Routes: POST /v1/t (collect) · GET /v1/stats?k=SECRET (owner-only read, returns aggregate JSON).
+ * Binding: KV namespace "NIKO_T" (aggregate counters only). Secret: env.STATS_KEY (set at deploy).
  *
  * IP FRAMING (truthful — GPT review pt.2): Cloudflare transiently processes network metadata as
  * our infrastructure processor. NikoLearn application code below NEVER reads, stores, logs, hashes,
@@ -88,7 +89,30 @@ const today = () => new Date().toISOString().slice(0, 10); // UTC date bucket
 export default {
   async fetch(request, env) {
     const origin = request.headers.get('Origin') || '';
+    const url = new URL(request.url);
     if (request.method === 'OPTIONS') return new Response(null, { headers: cors(origin) });
+
+    // ── READ side: GET /v1/stats?k=SECRET → the aggregate counters as JSON (owner-only).
+    // Protected by a shared secret (env.STATS_KEY, set at deploy). Returns ONLY the counters this
+    // Worker wrote (date|event|coarse-dims → count) — there are no raw events, no IP, no identity to
+    // return. Read-only: never writes. If STATS_KEY is unset, the endpoint is closed (403).
+    if (request.method === 'GET' && url.pathname === '/v1/stats') {
+      if (!env.STATS_KEY || url.searchParams.get('k') !== env.STATS_KEY) {
+        return new Response('forbidden', { status: 403 });
+      }
+      const out = {};
+      let cursor;
+      do {
+        const list = await env.NIKO_T.list({ cursor });
+        for (const k of list.keys) out[k.name] = await env.NIKO_T.get(k.name);
+        cursor = list.list_complete ? null : list.cursor;
+      } while (cursor);
+      return new Response(JSON.stringify(out, null, 2), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
+      });
+    }
+
     if (request.method !== 'POST') return new Response('method', { status: 405, headers: cors(origin) });
 
     let body;
