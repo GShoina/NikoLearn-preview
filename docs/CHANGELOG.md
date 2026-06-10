@@ -2,6 +2,42 @@
 
 Human-readable log. Full audit trail = git history (`git log`, 70+ commits).
 
+## v2.00 — 2026-06-10 (placement diagnostic + parent progress instrument — owner ask)
+- **Owner ask:** (a) when a child enters, a test-like flow to gauge their level + recommend where to
+  start; (b) a clear parent measure that the child "already learned X and developed".
+- **NEW `niko/placement.js`** (loaded in index.html, precached in sw.js): a short entry diagnostic —
+  5 questions for ≤5yo (counting + letter recognition), 8 for older (vocab/translate/math, weighted
+  easy=1/med=2/hard=3). Verdict → დაწყებითი / საშუალო / მაღალი + a concrete recommendation tied to a
+  real subject (kings-eng / english / ka-alpha …). Stored in `s.placement`. New profiles are auto-offered
+  the diagnostic (skippable); a re-takeable "👉 რეკომენდაცია" banner then shows on the subject grid.
+- **Parent progress instrument** (parent.js): a green "🌟 უკვე ისწავლა და განვითარდა" panel per child —
+  mastered words/math-ops/alphabets + GROWTH since placement (from level X / N words → now Y / M words,
+  ▲ +delta). Answers "what has my child actually learned and how far have they come".
+- Gemini Georgian QA applied (removed an English calque + cold/academic wording).
+- Files: placement.js (new), screens.js (selectProfile gate + reco banner + APP_VERSION 2.00),
+  parent.js (growth panel), index.html (+script), sw.js (cache 2.00 + precache).
+
+## v1.99 — 2026-06-10 (truth + audio + robustness — plan Phase 1)
+- **Truth:** removed the FAKE pronunciation score (random 72-96) → honest "მოისმინე და გაიმეორე"
+  listen-and-repeat mode that plays the English model word, no fabricated number. Fixed the kings-eng
+  voice screen reading the Georgian prompt with the English voice (now pronounces the English target).
+  Landing copy reconciled: dropped "listens to & corrects pronunciation"/fake-grade claims → honest
+  "says the word clearly, repeat after it".
+- **Real day-streak:** date-based dayStreak (yesterday→+1, gap→reset 1, same-day→no-op) in the topbar
+  flame, replacing the per-answer combo that was mislabeled as a "day streak" on the landing.
+- **Screen-time limit:** parent-set daily cap (0/15/30/45/60 min), per-day accrual, gentle
+  "🌙 რა კარგად ვითამაშეთ" block at round end + on entry.
+- **Parent PIN:** real optional 4-digit PIN gate (with "forgot?" → arithmetic-challenge recovery).
+- **Audio core:** speakSeq now CHAINED on `ended` (clip→TTS sequential, ka-gated); central ka voice-gate
+  (no clip + no real device ka voice = silence, dropped the ru substitution in pickVoice + speakOne);
+  playClip 404 → TTS fallback.
+- **Robustness:** global crash-recovery screen (🦉 "უი, რაღაც აირია" 🔄 თავიდან), save() try/catch,
+  sw.js offline fallback now navigation-ONLY (was returning index.html HTML for failed JS/CSS).
+- Manifest: investigated — 0 true duplicate keys (the 20 digit↔word pairs intentionally share clips);
+  the audit's "8 dup keys" did not reproduce, no change needed.
+- Files: core.js, audio.js, owl.js, games.js, screens.js, parent.js, index.html, sw.js, landing.html.
+- Gemini Georgian QA applied (caught the "დროზე კარგად ვითამაშეთ" = "had a good time" calque).
+
 ## v1.98 — 2026-06-10 (card-depth visual/audio language: stack vs play)
 - Problem: a non-reading 3-9yo cannot tell which card opens MORE cards and which starts a game,
   because all cards look identical across the 3-level navigation (subject → mode → topic).

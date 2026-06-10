@@ -56,6 +56,39 @@
 - **Gemini (cross-model, CLI installed — `gemini` via stdin) ran 3 grilldown rounds.** Live challenges still on the table: "safe low-chaos" = baseline not USP (must show MEASURABLE progress); current tutor.js = rule-based, do NOT market as "AI"; real AI moat = offline content-pipeline + "Parent Translator" (scores→human guidance); 6-month Cambridge claim = liability → reframe to confidence/routine/school-readiness; grades 1-3 = auto-progression "Rail" not a menu.
 - **▶ RESUME (the actual next step):** owner is reacting to the **6 OPEN questions** in the Grilldown v2 "❓ ღია" tab — (1) mission OK? (2) "one engine two lenses" OK? (3) A / B / synthesis? (4) GTM diaspora-first-paid? (5) "safe + measurable progress" dual promise? (6) skill-Rail for grades 1-3? **Still PLAN — build nothing until he picks.** After he picks, likely first build = the "one engine, two lenses" skill-engine + diaspora-first GTM (but NOT before confirmation). The 2026-06-08 D1-D11 "LOCKED" = owner's directional input, but the diaspora-ONLY MISSION framing is SUPERSEDED by both-audiences.
 - v2.0 product milestone unchanged (after features + a pay signal + strategy). **LESSON (behavioral):** in exploratory strategy, do NOT collapse to "locked" — preserve the owner's full brief + optionality; a monetization spearhead is not a mission.
+> **✅✅ SHIPPED 2026-06-10 (4) — PHASE 1 (v1.99) + OWNER'S NEW INSTRUMENT (v2.00) BOTH LIVE & VERIFIED.**
+> Two deploys this session, each Playwright self-tested (SILENT per the standing rule), visually verified,
+> Gemini-Georgian-QA'd, 0 console errors, live-confirmed on gshoina.github.io/NikoLearn.
+> **v1.99 (commit e7be074) — TRUTH + AUDIO + ROBUSTNESS (plan Phase 1):**
+> (1) **fake pronunciation score REMOVED** → honest „მოისმინე და გაიმეორე" listen-and-repeat (no fabricated
+>     72-96 number); voice mode now plays the English model word. (2) **kings-eng ka-via-EN-voice bug FIXED** —
+>     voiceScreen now pronounces the English target (q.en||q.a), never the Georgian q.q. (3) **REAL date-based
+>     day-streak** (touchDay/todayStr in core.js: yesterday→+1, gap→reset 1, same-day→no-op) replaces the
+>     mislabeled per-answer combo in the topbar flame. (4) **screen-time daily limit** (parent-set 0/15/30/45/60,
+>     per-day todayMs, gentle „რა კარგად ვითამაშეთ" 🌙 block at round-end + entry). (5) **real optional 4-digit
+>     parent PIN** gate (openPinGate, recovery via „დაგავიწყდა?"→arithmetic). (6) **audio core**: speakSeq now
+>     CHAINED on `ended` (clip→TTS sequential, ka-gated), central ka voice-gate (no clip + no device ka voice =
+>     SILENCE, dropped ru fallback in pickVoice + speakOne), playClip 404→TTS fallback. (7) **robustness**: global
+>     crash-recovery screen (🦉 „უი, რაღაც აირია" 🔄) in index.html, save() try/catch, sw.js offline fallback
+>     navigation-ONLY (was corrupting failed JS/CSS with index.html). (8) **landing copy reconciled** — dropped the
+>     „ასწორებს გამოთქმას"/fake-grade overclaims → honest „გარკვევით ამბობს, რომ გაიმეორო". Manifest investigated:
+>     0 true dup keys (the 20 digit↔word pairs share clips intentionally) — the audit's „8 dups" did NOT reproduce.
+> **v2.00 (commit 9fce8fe) — OWNER'S NEW ASK (placement + parent progress):** NEW `niko/placement.js` (wired in
+>     index.html + sw.js precache). (A) **entry diagnostic** when a child enters: 5 young / 8 older leveled MC
+>     questions (vocab/math/translate, diff-weighted) → verdict დაწყებითი/საშუალო/მაღალი + a concrete recommendation
+>     tied to a real subject; stored in `s.placement`; a re-takeable „👉 რეკომენდაცია" banner shows on the subject
+>     grid; new profiles auto-offered (skippable). (B) **parent progress instrument** in parentDash: green
+>     „🌟 უკვე ისწავლა და განვითარდა" panel = mastered words/math/alphabets + GROWTH since placement
+>     (from level X / N words → now Y / M words, ▲ +delta). Directly answers the owner's „მშობელს ცხადი საზომი
+>     უნდა, რომ ბავშმა ესა და ეს ისწავლა და განვითარდა".
+> **⚠️ VERSION-LABEL NOTE:** I advanced the label to **2.00** for the placement milestone, but the PLAN's full
+> v2.00 = all 7 phases. **REMAINING PLAN PHASES (NOT yet built, continue here):** Phase 2 learning-core (wrong→show
+> right→back loop, weak-item weighted review/Leitner, „ნასწავლი" only on 3-in-a-row, age-tuned celebration speed),
+> Phase 3 the 8-12 band (own grid/skin, division/multi-digit/missing-number→simple equations DragonBox-style,
+> geometry/Vekua), Phase 4 King's YLE depth, Phase 5 creative section + coin economy, Phase 6 wisdom quotes,
+> Phase 7 copy-QA/a11y/hygiene/design polish. Plan SSOT: `output/2026-06-10-NikoLearn v2.00 აუდიტი და გეგმა by Niko.html`.
+> Backup before this session: `backups/NikoLand_pre-v1.99-phase1_2026-06-10.zip`.
+>
 > **▶▶ RESUME 2026-06-10 (3) — OWNER SAID „შესრულება გავაგრძელოთ" = plan is GO.** On next session START
 > PHASE 1 IMMEDIATELY (truth + audio core → v1.99) from the plan in
 > `output/2026-06-10-NikoLearn v2.00 აუდიტი და გეგმა by Niko.html`, then continue phase by phase to v2.00
