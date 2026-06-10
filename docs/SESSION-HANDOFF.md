@@ -56,6 +56,40 @@
 - **Gemini (cross-model, CLI installed — `gemini` via stdin) ran 3 grilldown rounds.** Live challenges still on the table: "safe low-chaos" = baseline not USP (must show MEASURABLE progress); current tutor.js = rule-based, do NOT market as "AI"; real AI moat = offline content-pipeline + "Parent Translator" (scores→human guidance); 6-month Cambridge claim = liability → reframe to confidence/routine/school-readiness; grades 1-3 = auto-progression "Rail" not a menu.
 - **▶ RESUME (the actual next step):** owner is reacting to the **6 OPEN questions** in the Grilldown v2 "❓ ღია" tab — (1) mission OK? (2) "one engine two lenses" OK? (3) A / B / synthesis? (4) GTM diaspora-first-paid? (5) "safe + measurable progress" dual promise? (6) skill-Rail for grades 1-3? **Still PLAN — build nothing until he picks.** After he picks, likely first build = the "one engine, two lenses" skill-engine + diaspora-first GTM (but NOT before confirmation). The 2026-06-08 D1-D11 "LOCKED" = owner's directional input, but the diaspora-ONLY MISSION framing is SUPERSEDED by both-audiences.
 - v2.0 product milestone unchanged (after features + a pay signal + strategy). **LESSON (behavioral):** in exploratory strategy, do NOT collapse to "locked" — preserve the owner's full brief + optionality; a monetization spearhead is not a mission.
+> **✅ DONE 2026-06-11 (5) — OWNER SAID „გააკეთე ყველაფერი D1-D6 + დოკები სრულად" (do ALL of D1-D6
+> in code + update both strategy docs).** Built as verified, deployable increments. ALL LIVE:
+> • **v2.01 (81c518a) D5** — desktop-only hover reveal on subject cards (`@media(hover:hover)+(pointer:fine)`):
+>   card lifts/tilts + slides up a `data-sum` content summary so a parent browsing on a computer sees what is
+>   inside without tapping; kids on touch unaffected. (styles.css + screens.js)
+> • **v2.02 (19b049f) D3** — structured parent feedback form in the parent space („💬 დაგვიტოვე აზრი ან
+>   საკონტაქტო"): name/phone/email/message all optional → sends via the parent's own mail app (mailto),
+>   privacy-clean (nothing auto-collected). (parent.js)
+> • **v2.03 (b66b7c5) D1** — the big one: per-SUBJECT entry diagnostic (English/Math/Georgian) replaces the
+>   v2.00 single generic test; DATA-BACKED skill **Paths (გზა)** per subject (milestones mastered from real
+>   play, shown as a ✓/▶ stepped strip atop each subject menu); persistent **ჯამური პროგრესი** meter
+>   (profile + parent dash); **parent goals (🎯)** (words/streak/total %, tracked with a bar). Fixed Georgian
+>   locative grammar (ინგლისურში not ინგლისურიში). (placement.js rewritten + screens.js + parent.js + styles.css)
+>   Each increment: silent Playwright self-test + visual verify + 0 console errors + live-deployed.
+> • **v2.04 (c539341) D4** — owl concrete role: on a WRONG answer the correct option is revealed + (for English)
+>   spoken, so a mistake teaches (wired into vocab/math/shapes/compare/skip/money/clock/Kings); parent rec reframed
+>   „🦉 ნიკოს რჩევა მშობელს" (the მშობლის თარჯიმანი). Honest framing, not „AI tutor". (owl.js+games.js+parent.js)
+> • **v2.05 (0cee373) D2** — free/paid scaffold: premium (example tier = Kings) stays VISIBLE, badged 🔒 when
+>   premium off, tapping → upsell screen (never a dead end); default = ALL UNLOCKED (free launch); parent
+>   „💎 Premium (დემო)" section + toggle. (core.js premiumOn/isPremiumSubj + screens.js + parent.js)
+> • **v2.06 (6f7d931) D6** — truth-bar: dropped the „AI რეპეტიტორი / AI tutor" overclaim (tutor.js is rule-based)
+>   across landing meta/og/hero/eyebrow/nav + i18n-landing.js + tweaks.js → „რეპეტიტორი ნიკო ბუ". No fake metrics left.
+> • **DOCS (ae211e3)** — v2.1 update section added to BOTH strategy-v2-2026-06-10.html (pushed) AND the output/
+>   audit/plan doc (local, gitignored): shipped D1-D6 + refreshed vision + forward plan.
+> • **v2.07 (600ab76) — OWNER LIVE FEEDBACK** — parent space was tiny/grey/hard to read → bigger+darker text
+>   (scoped `.screen.parent`); card hover summary now a brand-colored card that pops UP higher (was flat grey);
+>   export-to-teacher report now FUNCTIONS (modal + selectable text + reliable copy + WhatsApp share). ⚠️ if
+>   `git status` shows v2.07 unpushed (credential-helper hiccup hit late in the session), re-run `git push origin main`.
+> **✅ D1-D6 + DOCS + the owner's live-UX fixes ALL DONE & LIVE (v2.07).** This whole D1-D6 build = **Fable 5**.
+> **FORWARD (next session) — plan phases 2-7 remain:** Phase 2 learning review loop / Leitner · Phase 3 8-12 band
+> (algebra/geometry/Vekua) · Phase 4 King's YLE depth · Phase 5 creative section + coin economy (tie to Premium) ·
+> Phase 6 wisdom quotes · Phase 7 copy-QA/a11y/design polish. Owner said „დანარჩენ ბაგებს Opus გავასწორებინებ"
+> (he'll hand remaining bugs to Opus 4.8 — a NEW session, since this one is Fable 5).
+>
 > **✅✅ SHIPPED 2026-06-10 (4) — PHASE 1 (v1.99) + OWNER'S NEW INSTRUMENT (v2.00) BOTH LIVE & VERIFIED.**
 > Two deploys this session, each Playwright self-tested (SILENT per the standing rule), visually verified,
 > Gemini-Georgian-QA'd, 0 console errors, live-confirmed on gshoina.github.io/NikoLearn.
