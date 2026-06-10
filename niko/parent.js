@@ -174,7 +174,7 @@ function parentDash(){
     if(recs.length)recBody=`<b>შემდეგი ნაბიჯი ერთად:</b><br>${recs.map(r=>'• '+r).join('<br>')}<br><span class="rec-push">👉 დააჭირეთ ერთად 5 წუთი, ${nameOf(p)} მალე დაიჭერს თავს ამ თემაში.</span>`;
     else if(s.sessions>0)recBody=`<b>${nameOf(p)} მშვენივრად მიდის! 🌟</b> სიზუსტე ${acc}%. შემდეგი ნაბიჯი: სცადეთ ერთი დონით მაღლა, მზად არის.`;
     else recBody=`ჯერ საკმარისი მონაცემი არ არის, როცა ${nameOf(p)} ითამაშებს, აქ გამოჩნდება სად იჭედება და რა გასაუმჯობესებია.`;
-    html+=`<div class="insight"><div class="ii">${I.spark}</div><div class="it"><b>📊 გასაუმჯობესები</b><br>${recBody}</div></div>`;
+    html+=`<div class="insight"><div class="ii">🦉</div><div class="it"><b>ნიკოს რჩევა მშობელს</b><br>${recBody}</div></div>`;
     if(strong.length)html+=`<div class="tagrow">${strong.map(w=>`<span class="tag strong">✓ ${w}</span>`).join('')}</div>`;
     if(weak.length)html+=`<div class="tagrow">${weak.map(w=>`<span class="tag weak">↻ ${w}</span>`).join('')}</div>`;
     if(Object.keys(s.math||{}).length){

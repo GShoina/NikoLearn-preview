@@ -89,6 +89,7 @@ function answer(btn,sel,cor){
     record(cor,true);winStep(cor,'en-US',()=>{game.i++;advance();});
   } else {
     btn.classList.add('wrong','dim');record(cor,false);
+    revealCorrect(cor,'en-US');
     setTimeout(()=>maybeOfferHelp(),350);
   }
 }
@@ -226,7 +227,7 @@ function nextMath(){
 function answerMath(btn,sel,cor){
   if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');
     mrec(true);winStep(null,null,()=>{game.i++;nextMath();});}
-  else{btn.classList.add('wrong','dim');mrec(false);setTimeout(maybeOfferHelp,350);}
+  else{btn.classList.add('wrong','dim');mrec(false);revealCorrect(cor);setTimeout(maybeOfferHelp,350);}
 }
 function mrec(ok){const s=state[profile];if(ok){s.shields++;game.shields++;s.streak++;s.maxStreak=Math.max(s.maxStreak,s.streak);if(!s.math[game.mode])s.math[game.mode]={correct:0,wrong:0};s.math[game.mode].correct++;}else{game.wrong++;s.streak=0;if(!s.math[game.mode])s.math[game.mode]={correct:0,wrong:0};s.math[game.mode].wrong++;}save();}
 
@@ -242,7 +243,7 @@ function nextCmp(){
 }
 function answerCmp(btn,sel,cor){
   if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);winStep(null,null,()=>{game.i++;nextCmp();});}
-  else{btn.classList.add('wrong','dim');mrec(false);setTimeout(maybeOfferHelp,350);}
+  else{btn.classList.add('wrong','dim');mrec(false);revealCorrect(cor);setTimeout(maybeOfferHelp,350);}
 }
 /* ── skip-counting by 5 or 10 ── */
 function skipRound(){game.mode='skip';const step=Math.random()<0.5?5:10;game.qs=Array.from({length:8},()=>{const s0=step*ri(1,6);const seq=[s0,s0+step,s0+step*2,s0+step*3];return{seq:seq,step:step,a:s0+step*4};});game.i=0;game.shields=0;game.wrong=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextSkip();}
@@ -255,7 +256,7 @@ function nextSkip(){
 }
 function answerSkip(btn,sel,cor){
   if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);winStep(null,null,()=>{game.i++;nextSkip();});}
-  else{btn.classList.add('wrong','dim');mrec(false);setTimeout(maybeOfferHelp,350);}
+  else{btn.classList.add('wrong','dim');mrec(false);revealCorrect(cor);setTimeout(maybeOfferHelp,350);}
 }
 /* ── shapes: see a shape → pick its name (name shown in the UI language) ── */
 function shapeRound(){game.mode='shapes';game.subj='math';game.qs=shuffle(SHAPES).slice(0,Math.min(8,SHAPES.length));game.i=0;game.shields=0;game.wrong=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextShape();}
@@ -270,7 +271,7 @@ function nextShape(){
 }
 function answerShape(btn,sel,cor){
   if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);winStep(cor,'en-US',()=>{game.i++;nextShape();});}
-  else{btn.classList.add('wrong','dim');mrec(false);setTimeout(maybeOfferHelp,350);}
+  else{btn.classList.add('wrong','dim');mrec(false);revealCorrect(cor);setTimeout(maybeOfferHelp,350);}
 }
 
 /* ── money: count coins (tetri) → total ── */
@@ -286,7 +287,7 @@ function nextMoney(){
 }
 function answerMoney(btn,sel,cor){
   if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);winStep(null,null,()=>{game.i++;nextMoney();});}
-  else{btn.classList.add('wrong','dim');mrec(false);setTimeout(maybeOfferHelp,350);}
+  else{btn.classList.add('wrong','dim');mrec(false);revealCorrect(cor);setTimeout(maybeOfferHelp,350);}
 }
 /* ── clock: read an analog clock (o'clock / half past) ── */
 const CLOCK_OCLOCK=['🕛','🕐','🕑','🕒','🕓','🕔','🕕','🕖','🕗','🕘','🕙','🕚'];
@@ -318,7 +319,7 @@ function nextClock(){
 }
 function answerClock(btn,sel,cor){
   if(String(sel)===String(cor)){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);winStep(null,null,()=>{game.i++;nextClock();});}
-  else{btn.classList.add('wrong','dim');mrec(false);setTimeout(maybeOfferHelp,350);}
+  else{btn.classList.add('wrong','dim');mrec(false);revealCorrect(cor);setTimeout(maybeOfferHelp,350);}
 }
 
 /* ── counting (Masho, zero-text) ── */
@@ -372,7 +373,7 @@ function nextKings(){
 function answerKings(btn,sel,cor){
   if(String(sel)===String(cor)){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');
     const s=state[profile];s.shields++;game.shields++;s.streak++;s.maxStreak=Math.max(s.maxStreak,s.streak);save();winStep(null,null,()=>{game.i++;nextKings();});}
-  else{btn.classList.add('wrong','dim');state[profile].streak=0;game.wrong++;save();setTimeout(maybeOfferHelp,350);}
+  else{btn.classList.add('wrong','dim');state[profile].streak=0;game.wrong++;save();revealCorrect(cor,game.kind==='eng'?'en-US':null);setTimeout(maybeOfferHelp,350);}
 }
 
 /* ── scoring ── */

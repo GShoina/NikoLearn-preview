@@ -26,6 +26,16 @@ function syncAiFab(){
     fab.innerHTML=`<span class="ping"></span>${tutorAva(profile)}`;   // shows the chosen tutor animal
   } else if(fab) fab.remove();
 }
+// D4 (v2.04): the owl's most concrete job — after a WRONG tap, show (and for English, say) the correct
+// answer, so a mistake actually teaches instead of just bouncing the child back to guess again.
+function revealCorrect(cor,lang){
+  const t=String(cor);
+  setTimeout(()=>{
+    const right=[...document.querySelectorAll('.opt')].find(b=>b.textContent.trim()===t);
+    if(right){ right.classList.remove('dim'); right.classList.add('correct'); }
+    if(lang){ try{ speak(t,lang); }catch(e){} }
+  },500);
+}
 let helpTimer=null;
 function maybeOfferHelp(){
   if(aiRole()==='coach'){clearTimeout(helpTimer);helpTimer=setTimeout(openHint,300);}
