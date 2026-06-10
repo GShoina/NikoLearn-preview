@@ -65,6 +65,25 @@
     (texts||[]).forEach(t=>{ const u = clipFor(t); if(u && !_pre[u]){ try{ const a = new Audio(); a.preload = 'auto'; a.src = u; _pre[u] = a; }catch(e){} } });
   };
 
+  // ── play several recorded clips back-to-back (each waits for the previous to END) ──
+  // Used by container-card nav voicing ("მათემატიკა" → "აირჩიე"). A later speak()/playClip()
+  // pauses curClip, which never fires 'ended', so an interrupted chain stops cleanly.
+  window.playClipSeq = function(texts){
+    const urls = (texts||[]).map(t=>clipFor(t)).filter(Boolean);
+    if(!urls.length) return false;
+    stopClip();
+    let i = 0;
+    const next = ()=>{
+      if(i>=urls.length){ curClip=null; return; }
+      try{
+        const a = new Audio(urls[i++]);
+        curClip = a; a.onended = next; a.play().catch(()=>{});
+      }catch(e){}
+    };
+    next();
+    return true;
+  };
+
   // does the device actually have a voice for this language? (UI can gray out audio if not)
   window.hasVoiceFor = function(lang){
     if(!('speechSynthesis' in window)) return false;

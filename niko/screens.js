@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.97';
+const APP_VERSION='1.98';
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -283,23 +283,23 @@ function selectProfile(p){
   if(isKid){
     const tiny=isTiny(profile);
     subjects=`<div class="subj-grid">
-      <div class="subj kids" onclick="openMenu('counting')"><div class="s-ico">🔢</div><div class="s-name num">1 2 3</div></div>
-      <div class="subj kids" onclick="openMenu('ka-alpha')"><div class="s-ico">🇬🇪</div><div class="s-name">ა ბ გ</div></div>
-      <div class="subj kids eng" onclick="openMenu('en-alpha')"><div class="s-ico">🇬🇧</div><div class="s-name en">A B C</div></div>
+      <div class="subj kids stack" onclick="openSubj(event,'counting')"><div class="s-ico">🔢</div><div class="s-name num">1 2 3</div></div>
+      <div class="subj kids stack" onclick="openSubj(event,'ka-alpha')"><div class="s-ico">🇬🇪</div><div class="s-name">ა ბ გ</div></div>
+      <div class="subj kids eng stack" onclick="openSubj(event,'en-alpha')"><div class="s-ico">🇬🇧</div><div class="s-name en">A B C</div></div>
       ${tiny
-        ? `<div class="subj kids" onclick="startGame('shapes')"><div class="s-ico">🔷</div><div class="s-name">ფიგურები</div></div>`
-        : `<div class="subj kids maths" onclick="openMenu('math')"><div class="s-ico">➕➖</div><div class="s-name num">➕</div></div>`}
-      <div class="subj kids move" onclick="showBreak(true)"><div class="s-ico">🤸</div><div class="s-name">მოძრაობა</div></div>
+        ? `<div class="subj kids play" onclick="startGame('shapes')">${PLAY_BADGE}<div class="s-ico">🔷</div><div class="s-name">ფიგურები</div></div>`
+        : `<div class="subj kids maths stack" onclick="openSubj(event,'math')"><div class="s-ico">➕➖</div><div class="s-name num">➕</div></div>`}
+      <div class="subj kids move play" onclick="showBreak(true)">${PLAY_BADGE}<div class="s-ico">🤸</div><div class="s-name">მოძრაობა</div></div>
     </div>`;
   } else {
     const wc=Object.values(s.words).filter(w=>w.correct>=3).length;
     subjects=`<div class="subj-grid">
-      <div class="subj crown" onclick="openMenu('kings-eng')"><span class="s-badge">👑 გამოცდა</span><div class="s-ico">👑</div><div class="s-name">კინგსი ინგლისური</div><div class="s-sub">Cambridge YLE</div></div>
-      <div class="subj crown maths" onclick="openMenu('kings-math')"><span class="s-badge">👑 გამოცდა</span><div class="s-ico">📐</div><div class="s-name">კინგსი მათემატიკა</div><div class="s-sub">ოლიმპიადა</div></div>
-      <div class="subj eng" onclick="openMenu('english')"><span class="s-badge">${wc} სიტყვა</span><div class="s-ico">🔤</div><div class="s-name">ინგლისური</div><div class="s-sub">5 რეჟიმი</div></div>
-      <div class="subj maths" onclick="openMenu('math')"><div class="s-ico">🧮</div><div class="s-name">მათემატიკა</div><div class="s-sub">დონეებით 1–100</div></div>
-      <div class="subj" onclick="openMenu('ka-alpha')"><div class="s-ico">🇬🇪</div><div class="s-name">ქართული</div><div class="s-sub">კითხვა · წერა · ამოწერა</div></div>
-      <div class="subj move" onclick="showBreak(true)"><div class="s-ico">🤸</div><div class="s-name">მოძრაობა</div><div class="s-sub">პატარა შესვენება</div></div>
+      <div class="subj crown stack" onclick="openSubj(event,'kings-eng')"><span class="s-badge">👑 გამოცდა</span><div class="s-ico">👑</div><div class="s-name">კინგსი ინგლისური</div><div class="s-sub">Cambridge YLE</div></div>
+      <div class="subj crown maths stack" onclick="openSubj(event,'kings-math')"><span class="s-badge">👑 გამოცდა</span><div class="s-ico">📐</div><div class="s-name">კინგსი მათემატიკა</div><div class="s-sub">ოლიმპიადა</div></div>
+      <div class="subj eng stack" onclick="openSubj(event,'english')"><span class="s-badge">${wc} სიტყვა</span><div class="s-ico">🔤</div><div class="s-name">ინგლისური</div><div class="s-sub">5 რეჟიმი</div></div>
+      <div class="subj maths stack" onclick="openSubj(event,'math')"><div class="s-ico">🧮</div><div class="s-name">მათემატიკა</div><div class="s-sub">დონეებით 1–100</div></div>
+      <div class="subj stack" onclick="openSubj(event,'ka-alpha')"><div class="s-ico">🇬🇪</div><div class="s-name">ქართული</div><div class="s-sub">კითხვა · წერა · ამოწერა</div></div>
+      <div class="subj move play" onclick="showBreak(true)">${PLAY_BADGE}<div class="s-ico">🤸</div><div class="s-name">მოძრაობა</div><div class="s-sub">პატარა შესვენება</div></div>
     </div>`;
   }
   render(`<div class="screen">
@@ -315,6 +315,25 @@ function selectProfile(p){
 
 /* ── mode menu ── */
 const MODE_TITLES={english:'🔤 ინგლისური',math:'🧮 მათემატიკა','kings-eng':'👑 კინგსი ინგლისური','kings-math':'👑 კინგსი მათემატიკა',counting:'🔢 დათვლა','ka-alpha':'🇬🇪 ანბანი','en-alpha':'🇬🇧 ანბანი'};
+
+/* ── card-depth language (v1.98): a "stack" card opens MORE cards, a "play" card starts a game.
+   On a stack tap: voice the destination + "აირჩიე" (recorded ka clips only) and unfold-animate.
+   Voicing fires ONLY on the tap (not in openMenu), so back-navigation stays quiet. ── */
+const NAV_SPOKEN={counting:'დათვლა','ka-alpha':'ქართული ანბანი','en-alpha':'ინგლისური ანბანი',math:'მათემატიკა',english:'ინგლისური','kings-eng':'კინგსი ინგლისური','kings-math':'კინგსი მათემატიკა'};
+function unfoldThen(ev,go){
+  const el=ev&&ev.currentTarget;
+  let rm=false; try{rm=matchMedia('(prefers-reduced-motion:reduce)').matches;}catch(e){}
+  if(el&&!rm){ el.classList.add('unfolding'); setTimeout(go,200); } else go();
+}
+function openSubj(ev,subj){
+  if(window.playClipSeq)playClipSeq([NAV_SPOKEN[subj],'აირჩიე'].filter(Boolean));
+  unfoldThen(ev,()=>openMenu(subj));
+}
+function openPhrases(ev){
+  if(window.playClipSeq)playClipSeq(['ფრაზები','აირჩიე']);
+  unfoldThen(ev,openPhraseCats);
+}
+const PLAY_BADGE='<span class="play-badge" aria-hidden="true">▶</span>';
 function openMenu(subj){
   game.subj=subj;
   if(window.Analytics)Analytics.screen('subject/'+subj);
@@ -330,11 +349,11 @@ function openMenu(subj){
       ${mode('listen','👂','სურათი','🔊 → ხატულა')}
       ${mode('match','🧩','დააწყვილე','ქართ ↔ ინგლ')}
       ${mode('spell','✍️','დაწერე','მართლწერა')}
-      ${mode('phrases','💬','ფრაზები','ყოველდღიური')}
+      <div class="mode stack" onclick="openPhrases(event)"><div class="m-ico">💬</div><div class="m-name">ფრაზები</div><div class="m-sub">ყოველდღიური</div></div>
     </div>`;
   } else if(subj==='kings-eng'){
     body=`<div class="mode-grid">
-      <div class="mode feature" onclick="startKings('eng')"><div class="m-ico">👑</div><div><div class="m-name">კინგსის ტესტი</div><div class="m-sub">სურათი · თარგმანი · მართლწერა · გრამატიკა</div></div></div>
+      <div class="mode feature play" onclick="startKings('eng')">${PLAY_BADGE}<div class="m-ico">👑</div><div><div class="m-name">კინგსის ტესტი</div><div class="m-sub">სურათი · თარგმანი · მართლწერა · გრამატიკა</div></div></div>
       ${mode('quiz','🎯','ლექსიკა','')}
       ${mode('listen','👂','მოსმენა','')}
       ${mode('spell','✍️','მართლწერა','')}
@@ -342,7 +361,7 @@ function openMenu(subj){
     </div>`;
   } else if(subj==='kings-math'){
     body=`<div class="mode-grid">
-      <div class="mode feature" onclick="startKings('math')"><div class="m-ico">👑</div><div><div class="m-name">კინგსის ოლიმპიადა</div><div class="m-sub">ამოცანები + ლოგიკა</div></div></div>
+      <div class="mode feature play" onclick="startKings('math')">${PLAY_BADGE}<div class="m-ico">👑</div><div><div class="m-name">კინგსის ოლიმპიადა</div><div class="m-sub">ამოცანები + ლოგიკა</div></div></div>
       ${mode('math-add','➕','შეკრება','1–100')}
       ${mode('math-sub','➖','გამოკლება','1–100')}
       ${mode('math-mul','✖️','გამრავლება','×2–×9')}
@@ -364,19 +383,19 @@ function openMenu(subj){
   } else if(subj==='counting'){
     // F2: digits come BEFORE counting, learn the numeral 1-9, quiz, THEN count.
     body=`<div class="mode-grid">
-      <div class="mode" style="min-height:120px" onclick="digitLearn(0)"><div class="kids-ico">🔢</div><div class="m-name">ისწავლე ციფრები</div><div class="m-sub">1 – 9</div></div>
-      <div class="mode" style="min-height:120px" onclick="startDigitQuiz()"><div class="kids-ico">🎯</div><div class="m-name">ციფრების ტესტი</div></div>
-      <div class="mode" style="min-height:130px;grid-column:span 2" onclick="startCount('pick')"><div class="kids-ico">🍎🍎🍎</div><div class="m-name">დათვალე</div><div class="m-sub">რამდენია? აირჩიე რიცხვი</div></div>
+      <div class="mode play" style="min-height:120px" onclick="digitLearn(0)">${PLAY_BADGE}<div class="kids-ico">🔢</div><div class="m-name">ისწავლე ციფრები</div><div class="m-sub">1 – 9</div></div>
+      <div class="mode play" style="min-height:120px" onclick="startDigitQuiz()">${PLAY_BADGE}<div class="kids-ico">🎯</div><div class="m-name">ციფრების ტესტი</div></div>
+      <div class="mode play" style="min-height:130px;grid-column:span 2" onclick="startCount('pick')">${PLAY_BADGE}<div class="kids-ico">🍎🍎🍎</div><div class="m-name">დათვალე</div><div class="m-sub">რამდენია? აირჩიე რიცხვი</div></div>
     </div>`;
   } else { /* alphabets, Georgian & English */
     // Georgian also gets READING (syllable→word), the #1 gap + Georgian-first differentiator.
-    const reading = subj==='ka-alpha' ? `<div class="mode" style="min-height:120px" onclick="readLearn(0)"><div class="kids-ico">📖</div><div class="m-name">კითხვა</div><div class="m-sub">მარცვალი → სიტყვა</div></div>` : '';
-    const sentence = subj==='ka-alpha' ? `<div class="mode" style="min-height:120px" onclick="sentLearn(0)"><div class="kids-ico">📝</div><div class="m-name">წინადადება</div><div class="m-sub">წაიკითხე და გაიგე</div></div>` : '';
-    const build = subj==='ka-alpha' ? `<div class="mode" style="min-height:120px" onclick="startBuild()"><div class="kids-ico">🧩</div><div class="m-name">ააწყვე</div><div class="m-sub">მარცვლებით სიტყვა</div></div>` : '';
-    const trace = subj==='ka-alpha' ? `<div class="mode" style="min-height:120px" onclick="traceLearn(0)"><div class="kids-ico">✍️</div><div class="m-name">ამოწერა</div><div class="m-sub">ასოს წერა თითით</div></div>` : '';
+    const reading = subj==='ka-alpha' ? `<div class="mode play" style="min-height:120px" onclick="readLearn(0)">${PLAY_BADGE}<div class="kids-ico">📖</div><div class="m-name">კითხვა</div><div class="m-sub">მარცვალი → სიტყვა</div></div>` : '';
+    const sentence = subj==='ka-alpha' ? `<div class="mode play" style="min-height:120px" onclick="sentLearn(0)">${PLAY_BADGE}<div class="kids-ico">📝</div><div class="m-name">წინადადება</div><div class="m-sub">წაიკითხე და გაიგე</div></div>` : '';
+    const build = subj==='ka-alpha' ? `<div class="mode play" style="min-height:120px" onclick="startBuild()">${PLAY_BADGE}<div class="kids-ico">🧩</div><div class="m-name">ააწყვე</div><div class="m-sub">მარცვლებით სიტყვა</div></div>` : '';
+    const trace = subj==='ka-alpha' ? `<div class="mode play" style="min-height:120px" onclick="traceLearn(0)">${PLAY_BADGE}<div class="kids-ico">✍️</div><div class="m-name">ამოწერა</div><div class="m-sub">ასოს წერა თითით</div></div>` : '';
     body=`<div class="mode-grid">
-      <div class="mode" style="min-height:120px" onclick="alphaLearn('${subj}',0)"><div class="kids-ico">🔡</div><div class="m-name">ისწავლე ასოები</div></div>
-      <div class="mode" style="min-height:120px" onclick="alphaQuiz('${subj}')"><div class="kids-ico">🎯</div><div class="m-name">ტესტები</div></div>
+      <div class="mode play" style="min-height:120px" onclick="alphaLearn('${subj}',0)">${PLAY_BADGE}<div class="kids-ico">🔡</div><div class="m-name">ისწავლე ასოები</div></div>
+      <div class="mode play" style="min-height:120px" onclick="alphaQuiz('${subj}')">${PLAY_BADGE}<div class="kids-ico">🎯</div><div class="m-name">ტესტები</div></div>
       ${reading}
       ${sentence}
       ${build}
@@ -389,7 +408,7 @@ function openMenu(subj){
   </div>`,'home');
 }
 function mode(m,ic,name,sub){
-  return `<div class="mode" onclick="startGame('${m}')"><div class="m-ico">${ic}</div><div class="m-name">${name||'&nbsp;'}</div>${sub?`<div class="m-sub">${sub}</div>`:''}</div>`;
+  return `<div class="mode play" onclick="startGame('${m}')">${PLAY_BADGE}<div class="m-ico">${ic}</div><div class="m-name">${name||'&nbsp;'}</div>${sub?`<div class="m-sub">${sub}</div>`:''}</div>`;
 }
 
 /* ── category pickers ── */

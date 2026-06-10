@@ -2,6 +2,22 @@
 
 Human-readable log. Full audit trail = git history (`git log`, 70+ commits).
 
+## v1.98 — 2026-06-10 (card-depth visual/audio language: stack vs play)
+- Problem: a non-reading 3-9yo cannot tell which card opens MORE cards and which starts a game,
+  because all cards look identical across the 3-level navigation (subject → mode → topic).
+- **Stack look:** container cards now show a layered "deck of cards" edge (offset shadows), so
+  "something is inside" reads without text. Game cards are flat with a green ▶ play badge.
+- **Unfold:** tapping a container animates it open (scale+fade) and its children pop in with a
+  small stagger, teaching "this card BECAME these cards". `prefers-reduced-motion` respected.
+- **Voicing:** tapping a container speaks its name + "აირჩიე" via NEW recorded ka clips
+  (`nav_01..09.mp3`, edge-tts EkaNeural) chained with the new `playClipSeq()` in audio.js
+  (clips wait for `ended`, so they no longer kill each other). Voices fire on the tap only,
+  so back-navigation stays quiet.
+- Decision: peek-emojis + emoji breadcrumb (grilldown ideas #4/#5) deliberately SKIPPED to avoid
+  card clutter; the stack+▶+voice trio carries the depth signal alone.
+- Files: screens.js (NAV_SPOKEN/openSubj/unfoldThen/openPhrases + stack/play classes),
+  audio.js (playClipSeq), audio-manifest.js (+9), styles.css (depth language block), 9 new clips.
+
 ## v1.93 — 2026-06-09 (pre-launch QA team: security + copy + a11y fixes)
 - A 4-agent parallel review (code-regression / kids-UX & accessibility / Georgian copy / launch-readiness
   & privacy) swept the app. Shipped fixes from it:

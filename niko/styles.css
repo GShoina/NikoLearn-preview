@@ -1052,3 +1052,30 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .hint-dot.on{background:var(--sky);transform:scale(1.25)}
 .hint-dot.star{background:var(--sun);color:#fff;width:16px;height:16px;border-radius:50%;font-size:.7rem}
 .hint-dot.star.on{background:var(--sun-d)}
+
+/* ── v1.98 card-depth language: stack = opens MORE cards (folder look), play = starts a game (▶) ──
+   Layered offset shadows fake the "deck of cards behind" without z-index tricks, so it works
+   inside any stacking context. A non-reader reads the depth, not the text. */
+.mode{position:relative}
+.stack{box-shadow:3px 4px 0 -1px var(--card),3.5px 4.5px 0 0 var(--line),7px 9px 0 -2px var(--card),7.5px 9.5px 0 -1px color-mix(in oklch,var(--line) 70%,transparent)}
+.stack:active{box-shadow:1px 1.5px 0 -1px var(--card),1.5px 2px 0 0 var(--line)}
+.play-badge{position:absolute;right:9px;bottom:9px;width:23px;height:23px;border-radius:50%;
+  background:color-mix(in oklch,var(--green,#7bb661) 88%,#fff);color:#fff;display:grid;place-items:center;
+  font-size:.58rem;padding-left:2px;box-shadow:0 1px 3px rgba(40,30,20,.22);pointer-events:none}
+.subj.kids .play-badge{width:27px;height:27px;font-size:.68rem}
+/* container tap: the card "opens" (grows + fades) before its children render */
+.unfolding{animation:stackOpen .2s ease forwards}
+@keyframes stackOpen{to{transform:scale(1.08);opacity:0}}
+/* children pop in with a small stagger — teaches "this card BECAME these cards" */
+.mode-grid>.mode,.topic-grid>.topic-card{animation:cardIn .26s ease backwards}
+@keyframes cardIn{from{transform:scale(.86);opacity:0}to{transform:scale(1);opacity:1}}
+.mode-grid>*:nth-child(2),.topic-grid>*:nth-child(2){animation-delay:.04s}
+.mode-grid>*:nth-child(3),.topic-grid>*:nth-child(3){animation-delay:.08s}
+.mode-grid>*:nth-child(4),.topic-grid>*:nth-child(4){animation-delay:.12s}
+.mode-grid>*:nth-child(5),.topic-grid>*:nth-child(5){animation-delay:.16s}
+.mode-grid>*:nth-child(6),.topic-grid>*:nth-child(6){animation-delay:.2s}
+.mode-grid>*:nth-child(7),.topic-grid>*:nth-child(7){animation-delay:.24s}
+.mode-grid>*:nth-child(8),.topic-grid>*:nth-child(8){animation-delay:.28s}
+@media (prefers-reduced-motion:reduce){
+  .unfolding,.mode-grid>.mode,.topic-grid>.topic-card{animation:none}
+}
