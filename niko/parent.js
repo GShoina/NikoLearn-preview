@@ -4,7 +4,9 @@
 
 /* ═══════════════ PARENT GATE + DASHBOARD ═══════════════ */
 let gate={a:0,b:0,buf:''};
-function openGate(){
+// dispatcher: a real 4-digit PIN if the parent set one, otherwise the kid-proof arithmetic gate.
+function openGate(){ if(state.parentPin) return openPinGate(); openGateMath(); }
+function openGateMath(){
   gate.a=ri(3,9);gate.b=ri(2,8);gate.buf='';
   const el=document.createElement('div');el.className='gate';el.id='gate';
   el.innerHTML=`<div class="gate-card">
@@ -20,8 +22,40 @@ function openGate(){
   $('.device').appendChild(el);
 }
 function gateKey(n){gate.buf=(gate.buf+n).slice(0,2);$('#gdisp').textContent=gate.buf;}
-function gateClear(){gate.buf='';$('#gdisp').textContent='';}
+function gateClear(){gate.buf='';const d=$('#gdisp');if(d)d.textContent='';}
 function gateOk(){if(parseInt(gate.buf)===gate.a+gate.b){$('#gate').remove();parentDash();}else{const d=$('#gdisp');d.textContent='✕';d.style.color='var(--red)';gate.buf='';setTimeout(()=>{d.textContent='';d.style.color='';},700);}}
+
+/* ── real 4-digit parent PIN (gate hardening v1.99) ── */
+function openPinGate(){
+  gate.buf='';
+  const el=document.createElement('div');el.className='gate';el.id='gate';
+  el.innerHTML=`<div class="gate-card">
+    <h3>${I.lock} მშობლის სივრცე</h3>
+    <p>შეიყვანე 4-ნიშნა PIN-კოდი.</p>
+    <div class="gate-display" id="gdisp"></div>
+    <div class="gate-keys">${[1,2,3,4,5,6,7,8,9].map(n=>`<button onclick="pinKey(${n})">${n}</button>`).join('')}
+      <button onclick="gateClear()">✕</button><button onclick="pinKey(0)">0</button><button onclick="pinOk()">${I.check}</button></div>
+    <button class="btn btn-ghost btn-block mt" style="font-size:.82rem" onclick="pinForgot()">დაგავიწყდა? ➜ მაგალითით შესვლა</button>
+  </div>`;
+  el.onclick=e=>{if(e.target===el)el.remove();};
+  if(window.applyLang)applyLang(el);
+  $('.device').appendChild(el);
+}
+function pinKey(n){gate.buf=(gate.buf+n).slice(0,4);const d=$('#gdisp');if(d)d.textContent='•'.repeat(gate.buf.length);}
+function pinOk(){
+  if(gate.buf===state.parentPin){$('#gate').remove();parentDash();}
+  else{const d=$('#gdisp');if(d){d.textContent='✕';d.style.color='var(--red)';}gate.buf='';setTimeout(()=>{const e=$('#gdisp');if(e){e.textContent='';e.style.color='';}},700);}
+}
+function pinForgot(){const g=$('#gate');if(g)g.remove();openGateMath();} // recovery: fall back to the arithmetic challenge
+function setParentPin(){
+  const a=prompt('ახალი 4-ნიშნა PIN-კოდი:');if(a==null)return;
+  if(!/^\d{4}$/.test(a.trim())){alert('PIN უნდა იყოს ზუსტად 4 ციფრი.');return;}
+  const b=prompt('გაიმეორე PIN-კოდი:');if(b==null)return;
+  if(a.trim()!==b.trim()){alert('კოდები არ ემთხვევა. სცადე თავიდან.');return;}
+  state.parentPin=a.trim();save();alert('PIN-კოდი დაყენდა. ✓');parentDash();
+}
+function clearParentPin(){if(confirm('მოვხსნა PIN-კოდი? სივრცეს მაინც დაიცავს მაგალითი.')){state.parentPin=null;save();parentDash();}}
+function setScreenLimit(m){state.screenLimitMin=m;save();parentDash();}
 
 function parentDash(){
   profile=profile||'niko';
@@ -90,7 +124,17 @@ function parentDash(){
       <a href="https://wa.me/995593255385?text=NikoLearn%20feedback" target="_blank" rel="noopener" style="color:var(--primary-d);font-weight:600;text-decoration:none">დაგვიკავშირდი 💬</a>
       · <a href="mailto:gela.shonia@bivision.ge?subject=NikoLearn%20feedback" style="color:var(--muted);text-decoration:none">✉️ ელფოსტა</a>
     </div>`;
-  html+=`<div class="section-label">⏱️ დრო · 🔥 ჩვევა · 🎙️ ხმოვანი თანხმობა</div>
+  const lim=state.screenLimitMin||0;const hasPin=!!state.parentPin;
+  html+=`<div class="section-label">⏱️ ეკრანის დრო (დღიური ლიმიტი)</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center">
+      ${[0,15,30,45,60].map(m=>`<button class="lang-chip ${lim===m?'on':''}" onclick="setScreenLimit(${m})">${m===0?'გამორთული':m+' წთ'}</button>`).join('')}
+    </div>
+    <div class="lvl-hint" style="text-align:center;margin:6px 2px">ამ დროის ამოწურვის შემდეგ ნიკო ხვალამდე დაისვენებს.</div>`;
+  html+=`<div class="section-label">🔒 მშობლის PIN-კოდი</div>
+    <button class="btn btn-ghost btn-block" onclick="setParentPin()">${hasPin?'🔑 შეცვალე PIN-კოდი':'🔑 დააყენე 4-ნიშნა PIN-კოდი'}</button>
+    ${hasPin?'<button class="btn btn-ghost btn-block mt" onclick="clearParentPin()">PIN-კოდის მოხსნა</button>':''}
+    <div class="lvl-hint" style="text-align:center;margin:6px 2px">${hasPin?'მშობლის სივრცეში მხოლოდ PIN-კოდით შეხვალ.':'PIN-კოდის ნაცვლად მშობლის სივრცეს მათემატიკური ამოცანა იცავს, რომელსაც პატარა ვერ ამოხსნის.'}</div>`;
+  html+=`<div class="section-label">გასვლა</div>
     <button class="btn btn-ghost btn-block mt" onclick="logout()">🔒 გასვლა (ჩაკეტვა)</button>
     <button class="btn btn-ghost btn-block mt" onclick="if(confirm('წავშალო პროგრესი?')){localStorage.removeItem('${SK}');state=load();goHome();}">🗑️ პროგრესის გასუფთავება</button>`;
   html+=`</div>`;

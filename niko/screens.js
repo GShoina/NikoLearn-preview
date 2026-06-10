@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.98';
+const APP_VERSION='1.99';
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -276,8 +276,20 @@ function topbarPlain(title,back){
   return `<div class="topbar"><button class="iconbtn" onclick="${back}">←</button><div class="who">${title}</div></div>`;
 }
 
+// gentle daily screen-time limit reached → friendly "see you tomorrow" (parent can adjust the limit)
+function screenLimitUp(p){
+  render(`<div class="screen" style="justify-content:center;text-align:center;gap:14px;padding:24px">
+    <div style="font-size:4.2rem">🌙</div>
+    <h2>რა კარგად ვითამაშეთ!</h2>
+    <p style="color:var(--muted);max-width:300px;line-height:1.5">დღევანდელი სათამაშო დრო დასრულდა. ხვალ ნიკო ისევ დაგელოდება. 🦉</p>
+    <button class="btn btn-ghost btn-block" style="max-width:300px" onclick="goHome()">${I.home} მთავარი</button>
+    <button class="btn btn-ghost btn-block" style="max-width:300px" onclick="openGate()">${I.lock} მშობლის სივრცე</button>
+  </div>`,false);
+}
 function selectProfile(p){
   profile=p;game.start=Date.now();game.cat=null;game.pcat=null;
+  if(typeof touchDay==='function')touchDay(p);
+  if(typeof overLimit==='function'&&overLimit(p))return screenLimitUp(p);
   const s=state[p],lv=levelOf(p),isKid=isYoung(p);
   let subjects;
   if(isKid){

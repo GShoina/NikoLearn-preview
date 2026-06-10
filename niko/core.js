@@ -24,7 +24,7 @@ const SK='nikolearn_p2';
 let state, profile, game={}, ai={role:'companion'};
 const $=(s,r=document)=>r.querySelector(s);
 
-function blankKid(){return{shields:0,streak:0,maxStreak:0,words:{},sessions:0,math:{},best:{},lastPlayed:null,totalTime:0,dadMessages:[]};}
+function blankKid(){return{shields:0,streak:0,maxStreak:0,dayStreak:0,maxDayStreak:0,lastDay:null,todayMs:0,todayDate:null,words:{},sessions:0,math:{},best:{},lastPlayed:null,totalTime:0,dadMessages:[]};}
 function load(){
   let s=null;try{s=JSON.parse(localStorage.getItem(SK));}catch{}
   if(!s)return def();
@@ -42,7 +42,27 @@ function def(){return{
   kids:[],
   guest:blankKid()
 };}
-function save(){localStorage.setItem(SK,JSON.stringify(state));}
+function save(){try{localStorage.setItem(SK,JSON.stringify(state));}catch(e){/* private mode / quota: keep running on in-memory state */}}
+/* ── real date-based day streak + per-day screen-time (truth pass v1.99) ── */
+function todayStr(d){d=d||new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function touchDay(p){
+  const s=state[p];if(!s)return;
+  const today=todayStr();
+  if(s.lastDay!==today){
+    const y=new Date();y.setDate(y.getDate()-1);
+    s.dayStreak=(s.lastDay===todayStr(y))?((s.dayStreak||0)+1):1; // yesterday → continue, gap → restart at 1
+    s.maxDayStreak=Math.max(s.maxDayStreak||0,s.dayStreak);
+    s.lastDay=today;
+  }
+  if(s.todayDate!==today){s.todayMs=0;s.todayDate=today;} // reset today's screen-time at day rollover
+  save();
+}
+// daily screen-time limit (parent-set, 0 = off). Enforced at session entry + end of each round.
+function overLimit(p){
+  const lim=state.screenLimitMin||0;if(!lim)return false;
+  const s=state[p];if(!s||s.todayDate!==todayStr())return false;
+  return (s.todayMs||0)>=lim*60000;
+}
 const AV_COLORS=['sky','primary','green','sun','purple'];
 function kidObj(p){return ((state&&state.kids)||[]).find(k=>k.id===p)||(p==='guest'?{id:'guest',name:'სტუმარი',age:0,color:'green'}:{id:p,name:p,age:7,color:'sky'});}
 function isYoung(p){const a=kidObj(p).age;return a>0&&a<=5;}
@@ -93,14 +113,14 @@ function setNav(active){
   $('#bottomnav').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.nav===active));
 }
 function topbar(title,sub,back){
-  const s=state[profile]||{shields:0,streak:0};
+  const s=state[profile]||{shields:0,dayStreak:0};
   return `<div class="topbar">
     ${back?`<button class="iconbtn" onclick="${back}">←</button>`:''}
     <div class="who">${title}${sub?`<small>${sub}</small>`:''}</div>
     <div class="chips">
       ${voiceToggleBtn()}
       <span class="chip shield">${I.shield}<span class="num">${s.shields}</span></span>
-      <span class="chip streak">${I.flame}<span class="num">${s.streak}</span></span>
+      <span class="chip streak" title="დღის სერია">${I.flame}<span class="num">${s.dayStreak||0}</span></span>
     </div>
   </div>`;
 }
@@ -140,7 +160,7 @@ function instrCode(p){const ls=kidLangs(p);const c=ls.includes('ka')?'ka':ls[0];
 /* ── TTS ── */
 function pickVoice(lang){
   const vs=speechSynthesis.getVoices();
-  if(lang&&lang.startsWith('ka')){return vs.find(x=>x.lang.startsWith('ka'))||vs.find(x=>x.lang.startsWith('ru'))||null;}
+  if(lang&&lang.startsWith('ka')){return vs.find(x=>x.lang.startsWith('ka'))||null;} // ka-gate: never substitute ru/en for Georgian
   if(lang&&lang.startsWith('ru')){return vs.find(x=>x.lang.startsWith('ru'))||null;}
   const warmEn=['Samantha','Karen','Moira','Tessa','Google US English','Microsoft Aria','Microsoft Jenny','Fiona'];
   for(const n of warmEn){const v=vs.find(x=>x.name.includes(n)&&x.lang.startsWith('en'));if(v)return v;}
@@ -150,6 +170,9 @@ function pickVoice(lang){
 function defaultRate(lang){const slow=isYoung(profile)?0.82:1;return (lang&&lang.startsWith('ka')?0.6:0.8)*slow;}
 function speakOne(t,lang,opts){
   if(!('speechSynthesis'in window)||!t)return;
+  // central ka gate: by here no recorded clip exists (audio.js handles clips first). With no real
+  // device ka voice, stay SILENT rather than read Georgian with an en/ru voice (garbled "kochar").
+  if((lang||'').slice(0,2)==='ka' && (typeof hasVoiceFor!=='function' || !hasVoiceFor('ka'))) return;
   const u=new SpeechSynthesisUtterance(t);
   u.lang=lang||'en-US';
   u.rate=(opts&&opts.rate!=null)?opts.rate:defaultRate(u.lang);

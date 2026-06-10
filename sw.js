@@ -1,5 +1,5 @@
 // NikoLearn service worker — offline-first app shell (HANDOFF §6 priority 5).
-const CACHE = 'nikolearn-1.98';
+const CACHE = 'nikolearn-1.99';
 const ASSETS = [
   './',
   './index.html',
@@ -59,5 +59,10 @@ self.addEventListener('fetch', e => {
     }).catch(() => r)));
     return;
   }
-  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request).catch(() => caches.match('./index.html'))));
+  // Offline fallback to the app shell ONLY for page navigations. For a failed asset (JS/CSS/font),
+  // returning index.html's HTML would corrupt it — let those fail cleanly instead.
+  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request).catch(() => {
+    if (e.request.mode === 'navigate') return caches.match('./index.html');
+    return Response.error();
+  })));
 });

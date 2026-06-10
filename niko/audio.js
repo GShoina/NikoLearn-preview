@@ -41,14 +41,54 @@
   // make sure cancel() also stops any recorded clip
   const _speak = window.speak;
   window.speak = function(t, lang, opts){ stopClip(); if(_speak) _speak(t, lang, opts); };
-  const _speakSeq = window.speakSeq;
-  window.speakSeq = function(parts){ stopClip(); if(_speakSeq) _speakSeq(parts); };
+
+  // ── chained speakSeq: each part waits for the PREVIOUS to finish ('ended'), so a Georgian clip
+  // then an English word play in order instead of all-at-once. Prefers a recorded clip per part;
+  // for TTS it applies the central ka-gate (no real ka voice → skip that part silently, no garble).
+  window.speakSeq = function(parts){
+    stopClip();
+    try{ if('speechSynthesis'in window) speechSynthesis.cancel(); }catch(e){}
+    const list = (parts||[]).filter(p=>p&&p.t);
+    let i = 0;
+    const next = ()=>{
+      if(i>=list.length){ curClip=null; return; }
+      const p = list[i++];
+      const url = clipFor(p.t);
+      if(url){
+        try{
+          const a = new Audio(url); curClip = a;
+          a.onended = next;
+          a.onerror = ()=> tts(p);
+          a.play().catch(()=> tts(p));
+        }catch(e){ tts(p); }
+      } else { tts(p); }
+    };
+    const tts = (p)=>{
+      const lang = p.lang || 'en-US';
+      // ka-gate: no clip + no device ka voice → skip silently and move on
+      if(lang.slice(0,2)==='ka' && (typeof window.hasVoiceFor!=='function' || !window.hasVoiceFor('ka'))) return next();
+      if(!('speechSynthesis'in window)) return next();
+      try{
+        const u = new SpeechSynthesisUtterance(p.t);
+        u.lang = lang; if(p.rate!=null) u.rate = p.rate;
+        const v = (typeof pickVoice==='function') ? pickVoice(lang) : null; if(v) u.voice = v;
+        u.onend = next; u.onerror = ()=>next();
+        speechSynthesis.speak(u);
+      }catch(e){ next(); }
+    };
+    next();
+  };
 
   // ── instant clip playback for DELIBERATE taps (syllable chips, letters) ──
   // No 500ms duplicate-guard (a tap must ALWAYS sound, even the same syllable twice, e.g. მა-მა),
   // no speechSynthesis dependency, and it stops the current clip + plays immediately so rapid taps
   // keep pace with the child instead of lagging. Returns true if a recorded clip exists.
   const _pre = {};
+  // fall back to RAW TTS (not the clip-aware wrapper, which would just retry the broken clip) when a
+  // clip is mapped but the FILE is missing/404s. ka with no device voice → core speakOne stays silent.
+  function clipFallback(text){
+    try{ if(_speakOne) _speakOne(text, 'ka-GE'); }catch(e){}
+  }
   window.playClip = function(text){
     const url = clipFor(text);
     if(!url) return false;
@@ -56,8 +96,10 @@
     try{
       let a = _pre[url];
       if(a){ try{ a.currentTime = 0; }catch(e){} } else { a = new Audio(url); }
-      curClip = a; a.play().catch(()=>{});
-    }catch(e){ return false; }
+      curClip = a;
+      a.onerror = ()=>{ if(curClip===a){ curClip=null; clipFallback(text); } }; // real 404 fallback
+      a.play().catch(()=>{ if(curClip===a){ curClip=null; clipFallback(text); } });
+    }catch(e){ clipFallback(text); return false; }
     return true;
   };
   // warm the cache so the FIRST tap of each clip is instant (no load lag = the "slow" feel)

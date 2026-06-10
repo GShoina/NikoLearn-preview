@@ -132,19 +132,20 @@ function micPermission(){
 }
 function grantMic(){game.micOk=true;voiceScreen('idle');}
 function voiceScreen(stateName){
-  const target=game.qs&&game.qs[game.i]?(game.qs[game.i].en||game.qs[game.i].q):'apple';
-  const tk=game.qs&&game.qs[game.i]?(game.qs[game.i].ka||''):'ვაშლი';
+  // always pronounce the ENGLISH word. kings-eng "translate" cards have no .en (prompt is Georgian in
+  // .q) → use .a, NEVER the Georgian .q (that was being read by the English voice = garbled).
+  const _q=game.qs&&game.qs[game.i]?game.qs[game.i]:null;
+  const target=(_q&&(_q.en||_q.a))||'apple';
+  const tk=_q?(_q.ka||''):'ვაშლი';
   const states={
-    idle:{s:'დააჭირე და თქვი',h:'წარმოთქვი სიტყვა ხმამაღლა, მასწავლებელი მოგისმენს',ava:tutorAva(profile)},
+    idle:{s:'დააჭირე და თქვი',h:'წარმოთქვი სიტყვა ხმამაღლა, მერე ერთად გავიმეოროთ',ava:tutorAva(profile)},
     listening:{s:'გისმენ…',h:'ლაპარაკობ ნათლად 🎙️',ava:'👂'},
-    thinking:{s:'ვფიქრობ…',h:'',ava:tutorAva(profile)},
-    speaking:{s:'ბუ პასუხობს',h:'',ava:'🗣️'}
+    speaking:{s:'ახლა ნიკოს მოუსმინე',h:'',ava:'🗣️'}
   };
   const st=states[stateName];
   let mid='';
   if(stateName==='idle')mid=`<button class="mic" id="micbtn" onclick="voiceListen()"><span class="pulse"></span>${I.mic}</button>`;
   else if(stateName==='listening')mid=`<div class="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><button class="mic live" onclick="voiceResult()"><span class="pulse"></span>${I.mic}</button>`;
-  else if(stateName==='thinking')mid=`<div class="dots"><i></i><i></i><i></i></div>`;
   else mid=`<div class="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>`;
   render(`<div class="screen voice">
     <button class="iconbtn" style="position:absolute;top:18px;left:18px" onclick="game.subj?openMenu(game.subj):selectProfile(profile)">←</button>
@@ -154,28 +155,27 @@ function voiceScreen(stateName){
     ${st.h?`<div class="v-hint">${st.h}</div>`:''}
     ${mid}
   </div>`,false);
-  if(stateName==='speaking')speak(target);
+  if(stateName==='speaking')speak(target,'en-US');
 }
 function voiceListen(){voiceScreen('listening');setTimeout(()=>{if($('.voice'))voiceResult();},2600);}
+// HONEST repeat mode: the app cannot really grade pronunciation, so it does NOT fake a score.
+// Instead it plays the correct English word for the child to hear and repeat ("გაიმეორე ნიკოსთან").
 function voiceResult(){
-  voiceScreen('thinking');
-  setTimeout(()=>{
-    const score=ri(72,96);
-    const target=game.qs&&game.qs[game.i]?(game.qs[game.i].en||'apple'):'apple';
-    const good=score>=85;
-    render(`<div class="screen voice">
-      <button class="iconbtn" style="position:absolute;top:18px;left:18px" onclick="game.subj?openMenu(game.subj):selectProfile(profile)">←</button>
-      <div class="v-ava">${tutorAva(profile)}</div>
-      <div class="scorering" style="--sc:${score}%"><i>${score}</i></div>
-      <div class="v-state">${good?'ჩინებული გამოთქმა! 🌟':'კარგია! ცოტა გავაუმჯობესოთ'}</div>
-      <div class="v-hint">${good?`„${target}" ნათლად წარმოთქვი.`:`სცადე ბგერა <b>/${target[0]}/</b> უფრო მკაფიოდ.`}</div>
-      <div class="ai-chips" style="justify-content:center">
-        <button class="ai-chip" onclick="voiceScreen('speaking')">${I.speaker} ისევ მომისმინე</button>
-        <button class="ai-chip primary" onclick="voiceScreen('idle')">${I.mic} კიდევ ვცადო</button>
-      </div>
-    </div>`,false);
-    speak(target);
-  },1400);
+  const _q=game.qs&&game.qs[game.i]?game.qs[game.i]:null;
+  const target=(_q&&(_q.en||_q.a))||'apple';
+  const tk=_q?(_q.ka||''):'';
+  render(`<div class="screen voice">
+    <button class="iconbtn" style="position:absolute;top:18px;left:18px" onclick="game.subj?openMenu(game.subj):selectProfile(profile)">←</button>
+    <div class="v-ava">🗣️</div>
+    <div class="v-target">${target}${tk?`<small>${tk}</small>`:''}</div>
+    <div class="v-state">მოისმინე და გაიმეორე</div>
+    <div class="v-hint">ნიკო სიტყვას იტყვის, შენ კი ხმამაღლა გაიმეორე.</div>
+    <button class="ai-listen-big" onclick="speak('${target.replace(/'/g,"\\'")}','en-US')">${I.speaker} ისევ მოისმინე</button>
+    <div class="ai-chips" style="justify-content:center">
+      <button class="ai-chip primary" onclick="voiceScreen('idle')">${I.mic} კიდევ ვცადო</button>
+    </div>
+  </div>`,false);
+  speak(target,'en-US');
 }
 
 /* ═══════════════ MOVEMENT BREAK v2, rigged-SVG kids in the Georgian kit ═══════════════

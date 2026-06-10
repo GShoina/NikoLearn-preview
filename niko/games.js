@@ -412,9 +412,13 @@ function results(){
   const s=state[profile],lv=levelOf(profile);
   const tot=game.shields+game.wrong,pct=tot?Math.round(game.shields/tot*100):0;
   const best=s.best[game.mode]||0;if(game.shields>best)s.best[game.mode]=game.shields;
-  s.sessions++;s.lastPlayed=new Date().toISOString();if(game.start)s.totalTime+=Date.now()-game.start;
+  const _el=game.start?Date.now()-game.start:0;
+  s.sessions++;s.lastPlayed=new Date().toISOString();s.totalTime+=_el;
+  if(typeof todayStr==='function'){if(s.todayDate!==todayStr()){s.todayMs=0;s.todayDate=todayStr();}s.todayMs=(s.todayMs||0)+_el;} // per-day screen-time
   if((game.mode||'').startsWith('math-')&&!isYoung(profile))rampMath(game.mode,pct);
   save();
+  // gentle daily screen-time limit (parent-set): let this round's result show, then block further play
+  if(typeof overLimit==='function'&&overLimit(profile)){setTimeout(()=>screenLimitUp(profile),2800);}
   let msg=pct>=90?voc()+', შესანიშნავია! 🌟':pct>=70?voc()+', კარგად მიდიხარ! 💪':pct>=50?voc()+', ისწავლე ახალი! 📚':voc()+', ყოველი ცდა = წინსვლა! 🌱';
   let beat='';
   if(best>0){if(game.shields>best)beat=`<div class="beat up">🎉 გაჯობე გუშინს! ${best} → ${game.shields}</div>`;

@@ -29,6 +29,29 @@
   </div>
 </div>
 
+<!-- global crash guard: a real uncaught JS error shows a friendly, child-readable recovery screen
+     instead of a frozen/blank app. Resource 404s (img/audio) are ignored (e.error is null for those). -->
+<script>
+(function(){
+  var shown=false;
+  function recover(){
+    if(shown)return;shown=true;
+    try{
+      var d=document.createElement('div');
+      d.setAttribute('style','position:fixed;inset:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:#f4ead9;color:#2b2740;font-family:system-ui,sans-serif;text-align:center;padding:24px');
+      d.innerHTML='<div style="font-size:4rem">🦉</div><div style="font-size:1.2rem;font-weight:700">უი, რაღაც აირია</div><div style="opacity:.7;max-width:300px;line-height:1.5">მოდი, თავიდან ვცადოთ.</div>';
+      var b=document.createElement('button');
+      b.textContent='🔄 თავიდან';
+      b.setAttribute('style','margin-top:6px;padding:14px 30px;border:none;border-radius:18px;background:#F2894C;color:#fff;font-size:1.05rem;font-weight:700;cursor:pointer');
+      b.onclick=function(){location.reload();};
+      d.appendChild(b);(document.body||document.documentElement).appendChild(d);
+    }catch(e){}
+  }
+  window.addEventListener('error',function(e){ if(e&&e.error)recover(); }); // real exceptions only
+  window.addEventListener('unhandledrejection',function(e){ try{e&&e.preventDefault&&e.preventDefault();}catch(x){} }); // swallow noise, no UI
+})();
+</script>
+
 <!-- tweak defaults (host rewrites this block on change) -->
 <script>
 window.__NIKO_DEFAULTS = /*EDITMODE-BEGIN*/{
