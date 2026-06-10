@@ -57,6 +57,37 @@ function setParentPin(){
 function clearParentPin(){if(confirm('მოვხსნა PIN-კოდი? სივრცეს მაინც დაიცავს მაგალითი.')){state.parentPin=null;save();parentDash();}}
 function setScreenLimit(m){state.screenLimitMin=m;save();parentDash();}
 
+/* ── D3 (v2.02): structured parent feedback form. Privacy-clean: nothing is auto-collected — the
+   parent's own mail app sends it, so the only data shared is what the parent chooses to send. ── */
+function feedbackForm(){
+  const el=document.createElement('div');el.className='gate';el.id='fbform';
+  el.innerHTML=`<div class="gate-card" style="max-width:360px">
+    <h3>💬 დაგვიკავშირდი</h3>
+    <p style="font-size:.85rem;color:var(--muted)">დაგვიტოვე შენი აზრი ან საკონტაქტო. ყველა ველი ნებაყოფლობითია.</p>
+    <input class="login-in" id="fb-name" placeholder="სახელი (არასავალდებულო)" autocomplete="name">
+    <input class="login-in" id="fb-phone" placeholder="ტელეფონი (არასავალდებულო)" inputmode="tel" autocomplete="tel">
+    <input class="login-in" id="fb-email" placeholder="ელფოსტა (არასავალდებულო)" inputmode="email" autocomplete="email">
+    <textarea class="login-in" id="fb-msg" placeholder="შენი აზრი…" style="min-height:88px;resize:vertical;text-align:left"></textarea>
+    <button class="btn btn-primary btn-block mt" onclick="sendFeedback()">📨 გაგზავნა</button>
+    <button class="btn btn-ghost btn-block mt" onclick="document.getElementById('fbform').remove()">დახურვა</button>
+    <p class="consent-note" style="font-size:.72rem">გაგზავნისას იხსნება შენი ფოსტის აპი. ინფორმაციას შენ თვითონ აგზავნი, აპი არაფერს ინახავს.</p>
+  </div>`;
+  el.onclick=e=>{if(e.target===el)el.remove();};
+  if(window.applyLang)applyLang(el);
+  $('.device').appendChild(el);
+  const n=$('#fb-name');if(n)n.focus();
+}
+function sendFeedback(){
+  const g=id=>(($('#'+id)||{}).value||'').trim();
+  const name=g('fb-name'),phone=g('fb-phone'),email=g('fb-email'),msg=g('fb-msg');
+  if(!msg&&!phone&&!email){toast('დაწერე აზრი ან დატოვე საკონტაქტო');return;}
+  const body=`NikoLearn გამოხმაურება\n\nსახელი: ${name||'-'}\nტელეფონი: ${phone||'-'}\nელფოსტა: ${email||'-'}\n\nაზრი:\n${msg||'-'}`;
+  const href='mailto:gela.shonia@bivision.ge?subject='+encodeURIComponent('NikoLearn გამოხმაურება')+'&body='+encodeURIComponent(body);
+  const f=$('#fbform');if(f)f.remove();
+  try{ location.href=href; }catch(e){}
+  toast('✓ მადლობა! იხსნება ფოსტის აპი');
+}
+
 function parentDash(){
   profile=profile||'niko';
   let html=`<div class="screen parent">${topbar('მშობლის სივრცე',null,'goHome()')}`;
@@ -137,8 +168,9 @@ function parentDash(){
   html+=`<div class="section-label">📤 რეპორტი</div>
     <button class="btn btn-sky btn-block mt" onclick="exportReport()">📋 დააკოპირე რეპორტი, გაუზიარე მასწავლებელს</button>`;
   html+=`<div class="section-label">💬 უკუკავშირი</div>
-    <div style="text-align:center;font-size:.85rem;color:var(--muted);margin-top:6px">
-      <a href="https://wa.me/995593255385?text=NikoLearn%20feedback" target="_blank" rel="noopener" style="color:var(--primary-d);font-weight:600;text-decoration:none">დაგვიკავშირდი 💬</a>
+    <button class="btn btn-sky btn-block" onclick="feedbackForm()">💬 დაგვიტოვე აზრი ან საკონტაქტო</button>
+    <div style="text-align:center;font-size:.82rem;color:var(--muted);margin-top:8px">
+      ან: <a href="https://wa.me/995593255385?text=NikoLearn%20feedback" target="_blank" rel="noopener" style="color:var(--primary-d);font-weight:600;text-decoration:none">WhatsApp 💬</a>
       · <a href="mailto:gela.shonia@bivision.ge?subject=NikoLearn%20feedback" style="color:var(--muted);text-decoration:none">✉️ ელფოსტა</a>
     </div>`;
   const lim=state.screenLimitMin||0;const hasPin=!!state.parentPin;
