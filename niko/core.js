@@ -67,6 +67,11 @@ const AV_COLORS=['sky','primary','green','sun','purple'];
 function kidObj(p){return ((state&&state.kids)||[]).find(k=>k.id===p)||(p==='guest'?{id:'guest',name:'სტუმარი',age:0,color:'green'}:{id:p,name:p,age:7,color:'sky'});}
 function isYoung(p){const a=kidObj(p).age;return a>0&&a<=5;}
 function isTiny(p){const a=kidObj(p).age;return a>0&&a<=4;} // pre-arithmetic: counting/alphabet/shapes only
+/* ── D2 (v2.05): free vs paid scaffold. Default = everything UNLOCKED (free launch); the boundary is a
+   previewable demo, never a hard-hide — premium content stays visible, just badged + parent-gated. ── */
+function premiumOn(){return !state||state.premium!==false;}
+const PREMIUM_SUBJ=['kings-eng','kings-math']; // example paid tier: Cambridge YLE / olympiad exam prep
+function isPremiumSubj(subj){return PREMIUM_SUBJ.indexOf(subj)>=0;}
 /* ── tutor animal (O1): the child picks who teaches them; visual only, voice unchanged ── */
 const TUTOR_ANIMALS=['🦉','🐱','🦁','🐶','🐰','🐼','🦊','🐵'];
 function tutorAva(p){const k=kidObj(p);return (k&&k.tutor)||'🦉';}

@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='2.04';
+const APP_VERSION='2.05';
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -309,8 +309,8 @@ function selectProfile(p){
   } else {
     const wc=Object.values(s.words).filter(w=>w.correct>=3).length;
     subjects=`<div class="subj-grid">
-      <div class="subj crown stack" data-sum="Cambridge YLE ტესტი: სურათი, თარგმანი, მართლწერა, გრამატიკა" onclick="openSubj(event,'kings-eng')"><span class="s-badge">👑 გამოცდა</span><div class="s-ico">👑</div><div class="s-name">კინგსი ინგლისური</div><div class="s-sub">Cambridge YLE</div></div>
-      <div class="subj crown maths stack" data-sum="ოლიმპიადა: ამოცანები და ლოგიკა" onclick="openSubj(event,'kings-math')"><span class="s-badge">👑 გამოცდა</span><div class="s-ico">📐</div><div class="s-name">კინგსი მათემატიკა</div><div class="s-sub">ოლიმპიადა</div></div>
+      <div class="subj crown stack" data-sum="Cambridge YLE ტესტი: სურათი, თარგმანი, მართლწერა, გრამატიკა" onclick="openSubj(event,'kings-eng')"><span class="s-badge">${premiumOn()?'👑 გამოცდა':'🔒 Premium'}</span><div class="s-ico">👑</div><div class="s-name">კინგსი ინგლისური</div><div class="s-sub">Cambridge YLE</div></div>
+      <div class="subj crown maths stack" data-sum="ოლიმპიადა: ამოცანები და ლოგიკა" onclick="openSubj(event,'kings-math')"><span class="s-badge">${premiumOn()?'👑 გამოცდა':'🔒 Premium'}</span><div class="s-ico">📐</div><div class="s-name">კინგსი მათემატიკა</div><div class="s-sub">ოლიმპიადა</div></div>
       <div class="subj eng stack" data-sum="5 რეჟიმი · 13 თემა · 180+ სიტყვა · ფრაზები" onclick="openSubj(event,'english')"><span class="s-badge">${wc} სიტყვა</span><div class="s-ico">🔤</div><div class="s-name">ინგლისური</div><div class="s-sub">5 რეჟიმი</div></div>
       <div class="subj maths stack" data-sum="შეკრება, გამოკლება, გამრავლება, ფიგურები, ფული, საათი" onclick="openSubj(event,'math')"><div class="s-ico">🧮</div><div class="s-name">მათემატიკა</div><div class="s-sub">დონეებით 1–100</div></div>
       <div class="subj stack" data-sum="ანბანი · კითხვა · წერა · ამოწერა" onclick="openSubj(event,'ka-alpha')"><div class="s-ico">🇬🇪</div><div class="s-name">ქართული</div><div class="s-sub">კითხვა · წერა · ამოწერა</div></div>
@@ -342,8 +342,25 @@ function unfoldThen(ev,go){
   if(el&&!rm){ el.classList.add('unfolding'); setTimeout(go,200); } else go();
 }
 function openSubj(ev,subj){
+  if(typeof isPremiumSubj==='function' && isPremiumSubj(subj) && !premiumOn()){ return unfoldThen(ev,()=>upsellPremium(subj)); }
   if(window.playClipSeq)playClipSeq([NAV_SPOKEN[subj],'აირჩიე'].filter(Boolean));
   unfoldThen(ev,()=>openMenu(subj));
+}
+// D2 (v2.05): premium content stays VISIBLE; tapping it (when premium is off) shows an upsell, never a dead end.
+function upsellPremium(subj){
+  const name=MODE_TITLES[subj]||subj;
+  render(`<div class="screen" style="justify-content:center;text-align:center;gap:14px;padding:24px">
+    <div style="font-size:3.6rem">👑</div>
+    <h2>${name} — Premium</h2>
+    <p style="color:var(--muted);max-width:300px;line-height:1.5">ეს გაღრმავებული, საგამოცდო ნაწილია. უფასო ვერსიაში ხელმისაწვდომია მთელი საბაზისო სწავლა, Premium კი ხსნის გამოცდისთვის მზადებას და დამატებით სიღრმეს.</p>
+    <div class="perm-points" style="max-width:320px;margin:0 auto;text-align:left">
+      <div class="perm-point">${I.check} Cambridge YLE / ოლიმპიადის ტესტები</div>
+      <div class="perm-point">${I.check} 8-12 წლის გაღრმავებული დონე</div>
+      <div class="perm-point">${I.check} მშობლის მიზნები და დეტალური ანალიტიკა</div>
+    </div>
+    <button class="btn btn-primary btn-block" style="max-width:300px" onclick="openGate()">${I.lock} მშობლის სივრცე →</button>
+    <button class="btn btn-ghost btn-block" style="max-width:300px" onclick="selectProfile(profile)">უკან</button>
+  </div>`,false);
 }
 function openPhrases(ev){
   if(window.playClipSeq)playClipSeq(['ფრაზები','აირჩიე']);

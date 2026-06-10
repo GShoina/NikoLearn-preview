@@ -56,6 +56,7 @@ function setParentPin(){
 }
 function clearParentPin(){if(confirm('მოვხსნა PIN-კოდი? სივრცეს მაინც დაიცავს მაგალითი.')){state.parentPin=null;save();parentDash();}}
 function setScreenLimit(m){state.screenLimitMin=m;save();parentDash();}
+function togglePremium(){state.premium=(state.premium===false)?true:false;save();parentDash();}
 
 /* ── D3 (v2.02): structured parent feedback form. Privacy-clean: nothing is auto-collected — the
    parent's own mail app sends it, so the only data shared is what the parent chooses to send. ── */
@@ -216,6 +217,10 @@ function parentDash(){
     <button class="btn btn-ghost btn-block" onclick="setParentPin()">${hasPin?'🔑 შეცვალე PIN-კოდი':'🔑 დააყენე 4-ნიშნა PIN-კოდი'}</button>
     ${hasPin?'<button class="btn btn-ghost btn-block mt" onclick="clearParentPin()">PIN-კოდის მოხსნა</button>':''}
     <div class="lvl-hint" style="text-align:center;margin:6px 2px">${hasPin?'მშობლის სივრცეში მხოლოდ PIN-კოდით შეხვალ.':'PIN-კოდის ნაცვლად მშობლის სივრცეს მათემატიკური ამოცანა იცავს, რომელსაც პატარა ვერ ამოხსნის.'}</div>`;
+  const prem=premiumOn();
+  html+=`<div class="section-label">💎 Premium (დემო)</div>
+    <div class="lvl-hint" style="text-align:center;margin:4px 2px">უფასო ვერსია: სრული საბაზისო სწავლა. Premium: საგამოცდო მზადება (კინგსი), 8-12 დონე, მიზნები. გადახდა ჯერ არ არის — ეს გადამრთველი მხოლოდ საჩვენებელია.</div>
+    <button class="btn btn-ghost btn-block" onclick="togglePremium()">${prem?'👁️ ნახე როგორია უფასო ვერსია (Premium OFF)':'👑 Premium-ის ჩართვა (ყველაფრის გახსნა)'}</button>`;
   html+=`<div class="section-label">გასვლა</div>
     <button class="btn btn-ghost btn-block mt" onclick="logout()">🔒 გასვლა (ჩაკეტვა)</button>
     <button class="btn btn-ghost btn-block mt" onclick="if(confirm('წავშალო პროგრესი?')){localStorage.removeItem('${SK}');state=load();goHome();}">🗑️ პროგრესის გასუფთავება</button>`;
