@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='2.00';
+const APP_VERSION='2.01';
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -297,23 +297,23 @@ function selectProfile(p){
   if(isKid){
     const tiny=isTiny(profile);
     subjects=`<div class="subj-grid">
-      <div class="subj kids stack" onclick="openSubj(event,'counting')"><div class="s-ico">🔢</div><div class="s-name num">1 2 3</div></div>
-      <div class="subj kids stack" onclick="openSubj(event,'ka-alpha')"><div class="s-ico">🇬🇪</div><div class="s-name">ა ბ გ</div></div>
-      <div class="subj kids eng stack" onclick="openSubj(event,'en-alpha')"><div class="s-ico">🇬🇧</div><div class="s-name en">A B C</div></div>
+      <div class="subj kids stack" data-sum="ციფრები 1-9 და დათვლა ხატულებით" onclick="openSubj(event,'counting')"><div class="s-ico">🔢</div><div class="s-name num">1 2 3</div></div>
+      <div class="subj kids stack" data-sum="ქართული ასოები ხმითა და სურათით" onclick="openSubj(event,'ka-alpha')"><div class="s-ico">🇬🇪</div><div class="s-name">ა ბ გ</div></div>
+      <div class="subj kids eng stack" data-sum="English ABC ხმითა და სურათით" onclick="openSubj(event,'en-alpha')"><div class="s-ico">🇬🇧</div><div class="s-name en">A B C</div></div>
       ${tiny
-        ? `<div class="subj kids play" onclick="startGame('shapes')">${PLAY_BADGE}<div class="s-ico">🔷</div><div class="s-name">ფიგურები</div></div>`
-        : `<div class="subj kids maths stack" onclick="openSubj(event,'math')"><div class="s-ico">➕➖</div><div class="s-name num">➕</div></div>`}
-      <div class="subj kids move play" onclick="showBreak(true)">${PLAY_BADGE}<div class="s-ico">🤸</div><div class="s-name">მოძრაობა</div></div>
+        ? `<div class="subj kids play" data-sum="ფიგურების ცნობა" onclick="startGame('shapes')">${PLAY_BADGE}<div class="s-ico">🔷</div><div class="s-name">ფიგურები</div></div>`
+        : `<div class="subj kids maths stack" data-sum="შეკრება და გამოკლება" onclick="openSubj(event,'math')"><div class="s-ico">➕➖</div><div class="s-name num">➕</div></div>`}
+      <div class="subj kids move play" data-sum="მოკლე მოძრაობის შესვენება" onclick="showBreak(true)">${PLAY_BADGE}<div class="s-ico">🤸</div><div class="s-name">მოძრაობა</div></div>
     </div>`;
   } else {
     const wc=Object.values(s.words).filter(w=>w.correct>=3).length;
     subjects=`<div class="subj-grid">
-      <div class="subj crown stack" onclick="openSubj(event,'kings-eng')"><span class="s-badge">👑 გამოცდა</span><div class="s-ico">👑</div><div class="s-name">კინგსი ინგლისური</div><div class="s-sub">Cambridge YLE</div></div>
-      <div class="subj crown maths stack" onclick="openSubj(event,'kings-math')"><span class="s-badge">👑 გამოცდა</span><div class="s-ico">📐</div><div class="s-name">კინგსი მათემატიკა</div><div class="s-sub">ოლიმპიადა</div></div>
-      <div class="subj eng stack" onclick="openSubj(event,'english')"><span class="s-badge">${wc} სიტყვა</span><div class="s-ico">🔤</div><div class="s-name">ინგლისური</div><div class="s-sub">5 რეჟიმი</div></div>
-      <div class="subj maths stack" onclick="openSubj(event,'math')"><div class="s-ico">🧮</div><div class="s-name">მათემატიკა</div><div class="s-sub">დონეებით 1–100</div></div>
-      <div class="subj stack" onclick="openSubj(event,'ka-alpha')"><div class="s-ico">🇬🇪</div><div class="s-name">ქართული</div><div class="s-sub">კითხვა · წერა · ამოწერა</div></div>
-      <div class="subj move play" onclick="showBreak(true)">${PLAY_BADGE}<div class="s-ico">🤸</div><div class="s-name">მოძრაობა</div><div class="s-sub">პატარა შესვენება</div></div>
+      <div class="subj crown stack" data-sum="Cambridge YLE ტესტი: სურათი, თარგმანი, მართლწერა, გრამატიკა" onclick="openSubj(event,'kings-eng')"><span class="s-badge">👑 გამოცდა</span><div class="s-ico">👑</div><div class="s-name">კინგსი ინგლისური</div><div class="s-sub">Cambridge YLE</div></div>
+      <div class="subj crown maths stack" data-sum="ოლიმპიადა: ამოცანები და ლოგიკა" onclick="openSubj(event,'kings-math')"><span class="s-badge">👑 გამოცდა</span><div class="s-ico">📐</div><div class="s-name">კინგსი მათემატიკა</div><div class="s-sub">ოლიმპიადა</div></div>
+      <div class="subj eng stack" data-sum="5 რეჟიმი · 13 თემა · 180+ სიტყვა · ფრაზები" onclick="openSubj(event,'english')"><span class="s-badge">${wc} სიტყვა</span><div class="s-ico">🔤</div><div class="s-name">ინგლისური</div><div class="s-sub">5 რეჟიმი</div></div>
+      <div class="subj maths stack" data-sum="შეკრება, გამოკლება, გამრავლება, ფიგურები, ფული, საათი" onclick="openSubj(event,'math')"><div class="s-ico">🧮</div><div class="s-name">მათემატიკა</div><div class="s-sub">დონეებით 1–100</div></div>
+      <div class="subj stack" data-sum="ანბანი · კითხვა · წერა · ამოწერა" onclick="openSubj(event,'ka-alpha')"><div class="s-ico">🇬🇪</div><div class="s-name">ქართული</div><div class="s-sub">კითხვა · წერა · ამოწერა</div></div>
+      <div class="subj move play" data-sum="მოკლე მოძრაობის შესვენება ვარჯიშებით" onclick="showBreak(true)">${PLAY_BADGE}<div class="s-ico">🤸</div><div class="s-name">მოძრაობა</div><div class="s-sub">პატარა შესვენება</div></div>
     </div>`;
   }
   render(`<div class="screen">
