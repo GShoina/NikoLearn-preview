@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.96';
+const APP_VERSION='1.97';
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -268,7 +268,8 @@ function createChild(){
   const id='k'+Date.now();
   state.kids.push({id,name,age:draft.age,color:draft.color,langs:(draft.langs&&draft.langs.length?draft.langs:['ka']),tutor:draft.tutor||'🦉'});
   state[id]=blankKid();save();
-  // (GA4 sign_up event removed 2026-06-06, privacy baseline, no third-party analytics in the kids' app)
+  // first-party, aggregate, no-PII: "new registration" with only a coarse age band (never name/age).
+  if(window.Analytics)Analytics.event('profile_created',{age_band:draft.age<=5?'3-5':draft.age<=8?'6-8':'9-12'});
   selectProfile(id);
 }
 function topbarPlain(title,back){
@@ -402,7 +403,7 @@ function openTopics(){
     <div class="topic-grid">${cats.map(card).join('')}</div>
   </div>`,'home');
 }
-function pickTopic(c){game.cat=c||null;openMenu('english');}
+function pickTopic(c){game.cat=c||null;if(c&&window.Analytics)Analytics.event('topic_usage',{topic:c});openMenu('english');}
 function openPhraseCats(){
   const cats=Object.keys(PHRASES);
   const card=(c)=>{const m=c.match(/(.+?)\s*(\p{Emoji})\s*$/u);const name=m?m[1]:c;const ic=m?m[2]:'💬';

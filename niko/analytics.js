@@ -62,9 +62,15 @@
       on: true,
       screen: function (path) {
         var mode = mapMode(path);
-        if (mode) send({ name: 'mode_usage', mode: mode });
+        if (mode) { _lessons++; send({ name: 'mode_usage', mode: mode }); }
       },
-      event: function () { /* reserved: only allow-listed events; none wired yet */ }
+      event: function (name, data) {
+        // app sends only allow-listed events (profile_created / topic_usage / session_length);
+        // the Worker re-validates against its allow-list and drops anything unexpected.
+        var ev = { name: name };
+        if (data) for (var k in data) ev[k] = data[k];
+        send(ev);
+      }
     }
   };
 
@@ -85,6 +91,21 @@
     try { if (navigator.sendBeacon && navigator.sendBeacon(ENDPOINT, body)) return; } catch (e) {}
     try { fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body, keepalive: true, mode: 'no-cors' }); } catch (e) {}
   }
+
+  // ── session activity = privacy-safe ENGAGEMENT proxy (sessions/day, lessons/session, minutes).
+  //    This is NOT unique-user retention — that needs a persistent identifier = child PII, which we
+  //    never set. We fire ONE aggregate session_length on the way out (or first tab-hide).
+  var _t0 = Date.now(), _lessons = 0, _sessSent = false;
+  function flushSession() {
+    if (_sessSent) return; _sessSent = true;
+    var secs = Math.round((Date.now() - _t0) / 1000);
+    if (secs < 3) return; // ignore instant bounces
+    if (window.Analytics) Analytics.event('session_length', { seconds: secs, lessons: _lessons });
+  }
+  try {
+    window.addEventListener('pagehide', flushSession);
+    document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') flushSession(); });
+  } catch (e) {}
 
   function fanout(method, a, b) {
     if (OFF) return;

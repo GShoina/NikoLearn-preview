@@ -32,6 +32,8 @@ const EVENTS = {
   interaction_latency:{ ms: 'int' },
   session_length:     { seconds: 'int', lessons: 'int' },
   mode_usage:         { mode: ['alphabet','english','math','counting','kings','reading','movement'] },
+  // which vocabulary topic (English words) a child opens — fixed enum = the 13 WORDS categories.
+  topic_usage:        { topic: ['ფერები 🎨','ცხოველები 🐾','საკვები 🍎','ოჯახი 👨‍👩‍👧‍👦','ბუნება 🌿','სკოლა 🏫','ტანსაცმელი 👕','ტრანსპორტი 🚗','სხეული 🧍','სპორტი ⚽','ამინდი 🌦️','პლანეტები 🪐','პროფესიები 👩‍🚀'] },
   audio_usage:        { used: ['yes','no'] },
   device_context:     { deviceType: ['phone','tablet','desktop'], os: ['ios','android','windows','mac','other'], aspect: ['tall','wide','square'] },
 };
