@@ -33,7 +33,7 @@
 > Tech report → `output/2026-06-09-NikoLearn ტექნიკური მიმოხილვა by Niko.html`.
 > **OPEN OWNER DECISIONS (resume here):** (1) launch SCOPE — class-pilot 6-9 vs public 3-12; (2) HOSTING
 > "home" — Cloudflare Pages (rec) vs GitHub Pages + custom domain, then buy domain; (3) privacy CONTROLLER
-> entity (personal vs Bivision) + lawyer review before US push; (4) per-screen analytics = post-launch only;
+> entity (personal vs Bivision) + lawyer review before US push; (4) per-screen analytics — ✅ NOW DONE/LIVE (v1.96-97: first-party Worker + viewer + depth), no longer pending;
 > (5) delete ~598 old screenshots (174MB, OTHER projects) from `C:\Users\gela.shonia\`? (awaiting owner yes);
 > (6) home profile-select voicing for non-readers (HIGH UX enhancement, proposed by QA team). NEXT ACTION:
 > ask which of these to tackle, or take a new request.
