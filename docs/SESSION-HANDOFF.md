@@ -23,6 +23,13 @@
 > §6b MAX AUTONOMY + §7. Owner's exact words: "bug fix მუშაობ, შედეგი გადაჭრა იქნება, რატომ მელოდები yes yes,
 > ამიტომ ჩემს გარეშე then execute".)
 
+> **🚧 STANDING RULE (owner, 2026-06-10) — STAY STRICTLY IN THE NIKOLEARN LANE.** Do NOT touch, open,
+> investigate, or spend ANY effort/tokens on anything outside NikoLearn (other projects' files, Bivision,
+> bihub, the ~598 / 174MB old screenshots in the home root, etc.) UNLESS the owner explicitly asks. Even
+> read-only investigation of out-of-lane things = wasted resource; don't do it uninvited. The old
+> screenshots: LEAVE them, do NOT re-raise. Owner's words: "NikoLearn lane-ს გარეთ რაცაა არ შეეხო და არც
+> დახარჯო რესურსი მე თუ არ გთხოვე."
+
 > **📌 SESSION CLOSE 2026-06-09 — shipped v1.86→v1.93 (all live).** Analytics: Cloudflare Web Analytics
 > LIVE (cookieless, 18 visits/24h verified; view at `dash.cloudflare.com/62f02b2a518a8e63eba0537f9162c0ec/web-analytics`
 > → click gshoina.github.io, NOT the account /home/overview) + pluggable facade set DORMANT for launch.
