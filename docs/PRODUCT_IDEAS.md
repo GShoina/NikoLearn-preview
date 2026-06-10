@@ -29,6 +29,14 @@ findings + new ideas and re-scores open ones.
 > LESSON (behavioral): in exploratory strategy, do NOT collapse to "locked" — preserve the owner's full brief
 > and optionality; a monetization spearhead is not a mission.
 
+### 🎨 BRAND CANDIDATES (2026-06-10, proposal — awaiting owner LOCK, nothing live)
+Owner picked "მისიის გამოკლება + slogan დაკეტვა + ლოგო". Produced + visually verified. Report:
+`output/2026-06-10-NikoLearn ბრენდი — მისია, slogan, ლოგო by Niko.html`.
+- **Mission (short, both audiences, no em-dash) — rec A:** „ყველა ქართველი ბავშვი ისწავლოს ის, რაც სჭირდება, სად უნდა ცხოვრობდეს."
+- **Slogan = 2 layers** (resolves both-audiences vs diaspora-only): MASTER positioning „უსაფრთხო ადგილი, სადაც ბავშვი მართლა სწავლობს." + MASTER KVP „შენი შვილი ისწავლის იმას, რაც მართლა სჭირდება. შენ კი მშვიდად იქნები." (= Q5 dual-promise). GTM/diaspora „ილაპარაკე ქართულად. დარჩი ქართველად." + GE-lens „ინგლისური და მათემატიკა, უსაფრთხოდ."
+- **Logo:** owl ნიკო ბუ, brand palette (coral #F2894C/cream/Fredoka). Files `assets/logo.svg`·`logo-mark.svg`·`logo-icon.svg`. Old favicon was off-brand Bivision purple; `og-image.svg` is bihub's by mistake — replace on lock.
+- **LOCK 4 + "დადე live" → deploy** (favicon/og/wordmark + outline letters to paths + Gemini ka-QA). The ONE §7 customer-facing gate.
+
 Owner ran a deliberate strategic grilldown (vCEO/visionary partner mode). This is a brainstorm,
 NOT a finalized PRD. Full owner-facing report: `output/2026-06-06-NikoLearn სტრატეგიული Grilldown by Niko.html`.
 Backup: `~/.claude/plans/toasty-marinating-bird.md`.

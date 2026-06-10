@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="NikoLearn">
+  <rect width="64" height="64" rx="15" fill="#FBF4E6"/>
+  <!-- ear tufts -->
+  <path d="M22 14 L28 22.5 L17.5 23.5 Z" fill="#D9703A"/>
+  <path d="M42 14 L36 22.5 L46.5 23.5 Z" fill="#D9703A"/>
+  <!-- body -->
+  <path d="M32 13 C43.5 13 49.5 21 49.5 31.5 C49.5 43 42 50.5 32 50.5 C22 50.5 14.5 43 14.5 31.5 C14.5 21 20.5 13 32 13 Z" fill="#F2894C"/>
+  <!-- belly -->
+  <ellipse cx="32" cy="37" rx="11" ry="12" fill="#FBF1DE"/>
+  <!-- eyes -->
+  <circle cx="25.5" cy="29" r="7.4" fill="#fff"/>
+  <circle cx="38.5" cy="29" r="7.4" fill="#fff"/>
+  <circle cx="25.5" cy="29" r="7.4" fill="none" stroke="#D9703A" stroke-width="1.9"/>
+  <circle cx="38.5" cy="29" r="7.4" fill="none" stroke="#D9703A" stroke-width="1.9"/>
+  <circle cx="26.8" cy="29.8" r="3.3" fill="#463528"/>
+  <circle cx="39.8" cy="29.8" r="3.3" fill="#463528"/>
+  <circle cx="28.1" cy="28.4" r="1.1" fill="#fff"/>
+  <circle cx="41.1" cy="28.4" r="1.1" fill="#fff"/>
+  <!-- beak -->
+  <path d="M32 32 L28.8 35.8 L35.2 35.8 Z" fill="#F2B441"/>
+</svg>

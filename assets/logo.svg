@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 84" role="img" aria-label="NikoLearn — ნიკო ბუ">
+  <!-- ===== owl mark ===== -->
+  <g transform="translate(8,10) scale(1.03)">
+    <path d="M19 13 L26 23 L14 24 Z" fill="#D9703A"/>
+    <path d="M45 13 L38 23 L50 24 Z" fill="#D9703A"/>
+    <path d="M32 11 C46 11 53 21 53 34 C53 48 44 57 32 57 C20 57 11 48 11 34 C11 21 18 11 32 11 Z" fill="#F2894C"/>
+    <path d="M14 32 C12 40 14 48 20 53 C16 44 16 38 18 32 Z" fill="#E07B3C"/>
+    <path d="M50 32 C52 40 50 48 44 53 C48 44 48 38 46 32 Z" fill="#E07B3C"/>
+    <ellipse cx="32" cy="41" rx="13.5" ry="15" fill="#FBF1DE"/>
+    <circle cx="24" cy="30" r="9.2" fill="#fff"/>
+    <circle cx="40" cy="30" r="9.2" fill="#fff"/>
+    <circle cx="24" cy="30" r="9.2" fill="none" stroke="#D9703A" stroke-width="2.2"/>
+    <circle cx="40" cy="30" r="9.2" fill="none" stroke="#D9703A" stroke-width="2.2"/>
+    <circle cx="25.6" cy="31" r="4.1" fill="#463528"/>
+    <circle cx="41.6" cy="31" r="4.1" fill="#463528"/>
+    <circle cx="27.2" cy="29.4" r="1.4" fill="#fff"/>
+    <circle cx="43.2" cy="29.4" r="1.4" fill="#fff"/>
+    <path d="M32 33.5 L28.2 38 L35.8 38 Z" fill="#F2B441"/>
+    <g stroke="#F2B441" stroke-width="2.2" stroke-linecap="round">
+      <path d="M27 56.5 v3.5 M27 60 l-2.4 1.6 M27 60 l2.4 1.6"/>
+      <path d="M37 56.5 v3.5 M37 60 l-2.4 1.6 M37 60 l2.4 1.6"/>
+    </g>
+  </g>
+  <!-- ===== wordmark ===== -->
+  <text x="84" y="48" font-family="Fredoka, 'Segoe UI', system-ui, sans-serif" font-size="40" font-weight="700" letter-spacing="-0.5">
+    <tspan fill="#463528">Niko</tspan><tspan fill="#D9703A">Learn</tspan>
+  </text>
+  <text x="86" y="68" font-family="'Noto Sans Georgian', system-ui, sans-serif" font-size="13" font-weight="600" letter-spacing="3" fill="#9A8a76">ნიკო ბუ 🦉</text>
+</svg>
