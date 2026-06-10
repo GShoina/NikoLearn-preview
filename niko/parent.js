@@ -119,7 +119,7 @@ function goalProgress(p){
 
 function parentDash(){
   profile=profile||'niko';
-  let html=`<div class="screen parent">${topbar('მშობლის სივრცე',null,'goHome()')}`;
+  let html=`<div class="screen parent">${topbarPlain('მშობლის სივრცე','goHome()')}`;
   html+=`<div class="privacy-card" style="margin-bottom:16px">${I.privacy}<div class="pt"><b>ყველაფერი ამ მოწყობილობაზე რჩება.</b> პროგრესი ინახება მხოლოდ აქ. რეკლამა: ნული. გარე ბმულები: ნული.</div></div>`;
   [...state.kids.map(k=>k.id),'guest'].forEach(p=>{
     const s=state[p];if(!s||(s.sessions===0&&s.shields===0))return;
@@ -199,31 +199,29 @@ function parentDash(){
     if(p!=='guest')html+=`<button class="btn btn-ghost btn-block" onclick="deleteKid('${p}')" style="margin-top:14px">🗑️ პროფილის წაშლა</button>`;
     html+=`</div></div>`;
   });
-  html+=`<div class="section-label">📤 რეპორტი</div>
-    <button class="btn btn-sky btn-block mt" onclick="exportReport()">📋 დააკოპირე რეპორტი, გაუზიარე მასწავლებელს</button>`;
-  html+=`<div class="section-label">💬 უკუკავშირი</div>
-    <button class="btn btn-sky btn-block" onclick="feedbackForm()">💬 დაგვიტოვე აზრი ან საკონტაქტო</button>
-    <div style="text-align:center;font-size:.82rem;color:var(--muted);margin-top:8px">
-      ან: <a href="https://wa.me/995593255385?text=NikoLearn%20feedback" target="_blank" rel="noopener" style="color:var(--primary-d);font-weight:600;text-decoration:none">WhatsApp 💬</a>
-      · <a href="mailto:gela.shonia@bivision.ge?subject=NikoLearn%20feedback" style="color:var(--muted);text-decoration:none">✉️ ელფოსტა</a>
-    </div>`;
-  const lim=state.screenLimitMin||0;const hasPin=!!state.parentPin;
-  html+=`<div class="section-label">⏱️ ეკრანის დრო (დღიური ლიმიტი)</div>
-    <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center">
-      ${[0,15,30,45,60].map(m=>`<button class="lang-chip ${lim===m?'on':''}" onclick="setScreenLimit(${m})">${m===0?'გამორთული':m+' წთ'}</button>`).join('')}
-    </div>
-    <div class="lvl-hint" style="text-align:center;margin:6px 2px">ამ დროის ამოწურვის შემდეგ ნიკო ხვალამდე დაისვენებს.</div>`;
-  html+=`<div class="section-label">🔒 მშობლის PIN-კოდი</div>
+  // v1.108: settings grouped into 3 tidy cards (was a long flat list of label+button stacks)
+  const lim=state.screenLimitMin||0;const hasPin=!!state.parentPin;const prem=premiumOn();
+  html+=`<div class="pgroup"><div class="pgroup-h">📤 გაზიარება</div>
+    <button class="btn btn-sky btn-block" onclick="exportReport()">📋 რეპორტი მასწავლებელს</button>
+    <button class="btn btn-ghost btn-block mt" onclick="feedbackForm()">💬 დაგვიტოვე აზრი ან საკონტაქტო</button>
+    <div class="pset-hint">ან: <a href="https://wa.me/995593255385?text=NikoLearn%20feedback" target="_blank" rel="noopener" style="color:var(--primary-d);font-weight:600;text-decoration:none">WhatsApp 💬</a> · <a href="mailto:gela.shonia@bivision.ge?subject=NikoLearn%20feedback" style="color:inherit;text-decoration:none">✉️ ელფოსტა</a></div>
+  </div>`;
+  html+=`<div class="pgroup"><div class="pgroup-h">⏱️ დრო და უსაფრთხოება</div>
+    <div class="pset-lbl">ეკრანის დღიური ლიმიტი</div>
+    <div class="limit-chips">${[0,15,30,45,60].map(m=>`<button class="lang-chip ${lim===m?'on':''}" onclick="setScreenLimit(${m})">${m===0?'გამორთ.':m+' წთ'}</button>`).join('')}</div>
+    <div class="pset-hint">ამ დროის ამოწურვის შემდეგ ნიკო ხვალამდე დაისვენებს.</div>
+    <div class="pset-lbl" style="margin-top:14px">მშობლის PIN-კოდი</div>
     <button class="btn btn-ghost btn-block" onclick="setParentPin()">${hasPin?'🔑 შეცვალე PIN-კოდი':'🔑 დააყენე 4-ნიშნა PIN-კოდი'}</button>
     ${hasPin?'<button class="btn btn-ghost btn-block mt" onclick="clearParentPin()">PIN-კოდის მოხსნა</button>':''}
-    <div class="lvl-hint" style="text-align:center;margin:6px 2px">${hasPin?'მშობლის სივრცეში მხოლოდ PIN-კოდით შეხვალ.':'PIN-კოდის ნაცვლად მშობლის სივრცეს მათემატიკური ამოცანა იცავს, რომელსაც პატარა ვერ ამოხსნის.'}</div>`;
-  const prem=premiumOn();
-  html+=`<div class="section-label">💎 Premium (დემო)</div>
-    <div class="lvl-hint" style="text-align:center;margin:4px 2px">უფასო ვერსია: სრული საბაზისო სწავლა. Premium: საგამოცდო მზადება (კინგსი), 8-12 დონე, მიზნები. გადახდა ჯერ არ არის — ეს გადამრთველი მხოლოდ საჩვენებელია.</div>
-    <button class="btn btn-ghost btn-block" onclick="togglePremium()">${prem?'👁️ ნახე როგორია უფასო ვერსია (Premium OFF)':'👑 Premium-ის ჩართვა (ყველაფრის გახსნა)'}</button>`;
-  html+=`<div class="section-label">გასვლა</div>
+    <div class="pset-hint">${hasPin?'მშობლის სივრცეში მხოლოდ PIN-კოდით შეხვალ.':'PIN-კოდის ნაცვლად მშობლის სივრცეს მათემატიკური ამოცანა იცავს, რომელსაც პატარა ვერ ამოხსნის.'}</div>
+  </div>`;
+  html+=`<div class="pgroup"><div class="pgroup-h">⚙️ ანგარიში</div>
+    <div class="pset-lbl">💎 Premium (დემო)</div>
+    <div class="pset-hint">უფასო: სრული საბაზისო სწავლა. Premium: საგამოცდო მზადება (კინგსი), 8-12 დონე, მიზნები. გადახდა ჯერ არ არის, გადამრთველი მხოლოდ საჩვენებელია.</div>
+    <button class="btn btn-ghost btn-block" onclick="togglePremium()">${prem?'👁️ ნახე როგორია უფასო ვერსია (Premium OFF)':'👑 Premium-ის ჩართვა'}</button>
     <button class="btn btn-ghost btn-block mt" onclick="logout()">🔒 გასვლა (ჩაკეტვა)</button>
-    <button class="btn btn-ghost btn-block mt" onclick="if(confirm('წავშალო პროგრესი?')){localStorage.removeItem('${SK}');state=load();goHome();}">🗑️ პროგრესის გასუფთავება</button>`;
+    <button class="btn btn-ghost btn-block mt" onclick="if(confirm('წავშალო პროგრესი?')){localStorage.removeItem('${SK}');state=load();goHome();}">🗑️ პროგრესის გასუფთავება</button>
+  </div>`;
   html+=`</div>`;
   render(html,false);
 }

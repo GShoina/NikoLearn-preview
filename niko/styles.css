@@ -1110,6 +1110,12 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .screen.parent .kid-head-btn .kr{font-size:.88rem;color:var(--ink);opacity:.74}
 .screen.parent .lvl-hint,.screen.parent .eng-note{font-size:.84rem;color:var(--ink);opacity:.72;line-height:1.5}
 .screen.parent .privacy-card .pt{font-size:.9rem;line-height:1.5}
+/* v1.108: parent settings grouped into tidy cards (was a long flat label+button list) */
+.pgroup{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 15px;margin:14px 0 0}
+.pgroup-h{font-family:'Fredoka','Noto Sans Georgian',sans-serif;font-weight:600;font-size:1rem;color:var(--ink);margin:0 0 10px}
+.pset-lbl{font-size:.84rem;font-weight:700;color:var(--ink);opacity:.78;margin:0 0 7px}
+.pset-hint{font-size:.8rem;color:var(--ink);opacity:.66;line-height:1.45;margin:7px 2px 0;text-align:center}
+.limit-chips{display:flex;flex-wrap:wrap;gap:7px;justify-content:center}
 /* container tap: the card "opens" (grows + fades) before its children render */
 .unfolding{animation:stackOpen .2s ease forwards}
 @keyframes stackOpen{to{transform:scale(1.08);opacity:0}}
