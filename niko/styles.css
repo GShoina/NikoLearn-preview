@@ -1068,14 +1068,14 @@ body.on-landing #app{padding:0;padding-bottom:24px}
    summary slides up + the card tilts in 3D (the "rotate" feel) using data-sum via ::after. */
 @media (hover:hover) and (pointer:fine){
   .subj{transition:transform .26s ease, box-shadow .26s ease}
-  .subj[data-sum]::after{content:attr(data-sum);position:absolute;left:0;right:0;bottom:0;
-    background:color-mix(in oklch,var(--ink,#2b2740) 92%,transparent);color:#fff;font-size:.7rem;
-    line-height:1.32;padding:9px 11px;border-radius:0 0 var(--radius) var(--radius);text-align:center;
-    opacity:0;transform:translateY(60%) rotateX(-32deg);transform-origin:bottom center;
-    transition:opacity .22s ease, transform .22s ease;pointer-events:none}
-  .subj[data-sum]:hover{transform:translateY(-4px) perspective(720px) rotateX(4deg);
-    box-shadow:0 16px 32px rgba(40,30,20,.18)}
-  .subj[data-sum]:hover::after{opacity:1;transform:translateY(0) rotateX(0)}
+  /* a brand-colored summary card that POPS UP higher on hover (owner: rise more, not grey) */
+  .subj[data-sum]::after{content:attr(data-sum);position:absolute;left:8px;right:8px;bottom:8px;
+    background:var(--primary,#6B63B5);color:#fff;font-size:.82rem;font-weight:600;line-height:1.36;
+    padding:11px 12px;border-radius:14px;text-align:center;box-shadow:0 8px 20px rgba(40,30,20,.28);
+    opacity:0;transform:translateY(45%) scale(.95);transform-origin:bottom center;
+    transition:opacity .2s ease, transform .24s cubic-bezier(.2,.9,.3,1.25);pointer-events:none}
+  .subj[data-sum]:hover{transform:translateY(-6px);box-shadow:0 18px 34px rgba(40,30,20,.2)}
+  .subj[data-sum]:hover::after{opacity:1;transform:translateY(-6px) scale(1)}
 }
 @media (prefers-reduced-motion:reduce){
   .subj[data-sum]::after{transition:opacity .15s ease;transform:none}
@@ -1098,6 +1098,18 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .pstep.next:active{transform:translateY(1px)}
 .path-hint{margin-top:9px;font-size:.8rem;color:var(--muted);text-align:center}
 .diag-offer{border-color:color-mix(in oklch,var(--primary,#6B63B5) 35%,var(--line))}
+/* ── v2.07: parent space readability — the dashboard was tiny + grey + hard to read (owner feedback).
+   Scoped to .screen.parent so the kid UI is untouched. Bigger sizes, darker text (ink+opacity, not grey). */
+.screen.parent .section-label{font-size:.8rem;color:var(--ink);opacity:.6;letter-spacing:.03em}
+.screen.parent .scard .sl{font-size:.76rem;color:var(--ink);opacity:.72;font-weight:600}
+.screen.parent .scard .sv{font-size:1.55rem}
+.screen.parent .eng-l{font-size:.74rem;color:var(--ink);opacity:.72}
+.screen.parent .eng-v{font-size:1.62rem}
+.screen.parent .insight .it{font-size:.96rem;line-height:1.5}
+.screen.parent .kid-head-btn .kn{font-size:1.14rem}
+.screen.parent .kid-head-btn .kr{font-size:.88rem;color:var(--ink);opacity:.74}
+.screen.parent .lvl-hint,.screen.parent .eng-note{font-size:.84rem;color:var(--ink);opacity:.72;line-height:1.5}
+.screen.parent .privacy-card .pt{font-size:.9rem;line-height:1.5}
 /* container tap: the card "opens" (grows + fades) before its children render */
 .unfolding{animation:stackOpen .2s ease forwards}
 @keyframes stackOpen{to{transform:scale(1.08);opacity:0}}

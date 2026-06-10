@@ -289,12 +289,30 @@ function buildReport(){
   });
   return lines.join('\n');
 }
+// v2.07: the old clipboard-only export silently failed for the owner. Now it shows the report in a
+// modal (always visible + selectable), with a reliable copy + a WhatsApp share.
 function exportReport(){
   const txt=buildReport();
-  const done=()=>toast('✓ რეპორტი კოპირებულია, ჩასვი და გაუზიარე');
-  if(navigator.clipboard&&navigator.clipboard.writeText){
-    navigator.clipboard.writeText(txt).then(done).catch(()=>fallbackCopy(txt,done));
-  } else fallbackCopy(txt,done);
+  const el=document.createElement('div');el.className='gate';el.id='repmodal';
+  el.innerHTML=`<div class="gate-card" style="max-width:380px">
+    <h3>📋 პროგრესის რეპორტი</h3>
+    <p style="font-size:.85rem;color:var(--muted)">დააკოპირე და გაუგზავნე მასწავლებელს ან ოჯახს.</p>
+    <textarea id="reptxt" class="login-in" style="min-height:150px;font-size:.8rem;text-align:left;line-height:1.4;white-space:pre-wrap" readonly>${txt.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</textarea>
+    <button class="btn btn-primary btn-block mt" onclick="copyReport()">📋 კოპირება</button>
+    <a class="btn btn-sky btn-block mt" href="https://wa.me/?text=${encodeURIComponent(txt)}" target="_blank" rel="noopener" style="text-decoration:none">📲 WhatsApp-ით გაგზავნა</a>
+    <button class="btn btn-ghost btn-block mt" onclick="document.getElementById('repmodal').remove()">დახურვა</button>
+  </div>`;
+  el.onclick=e=>{if(e.target===el)el.remove();};
+  if(window.applyLang)applyLang(el);
+  $('.device').appendChild(el);
+  const ta=$('#reptxt'); if(ta){ ta.focus(); ta.select(); }
+}
+function copyReport(){
+  const ta=$('#reptxt'); if(!ta)return;
+  ta.focus(); ta.select(); try{ta.setSelectionRange(0,99999);}catch(e){}
+  let ok=false; try{ ok=document.execCommand('copy'); }catch(e){}
+  if(!ok && navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(ta.value).then(()=>toast('✓ კოპირებულია')).catch(()=>toast('მონიშნე და დააკოპირე ხელით')); return; }
+  toast(ok?'✓ კოპირებულია':'მონიშნე და დააკოპირე ხელით');
 }
 function fallbackCopy(txt,cb){
   const ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';
