@@ -1,81 +1,112 @@
 /* ═══════════════════════════════════════════════════════════
-   NIKO LEARN — placement: a short entry diagnostic that gauges
-   the child's level and recommends where to start. Owner ask
-   2026-06-10. Self-contained: own `pl` state, reuses render/topbar.
+   NIKO LEARN — placement & paths (owner ask 2026-06-10, v2.03):
+   • per-SUBJECT entry diagnostic (English / Math / Georgian)
+   • a data-backed "Path" (გზა) of skill milestones per subject
+   • a persistent "ჯამური პროგრესი" meter across all subjects
+   Self-contained: own `pl` state, reuses render/topbar/shuffle.
    ═══════════════════════════════════════════════════════════ */
 
 let pl = null;
 
-// new child, hasn't been assessed and hasn't played yet → offer the diagnostic
-function placementNeeded(p){
-  const s = state[p];
-  return !!s && !(s.placement && s.placement.done) && (s.sessions || 0) === 0;
+/* ── mastery helpers (read REAL play data, so the Path reflects actual learning) ── */
+function wordsMastered(p){const s=state[p];return s&&s.words?Object.values(s.words).filter(w=>w.correct>=3).length:0;}
+function phrasesDone(p){const s=state[p];return s&&s.phrases?Object.values(s.phrases).filter(v=>v.correct>=2).length:0;}
+function opAcc(p,op){const m=(state[p]&&state[p].math&&state[p].math[op])||null;if(!m)return 0;const t=m.correct+m.wrong;return t>=4?m.correct/t:0;}
+function alphaAcc(p,k){const a=(state[p]&&state[p].alpha&&state[p].alpha[k])||null;if(!a)return 0;const t=a.correct+a.wrong;return t>=4?a.correct/t:0;}
+function bestAtLeast(p,mode,n){const b=state[p]&&state[p].best&&state[p].best[mode];return !!b&&b>=n;}
+
+/* ── PATHS: ordered skill milestones per subject. `m(p)` = mastered? (from real data). ── */
+const PATHS = {
+  english: [
+    {k:'w10',   label:'10 სიტყვა',     m:p=>wordsMastered(p)>=10, go:"openMenu('english')"},
+    {k:'w25',   label:'25 სიტყვა',     m:p=>wordsMastered(p)>=25, go:"openMenu('english')"},
+    {k:'phr',   label:'ფრაზები',       m:p=>phrasesDone(p)>=5,    go:"openPhraseCats()"},
+    {k:'w50',   label:'50 სიტყვა',     m:p=>wordsMastered(p)>=50, go:"openMenu('english')"},
+    {k:'kings', label:'კინგსი (YLE)',  m:p=>bestAtLeast(p,'kings-eng',7), go:"startKings('eng')"}
+  ],
+  math: [
+    {k:'add',    label:'შეკრება',     m:p=>opAcc(p,'math-add')>=0.8, go:"startGame('math-add')"},
+    {k:'sub',    label:'გამოკლება',   m:p=>opAcc(p,'math-sub')>=0.8, go:"startGame('math-sub')"},
+    {k:'shapes', label:'ფიგურები',    m:p=>opAcc(p,'shapes')>=0.8,   go:"shapeRound()"},
+    {k:'mul',    label:'გამრავლება',  m:p=>opAcc(p,'math-mul')>=0.8, go:"startGame('math-mul')"},
+    {k:'kings',  label:'ოლიმპიადა',   m:p=>bestAtLeast(p,'kings-math',6), go:"startKings('math')"}
+  ],
+  'ka-alpha': [
+    {k:'letters', label:'ასოები',     m:p=>alphaAcc(p,'ka-alpha')>=0.8, go:"alphaLearn('ka-alpha',0)"},
+    {k:'read',    label:'კითხვა',     m:p=>!!(state[p].read&&state[p].read.done), go:"readLearn(0)"},
+    {k:'build',   label:'ააწყვე',     m:p=>!!(state[p].build&&state[p].build.done), go:"startBuild()"},
+    {k:'write',   label:'ამოწერა',    m:p=>!!(state[p].trace&&state[p].trace.done), go:"traceLearn(0)"}
+  ]
+};
+const PATH_SUBJS = ['english','math','ka-alpha'];
+function pathDisplayName(subj){return {english:'ინგლისური',math:'მათემატიკა','ka-alpha':'ქართული'}[subj]||subj;}
+// locative case ("in X") — Georgian drops the final vowel for ი-ending words, so it is pre-declined here
+function pathLocName(subj){return {english:'ინგლისურში',math:'მათემატიკაში','ka-alpha':'ქართულში'}[subj]||(pathDisplayName(subj)+'ში');}
+
+// progress within one subject path
+function subjProgress(p,subj){
+  const path=PATHS[subj]||[];let done=0,nextIdx=-1;
+  for(let i=0;i<path.length;i++){ if(path[i].m(p)) done++; else if(nextIdx<0) nextIdx=i; }
+  return {done,total:path.length,pct:path.length?Math.round(done/path.length*100):0,nextIdx:nextIdx<0?path.length-1:nextIdx,allDone:done===path.length};
+}
+// persistent total progress across every path (always measured, even with free-roam)
+function totalProgress(p){
+  let done=0,total=0;
+  PATH_SUBJS.forEach(subj=>{const pr=subjProgress(p,subj);done+=pr.done;total+=pr.total;});
+  return {done,total,pct:total?Math.round(done/total*100):0};
 }
 
-// leveled question banks. diff weight: easy=1, medium=2, hard=3.
-function plBankOlder(){
-  return [
-    {subj:'english',diff:1,kind:'pic', emoji:'🍎', q:'რომელია?', a:'apple', opts:['apple','book','dog']},
-    {subj:'english',diff:2,kind:'tr',  q:'ცხენი', a:'horse', opts:['horse','house','mouse']},
-    {subj:'math',   diff:1,kind:'num', q:'3 + 4', a:'7', opts:['7','6','8']},
-    {subj:'math',   diff:2,kind:'num', q:'12 + 9', a:'21', opts:['21','19','22']},
-    {subj:'math',   diff:3,kind:'num', q:'6 × 7', a:'42', opts:['42','36','48']},
-    {subj:'english',diff:3,kind:'tr',  q:'მასწავლებელი', a:'teacher', opts:['teacher','student','doctor']},
-    {subj:'english',diff:2,kind:'pic', emoji:'🐶', q:'რომელია?', a:'dog', opts:['dog','cat','cow']},
-    {subj:'english',diff:3,kind:'en2ka', q:'happy', a:'ბედნიერი', opts:['ბედნიერი','მწუხარე','დაღლილი']}
-  ];
+/* ── per-subject entry diagnostic ── */
+function subjDiagNeeded(p,subj){
+  const s=state[p];
+  return PATH_SUBJS.indexOf(subj)>=0 && !(s.subjDiag&&s.subjDiag[subj]);
 }
-function plBankYoung(){
-  return [
-    {subj:'counting',diff:1,kind:'count', emoji:'🍎🍎🍎', q:'რამდენია?', a:'3', opts:['3','2','4']},
-    {subj:'counting',diff:1,kind:'count', emoji:'⭐⭐', q:'რამდენია?', a:'2', opts:['2','3','1']},
-    {subj:'ka-alpha',diff:1,kind:'letter', q:'რომელია „ა"?', a:'ა', opts:['ა','ბ','გ']},
-    {subj:'en-alpha',diff:2,kind:'letter', q:'რომელია „B"?', a:'B', opts:['B','D','P']},
-    {subj:'counting',diff:2,kind:'count', emoji:'🐥🐥🐥🐥🐥', q:'რამდენია?', a:'5', opts:['5','4','6']}
-  ];
-}
+const SUBJ_DIAG = {
+  english:[
+    {kind:'pic', emoji:'🍎', q:'რომელია?', a:'apple', opts:['apple','book','dog']},
+    {kind:'tr',  q:'ცხენი', a:'horse', opts:['horse','house','mouse']},
+    {kind:'spell', emoji:'🐶', q:'რომელია სწორად დაწერილი?', a:'dog', opts:['dog','dawg','doog']},
+    {kind:'en2ka', q:'happy', a:'ბედნიერი', opts:['ბედნიერი','მწუხარე','დაღლილი']}
+  ],
+  math:[
+    {kind:'num', q:'3 + 4', a:'7', opts:['7','6','8']},
+    {kind:'num', q:'12 + 9', a:'21', opts:['21','19','22']},
+    {kind:'num', q:'15 − 6', a:'9', opts:['9','8','11']},
+    {kind:'num', q:'6 × 7', a:'42', opts:['42','36','48']}
+  ],
+  'ka-alpha':[
+    {kind:'letter', q:'რომელია „ა"?', a:'ა', opts:['ა','ბ','გ']},
+    {kind:'letter', q:'რომელია „ო"?', a:'ო', opts:['ო','ე','უ']},
+    {kind:'syl', emoji:'🍎', q:'რომელი მარცვლით იწყება „ვაშლი"?', a:'ვა', opts:['ვა','მა','სა']},
+    {kind:'word', q:'წაიკითხე: რომელია „დედა"?', a:'დედა', opts:['დედა','მამა','ბაბუ']}
+  ]
+};
 
-function placementIntro(p){
-  profile = p;
-  const young = isYoung(p);
-  render(`<div class="screen" style="justify-content:center;text-align:center;gap:16px;padding:24px">
-    <div style="font-size:4rem">🧭</div>
-    <h2>ვნახოთ, რა იცი</h2>
-    <p style="color:var(--muted);max-width:300px;line-height:1.5">სულ რაღაც ${young?'5':'8'} კითხვა, რომ ნიკომ გაიგოს, რა იცი და საიდან დავიწყოთ. ეს ტესტი კი არა, თამაშია! 🦉</p>
-    <button class="btn btn-primary btn-block" style="max-width:300px" onclick="startPlacement('${p}')">დავიწყოთ →</button>
-    <button class="btn btn-ghost btn-block" style="max-width:300px" onclick="skipPlacement('${p}')">მოგვიანებით</button>
-  </div>`, false);
-}
-function skipPlacement(p){
-  const s = state[p];
-  s.placement = {done:true, skipped:true, date:new Date().toISOString()};
-  save();
-  selectProfile(p);
-}
-
-function startPlacement(p){
-  profile = p;
-  pl = {qs: isYoung(p) ? plBankYoung() : plBankOlder(), i:0, got:0, max:0, young:isYoung(p)};
-  pl.qs.forEach(q => pl.max += q.diff);
-  // snapshot the starting point so the parent can later see growth
-  pl.startLearned = levelOf(p).learned;
-  pl.startLevel = levelOf(p).name;
+function startSubjDiag(p,subj){
+  profile=p;
+  pl={subj, qs:(SUBJ_DIAG[subj]||[]).slice(), i:0, got:0};
+  pl.max=pl.qs.length;
   plNext();
 }
+function skipSubjDiag(p,subj){
+  const s=state[p]; if(!s.subjDiag)s.subjDiag={};
+  s.subjDiag[subj]={done:true,skipped:true,date:new Date().toISOString()};
+  save(); openMenu(subj);
+}
 function plNext(){
-  if(pl.i >= pl.qs.length) return plResult();
-  const q = pl.qs[pl.i];
-  const opts = shuffle(q.opts);
-  const head = q.emoji ? `<div class="p-emoji" style="font-size:3.4rem">${q.emoji}</div>` : '';
-  const isEn = (q.kind==='pic' || q.kind==='tr');
-  const isNum = (q.kind==='num' || q.kind==='count');
-  const prompt = q.kind==='num'
+  if(pl.i>=pl.qs.length) return diagResult();
+  const q=pl.qs[pl.i];
+  const opts=shuffle(q.opts);
+  const head=q.emoji?`<div class="p-emoji" style="font-size:3.4rem">${q.emoji}</div>`:'';
+  const isNum=q.kind==='num';
+  const isEn=(q.kind==='pic'||q.kind==='tr'||q.kind==='spell');
+  const prompt=isNum
     ? `<div class="p-word num" style="font-size:2.4rem;letter-spacing:2px">${q.q}</div>`
     : `<div class="p-word" style="font-size:1.3rem">${q.q}</div>`;
-  const optCls = isNum ? 'opt num' : (isEn ? 'opt en' : 'opt');
+  const optCls=isNum?'opt num':(isEn?'opt en':'opt');
   render(`<div class="screen game" id="gscreen">
     <div class="progress-row">
-      <button class="iconbtn" onclick="skipPlacement('${profile}')" style="width:40px;height:40px;font-size:1.1rem">←</button>
+      <button class="iconbtn" onclick="skipSubjDiag('${profile}','${pl.subj}')" style="width:40px;height:40px;font-size:1.1rem">←</button>
       <div class="bar"><i style="width:${(pl.i/pl.qs.length)*100}%"></i></div>
       <span class="q-count">${pl.i+1}/${pl.qs.length}</span>
     </div>
@@ -83,62 +114,59 @@ function plNext(){
       <div class="prompt">${head}${prompt}<div class="p-sub">რომელია სწორი?</div></div>
       <div class="options">${opts.map(o=>`<button class="${optCls}" onclick="plAnswer(this,'${String(o).replace(/'/g,"\\'")}','${String(q.a).replace(/'/g,"\\'")}')">${o}</button>`).join('')}</div>
     </div>
-  </div>`, 'slim');
-  // voice the English target for the en questions (recorded ka clip for ka ones via the audio layer)
-  try{
-    if(q.kind==='tr' || q.kind==='en2ka'){ /* read after pick */ }
-    else if(q.kind==='pic'){ speak(q.a,'en-US'); }
-  }catch(e){}
+  </div>`,'slim');
+  try{ if(q.kind==='pic') speak(q.a,'en-US'); }catch(e){}
 }
-function plAnswer(btn, sel, cor){
-  const q = pl.qs[pl.i];
-  const ok = String(sel)===String(cor);
+function plAnswer(btn,sel,cor){
+  const ok=String(sel)===String(cor);
   document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));
-  btn.classList.remove('dim');
-  btn.classList.add(ok?'correct':'wrong');
-  if(ok){ pl.got += q.diff; try{praise();}catch(e){} }
-  else { const right=[...document.querySelectorAll('.opt')].find(b=>b.textContent===String(cor)); if(right){right.classList.remove('dim');right.classList.add('correct');} }
+  btn.classList.remove('dim'); btn.classList.add(ok?'correct':'wrong');
+  if(ok){ pl.got++; try{praise();}catch(e){} }
+  else { const r=[...document.querySelectorAll('.opt')].find(b=>b.textContent===String(cor)); if(r){r.classList.remove('dim');r.classList.add('correct');} }
   setTimeout(()=>{ pl.i++; plNext(); }, ok?700:1100);
 }
-
-// map score → level bucket + a concrete, honest recommendation tied to a real subject
-function plVerdict(){
-  const pct = pl.max ? Math.round(pl.got/pl.max*100) : 0;
-  if(pl.young){
-    if(pl.got >= Math.round(pl.max*0.7))
-      return {pct, level:'კარგი დასაწყისი', reco:'ანბანი და დათვლა უკვე იცი. დაიწყე „ისწავლე ასოები" და „დათვალე".', subj:'ka-alpha'};
-    return {pct, level:'პატარა ნაბიჯები', reco:'დავიწყოთ ნელა: ასოები და რიცხვები ხატულებითა და ხმით.', subj:'counting'};
-  }
-  if(pct >= 75) return {pct, level:'მაღალი', reco:'მაგარი ხარ! დაიწყე კინგსი (Cambridge YLE) და გამრავლება.', subj:'kings-eng'};
-  if(pct >= 45) return {pct, level:'საშუალო', reco:'საფუძველი უკვე გაქვს. დაიწყე ინგლისური სიტყვებითა და შეკრება-გამოკლებით.', subj:'english'};
-  return {pct, level:'დაწყებითი', reco:'დავიწყოთ თავიდან: ანბანი, თვლა და მოსმენა.', subj:'ka-alpha'};
-}
-function plResult(){
-  const v = plVerdict();
-  const s = state[profile];
-  s.placement = {
-    done:true, skipped:false, date:new Date().toISOString(),
-    pct:v.pct, level:v.level, reco:v.reco, subj:v.subj,
-    startLearned: pl.startLearned, startLevel: pl.startLevel
-  };
+// score → recommended START milestone on this subject's path + a level word
+function diagResult(){
+  const subj=pl.subj, pct=pl.max?Math.round(pl.got/pl.max*100):0;
+  const path=PATHS[subj]||[];
+  // higher score → start further along the path (but never past what real data already mastered)
+  let startIdx = pct>=75?Math.min(2,path.length-1) : pct>=45?1 : 0;
+  const level = pct>=75?'მაღალი' : pct>=45?'საშუალო' : 'დაწყებითი';
+  const s=state[profile]; if(!s.subjDiag)s.subjDiag={};
+  s.subjDiag[subj]={done:true,skipped:false,date:new Date().toISOString(),pct,level,startIdx};
   save();
-  render(`<div class="screen results" style="--pct:${v.pct}%">
+  const start=path[startIdx]?path[startIdx].label:'';
+  render(`<div class="screen results" style="--pct:${pct}%">
     <div class="r-ring"><i>🧭</i></div>
-    <h2>${voc()}, აი შენი დონე: <span style="color:var(--primary-d)">${v.level}</span></h2>
-    <div class="insight" style="max-width:340px;margin:6px auto"><div class="ii">${I.spark}</div><div class="it"><b>👉 რეკომენდაცია</b><br>${v.reco}</div></div>
+    <h2>${voc()}, ${pathLocName(subj)} შენი დონეა: <span style="color:var(--primary-d)">${level}</span></h2>
+    <div class="insight" style="max-width:340px;margin:6px auto"><div class="ii">${I.spark}</div><div class="it"><b>👉 დაიწყე აქედან</b><br>${start}. შენი გზა ქვემოთ ჩანს, ნაბიჯ-ნაბიჯ.</div></div>
     <div class="actions">
-      <button class="btn btn-primary btn-block" onclick="placementStart()">დავიწყოთ თამაში →</button>
-      <button class="btn btn-ghost btn-block mt" onclick="selectProfile(profile)">თვითონ ავირჩევ</button>
+      <button class="btn btn-primary btn-block" onclick="openMenu('${subj}')">ვნახოთ ჩემი გზა →</button>
     </div>
-  </div>`, 'home');
+  </div>`,'home');
   try{ if(isYoung(profile)) praise(); }catch(e){}
 }
-// route to the recommended subject's menu (or the child's grid for the young plan)
-function placementStart(){
-  const s = state[profile];
-  const subj = (s.placement && s.placement.subj) || null;
-  if(subj==='counting' || subj==='ka-alpha' || subj==='en-alpha' || subj==='english' || subj==='kings-eng'){
-    if(typeof openMenu==='function') return openMenu(subj);
-  }
-  selectProfile(profile);
+function pathDisplayNameSafe(subj){return pathDisplayName(subj);}
+
+/* ── the visible "Path" (გზა) shown at the top of a subject menu ── */
+function renderPathStrip(subj){
+  if(PATH_SUBJS.indexOf(subj)<0) return '';
+  const p=profile, path=PATHS[subj]||[];
+  const pr=subjProgress(p,subj);
+  const diag=(state[p].subjDiag&&state[p].subjDiag[subj])||null;
+  const startIdx=diag&&!diag.skipped?diag.startIdx:0;
+  const steps=path.map((m,i)=>{
+    const done=m.m(p);
+    const isNext=(i===pr.nextIdx)&&!done;
+    const cls=done?'pstep done':(isNext?'pstep next':'pstep');
+    const tick=done?'✓':(isNext?'▶':(i+1));
+    const onclick=isNext?` onclick="${m.go}"`:'';
+    return `<div class="${cls}"${onclick}><span class="pdot">${tick}</span><span class="plabel">${m.label}</span></div>`;
+  }).join('<span class="parrow">·</span>');
+  const startHint=pr.allDone?'მთელი გზა გაიარე! 🎉':(diag&&!diag.skipped?`რეკომენდებული დასაწყისი: <b>${path[startIdx]?path[startIdx].label:''}</b>`:'');
+  return `<div class="pathcard">
+    <div class="path-top"><b>🧭 შენი გზა — ${pathDisplayName(subj)}</b><span class="path-pct">${pr.done}/${pr.total}</span></div>
+    <div class="path-steps">${steps}</div>
+    ${startHint?`<div class="path-hint">${startHint}</div>`:''}
+  </div>`;
 }

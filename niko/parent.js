@@ -88,6 +88,34 @@ function sendFeedback(){
   toast('✓ მადლობა! იხსნება ფოსტის აპი');
 }
 
+/* ── D1 (v2.03): parent goal-setting + tracking ── */
+function kidGoalModal(p){
+  const el=document.createElement('div');el.className='gate';el.id='goalmodal';
+  el.innerHTML=`<div class="gate-card" style="max-width:340px">
+    <h3>🎯 დაუსახე მიზანი — ${nameOf(p)}</h3>
+    <p style="font-size:.84rem;color:var(--muted)">აირჩიე, რას მივადევნოთ თვალი.</p>
+    <button class="btn btn-ghost btn-block" onclick="pickGoal('${p}','words',30,'30 ინგლისური სიტყვა')">📚 30 ინგლისური სიტყვა</button>
+    <button class="btn btn-ghost btn-block mt" onclick="pickGoal('${p}','words',50,'50 ინგლისური სიტყვა')">📚 50 ინგლისური სიტყვა</button>
+    <button class="btn btn-ghost btn-block mt" onclick="pickGoal('${p}','streak',7,'7 დღე ზედიზედ')">🔥 7 დღე ზედიზედ</button>
+    <button class="btn btn-ghost btn-block mt" onclick="pickGoal('${p}','total',50,'ჯამური პროგრესი 50%')">📊 ჯამური პროგრესი 50%</button>
+    <button class="btn btn-ghost btn-block mt" onclick="document.getElementById('goalmodal').remove()">დახურვა</button>
+  </div>`;
+  el.onclick=e=>{if(e.target===el)el.remove();};
+  if(window.applyLang)applyLang(el);
+  $('.device').appendChild(el);
+}
+function pickGoal(p,type,target,label){const s=state[p];s.goal={type,target,label,date:new Date().toISOString()};save();const m=$('#goalmodal');if(m)m.remove();parentDash();}
+function clearGoal(p){const s=state[p];delete s.goal;save();parentDash();}
+function goalProgress(p){
+  const s=state[p],g=s&&s.goal;if(!g)return null;
+  let cur=0;
+  if(g.type==='words')cur=(typeof wordsMastered==='function')?wordsMastered(p):0;
+  else if(g.type==='streak')cur=s.dayStreak||0;
+  else if(g.type==='total')cur=(typeof totalProgress==='function')?totalProgress(p).pct:0;
+  const pct=g.target?Math.min(100,Math.round(cur/g.target*100)):0;
+  return {cur,target:g.target,pct,label:g.label,done:cur>=g.target};
+}
+
 function parentDash(){
   profile=profile||'niko';
   let html=`<div class="screen parent">${topbar('მშობლის სივრცე',null,'goHome()')}`;
@@ -125,14 +153,19 @@ function parentDash(){
     if(masteredM.length)learnedBits.push(`მათემატიკა: <b>${masteredM.join(', ')}</b>`);
     if(masteredA.length)learnedBits.push(`<b>${masteredA.join(', ')}</b>`);
     let growth='';
-    if(s.placement&&s.placement.done&&!s.placement.skipped){
-      const fromLvl=s.placement.startLevel||'დაწყებითი',fromW=s.placement.startLearned||0;
-      growth=`<div style="margin-top:8px;font-size:.86rem">📈 <b>განვითარება:</b> დაიწყო „${fromLvl}" (${fromW} სიტყვა) → ახლა „${lv.name}" (${lv.learned} სიტყვა)`+(lv.learned>fromW?` <span style="color:var(--green-d)">▲ +${lv.learned-fromW}</span>`:'')+`</div>`;
-    } else if(s.placement&&s.placement.level){
-      growth=`<div style="margin-top:8px;font-size:.86rem">🧭 საწყისი შეფასება: <b>${s.placement.level}</b></div>`;
+    const tp=(typeof totalProgress==='function')?totalProgress(p):null;
+    if(tp&&tp.total){
+      growth=`<div style="margin-top:8px;font-size:.86rem">📈 <b>ჯამური პროგრესი:</b> ${tp.done}/${tp.total} ეტაპი (${tp.pct}%)`+
+        (s.maxDayStreak?` · 🔥 საუკეთესო სერია: ${s.maxDayStreak} დღე`:'')+`</div>`;
     }
     const learnedBody=learnedBits.length?`უკვე იცის: ${learnedBits.join(' · ')}.`:(s.sessions>0?'ჯერ მუშავდება, მალე გამოჩნდება პირველი ნასწავლი თემები.':'ჯერ არ უთამაშია.');
     html+=`<div class="insight" style="background:rgba(0,166,81,.07)"><div class="ii">✅</div><div class="it"><b>🌟 უკვე ისწავლა და განვითარდა</b><br>${learnedBody}${growth}</div></div>`;
+    const gp=(typeof goalProgress==='function')?goalProgress(p):null;
+    if(gp){
+      html+=`<div class="insight" style="background:rgba(107,99,181,.08)"><div class="ii">🎯</div><div class="it"><b>მიზანი:</b> ${gp.label} ${gp.done?'<span style="color:var(--green-d)">✓ მიღწეულია!</span>':''}<div class="bar" style="margin-top:8px"><i style="width:${gp.pct}%"></i></div><div style="font-size:.8rem;color:var(--muted);margin-top:5px">${gp.cur}/${gp.target} (${gp.pct}%) <button class="ai-chip" style="margin-left:6px" onclick="kidGoalModal('${p}')">შეცვლა</button> <button class="ai-chip" onclick="clearGoal('${p}')">მოხსნა</button></div></div></div>`;
+    } else {
+      html+=`<button class="btn btn-ghost btn-block" style="margin-top:4px" onclick="kidGoalModal('${p}')">🎯 დაუსახე მიზანი</button>`;
+    }
     const recs=[];
     if(weak.length)recs.push(`სიტყვები <b>${weak.slice(0,3).join(', ')}</b>, გაიმეორეთ მოსმენით 🔊`);
     if(weakMath.length)recs.push(`მათემატიკა: <b>${weakMath.join(', ')}</b>, დაბალი დონიდან, ბუს მინიშნებებით`);

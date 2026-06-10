@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='2.02';
+const APP_VERSION='2.03';
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -290,9 +290,10 @@ function selectProfile(p){
   profile=p;game.start=Date.now();game.cat=null;game.pcat=null;
   if(typeof touchDay==='function')touchDay(p);
   if(typeof overLimit==='function'&&overLimit(p))return screenLimitUp(p);
-  if(typeof placementNeeded==='function'&&placementNeeded(p))return placementIntro(p); // new child → gauge level first
   const s=state[p],lv=levelOf(p),isKid=isYoung(p);
-  const recoBanner=(s.placement&&!s.placement.skipped&&s.placement.reco)?`<div class="insight" style="margin:0 0 12px"><div class="ii">${I.spark}</div><div class="it"><b>👉 რეკომენდაცია</b><br>${s.placement.reco} <button class="ai-chip" style="margin-top:8px" onclick="startPlacement('${p}')">↻ თავიდან შემოწმება</button></div></div>`:'';
+  // persistent total progress (always measured, even with free-roam) — owner ask, v2.03
+  const tp=(typeof totalProgress==='function')?totalProgress(p):{pct:0,total:0};
+  const totalBar=tp.total?`<div class="pathcard tp-meter"><div class="path-top"><b>📊 ჯამური პროგრესი</b><span class="path-pct">${tp.pct}%</span></div><div class="bar"><i style="width:${tp.pct}%"></i></div></div>`:'';
   let subjects;
   if(isKid){
     const tiny=isTiny(profile);
@@ -323,7 +324,7 @@ function selectProfile(p){
       <div class="bar"><i style="width:${lv.pct}%"></i></div>
       <div class="lvl-hint">${lv.need>=999?'მაქსიმალური დონე! 🎉':`შემდეგ დონემდე: ${lv.need-lv.learned} სიტყვა`}</div>
     </div>`}
-    ${recoBanner}
+    ${totalBar}
     ${subjects}
   </div>`,'home');
 }
@@ -352,6 +353,21 @@ const PLAY_BADGE='<span class="play-badge" aria-hidden="true">▶</span>';
 function openMenu(subj){
   game.subj=subj;
   if(window.Analytics)Analytics.screen('subject/'+subj);
+  // per-subject diagnostic offer (first time) OR the visible Path (გზა) for the path subjects
+  let pathHead='';
+  if(typeof PATH_SUBJS!=='undefined' && PATH_SUBJS.indexOf(subj)>=0){
+    if(typeof subjDiagNeeded==='function' && subjDiagNeeded(profile,subj)){
+      const nq=(SUBJ_DIAG[subj]||[]).length;
+      pathHead=`<div class="pathcard diag-offer"><div class="path-top"><b>🧭 ვნახოთ რა იცი ${pathLocName(subj)}</b></div>
+        <div class="path-hint">სულ რაღაც ${nq} კითხვა, რომ გითხრა საიდან დაიწყო.</div>
+        <div style="display:flex;gap:8px;margin-top:10px">
+          <button class="btn btn-primary" style="flex:1" onclick="startSubjDiag('${profile}','${subj}')">დავიწყოთ →</button>
+          <button class="btn btn-ghost" onclick="skipSubjDiag('${profile}','${subj}')">გამოტოვება</button>
+        </div></div>`;
+    } else {
+      pathHead=renderPathStrip(subj);
+    }
+  }
   let body;
   if(subj==='english'){
     const cat=game.cat;
@@ -419,6 +435,7 @@ function openMenu(subj){
   }
   render(`<div class="screen">
     ${topbar(MODE_TITLES[subj]||subj,null,'selectProfile(profile)')}
+    ${pathHead}
     ${body}
   </div>`,'home');
 }
