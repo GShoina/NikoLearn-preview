@@ -56,8 +56,17 @@
 - **Gemini (cross-model, CLI installed — `gemini` via stdin) ran 3 grilldown rounds.** Live challenges still on the table: "safe low-chaos" = baseline not USP (must show MEASURABLE progress); current tutor.js = rule-based, do NOT market as "AI"; real AI moat = offline content-pipeline + "Parent Translator" (scores→human guidance); 6-month Cambridge claim = liability → reframe to confidence/routine/school-readiness; grades 1-3 = auto-progression "Rail" not a menu.
 - **▶ RESUME (the actual next step):** owner is reacting to the **6 OPEN questions** in the Grilldown v2 "❓ ღია" tab — (1) mission OK? (2) "one engine two lenses" OK? (3) A / B / synthesis? (4) GTM diaspora-first-paid? (5) "safe + measurable progress" dual promise? (6) skill-Rail for grades 1-3? **Still PLAN — build nothing until he picks.** After he picks, likely first build = the "one engine, two lenses" skill-engine + diaspora-first GTM (but NOT before confirmation). The 2026-06-08 D1-D11 "LOCKED" = owner's directional input, but the diaspora-ONLY MISSION framing is SUPERSEDED by both-audiences.
 - v2.0 product milestone unchanged (after features + a pay signal + strategy). **LESSON (behavioral):** in exploratory strategy, do NOT collapse to "locked" — preserve the owner's full brief + optionality; a monetization spearhead is not a mission.
+> **⚠️ VERSION SCHEME (owner-corrected 2026-06-11) — MVP stays v1.1xx until the REAL v2.00 (all 7 phases).**
+> I had jumped to v2.0x prematurely. Corrected: the earlier v2.00-v2.07 labels = **v1.100-v1.107**; current
+> LIVE = **v1.108**. Do NOT label anything v2.00 until the full 7-phase plan is done. Increment v1.109, v1.110…
+> **v1.108 (354af02) — PARENT SPACE UI/UX PASS:** parent topbar cleaned (removed the CHILD's coin/streak/voice
+> chips — they belong to the kid UI, not a parent dashboard → topbarPlain: back+title only); settings regrouped
+> from a long flat list into 3 tidy cards (📤 გაზიარება · ⏱️ დრო და უსაფრთხოება · ⚙️ ანგარიში). Builds on v2.07's
+> readability (bigger/darker fonts, de-greyed hover). (parent.js + styles.css)
+>
 > **✅ DONE 2026-06-11 (5) — OWNER SAID „გააკეთე ყველაფერი D1-D6 + დოკები სრულად" (do ALL of D1-D6
-> in code + update both strategy docs).** Built as verified, deployable increments. ALL LIVE:
+> in code + update both strategy docs).** Built as verified, deployable increments (labels below are the OLD
+> v2.0x scheme = v1.100-v1.107 corrected). ALL LIVE:
 > • **v2.01 (81c518a) D5** — desktop-only hover reveal on subject cards (`@media(hover:hover)+(pointer:fine)`):
 >   card lifts/tilts + slides up a `data-sum` content summary so a parent browsing on a computer sees what is
 >   inside without tapping; kids on touch unaffected. (styles.css + screens.js)
