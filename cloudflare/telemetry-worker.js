@@ -97,8 +97,11 @@ export default {
     // Worker wrote (date|event|coarse-dims → count) — there are no raw events, no IP, no identity to
     // return. Read-only: never writes. If STATS_KEY is unset, the endpoint is closed (403).
     if (request.method === 'GET' && url.pathname === '/v1/stats') {
+      // ACAO:* so the owner's LOCAL stats viewer (file:// or any origin) can read the JSON.
+      // Safe: the STATS_KEY query param is the gate, not the origin; the data is non-PII aggregate.
+      const sh = { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'Access-Control-Allow-Origin': '*' };
       if (!env.STATS_KEY || url.searchParams.get('k') !== env.STATS_KEY) {
-        return new Response('forbidden', { status: 403 });
+        return new Response('forbidden', { status: 403, headers: { 'Access-Control-Allow-Origin': '*' } });
       }
       const out = {};
       let cursor;
@@ -107,10 +110,7 @@ export default {
         for (const k of list.keys) out[k.name] = await env.NIKO_T.get(k.name);
         cursor = list.list_complete ? null : list.cursor;
       } while (cursor);
-      return new Response(JSON.stringify(out, null, 2), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
-      });
+      return new Response(JSON.stringify(out, null, 2), { status: 200, headers: sh });
     }
 
     if (request.method !== 'POST') return new Response('method', { status: 405, headers: cors(origin) });
