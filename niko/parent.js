@@ -85,6 +85,23 @@ function parentDash(){
     const opNm={'math-add':'შეკრება','math-sub':'გამოკლება','math-mul':'გამრავლება','math-pat':'პატერნები','compare':'შედარება','skip':'დათვლა 5/10','shapes':'ფიგურები','money':'ფული','clock':'საათი'};
     const weakMath=Object.entries(s.math||{}).filter(([,v])=>{const t=v.correct+v.wrong;return t>=3&&v.correct/t<0.6;}).map(([k])=>opNm[k]||k);
     const weakAlpha=Object.entries(s.alpha||{}).filter(([,v])=>{const t=v.correct+v.wrong;return t>=3&&v.correct/t<0.7;}).map(([k])=>k==='ka-alpha'?'ქართული ანბანი':'English ანბანი');
+    // OWNER ask 2026-06-10: a clear "what the child already learned + how they grew" instrument
+    const masteredW=words.filter(([,v])=>v.correct>=3).map(([k])=>k);
+    const masteredM=Object.entries(s.math||{}).filter(([,v])=>{const t=v.correct+v.wrong;return t>=4&&v.correct/t>=0.8;}).map(([k])=>opNm[k]||k);
+    const masteredA=Object.entries(s.alpha||{}).filter(([,v])=>{const t=v.correct+v.wrong;return t>=4&&v.correct/t>=0.8;}).map(([k])=>k==='ka-alpha'?'ქართული ანბანი':'English ანბანი');
+    const learnedBits=[];
+    if(masteredW.length)learnedBits.push(`<b>${masteredW.length}</b> ინგლისური სიტყვა`);
+    if(masteredM.length)learnedBits.push(`მათემატიკა: <b>${masteredM.join(', ')}</b>`);
+    if(masteredA.length)learnedBits.push(`<b>${masteredA.join(', ')}</b>`);
+    let growth='';
+    if(s.placement&&s.placement.done&&!s.placement.skipped){
+      const fromLvl=s.placement.startLevel||'დაწყებითი',fromW=s.placement.startLearned||0;
+      growth=`<div style="margin-top:8px;font-size:.86rem">📈 <b>განვითარება:</b> დაიწყო „${fromLvl}" (${fromW} სიტყვა) → ახლა „${lv.name}" (${lv.learned} სიტყვა)`+(lv.learned>fromW?` <span style="color:var(--green-d)">▲ +${lv.learned-fromW}</span>`:'')+`</div>`;
+    } else if(s.placement&&s.placement.level){
+      growth=`<div style="margin-top:8px;font-size:.86rem">🧭 საწყისი შეფასება: <b>${s.placement.level}</b></div>`;
+    }
+    const learnedBody=learnedBits.length?`უკვე იცის: ${learnedBits.join(' · ')}.`:(s.sessions>0?'ჯერ მუშავდება, მალე გამოჩნდება პირველი ნასწავლი თემები.':'ჯერ არ უთამაშია.');
+    html+=`<div class="insight" style="background:rgba(0,166,81,.07)"><div class="ii">✅</div><div class="it"><b>🌟 უკვე ისწავლა და განვითარდა</b><br>${learnedBody}${growth}</div></div>`;
     const recs=[];
     if(weak.length)recs.push(`სიტყვები <b>${weak.slice(0,3).join(', ')}</b>, გაიმეორეთ მოსმენით 🔊`);
     if(weakMath.length)recs.push(`მათემატიკა: <b>${weakMath.join(', ')}</b>, დაბალი დონიდან, ბუს მინიშნებებით`);

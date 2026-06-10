@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.99';
+const APP_VERSION='2.00';
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -290,7 +290,9 @@ function selectProfile(p){
   profile=p;game.start=Date.now();game.cat=null;game.pcat=null;
   if(typeof touchDay==='function')touchDay(p);
   if(typeof overLimit==='function'&&overLimit(p))return screenLimitUp(p);
+  if(typeof placementNeeded==='function'&&placementNeeded(p))return placementIntro(p); // new child → gauge level first
   const s=state[p],lv=levelOf(p),isKid=isYoung(p);
+  const recoBanner=(s.placement&&!s.placement.skipped&&s.placement.reco)?`<div class="insight" style="margin:0 0 12px"><div class="ii">${I.spark}</div><div class="it"><b>👉 რეკომენდაცია</b><br>${s.placement.reco} <button class="ai-chip" style="margin-top:8px" onclick="startPlacement('${p}')">↻ თავიდან შემოწმება</button></div></div>`:'';
   let subjects;
   if(isKid){
     const tiny=isTiny(profile);
@@ -321,6 +323,7 @@ function selectProfile(p){
       <div class="bar"><i style="width:${lv.pct}%"></i></div>
       <div class="lvl-hint">${lv.need>=999?'მაქსიმალური დონე! 🎉':`შემდეგ დონემდე: ${lv.need-lv.learned} სიტყვა`}</div>
     </div>`}
+    ${recoBanner}
     ${subjects}
   </div>`,'home');
 }
