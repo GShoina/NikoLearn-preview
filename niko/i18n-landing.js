@@ -31,7 +31,7 @@ window.I18N_LANDING = {
   "ქვიზი, დაკავშირება, მართლწერა და ხმოვანი თამაში.":"Quiz, matching, spelling and a voice game.",
   "ჯილდოები":"Rewards",
   "მონეტები, სერიები, დონეები და რანგები მოტივაციისთვის.":"Coins, streaks, levels and ranks for motivation.",
-  "🦉 AI რეპეტიტორი":"🦉 AI tutor",
+  "🦉 რეპეტიტორი":"🦉 Niko, your tutor",
   "გაიცანი ნიკო ბუ, რომელიც გელაპარაკება":"Meet Niko the owl, who talks with you",
   "ხმოვანი რეჟიმი":"Voice mode",
   "ჭკვიანი მინიშნებები":"Smart hints",
@@ -75,7 +75,7 @@ window.I18N_LANDING = {
   "სცადოთ კიდევ ერთი სიტყვა?":"Shall we try another word?",
 
   /* hero lead + curriculum */
-  "NikoLearn ასწავლის მათემატიკას, ინგლისურს და ქართულ ანბანს. ყველა გაკვეთილი მოკლე თამაშია, ხოლო AI რეპეტიტორი ნიკო ბუ ელაპარაკება, უსმენს გამოთქმას და ეხმარება ყოველ ნაბიჯზე.":"NikoLearn teaches math, English and the Georgian alphabet. Every lesson is a short game, and Niko the AI tutor talks, listens to pronunciation and helps at every step.",
+  "NikoLearn ასწავლის მათემატიკას, ინგლისურს და ქართულ ანბანს. ყველა გაკვეთილი მოკლე თამაშია, ხოლო რეპეტიტორი ნიკო ბუ ელაპარაკება, ეუბნება სიტყვებს გარკვევით და ეხმარება ყოველ ნაბიჯზე.":"NikoLearn teaches math, English and the Georgian alphabet. Every lesson is a short game, and Niko the tutor speaks, says each word clearly and helps at every step.",
   "შედგენილია ეროვნული სასწავლო პროგრამის მიხედვით":"Built to follow the national curriculum",
   "გაკვეთილები ეხმიანება კინგსის პროგრამასა და მის ტესტებს, რათა ბავშვი ტესტებს თავდაჯერებულად შეხვდეს.":"Lessons echo the Kings programme and its tests, so children meet exams with confidence.",
 

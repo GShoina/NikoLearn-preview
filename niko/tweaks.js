@@ -76,7 +76,7 @@
           <span class="tw-sw">${a.cols.map(c=>`<i style="background:${c}"></i>`).join('')}</span>${a.name}</button>`).join('')}
       </div>
       <div class="tw-desc">${AES.find(a=>a.v===values.aesthetic).desc}</div>
-      <div class="tw-lbl">AI-ს როლი</div>
+      <div class="tw-lbl">ნიკოს როლი</div>
       <div class="tw-seg">
         ${AI.map(a=>`<button class="${values.aiRole===a.v?'sel':''}" data-ai="${a.v}">${a.name}</button>`).join('')}
       </div>
