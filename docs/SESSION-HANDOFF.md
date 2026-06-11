@@ -105,6 +105,14 @@
 >     accumulates (clock just started). Data-independent next step = B1 Georgian CONTENT audit (more reading
 >     content, explicit letter→sound, trace stroke-order quality, verify ka-alpha 4 Path .done) — actionable
 >     now without waiting for data. Propose as a focused Georgian deep-dive.
+>   - **v1.118 (commit 9cfd5af) — Georgian deepening (B1) SHIPPED.** READING expanded with REAL audio
+>     (edge-tts ka-GE-EkaNeural, 17 new clips niko/audio/krd_*): READING_KA 18→26 words, READING_SENT_KA
+>     14→20 sentences; verified EVERY word+syllable+sentence has a clip (zero silent Georgian). Letter↔sound
+>     link now explicit (alpha learn card highlights target letter in its example word: ვ: <b>ვ</b>არდი,
+>     .lead CSS). ka-alpha 4 Path .done verified end-to-end (letters/read/build/trace → 4/4). Generator kept:
+>     `tools/_gen_ka_reading.py` (edge-tts present + works; network OK) — REUSE to add more ka content.
+>     OPEN/honest: trace = glyph-OUTLINE animation, NOT authored stroke-order (true per-letter stroke data
+>     = large effort, not done). More ka reading content can be added anytime via the generator.
 >   - **P4 — Phase 2.4 age-rhythm** (celebration 2.5s→~0.9s at 8+, tap-to-skip, shared break timer in ALL
 >     games not just english) **+ B1 known gaps** (MATH division + 8-12 depth: missing-number/multi-digit/
 >     simple equations + age-tiered difficulty; ALPHABET more reading + letter→sound link + trace stroke-order
