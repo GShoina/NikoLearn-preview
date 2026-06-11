@@ -12,6 +12,8 @@ let pl = null;
 function wordsMastered(p){const s=state[p];return s&&s.words?Object.values(s.words).filter(w=>w.correct>=3).length:0;}
 // 2.3: "truly learned" = answered correctly 3 times IN A ROW (stricter than cumulative wordsMastered)
 function wordsLearned(p){const s=state[p];return s&&s.words?Object.values(s.words).filter(w=>(w.streak||0)>=3).length:0;}
+// 2.2b: words reinforced through spaced repetition (Leitner box advanced to 3+)
+function wordsReinforced(p){const s=state[p];return s&&s.words?Object.values(s.words).filter(w=>(w.box||0)>=3).length:0;}
 function phrasesDone(p){const s=state[p];return s&&s.phrases?Object.values(s.phrases).filter(v=>v.correct>=2).length:0;}
 function opAcc(p,op){const m=(state[p]&&state[p].math&&state[p].math[op])||null;if(!m)return 0;const t=m.correct+m.wrong;return t>=4?m.correct/t:0;}
 function alphaAcc(p,k){const a=(state[p]&&state[p].alpha&&state[p].alpha[k])||null;if(!a)return 0;const t=a.correct+a.wrong;return t>=4?a.correct/t:0;}

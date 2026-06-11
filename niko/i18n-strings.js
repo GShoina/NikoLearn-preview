@@ -26,6 +26,9 @@ window.I18N_MAP = {
   /* review — weak-word practice (games.js, v1.113) */
   "გაიმეორე":"Review",
   "რთული სიტყვები":"Tricky words",
+  "დღევანდელი გამეორება":"Daily refresh",
+  "დღეს ყველაფერი გაიმეორე!":"You've reviewed everything today!",
+  "ხვალ ისევ მოდი და ნიკო დაგელოდება.":"Come back tomorrow and Niko will be waiting.",
   "ჯერ გასამეორებელი არაფერია":"Nothing to review yet",
   "ითამაშე და ის სიტყვები, რომლებიც გაგიჭირდება, აქ მოგროვდება.":"Play and the words you find tricky will be collected here.",
   "კარგი":"OK",

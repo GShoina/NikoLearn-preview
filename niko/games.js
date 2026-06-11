@@ -178,6 +178,33 @@ function weakWords(){
     .sort(function(a,b){ return (b.pr-a.pr) || (a.correct-b.correct); })
     .map(function(x){ return x.obj; });
 }
+// 2.2b: words whose Leitner due-date has passed (spaced resurfacing across days, mastered or not)
+function dueWords(p){
+  p=p||profile; const s=state[p]; if(!s||!s.words) return [];
+  const lut=allWordObjs(); const now=Date.now();
+  return Object.keys(s.words).map(function(en){ return { obj:lut[en], due:s.words[en].due||0 }; })
+    .filter(function(x){ return x.obj && x.due && x.due<=now; })
+    .sort(function(a,b){ return a.due-b.due; })
+    .map(function(x){ return x.obj; });
+}
+function startRefresh(){
+  const due=dueWords();
+  if(!due.length) return refreshEmpty();
+  game.mode='quiz'; game.cat=null; game.pcat=null; game.subj='english';
+  game.i=0; game.shields=0; game.wrong=0; game.missMap=new Map(); game.requeues=0;
+  game.start=Date.now(); game.preLvl=levelIdx(profile);
+  if(window.Analytics)Analytics.screen('subject/english');
+  game.qs=due.slice(0,8);
+  nextWord();
+}
+function refreshEmpty(){
+  render(`<div class="screen" style="justify-content:center;text-align:center;gap:14px;padding:24px">
+    <div style="font-size:3.6rem">🔄</div>
+    <h2>დღეს ყველაფერი გაიმეორე!</h2>
+    <p style="color:var(--muted);max-width:300px;line-height:1.5">ხვალ ისევ მოდი და ნიკო დაგელოდება.</p>
+    <button class="btn btn-primary btn-block" style="max-width:300px" onclick="openMenu('english')">${I.check} კარგი</button>
+  </div>`,false);
+}
 function startReview(){
   const weak=weakWords();
   if(!weak.length) return reviewEmpty();
@@ -475,6 +502,8 @@ function record(word,ok){
   // cumulative correct>=3 that drives Paths/levels, which stays unchanged so progress only moves forward).
   if(ok){s.words[word].correct++;s.words[word].streak=(s.words[word].streak||0)+1;game.shields++;s.shields++;s.streak++;s.maxStreak=Math.max(s.maxStreak,s.streak);}
   else{s.words[word].wrong++;s.words[word].streak=0;game.wrong++;s.streak=0;}
+  // 2.2b Leitner spaced repetition: box 1..5, correct promotes / wrong resets to box 1; next due = +interval days.
+  (function(){ const r=s.words[word]; const box=ok?Math.min(5,(r.box||1)+1):1; r.box=box; const D={1:1,2:2,3:4,4:7,5:14}; r.due=Date.now()+D[box]*86400000; })();
   save();
   if(game.start&&Date.now()-game.start>15*60*1000){showBreak();game.start=Date.now();}
 }
