@@ -1,5 +1,20 @@
 # NikoLearn — Session Handoff
 
+> ## ▶ RESUME NOW (updated 2026-06-11, Opus 4.8 session)
+> **LIVE = v1.119.** This session shipped 10 deploys (v1.110→v1.119) + 3 worker re-deploys + a stats-viewer
+> overhaul. All pushed to GShoina/NikoLearn (HEAD `cf9376c`+, working tree clean).
+> **Shipped:** v1.110 talk-section + young-math fix · v1.111 answer-loop re-queue · v1.112 telemetry A1+A4 ·
+> v1.113 weak-word review · v1.114 mastery streak · v1.115 Leitner daily-refresh · v1.116 telemetry A2/A3+viewer ·
+> v1.117 Georgian telemetry parity + viewer deep-analytics (insight/%/trend tab) · v1.118 Georgian reading
+> expansion (18→26 words, 14→20 sentences, +17 edge-tts clips) + letter↔sound highlight · v1.119 age-rhythm
+> (8+ faster celebration + tap-to-skip + shared break timer).
+> **SINGLE NEXT ACTION on resume:** pick up the 2 queued owner asks — (a) talk-cards ka+en voicing (en has 🔊
+> TTS; ka needs edge-tts clips for the 6 questions + a 🔊 button on the ka deck), (b) syllable-reading blend
+> improvement in readLearn. Both additive/low-risk. (Generator ready: `tools/_gen_ka_reading.py`.)
+> **DO-NOT-REDO:** brush/centerline handwriting = owner-REJECTED (keep glyph-outline trace as-is). Movement
+> visuals = owner-REJECTED. B0 data-driven „სად ჭირს" fix = waits ~1 week of real telemetry (clock started today).
+> Detail for everything below.
+
 > **📅 ARMED 2026-06-11 ~01:50 (owner) — autonomous 5am bug-fix TEAM run.** Windows Task
 > `NikoLearn-5am-BugfixTeam` fires once at **2026-06-11 05:00 (Asia/Tbilisi)** →
 > `C:\Users\gela.shonia\.niko-schedule\run-bugfix-5am.ps1` → headless `claude -p` with
