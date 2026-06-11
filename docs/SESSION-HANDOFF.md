@@ -65,13 +65,14 @@
 > Niko's priority). Run as separate verified increments, each: build → silent Playwright → visual verify →
 > 0 console errors → bump APP_VERSION + sw CACHE → commit+push → live-verify ?cb= → Gemini KA-QA on new
 > Georgian copy → clean temp. Privacy invariant absolute (aggregate only, no PII/per-child id/raw UA):**
->   - **P1 — telemetry A1+A4 (start the data clock; lowest risk).** Client (analytics.js + games.js
->     results()/answer flow + alpha.js, all fire-and-forget, app never breaks if worker down): A1 parent_open,
->     goal_set{type}, screenlimit_set, feedback_open (fire from parent.js); A4 round_complete{mode},
->     round_abandon{mode}, accuracy band low|mid|high/round, retry count. WORKER (cloudflare/telemetry-worker.js):
->     extend allow-list + /v1/stats aggregation; deploy via `npx wrangler deploy` (CF token in .env; wrangler
->     NOT in PATH → use npx; see cloudflare/DEPLOY.md). Until the worker allow-list is updated it silently drops
->     the new events (harmless), so worker+client must ship together.
+>   - **P1 — telemetry A1+A4 ✅ DONE & LIVE (v1.112, commit 808f6d0).** A1 parent_open/goal_set{type}/
+>     screenlimit_set{minutes}/feedback_open (parent.js); A4 round_complete{mode,band,retries}+round_abandon{mode}
+>     (games.js results()/abandonRound()+gameShell roundActive, goHome hook; new coarseMode()). All aggregate-only,
+>     fire-and-forget. Worker allow-list extended + RE-DEPLOYED (nikolearn-t.bivision.workers.dev version
+>     00f321a1, KV+STATS_KEY preserved; deploy = `cd cloudflare && export CLOUDFLARE_API_TOKEN/ACCOUNT_ID from
+>     ../.env && npx wrangler@4 deploy`). /v1/stats returns 200, counters empty (fresh events, awaiting real
+>     traffic = the data clock for B0). Verified silent Playwright: all 6 events fire correct shapes, 0 errors.
+>     NB: alpha.js round_complete NOT yet wired (alphabet rounds) — fold into P4 (alphabet is B1 anyway).
 >   - **P2 — Phase 2.2 review/Leitner + 2.3 mastery** (this IS B1's "weak-item review loop"): „გაიმეორე ↻"
 >     weighted sampler priority=wrong/(correct+1) + Daily Refresh Leitner (localStorage boxes→day intervals);
 >     per-skill {seen,correct,streak}, ნასწავლი=3-in-a-row, progress map only moves forward.
