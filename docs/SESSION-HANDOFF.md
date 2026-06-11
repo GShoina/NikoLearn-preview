@@ -90,7 +90,21 @@
 >     tally (`dev|date|os|form`, raw UA never stored); A3 client `submode_usage{mode}` once per round start
 >     (allow-listed game.mode values). Stats viewer (output/, local/gitignored) REBUILT with 4 lenses: 📊
 >     sub-mode · 🧭 where-they-get-stuck (band split + abandons/mode + avg retries) · 👪 parent engagement ·
->     📱 OS/form. Verified vs mock counters, 0 errors. (alpha.js sub-modes still not emitted → with P4.)
+>     📱 OS/form. Verified vs mock counters, 0 errors.
+>   - **v1.117 (commit 7e09e08, worker 856b6bd8) — Georgian parity + viewer deep-analytics (owner-driven).**
+>     FIX: coarseMode() was mislabeling ALL alphabet/reading/digit rounds as 'english' in round_complete →
+>     now ka-alpha/en-alpha→alphabet, read/sent/build→reading, digit→counting (Georgian now shows correctly
+>     in „სად ჭირს"). submode_usage extended to alphabet/reading/digit modes → Georgian activities appear in
+>     the sub-mode breakdown with the SAME depth as Math/English (answers owner: „იგივე ინფო math+ქართულზე").
+>     Stats viewer (output/, local) upgraded: bars show share-%, „სად ჭირს" ranks worst-first + auto-insight
+>     callout (worst module, low-acc%, abandon%, recommendation), NEW 📈 დინამიკა tab (day/week/month SVG
+>     trend for rounds/sessions/reg/accuracy% + last-period delta). English „themes" card clarified as
+>     English-only; Math/Georgian parity = the sub-mode card.
+>   - **▶ OWNER OPEN (point 2):** Georgian is under-built but in demand — wants a deep „what to improve"
+>     analysis. Telemetry now captures Georgian fully, so „სად ჭირს"+trend will surface it once REAL data
+>     accumulates (clock just started). Data-independent next step = B1 Georgian CONTENT audit (more reading
+>     content, explicit letter→sound, trace stroke-order quality, verify ka-alpha 4 Path .done) — actionable
+>     now without waiting for data. Propose as a focused Georgian deep-dive.
 >   - **P4 — Phase 2.4 age-rhythm** (celebration 2.5s→~0.9s at 8+, tap-to-skip, shared break timer in ALL
 >     games not just english) **+ B1 known gaps** (MATH division + 8-12 depth: missing-number/multi-digit/
 >     simple equations + age-tiered difficulty; ALPHABET more reading + letter→sound link + trace stroke-order
