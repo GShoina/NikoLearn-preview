@@ -102,6 +102,28 @@
     }catch(e){ clipFallback(text); return false; }
     return true;
   };
+  // ── play a recorded clip and call cb when it ENDS ── (for synced syllable highlighting in reading)
+  // Optional rate = playbackRate (e.g. 0.82 to sound a syllable out slower). No clip → ka TTS with an
+  // onend if the device has a Georgian voice, else a short timeout so the highlight chain still advances.
+  window.playClipThen = function(text, cb, rate){
+    let done = ()=>{ if(cb){ const f=cb; cb=null; f(); } };
+    const url = clipFor(text);
+    if(!url){
+      try{
+        if('speechSynthesis' in window && window.hasVoiceFor && window.hasVoiceFor('ka')){
+          const u = new SpeechSynthesisUtterance(text); u.lang='ka-GE'; if(rate) u.rate = rate;
+          u.onend = done; u.onerror = done; speechSynthesis.speak(u); return;
+        }
+      }catch(e){}
+      setTimeout(done, 360); return;
+    }
+    stopClip();
+    try{
+      const a = new Audio(url); curClip = a; a.playbackRate = rate || 1; // fresh Audio: never mutate the shared preload element's rate
+      a.onended = done; a.onerror = done;
+      a.play().catch(done);
+    }catch(e){ done(); }
+  };
   // warm the cache so the FIRST tap of each clip is instant (no load lag = the "slow" feel)
   window.preloadClips = function(texts){
     (texts||[]).forEach(t=>{ const u = clipFor(t); if(u && !_pre[u]){ try{ const a = new Audio(); a.preload = 'auto'; a.src = u; _pre[u] = a; }catch(e){} } });

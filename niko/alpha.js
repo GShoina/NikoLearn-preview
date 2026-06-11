@@ -176,8 +176,32 @@ function answerDigit(btn,sel,cor){
 function readSay(t){ if(window.playClip && playClip(t)) return; speak(t,'ka-GE',{rate:isYoung(profile)?0.58:0.7}); }
 // record a Georgian-path milestone as completed (read / build / trace) so the subject Path can progress.
 function markAlphaDone(k){ const s=state[profile]; if(s){ s[k]=s[k]||{}; s[k].done=true; save(); } }
-function readBlend(it){ // sound out each syllable, then say the whole word
-  speakSeq(it.syl.map(s=>({t:s,lang:'ka-GE',rate:0.62})).concat([{t:it.w,lang:'ka-GE',rate:0.68}]));
+let _blendGen=0;
+function readBlend(it){ // sound out each syllable (HIGHLIGHTING the chip as it sounds), then blend the whole word
+  if(!it||!it.syl)return;
+  const gen=++_blendGen;                                   // newest blend supersedes any in-flight one (rapid taps)
+  const chips=[...document.querySelectorAll('.read-word .syl')];
+  const word=document.querySelector('.read-word');
+  const clear=()=>{chips.forEach(c=>c.classList.remove('saying'));if(word)word.classList.remove('blending');};
+  clear();
+  let i=0;
+  const step=()=>{
+    if(gen!==_blendGen)return;                             // a newer blend started: stop this chain
+    chips.forEach(c=>c.classList.remove('saying'));
+    if(i>=it.syl.length)return blendWhole();
+    const ch=chips[i];if(ch)ch.classList.add('saying');    // light THIS syllable while it sounds
+    if(window.playClipThen)playClipThen(it.syl[i],()=>{i++;step();},0.82); // slower = clearer sounding-out
+    else{i++;setTimeout(()=>{if(gen===_blendGen)step();},420);}
+  };
+  const blendWhole=()=>{
+    if(gen!==_blendGen)return;
+    chips.forEach(c=>c.classList.remove('saying'));
+    if(word)word.classList.add('blending');                // light the WHOLE word: syllables → word
+    const fin=()=>{if(gen===_blendGen)setTimeout(()=>{if(gen===_blendGen)clear();},450);};
+    if(window.playClipThen)playClipThen(it.w,fin,0.96);
+    else fin();
+  };
+  step();
 }
 function readLearn(idx){
   const data=READING_KA,n=data.length;

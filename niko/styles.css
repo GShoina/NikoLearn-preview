@@ -817,6 +817,9 @@ body.on-landing #app{padding:0;padding-bottom:24px}
   transition:transform .12s,border-color .12s,background .12s}
 .read-word .syl:active{transform:scale(.94)}
 .read-word .syl.tapped{border-color:var(--primary);background:color-mix(in oklch,var(--primary) 14%,var(--card))}
+/* sound-out sync (readBlend): the syllable currently sounding lights + grows; then the whole word lights = "blend" */
+.read-word .syl.saying{border-color:var(--primary);background:color-mix(in oklch,var(--primary) 24%,var(--card));transform:scale(1.14);box-shadow:0 5px 16px color-mix(in oklch,var(--primary) 32%,transparent)}
+.read-word.blending .syl{border-color:var(--green);background:color-mix(in oklch,var(--green) 18%,var(--card));color:var(--green-d)}
 .read-word .syl-plus{color:var(--muted);font-size:1.4rem;font-weight:700}
 
 /* ── voicing-language toggle (F5) ── */
