@@ -75,8 +75,8 @@ function talkCard(){
   const ch=TALK_CHARS[c.by]||TALK_CHARS.owl;
   const subs=(c.subs&&c.subs.length)?`<div class="talk-subs"><span class="ts-lab">კიდევ ჰკითხე:</span> ${c.subs.join(' ')}</div>`:'';
   const dots=tl.deck.map((_,i)=>`<span class="tdot${i===tl.i?' on':''}"></span>`).join('');
-  // EN deck: optional listen (English voice is allowed; Georgian deck is parent-read, no TTS)
-  const listen=tl.lang==='en'?`<button class="btn btn-ghost talk-listen" onclick="talkSpeak()">🔊 ${UILANG==='en'?'Listen':'მოსმენა'}</button>`:'';
+  // Listen: KA plays the recorded edge-tts clip (v1.120, AUDIO_MANIFEST); EN uses the English voice.
+  const listen=`<button class="btn btn-ghost talk-listen" onclick="talkSpeak()">🔊 ${UILANG==='en'?'Listen':'მოსმენა'}</button>`;
   render(`<div class="screen talk">
     <div class="talk-top">
       <button class="iconbtn talk-back" onclick="openTalk()" aria-label="უკან">←</button>
@@ -107,7 +107,9 @@ function talkGo(d){
   tl.i=n; talkCard();
 }
 function talkSpeak(){
-  if(!tl||tl.lang!=='en')return;
+  if(!tl)return;
   const c=tl.deck[tl.i]; if(!c)return;
+  // KA: play the recorded clip (no runtime Georgian TTS). Missing clip → silent fallback, never garbled.
+  if(tl.lang==='ka'){ try{ if(typeof playClip==='function') playClip(c.q); }catch(e){} return; }
   try{ if(typeof speak==='function') speak(c.q,'en-US',{rate:isYoung(profile)?0.8:0.92}); }catch(e){}
 }
