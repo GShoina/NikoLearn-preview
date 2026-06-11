@@ -471,8 +471,10 @@ function answerKings(btn,sel,cor){
 /* ── scoring ── */
 function record(word,ok){
   const s=state[profile];if(!s.words[word])s.words[word]={correct:0,wrong:0};
-  if(ok){s.words[word].correct++;game.shields++;s.shields++;s.streak++;s.maxStreak=Math.max(s.maxStreak,s.streak);}
-  else{s.words[word].wrong++;game.wrong++;s.streak=0;}
+  // 2.3: per-word consecutive-correct streak → "ნამდვილად ნასწავლი" = 3-in-a-row (stricter than the
+  // cumulative correct>=3 that drives Paths/levels, which stays unchanged so progress only moves forward).
+  if(ok){s.words[word].correct++;s.words[word].streak=(s.words[word].streak||0)+1;game.shields++;s.shields++;s.streak++;s.maxStreak=Math.max(s.maxStreak,s.streak);}
+  else{s.words[word].wrong++;s.words[word].streak=0;game.wrong++;s.streak=0;}
   save();
   if(game.start&&Date.now()-game.start>15*60*1000){showBreak();game.start=Date.now();}
 }

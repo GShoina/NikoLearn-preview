@@ -165,7 +165,10 @@ function parentDash(){
     const learnedBody=learnedBits.length
       ?`${en?'Already knows:':'უკვე იცის:'} ${learnedBits.join(' · ')}.`
       :(s.sessions>0?(en?'Still processing, the first learned topics will appear soon.':'ჯერ მუშავდება, მალე გამოჩნდება პირველი ნასწავლი თემები.'):(en?"Hasn't played yet.":'ჯერ არ უთამაშია.'));
-    html+=`<div class="insight" style="background:rgba(0,166,81,.07)"><div class="ii">✅</div><div class="it"><b>🌟 უკვე ისწავლა და განვითარდა</b><br>${learnedBody}${growth}</div></div>`;
+    // 2.3: "truly learned" (3 correct in a row) shown DISTINCT from "encountered/practiced" above
+    const reallyLearned=(typeof wordsLearned==='function')?wordsLearned(p):0;
+    const learnedLine=reallyLearned?`<div style="margin-top:6px;font-size:.86rem">✅ <b>${en?'Truly learned':'ათვისებული'}</b> (${en?'3 right in a row':'3-ჯერ ზედიზედ სწორად'}): <b>${reallyLearned}</b> ${en?'words':'სიტყვა'}</div>`:'';
+    html+=`<div class="insight" style="background:rgba(0,166,81,.07)"><div class="ii">✅</div><div class="it"><b>🌟 უკვე ისწავლა და განვითარდა</b><br>${learnedBody}${learnedLine}${growth}</div></div>`;
     const gp=(typeof goalProgress==='function')?goalProgress(p):null;
     if(gp){
       html+=`<div class="insight" style="background:rgba(107,99,181,.08)"><div class="ii">🎯</div><div class="it"><b>მიზანი:</b> ${gp.label} ${gp.done?'<span style="color:var(--green-d)">✓ მიღწეულია!</span>':''}<div class="bar" style="margin-top:8px"><i style="width:${gp.pct}%"></i></div><div style="font-size:.8rem;color:var(--muted);margin-top:5px">${gp.cur}/${gp.target} (${gp.pct}%) <button class="ai-chip" style="margin-left:6px" onclick="kidGoalModal('${p}')">შეცვლა</button> <button class="ai-chip" onclick="clearGoal('${p}')">მოხსნა</button></div></div></div>`;
