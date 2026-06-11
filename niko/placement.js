@@ -139,7 +139,7 @@ function diagResult(){
   render(`<div class="screen results" style="--pct:${pct}%">
     <div class="r-ring"><i>🧭</i></div>
     <h2>${voc()}, ${pathLocName(subj)} შენი დონეა: <span style="color:var(--primary-d)">${level}</span></h2>
-    <div class="insight" style="max-width:340px;margin:6px auto"><div class="ii">${I.spark}</div><div class="it"><b>👉 დაიწყე აქედან</b><br>${start}. შენი გზა ქვემოთ ჩანს, ნაბიჯ-ნაბიჯ.</div></div>
+    <div class="insight" style="max-width:340px;margin:6px auto"><div class="ii">${I.spark}</div><div class="it"><b>👉 დაიწყე აქედან</b><br><b>${start}</b>. <span>შენი გზა ქვემოთ ჩანს, ნაბიჯ-ნაბიჯ.</span></div></div>
     <div class="actions">
       <button class="btn btn-primary btn-block" onclick="openMenu('${subj}')">ვნახოთ ჩემი გზა →</button>
     </div>

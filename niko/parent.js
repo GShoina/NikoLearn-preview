@@ -48,13 +48,13 @@ function pinOk(){
 }
 function pinForgot(){const g=$('#gate');if(g)g.remove();openGateMath();} // recovery: fall back to the arithmetic challenge
 function setParentPin(){
-  const a=prompt('ახალი 4-ნიშნა PIN-კოდი:');if(a==null)return;
-  if(!/^\d{4}$/.test(a.trim())){alert('PIN უნდა იყოს ზუსტად 4 ციფრი.');return;}
-  const b=prompt('გაიმეორე PIN-კოდი:');if(b==null)return;
-  if(a.trim()!==b.trim()){alert('კოდები არ ემთხვევა. სცადე თავიდან.');return;}
-  state.parentPin=a.trim();save();alert('PIN-კოდი დაყენდა. ✓');parentDash();
+  const a=prompt(tx('ახალი 4-ნიშნა PIN-კოდი:'));if(a==null)return;
+  if(!/^\d{4}$/.test(a.trim())){alert(tx('PIN უნდა იყოს ზუსტად 4 ციფრი.'));return;}
+  const b=prompt(tx('გაიმეორე PIN-კოდი:'));if(b==null)return;
+  if(a.trim()!==b.trim()){alert(tx('კოდები არ ემთხვევა. სცადე თავიდან.'));return;}
+  state.parentPin=a.trim();save();alert(tx('PIN-კოდი დაყენდა. ✓'));parentDash();
 }
-function clearParentPin(){if(confirm('მოვხსნა PIN-კოდი? სივრცეს მაინც დაიცავს მაგალითი.')){state.parentPin=null;save();parentDash();}}
+function clearParentPin(){if(confirm(tx('მოვხსნა PIN-კოდი? სივრცეს მაინც დაიცავს მაგალითი.'))){state.parentPin=null;save();parentDash();}}
 function setScreenLimit(m){state.screenLimitMin=m;save();parentDash();}
 function togglePremium(){state.premium=(state.premium===false)?true:false;save();parentDash();}
 
@@ -123,6 +123,7 @@ function parentDash(){
   html+=`<div class="privacy-card" style="margin-bottom:16px">${I.privacy}<div class="pt"><b>ყველაფერი ამ მოწყობილობაზე რჩება.</b> პროგრესი ინახება მხოლოდ აქ. რეკლამა: ნული. გარე ბმულები: ნული.</div></div>`;
   [...state.kids.map(k=>k.id),'guest'].forEach(p=>{
     const s=state[p];if(!s||(s.sessions===0&&s.shields===0))return;
+    const en=(window.UILANG==='en');  // build dashboard prose bilingual (re-rendered on lang toggle)
     const lv=levelOf(p);const words=Object.entries(s.words);
     const cor=words.reduce((a,[,v])=>a+v.correct,0),wr=words.reduce((a,[,v])=>a+v.wrong,0);
     const acc=cor+wr?Math.round(cor/(cor+wr)*100):0;
@@ -132,7 +133,7 @@ function parentDash(){
     html+=`<div class="kidcard" id="kc-${p}">
       <button class="kid-head-btn" onclick="toggleKid('${p}')" aria-expanded="false">
         <div class="avatar a-${kidObj(p).color}">${nameOf(p)[0]}</div>
-        <div class="kh-meta"><div class="kn">${nameOf(p)}</div><div class="kr">${lv.ic} ${lv.name} · 🪙 ${s.shields} · სიზუსტე ${acc}%</div></div>
+        <div class="kh-meta"><div class="kn">${nameOf(p)}</div><div class="kr">${lv.ic} ${en?tx(lv.name):lv.name} · 🪙 ${s.shields} · ${en?'accuracy':'სიზუსტე'} ${acc}%</div></div>
         <span class="kid-chev">▾</span>
       </button>
       <div class="kid-body" id="kb-${p}" hidden>
@@ -150,16 +151,18 @@ function parentDash(){
     const masteredM=Object.entries(s.math||{}).filter(([,v])=>{const t=v.correct+v.wrong;return t>=4&&v.correct/t>=0.8;}).map(([k])=>opNm[k]||k);
     const masteredA=Object.entries(s.alpha||{}).filter(([,v])=>{const t=v.correct+v.wrong;return t>=4&&v.correct/t>=0.8;}).map(([k])=>k==='ka-alpha'?'ქართული ანბანი':'English ანბანი');
     const learnedBits=[];
-    if(masteredW.length)learnedBits.push(`<b>${masteredW.length}</b> ინგლისური სიტყვა`);
-    if(masteredM.length)learnedBits.push(`მათემატიკა: <b>${masteredM.join(', ')}</b>`);
-    if(masteredA.length)learnedBits.push(`<b>${masteredA.join(', ')}</b>`);
+    if(masteredW.length)learnedBits.push(en?`<b>${masteredW.length}</b> English words`:`<b>${masteredW.length}</b> ინგლისური სიტყვა`);
+    if(masteredM.length)learnedBits.push(en?`Math: <b>${masteredM.map(x=>tx(x)).join(', ')}</b>`:`მათემატიკა: <b>${masteredM.join(', ')}</b>`);
+    if(masteredA.length)learnedBits.push(`<b>${masteredA.map(x=>en?tx(x):x).join(', ')}</b>`);
     let growth='';
     const tp=(typeof totalProgress==='function')?totalProgress(p):null;
     if(tp&&tp.total){
-      growth=`<div style="margin-top:8px;font-size:.86rem">📈 <b>ჯამური პროგრესი:</b> ${tp.done}/${tp.total} ეტაპი (${tp.pct}%)`+
-        (s.maxDayStreak?` · 🔥 საუკეთესო სერია: ${s.maxDayStreak} დღე`:'')+`</div>`;
+      growth=`<div style="margin-top:8px;font-size:.86rem">📈 <b>${en?'Total progress:':'ჯამური პროგრესი:'}</b> ${tp.done}/${tp.total} ${en?'stages':'ეტაპი'} (${tp.pct}%)`+
+        (s.maxDayStreak?` · 🔥 ${en?'best streak:':'საუკეთესო სერია:'} ${s.maxDayStreak} ${en?'days':'დღე'}`:'')+`</div>`;
     }
-    const learnedBody=learnedBits.length?`უკვე იცის: ${learnedBits.join(' · ')}.`:(s.sessions>0?'ჯერ მუშავდება, მალე გამოჩნდება პირველი ნასწავლი თემები.':'ჯერ არ უთამაშია.');
+    const learnedBody=learnedBits.length
+      ?`${en?'Already knows:':'უკვე იცის:'} ${learnedBits.join(' · ')}.`
+      :(s.sessions>0?(en?'Still processing, the first learned topics will appear soon.':'ჯერ მუშავდება, მალე გამოჩნდება პირველი ნასწავლი თემები.'):(en?"Hasn't played yet.":'ჯერ არ უთამაშია.'));
     html+=`<div class="insight" style="background:rgba(0,166,81,.07)"><div class="ii">✅</div><div class="it"><b>🌟 უკვე ისწავლა და განვითარდა</b><br>${learnedBody}${growth}</div></div>`;
     const gp=(typeof goalProgress==='function')?goalProgress(p):null;
     if(gp){
@@ -168,14 +171,20 @@ function parentDash(){
       html+=`<button class="btn btn-ghost btn-block" style="margin-top:4px" onclick="kidGoalModal('${p}')">🎯 დაუსახე მიზანი</button>`;
     }
     const recs=[];
-    if(weak.length)recs.push(`სიტყვები <b>${weak.slice(0,3).join(', ')}</b>, გაიმეორეთ მოსმენით 🔊`);
-    if(weakMath.length)recs.push(`მათემატიკა: <b>${weakMath.join(', ')}</b>, დაბალი დონიდან, ბუს მინიშნებებით`);
-    if(weakAlpha.length)recs.push(`ანბანი: <b>${weakAlpha.join(', ')}</b>, „სწავლა" რეჟიმი ხმით`);
+    if(weak.length)recs.push(en?`Words <b>${weak.slice(0,3).join(', ')}</b>, repeat them by listening 🔊`:`სიტყვები <b>${weak.slice(0,3).join(', ')}</b>, გაიმეორეთ მოსმენით 🔊`);
+    if(weakMath.length)recs.push(en?`Math: <b>${weakMath.map(x=>tx(x)).join(', ')}</b>, from a lower level, with the owl's hints`:`მათემატიკა: <b>${weakMath.join(', ')}</b>, დაბალი დონიდან, ბუს მინიშნებებით`);
+    if(weakAlpha.length)recs.push(en?`Alphabet: <b>${weakAlpha.map(x=>tx(x)).join(', ')}</b>, the "Learn" mode with sound`:`ანბანი: <b>${weakAlpha.join(', ')}</b>, „სწავლა" რეჟიმი ხმით`);
     let recBody;
-    if(recs.length)recBody=`<b>შემდეგი ნაბიჯი ერთად:</b><br>${recs.map(r=>'• '+r).join('<br>')}<br><span class="rec-push">👉 დააჭირეთ ერთად 5 წუთი, ${nameOf(p)} მალე დაიჭერს თავს ამ თემაში.</span>`;
-    else if(s.sessions>0)recBody=`<b>${nameOf(p)} მშვენივრად მიდის! 🌟</b> სიზუსტე ${acc}%. შემდეგი ნაბიჯი: სცადეთ ერთი დონით მაღლა, მზად არის.`;
-    else recBody=`ჯერ საკმარისი მონაცემი არ არის, როცა ${nameOf(p)} ითამაშებს, აქ გამოჩნდება სად იჭედება და რა გასაუმჯობესებია.`;
-    html+=`<div class="insight"><div class="ii">🦉</div><div class="it"><b>ნიკოს რჩევა მშობელს</b><br>${recBody}</div></div>`;
+    if(recs.length)recBody=en
+      ?`<b>Next step, together:</b><br>${recs.map(r=>'• '+r).join('<br>')}<br><span class="rec-push">👉 Sit together for 5 minutes, ${nameOf(p)} will soon get the hang of this topic.</span>`
+      :`<b>შემდეგი ნაბიჯი ერთად:</b><br>${recs.map(r=>'• '+r).join('<br>')}<br><span class="rec-push">👉 დააჭირეთ ერთად 5 წუთი, ${nameOf(p)} მალე დაიჭერს თავს ამ თემაში.</span>`;
+    else if(s.sessions>0)recBody=en
+      ?`<b>${nameOf(p)} is doing wonderfully! 🌟</b> Accuracy ${acc}%. Next step: try one level up, they're ready.`
+      :`<b>${nameOf(p)} მშვენივრად მიდის! 🌟</b> სიზუსტე ${acc}%. შემდეგი ნაბიჯი: სცადეთ ერთი დონით მაღლა, მზად არის.`;
+    else recBody=en
+      ?`There isn't enough data yet. Once ${nameOf(p)} plays, this will show where they get stuck and what to improve.`
+      :`ჯერ საკმარისი მონაცემი არ არის, როცა ${nameOf(p)} ითამაშებს, აქ გამოჩნდება სად იჭედება და რა გასაუმჯობესებია.`;
+    html+=`<div class="insight"><div class="ii">🦉</div><div class="it"><b>${en?"Niko's tip for parents":'ნიკოს რჩევა მშობელს'}</b><br>${recBody}</div></div>`;
     if(strong.length)html+=`<div class="tagrow">${strong.map(w=>`<span class="tag strong">✓ ${w}</span>`).join('')}</div>`;
     if(weak.length)html+=`<div class="tagrow">${weak.map(w=>`<span class="tag weak">↻ ${w}</span>`).join('')}</div>`;
     if(Object.keys(s.math||{}).length){
@@ -184,9 +193,15 @@ function parentDash(){
     // engagement / healthy-use (Case 17): frequency + gentle nudge, not a long win-log
     const avg=s.sessions?Math.round(mins/s.sessions):0;
     let engNote;
-    if(s.sessions>=8)engNote=`✅ <b>რეგულარული რიტმი</b>, ${nameOf(p)} ხშირად ბრუნდება. შესანიშნავი ჩვევა! შეინარჩუნეთ მოკლე, ყოველდღიური სესიები.`;
-    else if(avg>=22)engNote=`💡 ერთ ჯერზე საკმაოდ დიდხანს თამაშობს (~${avg} წთ). სჯობს <b>მოკლე, ხშირი</b> სესიები, დღეში 10–15 წუთი უკეთ მუშაობს მეხსიერებაზე.`;
-    else engNote=`🌱 კარგი დასაწყისია. იდეალური რიტმი, <b>დღეში 10–15 წუთი</b>, რეგულარულად.`;
+    if(s.sessions>=8)engNote=en
+      ?`✅ <b>A regular rhythm</b>, ${nameOf(p)} comes back often. A great habit! Keep sessions short and daily.`
+      :`✅ <b>რეგულარული რიტმი</b>, ${nameOf(p)} ხშირად ბრუნდება. შესანიშნავი ჩვევა! შეინარჩუნეთ მოკლე, ყოველდღიური სესიები.`;
+    else if(avg>=22)engNote=en
+      ?`💡 Plays quite long in one go (~${avg} min). <b>Short, frequent</b> sessions are better, 10–15 minutes a day works best for memory.`
+      :`💡 ერთ ჯერზე საკმაოდ დიდხანს თამაშობს (~${avg} წთ). სჯობს <b>მოკლე, ხშირი</b> სესიები, დღეში 10–15 წუთი უკეთ მუშაობს მეხსიერებაზე.`;
+    else engNote=en
+      ?`🌱 A good start. The ideal rhythm is <b>10–15 minutes a day</b>, regularly.`
+      :`🌱 კარგი დასაწყისია. იდეალური რიტმი, <b>დღეში 10–15 წუთი</b>, რეგულარულად.`;
     html+=`<div class="engage">
       <div class="eng-row">
         <div class="eng-cell"><div class="eng-v">${s.sessions}</div><div class="eng-l">სესია</div></div>
@@ -220,7 +235,7 @@ function parentDash(){
     <div class="pset-hint">უფასო: სრული საბაზისო სწავლა. Premium: საგამოცდო მზადება (კინგსი), 8-12 დონე, მიზნები. გადახდა ჯერ არ არის, გადამრთველი მხოლოდ საჩვენებელია.</div>
     <button class="btn btn-ghost btn-block" onclick="togglePremium()">${prem?'👁️ ნახე როგორია უფასო ვერსია (Premium OFF)':'👑 Premium-ის ჩართვა'}</button>
     <button class="btn btn-ghost btn-block mt" onclick="logout()">🔒 გასვლა (ჩაკეტვა)</button>
-    <button class="btn btn-ghost btn-block mt" onclick="if(confirm('წავშალო პროგრესი?')){localStorage.removeItem('${SK}');state=load();goHome();}">🗑️ პროგრესის გასუფთავება</button>
+    <button class="btn btn-ghost btn-block mt" onclick="if(confirm(tx('წავშალო პროგრესი?'))){localStorage.removeItem('${SK}');state=load();goHome();}">🗑️ პროგრესის გასუფთავება</button>
   </div>`;
   html+=`</div>`;
   render(html,false);
@@ -327,4 +342,7 @@ function toast(msg){
 state=load();boot();
 // re-render on theme/ai tweak change
 window.addEventListener('niko-tweak',()=>{ if($('#aifab')) syncAiFab(); });
+// language toggle: the parent dashboard builds some prose bilingually at render time
+// (joined Georgian terms can't be DOM-translated in place), so rebuild it in the new language.
+window.addEventListener('niko-lang-change',()=>{ try{ if(document.querySelector('#app .screen.parent')) parentDash(); }catch(e){} });
 if('serviceWorker'in navigator){/* PWA: registered in production build */}

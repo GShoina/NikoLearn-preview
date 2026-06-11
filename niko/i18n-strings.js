@@ -243,7 +243,156 @@ window.I18N_MAP = {
   "გაუქმება":"Cancel",
   "წაშლა":"Delete",
   "ქართული ანბანი":"Georgian alphabet",
-  "English ანბანი":"English alphabet"
+  "English ანბანი":"English alphabet",
+
+  /* ── per-subject diagnostic + Paths (placement.js, screens.js) — added 2026-06-11 ── */
+  "რომელია?":"Which one?",
+  "რომელია სწორად დაწერილი?":"Which spelling is correct?",
+  "რომელია სწორი?":"Which is correct?",
+  "დავიწყოთ →":"Let's start →",
+  "გამოტოვება":"Skip",
+  "👉 დაიწყე აქედან":"👉 Start here",
+  "შენი გზა ქვემოთ ჩანს, ნაბიჯ-ნაბიჯ.":"Your path is shown below, step by step.",
+  "ვნახოთ ჩემი გზა →":"See my path →",
+  "მთელი გზა გაიარე! 🎉":"You finished the whole path! 🎉",
+  "რეკომენდებული დასაწყისი:":"Recommended start:",
+  "დაწყებითი":"Beginner",
+  "საშუალო":"Intermediate",
+  "მაღალი":"Advanced",
+  "კინგსი (YLE)":"Kings (YLE)",
+  "ასოები":"Letters",
+  "ააწყვე":"Build",
+  "ამოწერა":"Trace",
+  "📊 ჯამური პროგრესი":"📊 Total progress",
+  "📊 ჯამური პროგრესი 50%":"📊 Total progress 50%",
+
+  /* ── premium upsell (screens.js, D2) ── */
+  "ეს გაღრმავებული, საგამოცდო ნაწილია. უფასო ვერსიაში ხელმისაწვდომია მთელი საბაზისო სწავლა, Premium კი ხსნის გამოცდისთვის მზადებას და დამატებით სიღრმეს.":"This is the advanced, exam-prep part. The free version includes all the core learning, while Premium unlocks exam preparation and extra depth.",
+  "Cambridge YLE / ოლიმპიადის ტესტები":"Cambridge YLE / olympiad tests",
+  "8-12 წლის გაღრმავებული დონე":"Advanced level for ages 8-12",
+  "მშობლის მიზნები და დეტალური ანალიტიკა":"Parent goals and detailed analytics",
+  "მშობლის სივრცე →":"Parent space →",
+
+  /* ── subject grid subtitles / badges / data-sum tooltips (screens.js) ── */
+  "კითხვა · წერა · ამოწერა":"reading · writing · tracing",
+  "ციფრები 1-9 და დათვლა ხატულებით":"Numbers 1-9 and counting with icons",
+  "ქართული ასოები ხმითა და სურათით":"Georgian letters with sound and pictures",
+  "English ABC ხმითა და სურათით":"English ABC with sound and pictures",
+  "ფიგურების ცნობა":"Recognising shapes",
+  "შეკრება და გამოკლება":"Addition and subtraction",
+  "მოკლე მოძრაობის შესვენება":"A short movement break",
+  "Cambridge YLE ტესტი: სურათი, თარგმანი, მართლწერა, გრამატიკა":"Cambridge YLE test: picture, translation, spelling, grammar",
+  "ოლიმპიადა: ამოცანები და ლოგიკა":"Olympiad: word problems and logic",
+  "5 რეჟიმი · 13 თემა · 180+ სიტყვა · ფრაზები":"5 modes · 13 topics · 180+ words · phrases",
+  "შეკრება, გამოკლება, გამრავლება, ფიგურები, ფული, საათი":"Addition, subtraction, multiplication, shapes, money, clock",
+  "ანბანი · კითხვა · წერა · ამოწერა":"alphabet · reading · writing · tracing",
+  "მოკლე მოძრაობის შესვენება ვარჯიშებით":"A short movement break with exercises",
+
+  /* ── screen-time limit reached (screens.js) ── */
+  "რა კარგად ვითამაშეთ!":"What a great session!",
+  "დღევანდელი სათამაშო დრო დასრულდა. ხვალ ნიკო ისევ დაგელოდება. 🦉":"Today's play time is over. Niko will be waiting for you again tomorrow. 🦉",
+  "მთავარი":"Home",
+  "მთავარი გვერდი":"Home",
+  "უკან მთავარ გვერდზე":"Back to home",
+  "დღის სერია":"Day streak",
+
+  /* ── parent space: privacy + PIN gate (parent.js) ── */
+  "ყველაფერი ამ მოწყობილობაზე რჩება.":"Everything stays on this device.",
+  "შეიყვანე 4-ნიშნა PIN-კოდი.":"Enter your 4-digit PIN.",
+  "დაგავიწყდა? ➜ მაგალითით შესვლა":"Forgot? ➜ Enter with a sum",
+
+  /* ── parent feedback form (parent.js, D3) ── */
+  "💬 დაგვიკავშირდი":"💬 Contact us",
+  "დაგვიტოვე შენი აზრი ან საკონტაქტო. ყველა ველი ნებაყოფლობითია.":"Leave your feedback or contact details. Every field is optional.",
+  "სახელი (არასავალდებულო)":"Name (optional)",
+  "ტელეფონი (არასავალდებულო)":"Phone (optional)",
+  "ელფოსტა (არასავალდებულო)":"Email (optional)",
+  "შენი აზრი…":"Your feedback…",
+  "📨 გაგზავნა":"📨 Send",
+  "დახურვა":"Close",
+  "გაგზავნისას იხსნება შენი ფოსტის აპი. ინფორმაციას შენ თვითონ აგზავნი, აპი არაფერს ინახავს.":"Sending opens your email app. You send the information yourself, the app stores nothing.",
+  "დაწერე აზრი ან დატოვე საკონტაქტო":"Write feedback or leave contact details",
+  "✓ მადლობა! იხსნება ფოსტის აპი":"✓ Thank you! Opening your email app",
+
+  /* ── parent goal modal (parent.js, D1) ── */
+  "აირჩიე, რას მივადევნოთ თვალი.":"Choose what to track.",
+  "📚 30 ინგლისური სიტყვა":"📚 30 English words",
+  "📚 50 ინგლისური სიტყვა":"📚 50 English words",
+  "🔥 7 დღე ზედიზედ":"🔥 7 days in a row",
+  "🎯 დაუსახე მიზანი":"🎯 Set a goal",
+  "მიზანი:":"Goal:",
+  "✓ მიღწეულია!":"✓ Achieved!",
+  "შეცვლა":"Change",
+  "მოხსნა":"Remove",
+
+  /* ── parent dashboard: learned / growth / recommendation (parent.js) ── */
+  "🌟 უკვე ისწავლა და განვითარდა":"🌟 Already learned and grew",
+  "ჯერ მუშავდება, მალე გამოჩნდება პირველი ნასწავლი თემები.":"Still processing, the first learned topics will appear soon.",
+  "ჯერ არ უთამაშია.":"Hasn't played yet.",
+  "ინგლისური სიტყვა":"English words",
+  "ნიკოს რჩევა მშობელს":"Niko's tip for parents",
+  "რეგულარული რიტმი":"A regular rhythm",
+  "მათემატიკა":"Math",
+
+  /* ── parent settings: 3 cards (parent.js, v1.108) ── */
+  "📤 გაზიარება":"📤 Share",
+  "📋 რეპორტი მასწავლებელს":"📋 Report for the teacher",
+  "💬 დაგვიტოვე აზრი ან საკონტაქტო":"💬 Leave feedback or contact details",
+  "⏱️ დრო და უსაფრთხოება":"⏱️ Time and safety",
+  "ეკრანის დღიური ლიმიტი":"Daily screen-time limit",
+  "გამორთ.":"Off",
+  "ამ დროის ამოწურვის შემდეგ ნიკო ხვალამდე დაისვენებს.":"After this time is up, Niko rests until tomorrow.",
+  "მშობლის PIN-კოდი":"Parent PIN",
+  "🔑 შეცვალე PIN-კოდი":"🔑 Change PIN",
+  "🔑 დააყენე 4-ნიშნა PIN-კოდი":"🔑 Set a 4-digit PIN",
+  "PIN-კოდის მოხსნა":"Remove PIN",
+  "მშობლის სივრცეში მხოლოდ PIN-კოდით შეხვალ.":"You'll enter the parent space with the PIN only.",
+  "PIN-კოდის ნაცვლად მშობლის სივრცეს მათემატიკური ამოცანა იცავს, რომელსაც პატარა ვერ ამოხსნის.":"Instead of a PIN, the parent space is protected by a math problem a little one can't solve.",
+  "⚙️ ანგარიში":"⚙️ Account",
+  "💎 Premium (დემო)":"💎 Premium (demo)",
+  "უფასო: სრული საბაზისო სწავლა. Premium: საგამოცდო მზადება (კინგსი), 8-12 დონე, მიზნები. გადახდა ჯერ არ არის, გადამრთველი მხოლოდ საჩვენებელია.":"Free: the full core learning. Premium: exam prep (Kings), the 8-12 level, goals. There is no payment yet, the toggle is for demonstration only.",
+  "👑 Premium-ის ჩართვა":"👑 Turn on Premium",
+  "👁️ ნახე როგორია უფასო ვერსია (Premium OFF)":"👁️ See the free version (Premium OFF)",
+  "🔒 გასვლა (ჩაკეტვა)":"🔒 Log out (lock)",
+
+  /* ── parent export + delete modals (parent.js) ── */
+  "📋 პროგრესის რეპორტი":"📋 Progress report",
+  "დააკოპირე და გაუგზავნე მასწავლებელს ან ოჯახს.":"Copy it and send it to the teacher or family.",
+  "📋 კოპირება":"📋 Copy",
+  "📲 WhatsApp-ით გაგზავნა":"📲 Send via WhatsApp",
+  "✓ კოპირებულია":"✓ Copied",
+  "მონიშნე და დააკოპირე ხელით":"Select and copy manually",
+  "მშობლის თანხმობა":"Parent's consent",
+
+  /* ── native prompt/alert/confirm dialogs (parent.js) — translated via tx() in code ── */
+  "ახალი 4-ნიშნა PIN-კოდი:":"New 4-digit PIN:",
+  "PIN უნდა იყოს ზუსტად 4 ციფრი.":"The PIN must be exactly 4 digits.",
+  "გაიმეორე PIN-კოდი:":"Repeat the PIN:",
+  "კოდები არ ემთხვევა. სცადე თავიდან.":"The codes don't match. Try again.",
+  "PIN-კოდი დაყენდა. ✓":"PIN set. ✓",
+  "მოვხსნა PIN-კოდი? სივრცეს მაინც დაიცავს მაგალითი.":"Remove the PIN? A math problem will still protect the space.",
+  "წავშალო პროგრესი?":"Clear all progress?",
+  "7 დღე ზედიზედ":"7 days in a row",
+  "ჯამური პროგრესი 50%":"Total progress 50%",
+  "ან:":"or:",
+  "ელფოსტა":"Email",
+  "✉️ ელფოსტა":"✉️ Email",
+  "გახმოვანების ენა":"Voice language",
+
+  /* ── Georgian reading-suite chrome (alpha.js) — content words stay Georgian, only UI chrome ── */
+  "📖 კითხვა":"📖 Reading",
+  "📝 წინადადება":"📝 Sentence",
+  "✍️ ამოწერა":"✍️ Trace",
+  "დასასრული ✓":"Finish ✓",
+  "წაიკითხე":"Read",
+  "👆 აირჩიე სიტყვა":"👆 Pick the word",
+  "👆 აირჩიე სურათი":"👆 Pick the picture",
+  "👆 ააწყვე სიტყვა მარცვლებით":"👆 Build the word from syllables",
+  "👇 აიღე მარცვალი და ჩასვი":"👇 Take a syllable and place it",
+  "👆 ამოწერე ასო თითით":"👆 Trace the letter with your finger",
+  "👀 უყურე":"👀 Watch",
+  "🧽 თავიდან":"🧽 Restart",
+  "კიდევ სცადე.":"Try again."
 };
 
 /* ── pattern rules for dynamic strings (only used when L==='en') ── */
@@ -273,5 +422,28 @@ window.I18N_PATTERNS = [
   [/^დონე\s*(\d+)$/, function(m){return 'Level '+m[1];}],
   [/^(\d+)\s*ასო$/, function(m){return m[1]+' letters';}],
   [/^(\d+)\s*თემა$/, function(m){return m[1]+' topics';}],
-  [/^(\d+)\s*\/\s*(\d+)\s*კითხვა$/, function(m){return m[1]+' / '+m[2]+' questions';}]
+  [/^(\d+)\s*\/\s*(\d+)\s*კითხვა$/, function(m){return m[1]+' / '+m[2]+' questions';}],
+
+  /* ── diagnostic + paths composites (placement.js, screens.js) — added 2026-06-11 ── */
+  // diagnostic result headline: "<name>, <subject-locative> შენი დონეა:"
+  [/^(.+?),\s*(ინგლისურში|მათემატიკაში|ქართულში)\s*შენი დონეა:$/, function(m){var S={'ინგლისურში':'English','მათემატიკაში':'Math','ქართულში':'Georgian'};return m[1]+', your level in '+S[m[2]]+' is:';}],
+  // path-strip header: "🧭 შენი გზა — <subject>"
+  [/^🧭\s*შენი გზა\s*—\s*(ინგლისური|მათემატიკა|ქართული)$/, function(m){var S={'ინგლისური':'English','მათემატიკა':'Math','ქართული':'Georgian'};return '🧭 Your path — '+S[m[1]];}],
+  // diagnostic offer header: "🧭 ვნახოთ რა იცი <subject-locative>"
+  [/^🧭\s*ვნახოთ რა იცი\s*(ინგლისურში|მათემატიკაში|ქართულში)$/, function(m){var S={'ინგლისურში':'English','მათემატიკაში':'Math','ქართულში':'Georgian'};return "🧭 Let's see what you know in "+S[m[1]];}],
+  // diagnostic offer sub: "სულ რაღაც N კითხვა, რომ გითხრა საიდან დაიწყო."
+  [/^სულ რაღაც\s*(\d+)\s*კითხვა, რომ გითხრა საიდან დაიწყო\.$/, function(m){return 'Just '+m[1]+' questions to tell you where to start.';}],
+  // parent goal-modal title: "🎯 დაუსახე მიზანი — <name>"
+  [/^🎯\s*დაუსახე მიზანი\s*—\s*(.+)$/, function(m){return '🎯 Set a goal — '+m[1];}],
+  // parent delete-modal header: "<name>: პროფილის წაშლა" (no-space variant the old pattern missed)
+  [/^(.+?):\s*პროფილის წაშლა$/, function(m){return m[1]+': delete profile';}],
+  [/^🗑️\s*პროფილის წაშლა$/, function(){return '🗑️ Delete profile';}],
+  // premium upsell title: "<subject> — Premium" (subject name itself is translatable)
+  [/^(.+?)\s*—\s*Premium$/, function(m){return (window.t_en?window.t_en(m[1]):m[1])+' — Premium';}],
+  // stored goal label "<N> ინგლისური სიტყვა"
+  [/^(\d+)\s*ინგლისური სიტყვა$/, function(m){return m[1]+' English words';}],
+  // screen-time chips "<N> წთ"
+  [/^(\d+)\s*წთ$/, function(m){return m[1]+' min';}],
+  // trace screen topbar sub "ასო <N>/<M>"
+  [/^ასო\s*(\d+)\s*\/\s*(\d+)$/, function(m){return 'Letter '+m[1]+'/'+m[2];}]
 ];

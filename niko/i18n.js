@@ -35,6 +35,9 @@
     return raw; // fallback: keep Georgian
   }
   window.t_en=toEn;
+  /* code-side helper: translate a Georgian string at BUILD time when UI is English
+     (for text that can't be reached by the DOM walker: native dialogs, joined tokens). */
+  window.tx=function(s){ return (window.UILANG==='en')?toEn(s):s; };
 
   /* ── apply / restore across a DOM subtree ── */
   function walkText(root,fn){
@@ -50,7 +53,7 @@
       var en=toEn(v);
       if(en!==v){ if(node.__ka==null)node.__ka=v; node.nodeValue=en; }
     });
-    ['placeholder','aria-label','title'].forEach(function(attr){
+    ['placeholder','aria-label','title','data-sum'].forEach(function(attr){
       root.querySelectorAll('['+attr+']').forEach(function(el){
         var v=el.getAttribute(attr); if(!v||!v.trim())return;
         var en=toEn(v);
@@ -61,7 +64,7 @@
   function restoreKa(root){
     root=root||document.body; if(!root)return;
     walkText(root,function(node){ if(node.__ka!=null){node.nodeValue=node.__ka;node.__ka=null;} });
-    ['placeholder','aria-label','title'].forEach(function(attr){
+    ['placeholder','aria-label','title','data-sum'].forEach(function(attr){
       root.querySelectorAll('[data-ka-'+attr+']').forEach(function(el){
         el.setAttribute(attr,el.getAttribute('data-ka-'+attr)); el.removeAttribute('data-ka-'+attr);
       });
