@@ -76,12 +76,16 @@
 >   - **P2 — Phase 2.2/2.3.** ✅ **2.2 weighted review DONE & LIVE (v1.113, commit f375780):** „🔁 გაიმეორე"
 >     resurfaces wrong words weakest-first (priority=wrong/(correct+1)) via the existing quiz engine (+2.1
 >     re-queue); ADDITIVE only (weakWords/startReview/reviewEmpty in games.js, English-menu tile shown when
->     weak words exist, ka↔en i18n, Gemini-QA'd copy). Verified, no regression, 0 errors. **▶ STILL TODO in P2:**
->     (2.2b) full **Leitner Daily Refresh** tile for 6+ (localStorage boxes→day intervals; spaced resurfacing,
->     not just weakest-now) + parent „გამეორებულია" marker; (2.3) **per-skill {seen,correct,streak} mastery** —
->     „ნასწავლი"=3-in-a-row (distinct from „დასრულებული"), progress map only forward. NOTE 2.3 changes the
->     mastery DEFINITION (currently correct>=3 cumulative drives wordsMastered→Paths/levels/goals) → higher
->     regression risk, do it carefully/additively, heavy test (owner: „ბაგების გარეშე").
+>     weak words exist, ka↔en i18n, Gemini-QA'd copy). Verified, no regression, 0 errors. ✅ **2.3 mastery DONE & LIVE (v1.114, commit 19a8ae5):**
+>     record() tracks a per-word consecutive-correct `streak` (reset on any wrong); new `wordsLearned()` =
+>     streak>=3 shown in the parent green panel as „ათვისებული (3-ჯერ ზედიზედ სწორად)" DISTINCT from the
+>     existing cumulative „უკვე იცის". The cumulative correct>=3 that drives Paths/levels stays UNCHANGED
+>     (progress only moves forward, no regression). Gemini-QA'd („ათვისებული"). Verified: streak inc/reset,
+>     mastered=2 vs learned=1 distinct, panel ka+en, 0 errors. (streak added to words only; math/phrase streak
+>     = future if wanted.)  **▶ STILL TODO in P2:** (2.2b) full **Leitner Daily Refresh** tile for 6+
+>     (localStorage boxes→day intervals; SPACED resurfacing over days, not just weakest-now) + parent
+>     „გამეორებულია" marker. Lower priority — 2.2 weighted review already covers weak-item return; Leitner adds
+>     the time-spacing. Could also be deferred behind P3 (A2/A3 + viewer).
 >   - **P3 — telemetry A2 (worker server-side UA→{os,form} buckets, never store UA) + A3 (sub-mode allow-list)
 >     + viewer rebuild** (output/NikoLearn-stats-viewer.html: 📊 sub-mode/subject · 🧭 where-they-get-stuck ·
 >     👪 parent engagement · 📱 OS/form).
