@@ -30,6 +30,29 @@
 > screenshots: LEAVE them, do NOT re-raise. Owner's words: "NikoLearn lane-ს გარეთ რაცაა არ შეეხო და არც
 > დახარჯო რესურსი მე თუ არ გთხოვე."
 
+> **🔧 SESSION CLOSE 2026-06-11 (5am autonomous bug-fix run, Opus 4.8) — LIVE at v1.109.** Owner
+> reported multiple VISIBLE bugs, priority #1 = ka↔en language switching. ROOT CAUSE: today's fast
+> increments (D1 per-subject diagnostic + Paths + total-progress meter, D3 parent feedback form, D5 hover,
+> + parent space) shipped with ZERO English dictionary entries, so toggling to EN left whole new screens
+> in Georgian. FIXED comprehensively: i18n.js now translates `data-sum` hover tooltips + adds a global
+> `tx()` helper; i18n-strings.js +120 keys & +12 patterns (diagnostic flow, Paths, premium upsell, subject
+> subtitles/tooltips, screen-limit, parent feedback/goal/export/settings/PIN, reading-suite chrome); fixed
+> the delete-modal pattern (no-space colon); placement.js start-hint split so label+tail each translate;
+> parent.js dashboard prose (learned/growth/recommendation/engagement + joined Georgian terms) built
+> BILINGUALLY + re-renders on lang toggle, native prompt/alert/confirm via `tx()`. ALSO FIXED (D1
+> regression): ka-alpha Path milestones read/build/trace never recorded `.done` (no code wrote them → 3/4
+> Georgian steps permanently stuck + total-meter capped) → `markAlphaDone()` at read/sentence/build quiz
+> finish + trace 'finish' button (verified ka-alpha 4/4, allDone). Stale landing label v1.98→v1.109.
+> VERIFIED LIVE (cache-bust): every new screen translates both directions, 455 keys/37 patterns live, KA
+> default unaffected, 0 console errors, visual screenshots looked at. Backup: `backups/NikoLand_pre-5am-bugfix_2026-06-11.zip`.
+> Review lanes CLEAN (no fix): D5 hover (cosmetic, touch unaffected), D3 form (encodeURIComponent, no XSS),
+> load-order/nav (placement.js wired in index.html+sw.js, all onclick resolve), audio (ka-gate correct,
+> no Georgian-via-EN-voice, no auto-blast). Report: `output/2026-06-11-NikoLearn 5am bug-fix team run by Niko.html`.
+> **▶ OPEN (next session, NOT done — lower priority, owner's call):** young child (≤5) opening Math gets the
+> per-subject diagnostic with age-inappropriate questions (6×7, 15−6). Not a language/crash bug; it's a UX
+> gating decision (diagnostic content = owner's D1 spec). Rec: gate the math diag with `!isYoung(profile)`
+> or branch question set by age. Commits: 099cb67 (path) + 60bb03c (i18n), pushed origin/main.
+>
 > **📌 SESSION CLOSE 2026-06-09 — shipped v1.86→v1.93 (all live).** Analytics: Cloudflare Web Analytics
 > LIVE (cookieless, 18 visits/24h verified; view at `dash.cloudflare.com/62f02b2a518a8e63eba0537f9162c0ec/web-analytics`
 > → click gshoina.github.io, NOT the account /home/overview) + pluggable facade set DORMANT for launch.
