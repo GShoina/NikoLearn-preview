@@ -172,6 +172,8 @@ function answerDigit(btn,sel,cor){
    whole word. Recorded ka clips per syllable + word — never robot TTS.
    ═══════════════════════════════════════════════════════════ */
 function readSay(t){ if(window.playClip && playClip(t)) return; speak(t,'ka-GE',{rate:isYoung(profile)?0.58:0.7}); }
+// record a Georgian-path milestone as completed (read / build / trace) so the subject Path can progress.
+function markAlphaDone(k){ const s=state[profile]; if(s){ s[k]=s[k]||{}; s[k].done=true; save(); } }
 function readBlend(it){ // sound out each syllable, then say the whole word
   speakSeq(it.syl.map(s=>({t:s,lang:'ka-GE',rate:0.62})).concat([{t:it.w,lang:'ka-GE',rate:0.68}]));
 }
@@ -205,7 +207,7 @@ function startReadQuiz(){
   nextRead();
 }
 function nextRead(){
-  if(game.i>=game.qs.length)return results();
+  if(game.i>=game.qs.length){markAlphaDone('read');return results();}
   const q=game.qs[game.i];
   const opts=new Set([q.w]);while(opts.size<4)opts.add(READING_KA[ri(0,READING_KA.length-1)].w);
   readSay(q.w);   // hear the word, then find it written
@@ -265,7 +267,7 @@ function startSentQuiz(){
   nextSent();
 }
 function nextSent(){
-  if(game.i>=game.qs.length)return results();
+  if(game.i>=game.qs.length){markAlphaDone('read');return results();}
   const q=game.qs[game.i];game.cur=q;
   const opts=new Set([q.e]);while(opts.size<4)opts.add(READING_SENT_KA[ri(0,READING_SENT_KA.length-1)].e);
   sentSay(q.s);   // hear/read the sentence, then pick the matching picture
@@ -301,7 +303,7 @@ function startBuild(){
   nextBuild();
 }
 function nextBuild(){
-  if(game.i>=game.qs.length)return results();
+  if(game.i>=game.qs.length){markAlphaDone('build');return results();}
   const q=game.qs[game.i];game.cur=q;game.built=[];
   game.chips=shuffle(q.syl.map((s,idx)=>({s,id:idx,used:false})));
   speak(q.w,'ka-GE');   // hear the target word once
@@ -410,7 +412,7 @@ function traceLearn(idx){
     <div class="alpha-nav">
       <button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="traceLearn(${idx-1})">←</button>
       <div class="alpha-dots">${idx+1} / ${n}</div>
-      ${last?`<button class="abtn go" onclick="openMenu('ka-alpha')">დასასრული ✓</button>`:`<button class="abtn" onclick="traceLearn(${idx+1})">→</button>`}
+      ${last?`<button class="abtn go" onclick="markAlphaDone('trace');openMenu('ka-alpha')">დასასრული ✓</button>`:`<button class="abtn" onclick="traceLearn(${idx+1})">→</button>`}
     </div>
   </div>`,false);
   setTimeout(()=>{ traceSetup();
