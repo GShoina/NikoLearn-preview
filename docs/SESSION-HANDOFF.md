@@ -60,7 +60,30 @@
 > errors). **▶ PHASE 2 REMAINING (next):** 2.2 „გაიმეორე ↻" weighted-weak-item review + Daily Refresh
 > Leitner (localStorage) · 2.3 per-skill {seen,correct,streak} mastery (ნასწავლი=3-in-a-row, progress
 > only moves forward) · 2.4 age-tuned celebration speed + tap-to-skip + shared break timer everywhere.
-> Owner also queued a TELEMETRY+viewer workstream (4 anonymous lenses) + top-subject fixes — see his prompt.
+> Owner also queued a TELEMETRY+viewer workstream (4 anonymous lenses) + top-subject fixes.
+> **▶▶ EXECUTION ORDER (owner 2026-06-11: „შენ დაა პრიორიტეტე და გააკეთე ორივე" = do BOTH workstreams,
+> Niko's priority). Run as separate verified increments, each: build → silent Playwright → visual verify →
+> 0 console errors → bump APP_VERSION + sw CACHE → commit+push → live-verify ?cb= → Gemini KA-QA on new
+> Georgian copy → clean temp. Privacy invariant absolute (aggregate only, no PII/per-child id/raw UA):**
+>   - **P1 — telemetry A1+A4 (start the data clock; lowest risk).** Client (analytics.js + games.js
+>     results()/answer flow + alpha.js, all fire-and-forget, app never breaks if worker down): A1 parent_open,
+>     goal_set{type}, screenlimit_set, feedback_open (fire from parent.js); A4 round_complete{mode},
+>     round_abandon{mode}, accuracy band low|mid|high/round, retry count. WORKER (cloudflare/telemetry-worker.js):
+>     extend allow-list + /v1/stats aggregation; deploy via `npx wrangler deploy` (CF token in .env; wrangler
+>     NOT in PATH → use npx; see cloudflare/DEPLOY.md). Until the worker allow-list is updated it silently drops
+>     the new events (harmless), so worker+client must ship together.
+>   - **P2 — Phase 2.2 review/Leitner + 2.3 mastery** (this IS B1's "weak-item review loop"): „გაიმეორე ↻"
+>     weighted sampler priority=wrong/(correct+1) + Daily Refresh Leitner (localStorage boxes→day intervals);
+>     per-skill {seen,correct,streak}, ნასწავლი=3-in-a-row, progress map only moves forward.
+>   - **P3 — telemetry A2 (worker server-side UA→{os,form} buckets, never store UA) + A3 (sub-mode allow-list)
+>     + viewer rebuild** (output/NikoLearn-stats-viewer.html: 📊 sub-mode/subject · 🧭 where-they-get-stuck ·
+>     👪 parent engagement · 📱 OS/form).
+>   - **P4 — Phase 2.4 age-rhythm** (celebration 2.5s→~0.9s at 8+, tap-to-skip, shared break timer in ALL
+>     games not just english) **+ B1 known gaps** (MATH division + 8-12 depth: missing-number/multi-digit/
+>     simple equations + age-tiered difficulty; ALPHABET more reading + letter→sound link + trace stroke-order
+>     + verify all 4 ka-alpha Path .done).
+>   - **P5 — B0 (DATA-GATED):** after ~1 week of A4 data, fix the biggest drop-off / lowest-accuracy mode.
+>   Improved full prompt for this workstream is in the chat transcript (owner asked it be cleaned up).
 >
 > **🆕 SESSION CLOSE 2026-06-11 (Opus 4.8, chat name-call) — LIVE at v1.110→1.111.** Owner asked for two
 > things + "continue, don't wait for my yes". BOTH DONE, verified, deployed (commit ce4cad5, pushed
