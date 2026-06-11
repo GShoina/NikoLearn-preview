@@ -1,5 +1,17 @@
 # NikoLearn — Session Handoff
 
+> **📅 ARMED 2026-06-11 ~01:50 (owner) — autonomous 5am bug-fix TEAM run.** Windows Task
+> `NikoLearn-5am-BugfixTeam` fires once at **2026-06-11 05:00 (Asia/Tbilisi)** →
+> `C:\Users\gela.shonia\.niko-schedule\run-bugfix-5am.ps1` → headless `claude -p` with
+> `.niko-schedule\bugfix-5am-prompt.md`, `AGENT_TEAMS=1`. Priority #1 = LANGUAGE-SWITCH (ka↔en)
+> bugs from today's v2.01→v2.03, then visible regressions; full autonomy, deploy, leaves ONE HTML
+> report in `output/` + updates THIS file. Log: `.niko-schedule\run-*.log`.
+> **Unattended GitHub push WIRED:** `gh auth setup-git` → git uses gh keyring token (GShoina, `repo`
+> scope); non-interactive read+push verified (dry-run exit 0). The old GCM "select an account"
+> popup is resolved (was multi-identity GShoina vs info@bivision.ge). Dependency: PC must be ON
+> (sleep ok → wakes; full-off → runs on next boot via StartWhenAvailable). At arm time, local `main`
+> was 1 commit ahead of remote (`033e2bd` vs `ae211e3`).
+
 > **🔇 STANDING RULE (owner, 2026-06-09) — TEST AUDIO MUST BE SILENT.** App audio playing through the
 > owner's speakers during Playwright testing disturbs his work. At the START of ANY browser test, inject a
 > silence init-script: `page.addInitScript` + apply to the current page — patch `HTMLMediaElement.prototype.play`
@@ -29,6 +41,13 @@
 > read-only investigation of out-of-lane things = wasted resource; don't do it uninvited. The old
 > screenshots: LEAVE them, do NOT re-raise. Owner's words: "NikoLearn lane-ს გარეთ რაცაა არ შეეხო და არც
 > დახარჯო რესურსი მე თუ არ გთხოვე."
+
+> **🛑 MOVEMENT VISUALS — owner REJECTED the redesign (2026-06-11, Fable 5). KEEP AS-IS.** Showed a standalone
+> Case-A demo (improved vector plank+jump: rounded limbs, shading, squash-stretch, breathing/tremble). Owner:
+> „კატასტროფაა ახალი ვიზუალი ... როგორც არის დავტოვო". So the CURRENT movement characters (owl.js mvChar /
+> MV_MOVES) STAY UNCHANGED. Do NOT re-attempt Case A (vector polish) or Case B (illustrated raster) unless the
+> owner explicitly asks again. Demo file deleted. (NB: a Fable 5 session ran in parallel with Opus's v1.109
+> i18n run; no code files were touched for the movement work, only this handoff line.)
 
 > **🔧 SESSION CLOSE 2026-06-11 (5am autonomous bug-fix run, Opus 4.8) — LIVE at v1.109.** Owner
 > reported multiple VISIBLE bugs, priority #1 = ka↔en language switching. ROOT CAUSE: today's fast
