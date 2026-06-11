@@ -26,12 +26,26 @@ function startGame(m){
   if(m==='match')return matchRound();
   nextWord();
 }
+// A4 telemetry: map the specific game.mode → the worker's coarse subject enum.
+function coarseMode(m){
+  m=m||game.mode||'';
+  if(m==='count'||m==='counting')return 'counting';
+  if(m==='kings-eng'||m==='kings-math')return 'kings';
+  if(m.indexOf('math')===0||['compare','skip','shapes','money','clock'].indexOf(m)>=0)return 'math';
+  return 'english'; // quiz/reverse/listen/match/spell/phrases
+}
+// fired (fire-and-forget) when a child leaves a round before finishing it
+function abandonRound(){
+  if(game.roundActive){ try{ if(window.Analytics) Analytics.event('round_abandon',{mode:coarseMode()}); }catch(e){} game.roundActive=false; }
+  openMenu(game.subj||'math');
+}
 function gameShell(area){
   closeHint();
+  game.roundActive=true; // marks an in-progress round (cleared by results()/abandonRound())
   const tot=game.qs?game.qs.length:8;
   render(`<div class="screen game" id="gscreen">
     <div class="progress-row">
-      <button class="iconbtn" onclick="openMenu(game.subj||'math')" style="width:40px;height:40px;font-size:1.1rem">←</button>
+      <button class="iconbtn" onclick="abandonRound()" style="width:40px;height:40px;font-size:1.1rem">←</button>
       <div class="bar"><i id="gbar" style="width:${(game.i/tot)*100}%"></i></div>
       ${voiceToggleBtn()}
       <span class="q-count" id="gcount">${Math.min(game.i+1,tot)}/${tot}</span>
@@ -455,6 +469,9 @@ function confettiEl(){
 function results(){
   const s=state[profile],lv=levelOf(profile);
   const tot=game.shields+game.wrong,pct=tot?Math.round(game.shields/tot*100):0;
+  // A4: anonymous round outcome (fire-and-forget; the app is unaffected if telemetry is down)
+  game.roundActive=false;
+  try{ if(window.Analytics) Analytics.event('round_complete',{mode:coarseMode(),band:pct>=80?'high':(pct>=50?'mid':'low'),retries:game.wrong||0}); }catch(e){}
   const best=s.best[game.mode]||0;if(game.shields>best)s.best[game.mode]=game.shields;
   const _el=game.start?Date.now()-game.start:0;
   s.sessions++;s.lastPlayed=new Date().toISOString();s.totalTime+=_el;

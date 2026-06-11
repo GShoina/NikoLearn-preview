@@ -55,12 +55,13 @@ function setParentPin(){
   state.parentPin=a.trim();save();alert(tx('PIN-კოდი დაყენდა. ✓'));parentDash();
 }
 function clearParentPin(){if(confirm(tx('მოვხსნა PIN-კოდი? სივრცეს მაინც დაიცავს მაგალითი.'))){state.parentPin=null;save();parentDash();}}
-function setScreenLimit(m){state.screenLimitMin=m;save();parentDash();}
+function setScreenLimit(m){state.screenLimitMin=m;save();try{if(window.Analytics)Analytics.event('screenlimit_set',{minutes:String(m)});}catch(e){}parentDash();}
 function togglePremium(){state.premium=(state.premium===false)?true:false;save();parentDash();}
 
 /* ── D3 (v2.02): structured parent feedback form. Privacy-clean: nothing is auto-collected — the
    parent's own mail app sends it, so the only data shared is what the parent chooses to send. ── */
 function feedbackForm(){
+  try{if(window.Analytics)Analytics.event('feedback_open');}catch(e){}
   const el=document.createElement('div');el.className='gate';el.id='fbform';
   el.innerHTML=`<div class="gate-card" style="max-width:360px">
     <h3>💬 დაგვიკავშირდი</h3>
@@ -105,7 +106,7 @@ function kidGoalModal(p){
   if(window.applyLang)applyLang(el);
   $('.device').appendChild(el);
 }
-function pickGoal(p,type,target,label){const s=state[p];s.goal={type,target,label,date:new Date().toISOString()};save();const m=$('#goalmodal');if(m)m.remove();parentDash();}
+function pickGoal(p,type,target,label){const s=state[p];s.goal={type,target,label,date:new Date().toISOString()};save();try{if(window.Analytics)Analytics.event('goal_set',{type:type});}catch(e){}const m=$('#goalmodal');if(m)m.remove();parentDash();}
 function clearGoal(p){const s=state[p];delete s.goal;save();parentDash();}
 function goalProgress(p){
   const s=state[p],g=s&&s.goal;if(!g)return null;
@@ -118,6 +119,7 @@ function goalProgress(p){
 }
 
 function parentDash(){
+  try{if(window.Analytics)Analytics.event('parent_open');}catch(e){}
   profile=profile||'niko';
   let html=`<div class="screen parent">${topbarPlain('მშობლის სივრცე','goHome()')}`;
   html+=`<div class="privacy-card" style="margin-bottom:16px">${I.privacy}<div class="pt"><b>ყველაფერი ამ მოწყობილობაზე რჩება.</b> პროგრესი ინახება მხოლოდ აქ. რეკლამა: ნული. გარე ბმულები: ნული.</div></div>`;

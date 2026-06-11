@@ -36,6 +36,15 @@ const EVENTS = {
   topic_usage:        { topic: ['ფერები 🎨','ცხოველები 🐾','საკვები 🍎','ოჯახი 👨‍👩‍👧‍👦','ბუნება 🌿','სკოლა 🏫','ტანსაცმელი 👕','ტრანსპორტი 🚗','სხეული 🧍','სპორტი ⚽','ამინდი 🌦️','პლანეტები 🪐','პროფესიები 👩‍🚀'] },
   audio_usage:        { used: ['yes','no'] },
   device_context:     { deviceType: ['phone','tablet','desktop'], os: ['ios','android','windows','mac','other'], aspect: ['tall','wide','square'] },
+  // ── v1.112 (Phase telemetry A1+A4) — all anonymous, aggregate-only ──
+  // A1: parent engagement (no PII; goal/limit are coarse enums)
+  parent_open:        {},
+  goal_set:           { type: ['words','streak','total'] },
+  screenlimit_set:    { minutes: ['0','15','30','45','60'] },
+  feedback_open:      {},
+  // A4: outcome / struggle signals per round (mode = coarse subject; band = accuracy bucket; retries = wrong taps)
+  round_complete:     { mode: ['alphabet','english','math','counting','kings','reading','movement'], band: ['low','mid','high'], retries: 'int' },
+  round_abandon:      { mode: ['alphabet','english','math','counting','kings','reading','movement'] },
 };
 const ALLOWED_ORIGINS = ['https://gshoina.github.io']; // tighten to the live app origin
 
