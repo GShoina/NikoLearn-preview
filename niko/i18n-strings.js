@@ -6,6 +6,23 @@
    ═══════════════════════════════════════════════════════════ */
 /* ── exact Georgian text → English (matched on trimmed text-node value) ── */
 window.I18N_MAP = {
+  /* talk & think — discussion cards (talk.js, v1.110) */
+  "საუბარი":"Talk",
+  "საუბარი და ფიქრი":"Talk & Think",
+  "ერთად ისაუბრეთ. სწორი პასუხი არ არსებობს.":"Talk together. There is no right answer.",
+  "ქართული საუბრები":"Georgian talks",
+  "ფიქრი · ღირებულებები":"Think · Values",
+  "როგორ ფიქრობ?":"How do you think?",
+  "თუ მე ვიქნებოდი":"If I were...",
+  "ღირებულებები":"Values",
+  "ძილისწინა საუბრები":"Bedtime talk",
+  "კიდევ ჰკითხე:":"Ask more:",
+  "ნიკო ბუ გეკითხება":"Niko the owl asks",
+  "ნიკოლოზი გეკითხება":"Nikoloz asks",
+  "მაშო გეკითხება":"Masho asks",
+  "საუბრის ბარათები მშობელთან ერთად":"Conversation cards to enjoy with a parent",
+  "საუბრის ბარათები მშობელთან ერთად (ემოციები, ღირებულებები, ფანტაზია)":"Conversation cards with a parent (emotions, values, imagination)",
+
   /* home / profiles */
   "დაიწყე →":"Start →",
   "შექმენი ბავშვის პროფილი":"Create a child profile",

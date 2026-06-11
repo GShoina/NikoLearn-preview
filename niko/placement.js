@@ -39,13 +39,19 @@ const PATHS = {
   ]
 };
 const PATH_SUBJS = ['english','math','ka-alpha'];
+// age-aware path: a young child's math menu only has add/sub/shapes, so their Path shows only those
+// 3 milestones (no გამრავლება/ოლიმპიადა they can't reach → no permanently-stuck steps). (2026-06-11)
+function pathFor(p,subj){
+  if(subj==='math' && isYoung(p)) return PATHS.math.filter(m=>['add','sub','shapes'].indexOf(m.k)>=0);
+  return PATHS[subj]||[];
+}
 function pathDisplayName(subj){return {english:'ინგლისური',math:'მათემატიკა','ka-alpha':'ქართული'}[subj]||subj;}
 // locative case ("in X") — Georgian drops the final vowel for ი-ending words, so it is pre-declined here
 function pathLocName(subj){return {english:'ინგლისურში',math:'მათემატიკაში','ka-alpha':'ქართულში'}[subj]||(pathDisplayName(subj)+'ში');}
 
 // progress within one subject path
 function subjProgress(p,subj){
-  const path=PATHS[subj]||[];let done=0,nextIdx=-1;
+  const path=pathFor(p,subj);let done=0,nextIdx=-1;
   for(let i=0;i<path.length;i++){ if(path[i].m(p)) done++; else if(nextIdx<0) nextIdx=i; }
   return {done,total:path.length,pct:path.length?Math.round(done/path.length*100):0,nextIdx:nextIdx<0?path.length-1:nextIdx,allDone:done===path.length};
 }
@@ -59,6 +65,9 @@ function totalProgress(p){
 /* ── per-subject entry diagnostic ── */
 function subjDiagNeeded(p,subj){
   const s=state[p];
+  // young kids (≤5) skip the Math entry diagnostic: its questions (6×7, 15−6) are age-inappropriate.
+  // They go straight to the age-tuned math menu (add/sub/shapes) instead. (owner ask 2026-06-11)
+  if(subj==='math' && isYoung(p)) return false;
   return PATH_SUBJS.indexOf(subj)>=0 && !(s.subjDiag&&s.subjDiag[subj]);
 }
 const SUBJ_DIAG = {
@@ -151,7 +160,7 @@ function pathDisplayNameSafe(subj){return pathDisplayName(subj);}
 /* ── the visible "Path" (გზა) shown at the top of a subject menu ── */
 function renderPathStrip(subj){
   if(PATH_SUBJS.indexOf(subj)<0) return '';
-  const p=profile, path=PATHS[subj]||[];
+  const p=profile, path=pathFor(p,subj);
   const pr=subjProgress(p,subj);
   const diag=(state[p].subjDiag&&state[p].subjDiag[subj])||null;
   const startIdx=diag&&!diag.skipped?diag.startIdx:0;

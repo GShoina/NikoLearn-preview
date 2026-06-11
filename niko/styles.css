@@ -1132,3 +1132,43 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 @media (prefers-reduced-motion:reduce){
   .unfolding,.mode-grid>.mode,.topic-grid>.topic-card{animation:none}
 }
+
+/* ── "საუბარი და ფიქრი" / Talk & Think (v1.110) — discussion cards, no scoring ── */
+.subj.talk .s-ico{filter:saturate(1.05)}
+.screen.talk,.screen.talk-pick{display:flex;flex-direction:column;align-items:center;gap:16px;padding:18px 16px 26px;min-height:100%}
+.talk-pick .talk-hero{text-align:center;margin-top:18px}
+.talk-hero-ic{font-size:3.4rem;line-height:1}
+.talk-pick h2{margin:8px 0 2px;color:var(--ink);font-size:1.5rem}
+.talk-lead{color:var(--muted);max-width:300px;margin:0 auto;line-height:1.5}
+.talk-back{align-self:flex-start;width:42px;height:42px;font-size:1.1rem}
+.talk-decks{display:flex;flex-direction:column;gap:14px;width:100%;max-width:360px;margin-top:6px}
+.talk-deck{display:flex;flex-direction:column;align-items:center;gap:4px;padding:22px 16px;border:2px solid var(--line);border-radius:var(--radius);background:var(--card);box-shadow:var(--shadow);cursor:pointer;transition:transform .12s,box-shadow .12s,border-color .12s}
+.talk-deck:active{transform:translateY(2px)}
+.talk-deck.ka{border-color:color-mix(in oklch,var(--green) 45%,var(--line))}
+.talk-deck.en{border-color:color-mix(in oklch,var(--sky) 45%,var(--line))}
+.td-flag{font-size:2.4rem;line-height:1}
+.td-name{font-weight:700;color:var(--ink);font-size:1.12rem}
+.td-sub{color:var(--faint);font-size:.86rem}
+/* card */
+.talk-top{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:380px}
+.talk-count{color:var(--muted);font-weight:600;font-size:.95rem}
+.talk-card{width:100%;max-width:380px;background:var(--card);border-radius:26px;box-shadow:var(--shadow-lg);border-top:6px solid var(--tc,var(--primary));padding:22px 20px 18px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;animation:talkin .26s ease both}
+@keyframes talkin{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
+.talk-theme{display:inline-flex;align-items:center;gap:7px;padding:5px 13px;border-radius:999px;background:color-mix(in oklch,var(--tc,var(--primary)) 16%,var(--card));color:var(--tc,var(--primary-d));font-weight:700;font-size:.9rem}
+.talk-theme .tt-ic{font-size:1.05rem}
+.talk-emoji{font-size:3.4rem;line-height:1.1}
+.talk-q{font-size:1.32rem;font-weight:600;color:var(--ink);line-height:1.42}
+.talk-subs{font-size:1rem;color:var(--muted);line-height:1.45;background:var(--card-2);border-radius:14px;padding:10px 13px;width:100%}
+.talk-subs .ts-lab{font-weight:700;color:var(--faint);display:block;margin-bottom:2px;font-size:.82rem;text-transform:none}
+.talk-by{display:inline-flex;align-items:center;gap:8px;margin-top:2px;color:var(--faint);font-size:.92rem}
+.talk-by .tb-em{font-size:1.4rem}
+.talk-listen{max-width:200px}
+.talk-nav{display:flex;align-items:center;justify-content:center;gap:18px;width:100%;max-width:380px;margin-top:2px}
+.tnav{width:56px;height:56px;border-radius:50%;border:none;background:var(--primary);color:#fff;font-size:1.4rem;font-weight:700;cursor:pointer;box-shadow:var(--shadow);transition:transform .1s,opacity .15s}
+.tnav:active{transform:translateY(2px)}
+.tnav:disabled{opacity:.32;cursor:default;background:var(--faint)}
+.talk-dots{display:flex;gap:8px;align-items:center}
+.tdot{width:9px;height:9px;border-radius:50%;background:var(--line);transition:transform .15s,background .15s}
+.tdot.on{background:var(--primary);transform:scale(1.35)}
+.talk-note{color:var(--faint);font-size:.85rem;text-align:center;max-width:300px;line-height:1.4}
+@media (prefers-reduced-motion:reduce){ .talk-card{animation:none} }
