@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ka"><head><meta charset="UTF-8">
+<title>ფუნჯი — ა ბ დ</title>
+<style>
+  body{margin:0;background:#FBF4E6;font-family:system-ui,sans-serif;display:flex;flex-wrap:wrap;gap:28px;justify-content:center;padding:28px}
+  .cell{background:#fff;border:2px solid #e8dcc4;border-radius:18px;padding:14px;text-align:center}
+  .cell h3{margin:0 0 8px;font-size:42px;color:#3a3340}
+  svg{width:260px;height:260px;display:block;border-radius:12px;background:#fffdf8}
+  .glyph{fill:#ead9c0}
+  .brush{fill:none;stroke:#D9703A;stroke-width:11;stroke-linecap:round;stroke-linejoin:round}
+  button{margin-top:10px;border:1.5px solid #D9703A;background:#fff;color:#b95a2c;border-radius:999px;padding:8px 16px;font:600 .9rem/1 inherit;cursor:pointer}
+</style></head><body>
+<div id="root">font იტვირთება…</div>
+<script src="../niko/opentype.min.js"></script>
+<script>
+// authored CENTERLINE strokes (0..100, y-down, writing order). null = not authored yet (glyph only).
+var STROKES = {
+  'ა':'M38,44 C27,33 38,21 52,23 C66,25 66,41 57,49 C52,57 51,67 51,78',
+  'ბ':'M47,77 C49,64 49,57 50,54 C37,52 32,39 44,30 C57,21 71,32 66,46 C63,54 56,56 50,54',
+  'დ':'M60,23 C56,31 57,34 57,41 C49,41 41,44 39,53 C36,66 49,75 59,70 C67,66 66,57 59,53 C56,51 57,46 57,41'
+};
+var FONT=null;
+function normGlyph(ch){
+  var p=FONT.getPath(ch,0,0,100), d=p.toPathData(2), b=p.getBoundingBox();
+  var sx=80/(b.x2-b.x1), sy=80/(b.y2-b.y1);
+  return '<g transform="translate(10,10) scale('+sx.toFixed(4)+','+(-sy).toFixed(4)+') translate('+(-b.x1).toFixed(2)+','+(-b.y2).toFixed(2)+')"><path class="glyph" d="'+d+'"/></g>';
+}
+function cell(ch){
+  var sk=STROKES[ch];
+  var brush = sk? '<path class="brush" id="b_'+ch.charCodeAt(0)+'" d="'+sk+'"/>' : '';
+  return '<div class="cell"><h3>'+ch+'</h3><svg viewBox="0 0 100 100">'
+    +'<rect x="0" y="0" width="100" height="100" fill="none" stroke="#f1e9d8"/>'
+    +'<line x1="50" y1="0" x2="50" y2="100" stroke="#f6f0e2"/><line x1="0" y1="50" x2="100" y2="50" stroke="#f6f0e2"/>'
+    +normGlyph(ch)+brush+'</svg>'
+    +(sk?'<br><button onclick="play(\''+ch+'\')">▶ ფუნჯი</button>':'')+'</div>';
+}
+function play(ch){
+  var p=document.getElementById('b_'+ch.charCodeAt(0)); if(!p)return;
+  var L=p.getTotalLength();
+  p.style.transition='none'; p.style.strokeDasharray=L; p.style.strokeDashoffset=L; p.getBoundingClientRect();
+  var st=null, dur=2200;
+  function f(ts){ if(st==null)st=ts; var t=Math.min(1,(ts-st)/dur); p.style.strokeDashoffset=L*(1-t); if(t<1)requestAnimationFrame(f); }
+  requestAnimationFrame(f);
+}
+opentype.load('../niko/fonts/ka.ttf', function(err,font){
+  if(err){ document.getElementById('root').textContent='font ვერ ჩაიტვირთა: '+err; return; }
+  FONT=font;
+  document.getElementById('root').innerHTML = ['ა','ბ','დ'].map(cell).join('');
+  ['ა','ბ','დ'].forEach(function(c){ if(STROKES[c]) play(c); });
+});
+</script>
+</body></html>
