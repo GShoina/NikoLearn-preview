@@ -19,7 +19,7 @@ function startGame(m){
   if(m==='shapes')return shapeRound();
   if(m==='money')return moneyRound();
   if(m==='clock')return clockRound();
-  game.mode=m;game.i=0;game.shields=0;game.wrong=0;game.start=Date.now();game.preLvl=levelIdx(profile);
+  game.mode=m;game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);
   if(m.startsWith('math-'))return mathRound(m);
   const pool=wordPool();
   game.qs=shuffle(pool).slice(0,8);
@@ -89,14 +89,24 @@ function answer(btn,sel,cor){
     record(cor,true);winStep(cor,'en-US',()=>{game.i++;advance();});
   } else {
     btn.classList.add('wrong','dim');record(cor,false);
-    revealCorrect(cor,'en-US');
-    setTimeout(()=>maybeOfferHelp(),350);
+    reQueueWrong(cor,'en-US');
   }
 }
 function checkSpell(cor){
   const e=$('#sp'),v=(e?e.value:'').trim().toLowerCase();
   if(v===cor.toLowerCase()){record(cor,true);winStep(cor,'en-US',()=>{game.i++;advance();});}
-  else{record(cor,false);if(e){e.value='';e.style.borderColor='var(--red)';setTimeout(()=>e.style.borderColor='',500);e.focus();}maybeOfferHelp();}
+  else{
+    record(cor,false);
+    // 2.1: reveal the correct spelling + voice it, then re-queue the word to the end (no guess-through)
+    const q=game.qs[game.i];
+    if(!game.missMap)game.missMap=new Map();
+    const n=(game.missMap.get(q)||0)+1; game.missMap.set(q,n);
+    if(e){ e.value=cor; e.disabled=true; e.style.borderColor='var(--green)'; }
+    try{speak(cor,'en-US');}catch(x){}
+    if(n>=2) setTimeout(maybeOfferHelp,650);
+    game.requeues=game.requeues||0; if(game.requeues<14){game.qs.push(q);game.requeues++;}
+    setTimeout(()=>{game.i++;advance();}, n>=2?1700:1400);
+  }
 }
 function advance(){
   if(game.mode==='phrases')return nextPhrase();
@@ -104,10 +114,43 @@ function advance(){
   if(game.mode==='count')return nextCount();
   nextWord();
 }
+/* ═══════════════ Phase 2.1 — answer-loop: re-queue + 2nd-mistake auto-hint ═══════════════ */
+// which "draw next question" function belongs to the current mode (so re-queue redraws correctly).
+function nextForMode(){
+  const m=game.mode||'';
+  if(m==='compare')return nextCmp;
+  if(m==='skip')return nextSkip;
+  if(m==='shapes')return nextShape;
+  if(m==='money')return nextMoney;
+  if(m==='clock')return nextClock;
+  if(m==='count')return nextCount;
+  if(m==='phrases')return nextPhrase;
+  if(m==='kings-eng'||m==='kings-math')return nextKings;
+  if(m.startsWith('math-'))return nextMath;
+  return nextWord;
+}
+// A wrong item is shown + voiced, then RE-QUEUED to the END of the round, so a round can never be
+// finished by guessing. The SECOND miss on the SAME item auto-opens the tutor hint. Miss counts live
+// in a round-local Map keyed by the question object (never mutate the shared WORD/SHAPE data). Caller
+// has already recorded the wrong answer + added .wrong/.dim to the tapped button.
+//   lang: voice code for revealCorrect, null = reveal silently, false = skip reveal (e.g. phrases
+//   whose options are labelled in Georgian so the English answer can't be matched in the DOM).
+function reQueueWrong(cor,lang,nextFn){
+  const q=game.qs[game.i];
+  if(!game.missMap)game.missMap=new Map();
+  const n=(game.missMap.get(q)||0)+1; game.missMap.set(q,n);
+  // lock options during the reveal: no tap-to-advance, no guess-spam
+  document.querySelectorAll('.opt').forEach(b=>{b.classList.add('dim');b.style.pointerEvents='none';});
+  if(lang!==false) revealCorrect(cor,lang||null);
+  if(n>=2) setTimeout(()=>maybeOfferHelp(),650);
+  game.requeues=game.requeues||0;
+  if(game.requeues<14){ game.qs.push(q); game.requeues++; }  // capped so the round always terminates
+  setTimeout(()=>{ game.i++; (nextFn||nextForMode())(); }, n>=2?1700:1400);
+}
 
 /* ── phrases ── hear a short everyday sentence, pick its meaning (with typewriter reveal) ── */
 function startPhrases(cat){
-  game.mode='phrases';game.pcat=cat||null;game.i=0;game.shields=0;game.wrong=0;
+  game.mode='phrases';game.pcat=cat||null;game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;
   game.start=Date.now();game.preLvl=levelIdx(profile);
   game.qs=shuffle(phrasePool()).slice(0,8);
   nextPhrase();
@@ -142,7 +185,7 @@ function answerPhrase(btn,sel,cor){
     recordPhrase(cor,true);winStep(null,null,()=>{game.i++;nextPhrase();});
   } else {
     btn.classList.add('wrong','dim');recordPhrase(cor,false);
-    setTimeout(()=>maybeOfferHelp(),350);
+    reQueueWrong(cor,false);  // options are Georgian-labelled → skip DOM reveal; re-queue + 2nd-miss hint
   }
 }
 
@@ -216,7 +259,7 @@ function genMath(type){
   const step=ri(1,young?2:(cfg.span||2)),s=ri(1,5),seq=[s];for(let i=1;i<4;i++)seq.push(seq[i-1]+step);return{q:seq.join(', ')+', ?',a:seq[3]+step,pat:true,op:'pat',seq:seq.slice(),step};
 }
 function mathOpts(ans){const set=new Set([ans]);while(set.size<4){const v=ans+ri(1,Math.max(3,Math.ceil(Math.abs(ans)*0.3)+1))*(Math.random()>.5?1:-1);if(v>=0)set.add(v);}return shuffle([...set]);}
-function mathRound(m){game.mode=m;game.leveledMath=null;game.qs=Array.from({length:8},()=>genMath(m));game.i=0;game.shields=0;game.wrong=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextMath();}
+function mathRound(m){game.mode=m;game.leveledMath=null;game.qs=Array.from({length:8},()=>genMath(m));game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextMath();}
 function nextMath(){
   if(game.i>=game.qs.length)return results();
   const q=game.qs[game.i];game.cur=q;
@@ -227,13 +270,13 @@ function nextMath(){
 function answerMath(btn,sel,cor){
   if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');
     mrec(true);winStep(null,null,()=>{game.i++;nextMath();});}
-  else{btn.classList.add('wrong','dim');mrec(false);revealCorrect(cor);setTimeout(maybeOfferHelp,350);}
+  else{btn.classList.add('wrong','dim');mrec(false);reQueueWrong(cor,null);}
 }
 function mrec(ok){const s=state[profile];if(ok){s.shields++;game.shields++;s.streak++;s.maxStreak=Math.max(s.maxStreak,s.streak);if(!s.math[game.mode])s.math[game.mode]={correct:0,wrong:0};s.math[game.mode].correct++;}else{game.wrong++;s.streak=0;if(!s.math[game.mode])s.math[game.mode]={correct:0,wrong:0};s.math[game.mode].wrong++;}save();}
 
 /* ════════ A: comparison (>/<), skip-counting (5s/10s), shapes ════════ */
 /* ── comparison: a ? b → pick > < = ── */
-function cmpRound(){game.mode='compare';game.qs=Array.from({length:8},()=>{const a=ri(1,20);let b=ri(1,20);if(Math.random()<0.25)b=a;return{a:a,b:b,ans:a>b?'>':(a<b?'<':'=')};});game.i=0;game.shields=0;game.wrong=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextCmp();}
+function cmpRound(){game.mode='compare';game.qs=Array.from({length:8},()=>{const a=ri(1,20);let b=ri(1,20);if(Math.random()<0.25)b=a;return{a:a,b:b,ans:a>b?'>':(a<b?'<':'=')};});game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextCmp();}
 function nextCmp(){
   if(game.i>=game.qs.length)return results();
   const q=game.qs[game.i];game.cur=q;
@@ -243,10 +286,10 @@ function nextCmp(){
 }
 function answerCmp(btn,sel,cor){
   if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);winStep(null,null,()=>{game.i++;nextCmp();});}
-  else{btn.classList.add('wrong','dim');mrec(false);revealCorrect(cor);setTimeout(maybeOfferHelp,350);}
+  else{btn.classList.add('wrong','dim');mrec(false);reQueueWrong(cor,null);}
 }
 /* ── skip-counting by 5 or 10 ── */
-function skipRound(){game.mode='skip';const step=Math.random()<0.5?5:10;game.qs=Array.from({length:8},()=>{const s0=step*ri(1,6);const seq=[s0,s0+step,s0+step*2,s0+step*3];return{seq:seq,step:step,a:s0+step*4};});game.i=0;game.shields=0;game.wrong=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextSkip();}
+function skipRound(){game.mode='skip';const step=Math.random()<0.5?5:10;game.qs=Array.from({length:8},()=>{const s0=step*ri(1,6);const seq=[s0,s0+step,s0+step*2,s0+step*3];return{seq:seq,step:step,a:s0+step*4};});game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextSkip();}
 function nextSkip(){
   if(game.i>=game.qs.length)return results();
   const q=game.qs[game.i];game.cur=q;
@@ -256,10 +299,10 @@ function nextSkip(){
 }
 function answerSkip(btn,sel,cor){
   if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);winStep(null,null,()=>{game.i++;nextSkip();});}
-  else{btn.classList.add('wrong','dim');mrec(false);revealCorrect(cor);setTimeout(maybeOfferHelp,350);}
+  else{btn.classList.add('wrong','dim');mrec(false);reQueueWrong(cor,null);}
 }
 /* ── shapes: see a shape → pick its name (name shown in the UI language) ── */
-function shapeRound(){game.mode='shapes';game.subj='math';game.qs=shuffle(SHAPES).slice(0,Math.min(8,SHAPES.length));game.i=0;game.shields=0;game.wrong=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextShape();}
+function shapeRound(){game.mode='shapes';game.subj='math';game.qs=shuffle(SHAPES).slice(0,Math.min(8,SHAPES.length));game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextShape();}
 function nextShape(){
   if(game.i>=game.qs.length)return results();
   const q=game.qs[game.i];game.cur=q;
@@ -271,12 +314,12 @@ function nextShape(){
 }
 function answerShape(btn,sel,cor){
   if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);winStep(cor,'en-US',()=>{game.i++;nextShape();});}
-  else{btn.classList.add('wrong','dim');mrec(false);revealCorrect(cor);setTimeout(maybeOfferHelp,350);}
+  else{btn.classList.add('wrong','dim');mrec(false);reQueueWrong(cor,null);}
 }
 
 /* ── money: count coins (tetri) → total ── */
 const COINS=[5,10,20,50];
-function moneyRound(){game.mode='money';game.qs=Array.from({length:8},()=>{const n=ri(2,3);const coins=[];let total=0;for(let i=0;i<n;i++){const v=COINS[ri(0,COINS.length-1)];coins.push(v);total+=v;}return{coins:coins,total:total};});game.i=0;game.shields=0;game.wrong=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextMoney();}
+function moneyRound(){game.mode='money';game.qs=Array.from({length:8},()=>{const n=ri(2,3);const coins=[];let total=0;for(let i=0;i<n;i++){const v=COINS[ri(0,COINS.length-1)];coins.push(v);total+=v;}return{coins:coins,total:total};});game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextMoney();}
 function nextMoney(){
   if(game.i>=game.qs.length)return results();
   const q=game.qs[game.i];game.cur=q;
@@ -287,7 +330,7 @@ function nextMoney(){
 }
 function answerMoney(btn,sel,cor){
   if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);winStep(null,null,()=>{game.i++;nextMoney();});}
-  else{btn.classList.add('wrong','dim');mrec(false);revealCorrect(cor);setTimeout(maybeOfferHelp,350);}
+  else{btn.classList.add('wrong','dim');mrec(false);reQueueWrong(cor,null);}
 }
 /* ── clock: read an analog clock (o'clock / half past) ── */
 const CLOCK_OCLOCK=['🕛','🕐','🕑','🕒','🕓','🕔','🕕','🕖','🕗','🕘','🕙','🕚'];
@@ -307,7 +350,7 @@ function clockFace(h,half){
   return `<svg viewBox="0 0 100 100" width="172" height="172" style="width:172px;height:172px;display:block;margin:2px auto" role="img" aria-label="საათი"><circle cx="${cx}" cy="${cy}" r="${R}" fill="#fff" stroke="#e7dcc8" stroke-width="2"/>${ticks}${nums}${hands}<circle cx="${cx}" cy="${cy}" r="2.8" fill="#2b2740"/></svg>`;
 }
 function timeLabel(h,half){return h+':'+(half?'30':'00');}
-function clockRound(){game.mode='clock';game.qs=Array.from({length:8},()=>{return{h:ri(1,12),half:Math.random()<0.5?1:0};});game.i=0;game.shields=0;game.wrong=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextClock();}
+function clockRound(){game.mode='clock';game.qs=Array.from({length:8},()=>{return{h:ri(1,12),half:Math.random()<0.5?1:0};});game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextClock();}
 function nextClock(){
   if(game.i>=game.qs.length)return results();
   const q=game.qs[game.i];game.cur=q;
@@ -319,11 +362,11 @@ function nextClock(){
 }
 function answerClock(btn,sel,cor){
   if(String(sel)===String(cor)){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);winStep(null,null,()=>{game.i++;nextClock();});}
-  else{btn.classList.add('wrong','dim');mrec(false);revealCorrect(cor);setTimeout(maybeOfferHelp,350);}
+  else{btn.classList.add('wrong','dim');mrec(false);reQueueWrong(cor,null);}
 }
 
 /* ── counting (Masho, zero-text) ── */
-function startCount(mode){game.mode='count';game.cmode=mode;game.qs=shuffle(COUNTING).slice(0,6);game.i=0;game.shields=0;game.wrong=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextCount();}
+function startCount(mode){game.mode='count';game.cmode=mode;game.qs=shuffle(COUNTING).slice(0,6);game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextCount();}
 function nextCount(){
   if(game.i>=game.qs.length)return results();
   const q=game.qs[game.i],opts=new Set([q.num]);while(opts.size<4)opts.add(ri(1,10));
@@ -347,7 +390,7 @@ function answerCount(btn,sel,cor){
 
 /* ── Kings tests ── */
 function startKings(kind){
-  game.kind=kind;game.shields=0;game.wrong=0;game.i=0;game.start=Date.now();game.preLvl=levelIdx(profile);
+  game.kind=kind;game.shields=0;game.wrong=0;game.i=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);
   game.qs=kind==='eng'?shuffle(KINGS_ENG).slice(0,10):shuffle(KINGS_MATH).slice(0,8);
   game.mode=kind==='eng'?'kings-eng':'kings-math';
   nextKings();
@@ -373,7 +416,7 @@ function nextKings(){
 function answerKings(btn,sel,cor){
   if(String(sel)===String(cor)){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');
     const s=state[profile];s.shields++;game.shields++;s.streak++;s.maxStreak=Math.max(s.maxStreak,s.streak);save();winStep(null,null,()=>{game.i++;nextKings();});}
-  else{btn.classList.add('wrong','dim');state[profile].streak=0;game.wrong++;save();revealCorrect(cor,game.kind==='eng'?'en-US':null);setTimeout(maybeOfferHelp,350);}
+  else{btn.classList.add('wrong','dim');state[profile].streak=0;game.wrong++;save();reQueueWrong(cor,game.kind==='eng'?'en-US':null);}
 }
 
 /* ── scoring ── */
