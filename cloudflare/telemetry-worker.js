@@ -45,6 +45,8 @@ const EVENTS = {
   // A4: outcome / struggle signals per round (mode = coarse subject; band = accuracy bucket; retries = wrong taps)
   round_complete:     { mode: ['alphabet','english','math','counting','kings','reading','movement'], band: ['low','mid','high'], retries: 'int' },
   round_abandon:      { mode: ['alphabet','english','math','counting','kings','reading','movement'] },
+  // A3: actual sub-mode used (controlled allow-list = the game.mode values games.js emits)
+  submode_usage:      { mode: ['quiz','reverse','listen','match','spell','phrases','math-add','math-sub','math-mul','math-pat','compare','skip','shapes','money','clock','count','kings-eng','kings-math'] },
 };
 const ALLOWED_ORIGINS = ['https://gshoina.github.io']; // tighten to the live app origin
 
@@ -153,6 +155,11 @@ export default {
           add(`n|${date}|${e.name}|${k}`, 1);
         }
       }
+    }
+    // A2: per-request OS / form-factor tally (coarse buckets only; raw UA never stored). One per request.
+    if (deltas.size) {
+      const form = ua.deviceType === 'desktop' ? 'desktop' : 'mobile';
+      add(`dev|${date}|${ua.os}|${form}`, 1);
     }
     const ops = [];
     for (const [key, delta] of deltas) {

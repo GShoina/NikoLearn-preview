@@ -39,9 +39,12 @@ function abandonRound(){
   if(game.roundActive){ try{ if(window.Analytics) Analytics.event('round_abandon',{mode:coarseMode()}); }catch(e){} game.roundActive=false; }
   openMenu(game.subj||'math');
 }
+const SUBMODES=['quiz','reverse','listen','match','spell','phrases','math-add','math-sub','math-mul','math-pat','compare','skip','shapes','money','clock','count','kings-eng','kings-math'];
 function gameShell(area){
   closeHint();
   game.roundActive=true; // marks an in-progress round (cleared by results()/abandonRound())
+  // A3: report the sub-mode once per round (first question only); anonymous, fire-and-forget
+  if(game.i===0 && window.Analytics && SUBMODES.indexOf(game.mode)>=0){ try{ Analytics.event('submode_usage',{mode:game.mode}); }catch(e){} }
   const tot=game.qs?game.qs.length:8;
   render(`<div class="screen game" id="gscreen">
     <div class="progress-row">
