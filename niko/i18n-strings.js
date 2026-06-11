@@ -23,6 +23,13 @@ window.I18N_MAP = {
   "საუბრის ბარათები მშობელთან ერთად":"Conversation cards to enjoy with a parent",
   "საუბრის ბარათები მშობელთან ერთად (ემოციები, ღირებულებები, ფანტაზია)":"Conversation cards with a parent (emotions, values, imagination)",
 
+  /* review — weak-word practice (games.js, v1.113) */
+  "გაიმეორე":"Review",
+  "რთული სიტყვები":"Tricky words",
+  "ჯერ გასამეორებელი არაფერია":"Nothing to review yet",
+  "ითამაშე და ის სიტყვები, რომლებიც გაგიჭირდება, აქ მოგროვდება.":"Play and the words you find tricky will be collected here.",
+  "კარგი":"OK",
+
   /* home / profiles */
   "დაიწყე →":"Start →",
   "შექმენი ბავშვის პროფილი":"Create a child profile",

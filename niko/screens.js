@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.112'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.113'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -402,6 +402,7 @@ function openMenu(subj){
       ${mode('match','🧩','დააწყვილე','ქართ ↔ ინგლ')}
       ${mode('spell','✍️','დაწერე','მართლწერა')}
       <div class="mode stack" onclick="openPhrases(event)"><div class="m-ico">💬</div><div class="m-name">ფრაზები</div><div class="m-sub">ყოველდღიური</div></div>
+      ${(typeof weakWords==='function'&&weakWords().length)?`<div class="mode play review-tile" onclick="startReview()">${PLAY_BADGE}<div class="m-ico">🔁</div><div class="m-name">გაიმეორე</div><div class="m-sub">რთული სიტყვები</div></div>`:''}
     </div>`;
   } else if(subj==='kings-eng'){
     body=`<div class="mode-grid">

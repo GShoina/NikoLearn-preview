@@ -162,6 +162,41 @@ function reQueueWrong(cor,lang,nextFn){
   setTimeout(()=>{ game.i++; (nextFn||nextForMode())(); }, n>=2?1700:1400);
 }
 
+/* ═══════════════ Phase 2.2 — weighted review ("🔁 გაიმეორე") ═══════════════
+   Pure addition: resurfaces the words a child has gotten WRONG, weakest-first
+   (priority = wrong/(correct+1)), through the existing quiz engine. Touches no
+   existing flow — startReview just seeds game.qs with weak words and reuses
+   nextWord()/answer() (incl. the 2.1 re-queue), so a weak word always returns. */
+function allWordObjs(){ const m={}; for(const c in WORDS){ for(const w of WORDS[c]){ m[w.en]=w; } } return m; }
+function weakWords(){
+  const s=state[profile]; if(!s||!s.words) return [];
+  const lut=allWordObjs();
+  return Object.keys(s.words).map(function(en){
+    const r=s.words[en]||{}; const wrong=r.wrong||0, correct=r.correct||0;
+    return { obj:lut[en], pr:wrong/(correct+1), correct:correct };
+  }).filter(function(x){ return x.obj && x.pr>0; })
+    .sort(function(a,b){ return (b.pr-a.pr) || (a.correct-b.correct); })
+    .map(function(x){ return x.obj; });
+}
+function startReview(){
+  const weak=weakWords();
+  if(!weak.length) return reviewEmpty();
+  game.mode='quiz'; game.cat=null; game.pcat=null; game.subj='english';
+  game.i=0; game.shields=0; game.wrong=0; game.missMap=new Map(); game.requeues=0;
+  game.start=Date.now(); game.preLvl=levelIdx(profile);
+  if(window.Analytics)Analytics.screen('subject/english');
+  game.qs=weak.slice(0,8);
+  nextWord();
+}
+function reviewEmpty(){
+  render(`<div class="screen" style="justify-content:center;text-align:center;gap:14px;padding:24px">
+    <div style="font-size:3.6rem">🔁</div>
+    <h2>ჯერ გასამეორებელი არაფერია</h2>
+    <p style="color:var(--muted);max-width:300px;line-height:1.5">ითამაშე და ის სიტყვები, რომლებიც გაგიჭირდება, აქ მოგროვდება.</p>
+    <button class="btn btn-primary btn-block" style="max-width:300px" onclick="openMenu('english')">${I.check} კარგი</button>
+  </div>`,false);
+}
+
 /* ── phrases ── hear a short everyday sentence, pick its meaning (with typewriter reveal) ── */
 function startPhrases(cat){
   game.mode='phrases';game.pcat=cat||null;game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;
