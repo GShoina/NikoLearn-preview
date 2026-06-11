@@ -29,8 +29,10 @@ function startGame(m){
 // A4 telemetry: map the specific game.mode → the worker's coarse subject enum.
 function coarseMode(m){
   m=m||game.mode||'';
-  if(m==='count'||m==='counting')return 'counting';
+  if(m==='count'||m==='counting'||m==='digit')return 'counting';
   if(m==='kings-eng'||m==='kings-math')return 'kings';
+  if(m==='ka-alpha'||m==='en-alpha')return 'alphabet';
+  if(m==='read'||m==='sent'||m==='build'||m==='trace')return 'reading'; // Georgian reading suite
   if(m.indexOf('math')===0||['compare','skip','shapes','money','clock'].indexOf(m)>=0)return 'math';
   return 'english'; // quiz/reverse/listen/match/spell/phrases
 }
@@ -39,7 +41,7 @@ function abandonRound(){
   if(game.roundActive){ try{ if(window.Analytics) Analytics.event('round_abandon',{mode:coarseMode()}); }catch(e){} game.roundActive=false; }
   openMenu(game.subj||'math');
 }
-const SUBMODES=['quiz','reverse','listen','match','spell','phrases','math-add','math-sub','math-mul','math-pat','compare','skip','shapes','money','clock','count','kings-eng','kings-math'];
+const SUBMODES=['quiz','reverse','listen','match','spell','phrases','math-add','math-sub','math-mul','math-pat','compare','skip','shapes','money','clock','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','digit'];
 function gameShell(area){
   closeHint();
   game.roundActive=true; // marks an in-progress round (cleared by results()/abandonRound())
