@@ -96,10 +96,18 @@ function nextWord(){
 }
 // after a correct answer: VOICE the answer first, hold a beat, THEN show the praise screen.
 // bigger pause so a small child hears the answer before "ბრავო/ყოჩაღ" pops (owner request).
+// 2.4 age-tuned rhythm: 8+ kids get a snappier celebration; any tap on the 🎉 overlay skips to next.
+let _celebTimers=[], _celebGo=null;
+function clearCeleb(){ _celebTimers.forEach(clearTimeout); _celebTimers=[]; }
+function skipCeleb(){ if(_celebGo){ const g=_celebGo; _celebGo=null; clearCeleb(); g(); } }
 function winStep(say,lang,next){
   if(say){ try{ speak(String(say), lang||'en-US'); }catch(e){} }
-  setTimeout(()=>{ try{praise();}catch(e){} feedback(true); }, 1200);
-  setTimeout(()=>{ closeFeedback(); if(next) next(); }, 2500);
+  const big=(typeof isBig==='function'&&isBig(profile));
+  const a=big?650:1200, b=big?1400:2500;
+  clearCeleb();
+  _celebGo=()=>{ _celebGo=null; clearCeleb(); closeFeedback(); if(next) next(); };
+  _celebTimers.push(setTimeout(()=>{ try{praise();}catch(e){} feedback(true); }, a));
+  _celebTimers.push(setTimeout(()=>{ if(_celebGo) _celebGo(); }, b));
 }
 function answer(btn,sel,cor){
   if(sel===cor){
@@ -510,15 +518,18 @@ function record(word,ok){
   // 2.2b Leitner spaced repetition: box 1..5, correct promotes / wrong resets to box 1; next due = +interval days.
   (function(){ const r=s.words[word]; const box=ok?Math.min(5,(r.box||1)+1):1; r.box=box; const D={1:1,2:2,3:4,4:7,5:14}; r.due=Date.now()+D[box]*86400000; })();
   save();
-  if(game.start&&Date.now()-game.start>15*60*1000){showBreak();game.start=Date.now();}
 }
+// 2.4: session-level movement-break clock, shared by ALL games (was vocab-only). Due every ~15 min of play.
+let _lastBreakTs=0;
+function breakDue(){ const now=Date.now(); if(!_lastBreakTs){_lastBreakTs=now;return false;} if(now-_lastBreakTs>15*60*1000){_lastBreakTs=now;return true;} return false; }
 
-/* ── feedback overlay ── */
+/* ── feedback overlay ── (2.4: tap anywhere to skip the celebration to the next item) */
 function feedback(ok){
   const el=document.createElement('div');el.className='overlay';el.id='fbov';
   el.innerHTML=`<div class="fb"><div class="fb-ico">${ok?'🎉':'💪'}</div><div class="fb-txt">${ok?'ბრავო, '+voc()+'!':voc()+', კიდევ ცადე!'}</div></div>`;
   if(ok)el.appendChild(confettiEl());
   if(window.applyLang)applyLang(el);
+  el.onclick=function(){ try{skipCeleb();}catch(e){} };
   $('.device').appendChild(el);
 }
 function closeFeedback(){const e=$('#fbov');if(e)e.remove();}
@@ -526,7 +537,12 @@ function closeFeedback(){const e=$('#fbov');if(e)e.remove();}
 // the celebration. Prevents the "ყოჩაღ flashes before the answer is spoken" ordering bug.
 function sayThenPraise(answerText,lang,after){
   try{if(answerText!=null&&answerText!=='')speak(String(answerText),lang||'ka-GE');}catch(e){}
-  setTimeout(()=>{try{praise();}catch(e){}feedback(true);if(after)setTimeout(after,1100);},1100);
+  const big=(typeof isBig==='function'&&isBig(profile));
+  const a=big?650:1100, b=big?700:1100;
+  clearCeleb();
+  _celebGo=()=>{ _celebGo=null; clearCeleb(); if(after) after(); };
+  _celebTimers.push(setTimeout(()=>{ try{praise();}catch(e){} feedback(true); }, a));
+  _celebTimers.push(setTimeout(()=>{ if(_celebGo) _celebGo(); }, a+b));
 }
 function confettiEl(){
   const c=document.createElement('div');c.className='confetti';
@@ -551,6 +567,8 @@ function results(){
   save();
   // gentle daily screen-time limit (parent-set): let this round's result show, then block further play
   if(typeof overLimit==='function'&&overLimit(profile)){setTimeout(()=>screenLimitUp(profile),2800);}
+  // 2.4: shared movement-break (every ~15 min, ALL games) — let the result show first, then offer the break
+  else if(breakDue()){setTimeout(()=>{try{showBreak();}catch(e){}},2800);}
   let msg=pct>=90?voc()+', შესანიშნავია! 🌟':pct>=70?voc()+', კარგად მიდიხარ! 💪':pct>=50?voc()+', ისწავლე ახალი! 📚':voc()+', ყოველი ცდა = წინსვლა! 🌱';
   let beat='';
   if(best>0){if(game.shields>best)beat=`<div class="beat up">🎉 გაჯობე გუშინს! ${best} → ${game.shields}</div>`;
