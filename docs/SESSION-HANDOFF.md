@@ -73,9 +73,15 @@
 >     ../.env && npx wrangler@4 deploy`). /v1/stats returns 200, counters empty (fresh events, awaiting real
 >     traffic = the data clock for B0). Verified silent Playwright: all 6 events fire correct shapes, 0 errors.
 >     NB: alpha.js round_complete NOT yet wired (alphabet rounds) — fold into P4 (alphabet is B1 anyway).
->   - **P2 — Phase 2.2 review/Leitner + 2.3 mastery** (this IS B1's "weak-item review loop"): „გაიმეორე ↻"
->     weighted sampler priority=wrong/(correct+1) + Daily Refresh Leitner (localStorage boxes→day intervals);
->     per-skill {seen,correct,streak}, ნასწავლი=3-in-a-row, progress map only moves forward.
+>   - **P2 — Phase 2.2/2.3.** ✅ **2.2 weighted review DONE & LIVE (v1.113, commit f375780):** „🔁 გაიმეორე"
+>     resurfaces wrong words weakest-first (priority=wrong/(correct+1)) via the existing quiz engine (+2.1
+>     re-queue); ADDITIVE only (weakWords/startReview/reviewEmpty in games.js, English-menu tile shown when
+>     weak words exist, ka↔en i18n, Gemini-QA'd copy). Verified, no regression, 0 errors. **▶ STILL TODO in P2:**
+>     (2.2b) full **Leitner Daily Refresh** tile for 6+ (localStorage boxes→day intervals; spaced resurfacing,
+>     not just weakest-now) + parent „გამეორებულია" marker; (2.3) **per-skill {seen,correct,streak} mastery** —
+>     „ნასწავლი"=3-in-a-row (distinct from „დასრულებული"), progress map only forward. NOTE 2.3 changes the
+>     mastery DEFINITION (currently correct>=3 cumulative drives wordsMastered→Paths/levels/goals) → higher
+>     regression risk, do it carefully/additively, heavy test (owner: „ბაგების გარეშე").
 >   - **P3 — telemetry A2 (worker server-side UA→{os,form} buckets, never store UA) + A3 (sub-mode allow-list)
 >     + viewer rebuild** (output/NikoLearn-stats-viewer.html: 📊 sub-mode/subject · 🧭 where-they-get-stuck ·
 >     👪 parent engagement · 📱 OS/form).
