@@ -49,6 +49,46 @@
 > owner explicitly asks again. Demo file deleted. (NB: a Fable 5 session ran in parallel with Opus's v1.109
 > i18n run; no code files were touched for the movement work, only this handoff line.)
 
+> **🆕 v1.111 (2026-06-11, Opus 4.8) — PHASE 2.1 SHIPPED: unified answer-loop.** (commit 31483f8,
+> pushed, live-verified cache 1.111.) Brute-force / guessing-through ELIMINATED across all quiz modes:
+> a wrong item is shown+voiced, options lock (no tap-to-advance), and the item is RE-QUEUED to the end
+> of the round (capped 14 → always terminates); the round can't finish without getting each item right.
+> SECOND miss on the same item auto-opens the tutor hint (was: every 1st miss). New `nextForMode()` +
+> `reQueueWrong()` in games.js, wired into answer/checkSpell(now reveals correct spelling)/answerPhrase/
+> math-family/answerKings; round-local miss Map (never mutates shared WORD data). match & count already
+> guess-proof by mechanic. Verified silent Playwright (1st wrong 8→9, 2nd→hint, real-UI auto-advance, 0
+> errors). **▶ PHASE 2 REMAINING (next):** 2.2 „გაიმეორე ↻" weighted-weak-item review + Daily Refresh
+> Leitner (localStorage) · 2.3 per-skill {seen,correct,streak} mastery (ნასწავლი=3-in-a-row, progress
+> only moves forward) · 2.4 age-tuned celebration speed + tap-to-skip + shared break timer everywhere.
+> Owner also queued a TELEMETRY+viewer workstream (4 anonymous lenses) + top-subject fixes — see his prompt.
+>
+> **🆕 SESSION CLOSE 2026-06-11 (Opus 4.8, chat name-call) — LIVE at v1.110→1.111.** Owner asked for two
+> things + "continue, don't wait for my yes". BOTH DONE, verified, deployed (commit ce4cad5, pushed
+> origin/main 8a72372..ce4cad5; GitHub Pages live-confirmed; backup `backups/NikoLand_pre-talk-section_2026-06-11.zip`).
+> • **TASK 1 (fix) — young-math diagnostic.** Young kids (≤5) opening Math were getting the
+>   age-inappropriate per-subject entry diagnostic (6×7, 15−6). `subjDiagNeeded()` now returns false
+>   for math when `isYoung(p)` → they go straight to the age-tuned menu. Bonus: new `pathFor(p,subj)`
+>   makes the young Math Path show only add/sub/shapes (no permanently-stuck გამრავლება/ოლიმპიადა they
+>   can't reach). Older kids unchanged (diag still fires). (placement.js)
+> • **TASK 2 (feature) — NEW „საუბარი და ფიქრი" / Talk & Think section.** totolino.ge-inspired
+>   parent⇄child discussion cards (NO scoring, no right answer; totolino's 4 themes the owner liked:
+>   როგორ ფიქრობ? / თუ მე ვიქნებოდი / ღირებულებები / ძილისწინა საუბრები). Two decks: **6 Georgian**
+>   (expression/values/identity) + **6 English** (talk practice), "one engine two lenses". KA deck is
+>   parent-read (NO Georgian-TTS dependency → respects the audio rule); EN deck has optional 🔊 (English
+>   voice). Characters = Niko owl 🦉 / Nikoloz 👦 / Masho 👧 (the Kidos.jpeg style). NEW `niko/talk.js`,
+>   wired in index.html + sw.js (cache→1.110), home-grid entry for kid + older, brand-matched CSS,
+>   FULL ka↔en i18n (15 new chrome keys in i18n-strings.js). Card CONTENT stays in its deck language by
+>   design; only chrome translates.
+> • **VERIFIED (silent Playwright, local + live):** home/chooser/cards render & styled, ka↔en toggle
+>   translates ALL chrome both directions (the v1.109 bug class), young-math diag gated (path=3 steps),
+>   nav prev/next disable at ends, EN 🔊 present / KA absent, 0 console errors. NB: a live screenshot first
+>   showed unstyled — that was only the TEST browser's HTTP cache holding stale styles.css; origin/edge
+>   serve the correct CSS (curl-confirmed 1174 lines w/ .talk-card) so real users get the styled version.
+> **▶ NEXT (owner's call):** (a) react to the 12 talk cards — copy/QA the Georgian (his Gemini+native
+>   workflow) and say which to tweak/add; richer card art later if wanted (now emoji+character).
+>   (b) Continue the FORWARD roadmap Phases 2-7 (learning/Leitner → 8-12 band → YLE depth → creative+coin
+>   → wisdom quotes → copy-QA/a11y polish) toward the real v2.00. (c) lower-pri open items below.
+>
 > **🔧 SESSION CLOSE 2026-06-11 (5am autonomous bug-fix run, Opus 4.8) — LIVE at v1.109.** Owner
 > reported multiple VISIBLE bugs, priority #1 = ka↔en language switching. ROOT CAUSE: today's fast
 > increments (D1 per-subject diagnostic + Paths + total-progress meter, D3 parent feedback form, D5 hover,
