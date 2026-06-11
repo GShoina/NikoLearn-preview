@@ -86,9 +86,11 @@
 >     (localStorage boxes→day intervals; SPACED resurfacing over days, not just weakest-now) + parent
 >     „გამეორებულია" marker. Lower priority — 2.2 weighted review already covers weak-item return; Leitner adds
 >     the time-spacing. Could also be deferred behind P3 (A2/A3 + viewer).
->   - **P3 — telemetry A2 (worker server-side UA→{os,form} buckets, never store UA) + A3 (sub-mode allow-list)
->     + viewer rebuild** (output/NikoLearn-stats-viewer.html: 📊 sub-mode/subject · 🧭 where-they-get-stuck ·
->     👪 parent engagement · 📱 OS/form).
+>   - **P3 ✅ DONE & LIVE (v1.116, commit e7adf5d; worker version f2275ab4).** A2 worker per-request OS/form
+>     tally (`dev|date|os|form`, raw UA never stored); A3 client `submode_usage{mode}` once per round start
+>     (allow-listed game.mode values). Stats viewer (output/, local/gitignored) REBUILT with 4 lenses: 📊
+>     sub-mode · 🧭 where-they-get-stuck (band split + abandons/mode + avg retries) · 👪 parent engagement ·
+>     📱 OS/form. Verified vs mock counters, 0 errors. (alpha.js sub-modes still not emitted → with P4.)
 >   - **P4 — Phase 2.4 age-rhythm** (celebration 2.5s→~0.9s at 8+, tap-to-skip, shared break timer in ALL
 >     games not just english) **+ B1 known gaps** (MATH division + 8-12 depth: missing-number/multi-digit/
 >     simple equations + age-tiered difficulty; ALPHABET more reading + letter→sound link + trace stroke-order
