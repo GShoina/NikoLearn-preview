@@ -1172,3 +1172,6 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .tdot.on{background:var(--primary);transform:scale(1.35)}
 .talk-note{color:var(--faint);font-size:.85rem;text-align:center;max-width:300px;line-height:1.4}
 @media (prefers-reduced-motion:reduce){ .talk-card{animation:none} }
+
+/* v1.118 — letter↔sound link: emphasise the target letter inside its example word */
+.alpha-word .lead{color:var(--primary);font-weight:800;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}

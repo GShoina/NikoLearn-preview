@@ -1,6 +1,24 @@
 // Auto-generated Georgian audio manifest (edge-tts ka-GE-EkaNeural). Load BEFORE niko/audio.js.
 // Key = exact spoken text (lowercased). Value = filename under niko/audio/ (audio.js prepends the dir).
 window.AUDIO_MANIFEST = {
+ // v1.118 — Georgian reading expansion (edge-tts ka-GE-EkaNeural): new words/syllables/sentences
+ "ფე": "krd_000.mp3",
+ "ხი": "krd_001.mp3",
+ "თევ": "krd_002.mp3",
+ "ზი": "krd_003.mp3",
+ "ჩი": "krd_004.mp3",
+ "კარი": "krd_005.mp3",
+ "ვი": "krd_006.mp3",
+ "ფული": "krd_007.mp3",
+ "ფუ": "krd_008.mp3",
+ "პეპელა": "krd_009.mp3",
+ "პე": "krd_010.mp3",
+ "ბავშვი ხატავს": "krd_011.mp3",
+ "კურდღელი ხტება": "krd_012.mp3",
+ "ჩიტი მღერის": "krd_013.mp3",
+ "გოგო ცეკვავს": "krd_014.mp3",
+ "ბიჭი დარბის": "krd_015.mp3",
+ "ფუტკარი დაფრინავს": "krd_016.mp3",
  "5-ჯერ ახტი": "clip_281.mp3",
  "10-ჯერ შემოუარე ოთახს": "clip_282.mp3",
  "გაიჭიმე მაღლა": "clip_283.mp3",

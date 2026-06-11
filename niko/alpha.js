@@ -38,7 +38,9 @@ function alphaLearn(subj,idx){
           <span style="font-family:'FiraGO',sans-serif">${it.l}</span>
         </div>`:''}
         <div class="alpha-pic">${it.e}</div>
-        <div class="alpha-word">${alphaIsKa(subj)?`${it.l}: ${it.w}`:`${it.l} is for ${it.w.charAt(0).toUpperCase()+it.w.slice(1)}`}</div>
+        <div class="alpha-word">${alphaIsKa(subj)
+          ? `${it.l}: <b class="lead">${it.w.slice(0,it.l.length)}</b>${it.w.slice(it.l.length)}`
+          : `<b class="lead">${it.l}</b> is for ${it.w.charAt(0).toUpperCase()+it.w.slice(1)}`}</div>
         <button class="speakbtn big" onclick="event.stopPropagation();alphaSay('${subj}',game.alphaIt);pulseTap(this)">${I.speaker} მოისმინე</button>
       </div>
     </div>

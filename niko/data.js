@@ -223,7 +223,16 @@ const READING_KA=[
   {w:'ბურთი', syl:['ბურ','თი'],       e:'⚽', lvl:2},
   {w:'სახლი', syl:['სახ','ლი'],       e:'🏠', lvl:2},
   {w:'მელა',  syl:['მე','ლა'],        e:'🦊', lvl:1},
-  {w:'ცხენი', syl:['ცხე','ნი'],       e:'🐴', lvl:2}
+  {w:'ცხენი', syl:['ცხე','ნი'],       e:'🐴', lvl:2},
+  // v1.118 — Georgian reading expansion (clips: edge-tts ka-GE-EkaNeural)
+  {w:'ხელი',   syl:['ხე','ლი'],       e:'✋', lvl:1},
+  {w:'ფეხი',   syl:['ფე','ხი'],       e:'🦶', lvl:1},
+  {w:'თევზი',  syl:['თევ','ზი'],      e:'🐟', lvl:2},
+  {w:'ჩიტი',   syl:['ჩი','ტი'],       e:'🐦', lvl:1},
+  {w:'კარი',   syl:['კა','რი'],       e:'🚪', lvl:1},
+  {w:'ნავი',   syl:['ნა','ვი'],       e:'⛵', lvl:1},
+  {w:'ფული',   syl:['ფუ','ლი'],       e:'💰', lvl:1},
+  {w:'პეპელა', syl:['პე','პე','ლა'],  e:'🦋', lvl:2}
 ];
 
 /* #1 (next step) Georgian SENTENCE reading: read a short sentence, hear it (recorded EkaNeural
@@ -242,7 +251,14 @@ const READING_SENT_KA=[
   {s:'დათვი სძინავს',    e:'🐻'},
   {s:'მელა გარბის',      e:'🦊'},
   {s:'ბავშვი კითხულობს', e:'📖'},
-  {s:'დედა მღერის',      e:'👩'}
+  {s:'დედა მღერის',      e:'👩'},
+  // v1.118 — Georgian reading expansion (clips: edge-tts ka-GE-EkaNeural)
+  {s:'ბავშვი ხატავს',     e:'🎨'},
+  {s:'კურდღელი ხტება',    e:'🐰'},
+  {s:'ჩიტი მღერის',       e:'🐦'},
+  {s:'გოგო ცეკვავს',      e:'💃'},
+  {s:'ბიჭი დარბის',       e:'🏃'},
+  {s:'ფუტკარი დაფრინავს', e:'🐝'}
 ];
 
 /* ── KINGS ENGLISH, expanded (Cambridge YLE Starters→Movers) ── */
