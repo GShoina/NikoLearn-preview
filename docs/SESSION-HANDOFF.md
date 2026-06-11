@@ -49,6 +49,18 @@
 > owner explicitly asks again. Demo file deleted. (NB: a Fable 5 session ran in parallel with Opus's v1.109
 > i18n run; no code files were touched for the movement work, only this handoff line.)
 
+> **🛑 HANDWRITING — brush/centerline REJECTED (owner, 2026-06-11). KEEP TRACE AS-IS.** Tried a single-stroke
+> centerline „ფუნჯი" for tracing (pilot ა/ბ/დ, standalone preview only — app never touched). Owner: the shapes
+> „don't even look like the Georgian alphabet, not usable, skip it." Preview deleted (commit cec11d5). The
+> existing trace = opentype glyph-OUTLINE pen STAYS. Do NOT re-attempt brush/centerline/authored-stroke-order
+> handwriting unless the owner explicitly asks. (Parallels the movement-visuals rejection.)
+>
+> **🆕 v1.119 (2026-06-11) — PHASE 2.4 SHIPPED: age-rhythm.** 8+ snappier celebration (~0.65/1.4s), tap-to-skip
+> on the 🎉 overlay, movement-break timer now shared across ALL games (was vocab-only). (games.js+core.js)
+> **▶ STILL QUEUED (owner asked, not yet done):** (1) talk cards ka+en voicing (en already has 🔊 TTS; ka needs
+> edge-tts clips for the 6 questions + a 🔊 button on the ka deck); (2) syllable-reading improvement (blend
+> clarity / sync-highlight in readLearn). Pick up here next.
+>
 > **🆕 v1.111 (2026-06-11, Opus 4.8) — PHASE 2.1 SHIPPED: unified answer-loop.** (commit 31483f8,
 > pushed, live-verified cache 1.111.) Brute-force / guessing-through ELIMINATED across all quiz modes:
 > a wrong item is shown+voiced, options lock (no tap-to-advance), and the item is RE-QUEUED to the end
