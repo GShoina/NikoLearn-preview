@@ -796,6 +796,11 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 @keyframes elbowDanceL{0%,100%{transform:rotate(30deg)}50%{transform:rotate(60deg)}}
 @keyframes elbowDanceR{0%,100%{transform:rotate(-60deg)}50%{transform:rotate(-30deg)}}
 @media (prefers-reduced-motion:reduce){.mv2 .scene *{animation:none!important}}
+/* A4 a11y: global reduced-motion guard (kills decorative motion app-wide without breaking function) */
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
+/* A4 a11y: visible keyboard focus ring (only for keyboard nav, not mouse/touch) */
+:focus-visible{outline:3px solid #6B63B5;outline-offset:2px;border-radius:6px}
+*:focus:not(:focus-visible){outline:none}
 
 /* ── tutor animal picker (O1) ── */
 .tutor-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:4px 2px}
