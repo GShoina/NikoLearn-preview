@@ -1,9 +1,14 @@
 # NikoLearn — Session Handoff
 
 > ## ▶ RESUME NOW (updated 2026-06-12, Opus 4.8 session)
-> **LIVE = v1.129.** (HEAD `4ed54b7` = origin/main.) Recent shipped & live-verified (newest first): v1.129 P5
-> login-gate removal (12345 password screen gone, showLogin/doLogin removed; parent PIN kept; landing.html still
-> the front door; logout→profile chooser; silent-Playwright + live verified) · v1.128 voice
+> **LIVE = v1.131.** (HEAD `be93e72` = origin/main.) **„Launch-harden" sprint done (owner-approved 2026-06-12):**
+> v1.131 Georgian reading expansion #2 (+10 words /+8 sentences, 25 new edge-tts krd_017-041 clips; all 35 texts
+> resolve to a clip, qa-check 0 findings, live krd_041 serves 200) · v1.130 age-safety (3-4 yos get only safe
+> movement-break moves via MOVE_POOL.filter(e=>e.tiny); closed the qa-check P1; age3→14 safe moves, age8→17) ·
+> v1.129 P5 login-gate removal (12345 password screen gone, showLogin/doLogin removed; parent PIN kept;
+> landing.html still the front door; logout→profile chooser; silent-Playwright + live verified). **A5 full QA
+> sweep DONE (no deploy — verification only):** 29 game modes all render, answer-path works, 0 console errors
+> (silent Playwright). Increment-2 „alpha telemetry" found ALREADY wired since v1.117 (stale note; no change). · v1.128 voice
 > „ყოჩაღ" fix (E recipe = „ყოჩაღი"+Eka-15%, owner ear-pick; spot-confirm pending) + profile Export/Import
 > (cross-device backup code, no backend, round-trip verified) · v1.127 A+
 > 8-9 math (division/missing-number/2-digit) · v1.126 A4 a11y+PWA icons · v1.125 mobile footer fix + version
@@ -104,16 +109,19 @@
 >   1. ⏳ **VOICE — owner spot-confirm „ყოჩაღ" on live** (E recipe shipped v1.128). If still unclear → try another
 >      TTS engine. Optional: broad 391-clip Eka-slow regen (`tools/_gen_ka_talk.py`/`_gen_ka_reading.py`,
 >      `edge-tts --voice … --rate … --write-media`). **P5 login removal = ✅ DONE & LIVE (v1.129).**
->   ⚠️ **PRE-EXISTING QA P1 (qa-check, NOT a v1.129 regression):** movement-break is missing the `isTiny` safe-pool
->      filter, so 3-4-year-olds could be shown an unsafe move. Out of P5 scope (it predates v1.129); fix next as a
->      focused age-safety increment. (NB: this is move SELECTION safety, NOT the owner-rejected movement-visual redesign.)
+>   ✅ **QA P1 (movement-break isTiny safe-pool) = FIXED & LIVE (v1.130).** Each move now carries a `tiny` flag;
+>      showBreak picks `MOVE_POOL.filter(e=>e.tiny)` for 3-4 yos (excludes plank / one-leg stand / flamingo).
+>      (This was move SELECTION safety, NOT the owner-rejected movement-visual redesign.)
 >   2. ✅ **A4 DONE & LIVE (v1.126).** pinch-zoom unblocked (removed user-scalable=no), global reduced-motion
 >      guard, :focus-visible ring, PWA install icons (drawn sun icons 192/512/maskable + apple-touch-180, wired
 >      into manifest+sw). (profile-select voicing folded into the pending voice work.)
 >   3. ✅ **A+ DONE & LIVE (v1.127).** 8-9 math on the existing quiz engine, gated to age>=8 (isBig): math-div
 >      (integer division) + math-miss (`? op y = res`) + math-mul 2-digit level. 900 sandbox + 120 in-app
 >      generated equations verified correct; menu tiles + parent labels + ka↔en i18n. Heavy 8-12 = post-launch.
->   4. **A5** functional QA sweep of existing material (silent Playwright, §6c, 0 errors) — still to do.
+>   4. ✅ **A5 DONE (2026-06-12, verification only — no deploy).** Silent-Playwright swept all 29 game modes
+>      (english quiz/reverse/listen/spell/match/phrases · math add/sub/mul/div/miss/compare/skip/shapes/money/
+>      clock/count · ka+en alphabet/digit/read/sent/build · kings eng+math · review/refresh · movement · parent
+>      gate): every mode renders, answer-path works, 0 console errors. No bugs surfaced → nothing to ship.
 >   HyperFrames (HeyGen = REAL official Claude video connector) = launch-video tool for Track B (marketing), NOT Track A.
 > **DO-NOT-REDO:** brush/centerline handwriting = owner-REJECTED (keep glyph-outline trace as-is). Movement
 > visuals = owner-REJECTED. B0 data-driven „სად ჭირს" fix = waits ~1 week of real telemetry (clock started 06-11).
