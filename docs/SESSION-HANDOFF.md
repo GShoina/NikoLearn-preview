@@ -1,7 +1,7 @@
 # NikoLearn — Session Handoff
 
 > ## ▶ RESUME NOW (updated 2026-06-12, Opus 4.8 session)
-> **LIVE = v1.122.** (HEAD `78086cf` = origin/main, working tree clean.) Recent shipped & live-verified:
+> **LIVE = v1.123.** (HEAD `1e60867` = origin/main, working tree clean.) Recent shipped & live-verified:
 >   • **v1.120 (fa607a7) — KA talk-card voicing.** 6 edge-tts clips (`niko/audio/tlk_000–005.mp3`,
 >     ka-GE-EkaNeural) + 🔊 button on the Georgian deck; `talkSpeak()` plays the recorded clip via
 >     `playClip(c.q)` (no runtime Georgian TTS). Manifest keys = exact question strings (all 6 matched).
@@ -19,6 +19,15 @@
 >     clean). Kings ka-phrase en-voice bug + tap duplicate-guard verified ALREADY clean (no change). Verified
 >     silent Playwright (landing new copy, app boots 403 keys, dedup→rword_, 0 errors) + live ?cb=. Backup:
 >     `backups/NikoLand_pre-v1.122-truthpass_2026-06-12.zip`.
+>   • **v1.123 (1e60867) — landing copy (owner-validated chat 2026-06-12).** Nav #learn „რას ვასწავლით"→
+>     „რას ისწავლის" (outcome voice, matches app). Tutor role label → „ჭკვიანი რეპეტიტორი" everywhere
+>     (eyebrow/lead/meta+og) — owner picked this over „(AI)" (honest: „ჭკვიანი"=marketing adjective, not an
+>     AI capability claim) and over the anglicism „ტუტორი". Removed orphan i18n key „AI ნიკო ბუ". **Also FIXED
+>     a bug I introduced in v1.122:** the curriculum-card i18n keys still pointed at the OLD overclaim text, so
+>     EN toggle left the new card in Georgian (v1.109-class) → updated keys+values, EN now translates it.
+>     Verified silent Playwright BOTH languages (ka + EN nav/eyebrow/lead/card all correct, card fully
+>     translates, 0 errors) + live ?cb=. **COPY DECISIONS LOCKED:** „რას ისწავლის" · „ჭკვიანი რეპეტიტორი"
+>     (NOT „AI", NOT „ტუტორი"). Reusable if more copy comes up.
 > **PRODUCTION PLAN (owner-engaged 2026-06-12) — lean baseline now + grow.** Full doc:
 >   `output/2026-06-12-NikoLearn production გასვლის გეგმა (truth+polish + სტრატეგია) by Niko.html`.
 > **DECIDED:** NikoLearn stays SEPARATE from Bivision (owner's independent project). Privacy controller =
