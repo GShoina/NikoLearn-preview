@@ -228,6 +228,11 @@ function parentDash(){
     <button class="btn btn-ghost btn-block mt" onclick="feedbackForm()">💬 დაგვიტოვე აზრი ან საკონტაქტო</button>
     <div class="pset-hint">ან: <a href="https://wa.me/995593255385?text=NikoLearn%20feedback" target="_blank" rel="noopener" style="color:var(--primary-d);font-weight:600;text-decoration:none">WhatsApp 💬</a> · <a href="mailto:gela.shonia@bivision.ge?subject=NikoLearn%20feedback" style="color:inherit;text-decoration:none">✉️ ელფოსტა</a></div>
   </div>`;
+  html+=`<div class="pgroup"><div class="pgroup-h">📦 ახალ მოწყობილობაზე გადატანა</div>
+    <div class="pset-hint" style="margin-bottom:8px">ახალ ტელეფონს იყენებ? გადაიტანე ბავშვის პროგრესი (დონეები და ვარსკვლავები) კოდით. ღრუბელი და ანგარიში არ სჭირდება.</div>
+    <button class="btn btn-ghost btn-block" onclick="backupCode()">📦 სარეზერვო კოდის შექმნა</button>
+    <button class="btn btn-ghost btn-block mt" onclick="restoreCode()">♻️ აღდგენა კოდით</button>
+  </div>`;
   html+=`<div class="pgroup"><div class="pgroup-h">⏱️ დრო და უსაფრთხოება</div>
     <div class="pset-lbl">ეკრანის დღიური ლიმიტი</div>
     <div class="limit-chips">${[0,15,30,45,60].map(m=>`<button class="lang-chip ${lim===m?'on':''}" onclick="setScreenLimit(${m})">${m===0?'გამორთ.':m+' წთ'}</button>`).join('')}</div>
@@ -246,6 +251,39 @@ function parentDash(){
   </div>`;
   html+=`</div>`;
   render(html,false);
+}
+/* ── profile portability: device-to-device backup via a copyable code (no backend, no account) ── */
+function _xferOverlay(inner){
+  const ov=document.createElement('div');ov.className='overlay';ov.id='niko-xfer';ov.style.zIndex='90';
+  ov.onclick=(e)=>{if(e.target===ov)ov.remove();};
+  ov.innerHTML=`<div class="ai-bubble" onclick="event.stopPropagation()" style="max-width:380px;width:90%">${inner}</div>`;
+  (document.querySelector('.device')||document.body).appendChild(ov);
+  if(window.applyLang)applyLang(ov);
+  return ov;
+}
+function backupCode(){
+  let code='';try{code='NL1:'+btoa(unescape(encodeURIComponent(JSON.stringify(state))));}catch(e){}
+  _xferOverlay(`<button class="ai-close" onclick="document.getElementById('niko-xfer').remove()" aria-label="დახურვა">✕</button>
+    <div class="ai-text" style="font-weight:700;margin-bottom:6px">📦 სარეზერვო კოდი</div>
+    <div class="pset-hint" style="margin-bottom:8px">დააკოპირე და შეინახე: გაუგზავნე საკუთარ თავს მესიჯად ან ფოსტით. ახალ მოწყობილობაზე ჩასვი „აღდგენაში".</div>
+    <textarea readonly id="niko-bk" style="width:100%;height:80px;font-size:.78rem;border-radius:8px;border:1px solid var(--line);padding:8px;resize:none">${code}</textarea>
+    <button class="btn btn-primary btn-block mt" onclick="var t=document.getElementById('niko-bk');t.select();try{document.execCommand('copy');}catch(e){}try{navigator.clipboard&&navigator.clipboard.writeText(t.value);}catch(e){}this.textContent='✓ დაკოპირდა';">📋 კოპირება</button>`);
+}
+function restoreCode(){
+  _xferOverlay(`<button class="ai-close" onclick="document.getElementById('niko-xfer').remove()" aria-label="დახურვა">✕</button>
+    <div class="ai-text" style="font-weight:700;margin-bottom:6px">♻️ აღდგენა კოდით</div>
+    <div class="pset-hint" style="margin-bottom:8px">ჩასვი სარეზერვო კოდი. ამ მოწყობილობის ახლანდელი მონაცემი ჩაანაცვლდება აღდგენილით.</div>
+    <textarea id="niko-rs" placeholder="ჩასვი კოდი აქ" style="width:100%;height:80px;font-size:.78rem;border-radius:8px;border:1px solid var(--line);padding:8px;resize:none"></textarea>
+    <button class="btn btn-primary btn-block mt" onclick="doRestore()">♻️ აღდგენა</button>`);
+}
+function doRestore(){
+  const t=document.getElementById('niko-rs');let raw=(t&&t.value||'').trim();
+  if(raw.indexOf('NL1:')===0)raw=raw.slice(4);
+  let obj=null;try{obj=JSON.parse(decodeURIComponent(escape(atob(raw))));}catch(e){}
+  if(!obj||!Array.isArray(obj.kids)){alert('კოდი არასწორია. გადაამოწმე და სცადე ხელახლა.');return;}
+  if(!confirm('ამ მოწყობილობის მონაცემი ჩაანაცვლდება. გავაგრძელო?'))return;
+  state=obj;save();const ov=document.getElementById('niko-xfer');if(ov)ov.remove();
+  alert('აღდგენილია ✓');goHome();
 }
 // collapsible per-child cards: default collapsed (name + quick summary), tap to expand details
 function toggleKid(p){
