@@ -28,6 +28,12 @@
 >     Verified silent Playwright BOTH languages (ka + EN nav/eyebrow/lead/card all correct, card fully
 >     translates, 0 errors) + live ?cb=. **COPY DECISIONS LOCKED:** „რას ისწავლის" · „ჭკვიანი რეპეტიტორი"
 >     (NOT „AI", NOT „ტუტორი"). Reusable if more copy comes up.
+> **🗣️ STANDING RULE (owner, 2026-06-12) — PLAIN ENGLISH TERMS, NO JARGON METAPHORS.** Owner is non-technical
+>   and did NOT understand my Georgian coinages „ნავი" (I meant navigation menu) and „კიბე" (I meant roadmap).
+>   He wants the STANDARD English term + a one-line plain meaning, NOT invented Georgian metaphors or bare
+>   abbreviations. Use: navigation/nav (top menu), roadmap (NOT „კიბე"/ladder), deploy (push live), increment
+>   (one small verified step), i18n (ka↔en translation), telemetry (anonymous usage stats), soft-launch.
+>   Always gloss a technical term the first time it appears in a turn.
 > **PRODUCTION PLAN (owner-engaged 2026-06-12) — lean baseline now + grow.** Full doc:
 >   `output/2026-06-12-NikoLearn production გასვლის გეგმა (truth+polish + სტრატეგია) by Niko.html`.
 > **DECIDED:** NikoLearn stays SEPARATE from Bivision (owner's independent project). Privacy controller =
