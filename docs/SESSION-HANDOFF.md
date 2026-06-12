@@ -34,6 +34,15 @@
 >   abbreviations. Use: navigation/nav (top menu), roadmap (NOT „კიბე"/ladder), deploy (push live), increment
 >   (one small verified step), i18n (ka↔en translation), telemetry (anonymous usage stats), soft-launch.
 >   Always gloss a technical term the first time it appears in a turn.
+> **🔒 STANDING RULE (owner, 2026-06-12) — ONLY NIKO CHANGES CODE; AUDITS ARE CHALLENGED BEFORE FIXING.**
+>   Nobody edits or commits NikoLearn code except this agent (Niko) — NOT Viktor, not any other agent. Viktor's
+>   role is AUDIT ONLY: he reports findings, he does NOT fix or commit. ANY audit finding that reaches me
+>   (Viktor's or anyone's) MUST be CHALLENGED + independently re-verified by me BEFORE I apply any fix. I own
+>   every code change. (Context: v1.124 was a Viktor-COMMITTED fix, which violates this rule. I re-verified it
+>   per the rule: finding VALID + fix CORRECT → kept. Future Viktor audits = report only, I do the fixing.)
+> **📌 RELEASE CHECKLIST (updated v1.125):** version bump now touches THREE spots, not two:
+>   `niko/screens.js` APP_VERSION + `sw.js` CACHE + **`landing.html` footer hardcoded `v1.xxx`** (landing does
+>   NOT load APP_VERSION, so its footer version is manual and silently drifted to v1.119 → fixed to v1.125).
 > **PRODUCTION PLAN (owner-engaged 2026-06-12) — lean baseline now + grow.** Full doc:
 >   `output/2026-06-12-NikoLearn production გასვლის გეგმა (truth+polish + სტრატეგია) by Niko.html`.
 > **DECIDED:** NikoLearn stays SEPARATE from Bivision (owner's independent project). Privacy controller =
