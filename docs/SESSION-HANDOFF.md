@@ -13,8 +13,14 @@
 > only inside the phrase + ღ in vowel form; PLUS „ყოჩაღ" added to the core.js ka-GE praise rotation
 > `['ბრავო','მართალია','შესანიშნავია','ყოჩაღ']`, which earlier never played it at all). Shipped in the collided
 > `be93e72` (parallel voice session bundled with v1.131 reading). Live-verified this session: praise rotation
-> routes ყოჩაღ→clip_188 on GitHub Pages, clip_188/189 serve 200, 0 console errors. **Owner EAR-confirm still
-> pending (agent cannot hear).** · v1.128 E-recipe origin + profile Export/Import
+> routes ყოჩაღ→clip_188 on GitHub Pages, clip_188/189 serve 200, 0 console errors. **Owner heard it 2026-06-13:
+> imperfect but ACCEPTED as interim — keep edge-tts #4 in the app for now.**
+> **🎙️ VOICE-ENGINE FINDING (do NOT re-try): no FREE engine does Georgian ყ/ღ well.** edge-tts (Azure Eka/Giorgi)
+> = the ONLY free ka engine (weak ყ/ღ; needs phrase-context + vowel-form hacks). Google Cloud TTS = 2066 voices,
+> **ZERO Georgian** (confirmed; the TTS API got enabled on GCP `shining-courage-493721-v5`, owner may disable, it
+> is free+unused). PARKED (owner „მერე ვნახოთ"): real upgrade = human-record the critical praise clips (the
+> `docs/VOICE_STANDARD.md` §7 script) [REC] OR ElevenLabs (paid, Georgian support unverified). Hybrid rec: human
+> praise + edge-tts for the rest. · v1.128 E-recipe origin + profile Export/Import
 > (cross-device backup code, no backend, round-trip verified) · v1.127 A+
 > 8-9 math (division/missing-number/2-digit) · v1.126 A4 a11y+PWA icons · v1.125 mobile footer fix + version
 > · v1.124 Viktor F1 nav fix (re-verified, kept) · v1.123 landing copy · v1.122 landing truth-pass. Detail below:
