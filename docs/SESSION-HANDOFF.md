@@ -1,18 +1,41 @@
 # NikoLearn — Session Handoff
 
-> ## ▶ RESUME NOW (updated 2026-06-11, Opus 4.8 session)
-> **LIVE = v1.119.** This session shipped 10 deploys (v1.110→v1.119) + 3 worker re-deploys + a stats-viewer
-> overhaul. All pushed to GShoina/NikoLearn (HEAD `cf9376c`+, working tree clean).
-> **Shipped:** v1.110 talk-section + young-math fix · v1.111 answer-loop re-queue · v1.112 telemetry A1+A4 ·
-> v1.113 weak-word review · v1.114 mastery streak · v1.115 Leitner daily-refresh · v1.116 telemetry A2/A3+viewer ·
-> v1.117 Georgian telemetry parity + viewer deep-analytics (insight/%/trend tab) · v1.118 Georgian reading
-> expansion (18→26 words, 14→20 sentences, +17 edge-tts clips) + letter↔sound highlight · v1.119 age-rhythm
-> (8+ faster celebration + tap-to-skip + shared break timer).
-> **SINGLE NEXT ACTION on resume:** pick up the 2 queued owner asks — (a) talk-cards ka+en voicing (en has 🔊
-> TTS; ka needs edge-tts clips for the 6 questions + a 🔊 button on the ka deck), (b) syllable-reading blend
-> improvement in readLearn. Both additive/low-risk. (Generator ready: `tools/_gen_ka_reading.py`.)
+> ## ▶ RESUME NOW (updated 2026-06-12, Opus 4.8 session)
+> **LIVE = v1.122.** (HEAD `78086cf` = origin/main, working tree clean.) Recent shipped & live-verified:
+>   • **v1.120 (fa607a7) — KA talk-card voicing.** 6 edge-tts clips (`niko/audio/tlk_000–005.mp3`,
+>     ka-GE-EkaNeural) + 🔊 button on the Georgian deck; `talkSpeak()` plays the recorded clip via
+>     `playClip(c.q)` (no runtime Georgian TTS). Manifest keys = exact question strings (all 6 matched).
+>     Live-verified: clips serve 200 / `audio/mp3` / correct byte sizes (39744…31968) at gshoina.github.io.
+>     Generator kept: `tools/_gen_ka_talk.py`.
+>   • **v1.121 (a9d583b) — readLearn sound-out sync.** Blend (წაიკითხე) now visually tracks audio: each
+>     syllable lights+grows (.saying) as it sounds, then the whole word lights green (.blending). New
+>     `playClipThen(text,cb,rate)` in audio.js (callback on 'ended', syllables slowed to 0.82); readBlend
+>     rewritten with a generation guard so rapid taps supersede cleanly. (alpha.js/audio.js/styles.css/screens.js)
+>   • **v1.122 (78086cf) — A2 landing truth-pass + A3 manifest dedup.** Landing curriculum card no longer
+>     overclaims "national-curriculum / King's tests" → honest in-progress copy „ეფუძნება კინგსის მიდგომას …
+>     საგამოცდო ფორმატები ეტაპობრივად ემატება" (Gemini KA-QA'd; AWAITS owner native validation §6f). Internal
+>     'AI tutor Niko' label/comment → 'Tutor Niko' (visible copy already honest = „რეპეტიტორი"). Removed 8
+>     duplicate AUDIO_MANIFEST keys (clip_* shadowed by winning rword_*, zero behavior change, 411→403, parses
+>     clean). Kings ka-phrase en-voice bug + tap duplicate-guard verified ALREADY clean (no change). Verified
+>     silent Playwright (landing new copy, app boots 403 keys, dedup→rword_, 0 errors) + live ?cb=. Backup:
+>     `backups/NikoLand_pre-v1.122-truthpass_2026-06-12.zip`.
+> **PRODUCTION PLAN (owner-engaged 2026-06-12) — lean baseline now + grow.** Full doc:
+>   `output/2026-06-12-NikoLearn production გასვლის გეგმა (truth+polish + სტრატეგია) by Niko.html`.
+> **DECIDED:** NikoLearn stays SEPARATE from Bivision (owner's independent project). Privacy controller =
+>   PERSONAL (option ა) for the free GE soft-launch. Individual-entrepreneur (ფიზიკური პირი) registration only
+>   when monetizing (diaspora pilot), not before. STILL PARKED (owner returns later): hosting home (CF Pages
+>   rec), domain name+TLD, first audience (GE-free soft-launch rec).
+> **▶ NEXT (Track A — owner said „გაიყვანე ბოლომდე"):**
+>   1. ⏳ **OWNER EAR-GATE (A1 timbre):** owner opens `C:\Users\gela.shonia\niko-voice-compare\niko-voice-compare.html`
+>      and picks A=Eka(current) / B=Giorgi(male) / C=Eka-slow. His pick → batch-regen all 391 ka clips in that
+>      voice (generators: `tools/_gen_ka_talk.py`, `tools/_gen_ka_reading.py`; CLI `edge-tts --voice … --write-media`).
+>   2. **A4** a11y+PWA: pinch-zoom, reduced-motion, :focus-visible, PWA install icons (A2HS), profile-select voicing.
+>   3. **A+** 8-9 math slice: division / 2-digit / missing-number (`?×6=42`) on the EXISTING quiz engine, minimal
+>      (data + tier flag, no new heavy module). Heavy 8-12 = post-launch.
+>   4. **A5** functional QA sweep of existing material (silent Playwright, §6c, 0 errors).
+>   HyperFrames (HeyGen = REAL official Claude video connector) = launch-video tool for Track B (marketing), NOT Track A.
 > **DO-NOT-REDO:** brush/centerline handwriting = owner-REJECTED (keep glyph-outline trace as-is). Movement
-> visuals = owner-REJECTED. B0 data-driven „სად ჭირს" fix = waits ~1 week of real telemetry (clock started today).
+> visuals = owner-REJECTED. B0 data-driven „სად ჭირს" fix = waits ~1 week of real telemetry (clock started 06-11).
 > Detail for everything below.
 
 > **📅 ARMED 2026-06-11 ~01:50 (owner) — autonomous 5am bug-fix TEAM run.** Windows Task
