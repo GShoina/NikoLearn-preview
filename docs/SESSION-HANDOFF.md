@@ -1,7 +1,9 @@
 # NikoLearn — Session Handoff
 
 > ## ▶ RESUME NOW (updated 2026-06-12, Opus 4.8 session)
-> **LIVE = v1.128.** (HEAD `b858462` = origin/main.) Recent shipped & live-verified (newest first): v1.128 voice
+> **LIVE = v1.129.** (HEAD `4ed54b7` = origin/main.) Recent shipped & live-verified (newest first): v1.129 P5
+> login-gate removal (12345 password screen gone, showLogin/doLogin removed; parent PIN kept; landing.html still
+> the front door; logout→profile chooser; silent-Playwright + live verified) · v1.128 voice
 > „ყოჩაღ" fix (E recipe = „ყოჩაღი"+Eka-15%, owner ear-pick; spot-confirm pending) + profile Export/Import
 > (cross-device backup code, no backend, round-trip verified) · v1.127 A+
 > 8-9 math (division/missing-number/2-digit) · v1.126 A4 a11y+PWA icons · v1.125 mobile footer fix + version
@@ -80,8 +82,11 @@
 >   (Giorgi rejected). „ყოჩაღ" final-ღ fix = **owner picked E** („ყოჩაღი" vowel form + Eka −15%) → DONE & LIVE
 >   (v1.128, clip_188/189/285); owner to SPOT-CONFIRM by ear on live. Broad 391-clip Eka-slow regen = OPTIONAL
 >   (owner said ≈same; held since the agent can't ear-verify 391). **Export/Import = DONE & LIVE (v1.128)** —
->   cross-device profile backup code, no backend, round-trip verified. **P5 login removal = DECIDED, NOT yet
->   executed** (next session: remove the `12345` entry gate, keep the parent PIN; login≠progress, loses nothing).
+>   cross-device profile backup code, no backend, round-trip verified. **P5 login removal = DONE & LIVE (v1.129,
+>   commit 4ed54b7):** the `12345` password screen is gone (showLogin/doLogin removed), `logout()` returns to the
+>   kid profile chooser, `enterApp()` auto-enters; landing.html stays the public front door, the parent space
+>   stays PIN/math-gated (openGate untouched). Docs updated (PARENT-GUIDE/README/HANDOFF/SECURITY_RULES). Backup:
+>   `backups/NikoLand_pre-v1.129-login-removal_2026-06-12.zip`.
 > **🦉 LOGO CANDIDATES (2026-06-12, Fable 5 chat session) — AWAITING OWNER PICK.** 3 owl-logo directions in
 >   the app's REAL brand colors (theme #FFB74D / cream #FFF3E0 / deep orange; verified from manifest+styles.css;
 >   #6B63B5 purple = CSS fallback only, NOT brand): D1 neural mark · D2 mascot „ნიკო ბუ" · D3 N-monogram.
@@ -98,7 +103,10 @@
 > **▶ NEXT (Track A — owner said „გაიყვანე ბოლომდე"):**
 >   1. ⏳ **VOICE — owner spot-confirm „ყოჩაღ" on live** (E recipe shipped v1.128). If still unclear → try another
 >      TTS engine. Optional: broad 391-clip Eka-slow regen (`tools/_gen_ka_talk.py`/`_gen_ka_reading.py`,
->      `edge-tts --voice … --rate … --write-media`). PLUS **P5 login removal (decided, not done).**
+>      `edge-tts --voice … --rate … --write-media`). **P5 login removal = ✅ DONE & LIVE (v1.129).**
+>   ⚠️ **PRE-EXISTING QA P1 (qa-check, NOT a v1.129 regression):** movement-break is missing the `isTiny` safe-pool
+>      filter, so 3-4-year-olds could be shown an unsafe move. Out of P5 scope (it predates v1.129); fix next as a
+>      focused age-safety increment. (NB: this is move SELECTION safety, NOT the owner-rejected movement-visual redesign.)
 >   2. ✅ **A4 DONE & LIVE (v1.126).** pinch-zoom unblocked (removed user-scalable=no), global reduced-motion
 >      guard, :focus-visible ring, PWA install icons (drawn sun icons 192/512/maskable + apple-touch-180, wired
 >      into manifest+sw). (profile-select voicing folded into the pending voice work.)
