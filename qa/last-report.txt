@@ -1,5 +1,5 @@
-NikoLearn QA report — version 1.129 — 1 finding(s)
+NikoLearn QA report — version 1.130 — 0 finding(s)
 clips: 403 manifest / 391 files on disk · missing: 0
-severity: P1=1 P2=0 P3=0
+severity: P1=0 P2=0 P3=0
 
-[P1] age-safety: movement break missing the isTiny safe-pool filter (3-4 yos could get unsafe moves)
+✅ all checks passed — no issues found.

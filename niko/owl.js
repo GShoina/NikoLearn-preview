@@ -193,25 +193,29 @@ function voiceResult(){
    Two rigged SVG kids (named limb groups) loop the moves via CSS keyframes only, offline,
    vector, zero media. A player UI (now-playing + prev/play/next + a numbered rail) lets the
    child pick. Owner removed 3 moves (high-knees/march, torso-twist, toe-touch). Praise = ბრავო. */
-const MV_MOVES=[
-  {id:'squat',      ka:'ბუქნი',                en:'Squats',          short:'ბუქნი',     reps:18, dur:1.4, type:'rep'},
-  {id:'jump',       ka:'ახტომა მაღლა',          en:'Jump Up',         short:'ახტომა',    reps:14, dur:1.3, type:'rep'},
-  {id:'plank',      ka:'პლანკა',               en:'Plank Hold',      short:'პლანკა',    reps:20, dur:3.0, type:'hold'},
-  {id:'balance',    ka:'ცალ ფეხზე დგომა',       en:'One-leg Stand',   short:'ბალანსი',   reps:15, dur:2.4, type:'hold'},
-  {id:'armcircles', ka:'ხელების ტრიალი',        en:'Arm Circles',     short:'ტრიალი',    reps:18, dur:1.2, type:'rep'},
-  {id:'overhead',   ka:'ხელების აწევა',         en:'Overhead Reach',  short:'აწევა',     reps:16, dur:1.4, type:'rep'},
-  {id:'bear',       ka:'დათვივით სიარული',      en:'Bear Walk',       short:'დათვი',     reps:12, dur:1.1, type:'rep'},
-  {id:'kangaroo',   ka:'კენგურუსავით ხტომა',    en:'Kangaroo Hops',   short:'კენგურუ',   reps:16, dur:0.9, type:'rep'},
-  {id:'jacks',      ka:'ვარსკვლავური ხტომა',     en:'Jumping Jacks',   short:'ვარსკვლავი',reps:16, dur:0.85,type:'rep'},
-  {id:'sidebend',   ka:'გვერდითი მოხრა',         en:'Side Bends',      short:'მოხრა',     reps:12, dur:1.8, type:'rep'},
-  {id:'clap',       ka:'ტაში მაღლა',             en:'Overhead Claps',  short:'ტაში',      reps:18, dur:0.7, type:'rep'},
-  {id:'run',        ka:'ადგილზე სირბილი',        en:'Run in Place',    short:'სირბილი',   reps:24, dur:0.5, type:'rep'},
-  {id:'airplane',   ka:'თვითმფრინავი',           en:'Airplane',        short:'თვითმფ.',   reps:15, dur:2.4, type:'hold'},
-  {id:'punch',      ka:'ბოქსი',                  en:'Boxing',          short:'ბოქსი',     reps:20, dur:0.6, type:'rep'},
-  {id:'dance',      ka:'ცეკვა',                  en:'Dance Wiggle',    short:'ცეკვა',      reps:16, dur:1.0, type:'rep'},
-  {id:'frog',       ka:'ბაყაყივით ხტომა',        en:'Frog Jumps',      short:'ბაყაყი',    reps:14, dur:1.0, type:'rep'},
-  {id:'flamingo',   ka:'ფლამინგო',               en:'Flamingo',        short:'ფლამინგო',  reps:15, dur:2.6, type:'hold'}
+/* Each move carries `tiny`: true = safe + simple enough for 3-4 year-olds. Sustained core holds
+   (plank) and one-leg balances (one-leg stand, flamingo) are tiny:false — strain / fall risk for
+   that age. showBreak() picks MOVE_POOL.filter(e=>e.tiny) when isTiny(profile), else the full pool. */
+const MOVE_POOL=[
+  {id:'squat',      ka:'ბუქნი',                en:'Squats',          short:'ბუქნი',     reps:18, dur:1.4, type:'rep',  tiny:true},
+  {id:'jump',       ka:'ახტომა მაღლა',          en:'Jump Up',         short:'ახტომა',    reps:14, dur:1.3, type:'rep',  tiny:true},
+  {id:'plank',      ka:'პლანკა',               en:'Plank Hold',      short:'პლანკა',    reps:20, dur:3.0, type:'hold', tiny:false},
+  {id:'balance',    ka:'ცალ ფეხზე დგომა',       en:'One-leg Stand',   short:'ბალანსი',   reps:15, dur:2.4, type:'hold', tiny:false},
+  {id:'armcircles', ka:'ხელების ტრიალი',        en:'Arm Circles',     short:'ტრიალი',    reps:18, dur:1.2, type:'rep',  tiny:true},
+  {id:'overhead',   ka:'ხელების აწევა',         en:'Overhead Reach',  short:'აწევა',     reps:16, dur:1.4, type:'rep',  tiny:true},
+  {id:'bear',       ka:'დათვივით სიარული',      en:'Bear Walk',       short:'დათვი',     reps:12, dur:1.1, type:'rep',  tiny:true},
+  {id:'kangaroo',   ka:'კენგურუსავით ხტომა',    en:'Kangaroo Hops',   short:'კენგურუ',   reps:16, dur:0.9, type:'rep',  tiny:true},
+  {id:'jacks',      ka:'ვარსკვლავური ხტომა',     en:'Jumping Jacks',   short:'ვარსკვლავი',reps:16, dur:0.85,type:'rep',  tiny:true},
+  {id:'sidebend',   ka:'გვერდითი მოხრა',         en:'Side Bends',      short:'მოხრა',     reps:12, dur:1.8, type:'rep',  tiny:true},
+  {id:'clap',       ka:'ტაში მაღლა',             en:'Overhead Claps',  short:'ტაში',      reps:18, dur:0.7, type:'rep',  tiny:true},
+  {id:'run',        ka:'ადგილზე სირბილი',        en:'Run in Place',    short:'სირბილი',   reps:24, dur:0.5, type:'rep',  tiny:true},
+  {id:'airplane',   ka:'თვითმფრინავი',           en:'Airplane',        short:'თვითმფ.',   reps:15, dur:2.4, type:'hold', tiny:true},
+  {id:'punch',      ka:'ბოქსი',                  en:'Boxing',          short:'ბოქსი',     reps:20, dur:0.6, type:'rep',  tiny:true},
+  {id:'dance',      ka:'ცეკვა',                  en:'Dance Wiggle',    short:'ცეკვა',      reps:16, dur:1.0, type:'rep',  tiny:true},
+  {id:'frog',       ka:'ბაყაყივით ხტომა',        en:'Frog Jumps',      short:'ბაყაყი',    reps:14, dur:1.0, type:'rep',  tiny:true},
+  {id:'flamingo',   ka:'ფლამინგო',               en:'Flamingo',        short:'ფლამინგო',  reps:15, dur:2.6, type:'hold', tiny:false}
 ];
+let _mvList=MOVE_POOL;  // active list for the current break (filtered to tiny-safe moves for 3-4 yos)
 // rigged character: .figure > .squash > [legs, body+flag, arms, head]; limbs pivot at the joint
 function mvChar(c,lag){
   const arm=(cls,x)=>`<g class="limb ${cls}" transform="translate(${x},84)"><g class="seg up">
@@ -264,12 +268,13 @@ function closeBreak(){clearInterval(_mvTimer);_mvTimer=null;try{speechSynthesis.
 function showBreak(manual){
   if(document.getElementById('breakscr'))return;
   if(window.Analytics)Analytics.screen('movement');
+  _mvList=isTiny(profile)?MOVE_POOL.filter(e=>e.tiny):MOVE_POOL;  // 3-4 yos: only the safe, simple moves
   const el=document.createElement('div');el.className='breakscreen mv2';el.id='breakscr';
   el.innerHTML=`
     <header class="mv-top">
       <button class="iconbtn" onclick="closeBreak()" aria-label="უკან">←</button>
       <div class="who">მოძრაობის შესვენება<small>გავიმოძრაოთ ერთად 🙌</small></div>
-      <div class="pill"><span class="num" id="mvProg">1</span>/<span id="mvPtot">${MV_MOVES.length}</span></div>
+      <div class="pill"><span class="num" id="mvProg">1</span>/<span id="mvPtot">${_mvList.length}</span></div>
     </header>
     <div class="scene" id="mvScene" data-move="squat" style="--dur:1.4s">
       <div class="room"></div><div class="cloud a"></div><div class="cloud b"></div><div class="cloud c"></div>
@@ -292,7 +297,7 @@ function showBreak(manual){
   $('.device').appendChild(el);
   el.querySelector('#mvChars').innerHTML=mvChar(MV_NIKO,false)+mvChar(MV_MASHO,true);
   const rail=el.querySelector('#mvRail');
-  MV_MOVES.forEach((m,i)=>{const b=document.createElement('button');b.className='chip';b.dataset.i=i;
+  _mvList.forEach((m,i)=>{const b=document.createElement('button');b.className='chip';b.dataset.i=i;
     b.innerHTML=`<span class="n">${i+1}</span><span class="t">${m.short}</span>`;b.onclick=()=>mvSelect(i);rail.appendChild(b);});
   el.querySelector('#mvPrev').onclick=()=>mvSelect(_mvIdx-1);
   el.querySelector('#mvNext').onclick=()=>mvSelect(_mvIdx+1);
@@ -303,7 +308,7 @@ function showBreak(manual){
 function _mvFmt(s){const m=Math.floor(s/60),x=s%60;return m+':'+String(x).padStart(2,'0');}
 function mvRender(){
   const el=document.getElementById('breakscr');if(!el)return;
-  const m=MV_MOVES[_mvIdx],sc=el.querySelector('#mvScene');
+  const m=_mvList[_mvIdx],sc=el.querySelector('#mvScene');
   sc.dataset.move=m.id;sc.style.setProperty('--dur',m.dur+'s');
   el.querySelector('#mvName').textContent=m.ka;el.querySelector('#mvEn').textContent=m.en.toUpperCase();
   el.querySelector('#mvProg').textContent=_mvIdx+1;
@@ -313,14 +318,14 @@ function mvRender(){
 }
 function mvUpdateCount(){
   const el=document.getElementById('breakscr');if(!el)return;
-  const m=MV_MOVES[_mvIdx];
+  const m=_mvList[_mvIdx];
   if(m.type==='hold'){el.querySelector('#mvNow').textContent=_mvFmt(Math.max(0,m.reps-_mvCount));el.querySelector('#mvTot').textContent='';el.querySelector('#mvLbl').textContent='დაიჭირე';}
   else{el.querySelector('#mvNow').textContent=_mvCount;el.querySelector('#mvTot').textContent='/'+m.reps;el.querySelector('#mvLbl').textContent='გამეორება';}
   el.querySelector('#mvBar').style.width=(_mvCount/m.reps*100)+'%';
 }
 function mvRestartTimer(){
   clearInterval(_mvTimer);if(!_mvPlaying)return;
-  const m=MV_MOVES[_mvIdx],step=m.type==='hold'?1000:Math.round(m.dur*1000);
+  const m=_mvList[_mvIdx],step=m.type==='hold'?1000:Math.round(m.dur*1000);
   _mvTimer=setInterval(()=>{_mvCount++;if(_mvCount>=m.reps){mvUpdateCount();mvCheer();_mvCount=0;setTimeout(mvUpdateCount,650);}else mvUpdateCount();},step);
 }
 function mvCheer(){
@@ -328,6 +333,6 @@ function mvCheer(){
   const t=el.querySelector('#mvToast');if(t){t.classList.add('show');setTimeout(()=>t.classList.remove('show'),900);}
   try{praise();}catch(e){}   // voiced ბრავო/მართალია/შესანიშნავია (recorded clip, never garbled)
 }
-function mvSelect(i){_mvIdx=(i+MV_MOVES.length)%MV_MOVES.length;mvRender();}
+function mvSelect(i){_mvIdx=(i+_mvList.length)%_mvList.length;mvRender();}
 function mvSetPlay(p){const el=document.getElementById('breakscr');if(!el)return;_mvPlaying=p;el.querySelector('#mvScene').classList.toggle('paused',!p);el.querySelector('#mvPlay').textContent=p?'⏸':'▶';mvRestartTimer();}
 
