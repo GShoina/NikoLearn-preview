@@ -8,7 +8,17 @@
 > „Remotion because it's React" does NOT hold. Remotion can still be used, but only as a SEPARATE standalone
 > project beside the app, never inside it. Choose animation/video tooling by quality-vs-effort, not by framework
 > (lighter = hyperframes; higher production = Remotion-as-separate-project).
-> **LIVE = v1.131.** (HEAD `d75f9c2` = origin/main; v1.131 code = `be93e72`.) **„Launch-harden" sprint done (owner-approved 2026-06-12):**
+> **LIVE = v1.132.** (HEAD `c94e32d` = origin/main.) **🚀 DIRECTION LOCKED 2026-06-13: LAUNCH (do NOT rebuild, do
+> NOT keep adding pre-launch).** Owner chose launch over more-features and over a v2.00 rewrite. Senior call held:
+> the app works + is clean (A5 0 errors), architecture is healthy (vanilla = an ASSET for a kids' app), zero real
+> users yet → ship and let telemetry drive what's next. v2.00 = a future PRODUCT milestone, not a technical
+> rewrite now. **Pre-launch readiness check (2026-06-13):** og-image.png / manifest / icon-192-512 / apple-touch-180
+> / favicon all serve 200; telemetry worker UP (`/v1/stats` now 403 = read-protected, not down; event ingestion
+> path unchanged since v1.112; did NOT POST test events to avoid polluting the B0 clock). **FIXED v1.132:** added
+> OG/Twitter share-preview meta to index.html so the bare root URL also previews (was blank; only landing.html had
+> it). **▶ LAUNCH = now an OWNER action, not a code task:** pick the first audience (GE-free soft-launch rec) and
+> share the link `https://gshoina.github.io/NikoLearn/`. Custom domain + CF Pages = optional later (when monetizing),
+> NOT a soft-launch blocker (GitHub Pages already serves it). **„Launch-harden" sprint done (owner-approved 2026-06-12):**
 > v1.131 Georgian reading expansion #2 (+10 words /+8 sentences, 25 new edge-tts krd_017-041 clips; all 35 texts
 > resolve to a clip, qa-check 0 findings, live krd_041 serves 200) · v1.130 age-safety (3-4 yos get only safe
 > movement-break moves via MOVE_POOL.filter(e=>e.tiny); closed the qa-check P1; age3→14 safe moves, age8→17) ·
