@@ -57,6 +57,12 @@
 >   task Y is doable without him, do NOT stop and wait. Keep moving: do Y autonomously end-to-end (build →
 >   verify → deploy → report). Only surface what is TRULY blocked on the owner; never let "waiting on the owner"
 >   pause work that doesn't need him.
+> **🎚️ "GELA'S RULE" (owner-locked 2026-06-12) — the mode gate.** DEFAULT = full autonomous execution: parse the
+>   task silently, do it, show the result. No pause, no reframe ceremony, full speed. Trigger words **"lets chat"
+>   / „ვგეგმავთ" / „დავფიქრდეთ"** flip to DELIBERATE mode: reframe (task / deliverable / outcome / done) →
+>   challenge → options → plan, shown BEFORE doing. ALWAYS-ON safety floor (even in default, even with no
+>   trigger): irreversible deletion · money/spend · customer-facing going live → brief confirm first. So:
+>   trigger = quality/think switch · default = speed · safety floor = always.
 > **🔌 STANDING RULE (owner, 2026-06-12) — SKILLS/PLUGINS: enable on-demand, disable after.** Enabled plugins eat
 >   context every session → enable ONLY when a task needs it, disable at task end. Installed on this machine:
 >   plugins (toggle `claude plugin enable <name>`): `frontend-design` (UI polish — use for screen design),
@@ -76,6 +82,13 @@
 >   recommended but COUPLED with a new ask: **cross-device profile portability** (kid on a new device loses all
 >   progress; localStorage is per-device). Proposed: profile EXPORT/IMPORT (backup code/file, NO backend, keeps
 >   the on-device privacy promise) — awaiting owner go to build. (login≠progress: removing login loses nothing.)
+> **🦉 LOGO CANDIDATES (2026-06-12, Fable 5 chat session) — AWAITING OWNER PICK.** 3 owl-logo directions in
+>   the app's REAL brand colors (theme #FFB74D / cream #FFF3E0 / deep orange; verified from manifest+styles.css;
+>   #6B63B5 purple = CSS fallback only, NOT brand): D1 neural mark · D2 mascot „ნიკო ბუ" · D3 N-monogram.
+>   Report: `output/2026-06-12-ბუს ლოგო 3 მიმართულება by Niko.html` (+3 SVG in output/). Owner picks → generate
+>   PNG icon set (512/192/maskable/apple-touch-180, same filenames so manifest/sw untouched); LIVE deploy =
+>   owner-gated (§7 customer-facing). Current icons = drawn suns (v1.126); tutor avatar = 🦉 emoji (core.js).
+>   NB: earlier generic-palette v1 (indigo) of the same 3 logos sits in `AI_Projects\outputs\` — superseded by v2.
 > **PRODUCTION PLAN (owner-engaged 2026-06-12) — lean baseline now + grow.** Full doc:
 >   `output/2026-06-12-NikoLearn production გასვლის გეგმა (truth+polish + სტრატეგია) by Niko.html`.
 > **DECIDED:** NikoLearn stays SEPARATE from Bivision (owner's independent project). Privacy controller =
