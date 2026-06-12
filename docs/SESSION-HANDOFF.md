@@ -76,12 +76,12 @@
 > **✍️ VOICE STANDARD (owner-locked 2026-06-12).** SSOT = `docs/VOICE_STANDARD.md` — pronunciation-FIRST, warm
 >   Georgian teacher. Distilled from the owner's TTS-QA + Voice-Personality specs. Critical bug: „ბრავო, ყოჩაღ!"
 >   final „ღ" drops → sounds like „yocha". Agent CANNOT hear → owner ear-gate always.
-> **🗳️ DECISIONS (2026-06-12):** F3 „მთავარი" = **A (stays on profile chooser)** — LOCKED. Voice timbre =
->   **Eka-slow** (Giorgi rejected; Eka-slow vs now ≈ same, owner OK to try Eka-slow) — final recipe pending the
->   „ყოჩაღ"/ღ ear-pick (`C:\Users\gela.shonia\niko-voice-compare\niko-yochag-fix.html`, A-E). P5 login removal =
->   recommended but COUPLED with a new ask: **cross-device profile portability** (kid on a new device loses all
->   progress; localStorage is per-device). Proposed: profile EXPORT/IMPORT (backup code/file, NO backend, keeps
->   the on-device privacy promise) — awaiting owner go to build. (login≠progress: removing login loses nothing.)
+> **🗳️ DECISIONS (2026-06-12):** F3 „მთავარი" = **A (stays on profile chooser)** — LOCKED. Voice timbre = **Eka-slow**
+>   (Giorgi rejected). „ყოჩაღ" final-ღ fix = **owner picked E** („ყოჩაღი" vowel form + Eka −15%) → DONE & LIVE
+>   (v1.128, clip_188/189/285); owner to SPOT-CONFIRM by ear on live. Broad 391-clip Eka-slow regen = OPTIONAL
+>   (owner said ≈same; held since the agent can't ear-verify 391). **Export/Import = DONE & LIVE (v1.128)** —
+>   cross-device profile backup code, no backend, round-trip verified. **P5 login removal = DECIDED, NOT yet
+>   executed** (next session: remove the `12345` entry gate, keep the parent PIN; login≠progress, loses nothing).
 > **🦉 LOGO CANDIDATES (2026-06-12, Fable 5 chat session) — AWAITING OWNER PICK.** 3 owl-logo directions in
 >   the app's REAL brand colors (theme #FFB74D / cream #FFF3E0 / deep orange; verified from manifest+styles.css;
 >   #6B63B5 purple = CSS fallback only, NOT brand): D1 neural mark · D2 mascot „ნიკო ბუ" · D3 N-monogram.
@@ -96,9 +96,9 @@
 >   when monetizing (diaspora pilot), not before. STILL PARKED (owner returns later): hosting home (CF Pages
 >   rec), domain name+TLD, first audience (GE-free soft-launch rec).
 > **▶ NEXT (Track A — owner said „გაიყვანე ბოლომდე"):**
->   1. ⏳ **OWNER EAR-GATE (A1 timbre):** owner opens `C:\Users\gela.shonia\niko-voice-compare\niko-voice-compare.html`
->      and picks A=Eka(current) / B=Giorgi(male) / C=Eka-slow. His pick → batch-regen all 391 ka clips in that
->      voice (generators: `tools/_gen_ka_talk.py`, `tools/_gen_ka_reading.py`; CLI `edge-tts --voice … --write-media`).
+>   1. ⏳ **VOICE — owner spot-confirm „ყოჩაღ" on live** (E recipe shipped v1.128). If still unclear → try another
+>      TTS engine. Optional: broad 391-clip Eka-slow regen (`tools/_gen_ka_talk.py`/`_gen_ka_reading.py`,
+>      `edge-tts --voice … --rate … --write-media`). PLUS **P5 login removal (decided, not done).**
 >   2. ✅ **A4 DONE & LIVE (v1.126).** pinch-zoom unblocked (removed user-scalable=no), global reduced-motion
 >      guard, :focus-visible ring, PWA install icons (drawn sun icons 192/512/maskable + apple-touch-180, wired
 >      into manifest+sw). (profile-select voicing folded into the pending voice work.)
