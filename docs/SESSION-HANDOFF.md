@@ -1,15 +1,20 @@
 # NikoLearn — Session Handoff
 
 > ## ▶ RESUME NOW (updated 2026-06-12, Opus 4.8 session)
-> **LIVE = v1.131.** (HEAD `be93e72` = origin/main.) **„Launch-harden" sprint done (owner-approved 2026-06-12):**
+> **LIVE = v1.131.** (HEAD `d75f9c2` = origin/main; v1.131 code = `be93e72`.) **„Launch-harden" sprint done (owner-approved 2026-06-12):**
 > v1.131 Georgian reading expansion #2 (+10 words /+8 sentences, 25 new edge-tts krd_017-041 clips; all 35 texts
 > resolve to a clip, qa-check 0 findings, live krd_041 serves 200) · v1.130 age-safety (3-4 yos get only safe
 > movement-break moves via MOVE_POOL.filter(e=>e.tiny); closed the qa-check P1; age3→14 safe moves, age8→17) ·
 > v1.129 P5 login-gate removal (12345 password screen gone, showLogin/doLogin removed; parent PIN kept;
 > landing.html still the front door; logout→profile chooser; silent-Playwright + live verified). **A5 full QA
 > sweep DONE (no deploy — verification only):** 29 game modes all render, answer-path works, 0 console errors
-> (silent Playwright). Increment-2 „alpha telemetry" found ALREADY wired since v1.117 (stale note; no change). · v1.128 voice
-> „ყოჩაღ" fix (E recipe = „ყოჩაღი"+Eka-15%, owner ear-pick; spot-confirm pending) + profile Export/Import
+> (silent Playwright). Increment-2 „alpha telemetry" found ALREADY wired since v1.117 (stale note; no change).
+> **VOICE „ყოჩაღ" fix = CODE DONE & LIVE** (recipe #4: clip_188/189 = „ბრავო, ყოჩაღი!", edge-tts says ყ correctly
+> only inside the phrase + ღ in vowel form; PLUS „ყოჩაღ" added to the core.js ka-GE praise rotation
+> `['ბრავო','მართალია','შესანიშნავია','ყოჩაღ']`, which earlier never played it at all). Shipped in the collided
+> `be93e72` (parallel voice session bundled with v1.131 reading). Live-verified this session: praise rotation
+> routes ყოჩაღ→clip_188 on GitHub Pages, clip_188/189 serve 200, 0 console errors. **Owner EAR-confirm still
+> pending (agent cannot hear).** · v1.128 E-recipe origin + profile Export/Import
 > (cross-device backup code, no backend, round-trip verified) · v1.127 A+
 > 8-9 math (division/missing-number/2-digit) · v1.126 A4 a11y+PWA icons · v1.125 mobile footer fix + version
 > · v1.124 Viktor F1 nav fix (re-verified, kept) · v1.123 landing copy · v1.122 landing truth-pass. Detail below:
@@ -106,9 +111,10 @@
 >   when monetizing (diaspora pilot), not before. STILL PARKED (owner returns later): hosting home (CF Pages
 >   rec), domain name+TLD, first audience (GE-free soft-launch rec).
 > **▶ NEXT (Track A — owner said „გაიყვანე ბოლომდე"):**
->   1. ⏳ **VOICE — owner spot-confirm „ყოჩაღ" on live** (E recipe shipped v1.128). If still unclear → try another
->      TTS engine. Optional: broad 391-clip Eka-slow regen (`tools/_gen_ka_talk.py`/`_gen_ka_reading.py`,
->      `edge-tts --voice … --rate … --write-media`). **P5 login removal = ✅ DONE & LIVE (v1.129).**
+>   1. ⏳ **VOICE — CODE done & live, only owner EAR-confirm „ბრავო, ყოჩაღი!" remains** (recipe #4 clip_188/189 +
+>      praise-rotation wiring shipped in be93e72; live-verified praise routes ყოჩაღ→clip_188). If owner's ear says
+>      still unclear → try another TTS engine. Optional: broad 391-clip Eka-slow regen (`tools/_gen_ka_talk.py`/
+>      `_gen_ka_reading.py`, `edge-tts --voice … --rate … --write-media`). **P5 login removal = ✅ DONE & LIVE (v1.129).**
 >   ✅ **QA P1 (movement-break isTiny safe-pool) = FIXED & LIVE (v1.130).** Each move now carries a `tiny` flag;
 >      showBreak picks `MOVE_POOL.filter(e=>e.tiny)` for 3-4 yos (excludes plank / one-leg stand / flamingo).
 >      (This was move SELECTION safety, NOT the owner-rejected movement-visual redesign.)
