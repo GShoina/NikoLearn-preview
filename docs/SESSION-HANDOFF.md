@@ -55,6 +55,25 @@
 >   task Y is doable without him, do NOT stop and wait. Keep moving: do Y autonomously end-to-end (build →
 >   verify → deploy → report). Only surface what is TRULY blocked on the owner; never let "waiting on the owner"
 >   pause work that doesn't need him.
+> **🔌 STANDING RULE (owner, 2026-06-12) — SKILLS/PLUGINS: enable on-demand, disable after.** Enabled plugins eat
+>   context every session → enable ONLY when a task needs it, disable at task end. Installed on this machine:
+>   plugins (toggle `claude plugin enable <name>`): `frontend-design` (UI polish — use for screen design),
+>   `hyperframes` (HTML→MP4 video), `superpowers` (plan/test/debug hard features), `caveman` (~75% token save,
+>   big refactors). Folder skill (auto-available, just invoke): `image` (kid illustrations/characters, Flux/DALL-E).
+>   Install-later: `Remotion` (React video, github.com/remotion-dev/skills). DISCIPLINE: install only from a
+>   trusted source (prefer official Anthropic marketplace), check `claude plugin details <name>` token cost first,
+>   leave disabled by default, NEVER `curl|bash` an unknown script, no bulk-install. NB: owner's note called
+>   NikoLearn "React" — the actual codebase is VANILLA HTML/JS modules (no React); Remotion still works standalone
+>   but the "because it's React" rationale doesn't apply.
+> **✍️ VOICE STANDARD (owner-locked 2026-06-12).** SSOT = `docs/VOICE_STANDARD.md` — pronunciation-FIRST, warm
+>   Georgian teacher. Distilled from the owner's TTS-QA + Voice-Personality specs. Critical bug: „ბრავო, ყოჩაღ!"
+>   final „ღ" drops → sounds like „yocha". Agent CANNOT hear → owner ear-gate always.
+> **🗳️ DECISIONS (2026-06-12):** F3 „მთავარი" = **A (stays on profile chooser)** — LOCKED. Voice timbre =
+>   **Eka-slow** (Giorgi rejected; Eka-slow vs now ≈ same, owner OK to try Eka-slow) — final recipe pending the
+>   „ყოჩაღ"/ღ ear-pick (`C:\Users\gela.shonia\niko-voice-compare\niko-yochag-fix.html`, A-E). P5 login removal =
+>   recommended but COUPLED with a new ask: **cross-device profile portability** (kid on a new device loses all
+>   progress; localStorage is per-device). Proposed: profile EXPORT/IMPORT (backup code/file, NO backend, keeps
+>   the on-device privacy promise) — awaiting owner go to build. (login≠progress: removing login loses nothing.)
 > **PRODUCTION PLAN (owner-engaged 2026-06-12) — lean baseline now + grow.** Full doc:
 >   `output/2026-06-12-NikoLearn production გასვლის გეგმა (truth+polish + სტრატეგია) by Niko.html`.
 > **DECIDED:** NikoLearn stays SEPARATE from Bivision (owner's independent project). Privacy controller =
