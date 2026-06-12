@@ -1,6 +1,13 @@
 # NikoLearn — Session Handoff
 
-> ## ▶ RESUME NOW (updated 2026-06-12, Opus 4.8 session)
+> ## ▶ RESUME NOW (updated 2026-06-13, Opus 4.8 session)
+> **🧱 TECH STACK — READ FIRST, do NOT re-confuse: NikoLearn is VANILLA HTML/JS, NOT React.** Plain `<script>`
+> files in `niko/*.js`, every function global, fixed load order in index.html, `BOOT` last in parent.js. No JSX,
+> no build step, no React, no npm runtime. (Verified by direct edits across sessions; the owner sometimes calls
+> it „React" by habit, but it is not.) Implication: any tool/plan that assumes React is on a FALSE premise. e.g.
+> „Remotion because it's React" does NOT hold. Remotion can still be used, but only as a SEPARATE standalone
+> project beside the app, never inside it. Choose animation/video tooling by quality-vs-effort, not by framework
+> (lighter = hyperframes; higher production = Remotion-as-separate-project).
 > **LIVE = v1.131.** (HEAD `d75f9c2` = origin/main; v1.131 code = `be93e72`.) **„Launch-harden" sprint done (owner-approved 2026-06-12):**
 > v1.131 Georgian reading expansion #2 (+10 words /+8 sentences, 25 new edge-tts krd_017-041 clips; all 35 texts
 > resolve to a clip, qa-check 0 findings, live krd_041 serves 200) · v1.130 age-safety (3-4 yos get only safe
