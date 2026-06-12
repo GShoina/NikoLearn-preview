@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.126'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.127'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -423,10 +423,13 @@ function openMenu(subj){
   } else if(subj==='math'){
     const kid=isYoung(profile);
     const tiny=isTiny(profile);
+    const big=isBig(profile); // 8+ : division, missing-number, 2-digit ramp
     body=`<div class="mode-grid">
       ${tiny?'':mode('math-add','➕',kid?'':'შეკრება',kid?'':mathRangeLabel('math-add'))}
       ${tiny?'':mode('math-sub','➖',kid?'':'გამოკლება',kid?'':mathRangeLabel('math-sub'))}
       ${kid?'':mode('math-mul','✖️','გამრავლება',mathRangeLabel('math-mul'))}
+      ${big?mode('math-div','➗','გაყოფა',mathRangeLabel('math-div')):''}
+      ${big?mode('math-miss','❓','გამოტოვებული',mathRangeLabel('math-miss')):''}
       ${tiny?'':mode('math-pat','🧩',kid?'':'პატერნები','')}
       ${kid?'':mode('compare','⚖️','შედარება','&gt; &lt; =')}
       ${kid?'':mode('skip','🔢','დათვლა','ხუთობით · ათობით')}

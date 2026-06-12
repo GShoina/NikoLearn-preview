@@ -130,6 +130,9 @@ window.I18N_MAP = {
   "შეკრება":"Addition",
   "გამოკლება":"Subtraction",
   "გამრავლება":"Multiplication",
+  "გაყოფა":"Division",
+  "გამოტოვებული":"Missing number",
+  "2-ნიშნა":"2-digit",
   "პატერნები":"Patterns",
   "ქართული":"Georgian",
 

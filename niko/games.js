@@ -41,7 +41,7 @@ function abandonRound(){
   if(game.roundActive){ try{ if(window.Analytics) Analytics.event('round_abandon',{mode:coarseMode()}); }catch(e){} game.roundActive=false; }
   openMenu(game.subj||'math');
 }
-const SUBMODES=['quiz','reverse','listen','match','spell','phrases','math-add','math-sub','math-mul','math-pat','compare','skip','shapes','money','clock','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','digit'];
+const SUBMODES=['quiz','reverse','listen','match','spell','phrases','math-add','math-sub','math-mul','math-div','math-miss','math-pat','compare','skip','shapes','money','clock','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','digit'];
 function gameShell(area){
   closeHint();
   game.roundActive=true; // marks an in-progress round (cleared by results()/abandonRound())
@@ -314,8 +314,10 @@ function matchTap(el){
 const MATH_LV = {
   'math-add':[{max:20,label:'1–20'},{max:40,label:'1–40'},{max:70,label:'1–70'},{max:100,label:'1–100'}],
   'math-sub':[{max:20,label:'1–20'},{max:40,label:'1–40'},{max:70,label:'1–70'},{max:100,label:'1–100'}],
-  'math-mul':[{tmax:5,label:'×2–×5'},{tmax:9,label:'×2–×9'}],
-  'math-pat':[{span:2,label:''},{span:3,label:''}]
+  'math-mul':[{tmax:5,label:'×2–×5'},{tmax:9,label:'×2–×9'},{twod:true,label:'2-ნიშნა'}],
+  'math-pat':[{span:2,label:''},{span:3,label:''}],
+  'math-div':[{dmax:5,label:'÷2–÷5'},{dmax:10,label:'÷2–÷10'}],
+  'math-miss':[{ops:['+'],label:'+'},{ops:['+','×'],label:'+ ×'}]
 };
 function mathLvl(type){
   const s=state[profile]; if(!s.mathLevel)s.mathLevel={};
@@ -343,7 +345,11 @@ function genMath(type){
   const cfg=(MATH_LV[type]||[])[mathLvl(type)]||{};
   if(type==='math-add'){const mx=young?10:(cfg.max||20);const a=ri(1,Math.floor(mx*0.7)),b=ri(1,Math.max(1,mx-a));return{q:`${a} + ${b}`,a:a+b,op:'add',a1:a,a2:b};}
   if(type==='math-sub'){const mx=young?10:(cfg.max||20);const a=ri(2,mx),b=ri(1,a-1);return{q:`${a} − ${b}`,a:a-b,op:'sub',a1:a,a2:b};}
-  if(type==='math-mul'){const tmax=young?3:(cfg.tmax||5);const t=ri(2,tmax),b=ri(1,10);return{q:`${t} × ${b}`,a:t*b,op:'mul',a1:t,a2:b};}
+  if(type==='math-mul'){if(cfg.twod&&!young){const t=ri(11,19),b=ri(2,9);return{q:`${t} × ${b}`,a:t*b,op:'mul',a1:t,a2:b};}const tmax=young?3:(cfg.tmax||5);const t=ri(2,tmax),b=ri(1,10);return{q:`${t} × ${b}`,a:t*b,op:'mul',a1:t,a2:b};}
+  // A+ (8-9): integer division — b*c ÷ b = c, always whole
+  if(type==='math-div'){const dmax=cfg.dmax||5;const b=ri(2,dmax),c=ri(2,10);return{q:`${b*c} ÷ ${b}`,a:c,op:'div',a1:b*c,a2:b};}
+  // A+ (8-9): missing number — ? op y = res, answer is the missing first operand
+  if(type==='math-miss'){const ops=cfg.ops||['+'];const sym=ops[ri(0,ops.length-1)];let x,y;if(sym==='×'){x=ri(2,9);y=ri(2,9);}else{x=ri(2,15);y=ri(2,15);}const res=(sym==='×')?x*y:x+y;return{q:`? ${sym} ${y} = ${res}`,a:x,op:'miss',a1:x,a2:y};}
   // pattern
   const step=ri(1,young?2:(cfg.span||2)),s=ri(1,5),seq=[s];for(let i=1;i<4;i++)seq.push(seq[i-1]+step);return{q:seq.join(', ')+', ?',a:seq[3]+step,pat:true,op:'pat',seq:seq.slice(),step};
 }
