@@ -1,7 +1,9 @@
 # NikoLearn — Session Handoff
 
 > ## ▶ RESUME NOW (updated 2026-06-12, Opus 4.8 session)
-> **LIVE = v1.123.** (HEAD `1e60867` = origin/main, working tree clean.) Recent shipped & live-verified:
+> **LIVE = v1.127.** (HEAD `0f9d72c` = origin/main.) Recent shipped & live-verified (newest first): v1.127 A+
+> 8-9 math (division/missing-number/2-digit) · v1.126 A4 a11y+PWA icons · v1.125 mobile footer fix + version
+> · v1.124 Viktor F1 nav fix (re-verified, kept) · v1.123 landing copy · v1.122 landing truth-pass. Detail below:
 >   • **v1.120 (fa607a7) — KA talk-card voicing.** 6 edge-tts clips (`niko/audio/tlk_000–005.mp3`,
 >     ka-GE-EkaNeural) + 🔊 button on the Georgian deck; `talkSpeak()` plays the recorded clip via
 >     `playClip(c.q)` (no runtime Georgian TTS). Manifest keys = exact question strings (all 6 matched).
@@ -49,6 +51,10 @@
 >   discovered next session; `/georgian-copy`). Apply to ALL human-facing Georgian (app/landing/parent/tutor).
 >   Locks already baked in: no em dash · native over anglicism (`რეპეტიტორი` not `ტუტორი`) · `ჭკვიანი
 >   რეპეტიტორი` · `რას ისწავლის` · §6f Gemini+owner QA. NikoLearn-scoped (do NOT cross silo into Bivision).
+> **🏃 STANDING RULE (owner, 2026-06-12) — NEVER IDLE-WAIT.** When blocked on owner input for task X but another
+>   task Y is doable without him, do NOT stop and wait. Keep moving: do Y autonomously end-to-end (build →
+>   verify → deploy → report). Only surface what is TRULY blocked on the owner; never let "waiting on the owner"
+>   pause work that doesn't need him.
 > **PRODUCTION PLAN (owner-engaged 2026-06-12) — lean baseline now + grow.** Full doc:
 >   `output/2026-06-12-NikoLearn production გასვლის გეგმა (truth+polish + სტრატეგია) by Niko.html`.
 > **DECIDED:** NikoLearn stays SEPARATE from Bivision (owner's independent project). Privacy controller =
@@ -59,10 +65,13 @@
 >   1. ⏳ **OWNER EAR-GATE (A1 timbre):** owner opens `C:\Users\gela.shonia\niko-voice-compare\niko-voice-compare.html`
 >      and picks A=Eka(current) / B=Giorgi(male) / C=Eka-slow. His pick → batch-regen all 391 ka clips in that
 >      voice (generators: `tools/_gen_ka_talk.py`, `tools/_gen_ka_reading.py`; CLI `edge-tts --voice … --write-media`).
->   2. **A4** a11y+PWA: pinch-zoom, reduced-motion, :focus-visible, PWA install icons (A2HS), profile-select voicing.
->   3. **A+** 8-9 math slice: division / 2-digit / missing-number (`?×6=42`) on the EXISTING quiz engine, minimal
->      (data + tier flag, no new heavy module). Heavy 8-12 = post-launch.
->   4. **A5** functional QA sweep of existing material (silent Playwright, §6c, 0 errors).
+>   2. ✅ **A4 DONE & LIVE (v1.126).** pinch-zoom unblocked (removed user-scalable=no), global reduced-motion
+>      guard, :focus-visible ring, PWA install icons (drawn sun icons 192/512/maskable + apple-touch-180, wired
+>      into manifest+sw). (profile-select voicing folded into the pending voice work.)
+>   3. ✅ **A+ DONE & LIVE (v1.127).** 8-9 math on the existing quiz engine, gated to age>=8 (isBig): math-div
+>      (integer division) + math-miss (`? op y = res`) + math-mul 2-digit level. 900 sandbox + 120 in-app
+>      generated equations verified correct; menu tiles + parent labels + ka↔en i18n. Heavy 8-12 = post-launch.
+>   4. **A5** functional QA sweep of existing material (silent Playwright, §6c, 0 errors) — still to do.
 >   HyperFrames (HeyGen = REAL official Claude video connector) = launch-video tool for Track B (marketing), NOT Track A.
 > **DO-NOT-REDO:** brush/centerline handwriting = owner-REJECTED (keep glyph-outline trace as-is). Movement
 > visuals = owner-REJECTED. B0 data-driven „სად ჭირს" fix = waits ~1 week of real telemetry (clock started 06-11).
