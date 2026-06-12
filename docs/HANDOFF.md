@@ -50,7 +50,7 @@ in the HTML and matters:
 ## 3. Data model
 
 - localStorage key: `nikolearn_p2` (`SK` in core.js).
-- `state.authed` — passed the shared login (password `12345`).
+- `state.authed` — has entered the app at least once (no password since v1.129; auto-set on entry).
 - `state.onboarded` — completed first-run onboarding.
 - `state.kids` — `[{id, name, age, color, langs:['ka'|'en'|'ru'], by:'parent'|'child'}]`.
   `langs` = languages the child speaks → drives instruction/voicing language. `by` = who created the profile.
@@ -75,7 +75,9 @@ in the HTML and matters:
 ## 4. Feature inventory (everything built so far)
 
 **Auth & profiles**
-- Login screen is the first screen (shared password `12345`); lock/logout from parent space.
+- No login gate (removed v1.129): landing.html is the public front door, the app opens straight to the
+  profile chooser. „გასვლა (ჩაკეტვა)" from the parent space returns to the profile chooser; the parent
+  space re-locks via its own PIN / math gate.
 - Onboarding asks **who is setting up**: "მე მშობელი ვარ" → straight to profile creation;
   "მე ბავშვი ვარ" → **parental consent** screen first.
 - Profile create: name, age, avatar colour, and **which languages the child speaks** (ka locked on; en/ru optional).
@@ -196,7 +198,8 @@ decision is still open and is the Owner's to make.
 
 ## 9. How to run
 
-Open `NikoLearn Phase 1.html` in a browser. Login password: `12345`. Parent space is behind a math gate.
+Open `index.html` in a browser (or visit the live link). No login password (removed v1.129): the app
+opens straight to the profile chooser. Parent space is behind a PIN / math gate.
 To reset: parent space → "პროგრესის გასუფთავება", or clear the localStorage key `nikolearn_p2`.
 
 See **`PHASE2_PROMPT.md`** for the ready-to-paste kickoff prompt that walks Claude Code through

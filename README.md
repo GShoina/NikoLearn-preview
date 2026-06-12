@@ -16,5 +16,6 @@ operating/coding rules are in **`docs/HANDOFF.md`** (the project SSOT). The agen
 operating agreement is in **`CLAUDE.md`**.
 
 ## How to run
-Open `index.html` in a browser (or visit the live link). Login password: `12345`. The parent
-space sits behind a math gate. To reset: clear the `localStorage` key `nikolearn_p2`.
+Open `index.html` in a browser (or visit the live link). No login password: the app opens straight
+to the profile chooser (landing.html is the public front door). The parent space still sits behind a
+PIN / math gate. To reset: clear the `localStorage` key `nikolearn_p2`.

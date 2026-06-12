@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.128'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.129'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -51,7 +51,7 @@ function goHome(){
 }
 
 /* ── landing page (real marketing landing: what + why; desktop + mobile) ── */
-function enterApp(){ if(state&&state.authed) return goHome(); showLogin(); }
+function enterApp(){ state.authed=true; save(); goHome(); }
 function landing(){
   // owner's standalone landing (Downloads v4) is deployed as landing.html
   try{sessionStorage.removeItem('niko_enter');}catch(e){}
@@ -89,44 +89,19 @@ function landing(){
   document.body.classList.add('on-landing');
 }
 
-/* ── auth gate (simple shared password) ── */
+/* ── entry (no password gate; landing.html is the public front door, parent space stays PIN-gated) ── */
 function boot(){
   try{ if(new URLSearchParams(location.search).get('admin')==='1') return adminGate(); }catch(e){}
   var enter=false;
   try{ enter=(new URLSearchParams(location.search).get('app')==='1')||sessionStorage.getItem('niko_enter')==='1'; }catch(e){}
-  if(!state.authed){
-    if(enter){ try{sessionStorage.setItem('niko_enter','1');}catch(e){} state.authed=true; save(); return goHome(); }
-    location.href='landing.html'; return;   // first stop = owner's landing page
-  }
+  if(!state.authed && !enter){ location.href='landing.html'; return; }   // first stop = owner's landing page
+  try{sessionStorage.setItem('niko_enter','1');}catch(e){}
+  if(!state.authed){ state.authed=true; save(); }
   goHome();
 }
-function showLogin(){
-  render(`<div class="screen home" style="gap:18px;justify-content:center">
-    <button class="iconbtn" style="position:absolute;top:16px;left:16px;z-index:5" onclick="landing()" aria-label="უკან მთავარ გვერდზე">←</button>
-    <div class="brand">
-      <div class="sun-badge" style="width:74px;height:74px">${I.sun}</div>
-      <div class="mark">NikoLearn</div>
-      <div class="tag">შესვლა</div>
-    </div>
-    <div class="login-card">
-      <label class="login-lbl">მომხმარებელი</label>
-      <input class="login-in" id="lg-user" value="" placeholder="მომხმარებელი" autocomplete="username">
-      <label class="login-lbl">პაროლი</label>
-      <input class="login-in num" id="lg-pass" type="password" inputmode="numeric" placeholder="•••••" autocomplete="current-password">
-      <div class="login-err" id="lg-err"></div>
-      <button class="btn btn-primary btn-block" onclick="doLogin()">შესვლა →</button>
-    </div>
-    <div class="trustline">${I.privacy} მონაცემები ამ მოწყობილობაზე რჩება</div>
-  </div>`,false);
-  const pw=$('#lg-pass'); if(pw){ pw.focus(); pw.onkeydown=e=>{if(e.key==='Enter')doLogin();}; }
-}
-function doLogin(){
-  const pw=($('#lg-pass')||{}).value||'';
-  if(pw.trim()==='12345'){ state.authed=true; save(); goHome(); return; }
-  const e=$('#lg-err'); if(e)e.textContent='პაროლი არასწორია';
-  const inp=$('#lg-pass'); if(inp){ inp.classList.add('shake'); inp.value=''; inp.focus(); setTimeout(()=>inp.classList.remove('shake'),420); }
-}
-function logout(){ state.authed=false; save(); showLogin(); }
+/* parent „გასვლა (ჩაკეტვა)": leave the parent space back to the kid profile chooser.
+   No password to re-enter; the parent space re-locks via its own PIN/math gate (openGate). */
+function logout(){ goHome(); }
 
 /* ── admin (owner only): version + insights. URL: ?admin=1 ── */
 function adminGate(){

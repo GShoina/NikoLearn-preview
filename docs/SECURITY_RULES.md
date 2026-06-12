@@ -12,7 +12,8 @@ credentials, AI prompt secrets, private endpoints.
 tokens/credentials). Removed the owner Leads-sheet ID + button from the admin view.
 Remaining (acceptable, non-exploitable): GA4 measurement ID `G-WMVHNYSZ3P` (public by
 design); GA4 property deep-link in admin (data is Google-login-protected); soft
-client gates (`12345` login, `niko-admin`) — not real secrets, unlock nothing
+client gates (`niko-admin` admin code, parent-space PIN; the `12345` login was removed
+v1.129) — not real secrets, unlock nothing
 server-side (there is no backend). If a backend is added, all real secrets live
 server-side only.
 
