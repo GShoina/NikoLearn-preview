@@ -43,6 +43,12 @@
 > **📌 RELEASE CHECKLIST (updated v1.125):** version bump now touches THREE spots, not two:
 >   `niko/screens.js` APP_VERSION + `sw.js` CACHE + **`landing.html` footer hardcoded `v1.xxx`** (landing does
 >   NOT load APP_VERSION, so its footer version is manual and silently drifted to v1.119 → fixed to v1.125).
+> **✍️ GEORGIAN COPY STANDARD + SKILL (owner-locked 2026-06-12).** SSOT = `docs/GEORGIAN_COPY_STANDARD.md` —
+>   high-autonomy, 5 hard outcome-gates (NOT rigid templates; owner explicitly wants high-agency + hard
+>   constraints, no micromanagement). Invocable skill `.claude/skills/georgian-copy/SKILL.md` (project-scoped,
+>   discovered next session; `/georgian-copy`). Apply to ALL human-facing Georgian (app/landing/parent/tutor).
+>   Locks already baked in: no em dash · native over anglicism (`რეპეტიტორი` not `ტუტორი`) · `ჭკვიანი
+>   რეპეტიტორი` · `რას ისწავლის` · §6f Gemini+owner QA. NikoLearn-scoped (do NOT cross silo into Bivision).
 > **PRODUCTION PLAN (owner-engaged 2026-06-12) — lean baseline now + grow.** Full doc:
 >   `output/2026-06-12-NikoLearn production გასვლის გეგმა (truth+polish + სტრატეგია) by Niko.html`.
 > **DECIDED:** NikoLearn stays SEPARATE from Bivision (owner's independent project). Privacy controller =
