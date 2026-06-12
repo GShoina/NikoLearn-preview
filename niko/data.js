@@ -232,7 +232,18 @@ const READING_KA=[
   {w:'კარი',   syl:['კა','რი'],       e:'🚪', lvl:1},
   {w:'ნავი',   syl:['ნა','ვი'],       e:'⛵', lvl:1},
   {w:'ფული',   syl:['ფუ','ლი'],       e:'💰', lvl:1},
-  {w:'პეპელა', syl:['პე','პე','ლა'],  e:'🦋', lvl:2}
+  {w:'პეპელა', syl:['პე','პე','ლა'],  e:'🦋', lvl:2},
+  // v1.131 — Georgian reading expansion #2 (clips: edge-tts ka-GE-EkaNeural, krd_017+)
+  {w:'გოგო',   syl:['გო','გო'],       e:'👧', lvl:1},
+  {w:'ბიჭი',   syl:['ბი','ჭი'],       e:'👦', lvl:1},
+  {w:'ყური',   syl:['ყუ','რი'],       e:'👂', lvl:1},
+  {w:'ხილი',   syl:['ხი','ლი'],       e:'🍇', lvl:1},
+  {w:'თვალი',  syl:['თვა','ლი'],      e:'👁️', lvl:2},
+  {w:'წყალი',  syl:['წყა','ლი'],      e:'💧', lvl:2},
+  {w:'თოვლი',  syl:['თოვ','ლი'],      e:'❄️', lvl:2},
+  {w:'მთვარე', syl:['მთვა','რე'],     e:'🌙', lvl:2},
+  {w:'ფანჯარა',syl:['ფან','ჯა','რა'], e:'🪟', lvl:2},
+  {w:'კვერცხი',syl:['კვერ','ცხი'],    e:'🥚', lvl:2}
 ];
 
 /* #1 (next step) Georgian SENTENCE reading: read a short sentence, hear it (recorded EkaNeural
@@ -258,7 +269,16 @@ const READING_SENT_KA=[
   {s:'ჩიტი მღერის',       e:'🐦'},
   {s:'გოგო ცეკვავს',      e:'💃'},
   {s:'ბიჭი დარბის',       e:'🏃'},
-  {s:'ფუტკარი დაფრინავს', e:'🐝'}
+  {s:'ფუტკარი დაფრინავს', e:'🐝'},
+  // v1.131 — Georgian reading expansion #2 (clips: edge-tts ka-GE-EkaNeural, krd_034+)
+  {s:'ძაღლი ჭამს',      e:'🐶'},
+  {s:'კატა თამაშობს',   e:'🐱'},
+  {s:'თოვლი მოდის',     e:'❄️'},
+  {s:'წვიმა მოდის',     e:'🌧️'},
+  {s:'გოგო მღერის',     e:'👧'},
+  {s:'ბიჭი ხტება',      e:'🤸'},
+  {s:'ბავშვი სძინავს',  e:'😴'},
+  {s:'მზე ბრწყინავს',   e:'☀️'}
 ];
 
 /* ── KINGS ENGLISH, expanded (Cambridge YLE Starters→Movers) ── */

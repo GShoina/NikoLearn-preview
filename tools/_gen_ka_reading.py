@@ -1,17 +1,20 @@
 import asyncio, edge_tts, re, os
 AUD='niko/audio'; MAN='niko/audio-manifest.js'
 words=[
- ('ხელი',['ხე','ლი'],'✋',1),
- ('ფეხი',['ფე','ხი'],'🦶',1),
- ('თევზი',['თევ','ზი'],'🐟',2),
- ('ჩიტი',['ჩი','ტი'],'🐦',1),
- ('კარი',['კა','რი'],'🚪',1),
- ('ნავი',['ნა','ვი'],'⛵',1),
- ('ფული',['ფუ','ლი'],'💰',1),
- ('პეპელა',['პე','პე','ლა'],'🦋',2),
+ ('გოგო',['გო','გო'],'👧',1),
+ ('ბიჭი',['ბი','ჭი'],'👦',1),
+ ('ყური',['ყუ','რი'],'👂',1),
+ ('ხილი',['ხი','ლი'],'🍇',1),
+ ('თვალი',['თვა','ლი'],'👁️',2),
+ ('წყალი',['წყა','ლი'],'💧',2),
+ ('თოვლი',['თოვ','ლი'],'❄️',2),
+ ('მთვარე',['მთვა','რე'],'🌙',2),
+ ('ფანჯარა',['ფან','ჯა','რა'],'🪟',2),
+ ('კვერცხი',['კვერ','ცხი'],'🥚',2),
 ]
-sents=[('ბავშვი ხატავს','🎨'),('კურდღელი ხტება','🐰'),('ჩიტი მღერის','🐦'),
-       ('გოგო ცეკვავს','💃'),('ბიჭი დარბის','🏃'),('ფუტკარი დაფრინავს','🐝')]
+sents=[('ძაღლი ჭამს','🐶'),('კატა თამაშობს','🐱'),('თოვლი მოდის','❄️'),
+       ('წვიმა მოდის','🌧️'),('გოგო მღერის','👧'),('ბიჭი ხტება','🤸'),
+       ('ბავშვი სძინავს','😴'),('მზე ბრწყინავს','☀️')]
 man=open(MAN,encoding='utf-8').read()
 exist_lc={k.lower() for k in re.findall(r'"((?:[^"\\]|\\.)*)":', man)}
 texts=[]
@@ -32,6 +35,11 @@ async def gen():
         await edge_tts.Communicate(t,'ka-GE-EkaNeural').save(os.path.join(AUD,fn))
         newman[t]=fn
 asyncio.run(gen())
+import json
+open('tools/_gen_map.json','w',encoding='utf-8').write(json.dumps({
+  'manifest':newman,
+  'words':[{'w':w,'syl':syl,'e':e,'lvl':l} for w,syl,e,l in words],
+  'sents':[{'s':s,'e':e} for s,e in sents]},ensure_ascii=False,indent=1))
 print('NEWCLIPS %d (of %d needed; rest reused from manifest)'%(len(newman),len(need)))
 print('===MANIFEST===')
 for t,fn in newman.items(): print(' "%s": "%s",'%(t.lower(),fn))

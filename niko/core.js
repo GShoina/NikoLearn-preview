@@ -193,7 +193,7 @@ function speakSeq(parts){if(!('speechSynthesis'in window))return;speechSynthesis
 function sayWord(ka,en){if(voiceLang(profile)==='en')speak(en,'en-US');else speakSeq([{t:ka,lang:'ka-GE'},{t:en,lang:'en-US'}]);}
 function praise(){ // warm spoken encouragement in the chosen voicing language
   const code=vCode(profile);
-  const sets={'ka-GE':['ბრავო','მართალია','შესანიშნავია'],'ru-RU':['молодец','отлично','верно'],'en-US':['well done','great job','you did it','nice work']};
+  const sets={'ka-GE':['ბრავო','მართალია','შესანიშნავია','ყოჩაღ'],'ru-RU':['молодец','отлично','верно'],'en-US':['well done','great job','you did it','nice work']};
   const list=sets[code]||sets['ka-GE'];
   let word=list[ri(0,list.length-1)], useCode=code;
   // NEVER read Georgian/Russian with an English voice (it sounds like garbage, e.g. „ყოჩაღ"→"kochas").
