@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ka">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>NikoLearn — ხმის შემოწმება</title>
+<style>
+  :root{ --bg:#FFF3E0; --card:#fff; --theme:#FFB74D; --deep:#F57C00; --ink:#3a2a1c; --muted:#8a7c6c; }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
+       min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:28px 18px 60px}
+  .badge{width:64px;height:64px;border-radius:50%;background:var(--theme);display:flex;align-items:center;
+         justify-content:center;font-size:34px;box-shadow:0 6px 18px rgba(245,124,0,.25)}
+  h1{font-size:1.35rem;margin:16px 0 4px;text-align:center}
+  .sub{color:var(--muted);font-size:.95rem;text-align:center;max-width:440px;line-height:1.5;margin:0 0 22px}
+  .card{background:var(--card);border-radius:20px;padding:20px;width:100%;max-width:440px;margin:0 0 16px;
+        box-shadow:0 4px 16px rgba(0,0,0,.06)}
+  .lbl{font-weight:700;font-size:1.05rem;margin:0 0 3px}
+  .note{color:var(--muted);font-size:.85rem;margin:0 0 14px}
+  button.play{appearance:none;border:0;width:100%;padding:18px;border-radius:16px;background:var(--theme);
+        color:#5a3d10;font-size:1.15rem;font-weight:800;cursor:pointer;display:flex;align-items:center;
+        justify-content:center;gap:10px;transition:transform .08s, background .2s}
+  button.play:active{transform:scale(.97)}
+  button.play.playing{background:var(--deep);color:#fff}
+  .hint{background:#fff8ee;border:1px solid #ffe2bd;border-radius:14px;padding:14px 16px;max-width:440px;
+        width:100%;font-size:.9rem;color:#6b5640;line-height:1.5}
+  .ok{margin-top:8px;font-size:.85rem;color:var(--muted);text-align:center}
+</style>
+</head>
+<body>
+  <div class="badge">🦉</div>
+  <h1>ხმის შემოწმება</h1>
+  <p class="sub">ეს ის წახალისებაა, რომელსაც ბავშვი მოისმენს, როცა სწორად უპასუხებს. დააჭირე ღილაკს და მოუსმინე.
+     იყავი ყურადღებით ბოლო ბგერაზე: უნდა ისმოდეს „ყოჩაღი", და არა „იოჩა".</p>
+
+  <div class="card">
+    <p class="lbl">🔊 ვარიანტი 1: „ბრავო, ყოჩაღი!"</p>
+    <p class="note">აპში ეს ისმის წახალისება „ყოჩაღ"-ზე (clip_188).</p>
+    <button class="play" data-src="niko/audio/clip_188.mp3?v=131">▶ მოუსმინე</button>
+  </div>
+
+  <div class="card">
+    <p class="lbl">🔊 ვარიანტი 2: „ყოჩაღი!"</p>
+    <p class="note">მეორე ვარიანტი იმავე წახალისებისთვის (clip_189).</p>
+    <button class="play" data-src="niko/audio/clip_189.mp3?v=131">▶ მოუსმინე</button>
+  </div>
+
+  <div class="hint">
+    თუ კარგად ჟღერს, მირჩევნია მითხრა „კი, კარგია". თუ ბოლო ბგერა მაინც იკარგება, მითხარი და სხვა ხმის
+    გენერატორს მოვსინჯავ.
+  </div>
+  <p class="ok">NikoLearn · შიდა შემოწმების გვერდი</p>
+
+<script>
+  var current=null;
+  document.querySelectorAll('button.play').forEach(function(b){
+    b.addEventListener('click', function(){
+      if(current){ current.pause(); current.currentTime=0; }
+      document.querySelectorAll('button.play').forEach(function(x){x.classList.remove('playing');});
+      var a=new Audio(b.dataset.src);
+      current=a; b.classList.add('playing');
+      a.addEventListener('ended', function(){ b.classList.remove('playing'); });
+      a.play().catch(function(){ b.classList.remove('playing'); });
+    });
+  });
+</script>
+</body>
+</html>
