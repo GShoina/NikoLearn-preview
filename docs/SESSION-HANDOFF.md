@@ -1,7 +1,9 @@
 # NikoLearn — Session Handoff
 
 > ## ▶ RESUME NOW (updated 2026-06-12, Opus 4.8 session)
-> **LIVE = v1.127.** (HEAD `0f9d72c` = origin/main.) Recent shipped & live-verified (newest first): v1.127 A+
+> **LIVE = v1.128.** (HEAD `b858462` = origin/main.) Recent shipped & live-verified (newest first): v1.128 voice
+> „ყოჩაღ" fix (E recipe = „ყოჩაღი"+Eka-15%, owner ear-pick; spot-confirm pending) + profile Export/Import
+> (cross-device backup code, no backend, round-trip verified) · v1.127 A+
 > 8-9 math (division/missing-number/2-digit) · v1.126 A4 a11y+PWA icons · v1.125 mobile footer fix + version
 > · v1.124 Viktor F1 nav fix (re-verified, kept) · v1.123 landing copy · v1.122 landing truth-pass. Detail below:
 >   • **v1.120 (fa607a7) — KA talk-card voicing.** 6 edge-tts clips (`niko/audio/tlk_000–005.mp3`,
