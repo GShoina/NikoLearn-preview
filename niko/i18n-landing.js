@@ -5,8 +5,7 @@
    Load BEFORE i18n.js. Used by landing.html; harmless to the app.
    ═══════════════════════════════════════════════════════════ */
 window.I18N_LANDING = {
-  "რას ვასწავლით":"What we teach",
-  "AI ნიკო ბუ":"AI Niko",
+  "რას ისწავლის":"What kids learn",
   "მშობლებს":"For parents",
   "დაიწყე უფასოდ":"Start free",
   "🇬🇪 ქართული სასწავლო აპი":"🇬🇪 A Georgian learning app",
@@ -31,7 +30,7 @@ window.I18N_LANDING = {
   "ქვიზი, დაკავშირება, მართლწერა და ხმოვანი თამაში.":"Quiz, matching, spelling and a voice game.",
   "ჯილდოები":"Rewards",
   "მონეტები, სერიები, დონეები და რანგები მოტივაციისთვის.":"Coins, streaks, levels and ranks for motivation.",
-  "🦉 რეპეტიტორი":"🦉 Niko, your tutor",
+  "🦉 ჭკვიანი რეპეტიტორი":"🦉 Niko, your smart tutor",
   "გაიცანი ნიკო ბუ, რომელიც გელაპარაკება":"Meet Niko the owl, who talks with you",
   "ხმოვანი რეჟიმი":"Voice mode",
   "ჭკვიანი მინიშნებები":"Smart hints",
@@ -75,9 +74,9 @@ window.I18N_LANDING = {
   "სცადოთ კიდევ ერთი სიტყვა?":"Shall we try another word?",
 
   /* hero lead + curriculum */
-  "NikoLearn ასწავლის მათემატიკას, ინგლისურს და ქართულ ანბანს. ყველა გაკვეთილი მოკლე თამაშია, ხოლო რეპეტიტორი ნიკო ბუ ელაპარაკება, ეუბნება სიტყვებს გარკვევით და ეხმარება ყოველ ნაბიჯზე.":"NikoLearn teaches math, English and the Georgian alphabet. Every lesson is a short game, and Niko the tutor speaks, says each word clearly and helps at every step.",
-  "შედგენილია ეროვნული სასწავლო პროგრამის მიხედვით":"Built to follow the national curriculum",
-  "გაკვეთილები ეხმიანება კინგსის პროგრამასა და მის ტესტებს, რათა ბავშვი ტესტებს თავდაჯერებულად შეხვდეს.":"Lessons echo the Kings programme and its tests, so children meet exams with confidence.",
+  "NikoLearn ასწავლის მათემატიკას, ინგლისურს და ქართულ ანბანს. ყველა გაკვეთილი მოკლე თამაშია, ხოლო ჭკვიანი რეპეტიტორი ნიკო ბუ ელაპარაკება, ეუბნება სიტყვებს გარკვევით და ეხმარება ყოველ ნაბიჯზე.":"NikoLearn teaches math, English and the Georgian alphabet. Every lesson is a short game, and Niko the smart tutor speaks, says each word clearly and helps at every step.",
+  "ეფუძნება კინგსის მიდგომას":"Built on the Kings approach",
+  "ინგლისურის პროგრამა კინგსის მეთოდიკას მიჰყვება. საგამოცდო ფორმატები ეტაპობრივად ემატება, რომ ბავშვი ტესტებს მომზადებული და თავდაჯერებული შეხვდეს.":"The English programme follows the Kings methodology, and exam formats are being added gradually, so the child meets tests prepared and confident.",
 
   /* owl section */
   "ნიკო ბუ არ არის უბრალო ღილაკი. ის ესაუბრება ბავშვს, უსმენს გამოთქმას და აძლევს მინიშნებებს. როცა რთულდება, უხსნის. როცა გამოსდის, აქებს.":"Niko the owl isn't just a button. He talks with the child, listens to pronunciation and gives hints. When it gets hard, he explains. When it goes well, he praises.",
