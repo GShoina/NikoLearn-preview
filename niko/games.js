@@ -729,9 +729,9 @@ function breakDue(){ const now=Date.now(); if(!_lastBreakTs){_lastBreakTs=now;re
 /* ── feedback overlay ── (2.4: tap anywhere to skip the celebration to the next item) */
 function feedback(ok){
   const el=document.createElement('div');el.className='overlay';el.id='fbov';
-  // wrong → the friendly OWL encourages the child to try again (owner 2026-06-13: the old 💪 felt off for
-  // little kids). correct → confetti party 🎉. Text stays warm + names the child.
-  el.innerHTML=`<div class="fb"><div class="fb-ico">${ok?'🎉':tutorFace(profile,'5rem')}</div><div class="fb-txt">${ok?'ბრავო, '+voc()+'!':voc()+', კიდევ ცადე! 💛'}</div></div>`;
+  // The friendly OWL is the child's companion on BOTH outcomes (owner 2026-06-13: owl + 💛 heart wherever
+  // we praise/encourage; never the muscle). Correct still gets the confetti party on top; wrong stays warm.
+  el.innerHTML=`<div class="fb"><div class="fb-ico">${tutorFace(profile,'5rem')}</div><div class="fb-txt">${ok?'ბრავო, '+voc()+'! 💛':voc()+', კიდევ ცადე! 💛'}</div></div>`;
   if(ok)el.appendChild(confettiEl());
   if(window.applyLang)applyLang(el);
   el.onclick=function(){ try{skipCeleb();}catch(e){} };
@@ -774,13 +774,15 @@ function results(){
   if(typeof overLimit==='function'&&overLimit(profile)){setTimeout(()=>screenLimitUp(profile),2800);}
   // 2.4: shared movement-break (every ~15 min, ALL games) — let the result show first, then offer the break
   else if(breakDue()){setTimeout(()=>{try{showBreak();}catch(e){}},2800);}
-  let msg=pct>=90?voc()+', შესანიშნავია! 🌟':pct>=70?voc()+', კარგად მიდიხარ! 💪':pct>=50?voc()+', ისწავლე ახალი! 📚':voc()+', ყოველი ცდა = წინსვლა! 🌱';
+  // warm 💛 signature on every tier (the ring above already shows the achievement medal 🏆/⭐/🌱).
+  let msg=pct>=90?voc()+', შესანიშნავია! 💛':pct>=70?voc()+', კარგად მიდიხარ! 💛':pct>=50?voc()+', ისწავლე ახალი! 💛':voc()+', ყოველი ცდა = წინსვლა! 💛';
   let beat='';
   if(best>0){if(game.shields>best)beat=`<div class="beat up">🎉 გაჯობე გუშინს! ${best} → ${game.shields}</div>`;
     else if(game.shields===best)beat=`<div class="beat same">🤝 გუშინდელი გაიმეორე: ${game.shields}</div>`;
-    else beat=`<div class="beat down">💪 გუშინ ${best} გქონდა, ხვალ აჯობებ!</div>`;}
+    else beat=`<div class="beat down">💛 გუშინ ${best} გქონდა, ხვალ აჯობებ!</div>`;}
   if(game.leveledMath)beat=`<div class="beat up">🚀 ახალი დონე გაიხსნა: <b>${game.leveledMath}</b></div>`+beat;
   render(`<div class="screen results" style="--pct:${pct}%">
+    <div class="r-owl">${tutorFace(profile,'3.2rem')}</div>
     <div class="r-ring"><i>${pct>=80?'🏆':pct>=50?'⭐':'🌱'}</i></div>
     <h2>${msg}</h2>
     <div class="stat-row">

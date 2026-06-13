@@ -280,7 +280,7 @@ function showBreak(manual){
       <div class="room"></div><div class="cloud a"></div><div class="cloud b"></div><div class="cloud c"></div>
       <div class="mat"></div>
       <div class="chars" id="mvChars"></div>
-      <div class="toast" id="mvToast">ბრავო! 💪</div>
+      <div class="toast" id="mvToast">${tutorFace(profile,'1.3em')} ბრავო! 💛</div>
     </div>
     <div class="now">
       <div class="name" id="mvName">ბუქნი</div>
