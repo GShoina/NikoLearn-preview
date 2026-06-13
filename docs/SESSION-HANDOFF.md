@@ -287,6 +287,10 @@
 >   **v1.167** OWNER OVERRULED the english-only design → added the „📚 ყველა თემა ▾" picker to the Math menu too. New
 >   `openMathTopics()` (screens.js) lists age-gated math themes; each launches its game (math = game-types, no word-pool,
 >   so pick = launch). Verified live: 13 themes for age-7, picking შეკრება launches math-add.
+>   **v1.168** Math menu CAPPED to 4 rows / 8 cards (one screen); overflow (5 for age-7) lives in the „ყველა თემა"
+>   picker + a „+N თემა" hint button (`.cat-more`). Pattern = cap a grid ONLY where a same-axis picker holds the rest.
+>   English mode tiles intentionally NOT capped (its picker is word-categories, a different axis → would orphan tiles).
+>   `mtiles[]` array + slice(0,CAP=8) in screens.js math branch. Verified live: age-7 shows 8 + „+5 თემა".
 >   **📧 EMAIL/CONTACT (owner 2026-06-13):** app contact = NikoLearn@outlook.com (live). Owner READS feedback via that
 >   account added to his PHONE mail app (Option A) — Outlook web-forwarding to gela.shonia@bivision.ge was NOT set up
 >   (Microsoft security-wall: enabling forwarding needs verified security-info + a code only the owner receives; abandoned
