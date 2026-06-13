@@ -129,7 +129,10 @@
 >   sw untouched). **✅ v1.134 LIVE: re-built SHARP from a clean 1254px transparent master** the owner sent (flood-
 >   fill cutout via `tools/_apply_owl.py` → `brand-preview/owl-amber-master.png` = transparent owl, the CANONICAL
 >   mascot). icon-192/512/maskable + apple-touch-180 rebuilt; **favicon now the owl too** (favicon-32/180 on index
->   + landing, replacing the sun favicon.svg). Brand doc: `niko-brand.html` (live, noindex) with corrected honest
+>   + landing, replacing the sun favicon.svg). **✅ v1.135 LIVE: landing.html now uses the owl logo** (`owl-logo.png`
+>   = transparent master copy) in 4 spots: nav brand-mark + footer brand-mark (was a sun SVG), the Niko/„ჭკვიანი
+>   რეპეტიტორი" section big owl + the phone-mockup owl (were 🦉 emoji). All verified loaded. NB: owl-logo.png =
+>   603KB, fine (cached) but could be optimized. Brand doc: `niko-brand.html` (live, noindex) with corrected honest
 >   copy (NO „AI", NO „teens", NikoLearn camelCase, „ისწავლე თამაშით").
 >   **⚠️ IN-APP AVATAR IS NOT A CLEAN SWAP (verified core.js):** the in-app „tutor avatar" is a per-child SELECTABLE
 >   animal `TUTOR_ANIMALS=['🦉','🐱','🦁','🐶','🐰','🐼','🦊','🐵']` (owl=default) + 🦉 appears inline in many i18n/
