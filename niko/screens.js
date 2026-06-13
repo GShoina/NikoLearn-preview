@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.165'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.166'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -275,13 +275,13 @@ function selectProfile(p){
   if(isKid){
     const tiny=isTiny(profile);
     subjects=`<div class="subj-grid">
-      <div class="subj kids stack" data-sum="ციფრები 1-9 და დათვლა ხატულებით" onclick="openSubj(event,'counting')"><div class="s-ico">🔢</div><div class="s-name num">1 2 3</div></div>
-      <div class="subj kids stack" data-sum="ქართული ასოები ხმითა და სურათით" onclick="openSubj(event,'ka-alpha')"><div class="s-ico">🇬🇪</div><div class="s-name">ა ბ გ</div></div>
-      <div class="subj kids eng stack" data-sum="English ABC ხმითა და სურათით" onclick="openSubj(event,'en-alpha')"><div class="s-ico">🇬🇧</div><div class="s-name en">A B C</div></div>
+      <div class="subj kids stack" data-sum="ციფრები 1-9 და დათვლა ხატულებით" onclick="openSubj(event,'counting')"><span class="s-badge">1–9</span><div class="s-ico">🔢</div><div class="s-name num">1 2 3</div><span class="tap-hint">👆</span></div>
+      <div class="subj kids stack" data-sum="ქართული ასოები ხმითა და სურათით" onclick="openSubj(event,'ka-alpha')"><span class="s-badge">33 ასო</span><div class="s-ico">🇬🇪</div><div class="s-name">ა ბ გ</div><span class="tap-hint">👆</span></div>
+      <div class="subj kids eng stack" data-sum="English ABC ხმითა და სურათით" onclick="openSubj(event,'en-alpha')"><span class="s-badge">26 ასო</span><div class="s-ico">🇬🇧</div><div class="s-name en">A B C</div><span class="tap-hint">👆</span></div>
       ${tiny
         ? `<div class="subj kids play" data-sum="ფიგურების ცნობა" onclick="startGame('shapes')">${PLAY_BADGE}<div class="s-ico">🔷</div><div class="s-name">ფიგურები</div></div>`
-        : `<div class="subj kids maths stack" data-sum="შეკრება და გამოკლება" onclick="openSubj(event,'math')"><div class="s-ico">➕➖</div><div class="s-name num">➕</div></div>`}
-      <div class="subj kids talk play" data-sum="საუბრის ბარათები მშობელთან ერთად" onclick="openTalk()">${PLAY_BADGE}<div class="s-ico">💬</div><div class="s-name">საუბარი</div></div>
+        : `<div class="subj kids maths stack" data-sum="შეკრება და გამოკლება" onclick="openSubj(event,'math')"><span class="s-badge">3 თემა</span><div class="s-ico">➕➖</div><div class="s-name num">➕</div><span class="tap-hint">👆</span></div>`}
+      <div class="subj kids talk play" data-sum="საუბრის ბარათები მშობელთან ერთად" onclick="openTalk()">${PLAY_BADGE}<span class="s-badge">4 თემა</span><div class="s-ico">💬</div><div class="s-name">საუბარი</div></div>
       <div class="subj kids move play" data-sum="მოკლე მოძრაობის შესვენება" onclick="showBreak(true)">${PLAY_BADGE}<div class="s-ico">🤸</div><div class="s-name">მოძრაობა</div></div>
     </div>`;
   } else {
