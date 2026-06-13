@@ -149,6 +149,13 @@
 >   „ცოდნის ვარსკვლავი" star system still FUTURE) · LOGO-EVERYWHERE ✅ LIVE v1.138 (in-app home/admin/screen-limit
 >   brand sun-badge → owl-logo.png; earlier landing+icons+favicon already owl). Remaining future: #3 deeper pedagogy,
 >   #4 the real knowledge-star prestige system, more word-problem templates (Nanobashvili-style).
+>   **FOLLOW-UPS LIVE: v1.139** word-problem sense-fix (verb↔item: food=eat, objects=give; no „eat the car"; all answers
+>   valid) + „გამიმძიმე"→„გამირთულე" (correct Georgian). **v1.140** word-problems tile icon 🍎→📝. **v1.141 BETTER
+>   TUTORING (owner ask, kid noticed it on the clock): on the 1st wrong answer the app no longer reveals + rushes on —
+>   it shows „კიდევ ცადე" and lets the child retry the SAME question; the answer is revealed only on the 2nd miss.
+>   Changed in `reQueueWrong` so it applies to ALL quiz modes (clock/math/english/etc.); visual untouched.**
+>   NANOBASHVILI: I did NOT mine the book (problem text not online; დაჩი ნანობაშვილი = real GE primary-math author).
+>   To align authentically, owner to share 2-3 page photos → mirror the problem types/progression.
 >   1. **Talk & Think „too little" — EXPAND (started).** Son loved the საუბარი section, wants more. 6 new ka clips
 >      generated (tlk_006-011, on disk, NOT yet wired) + 6 en planned. Talk could become a FLAGSHIP (parent-child
 >      conversation is rare in kids' apps = sticky differentiator). → finish wiring on owner go.
