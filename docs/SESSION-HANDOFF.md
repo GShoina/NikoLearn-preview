@@ -52,8 +52,14 @@
 > = the ONLY free ka engine (weak ყ/ღ; needs phrase-context + vowel-form hacks). Google Cloud TTS = 2066 voices,
 > **ZERO Georgian** (confirmed; the TTS API got enabled on GCP `shining-courage-493721-v5`, owner may disable, it
 > is free+unused). PARKED (owner „მერე ვნახოთ"): real upgrade = human-record the critical praise clips (the
-> `docs/VOICE_STANDARD.md` §7 script) [REC] OR ElevenLabs (paid, Georgian support unverified). Hybrid rec: human
-> praise + edge-tts for the rest. · v1.128 E-recipe origin + profile Export/Import
+> `docs/VOICE_STANDARD.md` §7 script) [REC] OR a PAID ka engine. Hybrid rec: human/paid praise + edge-tts for the rest.
+> **UPDATE 2026-06-14 (firecrawl-verified, was „unverified"): ElevenLabs DOES officially support Georgian** —
+> dedicated TTS page `elevenlabs.io/text-to-speech/georgian` + Georgian AI voices (paid). PLUS 4 more paid candidates
+> claiming native ka: Cartesia, Notevibes, CAMB.AI, Narakeet. So the old „no paid engine verified" is STALE — there
+> are now 5 paid candidates. The ONLY thing still open = ყ/ღ QUALITY by ear (agent CANNOT hear → owner ear-test, OR
+> generate a sample of the §7 praise clips first, which needs an account/spend = owner money decision). Next concrete
+> step when owner greenlights: pick ONE engine, generate the critical praise clips, owner A/B's it by ear vs edge-tts.
+> · v1.128 E-recipe origin + profile Export/Import
 > (cross-device backup code, no backend, round-trip verified) · v1.127 A+
 > 8-9 math (division/missing-number/2-digit) · v1.126 A4 a11y+PWA icons · v1.125 mobile footer fix + version
 > · v1.124 Viktor F1 nav fix (re-verified, kept) · v1.123 landing copy · v1.122 landing truth-pass. Detail below:
