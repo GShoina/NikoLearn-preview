@@ -185,6 +185,17 @@
 >   email anywhere customer-facing; phone +995 593 255 385 shown). **v1.147** ★ PICTURE-SUBSTITUTION PUZZLE „თავსატეხი"
 >   (owner favorite, tutor-first reasoning) for 7+: `🏉=🌲+🚗` / equal-items / sum / chain, single-unknown pre-algebra,
 >   Niko teaches substitution (op:`pic`, genPic/picRound/nextPic, tutor `pic` hint). Idea-library = `docs/MATH_IDEAS_LIBRARY.md`.
+>   **v1.149** SHAPES language bug fixed: shape names now follow the KID's language (`kidLangs`/`langs`), not the UI toggle —
+>   a Georgian kid was seeing English-only shape names (owner bug 2026-06-13). `nextShape` in games.js. Live + verified.
+>   **v1.150** ★ COMPREHENSION GATE on the 2nd miss (tutor-first, owner ask 2026-06-13: the old 1.7s auto-advance was too
+>   fast, the child couldn't absorb the right answer). Now: 2nd miss → owl card reveals the SOLUTION slowly (arithmetic =
+>   full solved equation `5 + 6 = 11` with the answer popping in + voiced), then a „გაიგე?" gate — ✓ კი advances, ✗ არა
+>   drops to a CONCRETE visual (counted coloured dots / groups, e.g. 5 + 6 shown as 11 dots) and a single „გასაგებია".
+>   Advancing happens ONLY on a tap, never on a timer. Also: owl help text enlarged + higher contrast (was hard to read).
+>   New: `teachAndConfirm`/`teachMore`/`solveLine`/`_teDots` in games.js, `.teach-*` CSS. Verified live (add/shapes, both
+>   ✓/✗ paths, 0 console errors, screenshots). NOTE: the owner's earlier „addition instantly reveals + advances" report
+>   was a STALE PWA CACHE on his device (code was already correct); resolved when he updated. Cache-clear = close all app
+>   tabs / reopen, or remove + re-add to Home Screen, to pull a new version.
 >   **📧 EMAIL/CONTACT (owner 2026-06-13):** app contact = NikoLearn@outlook.com (live). Owner READS feedback via that
 >   account added to his PHONE mail app (Option A) — Outlook web-forwarding to gela.shonia@bivision.ge was NOT set up
 >   (Microsoft security-wall: enabling forwarding needs verified security-info + a code only the owner receives; abandoned
