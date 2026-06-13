@@ -207,6 +207,14 @@
 >   regex rules in i18n-strings.js synced to the new 💛 strings (verified: bravo/try-again/all 4 result tiers/beat-down
 >   translate correctly). NOTE for future copy edits: any praise string that carries a trailing emoji has a matching
 >   `I18N_PATTERNS` rule in i18n-strings.js (~line 434-451) — change BOTH together or the EN toggle breaks.
+>   **v1.154** ★ SYSTEMATIC UI AUDIT + tap-target fixes (owner: "serious testing needed, bugs everywhere"). Built
+>   `qa/ui-audit.js` — a repeatable Playwright/console sweep that launches ALL 18 game modes and flags any tappable
+>   control < 44x44px (Apple finger min). Found + fixed: listen "მოისმინე" `.speakbtn` 34->48px (owner's Kings/quiz bug),
+>   voice toggle `.vtgl` 29->44, game back button 40->44 (inline style in gameShell line ~55), bottom-nav 26->44. Re-swept:
+>   all genuinely-small controls fixed (residual flags = 43-44px sub-pixel rounding), 0 console errors across 18 modes.
+>   RE-RUN ANYTIME: load app + pick a profile, paste qa/ui-audit.js in console, `await uiAudit()`. Next QA ideas (PARKED):
+>   dead-control audit (button with no handler), overlap/covered-element audit, full per-element click walk. The static
+>   `node qa/qa-check.mjs` (audio/text/version) still complements this live UI sweep.
 >   **📧 EMAIL/CONTACT (owner 2026-06-13):** app contact = NikoLearn@outlook.com (live). Owner READS feedback via that
 >   account added to his PHONE mail app (Option A) — Outlook web-forwarding to gela.shonia@bivision.ge was NOT set up
 >   (Microsoft security-wall: enabling forwarding needs verified security-info + a code only the owner receives; abandoned
