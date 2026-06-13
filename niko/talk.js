@@ -34,7 +34,14 @@ const TALK = {
     {theme:'values',  emoji:'🤝',   by:'masho', q:'დღეს ვინმეს დაეხმარე? როგორ იგრძენი თავი მერე?', subs:['ხვალ ვის შეგიძლია დაეხმარო?']},
     {theme:'bedtime', emoji:'🌙',   by:'owl',   q:'დღის ყველაზე სასიამოვნო წუთი რომელი იყო? ყველაზე რთული კი?', subs:['ხვალ რისი მოლოდინი გაქვს?']},
     {theme:'think',   emoji:'🐾',   by:'niko',  q:'ცხოველებს ლაპარაკი რომ შეეძლოთ, შენი საყვარელი ცხოველი რას გეტყოდა?', subs:[]},
-    {theme:'values',  emoji:'🧒🧒', by:'masho', q:'რას ნიშნავს ნამდვილი მეგობარი? შენ როგორი მეგობარი ხარ?', subs:['მეგობართან თუ წაიჩხუბე, როგორ უხდი ბოდიშს?']}
+    {theme:'values',  emoji:'🧒🧒', by:'masho', q:'რას ნიშნავს ნამდვილი მეგობარი? შენ როგორი მეგობარი ხარ?', subs:['მეგობართან თუ წაიჩხუბე, როგორ უხდი ბოდიშს?']},
+    // v1.136 — Talk & Think expansion #2 (clips tlk_006-011)
+    {theme:'think',   emoji:'🎨',   by:'owl',   q:'რომელი ფერი ხარ დღეს და რატომ?', subs:['ხვალ რომელი ფერი გინდა იყო?']},
+    {theme:'imagine', emoji:'🚪✨', by:'niko',  q:'ჯადოსნური კარი რომ გქონდეს, სად გაგეხსნებოდა?', subs:['ვის წაიყვანდი თან?']},
+    {theme:'values',  emoji:'😊',   by:'masho', q:'რა გაგახარა დღეს ყველაზე მეტად?', subs:['შენ ვინ გაახარე?']},
+    {theme:'bedtime', emoji:'📚',   by:'owl',   q:'დღეს რა ისწავლე ახალი?', subs:['ვის უამბობ ამის შესახებ?']},
+    {theme:'think',   emoji:'👟',   by:'niko',  q:'ნივთები რომ ლაპარაკობდნენ, შენი ფეხსაცმელი რას იტყოდა?', subs:[]},
+    {theme:'values',  emoji:'🦁',   by:'masho', q:'რას ნიშნავს გამბედავი? შენ როდის იყავი გამბედავი?', subs:['ვინ არის შენთვის ყველაზე გამბედავი?']}
   ],
   en:[
     {theme:'think',   emoji:'☁️🍬', by:'owl',   q:'What would happen if clouds were made of candy? What would you do?', subs:["Now you make up a 'What if...' question!"]},
@@ -42,7 +49,14 @@ const TALK = {
     {theme:'values',  emoji:'🤝',   by:'masho', q:'Did you help someone today? How did it feel?', subs:['Who can you help tomorrow?']},
     {theme:'bedtime', emoji:'🌙',   by:'owl',   q:'What made you smile today? What was a little hard?', subs:['What are you looking forward to?']},
     {theme:'think',   emoji:'🐾',   by:'niko',  q:'If animals could talk, what would your favorite animal say?', subs:[]},
-    {theme:'values',  emoji:'🧒🧒', by:'masho', q:'What makes a real friend? Are you a good friend?', subs:['How do you say sorry to a friend?']}
+    {theme:'values',  emoji:'🧒🧒', by:'masho', q:'What makes a real friend? Are you a good friend?', subs:['How do you say sorry to a friend?']},
+    // v1.136 — Talk & Think expansion #2 (English deck; runtime English voice)
+    {theme:'think',   emoji:'🎨',   by:'owl',   q:'What color are you today, and why?', subs:['What color do you want to be tomorrow?']},
+    {theme:'imagine', emoji:'🚪✨', by:'niko',  q:'If you had a magic door, where would it open?', subs:['Who would you take with you?']},
+    {theme:'values',  emoji:'😊',   by:'masho', q:'What made you happiest today?', subs:['Who did you make happy?']},
+    {theme:'bedtime', emoji:'📚',   by:'owl',   q:'What new thing did you learn today?', subs:['Who will you tell about it?']},
+    {theme:'think',   emoji:'👟',   by:'niko',  q:'If your shoes could talk, what would they say?', subs:[]},
+    {theme:'values',  emoji:'🦁',   by:'masho', q:"What does 'brave' mean? When were you brave?", subs:['Who is the bravest person you know?']}
   ]
 };
 
