@@ -32,6 +32,13 @@
         `დაითვალე ${a1}-ობით: ${a1}, ${a1*2}, ${a1*3}… სულ ${a2} ბიჯი.`
       ], explain:`გამრავლება = ერთი რიცხვის რამდენჯერმე შეკრება. ${a1}-ობით დათვლა ყველაზე სწრაფია.`};
     }
+    // multi-step (3-term, e.g. 9 + 9 − 8): teach left-to-right, one step at a time
+    if(op==='multi'){
+      return {hints:[
+        `${warm(kid)}გამოთვალე ნაბიჯ-ნაბიჯ, მარცხნიდან მარჯვნივ.`,
+        `ჯერ პირველი ორი რიცხვი გამოთვალე, მერე მიღებულ შედეგს მესამე მოქმედება გაუკეთე.`
+      ], explain:`რამდენიმე მოქმედება ერთად: მარცხნიდან მარჯვნივ, თითო ნაბიჯად დაშალე.`};
+    }
     // pattern
     const seq=q.seq||[];
     // doubling (×2) pattern: step is null and each number is twice the previous one

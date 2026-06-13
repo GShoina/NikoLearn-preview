@@ -410,6 +410,13 @@ function rampMath(type,pct){
 function genMath(type){
   const young=isYoung(profile);
   const cfg=(MATH_LV[type]||[])[mathLvl(type)]||{};
+  // 7+ step-up (from the owner's worksheets): occasional 3-term expression e.g. "9 + 9 − 8" / "15 − 5 − 3"
+  // at the higher levels. op:'multi' so the tutor teaches step-by-step (left to right), never mislabels it.
+  if((type==='math-add'||type==='math-sub') && !young && typeof isBig==='function' && isBig(profile) && mathLvl(type)>=1 && Math.random()<0.4){
+    const mx=cfg.max||40;
+    if(type==='math-add'){ const a=ri(2,Math.floor(mx*0.5)),b=ri(2,Math.floor(mx*0.5)),c=ri(1,a+b-1); return{q:`${a} + ${b} − ${c}`,a:a+b-c,op:'multi'}; }
+    const a=ri(8,mx),b=ri(1,a-2),c=ri(1,a-b); return{q:`${a} − ${b} − ${c}`,a:a-b-c,op:'multi'};
+  }
   if(type==='math-add'){const mx=young?10:(cfg.max||20);const a=ri(1,Math.floor(mx*0.7)),b=ri(1,Math.max(1,mx-a));return{q:`${a} + ${b}`,a:a+b,op:'add',a1:a,a2:b};}
   if(type==='math-sub'){const mx=young?10:(cfg.max||20);const a=ri(2,mx),b=ri(1,a-1);return{q:`${a} − ${b}`,a:a-b,op:'sub',a1:a,a2:b};}
   if(type==='math-mul'){if(cfg.twod&&!young){const t=ri(11,19),b=ri(2,9);return{q:`${t} × ${b}`,a:t*b,op:'mul',a1:t,a2:b};}const tmax=young?3:(cfg.tmax||5);const t=ri(2,tmax),b=ri(1,10);return{q:`${t} × ${b}`,a:t*b,op:'mul',a1:t,a2:b};}
