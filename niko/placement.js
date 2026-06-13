@@ -74,13 +74,36 @@ function subjDiagNeeded(p,subj){
   if(subj==='math' && isYoung(p)) return false;
   return PATH_SUBJS.indexOf(subj)>=0 && !(s.subjDiag&&s.subjDiag[subj]);
 }
+// Per-subject entry diagnostic. ≥10 questions each, AGE-DIFFERENTIATED (owner 2026-06-13): subjects taken by
+// both ages carry {young:[…], big:[…]} (young = 3-5, simpler/picture-led; big = 6-9, reading/spelling/abstract).
+// Math is a flat array (young kids skip it per subjDiagNeeded). startSubjDiag picks the right set by isYoung().
 const SUBJ_DIAG = {
-  english:[
-    {kind:'pic', emoji:'🍎', q:'რომელია?', a:'apple', opts:['apple','book','dog']},
-    {kind:'tr',  q:'ცხენი', a:'horse', opts:['horse','house','mouse']},
-    {kind:'spell', emoji:'🐶', q:'რომელია სწორად დაწერილი?', a:'dog', opts:['dog','dawg','doog']},
-    {kind:'en2ka', q:'happy', a:'ბედნიერი', opts:['ბედნიერი','მწუხარე','დაღლილი']}
-  ],
+  english:{
+    young:[ // 3-5: hear the word + see the picture, pick the English word
+      {kind:'pic', emoji:'🍎', q:'რომელია?', a:'apple', opts:['apple','ball','sun']},
+      {kind:'pic', emoji:'🐶', q:'რომელია?', a:'dog', opts:['dog','cat','cow']},
+      {kind:'pic', emoji:'🐱', q:'რომელია?', a:'cat', opts:['cat','dog','fish']},
+      {kind:'pic', emoji:'☀️', q:'რომელია?', a:'sun', opts:['sun','star','moon']},
+      {kind:'pic', emoji:'⚽', q:'რომელია?', a:'ball', opts:['ball','book','box']},
+      {kind:'pic', emoji:'🐟', q:'რომელია?', a:'fish', opts:['fish','frog','bird']},
+      {kind:'pic', emoji:'🚗', q:'რომელია?', a:'car', opts:['car','bus','cup']},
+      {kind:'pic', emoji:'⭐', q:'რომელია?', a:'star', opts:['star','sun','heart']},
+      {kind:'pic', emoji:'🍌', q:'რომელია?', a:'banana', opts:['banana','apple','lemon']},
+      {kind:'pic', emoji:'🐻', q:'რომელია?', a:'bear', opts:['bear','bee','bird']}
+    ],
+    big:[ // 6-9: translation, spelling, meaning
+      {kind:'pic', emoji:'🍎', q:'რომელია?', a:'apple', opts:['apple','book','dog']},
+      {kind:'tr',  q:'ცხენი', a:'horse', opts:['horse','house','mouse']},
+      {kind:'spell', emoji:'🐶', q:'რომელია სწორად დაწერილი?', a:'dog', opts:['dog','dawg','doog']},
+      {kind:'en2ka', q:'happy', a:'ბედნიერი', opts:['ბედნიერი','მწუხარე','დაღლილი']},
+      {kind:'tr',  q:'წიგნი', a:'book', opts:['book','look','cook']},
+      {kind:'en2ka', q:'big', a:'დიდი', opts:['დიდი','პატარა','მაღალი']},
+      {kind:'spell', emoji:'🐱', q:'რომელია სწორად დაწერილი?', a:'cat', opts:['cat','kat','catt']},
+      {kind:'tr',  q:'წყალი', a:'water', opts:['water','winter','wonder']},
+      {kind:'en2ka', q:'run', a:'სირბილი', opts:['სირბილი','ხტომა','ცურვა']},
+      {kind:'spell', emoji:'⭐', q:'რომელია სწორად დაწერილი?', a:'star', opts:['star','stahr','starr']}
+    ]
+  },
   math:[
     {kind:'num', q:'2 + 3', a:'5', opts:['5','4','6']},
     {kind:'num', q:'7 + 5', a:'12', opts:['12','11','13']},
@@ -93,17 +116,43 @@ const SUBJ_DIAG = {
     {kind:'num', q:'6 × 7', a:'42', opts:['42','36','48']},
     {kind:'num', q:'8 × 6', a:'48', opts:['48','42','54']}
   ],
-  'ka-alpha':[
-    {kind:'letter', q:'რომელია „ა"?', a:'ა', opts:['ა','ბ','გ']},
-    {kind:'letter', q:'რომელია „ო"?', a:'ო', opts:['ო','ე','უ']},
-    {kind:'syl', emoji:'🍎', q:'რომელი მარცვლით იწყება „ვაშლი"?', a:'ვა', opts:['ვა','მა','სა']},
-    {kind:'word', q:'წაიკითხე: რომელია „დედა"?', a:'დედა', opts:['დედა','მამა','ბაბუ']}
-  ]
+  'ka-alpha':{
+    young:[ // 3-5: pure letter recognition
+      {kind:'letter', q:'რომელია „ა"?', a:'ა', opts:['ა','ბ','გ']},
+      {kind:'letter', q:'რომელია „ო"?', a:'ო', opts:['ო','ე','უ']},
+      {kind:'letter', q:'რომელია „მ"?', a:'მ', opts:['მ','ნ','ლ']},
+      {kind:'letter', q:'რომელია „ს"?', a:'ს', opts:['ს','შ','ზ']},
+      {kind:'letter', q:'რომელია „დ"?', a:'დ', opts:['დ','ტ','თ']},
+      {kind:'letter', q:'რომელია „ბ"?', a:'ბ', opts:['ბ','ვ','გ']},
+      {kind:'letter', q:'რომელია „ი"?', a:'ი', opts:['ი','უ','ე']},
+      {kind:'letter', q:'რომელია „რ"?', a:'რ', opts:['რ','ლ','ნ']},
+      {kind:'letter', q:'რომელია „ე"?', a:'ე', opts:['ე','ა','ო']},
+      {kind:'letter', q:'რომელია „ლ"?', a:'ლ', opts:['ლ','რ','მ']}
+    ],
+    big:[ // 6-9: letters + syllables + reading whole words
+      {kind:'letter', q:'რომელია „ა"?', a:'ა', opts:['ა','ბ','გ']},
+      {kind:'letter', q:'რომელია „ო"?', a:'ო', opts:['ო','ე','უ']},
+      {kind:'letter', q:'რომელია „ჭ"?', a:'ჭ', opts:['ჭ','ჩ','წ']},
+      {kind:'letter', q:'რომელია „ჯ"?', a:'ჯ', opts:['ჯ','ჟ','ძ']},
+      {kind:'syl', emoji:'🍎', q:'რომელი მარცვლით იწყება „ვაშლი"?', a:'ვა', opts:['ვა','მა','სა']},
+      {kind:'syl', emoji:'🐶', q:'რომელი მარცვლით იწყება „ძაღლი"?', a:'ძა', opts:['ძა','ცა','წა']},
+      {kind:'word', q:'წაიკითხე: რომელია „დედა"?', a:'დედა', opts:['დედა','მამა','ბაბუ']},
+      {kind:'word', q:'წაიკითხე: რომელია „წიგნი"?', a:'წიგნი', opts:['წიგნი','ჩიტი','ცხენი']},
+      {kind:'word', q:'წაიკითხე: რომელია „სახლი"?', a:'სახლი', opts:['სახლი','თაგვი','კარი']},
+      {kind:'word', q:'წაიკითხე: რომელია „მზე"?', a:'მზე', opts:['მზე','ცა','ღამე']}
+    ]
+  }
 };
 
+// pick the age-appropriate question set: flat array (math) → as-is; {young,big} → by isYoung(p).
+function diagSet(p,subj){
+  const d=SUBJ_DIAG[subj]; if(!d) return [];
+  if(Array.isArray(d)) return d;
+  return (isYoung(p)?d.young:d.big) || d.big || d.young || [];
+}
 function startSubjDiag(p,subj){
   profile=p;
-  pl={subj, qs:(SUBJ_DIAG[subj]||[]).slice(), i:0, got:0};
+  pl={subj, qs:diagSet(p,subj).slice(), i:0, got:0};
   pl.max=pl.qs.length;
   plNext();
 }
