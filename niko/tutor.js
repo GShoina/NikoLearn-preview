@@ -33,11 +33,19 @@
       ], explain:`გამრავლება = ერთი რიცხვის რამდენჯერმე შეკრება. ${a1}-ობით დათვლა ყველაზე სწრაფია.`};
     }
     // pattern
-    const seq=q.seq||[], step=q.step!=null?q.step:(seq.length>1?seq[1]-seq[0]:1);
+    const seq=q.seq||[];
+    // doubling (×2) pattern: step is null and each number is twice the previous one
+    if(q.step==null && seq.length>2 && seq[1]===seq[0]*2 && seq[2]===seq[1]*2){
+      return {hints:[
+        `${warm(kid)}დააკვირდი: ყოველი რიცხვი წინაზე ორჯერ მეტია.`,
+        `ბოლო რიცხვი გააორმაგე: ${seq[seq.length-1]} × 2.`
+      ], explain:`აქ ნაბიჯი მუდმივი არ არის: ყოველ ჯერზე რიცხვი ორმაგდება (×2).`};
+    }
+    const step=q.step!=null?q.step:(seq.length>1?seq[1]-seq[0]:1);
     return {hints:[
       `${warm(kid)}შეადარე მეზობელი რიცხვები, რამდენით იცვლება ყოველ ჯერზე?`,
       step>=0?`ყოველ ჯერზე იზრდება ${step}-ით. ბოლო რიცხვს დაუმატე ${step}.`:`ყოველ ჯერზე მცირდება ${Math.abs(step)}-ით. ბოლო რიცხვს გამოაკელი ${Math.abs(step)}.`
-    ], explain:`კანონზომიერება = მუდმივი ნაბიჯი. იპოვე ნაბიჯი და გააგრძელე იგივეთი.`};
+    ], explain:`კანონზომიერება = ნაბიჯი ან წესი. იპოვე წესი და გააგრძელე იგივეთი.`};
   }
 
   // ── VOCABULARY (q:{ka,en,emoji}) ──

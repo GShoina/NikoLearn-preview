@@ -398,8 +398,15 @@ function genMath(type){
   if(type==='math-div'){const dmax=cfg.dmax||5;const b=ri(2,dmax),c=ri(2,10);return{q:`${b*c} ÷ ${b}`,a:c,op:'div',a1:b*c,a2:b};}
   // A+ (8-9): missing number — ? op y = res, answer is the missing first operand
   if(type==='math-miss'){const ops=cfg.ops||['+'];const sym=ops[ri(0,ops.length-1)];let x,y;if(sym==='×'){x=ri(2,9);y=ri(2,9);}else{x=ri(2,15);y=ri(2,15);}const res=(sym==='×')?x*y:x+y;return{q:`? ${sym} ${y} = ${res}`,a:x,op:'miss',a1:x,a2:y};}
-  // pattern
-  const step=ri(1,young?2:(cfg.span||2)),s=ri(1,5),seq=[s];for(let i=1;i<4;i++)seq.push(seq[i-1]+step);return{q:seq.join(', ')+', ?',a:seq[3]+step,pat:true,op:'pat',seq:seq.slice(),step};
+  // pattern: varied types so it isn't always "1,2,3,?" (owner ask 2026-06-13 — more variety + interest).
+  // young = simple increasing only; older = increasing(varied step) / skip-5-10 / decreasing / doubling.
+  { let seq,ans,step,kind=young?0:ri(0,3);
+    if(kind===0){ step=young?ri(1,3):[2,3,4,5][ri(0,3)]; const s=ri(1,young?5:9); seq=[s,s+step,s+step*2,s+step*3]; ans=s+step*4; }
+    else if(kind===1){ step=(Math.random()<0.5?5:10); const s=step*ri(1,4); seq=[s,s+step,s+step*2,s+step*3]; ans=s+step*4; }
+    else if(kind===2){ const d=[2,3,5][ri(0,2)]; const start=d*ri(4,7); seq=[start,start-d,start-d*2,start-d*3]; ans=start-d*4; step=-d; }
+    else { const s=[1,2,3,5][ri(0,3)]; seq=[s,s*2,s*4,s*8]; ans=s*16; step=null; }
+    return {q:seq.join(', ')+', ?',a:ans,pat:true,op:'pat',seq:seq.slice(),step};
+  }
 }
 function mathOpts(ans){const set=new Set([ans]);while(set.size<4){const v=ans+ri(1,Math.max(3,Math.ceil(Math.abs(ans)*0.3)+1))*(Math.random()>.5?1:-1);if(v>=0)set.add(v);}return shuffle([...set]);}
 function mathRound(m){game.mode=m;game.leveledMath=null;game.qs=Array.from({length:8},()=>genMath(m));game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextMath();}
