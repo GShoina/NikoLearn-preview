@@ -84,7 +84,7 @@ function sendFeedback(){
   const name=g('fb-name'),phone=g('fb-phone'),email=g('fb-email'),msg=g('fb-msg');
   if(!msg&&!phone&&!email){toast('დაწერე აზრი ან დატოვე საკონტაქტო');return;}
   const body=`NikoLearn გამოხმაურება\n\nსახელი: ${name||'-'}\nტელეფონი: ${phone||'-'}\nელფოსტა: ${email||'-'}\n\nაზრი:\n${msg||'-'}`;
-  const href='mailto:gela.shonia@bivision.ge?subject='+encodeURIComponent('NikoLearn გამოხმაურება')+'&body='+encodeURIComponent(body);
+  const href='mailto:shonia.g@gmail.com?subject='+encodeURIComponent('NikoLearn გამოხმაურება')+'&body='+encodeURIComponent(body);
   const f=$('#fbform');if(f)f.remove();
   try{ location.href=href; }catch(e){}
   toast('✓ მადლობა! იხსნება ფოსტის აპი');
@@ -226,7 +226,7 @@ function parentDash(){
   html+=`<div class="pgroup"><div class="pgroup-h">📤 გაზიარება</div>
     <button class="btn btn-sky btn-block" onclick="exportReport()">📋 რეპორტი მასწავლებელს</button>
     <button class="btn btn-ghost btn-block mt" onclick="feedbackForm()">💬 დაგვიტოვე აზრი ან საკონტაქტო</button>
-    <div class="pset-hint">ან: <a href="https://wa.me/995593255385?text=NikoLearn%20feedback" target="_blank" rel="noopener" style="color:var(--primary-d);font-weight:600;text-decoration:none">WhatsApp 💬</a> · <a href="mailto:gela.shonia@bivision.ge?subject=NikoLearn%20feedback" style="color:inherit;text-decoration:none">✉️ ელფოსტა</a></div>
+    <div class="pset-hint">ან: <a href="https://wa.me/995593255385?text=NikoLearn%20feedback" target="_blank" rel="noopener" style="color:var(--primary-d);font-weight:600;text-decoration:none">WhatsApp 💬</a> · <a href="mailto:shonia.g@gmail.com?subject=NikoLearn%20feedback" style="color:inherit;text-decoration:none">✉️ ელფოსტა</a></div>
   </div>`;
   html+=`<div class="pgroup"><div class="pgroup-h">📦 ახალ მოწყობილობაზე გადატანა</div>
     <div class="pset-hint" style="margin-bottom:8px">ახალ ტელეფონს იყენებ? გადაიტანე ბავშვის პროგრესი (დონეები და ვარსკვლავები) კოდით. ღრუბელი და ანგარიში არ სჭირდება.</div>
