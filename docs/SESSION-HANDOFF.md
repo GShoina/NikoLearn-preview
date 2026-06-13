@@ -240,6 +240,16 @@
 >   still shipped — they live in other files + SW bumped). FIX FORWARD: ALWAYS `git add niko/screens.js niko/sw.js
 >   sw.js landing.html` (+ whatever code files changed) on every bump. Verify post-deploy: live screens.js APP_VERSION
 >   == landing footer == sw cache.
+>   **v1.161** ★ GEORGIAN VOICE COVERAGE AUDIT (owner: „ka voice is the bottleneck"). Result: coverage is ESSENTIALLY
+>   COMPLETE for everything the app actually voices — praise 4/4, retry 1/1, numbers 20/20, words_ka 116/116, phrases
+>   79/80, talk-questions 12/12, alphabet example-words 94/94, reading-sentences 28/28. The two big apparent gaps were
+>   FALSE ALARMS: 33 alphabet LETTERS (alphaSay voices the example WORD it.w, never the bare letter) + 10 Talk SUB-prompts
+>   (text-only, talkSpeak voices c.q only). Fixed the ONE real gap: aliased „ბრავო!" → existing clip_019 (no new audio).
+>   Tool: `qa/voice-coverage.js` (paste in console → `voiceCoverage()`), re-run when adding ka content. CONCLUSION: the
+>   bottleneck is NOT missing clips — it's STRUCTURAL: no runtime ka TTS, so every NEW Georgian string needs a generated
+>   edge-tts clip (ka-GE-EkaNeural) before it can be voiced. Pipeline lives in tools/ (_gen_*.py). One nuance worth a
+>   future look: the 2nd-miss teach-card reveal voices the correct answer via speak(cor,lang) — for ka shape names that
+>   routes to en-US TTS (garbled); low-impact, PARKED.
 >   **📧 EMAIL/CONTACT (owner 2026-06-13):** app contact = NikoLearn@outlook.com (live). Owner READS feedback via that
 >   account added to his PHONE mail app (Option A) — Outlook web-forwarding to gela.shonia@bivision.ge was NOT set up
 >   (Microsoft security-wall: enabling forwarding needs verified security-info + a code only the owner receives; abandoned
