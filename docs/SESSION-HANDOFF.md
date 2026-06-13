@@ -156,6 +156,13 @@
 >   Changed in `reQueueWrong` so it applies to ALL quiz modes (clock/math/english/etc.); visual untouched.**
 >   NANOBASHVILI: I did NOT mine the book (problem text not online; დაჩი ნანობაშვილი = real GE primary-math author).
 >   To align authentically, owner to share 2-3 page photos → mirror the problem types/progression.
+>   **MORE FOLLOW-UPS LIVE (kid-play feedback): v1.142** patterns varied (was always +1/+2 → now varied-step / skip-5-10 /
+>   decreasing / doubling ×2 for 6+, simple for young; doubling-aware hint). **v1.143** age-appropriate difficulty for
+>   7-8: `isBig` 8→7 (7 yo now gets division/missing-number/2-digit) + age floor on add/sub start (7→1-40, 8→1-70).
+>   **v1.144** more variety: patterns blank a VARIED position (middle too, not just last); word problems = 10 scenarios
+>   (combine / two-boxes-DIFFERENT / comparison-difference / shopping-money / equal-sharing-division) not just repetitive
+>   box-mul; word scenarios respect food↔eat vs object↔give; division always exact. All verified (300-500 samples each,
+>   0 errors) + live. Helpers: `twoNames()`, `genWord` switch, pattern `blank` index, tutor pattern hint position-aware.
 >   1. **Talk & Think „too little" — EXPAND (started).** Son loved the საუბარი section, wants more. 6 new ka clips
 >      generated (tlk_006-011, on disk, NOT yet wired) + 6 en planned. Talk could become a FLAGSHIP (parent-child
 >      conversation is rare in kids' apps = sticky differentiator). → finish wiring on owner go.
