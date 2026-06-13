@@ -20,6 +20,7 @@ function startGame(m){
   if(m==='money')return moneyRound();
   if(m==='clock')return clockRound();
   if(m==='math-word')return wordRound();
+  if(m==='math-pic')return picRound();
   game.mode=m;game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);
   if(m.startsWith('math-'))return mathRound(m);
   const pool=wordPool();
@@ -42,7 +43,7 @@ function abandonRound(){
   if(game.roundActive){ try{ if(window.Analytics) Analytics.event('round_abandon',{mode:coarseMode()}); }catch(e){} game.roundActive=false; }
   openMenu(game.subj||'math');
 }
-const SUBMODES=['quiz','reverse','listen','match','spell','phrases','math-add','math-sub','math-mul','math-div','math-miss','math-pat','math-word','compare','skip','shapes','money','clock','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','digit'];
+const SUBMODES=['quiz','reverse','listen','match','spell','phrases','math-add','math-sub','math-mul','math-div','math-miss','math-pat','math-word','math-pic','compare','skip','shapes','money','clock','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','digit'];
 function gameShell(area){
   closeHint();
   game.roundActive=true; // marks an in-progress round (cleared by results()/abandonRound())
@@ -155,6 +156,7 @@ function nextForMode(){
   if(m==='phrases')return nextPhrase;
   if(m==='kings-eng'||m==='kings-math')return nextKings;
   if(m==='math-word')return nextWordQ;
+  if(m==='math-pic')return nextPic;
   if(m.startsWith('math-'))return nextMath;
   return nextWord;
 }
@@ -339,7 +341,8 @@ const MATH_WHY={
   'math-div':'გაყოფა = თანაბრად დაყოფა ყველას შორის. 🍪',
   'math-miss':'იპოვე გამოტოვებული რიცხვი. რა აკლია? 🔍',
   'math-pat':'იპოვე კანონზომიერება — რა მოდის შემდეგ? 🔢',
-  'math-word':'ჯერ ამბავი წაიკითხე, წარმოიდგინე, მერე დათვალე. 🦉'
+  'math-word':'ჯერ ამბავი წაიკითხე, წარმოიდგინე, მერე დათვალე. 🦉',
+  'math-pic':'ჯერ ცნობილი ფასები ნახე, მერე იფიქრე რა აკლია. ნელა, ნაბიჯ-ნაბიჯ. 🧠'
 };
 // #3b: real-life WORD PROBLEMS (Georgian, Nanobashvili-style). Story → number. Sentence frames stay
 // grammatically stable for any number; items in nominative; names take the dative -ს.
@@ -374,6 +377,31 @@ function nextWordQ(){
   const q=game.qs[game.i];game.cur=q;
   const why=game.i===0?`<div style="background:#fff8ee;border:1px solid #ffe2bd;border-radius:14px;padding:10px 14px;margin-bottom:12px;font-size:.92rem;color:#6b5640;line-height:1.45">🦉 ${MATH_WHY['math-word']}</div>`:'';
   gameShell(`${why}<div class="prompt"><div class="p-word" style="font-size:1.25rem;line-height:1.55;max-width:430px">${q.q}</div></div>
+    <div class="options">${mathOpts(q.a).map(o=>`<button class="opt num" onclick="answerMath(this,${o},${q.a})">${o}</button>`).join('')}</div>`);
+  $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
+}
+// ★ picture-substitution puzzles (owner favorite): pre-algebra reasoning with pictures, single unknown.
+// Niko teaches substitution (the „point B" — building logic from arithmetic bricks). 7+ only.
+const PIC_ITEMS=['⚽','🏀','🧸','🚗','🌲','🍎','🎈','🐱','🍌','🚲','🪁','🍪'];
+function pickPic(n){const pool=PIC_ITEMS.slice();const o=[];for(let i=0;i<n;i++)o.push(pool.splice(ri(0,pool.length-1),1)[0]);return o;}
+function genPic(){
+  const L='₾', t=ri(0,3);
+  const ln=s=>`<div style="margin:4px 0">${s}</div>`, em=e=>`<span style="font-size:1.7rem;vertical-align:middle">${e}</span>`;
+  if(t===0){ const [A]=pickPic(1),k=ri(2,4),v=ri(2,9); const row=Array(k).fill(em(A)).join(' + ');
+    return {q: ln(`${row} = ${k*v} ${L}`)+ln(`${em(A)} = ?`), a:v, op:'pic'}; }
+  if(t===1){ const [A,B]=pickPic(2),a=ri(2,9),b=ri(2,9);
+    return {q: ln(`${em(A)} = ${a} ${L}`)+ln(`${em(B)} = ${b} ${L}`)+ln(`${em(A)} + ${em(B)} = ?`), a:a+b, op:'pic'}; }
+  if(t===2){ const [A,B,C]=pickPic(3),b=ri(2,7),c=ri(2,7);
+    return {q: ln(`${em(A)} = ${em(B)} + ${em(C)}`)+ln(`${em(A)} = ${b+c} ${L}`)+ln(`${em(B)} = ${b} ${L}`)+ln(`${em(C)} = ?`), a:c, op:'pic'}; }
+  const [A,B]=pickPic(2),a=ri(2,8),d=ri(1,5);
+  return {q: ln(`${em(A)} = ${a} ${L}`)+ln(`${em(B)} = ${em(A)} + ${d}`)+ln(`${em(B)} = ?`), a:a+d, op:'pic'};
+}
+function picRound(){game.mode='math-pic';game.qs=Array.from({length:6},()=>genPic());game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextPic();}
+function nextPic(){
+  if(game.i>=game.qs.length)return results();
+  const q=game.qs[game.i];game.cur=q;
+  const why=game.i===0?`<div style="background:#fff8ee;border:1px solid #ffe2bd;border-radius:14px;padding:10px 14px;margin-bottom:12px;font-size:.92rem;color:#6b5640;line-height:1.45">🦉 ${MATH_WHY['math-pic']}</div>`:'';
+  gameShell(`${why}<div class="prompt"><div class="p-word" style="font-size:1.2rem;line-height:1.5;text-align:center">${q.q}</div></div>
     <div class="options">${mathOpts(q.a).map(o=>`<button class="opt num" onclick="answerMath(this,${o},${q.a})">${o}</button>`).join('')}</div>`);
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
 }

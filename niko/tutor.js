@@ -32,6 +32,13 @@
         `დაითვალე ${a1}-ობით: ${a1}, ${a1*2}, ${a1*3}… სულ ${a2} ბიჯი.`
       ], explain:`გამრავლება = ერთი რიცხვის რამდენჯერმე შეკრება. ${a1}-ობით დათვლა ყველაზე სწრაფია.`};
     }
+    // picture-substitution puzzle: teach the reasoning (substitute known values → find the unknown)
+    if(op==='pic'){
+      return {hints:[
+        `${warm(kid)}ჯერ ის ნივთები ნახე, რომელთა ფასი უკვე იცი.`,
+        `ჩაანაცვლე ცნობილი ფასები და იპოვე უცნობი: დააკავშირე რა რის ტოლია.`
+      ], explain:`სურათების თავსატეხი: თუ ზოგი ფასი იცი, დანარჩენს ლოგიკით იპოვი. ეს პატარა ალგებრაა! 🧠`};
+    }
     // multi-step (3-term, e.g. 9 + 9 − 8): teach left-to-right, one step at a time
     if(op==='multi'){
       return {hints:[

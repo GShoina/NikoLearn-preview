@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.146'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.147'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -404,6 +404,7 @@ function openMenu(subj){
       ${tiny?'':mode('math-sub','➖',kid?'':'გამოკლება',kid?'':mathRangeLabel('math-sub'))}
       ${kid?'':mode('math-mul','✖️','გამრავლება',mathRangeLabel('math-mul'))}
       ${kid?'':mode('math-word','📝','ამოცანები','ცხოვრებისეული')}
+      ${big?mode('math-pic','🧠','თავსატეხი','ფასები · ლოგიკა'):''}
       ${big?mode('math-div','➗','გაყოფა',mathRangeLabel('math-div')):''}
       ${big?mode('math-miss','❓','გამოტოვებული',mathRangeLabel('math-miss')):''}
       ${tiny?'':mode('math-pat','🧩',kid?'':'პატერნები','')}
