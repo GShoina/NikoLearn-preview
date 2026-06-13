@@ -347,14 +347,26 @@ const WP_NAMES=['ნიკო','მაშო','ლუკა','ანა','და
 const WP_FOOD=['ვაშლი','ბანანი','კანფეტი','მსხალი','ნამცხვარი'];      // can be EATEN
 const WP_OBJ =['ბურთი','მანქანა','წიგნი','ფანქარი','ყვავილი','ბუშტი']; // had / given / found — NOT eaten
 const rpick=a=>a[ri(0,a.length-1)];
+function twoNames(){const i=ri(0,WP_NAMES.length-1);let j=ri(0,WP_NAMES.length-1);if(j===i)j=(j+1)%WP_NAMES.length;return [WP_NAMES[i],WP_NAMES[j]];}
+// Varied real-life scenarios (owner 2026-06-13: more variety + fun, not always "N boxes M-M each").
+// 7+ (isBig) also gets comparison/shopping(money)/equal-sharing(division); younger get add/sub only.
 function genWord(){
-  const nm=rpick(WP_NAMES)+'ს', t=ri(0,5);
-  if(t===0){const it=rpick(WP_OBJ),a=ri(2,9),b=ri(2,9);return{q:`${nm} ჰქონდა ${a} ${it}. კიდევ ${b} იშოვა. სულ რამდენი ${it} აქვს?`,a:a+b,op:'word'};}
-  if(t===1){const it=rpick(WP_FOOD),a=ri(5,12),b=ri(1,a-1);return{q:`${nm} ჰქონდა ${a} ${it}. ${b} შეჭამა. რამდენი ${it} დარჩა?`,a:a-b,op:'word'};}
-  if(t===2){const it=rpick(WP_OBJ),a=ri(5,12),b=ri(1,a-1);return{q:`${nm} ჰქონდა ${a} ${it}. ${b} მისცა მეგობარს. რამდენი ${it} დარჩა?`,a:a-b,op:'word'};}
-  if(t===3){const a=ri(4,10),b=ri(1,a-1);return{q:`ხეზე იჯდა ${a} ჩიტი. ${b} გაფრინდა. რამდენი ჩიტი დარჩა?`,a:a-b,op:'word'};}
-  if(t===4){const it=rpick(WP_OBJ),k=ri(2,5),m=ri(2,5);return{q:`${k} ყუთში ${m}-${m} ${it}. სულ რამდენი ${it}?`,a:k*m,op:'word'};}
-  const it=rpick(WP_FOOD),a=ri(6,15),b=ri(1,a-1);return{q:`კალათში იყო ${a} ${it}. ${b} შეჭამეს. რამდენი დარჩა?`,a:a-b,op:'word'};
+  const adv=(typeof isBig==='function'&&isBig(profile));
+  const [n1,n2]=twoNames(), d1=n1+'ს', d2=n2+'ს', e1=n1+'მ';
+  const obj=rpick(WP_OBJ), food=rpick(WP_FOOD);
+  const t=adv?ri(0,9):ri(0,6);
+  switch(t){
+    case 0:{const a=ri(2,9),b=ri(2,9);return{q:`${d1} ჰქონდა ${a} ${obj}. კიდევ ${b} იშოვა. სულ რამდენი ${obj} აქვს?`,a:a+b,op:'word'};}
+    case 1:{const a=ri(2,9),b=ri(2,9);return{q:`${d1} აქვს ${a} ${food}, ${d2} ${b}. სულ რამდენი ${food} აქვთ?`,a:a+b,op:'word'};}
+    case 2:{const a=ri(2,9),b=ri(2,9);return{q:`ერთ ყუთში ${a} ${obj}, მეორეში ${b}. სულ რამდენი ${obj}?`,a:a+b,op:'word'};}
+    case 3:{const a=ri(5,14),b=ri(1,a-1);return{q:`${d1} ჰქონდა ${a} ${food}. ${b} შეჭამა. რამდენი ${food} დარჩა?`,a:a-b,op:'word'};}
+    case 4:{const a=ri(5,14),b=ri(1,a-1);return{q:`${d1} ჰქონდა ${a} ${obj}. ${b} მისცა მეგობარს. რამდენი ${obj} დარჩა?`,a:a-b,op:'word'};}
+    case 5:{const a=ri(4,12),b=ri(1,a-1);return{q:`ხეზე იჯდა ${a} ჩიტი. ${b} გაფრინდა. რამდენი ჩიტი დარჩა?`,a:a-b,op:'word'};}
+    case 6:{const a=ri(5,14),b=ri(2,a-1);return{q:`${d1} აქვს ${a} ${food}, ${d2} ${b}. რამდენით მეტი აქვს ${d1}?`,a:a-b,op:'word'};}
+    case 7:{const k=ri(2,5),m=ri(2,5);return{q:`${k} ყუთში ${m}-${m} ${obj}. სულ რამდენი ${obj}?`,a:k*m,op:'word'};}
+    case 8:{const k=ri(2,5),p=ri(2,5);return{q:`${e1} იყიდა ${k} ${food}, თითო ${p} ლარად. სულ რამდენი ლარი გადაიხადა?`,a:k*p,op:'word'};}
+    default:{const b=ri(2,5),qn=ri(2,6),tot=b*qn;return{q:`${tot} ${food} თანაბრად დაურიგდა ${b} ბავშვს. რამდენი ერგო თითოს?`,a:qn,op:'word'};}
+  }
 }
 function wordRound(){game.mode='math-word';game.qs=Array.from({length:6},()=>genWord());game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextWordQ();}
 function nextWordQ(){
@@ -407,12 +419,15 @@ function genMath(type){
   if(type==='math-miss'){const ops=cfg.ops||['+'];const sym=ops[ri(0,ops.length-1)];let x,y;if(sym==='×'){x=ri(2,9);y=ri(2,9);}else{x=ri(2,15);y=ri(2,15);}const res=(sym==='×')?x*y:x+y;return{q:`? ${sym} ${y} = ${res}`,a:x,op:'miss',a1:x,a2:y};}
   // pattern: varied types so it isn't always "1,2,3,?" (owner ask 2026-06-13 — more variety + interest).
   // young = simple increasing only; older = increasing(varied step) / skip-5-10 / decreasing / doubling.
-  { let seq,ans,step,kind=young?0:ri(0,3);
-    if(kind===0){ step=young?ri(1,3):[2,3,4,5][ri(0,3)]; const s=ri(1,young?5:9); seq=[s,s+step,s+step*2,s+step*3]; ans=s+step*4; }
-    else if(kind===1){ step=(Math.random()<0.5?5:10); const s=step*ri(1,4); seq=[s,s+step,s+step*2,s+step*3]; ans=s+step*4; }
-    else if(kind===2){ const d=[2,3,5][ri(0,2)]; const start=d*ri(4,7); seq=[start,start-d,start-d*2,start-d*3]; ans=start-d*4; step=-d; }
-    else { const s=[1,2,3,5][ri(0,3)]; seq=[s,s*2,s*4,s*8]; ans=s*16; step=null; }
-    return {q:seq.join(', ')+', ?',a:ans,pat:true,op:'pat',seq:seq.slice(),step};
+  { let full,step,kind=young?0:ri(0,3);
+    if(kind===0){ step=young?ri(1,3):[2,3,4,5][ri(0,3)]; const s=ri(1,young?5:9); full=[0,1,2,3,4].map(i=>s+step*i); }
+    else if(kind===1){ step=(Math.random()<0.5?5:10); const s=step*ri(1,4); full=[0,1,2,3,4].map(i=>s+step*i); }
+    else if(kind===2){ const d=[2,3,5][ri(0,2)]; const start=d*ri(5,8); full=[0,1,2,3,4].map(i=>start-d*i); step=-d; }
+    else { const s=[1,2,3,5][ri(0,3)]; full=[0,1,2,3,4].map(i=>s*Math.pow(2,i)); step=null; }
+    // blank a position: young → always the last (simplest); older → any middle/last spot for variety.
+    const blank=young?4:[1,2,3,4][ri(0,3)];
+    const shown=full.map((v,i)=>i===blank?'?':v).join(', ');
+    return {q:shown,a:full[blank],pat:true,op:'pat',seq:full.slice(),step,blank};
   }
 }
 function mathOpts(ans){const set=new Set([ans]);while(set.size<4){const v=ans+ri(1,Math.max(3,Math.ceil(Math.abs(ans)*0.3)+1))*(Math.random()>.5?1:-1);if(v>=0)set.add(v);}return shuffle([...set]);}
