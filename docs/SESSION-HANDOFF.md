@@ -142,6 +142,13 @@
 >   in-app-owl decision above · (3) the 5 color owls for per-child avatars ALSO depend on (2). Owner to send the
 >   other 4 colors (blue/teal/violet/navy) as clean transparent PNGs in THIS new style when wanted.
 > **🪜 ROADMAP — owner braindump 2026-06-13 (observed his kids at play; „let's chat"):**
+>   **STATUS 2026-06-13:** #1 talk-expand ✅ LIVE v1.136 · #2 math-adaptive ✅ LIVE v1.137 (10-Q diag + seed +
+>   faster ramp + „გამიმძიმე" button) · #3 interest-layer ✅ LIVE v1.138 (Niko why-line before each drill +
+>   real-life WORD PROBLEMS mode „ამოცანები", genWord/wordRound/nextWordQ in games.js, math menu tile, answer-loop
+>   routes word→word via nextForMode) · #4 prestige: COIN interim ✅ LIVE v1.138 (shield→🪙 coin everywhere; full
+>   „ცოდნის ვარსკვლავი" star system still FUTURE) · LOGO-EVERYWHERE ✅ LIVE v1.138 (in-app home/admin/screen-limit
+>   brand sun-badge → owl-logo.png; earlier landing+icons+favicon already owl). Remaining future: #3 deeper pedagogy,
+>   #4 the real knowledge-star prestige system, more word-problem templates (Nanobashvili-style).
 >   1. **Talk & Think „too little" — EXPAND (started).** Son loved the საუბარი section, wants more. 6 new ka clips
 >      generated (tlk_006-011, on disk, NOT yet wired) + 6 en planned. Talk could become a FLAGSHIP (parent-child
 >      conversation is rare in kids' apps = sticky differentiator). → finish wiring on owner go.
