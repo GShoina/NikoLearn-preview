@@ -126,13 +126,18 @@
 >   amber #FFB74D** (on-brand; owner approved „მისაღებია"). Global-ready: HIGH for the mark (owl + Latin wordmark +
 >   star motif, no language lock); only the CONTENT is GE-first (product-stage, not a logo issue). **✅ v1.133 LIVE:
 >   amber owl is now the PWA icon set** (icon-192/512, icon-maskable-512, apple-touch-180; same filenames, manifest/
->   sw untouched; built from the amber crop via `tools/_build_icons.py`, checker→white cleaned). Brand doc +
->   prototype: `niko-brand.html` (live, noindex, gshoina.github.io/NikoLearn/niko-brand.html) with corrected honest
->   copy (NO „AI", NO „teens", NikoLearn camelCase, „ისწავლე თამაშით"). **▶ REMAINING logo spots (next increment):**
->   (1) favicon (still favicon.svg = old sun) → owl · (2) in-app tutor avatar (core.js = 🦉 emoji) → owl image ·
->   (3) og-image.png → owl version (current og works, polish). NB: icon source = a ~406px crop, so 512 is slightly
->   soft; a clean 1024 transparent owl would sharpen it (optional). If owner later prefers blue/teal/etc., swap is
->   one rebuild from `brand-preview/owl-<color>.png`.
+>   sw untouched). **✅ v1.134 LIVE: re-built SHARP from a clean 1254px transparent master** the owner sent (flood-
+>   fill cutout via `tools/_apply_owl.py` → `brand-preview/owl-amber-master.png` = transparent owl, the CANONICAL
+>   mascot). icon-192/512/maskable + apple-touch-180 rebuilt; **favicon now the owl too** (favicon-32/180 on index
+>   + landing, replacing the sun favicon.svg). Brand doc: `niko-brand.html` (live, noindex) with corrected honest
+>   copy (NO „AI", NO „teens", NikoLearn camelCase, „ისწავლე თამაშით").
+>   **⚠️ IN-APP AVATAR IS NOT A CLEAN SWAP (verified core.js):** the in-app „tutor avatar" is a per-child SELECTABLE
+>   animal `TUTOR_ANIMALS=['🦉','🐱','🦁','🐶','🐰','🐼','🦊','🐵']` (owl=default) + 🦉 appears inline in many i18n/
+>   parent strings. Replacing 🦉 with the owl IMAGE clashes with the emoji picker + inline text → it is a PRODUCT
+>   decision (keep the fun animal-picker? or make Niko a fixed branded-owl mascot?), NOT an asset swap. Left untouched.
+>   **▶ REMAINING:** (1) og-image.png → owl version (current og works, polish; needs a 1200×630 compose) · (2) the
+>   in-app-owl decision above · (3) the 5 color owls for per-child avatars ALSO depend on (2). Owner to send the
+>   other 4 colors (blue/teal/violet/navy) as clean transparent PNGs in THIS new style when wanted.
 > **PRODUCTION PLAN (owner-engaged 2026-06-12) — lean baseline now + grow.** Full doc:
 >   `output/2026-06-12-NikoLearn production გასვლის გეგმა (truth+polish + სტრატეგია) by Niko.html`.
 > **DECIDED:** NikoLearn stays SEPARATE from Bivision (owner's independent project). Privacy controller =
