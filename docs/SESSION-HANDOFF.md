@@ -284,6 +284,9 @@
 >   categories; screens.js openMenu `if(subj==='english')` ~line 371). Math has game-TYPE tiles, not word-themes, so it
 >   has no such filter — NOT a regression, and my changes never touched it. (If a math „all types" affordance is ever
 >   wanted, that's a new feature decision, not a fix.)
+>   **v1.167** OWNER OVERRULED the english-only design → added the „📚 ყველა თემა ▾" picker to the Math menu too. New
+>   `openMathTopics()` (screens.js) lists age-gated math themes; each launches its game (math = game-types, no word-pool,
+>   so pick = launch). Verified live: 13 themes for age-7, picking შეკრება launches math-add.
 >   **📧 EMAIL/CONTACT (owner 2026-06-13):** app contact = NikoLearn@outlook.com (live). Owner READS feedback via that
 >   account added to his PHONE mail app (Option A) — Outlook web-forwarding to gela.shonia@bivision.ge was NOT set up
 >   (Microsoft security-wall: enabling forwarding needs verified security-info + a code only the owner receives; abandoned
