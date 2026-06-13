@@ -141,6 +141,27 @@
 >   **▶ REMAINING:** (1) og-image.png → owl version (current og works, polish; needs a 1200×630 compose) · (2) the
 >   in-app-owl decision above · (3) the 5 color owls for per-child avatars ALSO depend on (2). Owner to send the
 >   other 4 colors (blue/teal/violet/navy) as clean transparent PNGs in THIS new style when wanted.
+> **🪜 ROADMAP — owner braindump 2026-06-13 (observed his kids at play; „let's chat"):**
+>   1. **Talk & Think „too little" — EXPAND (started).** Son loved the საუბარი section, wants more. 6 new ka clips
+>      generated (tlk_006-011, on disk, NOT yet wired) + 6 en planned. Talk could become a FLAGSHIP (parent-child
+>      conversation is rare in kids' apps = sticky differentiator). → finish wiring on owner go.
+>   2. **Math difficulty felt too easy (new user aced it, kid asked „გამირთულე").** FACT (verified code): NOT
+>      speed-based. Entry diagnostic (placement.js) only recommends a START path-milestone + a level WORD; it does
+>      NOT seed the in-game number level. In-game ramp (games.js `rampMath`): each op has number-levels (add 1-20→
+>      40→70→100), bumps UP only after TWO rounds ≥85% in a row, DOWN after <50%. So everyone starts at 1-20 even
+>      if they aced 12+9/6×7, and it's slow to harden. **PROPOSED FIX:** (a) seed mathLevel from the diagnostic,
+>      (b) faster ramp (one ≥90% round bumps), (c) a kid-facing „harder ⏫" button (agency = engagement). Awaiting
+>      owner nod (ties to #3 pedagogy).
+>   3. **TUTORING = spark INTEREST, not just mechanics (owner's biggest point).** Today the app is mostly DRILL.
+>      Add a teaching/„why" layer: Niko explains the concept in ONE playful, concrete, real-world line before/around
+>      a drill („გამოკლება = რამდენი დარჩა"), real-life word problems (not only abstract 3+4), curiosity micro-moments.
+>      Highest-value direction; owner-flagged as future/კიბე. Pairs with #2 (right difficulty + sees the point = stays
+>      in the zone).
+>   4. **PRESTIGE / knowledge reward unit (owner, „აუცილებლად მონიშნე").** Kids brag about game „prestige"; replace
+>      generic coins/shields with a UNIQUE, named, collectible unit that signifies REAL KNOWLEDGE (e.g. „ცოდნის
+>      ვარსკვლავი"), earned by MASTERY (3-in-a-row / path milestones), NOT grinding/time, and showable/proud-of
+>      („მაჩვენე მშობელს" already exists → extend to a trophy shelf). Caution: tie to mastery so it's not a slot
+>      machine. Future; serves #3 (pride in knowing).
 > **PRODUCTION PLAN (owner-engaged 2026-06-12) — lean baseline now + grow.** Full doc:
 >   `output/2026-06-12-NikoLearn production გასვლის გეგმა (truth+polish + სტრატეგია) by Niko.html`.
 > **DECIDED:** NikoLearn stays SEPARATE from Bivision (owner's independent project). Privacy controller =
