@@ -389,6 +389,7 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 @keyframes fade{from{opacity:0}to{opacity:1}}
 .fb{text-align:center;animation:rise .3s}
 .fb .fb-ico{font-size:4.6rem}
+.fb .fb-ico .owl-face{display:inline-block;animation:bob 2.4s ease-in-out infinite}
 .fb .fb-txt{font-size:1.5rem;font-weight:700;margin-top:6px}
 .fb .fb-sub{color:var(--muted);margin-top:4px}
 

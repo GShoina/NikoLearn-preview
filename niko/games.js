@@ -729,7 +729,9 @@ function breakDue(){ const now=Date.now(); if(!_lastBreakTs){_lastBreakTs=now;re
 /* ── feedback overlay ── (2.4: tap anywhere to skip the celebration to the next item) */
 function feedback(ok){
   const el=document.createElement('div');el.className='overlay';el.id='fbov';
-  el.innerHTML=`<div class="fb"><div class="fb-ico">${ok?'🎉':'💪'}</div><div class="fb-txt">${ok?'ბრავო, '+voc()+'!':voc()+', კიდევ ცადე!'}</div></div>`;
+  // wrong → the friendly OWL encourages the child to try again (owner 2026-06-13: the old 💪 felt off for
+  // little kids). correct → confetti party 🎉. Text stays warm + names the child.
+  el.innerHTML=`<div class="fb"><div class="fb-ico">${ok?'🎉':tutorFace(profile,'5rem')}</div><div class="fb-txt">${ok?'ბრავო, '+voc()+'!':voc()+', კიდევ ცადე! 💛'}</div></div>`;
   if(ok)el.appendChild(confettiEl());
   if(window.applyLang)applyLang(el);
   el.onclick=function(){ try{skipCeleb();}catch(e){} };
