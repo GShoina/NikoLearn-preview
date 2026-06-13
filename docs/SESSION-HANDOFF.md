@@ -229,6 +229,17 @@
 >   no-query JS/CSS even after unregistering the SW + clearing Cache API. To truly test fresh locally: force-load the
 >   module (`fetch(url,{cache:'reload'})` + eval) OR rely on the SW version bump (it precaches via cache:'reload'). The
 >   live deploy is always correct because each version bumps the SW cache name.
+>   **v1.158** listen mode: tiny bare 🔊 icon → big 96px round „tap to hear" button (`.listen-cta`); card stays tappable.
+>   **v1.159** Kings/full-width option cards enlarged (`.opt-list .opt` 58→70px, 1.02→1.14rem) to match the 2-col grid
+>   cards. SIZING ARCHITECTURE (owner asked): it's GLOBAL — each card type = one shared CSS class; change once → all
+>   instances update (that's why the speakbtn fix hit 9 sections). Kings just used a smaller shared variant, not a
+>   per-section setting.
+>   ⚠️⚠️ DEPLOY GOTCHA (owner caught 2026-06-13): `bump.mjs` edits THREE files — `niko/screens.js` (APP_VERSION shown
+>   in-app), `sw.js` (cache name), `landing.html` (footer). In v1.150-1.159 I staged sw.js + landing.html but FORGOT
+>   `niko/screens.js`, so the live in-app version label froze at 1.149 while landing/sw were current (functional fixes
+>   still shipped — they live in other files + SW bumped). FIX FORWARD: ALWAYS `git add niko/screens.js niko/sw.js
+>   sw.js landing.html` (+ whatever code files changed) on every bump. Verify post-deploy: live screens.js APP_VERSION
+>   == landing footer == sw cache.
 >   **📧 EMAIL/CONTACT (owner 2026-06-13):** app contact = NikoLearn@outlook.com (live). Owner READS feedback via that
 >   account added to his PHONE mail app (Option A) — Outlook web-forwarding to gela.shonia@bivision.ge was NOT set up
 >   (Microsoft security-wall: enabling forwarding needs verified security-info + a code only the owner receives; abandoned
