@@ -276,6 +276,14 @@
 >   TESTING NOTE: the local-server stale-HTTP-cache made in-page verification unreliable (force-eval gave a false „pl null"
 >   artifact); the clean check was navigating Playwright to the LIVE gshoina.github.io site (SW serves fresh) + clearing
 >   its SW/caches. Use that pattern for trustworthy run-throughs.
+>   **v1.166** applied the count badges + 👆 tap-hint to the YOUNG (kid) tile grid too (counting 1–9, ka-alpha 33 ასო,
+>   en-alpha 26 ასო, math 3 თემა, talk 4 თემა) — verified live on Masho (age 4). LESSON (owner-flagged): there are TWO
+>   subject grids in screens.js openMenu — `isKid` (young, ~line 277) and the older `else` (~290). A tile-level change
+>   MUST be applied to BOTH (and the landing card). Be systemic; don't patch one grid.
+>   FINDING (owner Q): the „🎓 ყველა თემა ▾" dropdown is ENGLISH-ONLY BY DESIGN (it filters English's 13 word
+>   categories; screens.js openMenu `if(subj==='english')` ~line 371). Math has game-TYPE tiles, not word-themes, so it
+>   has no such filter — NOT a regression, and my changes never touched it. (If a math „all types" affordance is ever
+>   wanted, that's a new feature decision, not a fix.)
 >   **📧 EMAIL/CONTACT (owner 2026-06-13):** app contact = NikoLearn@outlook.com (live). Owner READS feedback via that
 >   account added to his PHONE mail app (Option A) — Outlook web-forwarding to gela.shonia@bivision.ge was NOT set up
 >   (Microsoft security-wall: enabling forwarding needs verified security-info + a code only the owner receives; abandoned
