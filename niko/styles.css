@@ -496,7 +496,7 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .teach-q{font-size:1.4rem;font-weight:800;color:var(--ink);margin-top:18px;transition:opacity .35s}
 .teach-btns{display:flex;gap:12px;justify-content:center;margin-top:14px;transition:opacity .35s}
 .teach-yes,.teach-no{border:none;border-radius:16px;padding:14px 22px;font-size:1.15rem;font-weight:800;
-  font-family:inherit;cursor:pointer;min-width:96px}
+  font-family:inherit;cursor:pointer;min-width:96px;min-height:54px}
 .teach-yes{background:var(--green);color:#fff}
 .teach-no{background:var(--card-2);color:var(--ink);border:2px solid var(--line)}
 .teach-yes:active,.teach-no:active{transform:scale(.95)}
@@ -553,7 +553,7 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .gate-q{font-family:'Fredoka';font-size:1.9rem;font-weight:500;margin-bottom:12px}
 .gate-keys{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .gate-keys button{padding:14px;border:1.5px solid var(--line);background:var(--card-2);border-radius:13px;
-  font-family:'Fredoka';font-size:1.3rem;cursor:pointer;color:var(--ink)}
+  font-family:'Fredoka';font-size:1.3rem;cursor:pointer;color:var(--ink);min-height:54px}
 .gate-keys button:active{transform:scale(.95)}
 .gate-display{height:30px;font-family:'Fredoka';font-size:1.6rem;letter-spacing:4px;margin-bottom:10px;color:var(--primary-d)}
 
@@ -866,7 +866,7 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 
 /* ── tutor animal picker (O1) ── */
 .tutor-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:4px 2px}
-.tutor-pick{font-size:2rem;padding:10px 0;border-radius:18px;border:2px solid var(--line,#e7ddc9);
+.tutor-pick{font-size:2rem;padding:10px 0;min-height:54px;border-radius:18px;border:2px solid var(--line,#e7ddc9);
   background:var(--card,#fff);cursor:pointer;transition:transform .12s,border-color .12s,background .12s}
 .tutor-pick:active{transform:scale(.94)}
 .tutor-pick.on{border-color:var(--primary);background:color-mix(in oklch,var(--primary) 14%,var(--card,#fff));transform:scale(1.04)}
@@ -1003,7 +1003,7 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .del-go.armed{background:var(--red);color:#fff;border-color:var(--red);box-shadow:var(--press) oklch(0.45 0.13 25),var(--shadow)}
 /* category picker + chip + phrase prompt */
 .cat-chip-row{display:flex;justify-content:center;margin-bottom:12px}
-.cat-chip{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border:1.5px solid var(--line);
+.cat-chip{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;min-height:44px;border:1.5px solid var(--line);
   background:var(--card);border-radius:999px;font-family:inherit;font-weight:700;font-size:.95rem;color:var(--muted);
   cursor:pointer;box-shadow:var(--shadow);transition:all .14s}
 .cat-chip.on{border-color:var(--sky);background:color-mix(in oklch,var(--sky) 14%,var(--card));color:var(--sky-d)}
@@ -1111,7 +1111,7 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 
 /* ── owl close + alive ── */
 .ai-bubble{position:relative}
-.ai-close{position:absolute;top:10px;right:10px;width:38px;height:38px;border-radius:50%;border:1.5px solid var(--line);
+.ai-close{position:absolute;top:10px;right:10px;width:44px;height:44px;border-radius:50%;border:1.5px solid var(--line);
   background:var(--card-2);color:var(--muted);font-size:1.05rem;font-weight:700;cursor:pointer;line-height:1;
   display:grid;place-items:center;z-index:2}
 .ai-close:active{transform:scale(.9)}
