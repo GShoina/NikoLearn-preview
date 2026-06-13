@@ -196,6 +196,17 @@
 >   ✓/✗ paths, 0 console errors, screenshots). NOTE: the owner's earlier „addition instantly reveals + advances" report
 >   was a STALE PWA CACHE on his device (code was already correct); resolved when he updated. Cache-clear = close all app
 >   tabs / reopen, or remove + re-add to Home Screen, to pull a new version.
+>   **v1.151** brand owl everywhere in the TEACHING UI: new `tutorFace(p,size)` (core.js) renders owl-logo.png for the
+>   default owl tutor (a chosen animal 🦊🐱 still shows its emoji); applied to hint bubble, help fab, voice, comprehension
+>   gate. `.owl-face` CSS (`:has()` to drop the gradient badge). owl-logo.png added to sw precache.
+>   **v1.152** 1st-miss „try again" feedback: replaced the muscle 💪 (owner: reads as strength-flex, not warmth) with the
+>   friendly owl + „კიდევ ცადე! 💛".
+>   **v1.153** OWL + 💛 HEART = the consistent praise/encourage signature app-wide (owner-locked 2026-06-13). Correct-answer
+>   feedback = owl + „ბრავო! 💛" (keeps confetti); results screen = owl mascot + uniform 💛 message (ring still shows the
+>   🏆/⭐/🌱 medal); movement-break cheer = owl + „ბრავო! 💛". ALL 💪 purged from the app (none remain). EN-translation
+>   regex rules in i18n-strings.js synced to the new 💛 strings (verified: bravo/try-again/all 4 result tiers/beat-down
+>   translate correctly). NOTE for future copy edits: any praise string that carries a trailing emoji has a matching
+>   `I18N_PATTERNS` rule in i18n-strings.js (~line 434-451) — change BOTH together or the EN toggle breaks.
 >   **📧 EMAIL/CONTACT (owner 2026-06-13):** app contact = NikoLearn@outlook.com (live). Owner READS feedback via that
 >   account added to his PHONE mail app (Option A) — Outlook web-forwarding to gela.shonia@bivision.ge was NOT set up
 >   (Microsoft security-wall: enabling forwarding needs verified security-info + a code only the owner receives; abandoned
