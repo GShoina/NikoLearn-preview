@@ -52,7 +52,7 @@ function gameShell(area){
   const tot=game.qs?game.qs.length:8;
   render(`<div class="screen game" id="gscreen">
     <div class="progress-row">
-      <button class="iconbtn" onclick="abandonRound()" style="width:40px;height:40px;font-size:1.1rem">←</button>
+      <button class="iconbtn" onclick="abandonRound()" style="width:44px;height:44px;font-size:1.1rem">←</button>
       <div class="bar"><i id="gbar" style="width:${(game.i/tot)*100}%"></i></div>
       ${voiceToggleBtn()}
       <span class="q-count" id="gcount">${Math.min(game.i+1,tot)}/${tot}</span>
