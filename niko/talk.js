@@ -113,9 +113,24 @@ function talkDeck(lang){
   // (owner 2026-06-13). Never mutate the source TALK array. shuffle() is the global Fisher-Yates helper.
   const deck=(typeof shuffle==='function')?shuffle(TALK[lang].slice()):TALK[lang].slice();
   tl={lang, i:0, deck};
+  // UNIFY language controls (owner 2026-06-13): picking a deck also sets the global UI language, so the
+  // ka/en deck choice and the top-right EN/ქარ toggle never disagree. tl is set first → the lang-change
+  // listener below sees tl.lang already == new lang and no-ops (no double render).
+  if(typeof setUILang==='function' && window.UILANG!==lang) setUILang(lang);
   if(window.Analytics)Analytics.screen('talk/'+lang);
   talkCard();
 }
+// When the global EN/ქარ toggle flips WHILE viewing a Talk card, switch the card to that language too
+// (owner 2026-06-13: the toggle „didn't translate the text" — Talk content is per-deck, so we re-deck here).
+window.addEventListener('niko-lang-change', function(){
+  if(!tl) return;
+  if(!document.querySelector('.screen.talk')) return;          // only act while a Talk card is on screen
+  const lang=(window.UILANG==='en')?'en':'ka';
+  if(lang===tl.lang) return;
+  const deck=(typeof shuffle==='function')?shuffle(TALK[lang].slice()):TALK[lang].slice();
+  tl={lang, i:0, deck};
+  talkCard();
+});
 
 function talkCard(){
   if(!tl)return openTalk();

@@ -220,10 +220,10 @@ function teachAndConfirm(cor,lang,advanceFn){
   ov.innerHTML=`<div class="teach-card">
     <div class="teach-owl">${tutorFace(profile,'2.7rem')}</div>
     <div class="teach-eq">${sol.html}</div>
-    <div class="teach-q" id="teachQ" style="opacity:0">გაიგე?</div>
+    <div class="teach-q" id="teachQ" style="opacity:0">${window.UILANG==='en'?'Got it?':'გაიგე?'}</div>
     <div class="teach-btns" id="teachBtns" style="opacity:0">
-      <button class="teach-yes" id="teachYes">✓ კი</button>
-      <button class="teach-no" id="teachNo">✗ არა</button>
+      <button class="teach-yes" id="teachYes">${window.UILANG==='en'?'✓ Yes':'✓ კი'}</button>
+      <button class="teach-no" id="teachNo">${window.UILANG==='en'?'✗ No':'✗ არა'}</button>
     </div>
   </div>`;
   $('.device').appendChild(ov);
@@ -256,7 +256,7 @@ function teachMore(q,cor,m,advanceFn){
   card.innerHTML=`<div class="teach-owl">${tutorFace(profile,'2.7rem')}</div>
     <div class="teach-eq small"><div class="eqline">${solved}</div></div>
     ${visual}
-    <div class="teach-btns"><button class="teach-yes" id="teachYes2">✓ გასაგებია</button></div>`;
+    <div class="teach-btns"><button class="teach-yes" id="teachYes2">${window.UILANG==='en'?'✓ Got it':'✓ გასაგებია'}</button></div>`;
   card.querySelector('#teachYes2').onclick=()=>{ ov.remove(); advanceFn(); };
 }
 
@@ -406,16 +406,18 @@ const MATH_LV = {
 };
 // #3 (interest, not just mechanics): Niko explains the concept in ONE concrete, real-life line
 // shown on the FIRST question of a drill. Short, playful, never a lecture.
+// bilingual owl intros: render-time ka/en by UILANG (owner 2026-06-13: the EN toggle left these Georgian).
 const MATH_WHY={
-  'math-add':'შეკრება = რამდენი გახდა, როცა ერთად დადე. 🍎+🍎',
-  'math-sub':'გამოკლება = რამდენი დარჩა, როცა რაღაც წაიღე. 🍎',
-  'math-mul':'გამრავლება = იგივეს რამდენჯერმე შეკრება, სწრაფად. ✖️',
-  'math-div':'გაყოფა = თანაბრად დაყოფა ყველას შორის. 🍪',
-  'math-miss':'იპოვე გამოტოვებული რიცხვი. რა აკლია? 🔍',
-  'math-pat':'იპოვე კანონზომიერება — რა მოდის შემდეგ? 🔢',
-  'math-word':'ჯერ ამბავი წაიკითხე, წარმოიდგინე, მერე დათვალე. 🦉',
-  'math-pic':'ჯერ ცნობილი ფასები ნახე, მერე იფიქრე რა აკლია. ნელა, ნაბიჯ-ნაბიჯ. 🧠'
+  'math-add':{ka:'შეკრება = რამდენი გახდა, როცა ერთად დადე. 🍎+🍎',en:'Adding = how many you have when you put them together. 🍎+🍎'},
+  'math-sub':{ka:'გამოკლება = რამდენი დარჩა, როცა რაღაც წაიღე. 🍎',en:'Subtracting = how many are left when you take some away. 🍎'},
+  'math-mul':{ka:'გამრავლება = იგივეს რამდენჯერმე შეკრება, სწრაფად. ✖️',en:'Multiplying = adding the same number several times, fast. ✖️'},
+  'math-div':{ka:'გაყოფა = თანაბრად დაყოფა ყველას შორის. 🍪',en:'Dividing = sharing equally among everyone. 🍪'},
+  'math-miss':{ka:'იპოვე გამოტოვებული რიცხვი. რა აკლია? 🔍',en:'Find the missing number. What is gone? 🔍'},
+  'math-pat':{ka:'იპოვე კანონზომიერება — რა მოდის შემდეგ? 🔢',en:'Find the pattern. What comes next? 🔢'},
+  'math-word':{ka:'ჯერ ამბავი წაიკითხე, წარმოიდგინე, მერე დათვალე. 🦉',en:'First read the story, picture it, then count. 🦉'},
+  'math-pic':{ka:'ჯერ ცნობილი ფასები ნახე, მერე იფიქრე რა აკლია. ნელა, ნაბიჯ-ნაბიჯ. 🧠',en:'First look at the known prices, then think what is missing. Slowly, step by step. 🧠'}
 };
+function whyText(mode){ const w=MATH_WHY[mode]; if(!w) return ''; return w[(window.UILANG==='en')?'en':'ka']||w.ka; }
 // #3b: real-life WORD PROBLEMS (Georgian, Nanobashvili-style). Story → number. Sentence frames stay
 // grammatically stable for any number; items in nominative; names take the dative -ს.
 const WP_NAMES=['ნიკო','მაშო','ლუკა','ანა','დათო','ნინო'];
@@ -447,7 +449,7 @@ function wordRound(){game.mode='math-word';game.qs=Array.from({length:6},()=>gen
 function nextWordQ(){
   if(game.i>=game.qs.length)return results();
   const q=game.qs[game.i];game.cur=q;
-  const why=game.i===0?`<div style="background:#fff8ee;border:1px solid #ffe2bd;border-radius:14px;padding:10px 14px;margin-bottom:12px;font-size:.92rem;color:#6b5640;line-height:1.45">🦉 ${MATH_WHY['math-word']}</div>`:'';
+  const why=game.i===0?`<div style="background:#fff8ee;border:1px solid #ffe2bd;border-radius:14px;padding:10px 14px;margin-bottom:12px;font-size:.92rem;color:#6b5640;line-height:1.45">🦉 ${whyText('math-word')}</div>`:'';
   gameShell(`${why}<div class="prompt"><div class="p-word" style="font-size:1.25rem;line-height:1.55;max-width:430px">${q.q}</div></div>
     <div class="options">${mathOpts(q.a).map(o=>`<button class="opt num" onclick="answerMath(this,${o},${q.a})">${o}</button>`).join('')}</div>`);
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
@@ -472,7 +474,7 @@ function picRound(){game.mode='math-pic';game.qs=Array.from({length:6},()=>genPi
 function nextPic(){
   if(game.i>=game.qs.length)return results();
   const q=game.qs[game.i];game.cur=q;
-  const why=game.i===0?`<div style="background:#fff8ee;border:1px solid #ffe2bd;border-radius:14px;padding:10px 14px;margin-bottom:12px;font-size:.92rem;color:#6b5640;line-height:1.45">🦉 ${MATH_WHY['math-pic']}</div>`:'';
+  const why=game.i===0?`<div style="background:#fff8ee;border:1px solid #ffe2bd;border-radius:14px;padding:10px 14px;margin-bottom:12px;font-size:.92rem;color:#6b5640;line-height:1.45">🦉 ${whyText('math-pic')}</div>`:'';
   gameShell(`${why}<div class="prompt"><div class="p-word" style="font-size:1.2rem;line-height:1.5;text-align:center">${q.q}</div></div>
     <div class="options">${mathOpts(q.a).map(o=>`<button class="opt num" onclick="answerMath(this,${o},${q.a})">${o}</button>`).join('')}</div>`);
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
@@ -543,10 +545,10 @@ function nextMath(){
   if(game.i>=game.qs.length)return results();
   const q=game.qs[game.i];game.cur=q;
   const canHarder=mathLvl(game.mode)<((MATH_LV[game.mode]||[{}]).length-1);
-  const why=game.i===0&&MATH_WHY[game.mode]?`<div style="background:#fff8ee;border:1px solid #ffe2bd;border-radius:14px;padding:9px 14px;margin-bottom:12px;font-size:.9rem;color:#6b5640;line-height:1.4">🦉 ${MATH_WHY[game.mode]}</div>`:'';
+  const why=game.i===0&&MATH_WHY[game.mode]?`<div style="background:#fff8ee;border:1px solid #ffe2bd;border-radius:14px;padding:9px 14px;margin-bottom:12px;font-size:.9rem;color:#6b5640;line-height:1.4">🦉 ${whyText(game.mode)}</div>`:'';
   gameShell(`${why}<div class="prompt"><div class="p-word num" style="font-size:2.4rem;letter-spacing:2px">${q.q}</div>${q.pat?'<div class="p-sub">იპოვე კანონზომიერება</div>':''}</div>
     <div class="options">${mathOpts(q.a).map(o=>`<button class="opt num" onclick="answerMath(this,${o},${q.a})">${o}</button>`).join('')}</div>
-    ${canHarder?`<button class="btn btn-ghost" style="margin-top:16px;font-size:.95rem" onclick="mathHarder()">⏫ გამირთულე</button>`:''}`);
+    ${canHarder?`<button class="btn btn-ghost" style="margin-top:16px;font-size:.95rem" onclick="mathHarder()">⏫ ${window.UILANG==='en'?'Make it harder':'გამირთულე'}</button>`:''}`);
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
 }
 // kid-facing "make it harder": bump this op's level, re-roll the remaining questions harder, keep going.
