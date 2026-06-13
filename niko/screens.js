@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.137'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.138'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -16,7 +16,7 @@ function goHome(){
   const isNew=kids.length===0;
   const cards=kids.map(k=>{
     const p=k.id,s=state[p],lv=levelOf(p),init=(k.name||'?')[0];
-    const meta=s.shields>0?`<div class="pmeta"><span>${I.shield}</span> ${s.shields} · ${lv.ic} ${lv.name}</div>`
+    const meta=s.shields>0?`<div class="pmeta"><span>🪙</span> ${s.shields} · ${lv.ic} ${lv.name}</div>`
       :`<div class="pmeta">დაიწყე →</div>`;
     return `<div class="pcard" onclick="selectProfile('${p}')">
       <button class="pcard-del" onclick="event.stopPropagation();deleteKid('${p}')" aria-label="${k.name}-ს წაშლა">🗑️</button>
@@ -32,7 +32,7 @@ function goHome(){
     </div>`;
   render(`<div class="screen home">
     <div class="brand brand-btn" onclick="landing()" title="მთავარი გვერდი">
-      <div class="sun-badge">${I.sun}</div>
+      <div class="sun-badge" style="background:none;box-shadow:none;padding:0"><img src="owl-logo.png" alt="" style="width:100%;height:100%;object-fit:contain"></div>
       <div class="mark">NikoLearn</div>
       <div class="tag">${isNew?'მოგესალმები 👋, შექმენი ბავშვის პროფილი დასაწყებად':'ვინ თამაშობს?'}</div>
     </div>
@@ -121,7 +121,7 @@ function adminView(){
   const sessions=kids.reduce((a,k)=>a+(((state[k.id]||{}).sessions)||0),0);
   render(`<div class="screen home" style="gap:16px;justify-content:flex-start">
     <div class="brand" style="margin-top:8px">
-      <div class="sun-badge" style="width:64px;height:64px">${I.sun}</div>
+      <div class="sun-badge" style="width:64px;height:64px;background:none;box-shadow:none;padding:0"><img src="owl-logo.png" alt="" style="width:100%;height:100%;object-fit:contain"></div>
       <div class="mark">NikoLearn · Admin</div>
       <div class="tag">ვერსია v${APP_VERSION}</div>
     </div>
@@ -162,7 +162,7 @@ function loadGA4Metrics(){
 function welcome(){
   render(`<div class="screen home" style="gap:22px">
     <div class="brand">
-      <div class="sun-badge" style="width:74px;height:74px">${I.sun}</div>
+      <div class="sun-badge" style="width:74px;height:74px;background:none;box-shadow:none;padding:0"><img src="owl-logo.png" alt="" style="width:100%;height:100%;object-fit:contain"></div>
       <div class="mark">NikoLearn</div>
       <div class="tag">თბილი სასწავლო სივრცე შენი ბავშვისთვის</div>
     </div>
@@ -403,6 +403,7 @@ function openMenu(subj){
       ${tiny?'':mode('math-add','➕',kid?'':'შეკრება',kid?'':mathRangeLabel('math-add'))}
       ${tiny?'':mode('math-sub','➖',kid?'':'გამოკლება',kid?'':mathRangeLabel('math-sub'))}
       ${kid?'':mode('math-mul','✖️','გამრავლება',mathRangeLabel('math-mul'))}
+      ${kid?'':mode('math-word','🍎','ამოცანები','ცხოვრებისეული')}
       ${big?mode('math-div','➗','გაყოფა',mathRangeLabel('math-div')):''}
       ${big?mode('math-miss','❓','გამოტოვებული',mathRangeLabel('math-miss')):''}
       ${tiny?'':mode('math-pat','🧩',kid?'':'პატერნები','')}

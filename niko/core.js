@@ -125,7 +125,7 @@ function topbar(title,sub,back){
     <div class="who">${title}${sub?`<small>${sub}</small>`:''}</div>
     <div class="chips">
       ${voiceToggleBtn()}
-      <span class="chip shield">${I.shield}<span class="num">${s.shields}</span></span>
+      <span class="chip shield">🪙<span class="num">${s.shields}</span></span>
       <span class="chip streak" title="დღის სერია">${I.flame}<span class="num">${s.dayStreak||0}</span></span>
     </div>
   </div>`;

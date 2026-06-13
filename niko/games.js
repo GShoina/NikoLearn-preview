@@ -19,6 +19,7 @@ function startGame(m){
   if(m==='shapes')return shapeRound();
   if(m==='money')return moneyRound();
   if(m==='clock')return clockRound();
+  if(m==='math-word')return wordRound();
   game.mode=m;game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);
   if(m.startsWith('math-'))return mathRound(m);
   const pool=wordPool();
@@ -41,7 +42,7 @@ function abandonRound(){
   if(game.roundActive){ try{ if(window.Analytics) Analytics.event('round_abandon',{mode:coarseMode()}); }catch(e){} game.roundActive=false; }
   openMenu(game.subj||'math');
 }
-const SUBMODES=['quiz','reverse','listen','match','spell','phrases','math-add','math-sub','math-mul','math-div','math-miss','math-pat','compare','skip','shapes','money','clock','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','digit'];
+const SUBMODES=['quiz','reverse','listen','match','spell','phrases','math-add','math-sub','math-mul','math-div','math-miss','math-pat','math-word','compare','skip','shapes','money','clock','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','digit'];
 function gameShell(area){
   closeHint();
   game.roundActive=true; // marks an in-progress round (cleared by results()/abandonRound())
@@ -153,6 +154,7 @@ function nextForMode(){
   if(m==='count')return nextCount;
   if(m==='phrases')return nextPhrase;
   if(m==='kings-eng'||m==='kings-math')return nextKings;
+  if(m==='math-word')return nextWordQ;
   if(m.startsWith('math-'))return nextMath;
   return nextWord;
 }
@@ -319,6 +321,38 @@ const MATH_LV = {
   'math-div':[{dmax:5,label:'÷2–÷5'},{dmax:10,label:'÷2–÷10'}],
   'math-miss':[{ops:['+'],label:'+'},{ops:['+','×'],label:'+ ×'}]
 };
+// #3 (interest, not just mechanics): Niko explains the concept in ONE concrete, real-life line
+// shown on the FIRST question of a drill. Short, playful, never a lecture.
+const MATH_WHY={
+  'math-add':'შეკრება = რამდენი გახდა, როცა ერთად დადე. 🍎+🍎',
+  'math-sub':'გამოკლება = რამდენი დარჩა, როცა რაღაც წაიღე. 🍎',
+  'math-mul':'გამრავლება = იგივეს რამდენჯერმე შეკრება, სწრაფად. ✖️',
+  'math-div':'გაყოფა = თანაბრად დაყოფა ყველას შორის. 🍪',
+  'math-miss':'იპოვე გამოტოვებული რიცხვი. რა აკლია? 🔍',
+  'math-pat':'იპოვე კანონზომიერება — რა მოდის შემდეგ? 🔢',
+  'math-word':'ჯერ ამბავი წაიკითხე, წარმოიდგინე, მერე დათვალე. 🦉'
+};
+// #3b: real-life WORD PROBLEMS (Georgian, Nanobashvili-style). Story → number. Sentence frames stay
+// grammatically stable for any number; items in nominative; names take the dative -ს.
+const WP_NAMES=['ნიკო','მაშო','ლუკა','ანა','დათო','ნინო'];
+const WP_ITEMS=['ვაშლი','ბურთი','კანფეტი','ყვავილი','წიგნი','ბანანი','მანქანა'];
+function genWord(){
+  const nm=WP_NAMES[ri(0,WP_NAMES.length-1)]+'ს', it=WP_ITEMS[ri(0,WP_ITEMS.length-1)], t=ri(0,4);
+  if(t===0){const a=ri(2,9),b=ri(2,9);return{q:`${nm} ჰქონდა ${a} ${it}. კიდევ ${b} იშოვა. სულ რამდენი ${it} აქვს?`,a:a+b,op:'word'};}
+  if(t===1){const a=ri(5,12),b=ri(1,a-1);return{q:`${nm} ჰქონდა ${a} ${it}. ${b} გასცა. რამდენი ${it} დარჩა?`,a:a-b,op:'word'};}
+  if(t===2){const a=ri(4,10),b=ri(1,a-1);return{q:`ხეზე იჯდა ${a} ჩიტი. ${b} გაფრინდა. რამდენი ჩიტი დარჩა?`,a:a-b,op:'word'};}
+  if(t===3){const k=ri(2,5),m=ri(2,5);return{q:`${k} ყუთში ${m}-${m} ${it}. სულ რამდენი ${it}?`,a:k*m,op:'word'};}
+  const a=ri(6,15),b=ri(1,a-1);return{q:`კალათში იყო ${a} ${it}. ${b} შეჭამეს. რამდენი დარჩა?`,a:a-b,op:'word'};
+}
+function wordRound(){game.mode='math-word';game.qs=Array.from({length:6},()=>genWord());game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextWordQ();}
+function nextWordQ(){
+  if(game.i>=game.qs.length)return results();
+  const q=game.qs[game.i];game.cur=q;
+  const why=game.i===0?`<div style="background:#fff8ee;border:1px solid #ffe2bd;border-radius:14px;padding:10px 14px;margin-bottom:12px;font-size:.92rem;color:#6b5640;line-height:1.45">🦉 ${MATH_WHY['math-word']}</div>`:'';
+  gameShell(`${why}<div class="prompt"><div class="p-word" style="font-size:1.25rem;line-height:1.55;max-width:430px">${q.q}</div></div>
+    <div class="options">${mathOpts(q.a).map(o=>`<button class="opt num" onclick="answerMath(this,${o},${q.a})">${o}</button>`).join('')}</div>`);
+  $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
+}
 function mathLvl(type){
   const s=state[profile]; if(!s.mathLevel)s.mathLevel={};
   const max=(MATH_LV[type]||[{}]).length-1;
@@ -361,7 +395,8 @@ function nextMath(){
   if(game.i>=game.qs.length)return results();
   const q=game.qs[game.i];game.cur=q;
   const canHarder=mathLvl(game.mode)<((MATH_LV[game.mode]||[{}]).length-1);
-  gameShell(`<div class="prompt"><div class="p-word num" style="font-size:2.4rem;letter-spacing:2px">${q.q}</div>${q.pat?'<div class="p-sub">იპოვე კანონზომიერება</div>':''}</div>
+  const why=game.i===0&&MATH_WHY[game.mode]?`<div style="background:#fff8ee;border:1px solid #ffe2bd;border-radius:14px;padding:9px 14px;margin-bottom:12px;font-size:.9rem;color:#6b5640;line-height:1.4">🦉 ${MATH_WHY[game.mode]}</div>`:'';
+  gameShell(`${why}<div class="prompt"><div class="p-word num" style="font-size:2.4rem;letter-spacing:2px">${q.q}</div>${q.pat?'<div class="p-sub">იპოვე კანონზომიერება</div>':''}</div>
     <div class="options">${mathOpts(q.a).map(o=>`<button class="opt num" onclick="answerMath(this,${o},${q.a})">${o}</button>`).join('')}</div>
     ${canHarder?`<button class="btn btn-ghost" style="margin-top:16px;font-size:.95rem" onclick="mathHarder()">⏫ გამიმძიმე</button>`:''}`);
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
@@ -377,7 +412,7 @@ function mathHarder(){
 }
 function answerMath(btn,sel,cor){
   if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');
-    mrec(true);winStep(null,null,()=>{game.i++;nextMath();});}
+    mrec(true);winStep(null,null,()=>{game.i++;(nextForMode())();});}
   else{btn.classList.add('wrong','dim');mrec(false);reQueueWrong(cor,null);}
 }
 function mrec(ok){const s=state[profile];if(ok){s.shields++;game.shields++;s.streak++;s.maxStreak=Math.max(s.maxStreak,s.streak);if(!s.math[game.mode])s.math[game.mode]={correct:0,wrong:0};s.math[game.mode].correct++;}else{game.wrong++;s.streak=0;if(!s.math[game.mode])s.math[game.mode]={correct:0,wrong:0};s.math[game.mode].wrong++;}save();}
