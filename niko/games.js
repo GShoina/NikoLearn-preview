@@ -630,6 +630,9 @@ const CLOCK_HALF=['🕧','🕜','🕝','🕞','🕟','🕠','🕡','🕢','🕣'
 function clockEmoji(h,half){const i=h%12;return half?CLOCK_HALF[i]:CLOCK_OCLOCK[i];}
 // real analog clock face: 12/3/6/9 numerals + hour ticks (განაყოფები) + hour & minute hands
 function clockFace(h,half){
+  // defensive: a deferred advance timer firing after the round was left could call this with a stale/
+  // undefined hour → NaN SVG coords (harmless but logs a console error). Clamp to a valid clock value.
+  if(!Number.isFinite(h)) h=12;
   const cx=50,cy=50,R=46;
   const pt=(a,r)=>{const t=a*Math.PI/180;return [cx+r*Math.sin(t),cy-r*Math.cos(t)];};
   let ticks='';

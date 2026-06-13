@@ -64,6 +64,15 @@
 
   // ── VOCABULARY (q:{ka,en,emoji}) ──
   function vocab(q,mode,kid){
+    // guard: reading / digit / build modes fall through to this default tutor, but their question objects
+    // have no `.en`, so `q.en[0]` below would throw (owner deep-QA 2026-06-13: owl help crashed there).
+    // Give a safe, generic encouraging hint instead of crashing.
+    if(!q || typeof q.en!=='string'){
+      return {hints:[
+        'დააკვირდი სურათსა და მინიშნებას, რას ხედავ? 👀',
+        'მოისმინე ხმა 🔊 და ნელა გაიმეორე.'
+      ], explain:'დააკვირდი, მოისმინე და სცადე. შენ შეგიძლია! 🌟'};
+    }
     const info=(window.WORD_INDEX&&window.WORD_INDEX[q.en])||q;
     const cat=(info.cat||'').replace(/\s*\p{Emoji}.*$/u,'').trim()||'სიტყვები';
     const catEmoji=((info.cat||'').match(/\p{Emoji}/u)||[''])[0];
