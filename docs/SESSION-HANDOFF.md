@@ -82,6 +82,11 @@
 > **📌 RELEASE CHECKLIST (updated v1.125):** version bump now touches THREE spots, not two:
 >   `niko/screens.js` APP_VERSION + `sw.js` CACHE + **`landing.html` footer hardcoded `v1.xxx`** (landing does
 >   NOT load APP_VERSION, so its footer version is manual and silently drifted to v1.119 → fixed to v1.125).
+> **🚦 RELEASE CADENCE (owner-asked 2026-06-13) — BATCH deploys, don't push per micro-change.** GitHub Pages has a
+>   ~10 builds/hour soft limit (only PUSH triggers a build; local commits don't). So: implement several related
+>   changes, VERIFY each locally (localhost http.server + silent Playwright), commit locally as you go, then do ONE
+>   version bump + ONE push/deploy + ONE live-verify per batch. Push immediately only for an urgent single user-facing
+>   fix. Keeps us under the build limit, fewer cache/verify cycles, cleaner history.
 > **✍️ GEORGIAN COPY STANDARD + SKILL (owner-locked 2026-06-12).** SSOT = `docs/GEORGIAN_COPY_STANDARD.md` —
 >   high-autonomy, 5 hard outcome-gates (NOT rigid templates; owner explicitly wants high-agency + hard
 >   constraints, no micromanagement). Invocable skill `.claude/skills/georgian-copy/SKILL.md` (project-scoped,
