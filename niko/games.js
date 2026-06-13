@@ -179,13 +179,83 @@ function reQueueWrong(cor,lang,nextFn){
     setTimeout(()=>{ try{closeFeedback();}catch(e){} },1100);
     return;
   }
-  // 2nd+ miss: now lock, reveal the correct answer + offer the tutor hint, re-queue to the END, advance.
+  // 2nd+ miss: lock the options, reveal the correct one, RE-QUEUE the item, then TEACH the child and
+  // wait for them to CONFIRM understanding before advancing. (owner 2026-06-13: the old 1.7s auto-advance
+  // was far too fast — a 5–7 yo couldn't absorb what the right answer even was. teachAndConfirm shows the
+  // solution slowly, step by step, then a „გაიგე?" gate, so the child controls the pace = real tutoring.)
   document.querySelectorAll('.opt').forEach(b=>{b.classList.add('dim');b.style.pointerEvents='none';});
   if(lang!==false) revealCorrect(cor,lang||null);
-  setTimeout(()=>maybeOfferHelp(),650);
   game.requeues=game.requeues||0;
   if(game.requeues<14){ game.qs.push(q); game.requeues++; }  // capped so the round always terminates
-  setTimeout(()=>{ game.i++; (nextFn||nextForMode())(); }, 1700);
+  const advance=()=>{ game.i++; (nextFn||nextForMode())(); };
+  setTimeout(()=>{ try{closeFeedback();}catch(e){} teachAndConfirm(cor,lang,advance); }, 600);
+}
+
+// ── Comprehension gate (owner-locked 2026-06-13) — slow teaching reveal after the 2nd miss ──
+// Shows the SOLUTION at the child's pace: for arithmetic the full solved equation revealed step by step
+// (e.g. 5 + 6 = … then 11 pops in), for everything else the correct answer with its picture. Then a
+// „გაიგე?" gate: ✓ კი advances, ✗ არა drops to a CONCRETE visual explanation (counted dots / groups) and
+// only a single „გასაგებია" button. Advancing happens ONLY on a tap, never on a timer.
+function solveLine(q,cor,m){
+  const A=String(cor);
+  if(m.startsWith('math-') && q && q.q){
+    const expr=String(q.q);
+    if(expr.indexOf('?')>=0){
+      return {html:`<div class="eqline">${expr.replace('?',`<span class="te-ans" id="teAns">?</span>`)}</div>`, answer:A};
+    }
+    return {html:`<div class="eqline">${expr} <span class="te-eq">=</span> <span class="te-ans" id="teAns">?</span></div>`, answer:A};
+  }
+  const emo=q&&(q.e||q.emoji)?`<div class="te-emoji">${q.e||q.emoji}</div>`:'';
+  return {html:`${emo}<div class="eqline"><span class="te-ans solo" id="teAns">?</span></div>`, answer:A};
+}
+function _teDots(n,cls){let s='';for(let i=0;i<n;i++)s+=`<span class="td ${cls}">●</span>`;return `<span class="dg">${s}</span>`;}
+function teachAndConfirm(cor,lang,advanceFn){
+  const q=game.cur||(game.qs&&game.qs[game.i]);
+  const m=game.mode||'';
+  const sol=solveLine(q,cor,m);
+  let ov=document.getElementById('teachov'); if(ov)ov.remove();
+  ov=document.createElement('div'); ov.className='overlay teach-ov'; ov.id='teachov';
+  ov.innerHTML=`<div class="teach-card">
+    <div class="teach-owl">${tutorAva(profile)}</div>
+    <div class="teach-eq">${sol.html}</div>
+    <div class="teach-q" id="teachQ" style="opacity:0">გაიგე?</div>
+    <div class="teach-btns" id="teachBtns" style="opacity:0">
+      <button class="teach-yes" id="teachYes">✓ კი</button>
+      <button class="teach-no" id="teachNo">✗ არა</button>
+    </div>
+  </div>`;
+  $('.device').appendChild(ov);
+  // staged "slow frames" reveal: hold the question a beat, pop in the answer (+voice), then the gate.
+  setTimeout(()=>{ const a=ov.querySelector('#teAns'); if(a){a.textContent=sol.answer;a.classList.add('pop');} if(lang&&typeof speak==='function'){try{speak(sol.answer,lang);}catch(e){}} },700);
+  setTimeout(()=>{ const qd=ov.querySelector('#teachQ'),bd=ov.querySelector('#teachBtns'); if(qd)qd.style.opacity='1'; if(bd)bd.style.opacity='1'; },1600);
+  ov.querySelector('#teachYes').onclick=()=>{ ov.remove(); advanceFn(); };
+  ov.querySelector('#teachNo').onclick=()=>teachMore(q,cor,m,advanceFn);
+}
+function teachMore(q,cor,m,advanceFn){
+  const ov=document.getElementById('teachov'); if(!ov)return;
+  const card=ov.querySelector('.teach-card'); if(!card)return;
+  const a1=q&&q.a1, a2=q&&q.a2;
+  const solved=(m.startsWith('math-')&&q&&q.q)?(q.q.indexOf('?')>=0?q.q.replace('?',cor):`${q.q} = ${cor}`):String(cor);
+  let visual='';
+  if(m==='math-add' && a1!=null && a2!=null && (a1+a2)<=24){
+    visual=`<div class="teach-dots">${_teDots(a1,'g1')}<span class="te-plus">+</span>${_teDots(a2,'g2')}</div>
+      <div class="teach-count">ყველა დავთვალოთ ერთად: <b>${a1+a2}</b></div>`;
+  } else if(m==='math-sub' && a1!=null && a2!=null && a1<=24){
+    let d=''; for(let i=0;i<a1;i++) d+=`<span class="td ${i<a1-a2?'g1':'x'}">●</span>`;
+    visual=`<div class="teach-dots"><span class="dg">${d}</span></div>
+      <div class="teach-count">გადახაზულის შემდეგ დარჩა: <b>${a1-a2}</b></div>`;
+  } else if(m==='math-mul' && a1!=null && a2!=null && (a1*a2)<=24){
+    visual=`<div class="teach-rows">${Array.from({length:a2},()=>`<div class="te-row">${_teDots(a1,'g1')}</div>`).join('')}</div>
+      <div class="teach-count">${a2} ჯგუფი, თითო ${a1}: <b>${a1*a2}</b></div>`;
+  } else {
+    let explain=''; try{ const t=Tutor.build({subject:gameSubject(),q,mode:m,profile,aiRole:aiRole()}); explain=t.explain||''; }catch(e){}
+    visual=`<div class="teach-explain">${explain}</div>`;
+  }
+  card.innerHTML=`<div class="teach-owl">${tutorAva(profile)}</div>
+    <div class="teach-eq small"><div class="eqline">${solved}</div></div>
+    ${visual}
+    <div class="teach-btns"><button class="teach-yes" id="teachYes2">✓ გასაგებია</button></div>`;
+  card.querySelector('#teachYes2').onclick=()=>{ ov.remove(); advanceFn(); };
 }
 
 /* ═══════════════ Phase 2.2 — weighted review ("🔁 გაიმეორე") ═══════════════

@@ -440,14 +440,48 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .ai-ava{width:48px;height:48px;flex:0 0 auto;border-radius:15px;background:linear-gradient(150deg,var(--sky),var(--purple));
   display:grid;place-items:center;font-size:1.6rem}
 .ai-bubble .ai-body{flex:1}
-.ai-bubble .ai-name{font-size:.92rem;font-weight:700;color:var(--sky-d);letter-spacing:.02em}
-.ai-bubble .ai-text{font-size:1.05rem;line-height:1.5}
-.ai-bubble .ai-text b{color:var(--primary-d)}
-.ai-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
-.ai-chip{border:1.5px solid var(--line);background:var(--card-2);border-radius:999px;padding:7px 13px;
-  font-size:.8rem;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink)}
+.ai-bubble .ai-name{font-size:1rem;font-weight:800;color:var(--sky-d);letter-spacing:.02em}
+/* owl help text: bigger + higher contrast + airier line spacing so a 5–7 yo (or a parent reading aloud)
+   can actually read it. (owner 2026-06-13: the hint text was too small / hard to read.) */
+.ai-bubble .ai-text{font-size:1.2rem;line-height:1.62;color:var(--ink);font-weight:500}
+.ai-bubble .ai-text b{color:var(--primary-d);font-weight:800}
+.ai-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:13px}
+.ai-chip{border:1.5px solid var(--line);background:var(--card-2);border-radius:999px;padding:9px 15px;
+  font-size:.95rem;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink)}
 .ai-chip:active{transform:scale(.95)}
 .ai-chip.primary{background:var(--sky);color:#fff;border-color:var(--sky)}
+
+/* ── Comprehension gate (2nd-miss teaching reveal) — big, slow, child-paced ── */
+.teach-ov{align-items:center;justify-content:center;padding:24px;background:rgba(20,16,30,.46);z-index:90}
+.teach-card{background:var(--card);border-radius:26px;box-shadow:var(--shadow-lg);
+  border:2px solid color-mix(in oklch,var(--primary) 30%,var(--line));padding:24px 22px;max-width:340px;width:100%;
+  text-align:center;animation:rise .28s}
+.teach-owl{font-size:2.7rem;line-height:1;margin-bottom:4px;animation:bob 2.4s ease-in-out infinite}
+.teach-eq .eqline{font-size:2.5rem;font-weight:800;color:var(--ink);letter-spacing:1px;
+  display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
+.teach-eq.small .eqline{font-size:1.7rem}
+.te-eq{color:var(--sky-d)}
+.te-ans{display:inline-block;min-width:1.2em;color:var(--primary-d)}
+.te-ans.solo{color:var(--green-d)}
+.te-ans.pop{animation:tepop .55s cubic-bezier(.2,1.5,.45,1)}
+.te-emoji{font-size:3.6rem;line-height:1;margin-bottom:4px}
+.teach-q{font-size:1.4rem;font-weight:800;color:var(--ink);margin-top:18px;transition:opacity .35s}
+.teach-btns{display:flex;gap:12px;justify-content:center;margin-top:14px;transition:opacity .35s}
+.teach-yes,.teach-no{border:none;border-radius:16px;padding:14px 22px;font-size:1.15rem;font-weight:800;
+  font-family:inherit;cursor:pointer;min-width:96px}
+.teach-yes{background:var(--green);color:#fff}
+.teach-no{background:var(--card-2);color:var(--ink);border:2px solid var(--line)}
+.teach-yes:active,.teach-no:active{transform:scale(.95)}
+.teach-dots{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:16px 0 4px}
+.teach-dots .dg{display:inline-flex;gap:4px;flex-wrap:wrap;max-width:8.5em;justify-content:center}
+.td{font-size:1.5rem;line-height:1.1}
+.td.g1{color:var(--sky)} .td.g2{color:var(--primary)} .td.x{color:var(--line);text-decoration:line-through}
+.te-plus{font-weight:800;color:var(--sky-d);font-size:1.7rem}
+.teach-rows{display:flex;flex-direction:column;gap:5px;align-items:center;margin:14px 0 4px}
+.teach-count{font-size:1.15rem;color:var(--ink);margin-top:10px}
+.teach-count b{color:var(--primary-d);font-size:1.35rem}
+.teach-explain{font-size:1.18rem;line-height:1.55;color:var(--ink);margin:16px 6px 4px}
+@keyframes tepop{0%{transform:scale(.2);opacity:0}60%{transform:scale(1.25)}100%{transform:scale(1);opacity:1}}
 .dots{display:inline-flex;gap:4px;align-items:center}
 .dots i{width:7px;height:7px;border-radius:50%;background:var(--sky);animation:bounce 1.2s infinite}
 .dots i:nth-child(2){animation-delay:.18s}.dots i:nth-child(3){animation-delay:.36s}
