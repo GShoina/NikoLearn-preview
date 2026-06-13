@@ -250,6 +250,22 @@
 >   edge-tts clip (ka-GE-EkaNeural) before it can be voiced. Pipeline lives in tools/ (_gen_*.py). One nuance worth a
 >   future look: the 2nd-miss teach-card reveal voices the correct answer via speak(cor,lang) — for ka shape names that
 >   routes to en-US TTS (garbled); low-impact, PARKED.
+>   **v1.162** Talk & Think expansion #3: +15 quirkier cards (12→27 each deck, ka+en) across all themes; deck now
+>   SHUFFLES on entry (owner: small set felt repetitive); 15 new ka edge-tts clips tlk_012-026 + manifest. Generator
+>   `tools/_gen_talk3.py`.
+>   **v1.163** LANGUAGE-TOGGLE fixes (owner: „EN toggle doesn't translate the text, suspect global bug"). Diagnosed via
+>   a full EN-mode scan: the gap is SMALL + bounded, NOT pervasive — menus/home already translate via I18N_MAP/PATTERNS;
+>   only a few game-chrome strings + content-by-design were Georgian. Fixed: (1) TALK — the global EN/ქარ toggle now
+>   switches the deck content language (a `niko-lang-change` listener re-decks; deck-chooser also sets UILANG = unified);
+>   this was the owner's actual complaint. (2) game chrome made render-time bilingual (the robust pattern, not fragile
+>   post-render i18n): `MATH_WHY` owl intros (now {ka,en}+`whyText()`), comprehension gate (გაიგე?/✓კი/✗არა/გასაგებია),
+>   ⏫ harder button. STILL ka-by-design (NOT bugs, PARKED unless EN is a real audience): answer options follow the KID's
+>   language (shapes/vocab), and word-problems are generated ka-only (full EN content parity = a larger bilingual-gen
+>   effort — strategic decision needed before investing).
+>   **MEDIA/GIT (owner Q 2026-06-13):** ALL NikoLearn media is already committed to git + on GitHub (GShoina/NikoLearn):
+>   437 audio clips + 19 images (icons/owl/og/fonts) = 8.4MB, NO video files. Repo = the single source + backup + serves
+>   via Pages. Loose files on the PC were only throwaway verification screenshots (cleaned) + other Bivision projects'
+>   images (out of NikoLand's silo).
 >   **📧 EMAIL/CONTACT (owner 2026-06-13):** app contact = NikoLearn@outlook.com (live). Owner READS feedback via that
 >   account added to his PHONE mail app (Option A) — Outlook web-forwarding to gela.shonia@bivision.ge was NOT set up
 >   (Microsoft security-wall: enabling forwarding needs verified security-info + a code only the owner receives; abandoned
