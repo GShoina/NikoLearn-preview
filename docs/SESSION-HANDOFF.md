@@ -120,13 +120,19 @@
 >   kid profile chooser, `enterApp()` auto-enters; landing.html stays the public front door, the parent space
 >   stays PIN/math-gated (openGate untouched). Docs updated (PARENT-GUIDE/README/HANDOFF/SECURITY_RULES). Backup:
 >   `backups/NikoLand_pre-v1.129-login-removal_2026-06-12.zip`.
-> **🦉 LOGO CANDIDATES (2026-06-12, Fable 5 chat session) — AWAITING OWNER PICK.** 3 owl-logo directions in
->   the app's REAL brand colors (theme #FFB74D / cream #FFF3E0 / deep orange; verified from manifest+styles.css;
->   #6B63B5 purple = CSS fallback only, NOT brand): D1 neural mark · D2 mascot „ნიკო ბუ" · D3 N-monogram.
->   Report: `output/2026-06-12-ბუს ლოგო 3 მიმართულება by Niko.html` (+3 SVG in output/). Owner picks → generate
->   PNG icon set (512/192/maskable/apple-touch-180, same filenames so manifest/sw untouched); LIVE deploy =
->   owner-gated (§7 customer-facing). Current icons = drawn suns (v1.126); tutor avatar = 🦉 emoji (core.js).
->   NB: earlier generic-palette v1 (indigo) of the same 3 logos sits in `AI_Projects\outputs\` — superseded by v2.
+> **🦉 LOGO = DECIDED & PARTLY LIVE (2026-06-13).** Owner went with the ChatGPT owl MASCOT (not the old D1/D2/D3
+>   directions). Owner generated 5 color variants keeping the GPT character (`Downloads/ChatGPT Image Jun 13 …
+>   09_37_49 AM.png`); I cropped them to `brand-preview/owl-{amber,blue,teal,violet,navy}.png`. **DEFAULT COLOR =
+>   amber #FFB74D** (on-brand; owner approved „მისაღებია"). Global-ready: HIGH for the mark (owl + Latin wordmark +
+>   star motif, no language lock); only the CONTENT is GE-first (product-stage, not a logo issue). **✅ v1.133 LIVE:
+>   amber owl is now the PWA icon set** (icon-192/512, icon-maskable-512, apple-touch-180; same filenames, manifest/
+>   sw untouched; built from the amber crop via `tools/_build_icons.py`, checker→white cleaned). Brand doc +
+>   prototype: `niko-brand.html` (live, noindex, gshoina.github.io/NikoLearn/niko-brand.html) with corrected honest
+>   copy (NO „AI", NO „teens", NikoLearn camelCase, „ისწავლე თამაშით"). **▶ REMAINING logo spots (next increment):**
+>   (1) favicon (still favicon.svg = old sun) → owl · (2) in-app tutor avatar (core.js = 🦉 emoji) → owl image ·
+>   (3) og-image.png → owl version (current og works, polish). NB: icon source = a ~406px crop, so 512 is slightly
+>   soft; a clean 1024 transparent owl would sharpen it (optional). If owner later prefers blue/teal/etc., swap is
+>   one rebuild from `brand-preview/owl-<color>.png`.
 > **PRODUCTION PLAN (owner-engaged 2026-06-12) — lean baseline now + grow.** Full doc:
 >   `output/2026-06-12-NikoLearn production გასვლის გეგმა (truth+polish + სტრატეგია) by Niko.html`.
 > **DECIDED:** NikoLearn stays SEPARATE from Bivision (owner's independent project). Privacy controller =
