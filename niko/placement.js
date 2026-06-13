@@ -82,10 +82,16 @@ const SUBJ_DIAG = {
     {kind:'en2ka', q:'happy', a:'ბედნიერი', opts:['ბედნიერი','მწუხარე','დაღლილი']}
   ],
   math:[
-    {kind:'num', q:'3 + 4', a:'7', opts:['7','6','8']},
+    {kind:'num', q:'2 + 3', a:'5', opts:['5','4','6']},
+    {kind:'num', q:'7 + 5', a:'12', opts:['12','11','13']},
+    {kind:'num', q:'9 − 4', a:'5', opts:['5','6','4']},
+    {kind:'num', q:'13 − 5', a:'8', opts:['8','7','9']},
+    {kind:'num', q:'14 + 8', a:'22', opts:['22','21','24']},
     {kind:'num', q:'12 + 9', a:'21', opts:['21','19','22']},
-    {kind:'num', q:'15 − 6', a:'9', opts:['9','8','11']},
-    {kind:'num', q:'6 × 7', a:'42', opts:['42','36','48']}
+    {kind:'num', q:'20 − 7', a:'13', opts:['13','12','14']},
+    {kind:'num', q:'4 × 3', a:'12', opts:['12','7','9']},
+    {kind:'num', q:'6 × 7', a:'42', opts:['42','36','48']},
+    {kind:'num', q:'8 × 6', a:'48', opts:['48','42','54']}
   ],
   'ka-alpha':[
     {kind:'letter', q:'რომელია „ა"?', a:'ა', opts:['ა','ბ','გ']},
@@ -147,6 +153,10 @@ function diagResult(){
   const level = pct>=75?'მაღალი' : pct>=45?'საშუალო' : 'დაწყებითი';
   const s=state[profile]; if(!s.subjDiag)s.subjDiag={};
   s.subjDiag[subj]={done:true,skipped:false,date:new Date().toISOString(),pct,level,startIdx};
+  // math: SEED the in-game number level from the diagnostic, so a strong child does not start at 1-20.
+  if(subj==='math'){ if(!s.mathLevel)s.mathLevel={}; const seed=pct>=80?2:(pct>=55?1:0);
+    ['math-add','math-sub'].forEach(op=>{ s.mathLevel[op]=Math.max(s.mathLevel[op]||0, seed); });
+    if(seed>=1) s.mathLevel['math-mul']=Math.max(s.mathLevel['math-mul']||0, seed-1); }
   save();
   const start=path[startIdx]?path[startIdx].label:'';
   render(`<div class="screen results" style="--pct:${pct}%">

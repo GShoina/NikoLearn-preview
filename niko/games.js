@@ -329,9 +329,11 @@ function rampMath(type,pct){
   const s=state[profile]; if(!s.mathLevel)s.mathLevel={}; if(!s.mathUp)s.mathUp={};
   const cur=mathLvl(type), max=(MATH_LV[type]||[{}]).length-1;
   game.leveledMath=null;
-  // gentle progression: move up only after TWO strong rounds in a row (no sudden 1–20 → 1–100 jump);
-  // step back quickly after a weak round so the test stays at the child's real level.
-  if(pct>=85){
+  // a clearly strong round (>=90%) bumps up immediately; a good-but-not-great round (85-89%)
+  // still needs two in a row; step back quickly after a weak round so it stays at the real level.
+  if(pct>=90 && cur<max){
+    s.mathLevel[type]=cur+1; s.mathUp[type]=0; game.leveledMath=(MATH_LV[type][cur+1].label||'');
+  } else if(pct>=85){
     s.mathUp[type]=(s.mathUp[type]||0)+1;
     if(s.mathUp[type]>=2 && cur<max){ s.mathLevel[type]=cur+1; s.mathUp[type]=0; game.leveledMath=(MATH_LV[type][cur+1].label||''); }
   } else {
@@ -358,9 +360,20 @@ function mathRound(m){game.mode=m;game.leveledMath=null;game.qs=Array.from({leng
 function nextMath(){
   if(game.i>=game.qs.length)return results();
   const q=game.qs[game.i];game.cur=q;
+  const canHarder=mathLvl(game.mode)<((MATH_LV[game.mode]||[{}]).length-1);
   gameShell(`<div class="prompt"><div class="p-word num" style="font-size:2.4rem;letter-spacing:2px">${q.q}</div>${q.pat?'<div class="p-sub">იპოვე კანონზომიერება</div>':''}</div>
-    <div class="options">${mathOpts(q.a).map(o=>`<button class="opt num" onclick="answerMath(this,${o},${q.a})">${o}</button>`).join('')}</div>`);
+    <div class="options">${mathOpts(q.a).map(o=>`<button class="opt num" onclick="answerMath(this,${o},${q.a})">${o}</button>`).join('')}</div>
+    ${canHarder?`<button class="btn btn-ghost" style="margin-top:16px;font-size:.95rem" onclick="mathHarder()">⏫ გამიმძიმე</button>`:''}`);
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
+}
+// kid-facing "make it harder": bump this op's level, re-roll the remaining questions harder, keep going.
+function mathHarder(){
+  const type=game.mode, s=state[profile]; if(!s.mathLevel)s.mathLevel={};
+  const max=(MATH_LV[type]||[{}]).length-1, cur=mathLvl(type);
+  if(cur>=max) return;
+  s.mathLevel[type]=cur+1; if(s.mathUp)s.mathUp[type]=0; save();
+  for(let i=game.i;i<game.qs.length;i++){ game.qs[i]=genMath(type); }
+  nextMath();
 }
 function answerMath(btn,sel,cor){
   if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');
