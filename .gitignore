@@ -26,3 +26,6 @@ backups/
 
 # Owner-facing HTML deliverables — keep LOCAL, do not publish on the public Pages site
 output/
+
+# Local Claude tooling / context-mode (machine-specific)
+.claude/
