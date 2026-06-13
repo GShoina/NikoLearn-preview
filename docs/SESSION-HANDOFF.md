@@ -98,6 +98,18 @@
 >   challenge → options → plan, shown BEFORE doing. ALWAYS-ON safety floor (even in default, even with no
 >   trigger): irreversible deletion · money/spend · customer-facing going live → brief confirm first. So:
 >   trigger = quality/think switch · default = speed · safety floor = always.
+> **🎓 STANDING RULE — TUTOR FIRST (owner-locked 2026-06-13, „ჩემთვის მნიშვნელოვანი კონცეფციაა").** The TUTOR /
+>   teaching role is the front and center of NikoLearn, NOT tests/drills. A test SERVES learning, never the reverse.
+>   Always prioritize: teach the concept, spark interest („why"/real-life), guide (Niko's explain-line, hints,
+>   retry-before-reveal), explain mistakes — OVER assessment/scoring. When weighing any feature, the tutor-first
+>   experience wins. (So the „შემაჯამებელი ტესტი" idea is SECONDARY: only build it framed as a learning/feedback
+>   moment, not a bare exam.)
+> **🤝 STANDING RULE — IDEA-HANDLING PROTOCOL (owner-locked 2026-06-13).** When the owner gives an idea: (1) ANALYZE
+>   it, (2) FILTER + look at the big picture and real usability/feasibility, (3) CHALLENGE it (senior judgment, push
+>   back if weak), (4) if convinced → either put it in the ROADMAP (if it's a later/bigger thing) OR, if it's doable
+>   and should be done, JUST DO IT end-to-end WITHOUT asking (reversible dev = default-go per §6b/§7). Surface to the
+>   owner only genuine money / customer-facing-go-live / irreversible / strategy forks. Don't hand reversible ideas
+>   back as yes/no questions.
 > **🔌 STANDING RULE (owner, 2026-06-12) — SKILLS/PLUGINS: enable on-demand, disable after.** Enabled plugins eat
 >   context every session → enable ONLY when a task needs it, disable at task end. Installed on this machine:
 >   plugins (toggle `claude plugin enable <name>`): `frontend-design` (UI polish — use for screen design),
