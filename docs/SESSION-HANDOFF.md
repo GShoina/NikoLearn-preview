@@ -1,6 +1,22 @@
 # NikoLearn — Session Handoff
 
-> ## ▶ RESUME NOW (updated 2026-06-13, Opus 4.8 session)
+> ## ▶ RESUME NOW (updated 2026-06-14, Opus 4.8 session)
+> **LIVE = v1.168.** (HEAD `086af14` = origin/main, all pushed.) App + landing + sw cache all synced at 1.168
+> (verified live). No work-in-progress; clean stopping point.
+> **THIS SESSION (2026-06-13→14), v1.149→1.168 — all live + verified:** shapes Georgian-language bug · comprehension
+> gate on 2nd miss („გაიგე?" + counted-dots explain, child-paced, no fast auto-advance) · brand-owl mascot in the
+> teaching UI + owl+💛 as the consistent praise signature (💪 purged app-wide) · tap-target fixes (listen button,
+> Kings cards, nav) + `qa/ui-audit.js` · deep audit (2 bugs fixed: owl-help crash in reading/digit/build, clock NaN)
+> · slower clearer English speech (0.8→0.72) · Georgian voice COVERAGE audit (essentially complete; `qa/voice-coverage.js`)
+> · Talk & Think +15 quirky cards (27/deck) + shuffle + 15 ka clips · language-toggle fixes (Talk deck follows toggle;
+> game chrome bilingual) · version-sync bug fixed (always stage screens.js) · menu/tiles: theme-count badges BOTH grids
+> + tap cue · placement test 4→10 Qs age-split (3-5 / 6-9) · Math „ყველა თემა" picker + capped to 4 rows.
+> **▶ NEXT (owner-driven):** keep testing with Nikoloz; open strategic forks PARKED for owner decision — (a) full EN
+> content parity (word-problems are ka-generated; is EN a real audience?), (b) Georgian voice upgrade (human-record vs
+> ElevenLabs; edge-tts ყ/ღ weak but accepted interim), (c) LAUNCH = owner action (share gshoina.github.io/NikoLearn).
+> Standing rules still active: TUTOR-FIRST · idea-handling (analyze→filter→challenge→do) · batch deploys · BOTH tile
+> grids on any tile change · verify on the LIVE site (local HTTP cache is unreliable).
+> ── older pointer (kept for context) ──
 > **🧱 TECH STACK — READ FIRST, do NOT re-confuse: NikoLearn is VANILLA HTML/JS, NOT React.** Plain `<script>`
 > files in `niko/*.js`, every function global, fixed load order in index.html, `BOOT` last in parent.js. No JSX,
 > no build step, no React, no npm runtime. (Verified by direct edits across sessions; the owner sometimes calls
@@ -8,7 +24,7 @@
 > „Remotion because it's React" does NOT hold. Remotion can still be used, but only as a SEPARATE standalone
 > project beside the app, never inside it. Choose animation/video tooling by quality-vs-effort, not by framework
 > (lighter = hyperframes; higher production = Remotion-as-separate-project).
-> **LIVE = v1.132.** (HEAD `c94e32d` = origin/main.) **🚀 DIRECTION LOCKED 2026-06-13: LAUNCH (do NOT rebuild, do
+> **(historical: LIVE was v1.132 / HEAD c94e32d at this point; now v1.168 — see top.)** **🚀 DIRECTION LOCKED 2026-06-13: LAUNCH (do NOT rebuild, do
 > NOT keep adding pre-launch).** Owner chose launch over more-features and over a v2.00 rewrite. Senior call held:
 > the app works + is clean (A5 0 errors), architecture is healthy (vanilla = an ASSET for a kids' app), zero real
 > users yet → ship and let telemetry drive what's next. v2.00 = a future PRODUCT milestone, not a technical
