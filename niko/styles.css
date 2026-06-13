@@ -330,10 +330,10 @@ body.on-landing #app{padding:0;padding-bottom:24px}
   color:var(--sky-d);font-weight:700;font-size:1.08rem;cursor:pointer;font-family:inherit}
 .speakbtn svg{width:22px;height:22px}
 /* listen mode: large round „tap to hear" button so it reads clearly as the main action (owner 2026-06-13) */
-.listen-cta{display:grid;place-items:center;width:96px;height:96px;margin:8px auto 4px;border:none;border-radius:50%;
+.listen-cta{display:grid;place-items:center;width:64px;height:64px;margin:6px auto 2px;border:none;border-radius:50%;
   background:color-mix(in oklch,var(--sky) 22%,var(--card));color:var(--sky-d);cursor:pointer;
   box-shadow:0 4px 14px color-mix(in oklch,var(--sky) 30%,transparent);transition:transform .12s}
-.listen-cta svg{width:44px;height:44px}
+.listen-cta svg{width:30px;height:30px}
 .listen-cta:active{transform:scale(.93)}
 .speakbtn:active{transform:scale(.95)}
 
