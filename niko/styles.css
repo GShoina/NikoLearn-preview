@@ -278,6 +278,15 @@ body.on-landing #app{padding:0;padding-bottom:24px}
   cursor:pointer;display:flex;flex-direction:column;gap:8px;min-height:150px;justify-content:flex-end;
   background:var(--card);box-shadow:var(--shadow);overflow:hidden;transition:transform .16s}
 .subj:active{transform:translateY(2px) scale(.985)}
+/* tap cue (owner 2026-06-13): gentle pulsing ring + a bobbing 👆 so a pre-reader sees the tiles are tappable.
+   staggered so they don't all pulse in unison; off for reduced-motion. */
+@keyframes tapcue{0%,100%{box-shadow:var(--shadow)}50%{box-shadow:0 0 0 3px color-mix(in oklch,var(--primary) 20%,transparent),var(--shadow)}}
+.subj.stack,.subj.play{animation:tapcue 3.4s ease-in-out infinite}
+.subj.stack:nth-child(2n){animation-delay:.6s}
+.subj.stack:nth-child(3n){animation-delay:1.2s}
+.subj .tap-hint{position:absolute;bottom:8px;right:10px;font-size:1.2rem;animation:taphint 2.2s ease-in-out infinite;pointer-events:none;opacity:.9}
+@keyframes taphint{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@media(prefers-reduced-motion:reduce){.subj.stack,.subj.play{animation:none}.subj .tap-hint{animation:none}}
 .subj .s-ico{font-size:2.4rem;line-height:1}
 .subj .s-name{font-weight:700;font-size:1.12rem}
 .subj .s-sub{font-size:.78rem;color:var(--muted)}

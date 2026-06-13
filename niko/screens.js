@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.163'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.164'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -68,7 +68,7 @@ function landing(){
     <div class="lp-section">
       <div class="lp-h2">რას ისწავლის ბავშვი</div>
       <div class="lp-grid">
-        <div class="lp-card"><div class="lp-ic">🔤</div><div class="lp-ct">ინგლისური</div><div class="lp-cs">სიტყვები, ფრაზები, მართლწერა, 5 რეჟიმი</div></div>
+        <div class="lp-card"><div class="lp-ic">🔤</div><div class="lp-ct">ინგლისური</div><div class="lp-cs">სიტყვები, ფრაზები, მართლწერა, 13 თემა</div></div>
         <div class="lp-card"><div class="lp-ic">🧮</div><div class="lp-ct">მათემატიკა</div><div class="lp-cs">შეკრება, გამოკლება, გამრავლება, დონეებით</div></div>
         <div class="lp-card"><div class="lp-ic">🇬🇪</div><div class="lp-ct">ანბანი</div><div class="lp-cs">ქართული და English, სწავლა და ქვიზი</div></div>
         <div class="lp-card"><div class="lp-ic">👑</div><div class="lp-ct">Kings</div><div class="lp-cs">Cambridge YLE გამოცდისთვის მზადება</div></div>
@@ -289,10 +289,10 @@ function selectProfile(p){
     subjects=`<div class="subj-grid">
       <div class="subj crown stack" data-sum="Cambridge YLE ტესტი: სურათი, თარგმანი, მართლწერა, გრამატიკა" onclick="openSubj(event,'kings-eng')"><span class="s-badge">${premiumOn()?'👑 გამოცდა':'🔒 Premium'}</span><div class="s-ico">👑</div><div class="s-name">კინგსი ინგლისური</div><div class="s-sub">Cambridge YLE</div></div>
       <div class="subj crown maths stack" data-sum="ოლიმპიადა: ამოცანები და ლოგიკა" onclick="openSubj(event,'kings-math')"><span class="s-badge">${premiumOn()?'👑 გამოცდა':'🔒 Premium'}</span><div class="s-ico">📐</div><div class="s-name">კინგსი მათემატიკა</div><div class="s-sub">ოლიმპიადა</div></div>
-      <div class="subj eng stack" data-sum="5 რეჟიმი · 13 თემა · 180+ სიტყვა · ფრაზები" onclick="openSubj(event,'english')"><span class="s-badge">${wc} სიტყვა</span><div class="s-ico">🔤</div><div class="s-name">ინგლისური</div><div class="s-sub">5 რეჟიმი</div></div>
-      <div class="subj maths stack" data-sum="შეკრება, გამოკლება, გამრავლება, ფიგურები, ფული, საათი" onclick="openSubj(event,'math')"><div class="s-ico">🧮</div><div class="s-name">მათემატიკა</div><div class="s-sub">დონეებით 1–100</div></div>
-      <div class="subj stack" data-sum="ანბანი · კითხვა · წერა · ამოწერა" onclick="openSubj(event,'ka-alpha')"><div class="s-ico">🇬🇪</div><div class="s-name">ქართული</div><div class="s-sub">კითხვა · წერა · ამოწერა</div></div>
-      <div class="subj talk play" data-sum="საუბრის ბარათები მშობელთან ერთად (ემოციები, ღირებულებები, ფანტაზია)" onclick="openTalk()">${PLAY_BADGE}<div class="s-ico">💬</div><div class="s-name">საუბარი</div><div class="s-sub">ფიქრი · ღირებულებები</div></div>
+      <div class="subj eng stack" data-sum="13 თემა · 180+ სიტყვა · ფრაზები" onclick="openSubj(event,'english')"><span class="s-badge">13 თემა</span><div class="s-ico">🔤</div><div class="s-name">ინგლისური</div><div class="s-sub">სიტყვები · ფრაზები</div><span class="tap-hint">👆</span></div>
+      <div class="subj maths stack" data-sum="შეკრება, გამოკლება, გამრავლება, ფიგურები, ფული, საათი" onclick="openSubj(event,'math')"><span class="s-badge">8 თემა</span><div class="s-ico">🧮</div><div class="s-name">მათემატიკა</div><div class="s-sub">დონეებით 1–100</div><span class="tap-hint">👆</span></div>
+      <div class="subj stack" data-sum="ანბანი · კითხვა · წერა · ამოწერა" onclick="openSubj(event,'ka-alpha')"><span class="s-badge">4 თემა</span><div class="s-ico">🇬🇪</div><div class="s-name">ქართული</div><div class="s-sub">კითხვა · წერა · ამოწერა</div><span class="tap-hint">👆</span></div>
+      <div class="subj talk play" data-sum="საუბრის ბარათები მშობელთან ერთად (ემოციები, ღირებულებები, ფანტაზია)" onclick="openTalk()">${PLAY_BADGE}<span class="s-badge">4 თემა</span><div class="s-ico">💬</div><div class="s-name">საუბარი</div><div class="s-sub">ფიქრი · ღირებულებები</div></div>
       <div class="subj move play" data-sum="მოკლე მოძრაობის შესვენება ვარჯიშებით" onclick="showBreak(true)">${PLAY_BADGE}<div class="s-ico">🤸</div><div class="s-name">მოძრაობა</div><div class="s-sub">პატარა შესვენება</div></div>
     </div>`;
   }
@@ -357,8 +357,8 @@ function openMenu(subj){
       pathHead=`<div class="pathcard diag-offer"><div class="path-top"><b>🧭 ვნახოთ რა იცი ${pathLocName(subj)}</b></div>
         <div class="path-hint">სულ რაღაც ${nq} კითხვა, რომ გითხრა საიდან დაიწყო.</div>
         <div style="display:flex;gap:8px;margin-top:10px">
-          <button class="btn btn-primary" style="flex:1" onclick="startSubjDiag('${profile}','${subj}')">დავიწყოთ →</button>
-          <button class="btn btn-ghost" onclick="skipSubjDiag('${profile}','${subj}')">გამოტოვება</button>
+          <button class="btn btn-primary" style="flex:1;padding:9px 14px;min-height:0;font-size:.98rem" onclick="startSubjDiag('${profile}','${subj}')">დავიწყოთ →</button>
+          <button class="btn btn-ghost" style="padding:9px 14px;min-height:0;font-size:.98rem" onclick="skipSubjDiag('${profile}','${subj}')">გამოტოვება</button>
         </div></div>`;
     } else {
       pathHead=renderPathStrip(subj);
