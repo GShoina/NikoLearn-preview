@@ -183,7 +183,9 @@ function pickVoice(lang){
   return vs.find(x=>x.lang.startsWith('en'))||null;
 }
 // young children need a noticeably slower, calmer pace
-function defaultRate(lang){const slow=isYoung(profile)?0.82:1;return (lang&&lang.startsWith('ka')?0.6:0.8)*slow;}
+// English words are spoken a touch slower so a child hears each sound clearly (owner 2026-06-13: Kings/Listen
+// felt too fast). ka stays slow as before. (0.72 base for en, 0.6 for ka; younger kids slower still.)
+function defaultRate(lang){const slow=isYoung(profile)?0.86:1;return (lang&&lang.startsWith('ka')?0.6:0.72)*slow;}
 function speakOne(t,lang,opts){
   if(!('speechSynthesis'in window)||!t)return;
   // central ka gate: by here no recorded clip exists (audio.js handles clips first). With no real
