@@ -353,7 +353,9 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 
 /* full-width option list (Kings) */
 .opt-list{display:flex;flex-direction:column;gap:10px}
-.opt-list .opt{min-height:58px;justify-content:flex-start;text-align:left;font-size:1.02rem;padding:14px 18px}
+/* Kings full-width options were noticeably smaller than the 2-col grid cards (58px / 1.02rem vs 74px /
+   1.18rem) — owner 2026-06-13. Bring them up to a comparable, comfortable size. (Global: all .opt-list.) */
+.opt-list .opt{min-height:70px;justify-content:flex-start;text-align:left;font-size:1.14rem;padding:16px 20px}
 
 /* spelling */
 .spell-input{width:100%;padding:18px;font-size:1.4rem;text-align:center;background:var(--card);
