@@ -1,7 +1,7 @@
 # NikoLearn — Session Handoff
 
 > ## ▶ RESUME NOW (updated 2026-06-14, Opus 4.8 session)
-> **LIVE = v1.168.** (HEAD `086af14` = origin/main, all pushed.) App + landing + sw cache all synced at 1.168
+> **LIVE = v1.168.** (Last app-code commit = `557babf`; everything pushed to origin/main. `557babf` was housekeeping only: backed up owl generator + Lane-B strategy notes, gitignored local `.claude/` tooling — no app-code change, still v1.168. This handoff edit commits AFTER it, so HEAD will be one newer; run `git log -1` for the exact hash, the invariant that matters is: working tree clean + HEAD == origin/main.) App + landing + sw cache all synced at 1.168
 > (verified live). No work-in-progress; clean stopping point.
 > **THIS SESSION (2026-06-13→14), v1.149→1.168 — all live + verified:** shapes Georgian-language bug · comprehension
 > gate on 2nd miss („გაიგე?" + counted-dots explain, child-paced, no fast auto-advance) · brand-owl mascot in the
