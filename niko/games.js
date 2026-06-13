@@ -83,7 +83,9 @@ function nextWord(){
       <div class="options">${opts.map(o=>`<button class="opt" onclick="answer(this,'${o.en}','${q.en}')">${o.ka}</button>`).join('')}</div>`;
   } else if(game.mode==='listen'){
     speak(q.en);
-    area=`<div class="prompt" onclick="speak('${q.en}')"><div class="p-emoji">${I.speaker.replace('currentColor','var(--sky-d)')}</div><div class="p-sub">მოისმინე და აირჩიე</div></div>
+    // listen mode: a BIG, obviously-tappable speaker button (was a small 🔊 icon — owner 2026-06-13:
+    // „the listen button is tiny, fix it everywhere"). The whole card stays tappable too = generous target.
+    area=`<div class="prompt listen-prompt" onclick="speak('${q.en}')"><button class="listen-cta" onclick="event.stopPropagation();speak('${q.en}')">${I.speaker}</button><div class="p-sub">მოისმინე და აირჩიე</div></div>
       <div class="options">${opts.map(o=>`<button class="opt emoji" onclick="answer(this,'${o.en}','${q.en}')">${o.emoji}</button>`).join('')}</div>`;
   } else if(game.mode==='spell'){
     area=`<div class="prompt"><div class="p-emoji">${q.emoji}</div><div class="p-word">${q.ka}</div>
