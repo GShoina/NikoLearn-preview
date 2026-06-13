@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.166'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.167'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -399,7 +399,10 @@ function openMenu(subj){
     const kid=isYoung(profile);
     const tiny=isTiny(profile);
     const big=isBig(profile); // 7+ : division, missing-number, 2-digit ramp
-    body=`<div class="mode-grid">
+    body=`<div class="cat-chip-row">
+        <button class="cat-chip" onclick="openMathTopics()">📚 ყველა თემა ▾</button>
+      </div>
+      <div class="mode-grid">
       ${tiny?'':mode('math-add','➕',kid?'':'შეკრება',kid?'':mathRangeLabel('math-add'))}
       ${tiny?'':mode('math-sub','➖',kid?'':'გამოკლება',kid?'':mathRangeLabel('math-sub'))}
       ${kid?'':mode('math-mul','✖️','გამრავლება',mathRangeLabel('math-mul'))}
@@ -458,6 +461,31 @@ function openTopics(){
   </div>`,'home');
 }
 function pickTopic(c){game.cat=c||null;if(c&&window.Analytics)Analytics.event('topic_usage',{topic:c});openMenu('english');}
+// Math themes picker (owner 2026-06-13: wants the same „ყველა თემა" affordance as English). Math has game-TYPES
+// rather than a word pool, so each theme launches its game directly. Age-gated to match the Math menu tiles.
+function openMathTopics(){
+  const kid=isYoung(profile), tiny=isTiny(profile), big=isBig(profile);
+  const T=[
+    {ic:'➕',name:'შეკრება',     go:"startGame('math-add')",  show:!tiny},
+    {ic:'➖',name:'გამოკლება',   go:"startGame('math-sub')",  show:!tiny},
+    {ic:'✖️',name:'გამრავლება',  go:"startGame('math-mul')",  show:!kid},
+    {ic:'📝',name:'ამოცანები',   go:"startGame('math-word')", show:!kid},
+    {ic:'🧠',name:'თავსატეხი',   go:"startGame('math-pic')",  show:big},
+    {ic:'➗',name:'გაყოფა',      go:"startGame('math-div')",  show:big},
+    {ic:'❓',name:'გამოტოვებული', go:"startGame('math-miss')", show:big},
+    {ic:'🧩',name:'პატერნები',   go:"startGame('math-pat')",  show:!tiny},
+    {ic:'⚖️',name:'შედარება',    go:"startGame('compare')",   show:!kid},
+    {ic:'🔢',name:'დათვლა',      go:"startGame('skip')",      show:!kid},
+    {ic:'🔷',name:'ფიგურები',    go:"startGame('shapes')",    show:true},
+    {ic:'💰',name:'ფული',        go:"startGame('money')",     show:!kid},
+    {ic:'🕐',name:'საათი',       go:"startGame('clock')",     show:!kid}
+  ].filter(t=>t.show);
+  const card=t=>`<button class="topic-card" onclick="${t.go}"><div class="topic-ic">${t.ic}</div><div class="topic-name">${t.name}</div></button>`;
+  render(`<div class="screen">
+    ${topbar('🧮 მათემატიკის თემები','აირჩიე თემა',"openMenu('math')")}
+    <div class="topic-grid">${T.map(card).join('')}</div>
+  </div>`,'home');
+}
 function openPhraseCats(){
   const cats=Object.keys(PHRASES);
   const card=(c)=>{const m=c.match(/(.+?)\s*(\p{Emoji})\s*$/u);const name=m?m[1]:c;const ic=m?m[2]:'💬';
