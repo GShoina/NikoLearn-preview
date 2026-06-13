@@ -526,9 +526,12 @@ function nextShape(){
   if(game.i>=game.qs.length)return results();
   const q=game.qs[game.i];game.cur=q;
   let opts=[q];const pool=SHAPES;while(opts.length<Math.min(4,pool.length)){const r=pool[ri(0,pool.length-1)];if(!opts.find(o=>o.en===r.en))opts.push(r);}opts=shuffle(opts);
-  const en=(window.UILANG==='en');
+  // shape NAMES follow the KID's language, not the UI toggle: a Georgian kid keeps Georgian shapes
+  // even if a parent switched the UI to English. (owner bug report 2026-06-13: only English showed)
+  const kl=(kidObj(profile)&&kidObj(profile).langs)||['ka'], useEn=kl.indexOf('ka')<0;
+  const nm=o=>useEn?o.en:o.ka, cor=useEn?q.en:q.ka;
   gameShell(`<div class="prompt"><div class="p-emoji" style="font-size:5rem">${q.e}</div><div class="p-sub">რა ფიგურაა?</div></div>
-    <div class="options">${opts.map(o=>`<button class="opt" onclick="speak('${o.en}','en-US');answerShape(this,'${o.en}','${q.en}')">${en?o.en:o.ka}</button>`).join('')}</div>`);
+    <div class="options">${opts.map(o=>`<button class="opt" onclick="speak('${o.en}','en-US');answerShape(this,'${nm(o)}','${cor}')">${nm(o)}</button>`).join('')}</div>`);
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
 }
 function answerShape(btn,sel,cor){
