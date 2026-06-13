@@ -1,8 +1,21 @@
 # NikoLearn — Session Handoff
 
 > ## ▶ RESUME NOW (updated 2026-06-14, Opus 4.8 session)
-> **LIVE = v1.168.** (Last app-code commit = `557babf`; everything pushed to origin/main. `557babf` was housekeeping only: backed up owl generator + Lane-B strategy notes, gitignored local `.claude/` tooling — no app-code change, still v1.168. This handoff edit commits AFTER it, so HEAD will be one newer; run `git log -1` for the exact hash, the invariant that matters is: working tree clean + HEAD == origin/main.) App + landing + sw cache all synced at 1.168
-> (verified live). No work-in-progress; clean stopping point.
+> **LIVE = v1.169.** (Last app-code commit = `94bc13f`; everything pushed to origin/main. Run `git log -1` for the
+> exact HEAD — the handoff/report commits trail by one; the invariant that matters is: working tree clean + HEAD ==
+> origin/main. App + landing + sw all synced + verified live at 1.169.) No work-in-progress; clean stopping point.
+> **★ 5-AGENT FULL AUDIT done 2026-06-14 (owner asked „გაუშვა team და სრული აუდიტი"). Report =**
+> `output/2026-06-14-სრული აუდიტი (5 აგენტი) by Niko.html` (gitignored, owner-local). 5 read-only Sonnet agents
+> (correctness · a11y/UX · child-safety · i18n · perf); ALL findings challenged+re-verified by Niko before any fix.
+> **FIXED live v1.169 (additive tap-target a11y batch, computed-style + 0-error verified):** comprehension-gate
+> buttons min-height 54 · owl-close 38→44 · PIN keypad 54 · tutor-pick 54 · cat-chip 44. **REJECTED via challenge
+> (do NOT re-apply):** (1) removing opentype.min.js from sw.js precache — SW fetch-handler does NOT cache non-audio
+> on demand (only `/niko/audio/`), alpha.js relies on precache → removal would BREAK offline letter-tracing; (2)
+> WhatsApp `+995 593 255 385` „PII leak" — it is the intended app contact, not a leak. **OWNER-DECISION items (in
+> report):** (a) PIN „forgot→solve 3+7" fallback lets a 7-9yo into parent space — harden? (b) profile-delete 🗑️ on
+> the child-facing card (low real risk: delete needs typing a word) — move into parent space? (c) disclose the
+> cookieless Cloudflare beacon in privacy.html? Safety VERDICT = core healthy (no ads, no PII sent, on-device only,
+> no child-facing external links); the 3 are hardening, not holes.
 > **THIS SESSION (2026-06-13→14), v1.149→1.168 — all live + verified:** shapes Georgian-language bug · comprehension
 > gate on 2nd miss („გაიგე?" + counted-dots explain, child-paced, no fast auto-advance) · brand-owl mascot in the
 > teaching UI + owl+💛 as the consistent praise signature (💪 purged app-wide) · tap-target fixes (listen button,
@@ -11,9 +24,18 @@
 > · Talk & Think +15 quirky cards (27/deck) + shuffle + 15 ka clips · language-toggle fixes (Talk deck follows toggle;
 > game chrome bilingual) · version-sync bug fixed (always stage screens.js) · menu/tiles: theme-count badges BOTH grids
 > + tap cue · placement test 4→10 Qs age-split (3-5 / 6-9) · Math „ყველა თემა" picker + capped to 4 rows.
-> **▶ NEXT (owner-driven):** keep testing with Nikoloz; open strategic forks PARKED for owner decision — (a) full EN
-> content parity (word-problems are ka-generated; is EN a real audience?), (b) Georgian voice upgrade (human-record vs
-> ElevenLabs; edge-tts ყ/ღ weak but accepted interim), (c) LAUNCH = owner action (share gshoina.github.io/NikoLearn).
+> **▶ NEXT (owner-driven):** keep testing with Nikoloz; open strategic forks PARKED for owner decision — (a) **full EN
+> content parity — NOW SCOPED by the audit i18n agent: ~25% is EASY chrome (~130 strings, 2-4 days) + ~75% is HEAVY
+> generated content (7 generators, tutor.js biggest, ~3-6 weeks). The deciding question is AUDIENCE: are non-Georgian
+> (English-speaking) kids a real target? If only Georgian kids → full EN is NOT worth it (ka UI is correct for them);
+> if international → do the easy 25% first, roadmap the heavy 75%. Niko recommends holding until owner answers the
+> audience fork.** (b) Georgian voice upgrade — fork is owner's (ear-test/spend), see VOICE-ENGINE block below
+> (ElevenLabs + 4 paid candidates verified). (c) LAUNCH = owner action (share gshoina.github.io/NikoLearn).
+> **▶ AUDIT BUILD-QUEUE (verified, batch separately):** P1 owl-logo.png 589KB→320px WebP (~35KB, =35% of precache;
+> needs PIL/cwebp) · P2 og-image/icon-512 compress (~200KB) · P2 `defer` on 17 scripts · P2 teach-gate 900ms freeze→
+> add `dots` anim (CSS exists) · P3 defensive guards (mathOpts ans=0 · sentLearn apostrophe-escape · read/sent loop-cap
+> — all latent/safe now) · P3 low-contrast `--faint`+tiny fonts (needs visual gate) · P3 dead `landing()` code +
+> `brand-preview/` 1.4MB off Pages. Full detail + file:line in the output/ report.
 > Standing rules still active: TUTOR-FIRST · idea-handling (analyze→filter→challenge→do) · batch deploys · BOTH tile
 > grids on any tile change · verify on the LIVE site (local HTTP cache is unreliable).
 > ── older pointer (kept for context) ──
