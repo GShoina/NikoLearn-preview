@@ -23,7 +23,7 @@ function syncAiFab(){
   let fab=$('#aifab');const inGame=$('#gscreen');
   if(inGame){
     if(!fab){fab=document.createElement('button');fab.id='aifab';fab.className='ai-fab';fab.onclick=openHint;$('.device').appendChild(fab);}
-    fab.innerHTML=`<span class="ping"></span>${tutorAva(profile)}`;   // shows the chosen tutor animal
+    fab.innerHTML=`<span class="ping"></span>${tutorFace(profile)}`;   // brand owl (or the chosen animal)
   } else if(fab) fab.remove();
 }
 // D4 (v2.04): the owl's most concrete job — after a WRONG tap, show (and for English, say) the correct
@@ -67,7 +67,7 @@ function openHint(){
   if(!ov){ov=document.createElement('div');ov.className='overlay';ov.id='aiov';ov.style.alignItems='flex-end';ov.style.padding='0 16px 96px';ov.onclick=closeHint;$('.device').appendChild(ov);}
   ov.innerHTML=`<div class="ai-bubble" onclick="event.stopPropagation()">
     <button class="ai-close" onclick="closeHint()" aria-label="დახურვა">✕</button>
-    <div class="ai-top"><div class="ai-ava alive" onclick="event.stopPropagation();pickTutor()" title="შეცვალე მასწავლებელი">${tutorAva(profile)}</div><div class="ai-name">${t.name}</div></div>
+    <div class="ai-top"><div class="ai-ava alive" onclick="event.stopPropagation();pickTutor()" title="შეცვალე მასწავლებელი">${tutorFace(profile)}</div><div class="ai-name">${t.name}</div></div>
     <div class="ai-text">${text}</div>
     <div class="hint-dots">${dots}</div>
     <button class="ai-listen-big" onclick="speakHint(this)">${I.speaker} მოისმინე</button>
@@ -148,7 +148,7 @@ function voiceScreen(stateName){
   const target=(_q&&(_q.en||_q.a))||'apple';
   const tk=_q?(_q.ka||''):'ვაშლი';
   const states={
-    idle:{s:'დააჭირე და თქვი',h:'წარმოთქვი სიტყვა ხმამაღლა, მერე ერთად გავიმეოროთ',ava:tutorAva(profile)},
+    idle:{s:'დააჭირე და თქვი',h:'წარმოთქვი სიტყვა ხმამაღლა, მერე ერთად გავიმეოროთ',ava:tutorFace(profile)},
     listening:{s:'გისმენ…',h:'ლაპარაკობ ნათლად 🎙️',ava:'👂'},
     speaking:{s:'ახლა ნიკოს მოუსმინე',h:'',ava:'🗣️'}
   };

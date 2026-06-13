@@ -439,6 +439,12 @@ body.on-landing #app{padding:0;padding-bottom:24px}
   border:1.5px solid color-mix(in oklch,var(--sky) 30%,var(--line));display:flex;flex-direction:column;animation:rise .3s}
 .ai-ava{width:48px;height:48px;flex:0 0 auto;border-radius:15px;background:linear-gradient(150deg,var(--sky),var(--purple));
   display:grid;place-items:center;font-size:1.6rem}
+/* brand-owl tutor face (owl-logo.png) — drop the gradient badge so the mascot shows on its own (owner 2026-06-13) */
+.owl-face{width:100%;height:100%}
+.ai-ava:has(.owl-face),.voice .v-ava:has(.owl-face){background:none;box-shadow:none}
+.ai-fab:has(.owl-face){background:var(--card);border:1.5px solid var(--line)}
+.ai-fab .owl-face{width:80%;height:80%}
+.teach-owl .owl-face{display:block;margin:0 auto}
 .ai-bubble .ai-body{flex:1}
 .ai-bubble .ai-name{font-size:1rem;font-weight:800;color:var(--sky-d);letter-spacing:.02em}
 /* owl help text: bigger + higher contrast + airier line spacing so a 5–7 yo (or a parent reading aloud)

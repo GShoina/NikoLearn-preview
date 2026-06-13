@@ -216,7 +216,7 @@ function teachAndConfirm(cor,lang,advanceFn){
   let ov=document.getElementById('teachov'); if(ov)ov.remove();
   ov=document.createElement('div'); ov.className='overlay teach-ov'; ov.id='teachov';
   ov.innerHTML=`<div class="teach-card">
-    <div class="teach-owl">${tutorAva(profile)}</div>
+    <div class="teach-owl">${tutorFace(profile,'2.7rem')}</div>
     <div class="teach-eq">${sol.html}</div>
     <div class="teach-q" id="teachQ" style="opacity:0">გაიგე?</div>
     <div class="teach-btns" id="teachBtns" style="opacity:0">
@@ -251,7 +251,7 @@ function teachMore(q,cor,m,advanceFn){
     let explain=''; try{ const t=Tutor.build({subject:gameSubject(),q,mode:m,profile,aiRole:aiRole()}); explain=t.explain||''; }catch(e){}
     visual=`<div class="teach-explain">${explain}</div>`;
   }
-  card.innerHTML=`<div class="teach-owl">${tutorAva(profile)}</div>
+  card.innerHTML=`<div class="teach-owl">${tutorFace(profile,'2.7rem')}</div>
     <div class="teach-eq small"><div class="eqline">${solved}</div></div>
     ${visual}
     <div class="teach-btns"><button class="teach-yes" id="teachYes2">✓ გასაგებია</button></div>`;

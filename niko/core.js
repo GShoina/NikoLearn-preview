@@ -76,6 +76,16 @@ function isPremiumSubj(subj){return PREMIUM_SUBJ.indexOf(subj)>=0;}
 /* ── tutor animal (O1): the child picks who teaches them; visual only, voice unchanged ── */
 const TUTOR_ANIMALS=['🦉','🐱','🦁','🐶','🐰','🐼','🦊','🐵'];
 function tutorAva(p){const k=kidObj(p);return (k&&k.tutor)||'🦉';}
+// Display face for the tutor. The DEFAULT owl renders as the brand mascot image (owl-logo.png) instead of
+// the flat 🦉 emoji, so the tutor everywhere matches the app's owl branding (owner 2026-06-13). A kid who
+// picked a different animal (🦊🐱…) still gets that emoji. Pass a CSS size for inline contexts; omit it to
+// let the container size the image via the .owl-face CSS rules. (Selection grids keep the raw emoji.)
+function tutorFace(p,size){
+  const a=tutorAva(p);
+  if(a!=='🦉')return a;
+  const sz=size?`width:${size};height:${size};`:'';
+  return `<img src="owl-logo.png" alt="ბუ" class="owl-face" style="${sz}object-fit:contain;display:inline-block;vertical-align:middle">`;
+}
 function setTutor(p,emoji){const k=kidObj(p);if(k){k.tutor=emoji;save();}}
 
 /* ── voicing language (F5): pick ka vs en for spoken praise/numbers/words, ANY time.
