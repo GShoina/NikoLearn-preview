@@ -215,6 +215,20 @@
 >   RE-RUN ANYTIME: load app + pick a profile, paste qa/ui-audit.js in console, `await uiAudit()`. Next QA ideas (PARKED):
 >   dead-control audit (button with no handler), overlap/covered-element audit, full per-element click walk. The static
 >   `node qa/qa-check.mjs` (audio/text/version) still complements this live UI sweep.
+>   **v1.156** DEEP AUDIT (handler integrity + covered-element + live click-walk across 18 modes). Result: 0 dead
+>   handlers, 0 dead buttons, 0 covered/unclickable elements, 18/18 modes respond to a real answer tap. Found + fixed
+>   TWO real bugs: (1) owl HELP crashed in reading/digit/build modes — `tutor.js vocab()` assumed `q.en` exists but those
+>   q's have none → TypeError; now guarded with a safe generic hint. (2) clock could emit `<line>` NaN coords if a
+>   deferred advance timer fired after the round was left; `clockFace` now clamps a non-finite hour. NOTE: reading-mode
+>   owl hint is currently the generic vocab hint (gameSubject routes read/sent/build→'vocab') — works, but a
+>   reading-specific tutor branch is a PARKED polish item.
+>   **v1.157** English speech slowed for clarity (owner: Kings/Listen too fast): `defaultRate` en 0.8→0.72 (young ×0.86),
+>   ka unchanged at 0.6. Affects all English word voicing (options/listen/quiz). The "perfect accent" is the device TTS
+>   voice (not changeable); slowing is the lever.
+>   ⚠️ TESTING-METHOD NOTE for next session: local fresh-verify is unreliable because the BROWSER HTTP CACHE serves stale
+>   no-query JS/CSS even after unregistering the SW + clearing Cache API. To truly test fresh locally: force-load the
+>   module (`fetch(url,{cache:'reload'})` + eval) OR rely on the SW version bump (it precaches via cache:'reload'). The
+>   live deploy is always correct because each version bumps the SW cache name.
 >   **📧 EMAIL/CONTACT (owner 2026-06-13):** app contact = NikoLearn@outlook.com (live). Owner READS feedback via that
 >   account added to his PHONE mail app (Option A) — Outlook web-forwarding to gela.shonia@bivision.ge was NOT set up
 >   (Microsoft security-wall: enabling forwarding needs verified security-info + a code only the owner receives; abandoned
