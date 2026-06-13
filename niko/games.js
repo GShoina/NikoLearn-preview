@@ -335,14 +335,17 @@ const MATH_WHY={
 // #3b: real-life WORD PROBLEMS (Georgian, Nanobashvili-style). Story → number. Sentence frames stay
 // grammatically stable for any number; items in nominative; names take the dative -ს.
 const WP_NAMES=['ნიკო','მაშო','ლუკა','ანა','დათო','ნინო'];
-const WP_ITEMS=['ვაშლი','ბურთი','კანფეტი','ყვავილი','წიგნი','ბანანი','მანქანა'];
+const WP_FOOD=['ვაშლი','ბანანი','კანფეტი','მსხალი','ნამცხვარი'];      // can be EATEN
+const WP_OBJ =['ბურთი','მანქანა','წიგნი','ფანქარი','ყვავილი','ბუშტი']; // had / given / found — NOT eaten
+const rpick=a=>a[ri(0,a.length-1)];
 function genWord(){
-  const nm=WP_NAMES[ri(0,WP_NAMES.length-1)]+'ს', it=WP_ITEMS[ri(0,WP_ITEMS.length-1)], t=ri(0,4);
-  if(t===0){const a=ri(2,9),b=ri(2,9);return{q:`${nm} ჰქონდა ${a} ${it}. კიდევ ${b} იშოვა. სულ რამდენი ${it} აქვს?`,a:a+b,op:'word'};}
-  if(t===1){const a=ri(5,12),b=ri(1,a-1);return{q:`${nm} ჰქონდა ${a} ${it}. ${b} გასცა. რამდენი ${it} დარჩა?`,a:a-b,op:'word'};}
-  if(t===2){const a=ri(4,10),b=ri(1,a-1);return{q:`ხეზე იჯდა ${a} ჩიტი. ${b} გაფრინდა. რამდენი ჩიტი დარჩა?`,a:a-b,op:'word'};}
-  if(t===3){const k=ri(2,5),m=ri(2,5);return{q:`${k} ყუთში ${m}-${m} ${it}. სულ რამდენი ${it}?`,a:k*m,op:'word'};}
-  const a=ri(6,15),b=ri(1,a-1);return{q:`კალათში იყო ${a} ${it}. ${b} შეჭამეს. რამდენი დარჩა?`,a:a-b,op:'word'};
+  const nm=rpick(WP_NAMES)+'ს', t=ri(0,5);
+  if(t===0){const it=rpick(WP_OBJ),a=ri(2,9),b=ri(2,9);return{q:`${nm} ჰქონდა ${a} ${it}. კიდევ ${b} იშოვა. სულ რამდენი ${it} აქვს?`,a:a+b,op:'word'};}
+  if(t===1){const it=rpick(WP_FOOD),a=ri(5,12),b=ri(1,a-1);return{q:`${nm} ჰქონდა ${a} ${it}. ${b} შეჭამა. რამდენი ${it} დარჩა?`,a:a-b,op:'word'};}
+  if(t===2){const it=rpick(WP_OBJ),a=ri(5,12),b=ri(1,a-1);return{q:`${nm} ჰქონდა ${a} ${it}. ${b} მისცა მეგობარს. რამდენი ${it} დარჩა?`,a:a-b,op:'word'};}
+  if(t===3){const a=ri(4,10),b=ri(1,a-1);return{q:`ხეზე იჯდა ${a} ჩიტი. ${b} გაფრინდა. რამდენი ჩიტი დარჩა?`,a:a-b,op:'word'};}
+  if(t===4){const it=rpick(WP_OBJ),k=ri(2,5),m=ri(2,5);return{q:`${k} ყუთში ${m}-${m} ${it}. სულ რამდენი ${it}?`,a:k*m,op:'word'};}
+  const it=rpick(WP_FOOD),a=ri(6,15),b=ri(1,a-1);return{q:`კალათში იყო ${a} ${it}. ${b} შეჭამეს. რამდენი დარჩა?`,a:a-b,op:'word'};
 }
 function wordRound(){game.mode='math-word';game.qs=Array.from({length:6},()=>genWord());game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextWordQ();}
 function nextWordQ(){
@@ -398,7 +401,7 @@ function nextMath(){
   const why=game.i===0&&MATH_WHY[game.mode]?`<div style="background:#fff8ee;border:1px solid #ffe2bd;border-radius:14px;padding:9px 14px;margin-bottom:12px;font-size:.9rem;color:#6b5640;line-height:1.4">🦉 ${MATH_WHY[game.mode]}</div>`:'';
   gameShell(`${why}<div class="prompt"><div class="p-word num" style="font-size:2.4rem;letter-spacing:2px">${q.q}</div>${q.pat?'<div class="p-sub">იპოვე კანონზომიერება</div>':''}</div>
     <div class="options">${mathOpts(q.a).map(o=>`<button class="opt num" onclick="answerMath(this,${o},${q.a})">${o}</button>`).join('')}</div>
-    ${canHarder?`<button class="btn btn-ghost" style="margin-top:16px;font-size:.95rem" onclick="mathHarder()">⏫ გამიმძიმე</button>`:''}`);
+    ${canHarder?`<button class="btn btn-ghost" style="margin-top:16px;font-size:.95rem" onclick="mathHarder()">⏫ გამირთულე</button>`:''}`);
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
 }
 // kid-facing "make it harder": bump this op's level, re-roll the remaining questions harder, keep going.
