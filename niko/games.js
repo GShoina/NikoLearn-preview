@@ -368,7 +368,14 @@ function nextWordQ(){
 function mathLvl(type){
   const s=state[profile]; if(!s.mathLevel)s.mathLevel={};
   const max=(MATH_LV[type]||[{}]).length-1;
-  return Math.max(0,Math.min(s.mathLevel[type]||0,max));
+  let lvl=Math.max(0,Math.min(s.mathLevel[type]||0,max));
+  // age-appropriate baseline for the BASIC ops (owner 2026-06-13): a 7-8 yo shouldn't start at 1-20
+  // add/sub. 7 yo → at least 1-40, 8+ → at least 1-70. (mul/div have no floor — newer skills.)
+  if(type==='math-add'||type==='math-sub'){
+    const a=(kidObj(profile)||{}).age||0, floor=a>=8?2:(a>=7?1:0);
+    lvl=Math.max(lvl,Math.min(floor,max));
+  }
+  return lvl;
 }
 function mathRangeLabel(type){const lv=MATH_LV[type];return lv?(lv[mathLvl(type)].label||''):'';}
 function rampMath(type,pct){
