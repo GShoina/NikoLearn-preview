@@ -266,6 +266,16 @@
 >   437 audio clips + 19 images (icons/owl/og/fonts) = 8.4MB, NO video files. Repo = the single source + backup + serves
 >   via Pages. Loose files on the PC were only throwaway verification screenshots (cleaned) + other Bivision projects'
 >   images (out of NikoLand's silo).
+>   **v1.164** menu/tile polish (owner 6-part batch): theme-count badge top-right on every learning tile (English
+>   „N სიტყვა"→„13 თემა"; +math 8, ka 4, talk 4), „რეჟიმი"→„თემა" wording, tap cue on tiles (pulse ring + bobbing 👆 on
+>   the 3 learning tiles), slimmer placement start/skip buttons.
+>   **v1.165** PLACEMENT test expanded + age-differentiated (owner): `SUBJ_DIAG` english & ka-alpha are now
+>   {young:[10], big:[10]} (young 3-5 = picture/letter-recognition; big 6-9 = translation/spelling/syllables/word-reading);
+>   math stays a flat 10 (young skip it). New `diagSet(p,subj)` picks by isYoung(); screens.js nq + startSubjDiag use it.
+>   VERIFIED LIVE (v1.165): young age-4 + big age-7 each get their 10-question set and complete to the result screen.
+>   TESTING NOTE: the local-server stale-HTTP-cache made in-page verification unreliable (force-eval gave a false „pl null"
+>   artifact); the clean check was navigating Playwright to the LIVE gshoina.github.io site (SW serves fresh) + clearing
+>   its SW/caches. Use that pattern for trustworthy run-throughs.
 >   **📧 EMAIL/CONTACT (owner 2026-06-13):** app contact = NikoLearn@outlook.com (live). Owner READS feedback via that
 >   account added to his PHONE mail app (Option A) — Outlook web-forwarding to gela.shonia@bivision.ge was NOT set up
 >   (Microsoft security-wall: enabling forwarding needs verified security-info + a code only the owner receives; abandoned
