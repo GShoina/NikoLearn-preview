@@ -180,6 +180,16 @@
 >   (combine / two-boxes-DIFFERENT / comparison-difference / shopping-money / equal-sharing-division) not just repetitive
 >   box-mul; word scenarios respect food↔eat vs object↔give; division always exact. All verified (300-500 samples each,
 >   0 errors) + live. Helpers: `twoNames()`, `genWord` switch, pattern `blank` index, tutor pattern hint position-aware.
+>   **v1.145** 3-term arithmetic for 7+ (`9 + 9 − 8`, op:`multi`, step-by-step tutor hint). **v1.146** contact email →
+>   shonia.g@gmail.com (then **v1.148** → **NikoLearn@outlook.com** — the dedicated app inbox; no other personal/bivision
+>   email anywhere customer-facing; phone +995 593 255 385 shown). **v1.147** ★ PICTURE-SUBSTITUTION PUZZLE „თავსატეხი"
+>   (owner favorite, tutor-first reasoning) for 7+: `🏉=🌲+🚗` / equal-items / sum / chain, single-unknown pre-algebra,
+>   Niko teaches substitution (op:`pic`, genPic/picRound/nextPic, tutor `pic` hint). Idea-library = `docs/MATH_IDEAS_LIBRARY.md`.
+>   **📧 EMAIL/CONTACT (owner 2026-06-13):** app contact = NikoLearn@outlook.com (live). Owner READS feedback via that
+>   account added to his PHONE mail app (Option A) — Outlook web-forwarding to gela.shonia@bivision.ge was NOT set up
+>   (Microsoft security-wall: enabling forwarding needs verified security-info + a code only the owner receives; abandoned
+>   in favour of the phone account). Login worked (creds owner-held; NEVER stored in repo). If forwarding is wanted later,
+>   owner adds security-info on his device first, then Settings→Mail→Forwarding.
 >   1. **Talk & Think „too little" — EXPAND (started).** Son loved the საუბარი section, wants more. 6 new ka clips
 >      generated (tlk_006-011, on disk, NOT yet wired) + 6 en planned. Talk could become a FLAGSHIP (parent-child
 >      conversation is rare in kids' apps = sticky differentiator). → finish wiring on owner go.
