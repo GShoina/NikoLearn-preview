@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.167'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.168'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -399,24 +399,31 @@ function openMenu(subj){
     const kid=isYoung(profile);
     const tiny=isTiny(profile);
     const big=isBig(profile); // 7+ : division, missing-number, 2-digit ramp
+    // Build the full age-gated tile list, but show only the first 4 rows (8 cards = one phone screen);
+    // the rest live in the „ყველა თემა" picker so the menu never becomes a long scroll (owner 2026-06-13).
+    const mtiles=[
+      tiny?'':mode('math-add','➕',kid?'':'შეკრება',kid?'':mathRangeLabel('math-add')),
+      tiny?'':mode('math-sub','➖',kid?'':'გამოკლება',kid?'':mathRangeLabel('math-sub')),
+      kid?'':mode('math-mul','✖️','გამრავლება',mathRangeLabel('math-mul')),
+      kid?'':mode('math-word','📝','ამოცანები','ცხოვრებისეული'),
+      big?mode('math-pic','🧠','თავსატეხი','ფასები · ლოგიკა'):'',
+      big?mode('math-div','➗','გაყოფა',mathRangeLabel('math-div')):'',
+      big?mode('math-miss','❓','გამოტოვებული',mathRangeLabel('math-miss')):'',
+      tiny?'':mode('math-pat','🧩',kid?'':'პატერნები',''),
+      mode('shapes','🔷','ფიგურები',''),
+      kid?'':mode('compare','⚖️','შედარება','&gt; &lt; ='),
+      kid?'':mode('skip','🔢','დათვლა','ხუთობით · ათობით'),
+      kid?'':mode('money','💰','ფული','₾ · თეთრი'),
+      kid?'':mode('clock','🕐','საათი','დრო')
+    ].filter(Boolean);
+    const CAP=8, hidden=Math.max(0,mtiles.length-CAP);
+    const moreHint=hidden>0?`<button class="cat-more" onclick="openMathTopics()">+ ${hidden} თემა · ყველა თემა ▾</button>`:'';
     body=`<div class="cat-chip-row">
         <button class="cat-chip" onclick="openMathTopics()">📚 ყველა თემა ▾</button>
       </div>
       <div class="mode-grid">
-      ${tiny?'':mode('math-add','➕',kid?'':'შეკრება',kid?'':mathRangeLabel('math-add'))}
-      ${tiny?'':mode('math-sub','➖',kid?'':'გამოკლება',kid?'':mathRangeLabel('math-sub'))}
-      ${kid?'':mode('math-mul','✖️','გამრავლება',mathRangeLabel('math-mul'))}
-      ${kid?'':mode('math-word','📝','ამოცანები','ცხოვრებისეული')}
-      ${big?mode('math-pic','🧠','თავსატეხი','ფასები · ლოგიკა'):''}
-      ${big?mode('math-div','➗','გაყოფა',mathRangeLabel('math-div')):''}
-      ${big?mode('math-miss','❓','გამოტოვებული',mathRangeLabel('math-miss')):''}
-      ${tiny?'':mode('math-pat','🧩',kid?'':'პატერნები','')}
-      ${kid?'':mode('compare','⚖️','შედარება','&gt; &lt; =')}
-      ${kid?'':mode('skip','🔢','დათვლა','ხუთობით · ათობით')}
-      ${mode('shapes','🔷','ფიგურები','')}
-      ${kid?'':mode('money','💰','ფული','₾ · თეთრი')}
-      ${kid?'':mode('clock','🕐','საათი','დრო')}
-    </div>`;
+      ${mtiles.slice(0,CAP).join('')}
+    </div>${moreHint}`;
   } else if(subj==='counting'){
     // F2: digits come BEFORE counting, learn the numeral 1-9, quiz, THEN count.
     body=`<div class="mode-grid">

@@ -1009,6 +1009,10 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .cat-chip.on{border-color:var(--sky);background:color-mix(in oklch,var(--sky) 14%,var(--card));color:var(--sky-d)}
 .cat-chip .cx{font-size:.78rem;opacity:.8}
 .cat-chip:active{transform:scale(.96)}
+/* „+N თემა" overflow hint under a capped grid → opens the full picker (owner 2026-06-13) */
+.cat-more{display:block;margin:12px auto 0;padding:9px 18px;border:1.5px dashed var(--line);background:none;
+  border-radius:999px;font-family:inherit;font-weight:700;font-size:.9rem;color:var(--muted);cursor:pointer}
+.cat-more:active{transform:scale(.96)}
 .topic-all{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;padding:15px 18px;
   margin-bottom:12px;border:1.5px solid var(--line);background:var(--card);border-radius:var(--radius-sm);
   font-family:inherit;font-weight:700;font-size:1.05rem;color:var(--ink);cursor:pointer;box-shadow:var(--shadow)}
