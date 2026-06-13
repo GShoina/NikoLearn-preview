@@ -168,13 +168,22 @@ function reQueueWrong(cor,lang,nextFn){
   const q=game.qs[game.i];
   if(!game.missMap)game.missMap=new Map();
   const n=(game.missMap.get(q)||0)+1; game.missMap.set(q,n);
-  // lock options during the reveal: no tap-to-advance, no guess-spam
+  // TUTORING (owner ask 2026-06-13): on the 1st miss do NOT reveal the answer and do NOT advance.
+  // Encourage the child to THINK and try again on the SAME question (only the tapped wrong option
+  // is blocked). The answer is revealed only on the 2nd miss, so nobody gets stuck.
+  if(n<2){
+    document.querySelectorAll('.opt.wrong').forEach(b=>{b.style.pointerEvents='none';b.classList.add('dim');});
+    try{ feedback(false); }catch(e){}
+    setTimeout(()=>{ try{closeFeedback();}catch(e){} },1100);
+    return;
+  }
+  // 2nd+ miss: now lock, reveal the correct answer + offer the tutor hint, re-queue to the END, advance.
   document.querySelectorAll('.opt').forEach(b=>{b.classList.add('dim');b.style.pointerEvents='none';});
   if(lang!==false) revealCorrect(cor,lang||null);
-  if(n>=2) setTimeout(()=>maybeOfferHelp(),650);
+  setTimeout(()=>maybeOfferHelp(),650);
   game.requeues=game.requeues||0;
   if(game.requeues<14){ game.qs.push(q); game.requeues++; }  // capped so the round always terminates
-  setTimeout(()=>{ game.i++; (nextFn||nextForMode())(); }, n>=2?1700:1400);
+  setTimeout(()=>{ game.i++; (nextFn||nextForMode())(); }, 1700);
 }
 
 /* ═══════════════ Phase 2.2 — weighted review ("🔁 გაიმეორე") ═══════════════
