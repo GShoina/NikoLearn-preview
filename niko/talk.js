@@ -41,7 +41,23 @@ const TALK = {
     {theme:'values',  emoji:'😊',   by:'masho', q:'რა გაგახარა დღეს ყველაზე მეტად?', subs:['შენ ვინ გაახარე?']},
     {theme:'bedtime', emoji:'📚',   by:'owl',   q:'დღეს რა ისწავლე ახალი?', subs:['ვის უამბობ ამის შესახებ?']},
     {theme:'think',   emoji:'👟',   by:'niko',  q:'ნივთები რომ ლაპარაკობდნენ, შენი ფეხსაცმელი რას იტყოდა?', subs:[]},
-    {theme:'values',  emoji:'🦁',   by:'masho', q:'რას ნიშნავს გამბედავი? შენ როდის იყავი გამბედავი?', subs:['ვინ არის შენთვის ყველაზე გამბედავი?']}
+    {theme:'values',  emoji:'🦁',   by:'masho', q:'რას ნიშნავს გამბედავი? შენ როდის იყავი გამბედავი?', subs:['ვინ არის შენთვის ყველაზე გამბედავი?']},
+    // v1.162 — Talk & Think expansion #3 (15 quirkier prompts; clips tlk_012-026)
+    {theme:'think',   emoji:'🧦', by:'niko',  q:'წინდები რომ ქრებიან, სად მიდიან, როგორ ფიქრობ?', subs:[]},
+    {theme:'imagine', emoji:'🐲', by:'owl',   q:'ჯიბეში პატარა დრაკონი რომ გეპოვა, რა დაარქმევდი და რას აჭმევდი?', subs:['სად დაამალავდი, რომ არავის შეეშინდეს?']},
+    {theme:'values',  emoji:'🛝', by:'masho', q:'ეზოში ახალი ბავშვი მარტო დგას — შენ რას იზამდი?', subs:[]},
+    {theme:'bedtime', emoji:'⭐', by:'owl',   q:'ცის ერთ ვარსკვლავს ქილაში რომ დაიჭერდი, მის შუქს რას უზამდი?', subs:['ბნელ ოთახში რას გააკეთებდი იმ შუქით?']},
+    {theme:'think',   emoji:'🦸', by:'niko',  q:'ყველაზე სასაცილო ზესძალა რომელი იქნებოდა?', subs:[]},
+    {theme:'imagine', emoji:'🏠', by:'masho', q:'სახლი ფეხებზე რომ დადიოდეს, სასეირნოდ სად წავიდოდა?', subs:[]},
+    {theme:'values',  emoji:'🌍', by:'owl',   q:'მთელ მსოფლიოს ერთ წესს რომ უყენებდე, რა იქნებოდა?', subs:['ეს წესი შენც მოგეწონებოდა?']},
+    {theme:'think',   emoji:'🌧️', by:'niko',  q:'წვიმას გემო რომ ჰქონდეს, რა გემოს ისურვებდი?', subs:[]},
+    {theme:'imagine', emoji:'🫥', by:'owl',   q:'ერთი საათით უჩინარი რომ გამხდარიყავი, რას გააკეთებდი?', subs:['ვის უჩუმრად დაეხმარებოდი?']},
+    {theme:'bedtime', emoji:'🎬', by:'masho', q:'დღევანდელი სიზმარი ფილმი რომ ყოფილიყო, რაზე იქნებოდა?', subs:[]},
+    {theme:'think',   emoji:'🐜', by:'owl',   q:'ერთი დღით ჭიანჭველასავით პატარა იქნებოდი თუ შენობასავით დიდი? რატომ?', subs:['რა ნახავდი, რასაც ახლა ვერ ხედავ?']},
+    {theme:'values',  emoji:'😄', by:'masho', q:'მეგობარი მოწყენილია — როგორ გააცინებდი?', subs:[]},
+    {theme:'imagine', emoji:'🎉', by:'niko',  q:'ახალ დღესასწაულს რომ მოიგონებდი, ხალხი იმ დღეს რას აკეთებდა?', subs:['რა იქნებოდა დღესასწაულის სახელი?']},
+    {theme:'think',   emoji:'🙃', by:'niko',  q:'დილით რომ გაიღვიძებდი და ყველაფერი თავდაყირა იყო, რას იზამდი?', subs:[]},
+    {theme:'bedtime', emoji:'💬', by:'owl',   q:'ძილის წინ დღეს ერთ სიტყვას რომ ეტყოდი, რას ეტყვი?', subs:[]}
   ],
   en:[
     {theme:'think',   emoji:'☁️🍬', by:'owl',   q:'What would happen if clouds were made of candy? What would you do?', subs:["Now you make up a 'What if...' question!"]},
@@ -56,7 +72,23 @@ const TALK = {
     {theme:'values',  emoji:'😊',   by:'masho', q:'What made you happiest today?', subs:['Who did you make happy?']},
     {theme:'bedtime', emoji:'📚',   by:'owl',   q:'What new thing did you learn today?', subs:['Who will you tell about it?']},
     {theme:'think',   emoji:'👟',   by:'niko',  q:'If your shoes could talk, what would they say?', subs:[]},
-    {theme:'values',  emoji:'🦁',   by:'masho', q:"What does 'brave' mean? When were you brave?", subs:['Who is the bravest person you know?']}
+    {theme:'values',  emoji:'🦁',   by:'masho', q:"What does 'brave' mean? When were you brave?", subs:['Who is the bravest person you know?']},
+    // v1.162 — Talk & Think expansion #3 (English deck; runtime English voice)
+    {theme:'think',   emoji:'🧦', by:'niko',  q:'Where do you think socks go when they disappear?', subs:[]},
+    {theme:'imagine', emoji:'🐲', by:'owl',   q:'If you found a tiny dragon in your pocket, what would you name it and feed it?', subs:['Where would you hide it so no one gets scared?']},
+    {theme:'values',  emoji:'🛝', by:'masho', q:'A new kid is standing alone at the playground. What would you do?', subs:[]},
+    {theme:'bedtime', emoji:'⭐', by:'owl',   q:'If you caught one star from the sky in a jar, what would you do with its light?', subs:['What would you do with that light in a dark room?']},
+    {theme:'think',   emoji:'🦸', by:'niko',  q:'What would be the silliest superpower to have?', subs:[]},
+    {theme:'imagine', emoji:'🏠', by:'masho', q:'If your house could walk on legs, where would it go for a stroll?', subs:[]},
+    {theme:'values',  emoji:'🌍', by:'owl',   q:'If you could make one rule for the whole world, what would it be?', subs:['Would you like following that rule too?']},
+    {theme:'think',   emoji:'🌧️', by:'niko',  q:'If rain had a taste, what flavor would you want?', subs:[]},
+    {theme:'imagine', emoji:'🫥', by:'owl',   q:'If you could be invisible for one hour, what would you do?', subs:['Who would you secretly help?']},
+    {theme:'bedtime', emoji:'🎬', by:'masho', q:"If tonight's dream were a movie, what would it be about?", subs:[]},
+    {theme:'think',   emoji:'🐜', by:'owl',   q:'For one day, would you be tiny like an ant or huge like a building? Why?', subs:["What would you see that you can't see now?"]},
+    {theme:'values',  emoji:'😄', by:'masho', q:'A friend is feeling sad. How would you make them laugh?', subs:[]},
+    {theme:'imagine', emoji:'🎉', by:'niko',  q:'If you invented a new holiday, what would people do on that day?', subs:['What would the holiday be called?']},
+    {theme:'think',   emoji:'🙃', by:'niko',  q:'If you woke up and everything was upside down, what would you do?', subs:[]},
+    {theme:'bedtime', emoji:'💬', by:'owl',   q:'If you could say one word to today before sleep, what would it be?', subs:[]}
   ]
 };
 
@@ -77,7 +109,10 @@ function openTalk(){
 
 function talkDeck(lang){
   lang=(lang==='en')?'en':'ka';
-  tl={lang, i:0, deck:TALK[lang]};
+  // shuffle a COPY each entry so the (still small) set feels fresh and isn't always in the same order
+  // (owner 2026-06-13). Never mutate the source TALK array. shuffle() is the global Fisher-Yates helper.
+  const deck=(typeof shuffle==='function')?shuffle(TALK[lang].slice()):TALK[lang].slice();
+  tl={lang, i:0, deck};
   if(window.Analytics)Analytics.screen('talk/'+lang);
   talkCard();
 }
