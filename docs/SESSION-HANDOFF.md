@@ -22,24 +22,11 @@
 >    `GITHUB_TOKEN` updated in creds; pending commit pushed; in sync. No action pending. (Note: NikoLearn repo is PRIVATE;
 >    every push triggers a GitHub Pages build that consumes Pro's free Actions minutes — BATCH pushes, don't push per
 >    micro-change. Billed = $0, within the 3000-min/mo Pro allowance, but batching keeps headroom + is the standing rule.)
-> 2. **EN Phase 2/3 = ✅ DONE + LIVE (v1.172, 2026-06-14).** Full EN learning experience now covers app + data +
->    generators, not just chrome. **KEY SCOPE CORRECTION (verified in code, supersedes the old §2 "509 strings"
->    estimate):** data.js real translation-gap was TINY (~18 strings: KINGS_MATH q's + AGE_CATS labels), NOT 509 — the
->    bulk counted as "Georgian" was INTRINSICALLY-GEORGIAN literacy content (KA_ALPHA / READING_KA / READING_SENT_KA) +
->    Georgian→English translate-drills (KINGS_ENG), which CORRECTLY stay Georgian on EN (they teach Georgian; N/A for a
->    non-Georgian audience). **And the t()-keyed rewrite was NOT needed for ka↔en:** the existing render-time table
->    engine (`I18N_MAP` exact + `I18N_PATTERNS` regex in `i18n-strings.js`) already scales for two languages, so we
->    EXPANDED the tables instead of rebuilding. Result: **+174 MAP pairs + 78 PATTERNS** merged (now 592 MAP / 112 PAT).
->    Method used = owner's: 8 parallel translate-agents (one per generator file, classify TRANSLATE/KEEP_KA/SKIP) →
->    adversarial QA-challenge agent → Niko merged into i18n-strings.js → deploy → live-verify. Fixed a pre-existing
->    shipped em-dash ("Your path —" → colon). Validated: 0 em-dash, 0 unintended ka-leak, file parses, in-browser
->    `t_en` correct on all samples on the LIVE site, app boots EN with 0 console errors, qa-check 0 findings.
->    **The §1 tutor/owl ka-leak bug is FIXED** (those hints now translate via the new patterns). Reusable work artifacts
->    (per-file translations) kept in `output/i18n-work/` (gitignored) — handy as the template for adding French later.
->    **Remaining EN polish (LOW, optional):** a few tutor hint patterns pass a Georgian CATEGORY name through in quotes
->    (e.g. "ხილი") — low-frequency, contextual, defensible; add a category lookup to those 2-3 builders if wanted. Full
->    t()-keyed architecture (`docs/I18N_ARCHITECTURE.md`) remains a FUTURE nice-to-have only if a 3rd language (French)
->    is actually greenlit; not needed for ka↔en.
+> 2. **EN ka↔en = ✅ DONE + LIVE (v1.173).** Full app+data+generators bilingual via TABLE-EXPANSION (MAP 609 / PAT 113),
+>    leak-swept + live-verified (detail = the EN LEAK SWEEP block above + `docs/I18N_ARCHITECTURE.md`). Scope-correction
+>    locked there: data.js real gap was ~18 not "509" (rest = intrinsically-Georgian literacy content, correctly kept ka);
+>    the t()-keyed rewrite is NOT needed for ka↔en, only if a 3rd language (French) is greenlit. Reusable per-file
+>    translations in `output/i18n-work/` (gitignored) = the French template. No EN action pending.
 > 3. **Movement-break VOICING** = queued feature (exercises are ka-only TEXT, no voice). `tools/_gen_move.py` generates
 >    the clips → then wire manifest + hook owl.js playClip.
 > 4. **D / CF-Pages security headers** — NOT a launch-blocker (no login/PII/payment → clickjack+XSS payoff ~0). Bundle a
