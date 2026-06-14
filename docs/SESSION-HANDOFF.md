@@ -7,14 +7,19 @@
 > GitHub anti-bot BLOCK automated browser login; the isolated MCP browser also crashes on their SPAs. API is the path.)
 >
 > **OPEN ITEMS — only these:**
-> 1. **GitHub token = OWNER 30s action.** Classic PAT `4505010519` expires **~2026-06-20**. No API/browser path exists
->    (GitHub forbids minting PATs via API; web login needs his password+2FA, which I don't have). → he regenerates at
->    github.com/settings/tokens/4505010519/regenerate, pastes the new `ghp_`; then I run `gh auth login --with-token` +
->    update `GITHUB_TOKEN` in creds. (Current token still works until ~Jun 20; pushes break after.)
-> 2. **EN Phase 2/3.** Phase 1 (55 menu/parent/chrome pairs) is LIVE (v1.171). NEXT: Phase 2 = `data.js` translated as
->    DATA in batch; Phase 3 = tutor/owl/word-problem generators → keyed `t()` templates. Run as parallel-agent (night)
->    jobs + Gemini/agent QA-challenge, quality must hold. Plan + architecture = `docs/I18N_ARCHITECTURE.md`. Reusable
->    workflow `niko-en-menu-parent` (idempotent). tutor/owl hints currently leak ka on EN toggle until Phase 3.
+> 1. **GitHub token = ✅ DONE (2026-06-14).** Owner regenerated the classic PAT (old one died → push failed mid-session);
+>    new token valid until **2026-09-12**, scopes unchanged. Wired: `gh auth login --with-token` + `gh auth setup-git` +
+>    `GITHUB_TOKEN` updated in creds; pending commit pushed; in sync. No action pending. (Note: NikoLearn repo is PRIVATE;
+>    every push triggers a GitHub Pages build that consumes Pro's free Actions minutes — BATCH pushes, don't push per
+>    micro-change. Billed = $0, within the 3000-min/mo Pro allowance, but batching keeps headroom + is the standing rule.)
+> 2. **EN Phase 2/3 — OWNER PRE-AUTHORIZED FULL AUTONOMY (2026-06-14): run end-to-end in a fresh window, NO questions,
+>    batch deploys, report only results.** Phase 1 (55 menu/parent/chrome pairs) is LIVE (v1.171). NEXT: re-scan ka-only
+>    vs already-bilingual in `data.js` (NB much is already {ka,en}: WORDS/PHRASES/COUNTING/SHAPES/KINGS_ENG) → translate
+>    the REAL gaps in batch; Phase 3 = tutor/owl/word-problem generators → keyed `t()` templates. METHOD: parallel-agent
+>    translate → adversarial QA-challenge (Gemini-style) → Niko merges into i18n-strings.js → deploy → verify EN toggle
+>    on the LIVE site. Quality must hold; keep heavy work in subagent contexts (don't bloat main chat). Plan = 
+>    `docs/I18N_ARCHITECTURE.md`. Reusable workflow `niko-en-menu-parent` (idempotent) is the template. tutor/owl hints
+>    currently leak ka on EN toggle until Phase 3.
 > 3. **Movement-break VOICING** = queued feature (exercises are ka-only TEXT, no voice). `tools/_gen_move.py` generates
 >    the clips → then wire manifest + hook owl.js playClip.
 > 4. **D / CF-Pages security headers** — NOT a launch-blocker (no login/PII/payment → clickjack+XSS payoff ~0). Bundle a
