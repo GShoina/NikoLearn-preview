@@ -1,57 +1,36 @@
 # NikoLearn — Session Handoff
 
-> ## ▶ RESUME NOW (updated 2026-06-14, Opus 4.8 session)
-> **LIVE = v1.170.** (Last app-code commit = `d804bfc`; everything pushed to origin/main. Run `git log -1` for the
-> exact HEAD — the handoff/report commits trail by one; the invariant that matters is: working tree clean + HEAD ==
-> origin/main. App + landing + sw all synced + verified live at 1.170.) No work-in-progress; clean stopping point.
-> **★ v1.170 PARENT-GATE HARDENING (owner-asked 2026-06-14, both live-verified, 0 errors):** (1) PIN „forgot" fallback
-> is now an ADULT-level 2-digit×1-digit problem (e.g. 18×9, verified live) instead of the trivial 3+7 a kid could solve
-> → child can't bypass into parent space; `openGateMath(hard)` + `gateKey` now allows 3 digits + `gate.ans`. (2) Profile
-> DELETE now requires the parent PIN when one is set (password input, verified: wrong=disabled, right=enabled); falls
-> back to type-the-word only if NO PIN set. Both in `niko/parent.js`.
-> **★ SECURITY TEST-SPEC run 2026-06-14 (Viktor's spec, Niko tested):** PASS — A (kids privacy): 0 ad/trackers in the
-> kids app, telemetry is anonymous enum-only aggregate (worker `cloudflare/telemetry-worker.js`: allow-list + extra-key
-> reject + no raw IP/UA), origin allow-list present. B: source-map 404, 0 secrets in bundle, 1 console.log. C: /v1/stats
-> 403 (live), input-validation strong, secret in env. E: HTTPS + HSTS. **GAPS:** C2 = worker has NO write rate-limit
-> (real, the likely abuse vector — non-PII so low blast radius, but could exhaust free KV write quota; fix = CF Rate-Limit
-> rule or KV counter, needs wrangler deploy = separate infra). D = GH Pages can't set X-Frame/CSP/etc. headers (platform
-> limit; fix = migrate to CF Pages, owner call). NB: landing.html ALSO loads Microsoft Clarity (heatmaps, token
-> x2cnj5t4bj) + Cloudflare beacon — LANDING ONLY (marketing/parents), NOT the kids app; both should be disclosed in
-> privacy.html. GitHub `gh` token = non-expiring classic PAT (GShoina), active; if owner saw an „expiry" it's elsewhere.
-> **★ i18n ARCHITECTURE designed → `docs/I18N_ARCHITECTURE.md` (SSOT).** Challenge to the EN estimate ACCEPTED + extended.
-> HYPOTHESIS CONFIRMED (FACT): tutor/owl math hints are inline ka templates, 0× in i18n-strings.js → they STAY GEORGIAN
-> on EN toggle today (EN already partly broken, not a clean base). Target = locale-KEYED `t(key,vars)` data-driven i18n
-> (adding French = add a column, zero code), generators emit via t() (parent.js already does this 12×), data.js translated
-> as DATA in batch, parallel-agent jobs to compress weeks→days. **STANDING RULE adopted 2026-06-14: every NEW human-facing
-> string is built bilingual {ka,en} from the start — no new ka-only literals (stops the debt growing).** **OWNER SCOPE
-> DECISION PENDING (sets weeks vs days):** does EN toggle need the FULL learning experience (tutor/owl/word-problems) or
-> just NAV + MENUS + PARENT dashboard? Nav-only = ~days, do now; full = +Phase 3 ~1.5-2.5wk parallel. Tied to AUDIENCE
-> (Georgian-only kids vs diaspora/international). **REMAINING owner items from the audit:** #3 disclose Cloudflare/Clarity
-> in privacy.html · C2 worker rate-limit · D CF-Pages headers.
-> **★ DECISIONS 2026-06-14 sess-2 (owner: act autonomously, no yes/no, no junk):**
-> • #3 privacy = ALREADY DONE (privacy.html §3 ka+en already discloses Cloudflare + Microsoft Clarity landing-only +
->   own anonymous stats; my earlier „not disclosed" was a stale audit miss → NO redundant edit).
-> • Orphan junk DELETED: clip_326-334.mp3 (0 manifest refs) + empty `_read_frag.txt`. Their generator moved
->   Downloads→`tools/_gen_move.py` (regenerable). NEW STANDING RULE (owner): unused/not-needed file → DELETE it, don't
->   accumulate junk; decide cleanup autonomously, don't ask „keep or delete".
-> • C2 rate-limit: ✅ DONE + LIVE-VERIFIED 2026-06-14. Owner provided a CF API token (rolled „NikoLearn telemetry deploy")
->   → saved as `CF_NIKO_API_TOKEN` in creds (account „Shonia.g@gmail.com's Account" 62f02b2a518a8e63eba0537f9162c0ec,
->   hosts nikolearn-t). Added an IP-FREE GLOBAL rate-limit binding (`RL`, simple {limit:50, period:10}) to the worker +
->   wrangler.toml; `env.RL.limit({key:'g'})` returns 429 over the cap, BEFORE json/KV. Deployed via `npx wrangler deploy`
->   (token in CLOUDFLARE_API_TOKEN). Verified: 70-burst → 19×429; STATS_KEY secret preserved (bindings = NIKO_T+RL+
->   STATS_KEY); /v1/stats still 403. **CF is now FULLY agent-automatable via CF_NIKO_API_TOKEN + `npx wrangler` (no browser
->   — CF anti-bot blocks automated browser login; API path is the way).** Watch: CF KV free = 1000 writes/DAY; rate-limit
->   caps floods but legit scale is a separate concern (bump limit / paid KV if it grows).
-> • D headers (X-Frame/CSP/etc MISSING on GH Pages; HSTS present): RECO = do NOT migrate now, NOT a launch-blocker (no
->   login/PII/payment → clickjack+XSS payoff ~0). DEFAULT: launch on GH Pages; bundle CF-Pages + `_headers` file with the
->   custom-domain step later (~1 day) for all 6 headers at once.
-> • GitHub token CORRECTION — it DOES expire: classic PAT id 4505010519 „GitHub API New" expires ~2026-06-20. OWNER
->   ACTION: regenerate github.com/settings/tokens/4505010519/regenerate → update gh (`gh auth login`). Can't mint for him.
-> • EN #5 DECIDED: MENU+PARENT EN now (tutor/owl/word-problems stay ka); full-EN as parallel/night jobs + Gemini/agent
->   QA-challenge. LAUNCHED bg Workflow `niko-en-menu-parent` (wgse4wv7v) → returns clean {ka,en} pairs; NEXT = merge static
->   into i18n-strings.js I18N_MAP, deploy, verify EN toggle. Full-EN parallel plan = `docs/I18N_ARCHITECTURE.md` §7.
-> • Movement-break VOICING = queued feature (ka-only text now; `tools/_gen_move.py` makes clips; finish = full set + wire
->   manifest + hook owl.js).
+> ## ▶ RESUME NOW (2026-06-14)
+> **LIVE = v1.171** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
+> commits trail app commits by one. Invariant that matters: clean tree + HEAD == origin/main.)
+> **CF is fully agent-automatable now** via `CF_NIKO_API_TOKEN` (in creds) + `npx wrangler` — no browser. (Both CF and
+> GitHub anti-bot BLOCK automated browser login; the isolated MCP browser also crashes on their SPAs. API is the path.)
+>
+> **OPEN ITEMS — only these:**
+> 1. **GitHub token = OWNER 30s action.** Classic PAT `4505010519` expires **~2026-06-20**. No API/browser path exists
+>    (GitHub forbids minting PATs via API; web login needs his password+2FA, which I don't have). → he regenerates at
+>    github.com/settings/tokens/4505010519/regenerate, pastes the new `ghp_`; then I run `gh auth login --with-token` +
+>    update `GITHUB_TOKEN` in creds. (Current token still works until ~Jun 20; pushes break after.)
+> 2. **EN Phase 2/3.** Phase 1 (55 menu/parent/chrome pairs) is LIVE (v1.171). NEXT: Phase 2 = `data.js` translated as
+>    DATA in batch; Phase 3 = tutor/owl/word-problem generators → keyed `t()` templates. Run as parallel-agent (night)
+>    jobs + Gemini/agent QA-challenge, quality must hold. Plan + architecture = `docs/I18N_ARCHITECTURE.md`. Reusable
+>    workflow `niko-en-menu-parent` (idempotent). tutor/owl hints currently leak ka on EN toggle until Phase 3.
+> 3. **Movement-break VOICING** = queued feature (exercises are ka-only TEXT, no voice). `tools/_gen_move.py` generates
+>    the clips → then wire manifest + hook owl.js playClip.
+> 4. **D / CF-Pages security headers** — NOT a launch-blocker (no login/PII/payment → clickjack+XSS payoff ~0). Bundle a
+>    `_headers` file with the custom-domain/CF-Pages move later (~1 day, all 6 headers at once).
+>
+> **DONE 2026-06-14 (detail in dated blocks below):** v1.169 audit tap-target a11y batch · v1.170 parent-gate hardening
+> (PIN-forgot→adult math 2dig×1dig; profile-delete→requires parent PIN) · 5-agent full audit (report in `output/`,
+> findings challenged before fixing) · security test-spec = PASS · **C2 worker rate-limit DONE+LIVE** (IP-free global
+> binding `RL` 50/10s; verified 70-burst→19×429; STATS_KEY preserved; /v1/stats still 403) · privacy disclosure found
+> already present (privacy.html §3) · EN Phase 1 LIVE · junk cleanup (orphan clips deleted, `tools/_gen_move.py` saved).
+>
+> **STANDING RULES (active):** TUTOR-FIRST · idea-handling: analyze→filter→challenge→do (don't hand reversible work back
+> as yes/no) · GELA'S RULE: default = execute, „lets chat"/„ვგეგმავთ"/„დავფიქრდეთ" → deliberate · batch deploys · verify
+> on the LIVE site · plain-English terms (no invented jargon) · ONLY Niko commits code; audits = report, CHALLENGE before
+> fixing · **every NEW human-facing string bilingual {ka,en} from the start** · **delete unused/junk autonomously, don't
+> accumulate** · Georgian copy standard (no em dash). · Disk is the only memory: persist as you go, keep this RESUME lean.
 > **★ 5-AGENT FULL AUDIT done 2026-06-14 (owner asked „გაუშვა team და სრული აუდიტი"). Report =**
 > `output/2026-06-14-სრული აუდიტი (5 აგენტი) by Niko.html` (gitignored, owner-local). 5 read-only Sonnet agents
 > (correctness · a11y/UX · child-safety · i18n · perf); ALL findings challenged+re-verified by Niko before any fix.
