@@ -661,8 +661,38 @@ window.I18N_MAP = {
   "ფერები 🎨":"Colors 🎨",
   "ცხოველები 🐾":"Animals 🐾",
   "საკვები 🍎":"Food 🍎",
-  "ოჯახი 👨‍👩‍👧‍👦":"Family 👨‍👩‍👧‍👦"
+  "ოჯახი 👨‍👩‍👧‍👦":"Family 👨‍👩‍👧‍👦",
+  /* -- word category chips (Object.keys(WORDS), niko/guest profiles) -- */
+  "ბუნება 🌿":"Nature 🌿",
+  "სკოლა 🏫":"School 🏫",
+  "ტანსაცმელი 👕":"Clothes 👕",
+  "ტრანსპორტი 🚗":"Transport 🚗",
+  "სხეული 🧍":"Body 🧍",
+  "სპორტი ⚽":"Sports ⚽",
+  "ამინდი 🌦️":"Weather 🌦️",
+  "პლანეტები 🪐":"Planets 🪐",
+  "პროფესიები 👩‍🚀":"Jobs 👩‍🚀",
+  /* -- bottom-nav theme/category button (aria-label + title) -- */
+  "თემა":"Topics",
+  /* -- games/owl repeat buttons -- */
+  "🔁 გაიმეორე":"🔁 Repeat",
+  "გაიმეორე ნიკოსთან":"Repeat with Niko",
+  /* -- parent space (plain literals not covered by parent.js en-branching) -- */
+  "შეიყვანე 4-ნიშნა PIN-კოდი.":"Enter your 4-digit PIN.",
+  "💬 დაგვიკავშირდი":"💬 Contact us",
+  "დაგვიტოვე შენი აზრი ან საკონტაქტო. ყველა ველი ნებაყოფლობითია.":"Leave us your thoughts or contact info. All fields are optional.",
+  "🎯 დაუსახე მიზანი":"🎯 Set a goal",
+  "💬 დაგვიტოვე აზრი ან საკონტაქტო":"💬 Leave your thoughts or contact",
+  "ჯამური პროგრესი":"Total progress",
+  /* -- onboarding + match-game header + tutor first-hints (add/sub) -- */
+  "ასაკი:":"Age:",
+  "🇬🇪 ქართული":"🇬🇪 Georgian",
+  "ეს შეკრების ამოცანაა. რომელი ორი რიცხვი უნდა შეკრიბო?":"This is an addition problem. Which two numbers will you add?",
+  "რაღაც აიღეს ან დაიკარგა, ეს გამოკლებაა.":"Something was taken away or lost, this is subtraction."
 };
+
+/* ── shared ka→en word-category lookup (tutor hints embed the bare category name) ── */
+var NIKO_CAT = {"ფერები":"Colors","ცხოველები":"Animals","საკვები":"Food","ოჯახი":"Family","ბუნება":"Nature","სკოლა":"School","ტანსაცმელი":"Clothes","ტრანსპორტი":"Transport","სხეული":"Body","სპორტი":"Sports","ამინდი":"Weather","პლანეტები":"Planets","პროფესიები":"Jobs","სიტყვები":"Words"};
 
 /* ── pattern rules for dynamic strings (only used when L==='en') ── */
 window.I18N_PATTERNS = [
@@ -703,12 +733,12 @@ window.I18N_PATTERNS = [
   // diagnostic offer sub: "სულ რაღაც N კითხვა, რომ გითხრა საიდან დაიწყო."
   [/^სულ რაღაც\s*(\d+)\s*კითხვა, რომ გითხრა საიდან დაიწყო\.$/, function(m){return 'Just '+m[1]+' questions to tell you where to start.';}],
   // parent goal-modal title: "🎯 დაუსახე მიზანი — <name>"
-  [/^🎯\s*დაუსახე მიზანი\s*—\s*(.+)$/, function(m){return '🎯 Set a goal — '+m[1];}],
+  [/^🎯\s*დაუსახე მიზანი\s*—\s*(.+)$/, function(m){return '🎯 Set a goal for '+m[1];}],
   // parent delete-modal header: "<name>: პროფილის წაშლა" (no-space variant the old pattern missed)
   [/^(.+?):\s*პროფილის წაშლა$/, function(m){return m[1]+': delete profile';}],
   [/^🗑️\s*პროფილის წაშლა$/, function(){return '🗑️ Delete profile';}],
   // premium upsell title: "<subject> — Premium" (subject name itself is translatable)
-  [/^(.+?)\s*—\s*Premium$/, function(m){return (window.t_en?window.t_en(m[1]):m[1])+' — Premium';}],
+  [/^(.+?)\s*—\s*Premium$/, function(m){return (window.t_en?window.t_en(m[1]):m[1])+' · Premium';}],
   // stored goal label "<N> ინგლისური სიტყვა"
   [/^(\d+)\s*ინგლისური სიტყვა$/, function(m){return m[1]+' English words';}],
   // screen-time chips "<N> წთ"
@@ -730,10 +760,10 @@ window.I18N_PATTERNS = [
   [new RegExp("^(ერთად შევძლებთ! |ბრავო, ვცადოთ ერთად\\. )?შეადარე მეზობელი რიცხვები, რამდენით იცვლება ყოველ ჯერზე\\?$"), m=>`${m[1]?(m[1].trim()==='ერთად შევძლებთ!'?'We can do this together! ':'Nice work, let\'s try together. '):''}Compare the neighboring numbers. How much do they change each time?`],
   [new RegExp("^ყოველ ჯერზე იზრდება (\\d+)-ით: გამოტოვებულ ადგილზე მარცხენა მეზობელს დაუმატე (\\d+)\\.$"), m=>`It grows by ${m[1]} each time: in the empty spot, add ${m[2]} to the left neighbor.`],
   [new RegExp("^ყოველ ჯერზე მცირდება (\\d+)-ით: გამოტოვებულ ადგილზე მარცხენა მეზობელს გამოაკელი (\\d+)\\.$"), m=>`It shrinks by ${m[1]} each time: in the empty spot, subtract ${m[2]} from the left neighbor.`],
-  [new RegExp("^სიტყვა „(.+?)\" ჯგუფიდანაა „(.+?)\" (.+)\\.$"), m=>`The word \"${m[1]}\" is from the \"${m[2]}\" group ${m[3]}.`],
+  [new RegExp("^სიტყვა „(.+?)\" ჯგუფიდანაა „(.+?)\" (.+)\\.$"), m=>`The word \"${m[1]}\" is from the \"${NIKO_CAT[m[2]]||m[2]}\" group ${m[3]}.`],
   [new RegExp("^დააკვირდი (.+?), რა არის ეს ქართულად\\?$"), m=>`Look at ${m[1]}. What is this in Georgian?`],
-  [new RegExp("^ეს არის (.+?) (.+?)\\. დააკვირდი: (.+)$"), m=>`This is a ${m[1]} ${m[2]}. Look: ${m[3]}`],
-  [new RegExp("^ეს სიტყვა ჯგუფიდანაა „(.+?)\" (.+?)\\. სურათი: (.+)$"), m=>`This word is from the \"${m[1]}\" group ${m[2]}. Picture: ${m[3]}`],
+  [new RegExp("^ეს არის (.+?) (.+?)\\. დააკვირდი: (.+)$"), m=>`This is a ${NIKO_CAT[m[1]]||m[1]} ${m[2]}. Look: ${m[3]}`],
+  [new RegExp("^ეს სიტყვა ჯგუფიდანაა „(.+?)\" (.+?)\\. სურათი: (.+)$"), m=>`This word is from the \"${NIKO_CAT[m[1]]||m[1]}\" group ${m[2]}. Picture: ${m[3]}`],
   [new RegExp("^ინგლისურად იწყება ბგერით /(.+?)/ და აქვს (\\d+) ასო\\. 🔊$"), m=>`In English it starts with the sound /${m[1]}/ and has ${m[2]} letters. 🔊`],
   [new RegExp("^დააკვირდი სურათს: (.+?)\\. რა ხედავ\\?$"), m=>`Look at the picture: ${m[1]}. What do you see?`],
   [new RegExp("^ინგლისური სიტყვა იწყება ბგერით /(.+?)/\\.$"), m=>`The English word starts with the sound /${m[1]}/.`],
@@ -797,5 +827,7 @@ window.I18N_PATTERNS = [
   /* -- core (EN Phase 3, v1.172) -- */
   [new RegExp("^ნიკოლოზმ Kings English-ში (\\d+) 🪙 მოაგროვა \\((\\d+)%\\)!$"), m=>`Nikoloz collected ${m[1]} 🪙 in Kings English (${m[2]}%)!`],
   /* -- owl (EN Phase 3, v1.172) -- */
-  [new RegExp("^ხმა მუშავდება <b>შენს მოწყობილობაზე</b>, არსად იგზავნება$"), m=>`Your voice is handled <b>right on your device</b>, never sent anywhere`]
+  [new RegExp("^ხმა მუშავდება <b>შენს მოწყობილობაზე</b>, არსად იგზავნება$"), m=>`Your voice is handled <b>right on your device</b>, never sent anywhere`],
+  /* -- profile-chooser card level badge "N · 🐣 დამწყები" (composite, level name reused from MAP) -- */
+  [new RegExp("^(\\d+) · (🐣|🌱|🚀|⭐|🏆) (დამწყები|მზარდი|მსწავლელი|მკვლევარი|ჩემპიონი)$"), m=>`${m[1]} · ${m[2]} ${window.I18N_MAP[m[3]]||m[3]}`],
 ];

@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.172'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.173'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
