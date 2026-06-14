@@ -1,8 +1,18 @@
 # NikoLearn — Session Handoff
 
 > ## ▶ RESUME NOW (2026-06-14)
-> **LIVE = v1.172** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
+> **LIVE = v1.173** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
 > commits trail app commits by one. Invariant that matters: clean tree + HEAD == origin/main.)
+> **EN LEAK SWEEP DONE (v1.173, 2026-06-14):** after v1.172 the owner challenged "done" — a REAL in-app Playwright render
+> sweep (screen by screen, inject profile → scan rendered DOM for Georgian) + a low-noise static engine-scan found leaks
+> the per-file agent pass had missed and the v1.172 "done" had glossed: 9 word-category chips, tutor category-name
+> passthrough (NIKO_CAT lookup), "თემა" nav, profile level-badge composite, parent-space plain literals (contact/set-goal/
+> PIN/total-progress), onboarding "ასაკი:", match-game "🇬🇪 ქართული", tutor add/sub first-hints, repeat buttons, + 2 more
+> pre-existing shipped em-dash outputs ("Set a goal —"/"— Premium"). All fixed + LIVE-verified via t_en on the deployed
+> site (0 leak; child names + the "ქარ" toggle label correctly stay Georgian). MAP 609 / PATTERNS 113. **LESSON: per-file
+> agent translation MISSES cross-file/composite/data-built/aria-label strings + audio-only-vs-rendered nuance — a real
+> render sweep is mandatory before claiming EN "done", not just engine-function spot-checks.** Remaining EN = noise only
+> (placement Georgian-reading items = KEEP_KA; parent.js en?-ternary ka-branches render English; NAV_SPOKEN = audio-only).
 > **CF is fully agent-automatable now** via `CF_NIKO_API_TOKEN` (in creds) + `npx wrangler` — no browser. (Both CF and
 > GitHub anti-bot BLOCK automated browser login; the isolated MCP browser also crashes on their SPAs. API is the path.)
 >
