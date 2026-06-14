@@ -1,8 +1,11 @@
 # NikoLearn — Session Handoff
 
 > ## ▶ RESUME NOW (2026-06-14)
-> **LIVE = v1.174** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
+> **LIVE = v1.175** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
 > commits trail app commits by one. Invariant that matters: clean tree + HEAD == origin/main.)
+> **v1.175 Talk & Think nav fix (owner bug 2026-06-14):** the per-card dot row overflowed once the deck hit 27 cards and
+> pushed the „next" button off-screen on phones → replaced with a scalable progress bar + `.talk-nav` space-between; both
+> buttons now labelled „← წინა/Back" · „შემდეგი/Next →", pill-styled, always in view. Live-verified at 390px.
 > **EN LEAK SWEEP DONE (v1.173, 2026-06-14):** after v1.172 the owner challenged "done" — a REAL in-app Playwright render
 > sweep (screen by screen, inject profile → scan rendered DOM for Georgian) + a low-noise static engine-scan found leaks
 > the per-file agent pass had missed and the v1.172 "done" had glossed: 9 word-category chips, tutor category-name
