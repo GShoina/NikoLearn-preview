@@ -63,6 +63,9 @@ function setParentPin(){
 function clearParentPin(){if(confirm(tx('მოვხსნა PIN-კოდი? სივრცეს მაინც დაიცავს მაგალითი.'))){state.parentPin=null;save();parentDash();}}
 function setScreenLimit(m){state.screenLimitMin=m;save();try{if(window.Analytics)Analytics.event('screenlimit_set',{minutes:String(m)});}catch(e){}parentDash();}
 function togglePremium(){state.premium=(state.premium===false)?true:false;save();parentDash();}
+// owner-device marker (honest LOCAL flag, not security): when on, analytics.js skips telemetry from this
+// device so real-user launch stats stay clean. Lives in the PIN-gated parent space. (closes audit B4)
+function toggleOwnerDevice(){try{if(localStorage.getItem('niko_owner')==='1')localStorage.removeItem('niko_owner');else localStorage.setItem('niko_owner','1');}catch(e){}parentDash();}
 
 /* ── D3 (v2.02): structured parent feedback form. Privacy-clean: nothing is auto-collected — the
    parent's own mail app sends it, so the only data shared is what the parent chooses to send. ── */
@@ -233,6 +236,12 @@ function parentDash(){
     <button class="btn btn-sky btn-block" onclick="exportReport()">📋 რეპორტი მასწავლებელს</button>
     <button class="btn btn-ghost btn-block mt" onclick="feedbackForm()">💬 დაგვიტოვე აზრი ან საკონტაქტო</button>
     <div class="pset-hint">ან: <a href="https://wa.me/995593255385?text=NikoLearn%20feedback" target="_blank" rel="noopener" style="color:var(--primary-d);font-weight:600;text-decoration:none">WhatsApp 💬</a> · <a href="mailto:NikoLearn@outlook.com?subject=NikoLearn%20feedback" style="color:inherit;text-decoration:none">✉️ ელფოსტა</a></div>
+  </div>`;
+  const ownerDev=(function(){try{return localStorage.getItem('niko_owner')==='1';}catch(e){return false;}})();
+  html+=`<div class="pgroup"><div class="pgroup-h">ℹ️ მფლობელი</div>
+    <button class="btn btn-ghost btn-block" onclick="toggleOwnerDevice()">📱 ეს ჩემი მოწყობილობაა <b>${ownerDev?'✓':''}</b></button>
+    <div class="pset-hint">ჩართულზე ამ მოწყობილობის გამოყენება სტატისტიკაში არ ითვლება.</div>
+    <button class="btn btn-ghost btn-block mt" onclick="adminView()">ℹ️ ვერსია და ანალიტიკა</button>
   </div>`;
   html+=`<div class="pgroup"><div class="pgroup-h">📦 ახალ მოწყობილობაზე გადატანა</div>
     <div class="pset-hint" style="margin-bottom:8px">ახალ ტელეფონს იყენებ? გადაიტანე ბავშვის პროგრესი (დონეები და ვარსკვლავები) კოდით. ღრუბელი და ანგარიში არ სჭირდება.</div>

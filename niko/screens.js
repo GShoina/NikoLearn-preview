@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.173'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.174'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -105,16 +105,10 @@ function logout(){ goHome(); }
 
 /* ── admin (owner only): version + insights. URL: ?admin=1 ── */
 function adminGate(){
-  // remember the unlock on this device so the owner does not retype the code every load
-  var ok=false; try{ok=localStorage.getItem('niko_admin')==='1';}catch(e){}
-  if(!ok){
-    const code=prompt('ადმინ კოდი:');
-    if(code!=='niko-admin'){ location.href='index.html?app=1'; return; }
-    try{localStorage.setItem('niko_admin','1');}catch(e){}
-  }
+  // No fake gate: this view holds NO secrets (version + a GA4 link + a local owner-device toggle).
+  // Real protection is server-side (worker STATS_KEY) + the parent-space PIN. (B4: removed the niko-admin theater.)
   adminView();
 }
-function adminLogout(){ try{localStorage.removeItem('niko_admin');}catch(e){} location.href='index.html?app=1'; }
 function adminView(){
   state=load();
   const kids=state.kids||[];
@@ -122,40 +116,41 @@ function adminView(){
   render(`<div class="screen home" style="gap:16px;justify-content:flex-start">
     <div class="brand" style="margin-top:8px">
       <div class="sun-badge" style="width:64px;height:64px;background:none;box-shadow:none;padding:0"><img src="owl-logo.png" alt="" style="width:100%;height:100%;object-fit:contain"></div>
-      <div class="mark">NikoLearn · Admin</div>
-      <div class="tag">ვერსია v${APP_VERSION}</div>
+      <div class="mark">NikoLearn · Owner</div>
+      <div class="tag">v${APP_VERSION}</div>
     </div>
     <div class="perm-points" style="max-width:360px;margin:0 auto;text-align:left">
-      <div class="perm-point">${I.check} ვერსია: <b>v${APP_VERSION}</b> (deploy-ის შესამოწმებლად)</div>
-      <div class="perm-point">${I.check} პროფილები <b>ამ ბრაუზერში</b>: <b>${kids.length}</b></div>
-      <div class="perm-point">${I.check} სესიები <b>ამ ბრაუზერში</b>: <b>${sessions}</b></div>
-      <div class="perm-point">ℹ️ ეს რიცხვები მხოლოდ <b>ამ მოწყობილობას</b> ეხება. ყველა მოწყობილობის ნამდვილ რიცხვებს ქვემოთ ხედავ.</div>
+      <div class="perm-point">${I.check} ვერსია: <b>v${APP_VERSION}</b></div>
+      <div class="perm-point">${I.check} პროფილები ამ ბრაუზერში: <b>${kids.length}</b></div>
+      <div class="perm-point">${I.check} სესიები ამ ბრაუზერში: <b>${sessions}</b></div>
+      <div class="perm-point">ℹ️ ეს რიცხვები მხოლოდ ამ მოწყობილობას ეხება. ყველა მოწყობილობის ნამდვილ რიცხვებს ქვემოთ ხედავ.</div>
     </div>
     <div id="ga4box" style="max-width:360px;margin:0 auto;width:100%"></div>
     <button class="btn btn-primary btn-block" style="max-width:360px" onclick="window.open('https://analytics.google.com/analytics/web/#/p539978869/realtime/overview','_blank')">📊 GA4, სრული რეპორტი</button>
     <button class="btn btn-ghost btn-block" style="max-width:360px;margin-top:10px" onclick="location.href='index.html?app=1'">← აპში დაბრუნება</button>
-    <button class="btn btn-ghost btn-block" style="max-width:360px;margin-top:8px" onclick="adminLogout()">ადმინიდან გასვლა (კოდის თავიდან შეყვანა)</button>
   </div>`,false);
   loadGA4Metrics();
 }
 /* fetch aggregate GA4 numbers from the Apps Script proxy and render the live tiles */
 function loadGA4Metrics(){
   const box=$('#ga4box'); if(!box) return;
+  // dynamic content is injected AFTER render()'s applyLang ran, so translate the box on each set
+  const setBox=h=>{ box.innerHTML=h; if(window.UILANG==='en'&&window.applyLang)applyLang(box); };
   if(!GA4_METRICS_URL){
-    box.innerHTML='<div class="perm-point" style="opacity:.7;font-size:.8rem">📈 ცოცხალი GA4 რიცხვები მალე ჩაირთვება (proxy deploy მიმდინარეობს). მანამდე, „სრული რეპორტი" ღილაკი.</div>';
+    setBox('<div class="perm-point" style="opacity:.7;font-size:.8rem">📈 ცოცხალი GA4 რიცხვები მალე ჩაირთვება (proxy deploy მიმდინარეობს). მანამდე, „სრული რეპორტი" ღილაკი.</div>');
     return;
   }
-  box.innerHTML='<div class="perm-point" style="opacity:.7;font-size:.8rem">⏳ GA4 რიცხვები იტვირთება…</div>';
+  setBox('<div class="perm-point" style="opacity:.7;font-size:.8rem">⏳ GA4 რიცხვები იტვირთება…</div>');
   fetch(GA4_METRICS_URL,{cache:'no-store'}).then(r=>r.json()).then(d=>{
-    if(!d||!d.ok){ box.innerHTML='<div class="perm-point" style="opacity:.7;font-size:.8rem">GA4 ვერ ჩაიტვირთა, სცადე „სრული რეპორტი".</div>'; return; }
+    if(!d||!d.ok){ setBox('<div class="perm-point" style="opacity:.7;font-size:.8rem">GA4 ვერ ჩაიტვირთა, სცადე „სრული რეპორტი".</div>'); return; }
     const tile=(n,l)=>`<div style="flex:1;min-width:96px;background:var(--card,#fff);border:1px solid var(--line,#e7dcc8);border-radius:14px;padding:12px 10px;text-align:center"><div style="font-size:1.5rem;font-weight:800;color:var(--primary-d)">${n}</div><div style="font-size:.72rem;opacity:.75;margin-top:2px">${l}</div></div>`;
-    box.innerHTML=`<div style="display:flex;gap:8px;flex-wrap:wrap">
+    setBox(`<div style="display:flex;gap:8px;flex-wrap:wrap">
       ${tile(d.usersToday,'მომხ. დღეს')}
       ${tile(d.signupsToday,'რეგ. დღეს')}
       ${tile(d.users7,'მომხ. 7 დღე')}
       ${tile(d.signups7,'რეგ. 7 დღე')}
-    </div>`;
-  }).catch(()=>{ box.innerHTML='<div class="perm-point" style="opacity:.7;font-size:.8rem">GA4 ვერ ჩაიტვირთა, სცადე „სრული რეპორტი".</div>'; });
+    </div>`);
+  }).catch(()=>{ setBox('<div class="perm-point" style="opacity:.7;font-size:.8rem">GA4 ვერ ჩაიტვირთა, სცადე „სრული რეპორტი".</div>'); });
 }
 
 /* ── onboarding ── */

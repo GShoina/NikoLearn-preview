@@ -109,6 +109,9 @@
 
   function fanout(method, a, b) {
     if (OFF) return;
+    // owner's own device (set in the PIN-gated parent space): skip telemetry so real-user
+    // launch stats stay clean. Honest LOCAL marker, not security; checked live so a toggle applies at once.
+    try { if (localStorage.getItem('niko_owner') === '1') return; } catch (e) {}
     for (var key in providers) {
       var p = providers[key];
       if (p && p.on && typeof p[method] === 'function') {

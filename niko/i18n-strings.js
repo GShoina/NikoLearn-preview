@@ -688,7 +688,12 @@ window.I18N_MAP = {
   "ასაკი:":"Age:",
   "🇬🇪 ქართული":"🇬🇪 Georgian",
   "ეს შეკრების ამოცანაა. რომელი ორი რიცხვი უნდა შეკრიბო?":"This is an addition problem. Which two numbers will you add?",
-  "რაღაც აიღეს ან დაიკარგა, ეს გამოკლებაა.":"Something was taken away or lost, this is subtraction."
+  "რაღაც აიღეს ან დაიკარგა, ეს გამოკლებაა.":"Something was taken away or lost, this is subtraction.",
+  /* -- parent space: owner-device group (B4) -- */
+  "ℹ️ მფლობელი":"ℹ️ Owner",
+  "📱 ეს ჩემი მოწყობილობაა":"📱 This is my device",
+  "ჩართულზე ამ მოწყობილობის გამოყენება სტატისტიკაში არ ითვლება.":"When on, this device's use isn't counted in the stats.",
+  "ℹ️ ვერსია და ანალიტიკა":"ℹ️ Version and analytics"
 };
 
 /* ── shared ka→en word-category lookup (tutor hints embed the bare category name) ── */
