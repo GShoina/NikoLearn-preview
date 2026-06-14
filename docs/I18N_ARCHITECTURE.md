@@ -1,6 +1,12 @@
 # NikoLearn — i18n Architecture (future-proof multi-language)
 
-**Author:** Niko · **Date:** 2026-06-14 · **Status:** design adopted; mass-translation pending owner SCOPE decision.
+**Author:** Niko · **Date:** 2026-06-14 · **Status:** ✅ ka↔en SHIPPED (v1.172) via TABLE-EXPANSION, NOT the t() rewrite.
+**UPDATE 2026-06-14 (post-implementation):** Full ka↔en EN is LIVE. We did NOT do the §2 t()-keyed migration: the existing
+render-time table engine (`I18N_MAP` + `I18N_PATTERNS`) already scales for two languages, so we just EXPANDED the tables
+(+174 MAP / +78 PATTERNS). Also the §1/§2 "509 strings in data.js" figure was wrong: real gap ≈18 (KINGS_MATH + AGE_CATS);
+the rest is intrinsically-Georgian literacy content (KA_ALPHA/READING_KA/translate-drills) that CORRECTLY stays Georgian.
+The t()-keyed rewrite below is now a FUTURE option, needed ONLY if a 3rd language (French) is greenlit — not for ka↔en.
+Per-file translation artifacts: `output/i18n-work/` (gitignored), reusable as the French template. (Original design kept below.)
 **Trigger:** owner wants (a) future-proof i18n so e.g. French-in-France is easy, (b) bilingual-by-default for all new work,
 (c) parallel jobs so it doesn't drag into weeks. Shared challenge to the first estimate = ACCEPTED and extended below.
 

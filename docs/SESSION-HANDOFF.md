@@ -1,7 +1,7 @@
 # NikoLearn — Session Handoff
 
 > ## ▶ RESUME NOW (2026-06-14)
-> **LIVE = v1.171** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
+> **LIVE = v1.172** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
 > commits trail app commits by one. Invariant that matters: clean tree + HEAD == origin/main.)
 > **CF is fully agent-automatable now** via `CF_NIKO_API_TOKEN` (in creds) + `npx wrangler` — no browser. (Both CF and
 > GitHub anti-bot BLOCK automated browser login; the isolated MCP browser also crashes on their SPAs. API is the path.)
@@ -12,14 +12,24 @@
 >    `GITHUB_TOKEN` updated in creds; pending commit pushed; in sync. No action pending. (Note: NikoLearn repo is PRIVATE;
 >    every push triggers a GitHub Pages build that consumes Pro's free Actions minutes — BATCH pushes, don't push per
 >    micro-change. Billed = $0, within the 3000-min/mo Pro allowance, but batching keeps headroom + is the standing rule.)
-> 2. **EN Phase 2/3 — OWNER PRE-AUTHORIZED FULL AUTONOMY (2026-06-14): run end-to-end in a fresh window, NO questions,
->    batch deploys, report only results.** Phase 1 (55 menu/parent/chrome pairs) is LIVE (v1.171). NEXT: re-scan ka-only
->    vs already-bilingual in `data.js` (NB much is already {ka,en}: WORDS/PHRASES/COUNTING/SHAPES/KINGS_ENG) → translate
->    the REAL gaps in batch; Phase 3 = tutor/owl/word-problem generators → keyed `t()` templates. METHOD: parallel-agent
->    translate → adversarial QA-challenge (Gemini-style) → Niko merges into i18n-strings.js → deploy → verify EN toggle
->    on the LIVE site. Quality must hold; keep heavy work in subagent contexts (don't bloat main chat). Plan = 
->    `docs/I18N_ARCHITECTURE.md`. Reusable workflow `niko-en-menu-parent` (idempotent) is the template. tutor/owl hints
->    currently leak ka on EN toggle until Phase 3.
+> 2. **EN Phase 2/3 = ✅ DONE + LIVE (v1.172, 2026-06-14).** Full EN learning experience now covers app + data +
+>    generators, not just chrome. **KEY SCOPE CORRECTION (verified in code, supersedes the old §2 "509 strings"
+>    estimate):** data.js real translation-gap was TINY (~18 strings: KINGS_MATH q's + AGE_CATS labels), NOT 509 — the
+>    bulk counted as "Georgian" was INTRINSICALLY-GEORGIAN literacy content (KA_ALPHA / READING_KA / READING_SENT_KA) +
+>    Georgian→English translate-drills (KINGS_ENG), which CORRECTLY stay Georgian on EN (they teach Georgian; N/A for a
+>    non-Georgian audience). **And the t()-keyed rewrite was NOT needed for ka↔en:** the existing render-time table
+>    engine (`I18N_MAP` exact + `I18N_PATTERNS` regex in `i18n-strings.js`) already scales for two languages, so we
+>    EXPANDED the tables instead of rebuilding. Result: **+174 MAP pairs + 78 PATTERNS** merged (now 592 MAP / 112 PAT).
+>    Method used = owner's: 8 parallel translate-agents (one per generator file, classify TRANSLATE/KEEP_KA/SKIP) →
+>    adversarial QA-challenge agent → Niko merged into i18n-strings.js → deploy → live-verify. Fixed a pre-existing
+>    shipped em-dash ("Your path —" → colon). Validated: 0 em-dash, 0 unintended ka-leak, file parses, in-browser
+>    `t_en` correct on all samples on the LIVE site, app boots EN with 0 console errors, qa-check 0 findings.
+>    **The §1 tutor/owl ka-leak bug is FIXED** (those hints now translate via the new patterns). Reusable work artifacts
+>    (per-file translations) kept in `output/i18n-work/` (gitignored) — handy as the template for adding French later.
+>    **Remaining EN polish (LOW, optional):** a few tutor hint patterns pass a Georgian CATEGORY name through in quotes
+>    (e.g. "ხილი") — low-frequency, contextual, defensible; add a category lookup to those 2-3 builders if wanted. Full
+>    t()-keyed architecture (`docs/I18N_ARCHITECTURE.md`) remains a FUTURE nice-to-have only if a 3rd language (French)
+>    is actually greenlit; not needed for ka↔en.
 > 3. **Movement-break VOICING** = queued feature (exercises are ka-only TEXT, no voice). `tools/_gen_move.py` generates
 >    the clips → then wire manifest + hook owl.js playClip.
 > 4. **D / CF-Pages security headers** — NOT a launch-blocker (no login/PII/payment → clickjack+XSS payoff ~0). Bundle a
