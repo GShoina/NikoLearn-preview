@@ -55,6 +55,9 @@
 > on the LIVE site · plain-English terms (no invented jargon) · ONLY Niko commits code; audits = report, CHALLENGE before
 > fixing · **every NEW human-facing string bilingual {ka,en} from the start** · **delete unused/junk autonomously, don't
 > accumulate** · Georgian copy standard (no em dash). · Disk is the only memory: persist as you go, keep this RESUME lean.
+> · **PROMPT-IMPROVEMENT default-ON (owner-locked 2026-06-14): when the owner sends MULTIPLE tasks or vents/complains in
+> one message, FIRST restate it as a clean numbered intent („you want: 1,2,3") in ONE short pass, THEN execute. Don't
+> respond reactively to a messy dump.** · **LACONIC: plain, short, no technical bla-bla; lead with the answer, cut detail.**
 > **★ 5-AGENT FULL AUDIT done 2026-06-14 (owner asked „გაუშვა team და სრული აუდიტი"). Report =**
 > `output/2026-06-14-სრული აუდიტი (5 აგენტი) by Niko.html` (gitignored, owner-local). 5 read-only Sonnet agents
 > (correctness · a11y/UX · child-safety · i18n · perf); ALL findings challenged+re-verified by Niko before any fix.
