@@ -24,6 +24,15 @@
 >    the clips → then wire manifest + hook owl.js playClip.
 > 4. **D / CF-Pages security headers** — NOT a launch-blocker (no login/PII/payment → clickjack+XSS payoff ~0). Bundle a
 >    `_headers` file with the custom-domain/CF-Pages move later (~1 day, all 6 headers at once).
+> 5. **OWNER-MODE unification (pre-authorized 2026-06-14, owner-approved design).** The client `niko-admin` gate
+>    (`screens.js:107-118`) is theater (client JS, bypassable via `?app=1`) — but it guards NOTHING sensitive (verified:
+>    no STATS_KEY in client, app never calls /v1/stats; real secret is server-side in the worker). FIX = remove the fake
+>    `niko-admin` code; add ONE honest "📱 ეს ჩემი მოწყობილობაა" toggle INSIDE the PIN-gated parent space →
+>    `localStorage niko_owner='1'`. When set: (a) `analytics.js` SKIPS sending telemetry from this device (= clean
+>    real-user stats, owner's earlier ask — owner's 2 phones were ~40% of traffic), (b) the info/version view is reachable
+>    there. Honest framing: a LOCAL owner-device marker, not security; sensitive data stays behind the worker STATS_KEY.
+>    Closes audit finding B4. (Owner verified via CF dashboard there ARE real users beyond him — Georgian IPs + a
+>    Facebook-shared visit — so clean stats matter.) Optional: KV baseline reset so past owner/test data doesn't skew.
 >
 > **DONE 2026-06-14 (detail in dated blocks below):** v1.169 audit tap-target a11y batch · v1.170 parent-gate hardening
 > (PIN-forgot→adult math 2dig×1dig; profile-delete→requires parent PIN) · 5-agent full audit (report in `output/`,
