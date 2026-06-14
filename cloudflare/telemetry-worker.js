@@ -128,6 +128,11 @@ export default {
 
     if (request.method !== 'POST') return new Response('method', { status: 405, headers: cors(origin) });
 
+    // ── C2 abuse rate-limit (2026-06-14) — global cap so a flood can't hammer the write path / KV quota.
+    // IP-FREE BY DESIGN: we do NOT read CF-Connecting-IP (see the privacy guarantee above), so the limit is
+    // GLOBAL (a constant key). Dropping a few anonymous telemetry beacons during a flood is harmless.
+    if (env.RL) { const { success } = await env.RL.limit({ key: 'g' }); if (!success) return new Response(null, { status: 429, headers: cors(origin) }); }
+
     let body;
     try { body = await request.json(); } catch { return new Response('bad json', { status: 400, headers: cors(origin) }); }
     const events = Array.isArray(body.events) ? body.events.slice(0, 25) : [];
