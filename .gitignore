@@ -29,3 +29,7 @@ output/
 
 # Local Claude tooling / context-mode (machine-specific)
 .claude/
+
+# wrangler local cache (tooling, not for repo)
+.wrangler/
+cloudflare/.wrangler/
