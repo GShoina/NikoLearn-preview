@@ -1,7 +1,7 @@
 # NikoLearn — Session Handoff
 
 > ## ▶ RESUME NOW (2026-06-14)
-> **LIVE = v1.173** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
+> **LIVE = v1.174** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
 > commits trail app commits by one. Invariant that matters: clean tree + HEAD == origin/main.)
 > **EN LEAK SWEEP DONE (v1.173, 2026-06-14):** after v1.172 the owner challenged "done" — a REAL in-app Playwright render
 > sweep (screen by screen, inject profile → scan rendered DOM for Georgian) + a low-noise static engine-scan found leaks
@@ -31,15 +31,11 @@
 >    the clips → then wire manifest + hook owl.js playClip.
 > 4. **D / CF-Pages security headers** — NOT a launch-blocker (no login/PII/payment → clickjack+XSS payoff ~0). Bundle a
 >    `_headers` file with the custom-domain/CF-Pages move later (~1 day, all 6 headers at once).
-> 5. **OWNER-MODE unification (pre-authorized 2026-06-14, owner-approved design).** The client `niko-admin` gate
->    (`screens.js:107-118`) is theater (client JS, bypassable via `?app=1`) — but it guards NOTHING sensitive (verified:
->    no STATS_KEY in client, app never calls /v1/stats; real secret is server-side in the worker). FIX = remove the fake
->    `niko-admin` code; add ONE honest "📱 ეს ჩემი მოწყობილობაა" toggle INSIDE the PIN-gated parent space →
->    `localStorage niko_owner='1'`. When set: (a) `analytics.js` SKIPS sending telemetry from this device (= clean
->    real-user stats, owner's earlier ask — owner's 2 phones were ~40% of traffic), (b) the info/version view is reachable
->    there. Honest framing: a LOCAL owner-device marker, not security; sensitive data stays behind the worker STATS_KEY.
->    Closes audit finding B4. (Owner verified via CF dashboard there ARE real users beyond him — Georgian IPs + a
->    Facebook-shared visit — so clean stats matter.) Optional: KV baseline reset so past owner/test data doesn't skew.
+> 5. **OWNER-MODE unification = ✅ DONE + LIVE (v1.174, 2026-06-14). Closes audit B4.** Removed the fake `niko-admin`
+>    code gate (theater). Added honest PIN-gated "📱 This is my device" toggle (`niko_owner='1'`) in the parent space →
+>    `analytics.js` skips telemetry from owner devices (live-verified: owner-OFF sends, owner-ON skips) so real-user
+>    launch stats stay clean. Info/version view honestly relabelled "NikoLearn · Owner", reachable from parent space +
+>    `?admin=1`, fully EN. Optional-still-open: KV baseline reset so past owner/test data doesn't skew (owner/worker call).
 >
 > **DONE 2026-06-14 (detail in dated blocks below):** v1.169 audit tap-target a11y batch · v1.170 parent-gate hardening
 > (PIN-forgot→adult math 2dig×1dig; profile-delete→requires parent PIN) · 5-agent full audit (report in `output/`,
