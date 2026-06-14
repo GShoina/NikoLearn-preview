@@ -27,7 +27,31 @@
 > DECISION PENDING (sets weeks vs days):** does EN toggle need the FULL learning experience (tutor/owl/word-problems) or
 > just NAV + MENUS + PARENT dashboard? Nav-only = ~days, do now; full = +Phase 3 ~1.5-2.5wk parallel. Tied to AUDIENCE
 > (Georgian-only kids vs diaspora/international). **REMAINING owner items from the audit:** #3 disclose Cloudflare/Clarity
-> in privacy.html (explained to owner; do on his ok) · C2 worker rate-limit · D CF-Pages headers.
+> in privacy.html · C2 worker rate-limit · D CF-Pages headers.
+> **★ DECISIONS 2026-06-14 sess-2 (owner: act autonomously, no yes/no, no junk):**
+> • #3 privacy = ALREADY DONE (privacy.html §3 ka+en already discloses Cloudflare + Microsoft Clarity landing-only +
+>   own anonymous stats; my earlier „not disclosed" was a stale audit miss → NO redundant edit).
+> • Orphan junk DELETED: clip_326-334.mp3 (0 manifest refs) + empty `_read_frag.txt`. Their generator moved
+>   Downloads→`tools/_gen_move.py` (regenerable). NEW STANDING RULE (owner): unused/not-needed file → DELETE it, don't
+>   accumulate junk; decide cleanup autonomously, don't ask „keep or delete".
+> • C2 rate-limit: ✅ DONE + LIVE-VERIFIED 2026-06-14. Owner provided a CF API token (rolled „NikoLearn telemetry deploy")
+>   → saved as `CF_NIKO_API_TOKEN` in creds (account „Shonia.g@gmail.com's Account" 62f02b2a518a8e63eba0537f9162c0ec,
+>   hosts nikolearn-t). Added an IP-FREE GLOBAL rate-limit binding (`RL`, simple {limit:50, period:10}) to the worker +
+>   wrangler.toml; `env.RL.limit({key:'g'})` returns 429 over the cap, BEFORE json/KV. Deployed via `npx wrangler deploy`
+>   (token in CLOUDFLARE_API_TOKEN). Verified: 70-burst → 19×429; STATS_KEY secret preserved (bindings = NIKO_T+RL+
+>   STATS_KEY); /v1/stats still 403. **CF is now FULLY agent-automatable via CF_NIKO_API_TOKEN + `npx wrangler` (no browser
+>   — CF anti-bot blocks automated browser login; API path is the way).** Watch: CF KV free = 1000 writes/DAY; rate-limit
+>   caps floods but legit scale is a separate concern (bump limit / paid KV if it grows).
+> • D headers (X-Frame/CSP/etc MISSING on GH Pages; HSTS present): RECO = do NOT migrate now, NOT a launch-blocker (no
+>   login/PII/payment → clickjack+XSS payoff ~0). DEFAULT: launch on GH Pages; bundle CF-Pages + `_headers` file with the
+>   custom-domain step later (~1 day) for all 6 headers at once.
+> • GitHub token CORRECTION — it DOES expire: classic PAT id 4505010519 „GitHub API New" expires ~2026-06-20. OWNER
+>   ACTION: regenerate github.com/settings/tokens/4505010519/regenerate → update gh (`gh auth login`). Can't mint for him.
+> • EN #5 DECIDED: MENU+PARENT EN now (tutor/owl/word-problems stay ka); full-EN as parallel/night jobs + Gemini/agent
+>   QA-challenge. LAUNCHED bg Workflow `niko-en-menu-parent` (wgse4wv7v) → returns clean {ka,en} pairs; NEXT = merge static
+>   into i18n-strings.js I18N_MAP, deploy, verify EN toggle. Full-EN parallel plan = `docs/I18N_ARCHITECTURE.md` §7.
+> • Movement-break VOICING = queued feature (ka-only text now; `tools/_gen_move.py` makes clips; finish = full set + wire
+>   manifest + hook owl.js).
 > **★ 5-AGENT FULL AUDIT done 2026-06-14 (owner asked „გაუშვა team და სრული აუდიტი"). Report =**
 > `output/2026-06-14-სრული აუდიტი (5 აგენტი) by Niko.html` (gitignored, owner-local). 5 read-only Sonnet agents
 > (correctness · a11y/UX · child-safety · i18n · perf); ALL findings challenged+re-verified by Niko before any fix.
