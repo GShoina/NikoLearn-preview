@@ -1238,13 +1238,12 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .talk-by{display:inline-flex;align-items:center;gap:8px;margin-top:2px;color:var(--faint);font-size:.92rem}
 .talk-by .tb-em{font-size:1.4rem}
 .talk-listen{max-width:200px}
-.talk-nav{display:flex;align-items:center;justify-content:center;gap:18px;width:100%;max-width:380px;margin-top:2px}
-.tnav{width:56px;height:56px;border-radius:50%;border:none;background:var(--primary);color:#fff;font-size:1.4rem;font-weight:700;cursor:pointer;box-shadow:var(--shadow);transition:transform .1s,opacity .15s}
+.talk-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;max-width:380px;margin-top:2px}
+.tnav{flex:0 0 auto;min-width:96px;height:52px;border-radius:99px;border:none;background:var(--primary);color:#fff;font-size:1rem;font-weight:700;padding:0 16px;cursor:pointer;box-shadow:var(--shadow);transition:transform .1s,opacity .15s;white-space:nowrap}
 .tnav:active{transform:translateY(2px)}
-.tnav:disabled{opacity:.32;cursor:default;background:var(--faint)}
-.talk-dots{display:flex;gap:8px;align-items:center}
-.tdot{width:9px;height:9px;border-radius:50%;background:var(--line);transition:transform .15s,background .15s}
-.tdot.on{background:var(--primary);transform:scale(1.35)}
+.tnav:disabled{opacity:.4;cursor:default;background:var(--faint);color:var(--muted)}
+.talk-prog{flex:1 1 auto;min-width:0;max-width:160px;height:8px;border-radius:99px;background:var(--line);overflow:hidden}
+.talk-prog>i{display:block;height:100%;background:var(--primary);border-radius:99px;transition:width .2s}
 .talk-note{color:var(--faint);font-size:.85rem;text-align:center;max-width:300px;line-height:1.4}
 @media (prefers-reduced-motion:reduce){ .talk-card{animation:none} }
 

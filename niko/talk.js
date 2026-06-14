@@ -138,7 +138,9 @@ function talkCard(){
   const th=TALK_THEMES[c.theme]||TALK_THEMES.think;
   const ch=TALK_CHARS[c.by]||TALK_CHARS.owl;
   const subs=(c.subs&&c.subs.length)?`<div class="talk-subs"><span class="ts-lab">კიდევ ჰკითხე:</span> ${c.subs.join(' ')}</div>`:'';
-  const dots=tl.deck.map((_,i)=>`<span class="tdot${i===tl.i?' on':''}"></span>`).join('');
+  // progress bar (scales to ANY deck size; the old per-card dot row overflowed once the deck grew to 27,
+  // pushing the „next" button off-screen — owner 2026-06-14). Position is also shown as the „N / total" count.
+  const prog=Math.round((tl.i+1)/tl.deck.length*100);
   // Listen: KA plays the recorded edge-tts clip (v1.120, AUDIO_MANIFEST); EN uses the English voice.
   const listen=`<button class="btn btn-ghost talk-listen" onclick="talkSpeak()">🔊 ${UILANG==='en'?'Listen':'მოსმენა'}</button>`;
   render(`<div class="screen talk">
@@ -156,9 +158,9 @@ function talkCard(){
     </div>
     ${listen}
     <div class="talk-nav">
-      <button class="tnav" onclick="talkGo(-1)" ${tl.i===0?'disabled':''} aria-label="წინა">←</button>
-      <span class="talk-dots">${dots}</span>
-      <button class="tnav" onclick="talkGo(1)" ${tl.i===tl.deck.length-1?'disabled':''} aria-label="შემდეგი">→</button>
+      <button class="tnav" onclick="talkGo(-1)" ${tl.i===0?'disabled':''} aria-label="წინა">← ${UILANG==='en'?'Back':'წინა'}</button>
+      <div class="talk-prog" aria-hidden="true"><i style="width:${prog}%"></i></div>
+      <button class="tnav" onclick="talkGo(1)" ${tl.i===tl.deck.length-1?'disabled':''} aria-label="შემდეგი">${UILANG==='en'?'Next':'შემდეგი'} →</button>
     </div>
     <div class="talk-note">ერთად ისაუბრეთ. სწორი პასუხი არ არსებობს.</div>
   </div>`,false);
