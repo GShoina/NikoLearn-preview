@@ -3,16 +3,22 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ PARENT GATE + DASHBOARD ═══════════════ */
-let gate={a:0,b:0,buf:''};
+let gate={a:0,b:0,ans:0,buf:''};
 // dispatcher: a real 4-digit PIN if the parent set one, otherwise the kid-proof arithmetic gate.
 function openGate(){ if(state.parentPin) return openPinGate(); openGateMath(); }
-function openGateMath(){
-  gate.a=ri(3,9);gate.b=ri(2,8);gate.buf='';
+// hard=true → PIN-recovery path: a 2-digit × 1-digit problem (3-digit answer) that is ABOVE the app's own
+// teaching ceiling, so a 6–9 yo can't use „forgot PIN" as a trivial bypass (owner 2026-06-14). Normal entry
+// (no PIN set) keeps the easy single-digit addition = kid-proof for toddlers but not a real secret.
+function openGateMath(hard){
+  let q;
+  if(hard){ gate.a=ri(11,19); gate.b=ri(6,9); gate.ans=gate.a*gate.b; q=`${gate.a} × ${gate.b}`; }
+  else    { gate.a=ri(3,9);   gate.b=ri(2,8); gate.ans=gate.a+gate.b; q=`${gate.a} + ${gate.b}`; }
+  gate.buf='';
   const el=document.createElement('div');el.className='gate';el.id='gate';
   el.innerHTML=`<div class="gate-card">
-    <h3>${I.lock} მშობლის სივრცე</h3>
-    <p>ეს კარი ბავშვებისთვის არ არის. ამოხსენი მაგალითი გასაგრძელებლად.</p>
-    <div class="gate-q">${gate.a} + ${gate.b} = ?</div>
+    <h3>${I.lock} ${hard?'მშობლის აღდგენა':'მშობლის სივრცე'}</h3>
+    <p>${hard?'PIN დაგავიწყდა? ეს მაგალითი მხოლოდ მშობელს შეუძლია.':'ეს კარი ბავშვებისთვის არ არის. ამოხსენი მაგალითი გასაგრძელებლად.'}</p>
+    <div class="gate-q">${q} = ?</div>
     <div class="gate-display" id="gdisp"></div>
     <div class="gate-keys">${[1,2,3,4,5,6,7,8,9].map(n=>`<button onclick="gateKey(${n})">${n}</button>`).join('')}
       <button onclick="gateClear()">✕</button><button onclick="gateKey(0)">0</button><button onclick="gateOk()">${I.check}</button></div>
@@ -21,9 +27,9 @@ function openGateMath(){
   if(window.applyLang)applyLang(el);
   $('.device').appendChild(el);
 }
-function gateKey(n){gate.buf=(gate.buf+n).slice(0,2);$('#gdisp').textContent=gate.buf;}
+function gateKey(n){gate.buf=(gate.buf+n).slice(0,3);$('#gdisp').textContent=gate.buf;}
 function gateClear(){gate.buf='';const d=$('#gdisp');if(d)d.textContent='';}
-function gateOk(){if(parseInt(gate.buf)===gate.a+gate.b){$('#gate').remove();parentDash();}else{const d=$('#gdisp');d.textContent='✕';d.style.color='var(--red)';gate.buf='';setTimeout(()=>{d.textContent='';d.style.color='';},700);}}
+function gateOk(){if(parseInt(gate.buf)===gate.ans){$('#gate').remove();parentDash();}else{const d=$('#gdisp');d.textContent='✕';d.style.color='var(--red)';gate.buf='';setTimeout(()=>{d.textContent='';d.style.color='';},700);}}
 
 /* ── real 4-digit parent PIN (gate hardening v1.99) ── */
 function openPinGate(){
@@ -46,7 +52,7 @@ function pinOk(){
   if(gate.buf===state.parentPin){$('#gate').remove();parentDash();}
   else{const d=$('#gdisp');if(d){d.textContent='✕';d.style.color='var(--red)';}gate.buf='';setTimeout(()=>{const e=$('#gdisp');if(e){e.textContent='';e.style.color='';}},700);}
 }
-function pinForgot(){const g=$('#gate');if(g)g.remove();openGateMath();} // recovery: fall back to the arithmetic challenge
+function pinForgot(){const g=$('#gate');if(g)g.remove();openGateMath(true);} // recovery: ADULT-level problem, not the kid math (owner 2026-06-14)
 function setParentPin(){
   const a=prompt(tx('ახალი 4-ნიშნა PIN-კოდი:'));if(a==null)return;
   if(!/^\d{4}$/.test(a.trim())){alert(tx('PIN უნდა იყოს ზუსტად 4 ციფრი.'));return;}
@@ -300,13 +306,16 @@ const DEL_WORD={ka:'წაშლა',en:'DELETE',ru:'УДАЛИТЬ'};
 function confirmDelete(id){
   const k=kidObj(id);const lang=(Array.isArray(k.langs)&&k.langs[0])||'ka';
   const word=DEL_WORD[lang]||DEL_WORD.ka;
+  // owner 2026-06-14: if a parent PIN exists, deletion REQUIRES that PIN (strongest signal a child can't pass);
+  // only when no PIN is set do we fall back to the type-the-word confirmation.
+  const needPin=!!state.parentPin;
   const el=document.createElement('div');el.className='gate';el.id='delmodal';
   el.innerHTML=`<div class="gate-card del-card">
     <div class="del-ico">🗑️</div>
     <h3>${nameOf(id)}: პროფილის წაშლა</h3>
     <p>ეს სამუდამოდ წაშლის ${nameOf(id)}-ს და მთელ პროგრესს. დასადასტურებლად საჭიროა <b>მშობლის თანხმობა</b>.</p>
-    <div class="del-instr">ჩაწერე <b>«${word}»</b> ქვემოთ:</div>
-    <input class="login-in del-in" id="delin" autocomplete="off" autocapitalize="characters" placeholder="${word}">
+    <div class="del-instr">${needPin?'შეიყვანე <b>მშობლის PIN-კოდი</b> წასაშლელად:':'ჩაწერე <b>«'+word+'»</b> ქვემოთ:'}</div>
+    <input class="login-in del-in" id="delin" autocomplete="off" ${needPin?'inputmode="numeric" type="password" maxlength="4" placeholder="••••"':'autocapitalize="characters" placeholder="'+word+'"'}>
     <button class="btn btn-block del-go" id="delgo" disabled onclick="doDeleteKid('${id}')">წაშლა</button>
     <button class="btn btn-ghost btn-block mt" onclick="document.getElementById('delmodal').remove()">გაუქმება</button>
   </div>`;
@@ -314,7 +323,7 @@ function confirmDelete(id){
   if(window.applyLang)applyLang(el);
   $('.device').appendChild(el);
   const inp=$('#delin'),go=$('#delgo');
-  inp.oninput=()=>{const ok=inp.value.trim().toLowerCase()===word.toLowerCase();go.disabled=!ok;go.classList.toggle('armed',ok);};
+  inp.oninput=()=>{const ok=needPin ? inp.value.trim()===state.parentPin : inp.value.trim().toLowerCase()===word.toLowerCase();go.disabled=!ok;go.classList.toggle('armed',ok);};
   inp.focus();
 }
 function doDeleteKid(id){
