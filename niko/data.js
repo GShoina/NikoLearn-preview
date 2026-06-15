@@ -14,7 +14,9 @@ const WORDS = {
     {ka:"ფრინველი",en:"bird",emoji:"🐦"},{ka:"ბაყაყი",en:"frog",emoji:"🐸"},{ka:"ზებრა",en:"zebra",emoji:"🦓"},
     {ka:"ძროხა",en:"cow",emoji:"🐄"},{ka:"ღორი",en:"pig",emoji:"🐷"},{ka:"ცხვარი",en:"sheep",emoji:"🐑"},
     {ka:"თხა",en:"goat",emoji:"🐐"},{ka:"მგელი",en:"wolf",emoji:"🐺"},{ka:"ვეფხვი",en:"tiger",emoji:"🐯"},
-    {ka:"პინგვინი",en:"penguin",emoji:"🐧"},{ka:"ირემი",en:"deer",emoji:"🦌"}
+    {ka:"პინგვინი",en:"penguin",emoji:"🐧"},{ka:"ირემი",en:"deer",emoji:"🦌"},
+    {ka:"ბუ",en:"owl",emoji:"🦉"},{ka:"ფუტკარი",en:"bee",emoji:"🐝"},{ka:"კენგურუ",en:"kangaroo",emoji:"🦘"},
+    {ka:"ჟირაფი",en:"giraffe",emoji:"🦒"},{ka:"გველი",en:"snake",emoji:"🐍"},{ka:"კუ",en:"turtle",emoji:"🐢"}
   ],
   "საკვები 🍎":[
     {ka:"ვაშლი",en:"apple",emoji:"🍎"},{ka:"პური",en:"bread",emoji:"🍞"},{ka:"რძე",en:"milk",emoji:"🥛"},
@@ -23,58 +25,65 @@ const WORDS = {
     {ka:"ჩაი",en:"tea",emoji:"🍵"},
     {ka:"სტაფილო",en:"carrot",emoji:"🥕"},{ka:"პომიდორი",en:"tomato",emoji:"🍅"},{ka:"ყურძენი",en:"grapes",emoji:"🍇"},
     {ka:"მარწყვი",en:"strawberry",emoji:"🍓"},{ka:"მსხალი",en:"pear",emoji:"🍐"},{ka:"სიმინდი",en:"corn",emoji:"🌽"},
-    {ka:"შოკოლადი",en:"chocolate",emoji:"🍫"},{ka:"ნამცხვარი",en:"cookie",emoji:"🍪"}
+    {ka:"შოკოლადი",en:"chocolate",emoji:"🍫"},{ka:"ნამცხვარი",en:"cookie",emoji:"🍪"},
+    {ka:"ლიმონი",en:"lemon",emoji:"🍋"},{ka:"სოკო",en:"mushroom",emoji:"🍄"},{ka:"თაფლი",en:"honey",emoji:"🍯"},
+    {ka:"ბურგერი",en:"burger",emoji:"🍔"}
   ],
   "ოჯახი 👨‍👩‍👧‍👦":[
     {ka:"დედა",en:"mother",emoji:"👩"},{ka:"მამა",en:"father",emoji:"👨"},{ka:"ძმა",en:"brother",emoji:"👦"},
     {ka:"და",en:"sister",emoji:"👧"},{ka:"ბებია",en:"grandmother",emoji:"👵"},{ka:"ბაბუა",en:"grandfather",emoji:"👴"},
     {ka:"ბავშვი",en:"child",emoji:"🧒"},{ka:"ოჯახი",en:"family",emoji:"👨‍👩‍👧‍👦"},
-    {ka:"ჩვილი",en:"baby",emoji:"👶"},{ka:"ბიძა",en:"uncle",emoji:"🧔"}
+    {ka:"ჩვილი",en:"baby",emoji:"👶"},{ka:"ბიძა",en:"uncle",emoji:"🧔"},
+    {ka:"დეიდა",en:"aunt",emoji:"👩"},{ka:"ბიძაშვილი",en:"cousin",emoji:"🧑"}
   ],
   "ბუნება 🌿":[
     {ka:"მზე",en:"sun",emoji:"☀️"},{ka:"მთვარე",en:"moon",emoji:"🌙"},{ka:"ვარსკვლავი",en:"star",emoji:"⭐"},
     {ka:"წვიმა",en:"rain",emoji:"🌧️"},{ka:"ხე",en:"tree",emoji:"🌳"},{ka:"ყვავილი",en:"flower",emoji:"🌸"},
     {ka:"ზღვა",en:"sea",emoji:"🌊"},{ka:"თოვლი",en:"snow",emoji:"❄️"},{ka:"მთა",en:"mountain",emoji:"⛰️"},
     {ka:"ღრუბელი",en:"cloud",emoji:"☁️"},
-    {ka:"ცეცხლი",en:"fire",emoji:"🔥"},{ka:"მდინარე",en:"river",emoji:"🏞️"},{ka:"ფოთოლი",en:"leaf",emoji:"🍃"}
+    {ka:"ცეცხლი",en:"fire",emoji:"🔥"},{ka:"მდინარე",en:"river",emoji:"🏞️"},{ka:"ფოთოლი",en:"leaf",emoji:"🍃"},
+    {ka:"ბალახი",en:"grass",emoji:"🌱"},{ka:"ქვა",en:"stone",emoji:"🪨"},{ka:"კუნძული",en:"island",emoji:"🏝️"}
   ],
   "სკოლა 🏫":[
     {ka:"წიგნი",en:"book",emoji:"📖"},{ka:"კალამი",en:"pen",emoji:"🖊️"},{ka:"ფანქარი",en:"pencil",emoji:"✏️"},
     {ka:"მასწავლებელი",en:"teacher",emoji:"👨‍🏫"},{ka:"სკოლა",en:"school",emoji:"🏫"},{ka:"ჩანთა",en:"bag",emoji:"🎒"},
     {ka:"რვეული",en:"notebook",emoji:"📓"},{ka:"სკამი",en:"chair",emoji:"🪑"},
     {ka:"სახაზავი",en:"ruler",emoji:"📏"},{ka:"საღებავი",en:"paint",emoji:"🎨"},{ka:"კომპიუტერი",en:"computer",emoji:"💻"},
-    {ka:"რუკა",en:"map",emoji:"🗺️"}
+    {ka:"რუკა",en:"map",emoji:"🗺️"},{ka:"მაკრატელი",en:"scissors",emoji:"✂️"},{ka:"გლობუსი",en:"globe",emoji:"🌐"}
   ],
   "ტანსაცმელი 👕":[
     {ka:"პერანგი",en:"shirt",emoji:"👕"},{ka:"კაბა",en:"dress",emoji:"👗"},{ka:"ქურთუკი",en:"jacket",emoji:"🧥"},
     {ka:"ჯინსი",en:"jeans",emoji:"👖"},{ka:"ფეხსაცმელი",en:"shoes",emoji:"👟"},{ka:"ქუდი",en:"hat",emoji:"🎩"},
     {ka:"წინდა",en:"socks",emoji:"🧦"},{ka:"სათვალე",en:"glasses",emoji:"👓"},
-    {ka:"ხელთათმანი",en:"gloves",emoji:"🧤"},{ka:"შარფი",en:"scarf",emoji:"🧣"},{ka:"ჩექმა",en:"boots",emoji:"🥾"}
+    {ka:"ხელთათმანი",en:"gloves",emoji:"🧤"},{ka:"შარფი",en:"scarf",emoji:"🧣"},{ka:"ჩექმა",en:"boots",emoji:"🥾"},
+    {ka:"ბეჭედი",en:"ring",emoji:"💍"},{ka:"გვირგვინი",en:"crown",emoji:"👑"}
   ],
   "ტრანსპორტი 🚗":[
     {ka:"მანქანა",en:"car",emoji:"🚗"},{ka:"ავტობუსი",en:"bus",emoji:"🚌"},{ka:"თვითმფრინავი",en:"plane",emoji:"✈️"},
     {ka:"მატარებელი",en:"train",emoji:"🚂"},{ka:"ველოსიპედი",en:"bike",emoji:"🚲"},{ka:"ნავი",en:"boat",emoji:"⛵"},
     {ka:"ტაქსი",en:"taxi",emoji:"🚕"},{ka:"სასწრაფო",en:"ambulance",emoji:"🚑"},{ka:"სახანძრო",en:"fire truck",emoji:"🚒"},
-    {ka:"პოლიციის მანქანა",en:"police car",emoji:"🚓"},{ka:"ვერტმფრენი",en:"helicopter",emoji:"🚁"},{ka:"სატვირთო",en:"truck",emoji:"🚚"}
+    {ka:"პოლიციის მანქანა",en:"police car",emoji:"🚓"},{ka:"ვერტმფრენი",en:"helicopter",emoji:"🚁"},{ka:"სატვირთო",en:"truck",emoji:"🚚"},
+    {ka:"მოტოციკლი",en:"motorbike",emoji:"🏍️"},{ka:"გემი",en:"ship",emoji:"🚢"},{ka:"ტრაქტორი",en:"tractor",emoji:"🚜"}
   ],
   "სხეული 🧍":[
     {ka:"თავი",en:"head",emoji:"🧠"},{ka:"ხელი",en:"hand",emoji:"✋"},{ka:"ფეხი",en:"foot",emoji:"🦶"},
     {ka:"თვალი",en:"eye",emoji:"👁️"},{ka:"ყური",en:"ear",emoji:"👂"},{ka:"ცხვირი",en:"nose",emoji:"👃"},
     {ka:"პირი",en:"mouth",emoji:"👄"},{ka:"კბილი",en:"tooth",emoji:"🦷"},
     {ka:"თმა",en:"hair",emoji:"💇"},{ka:"თითი",en:"finger",emoji:"👆"},{ka:"მუხლი",en:"knee",emoji:"🦵"},
-    {ka:"ენა",en:"tongue",emoji:"👅"}
+    {ka:"ენა",en:"tongue",emoji:"👅"},{ka:"მკლავი",en:"arm",emoji:"💪"}
   ],
   "სპორტი ⚽":[
     {ka:"ფეხბურთი",en:"football",emoji:"⚽"},{ka:"კალათბურთი",en:"basketball",emoji:"🏀"},{ka:"ცურვა",en:"swimming",emoji:"🏊"},
     {ka:"სირბილი",en:"running",emoji:"🏃"},{ka:"ტენისი",en:"tennis",emoji:"🎾"},{ka:"ცეკვა",en:"dancing",emoji:"💃"},
     {ka:"ფრენბურთი",en:"volleyball",emoji:"🏐"},{ka:"კრივი",en:"boxing",emoji:"🥊"},{ka:"ველოსპორტი",en:"cycling",emoji:"🚴"},
-    {ka:"სრიალი",en:"skating",emoji:"⛸️"},{ka:"მაგიდის ჩოგბურთი",en:"table tennis",emoji:"🏓"}
+    {ka:"სრიალი",en:"skating",emoji:"⛸️"},{ka:"მაგიდის ჩოგბურთი",en:"table tennis",emoji:"🏓"},
+    {ka:"რაგბი",en:"rugby",emoji:"🏉"}
   ],
   "ამინდი 🌦️":[
     {ka:"მზიანი",en:"sunny",emoji:"☀️"},{ka:"წვიმიანი",en:"rainy",emoji:"🌧️"},{ka:"ცივი",en:"cold",emoji:"🥶"},
     {ka:"ცხელი",en:"hot",emoji:"🔥"},{ka:"ქარიანი",en:"windy",emoji:"💨"},{ka:"თოვლიანი",en:"snowy",emoji:"🌨️"},
     {ka:"ღრუბლიანი",en:"cloudy",emoji:"☁️"},{ka:"ნისლიანი",en:"foggy",emoji:"🌫️"},{ka:"ჭექა-ქუხილი",en:"stormy",emoji:"⛈️"},
-    {ka:"ცისარტყელა",en:"rainbow",emoji:"🌈"}
+    {ka:"ცისარტყელა",en:"rainbow",emoji:"🌈"},{ka:"ელვა",en:"lightning",emoji:"⚡"}
   ],
   "პლანეტები 🪐":[
     {ka:"მზე",en:"the Sun",emoji:"☀️"},{ka:"დედამიწა",en:"Earth",emoji:"🌍"},{ka:"მთვარე",en:"the Moon",emoji:"🌙"},
@@ -86,7 +95,8 @@ const WORDS = {
     {ka:"ასტრონავტი",en:"astronaut",emoji:"👩‍🚀"},{ka:"ექიმი",en:"doctor",emoji:"👩‍⚕️"},{ka:"მასწავლებელი",en:"teacher",emoji:"👨‍🏫"},
     {ka:"პილოტი",en:"pilot",emoji:"👨‍✈️"},{ka:"მეცნიერი",en:"scientist",emoji:"👨‍🔬"},{ka:"ინჟინერი",en:"engineer",emoji:"👷"},
     {ka:"პროგრამისტი",en:"programmer",emoji:"👨‍💻"},{ka:"მხატვარი",en:"artist",emoji:"👨‍🎨"},{ka:"მზარეული",en:"chef",emoji:"👨‍🍳"},
-    {ka:"მეხანძრე",en:"firefighter",emoji:"👨‍🚒"},{ka:"ვეტერინარი",en:"vet",emoji:"🧑‍⚕️"},{ka:"მუსიკოსი",en:"musician",emoji:"🎤"}
+    {ka:"მეხანძრე",en:"firefighter",emoji:"👨‍🚒"},{ka:"ვეტერინარი",en:"vet",emoji:"🧑‍⚕️"},{ka:"მუსიკოსი",en:"musician",emoji:"🎤"},
+    {ka:"პოლიციელი",en:"police officer",emoji:"👮"},{ka:"ფერმერი",en:"farmer",emoji:"🧑‍🌾"}
   ]
 };
 
