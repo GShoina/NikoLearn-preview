@@ -10,7 +10,15 @@
   buyer" thesis + Amonashvili parent-ring gap). Score later; candidate for the free/trust layer.
 - **Skills/plugins discipline (standing):** many installed, enable FEW on demand, only from the official marketplace.
   Already a standing rule (see SESSION-HANDOFF); restated here for the product lens.
-**Last updated:** 2026-06-06 (strategic grilldown: mission/KVP exploration + GeoStat TAM facts added)
+## ⭐ OWNER-LOVED — EXPAND „საუბარი და ფიქრი" (Talk & Think) (parked 2026-06-15)
+- Owner 2026-06-15: „საუბარი და ფიქრი ძალიან მოსწონს და ვხალისობთ" — he and Nikoloz genuinely enjoy the talk/think
+  cards. **Wants to ADD to it as soon as resource frees up.** This is a validated-by-use feature = high-confidence
+  place to invest. Build queue (not now): more ka cards (emotions/values/imagination/curiosity themes), more en
+  cards, each with a Georgian edge-tts clip (tlk_*, ka-GE-EkaNeural) + manifest key = exact question string. Keep the
+  „no right answer, talk together with a parent" framing (it's the parent-trust + Amonashvili angle). Tie-in: the
+  curation-as-authority idea above. Effort low-med per batch. NOT a strategy fork — just queued content work.
+
+**Last updated:** 2026-06-15 (parked: expand Talk & Think — owner-loved; + 2026-06-06 strategic grilldown)
 
 This is the single source of truth for product ideas. Every idea is logged, scored,
 and given a roadmap decision. The weekly Product Owner routine appends competitor

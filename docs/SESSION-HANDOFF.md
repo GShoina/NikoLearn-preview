@@ -1,8 +1,28 @@
 # NikoLearn — Session Handoff
 
 > ## ▶ RESUME NOW (2026-06-15)
-> **LIVE = v1.177** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
+> **LIVE = v1.178** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
 > commits trail app commits by one. Invariant that matters: clean tree + HEAD == origin/main.)
+> **SESSION 2026-06-15 (3) — owner iPhone bug report + 2 fixes, all SHIPPED+LIVE v1.178 (commit 7b720c8):**
+> 1) **iOS tap-freeze (root cause = double-tap-zoom).** Owner: on iPhone, „მოისმინე" froze after a few taps (no tap
+>    response, no speech), the voice toggle flipped off by itself, and the screen resized; reload recovered. All four
+>    symptoms = iOS double-tap-to-zoom stealing taps. FIX: `*{touch-action:manipulation}` in styles.css (kills
+>    double-tap-zoom, keeps pinch-zoom + pan; the trace-canvas keeps its own touch-action:none). PLUS `speechSynthesis.
+>    resume()` in core.js speak() for the iOS paused-synth „didn't say words" stall (note: global `speak` is an audio.js
+>    wrapper → `_speak` = the core.js one with the resume; it IS in the call path). Verified live: touch-action=
+>    manipulation on buttons. (Desktop can't repro iOS zoom; logic + CSS confirmed live, owner to re-test on the phone.)
+> 2) **Match „დააწყვილე" showed the same word in both columns.** Cause: wordPool() pushes every category so teacher
+>    (school+professions) lands twice, and a few words share a Georgian translation (sun/the Sun=მზე, moon/the Moon=
+>    მთვარე, star/a star=ვარსკვლავი). Reproduced: ~121/50k rounds had a dup. FIX: dedup the match pool by BOTH en and
+>    ka → always 5 distinct pairs. Verified live: 0 dup in 30k rounds. (Owner said „bear"; bear is unique so it can't
+>    literally double — he most likely hit one of the above; the dedup covers the whole class.)
+> 3) **Talk card reword + voicing.** „ჯადოსნური კარი რომ გქონდეს, სად გაგეხსნებოდა?" → „...სად გახვიდოდი?" in talk.js,
+>    repointed AUDIO_MANIFEST key, and REGENERATED tlk_007.mp3 (edge-tts ka-GE-EkaNeural, same as the others). Verified
+>    live: new key → tlk_007.mp3, clip serves 200. Owner = ear-gate on the new clip (agent can't hear).
+> 4) **Parked (PRODUCT_IDEAS.md):** owner loves „საუბარი და ფიქრი", wants to EXPAND it when resource frees (queued
+>    content work: more ka/en cards + edge-tts clips; not a strategy fork).
+> Tooling note: playwright-mcp Chrome profile keeps orphaning („Browser is already in use") — fix = kill chrome procs
+> whose CommandLine matches ms-playwright-mcp, then re-navigate. edge-tts 7.2.8 works locally for ka clips.
 > **SESSION 2026-06-15 PM (autonomous, owner mid-meeting):**
 > A) **QA + Security cloud routines UN-BLOCKED.** Root cause was per-LAYER, not the shared env: QA fetched via curl(Bash)
 >    → bash network egress allowlist blocked gshoina.github.io; Security used WebFetch → live site 403s the fetch bot.
