@@ -1,8 +1,31 @@
 # NikoLearn — Session Handoff
 
 > ## ▶ RESUME NOW (2026-06-15)
-> **LIVE = v1.178** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
+> **LIVE = v1.179** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
 > commits trail app commits by one. Invariant that matters: clean tree + HEAD == origin/main.)
+> **⛔ BEHAVIOR LOCK (owner corrected AGAIN 2026-06-15, „never ever ask"):** when you KNOW what to do and it's reversible
+> dev (~10 min), DO NOT ask „გავაკეთო?" / present „tell me to do it" — just DO it, verify, deploy, report. Asking on
+> confident reversible work = the exact anti-pattern the owner has flagged MANY times (GELA'S RULE / §6b). Pause ONLY for:
+> money/spend · irreversible deletion · genuine strategy fork. Everything else = execute.
+> **SESSION 2026-06-15 (4) — both prior open-decisions RESOLVED + shipped LIVE v1.179 (commit 6eaf204):**
+> A) **Math difficulty fixed (was: 7+ too hard → low accuracy + abandonment).** games.js: (1) mathLvl() age baseline
+>    (7→1-40, 8+→1-70) is now only the STARTING seed, NOT a hard floor — a struggling kid can drop BELOW it so the
+>    adaptive ramp actually helps (was pinned). (2) genMath() 3-operand „a + b − c" gated to level≥2 and cut 40%→15%.
+>    Live-verified: 8yo seeds lvl2, drops to 0 when struggling; multi 0% at lvl1, ~16% at lvl2. (Reminder: the „73%
+>    მიტოვება" number is aggregated cloud telemetry, thin at soft-launch = treat as hypothesis; fix is right regardless.)
+> B) **Parent feedback = REAL delivery + confirmation + owner-readable (replaces mailto-only).** Owner: a parent who
+>    writes wants delivery confirmation, and he must be able to SEE messages; A/B both bad. Built a SEPARATE consented
+>    channel on the existing CF worker (nikolearn-t.bivision.workers.dev, DEPLOYED via wrangler+CF_NIKO_API_TOKEN):
+>    `POST /v1/feedback` stores the parent's msg+optional contact as a discrete `fb|` KV row; `GET /v1/feedback?k=STATS_KEY`
+>    = owner-gated read (fb| rows excluded from /v1/stats). App (parent.js): form POSTs → in-app „✓ მიღებულია, მალე
+>    გიპასუხებთ" confirmation modal; mailto kept as offline fallback; consent copy made honest. **OWNER READS THEM via**
+>    `cloudflare/feedback-viewer.html` (open locally, paste STATS_KEY — same key as the stats reader; key NEVER in the
+>    public app). Verified end-to-end LIVE: POST from gshoina origin → 200 {ok:true}; GET no-key → 403; telemetry 204;
+>    stats 403. 2 test rows deleted from KV (clean slate). ⚠️ child LEARNING data is NOT sent — only the parent's
+>    voluntary message; privacy promise (child data on-device) intact. Spam note: write path is rate-limited (RL 50/10s)
+>    + length-capped; if abuse appears later, add a honeypot.
+>    (Earlier „2 უკუკავშირი" = those were emails to NikoLearn@outlook.com from the OLD mailto flow — still only in that
+>    Outlook inbox; the new flow makes future ones readable via the viewer.)
 > **SESSION 2026-06-15 (3) — owner iPhone bug report + 2 fixes, all SHIPPED+LIVE v1.178 (commit 7b720c8):**
 > 1) **iOS tap-freeze (root cause = double-tap-zoom).** Owner: on iPhone, „მოისმინე" froze after a few taps (no tap
 >    response, no speech), the voice toggle flipped off by itself, and the screen resized; reload recovered. All four
@@ -23,7 +46,7 @@
 >    content work: more ka/en cards + edge-tts clips; not a strategy fork).
 > Tooling note: playwright-mcp Chrome profile keeps orphaning („Browser is already in use") — fix = kill chrome procs
 > whose CommandLine matches ms-playwright-mcp, then re-navigate. edge-tts 7.2.8 works locally for ka clips.
-> **2 OPEN OWNER-DECISIONS surfaced 2026-06-15 (investigated, NOT yet changed — both need owner input):**
+> **2 decisions surfaced 2026-06-15 — ✅ BOTH NOW RESOLVED + SHIPPED v1.179 (see „SESSION 2026-06-15 (4)" above). Kept below for the investigation detail:**
 > A) **Math „0% სიზუსტე · 73% მიტოვება + რეკომენდაცია" — provenance + fix options.** That exact wording is NOT the
 >    app's local parent dashboard (parent.js recommendation is only „დაბალი დონიდან, ბუს მინიშნებებით"; adminView shows
 >    only GA4 user/signup tiles). It is an AGGREGATED CLOUD TELEMETRY report (abandonment = the Cloudflare worker's
