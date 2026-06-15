@@ -33,5 +33,5 @@ is the same mechanism that keeps premium content out of a cloner's reach. See
 `PRODUCT_IDEAS.md` roadmap (backend = auth + payment + entitlement + content-behind-auth).
 
 ## Reporting
-Security routine emails findings to gela.shonia@bivision.ge (no public log).
+Security routine emails findings to NikoLearn@outlook.com (no public log).
 Never add destructive / anti-tamper / data-wiping code.

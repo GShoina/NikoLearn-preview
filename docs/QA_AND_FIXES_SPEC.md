@@ -49,5 +49,5 @@ Output = a dated report (console + saved file) listing each issue by dimension.
 - Plus landing fixes (v1.58): progressive-enhancement reveal + OG/favicon share preview.
 - **Night QA routine LIVE:** "NikoLearn QA Tester" `trig_017M47saqRQL4f1373rQ3WNi`, cron `0 22 * * 0`
   (Sun 22:00 UTC = Mon 02:00 Tbilisi) — runs FIRST, before PO (05:00 UTC) + Security (06:00 UTC);
-  fetches live files (no GitHub login), runs the 4 dimensions, emails gela.shonia@bivision.ge. Sourceless + Gmail.
+  fetches live files (no GitHub login), runs the 4 dimensions, emails NikoLearn@outlook.com. Sourceless + Gmail.
 </content>
