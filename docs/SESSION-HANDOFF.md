@@ -1,8 +1,61 @@
 # NikoLearn — Session Handoff
 
-> ## ▶ RESUME NOW (2026-06-14)
-> **LIVE = v1.175** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
+> ## ▶ RESUME NOW (2026-06-15)
+> **LIVE = v1.176** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
 > commits trail app commits by one. Invariant that matters: clean tree + HEAD == origin/main.)
+> **SESSION 2026-06-15 (owner in a meeting, „ჩუმად გატესტე" = test quietly, autonomous):**
+> 1. **LAUNCH STRATEGY consolidated (NEW, headline).** Owner asked to SEE the launch strategy + all docs; a single
+>    consolidated launch/GTM doc did NOT exist before (only scattered Lane B work). Built it:
+>    `output/2026-06-15-NikoLearn გაშვების სტრატეგია (Launch) by Niko.html` (gitignored, owner-local). Contains: current
+>    state · philosophy (validate-then-spend) · one mission/two GTM lines (GE free funnel + diaspora paid spearhead) ·
+>    3-phase plan with gates · success metrics · risks · **3 owner decisions** (share link now? · MFA grant „ჩემი ქართული
+>    სკოლა" deadline 2026-06-28? · talk to diaspora coordinators) · full index of all strategy docs with links.
+> 2. **v1.176 SHIPPED + LIVE: vocabulary +50 words (113→163).** Expanded thin WORD categories (animals/food/nature/
+>    school/clothing/transport/body/sport/weather/family) with common kid words. SAFE pattern: ka=text+emoji, en voiced
+>    at runtime (NO new audio clips needed — word games speak the ENGLISH word; ka-gate stays silent w/o clip, never
+>    garbles), NO new categories (no EN-leak). Validated (parse OK, 0 dup-en, 163 words) + live-verified (match round
+>    renders new words, 0 console errors, 0 404s, screenshot). Commit 5c53782.
+> 3. **EMAIL SWAP gela.shonia@bivision.ge → NikoLearn@outlook.com = ✅ DONE (owner confirmed „გადაამისამართე ყველაფერი").**
+>    customer-facing was ALREADY done (v1.148, app has none). Updated docs SECURITY_RULES.md + QA_AND_FIXES_SPEC.md. Re-
+>    pointed all 3 LIVE cloud routines via RemoteTrigger (Gmail connector + cron + enabled preserved): QA Tester
+>    `trig_017M47saqRQL4f1373rQ3WNi` (cron `0 22 * * 0`) + Product Owner `trig_01KVLGypy2x1p1obPKAot87Z` (Mon 05:00 UTC) +
+>    Security & IP `trig_01SZadhYoKYFeSSnqVw5Xnct` (Mon 06:00 UTC) — all now email NikoLearn@outlook.com. LEFT AS-IS
+>    (intentional, NOT NikoLearn-scope): Code.gs `shonia.g@gmail.com` = GA4 owner account; Bivision/GelLa routines that
+>    correctly use the bivision address (different silo); the dead disabled NikoLearn Code-Audit routine
+>    `trig_018UFLvfsbBVNL2D7RGu8rCa` (auto_disabled_repo_access, won't fire).
+> 4. **REPORTS = DRAFTS, NOT SENT (root cause found).** The claude.ai Gmail connector is DRAFT-ONLY by design (AI never
+>    auto-sends) — that is why the 7-8 weekly NikoLearn reports pile up as unsent drafts in the gela.shonia Google account
+>    and never reach Outlook. NOT a bug. Built **NikoLearn Watch** triage routine `trig_014Jre3Nh6Lg8NB5hs48qS1t` (Mon
+>    08:00 UTC, after all reports): reads the week's NikoLearn report drafts via Gmail MCP, filters boilerplate + the known
+>    HTTP-403 bot-block noise, and writes ONE consolidated digest draft to NikoLearn@outlook.com with a verdict line on top
+>    (✓ all clear / ⚡ N items). Fulfills the owner's "periodically analyze, tell me only if noteworthy" ask.
+>    ⚠️ **OPEN owner decision — actual delivery to the Outlook INBOX:** Gmail MCP cannot send, so even the digest is a
+>    DRAFT. Real inbox delivery needs a send channel. Options put to owner: (A, $0) read the single triaged digest draft;
+>    (B) owner creates a free Resend/Brevo API key → Niko wires a curl-send into the Watch routine STEP 3 so the digest
+>    actually lands in NikoLearn@outlook.com. Awaiting owner pick.
+> 5. **REFRAMED to BUSINESS VALUE (owner applied Gela's Rule 2026-06-15): "this is a TASK not a tech decision."** Owner:
+>    the reports are TOO TECHNICAL, he doesn't read them; he wants the BUSINESS value (esp. the competitor scan) in plain
+>    Georgian HTML, readable on his phone. Reframed the Watch routine into **"NikoLearn Weekly Business Brief"**
+>    `trig_014Jre3Nh6Lg8NB5hs48qS1t` (Mon 08:00 UTC): reads the 3 raw report drafts, EXTRACTS business signal SEPARATED BY
+>    AUDIENCE → ONE plain-Georgian HTML brief: verdict badge · 🎯 შესაძლებლობები (opportunities/competitor) · 🛡️ ბრენდის
+>    დაცვა (clone watch + trust) · 💚 აპის ჯანმრთელობა (1 line) · 🔧 technical (collapsed, for Niko only). Delivers via
+>    Google Drive (HTML file, phone-readable link) + a Gmail draft to NikoLearn@outlook.com as the guaranteed copy.
+>    **Infra note:** cloud GitHub repo-publish is BLOCKED (`github_repo_access_denied` — the 06-14 GitHub PAT regen broke
+>    cloud git access; same cause as the dead Code-Audit routine). So the nicer repo-published web page is deferred until
+>    the owner re-authorizes GitHub for cloud at claude.ai/code settings; the Drive+Gmail path needs no GitHub and works
+>    now. ✅ TEST-RUN VERIFIED 2026-06-15 ~09:24 UTC: created Drive HTML file (folder 'NikoLearn',
+>    https://drive.google.com/file/d/1DlOZ6Z3HVJm1aZdBN7tfufupWOPliMFD/view) + Gmail draft to NikoLearn@outlook.com.
+>    Decoded + content-checked: proper plain-Georgian brief (5 opportunities, clone=none, health, technical collapsed).
+>    Mechanism WORKS end-to-end. GitHub re-auth = OWNER-ONLY (interactive browser OAuth, bot-blocked) AND now MOOT
+>    (Drive path works) — recommend dropping the repo-web-page idea unless owner wants it.
+>    ⚠️ **OPEN TECH (Niko, not owner): the QA + Security routines are themselves BLOCKED** — QA hits 'Host not in
+>    allowlist: gshoina.github.io' (egress), Security hits HTTP 403 (CDN bot-block). So their weekly reports are mostly
+>    'could not run'. The PO/competitor scan + clone-watch DO work (web-based). Fix options for Niko next session: add
+>    gshoina.github.io to the QA routine's network egress allowlist; for Security, accept the 403 (live site blocks bots
+>    by design) and lean on the source-aware checks. The Business Brief already filters this noise out for the owner.
+> 6. **INTEL (Gurafa 2026-06-15, saved to PRODUCT_IDEAS.md):** Crawl4AI installed = $0 local scraper for learning
+>    content; 'curation-as-authority' idea (branded parent resource lists = trust moat); skills enable-on-demand from
+>    official marketplace (standing rule).
 > **v1.175 Talk & Think nav fix (owner bug 2026-06-14):** the per-card dot row overflowed once the deck hit 27 cards and
 > pushed the „next" button off-screen on phones → replaced with a scalable progress bar + `.talk-nav` space-between; both
 > buttons now labelled „← წინა/Back" · „შემდეგი/Next →", pill-styled, always in view. Live-verified at 390px.

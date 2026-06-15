@@ -1,6 +1,15 @@
 # NikoLearn — Product Ideas Backlog (living)
 
 **Owner:** Gela Shonia · **Maintained by:** weekly "Product Owner" routine + ad-hoc.
+
+## 📥 INTEL DROP (Gurafa → NikoLearn, 2026-06-15)
+- **Crawl4AI installed on the machine = $0 local scraper.** Use it to gather/refresh LEARNING CONTENT (e.g. word
+  lists, phrases, reading material, competitor content). No API cost. Tool, not a feature.
+- **Idea: curation-as-authority.** Curated, branded RESOURCE LISTS for parents (what to read / watch / do, vetted by
+  NikoLearn) = trust + authority signal. Cheap to make, builds the parent-trust moat (ties to the "parent is the
+  buyer" thesis + Amonashvili parent-ring gap). Score later; candidate for the free/trust layer.
+- **Skills/plugins discipline (standing):** many installed, enable FEW on demand, only from the official marketplace.
+  Already a standing rule (see SESSION-HANDOFF); restated here for the product lens.
 **Last updated:** 2026-06-06 (strategic grilldown: mission/KVP exploration + GeoStat TAM facts added)
 
 This is the single source of truth for product ideas. Every idea is logged, scored,
