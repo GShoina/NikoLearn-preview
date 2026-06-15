@@ -365,7 +365,13 @@ function answerPhrase(btn,sel,cor){
 
 /* ── match ── two columns: Georgian ↔ English, tap one then its pair ── */
 function matchRound(){
-  const pool=shuffle(wordPool()).slice(0,5);game.pairs=pool;game.done=0;game.sel=null;
+  // dedup by BOTH en and ka so a round never shows the same word twice (owner 2026-06-15: a word appeared
+  // in the Georgian and the English column at once). Cause: wordPool() pushes every category, so teacher
+  // (school+professions) lands twice, and a few words share a Georgian translation (sun/the Sun=მზე,
+  // moon/the Moon=მთვარე, star/a star=ვარსკვლავი). Pick 5 with distinct en AND distinct ka.
+  const seenE=new Set(),seenK=new Set(),pool=[];
+  for(const w of shuffle(wordPool())){ if(seenE.has(w.en)||seenK.has(w.ka))continue; seenE.add(w.en);seenK.add(w.ka);pool.push(w); if(pool.length===5)break; }
+  game.pairs=pool;game.done=0;game.sel=null;
   const ka=shuffle(pool.map(w=>({t:w.ka,l:'ka',w:w.en})));
   const en=shuffle(pool.map(w=>({t:w.en,l:'en',w:w.en})));
   const col=arr=>arr.map(c=>`<div class="mtile ${c.l==='en'?'en':''}" data-w="${c.w}" data-l="${c.l}" onclick="matchTap(this)">${c.t}</div>`).join('');

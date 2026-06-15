@@ -4,6 +4,13 @@
    Three aesthetic directions via [data-theme]
    ═══════════════════════════════════════════════════════════ */
 
+/* iOS fix (owner 2026-06-15 iPhone bug): kill double-tap-to-zoom. In fast games rapid taps were read
+   as double-taps, which zoomed the page (screen "resized"), swallowed the next taps (felt frozen, words
+   didn't speak) and mis-tapped the voice toggle; a reload reset the zoom and it "recovered". manipulation
+   keeps pinch-zoom (accessibility) and panning, only the legacy double-tap gesture is disabled. The
+   drawing canvas keeps its own more-specific touch-action:none. */
+*{touch-action:manipulation}
+
 /* ---- THEME A: Sunlit (warm cream storybook) — default ---- */
 :root,
 [data-theme="sunlit"]{

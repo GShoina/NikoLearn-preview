@@ -198,7 +198,10 @@ function speakOne(t,lang,opts){
   const v=pickVoice(u.lang);if(v)u.voice=v;
   speechSynthesis.speak(u);
 }
-function speak(t,lang,opts){if(!('speechSynthesis'in window))return;speechSynthesis.cancel();speakOne(t,lang,opts);}
+// iOS Safari sometimes leaves speechSynthesis stuck in a paused state after many utterances, so new
+// speak() calls go silent until reload (owner 2026-06-15: "didn't say the words"). resume() unsticks it
+// and is a harmless no-op when not paused.
+function speak(t,lang,opts){if(!('speechSynthesis'in window))return;speechSynthesis.cancel();try{speechSynthesis.resume();}catch(e){}speakOne(t,lang,opts);}
 // queue several utterances back-to-back, e.g. Georgian then English
 function speakSeq(parts){if(!('speechSynthesis'in window))return;speechSynthesis.cancel();parts.forEach(p=>speakOne(p.t,p.lang,p.rate!=null?{rate:p.rate}:null));}
 // say an English word, but for a child who only speaks Georgian, give the meaning first
