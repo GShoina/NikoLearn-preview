@@ -396,9 +396,14 @@ window.I18N_MAP = {
   "შენი აზრი…":"Your feedback…",
   "📨 გაგზავნა":"📨 Send",
   "დახურვა":"Close",
-  "გაგზავნისას იხსნება შენი ფოსტის აპი. ინფორმაციას შენ თვითონ აგზავნი, აპი არაფერს ინახავს.":"Sending opens your email app. You send the information yourself, the app stores nothing.",
+  "შეტყობინება იგზავნება NikoLearn-თან, რომ დაგიკავშირდეთ. ბავშვის სწავლის მონაცემები მაინც მხოლოდ მოწყობილობაზე რჩება.":"Your message is sent to NikoLearn so we can reply. Your child's learning data still stays only on this device.",
   "დაწერე აზრი ან დატოვე საკონტაქტო":"Write feedback or leave contact details",
+  "იგზავნება…":"Sending…",
   "✓ მადლობა! იხსნება ფოსტის აპი":"✓ Thank you! Opening your email app",
+  "✓ მადლობა! იხსნება ფოსტის აპი სარეზერვოდ":"✓ Thank you! Opening your email app as a backup",
+  "მიღებულია, მადლობა!":"Received, thank you!",
+  "შენი შეტყობინება ჩაგვივიდა. თუ საკონტაქტო დატოვე, მალე გიპასუხებთ.":"We got your message. If you left contact details, we'll reply soon.",
+  "კარგი":"OK",
 
   /* ── parent goal modal (parent.js, D1) ── */
   "აირჩიე, რას მივადევნოთ თვალი.":"Choose what to track.",

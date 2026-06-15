@@ -488,14 +488,15 @@ function nextPic(){
 function mathLvl(type){
   const s=state[profile]; if(!s.mathLevel)s.mathLevel={};
   const max=(MATH_LV[type]||[{}]).length-1;
-  let lvl=Math.max(0,Math.min(s.mathLevel[type]||0,max));
-  // age-appropriate baseline for the BASIC ops (owner 2026-06-13): a 7-8 yo shouldn't start at 1-20
-  // add/sub. 7 yo → at least 1-40, 8+ → at least 1-70. (mul/div have no floor — newer skills.)
-  if(type==='math-add'||type==='math-sub'){
-    const a=(kidObj(profile)||{}).age||0, floor=a>=8?2:(a>=7?1:0);
-    lvl=Math.max(lvl,Math.min(floor,max));
+  let lvl=s.mathLevel[type];
+  // age baseline (owner 2026-06-13): a 7-8 yo shouldn't START add/sub at 1-20 (7→1-40, 8+→1-70). But this is
+  // only the STARTING seed — once the child has a real level we respect it, INCLUDING below the seed when they
+  // genuinely struggle, so the adaptive ramp can actually make it easier (owner 2026-06-15: a struggling 7yo
+  // was stuck at 1-40 because the floor kept pulling the level back up). mul/div have no seed (newer skills).
+  if(lvl==null && (type==='math-add'||type==='math-sub')){
+    const a=(kidObj(profile)||{}).age||0; lvl=Math.min(a>=8?2:(a>=7?1:0),max);
   }
-  return lvl;
+  return Math.max(0,Math.min(lvl||0,max));
 }
 function mathRangeLabel(type){const lv=MATH_LV[type];return lv?(lv[mathLvl(type)].label||''):'';}
 function rampMath(type,pct){
@@ -520,7 +521,7 @@ function genMath(type){
   const cfg=(MATH_LV[type]||[])[mathLvl(type)]||{};
   // 7+ step-up (from the owner's worksheets): occasional 3-term expression e.g. "9 + 9 − 8" / "15 − 5 − 3"
   // at the higher levels. op:'multi' so the tutor teaches step-by-step (left to right), never mislabels it.
-  if((type==='math-add'||type==='math-sub') && !young && typeof isBig==='function' && isBig(profile) && mathLvl(type)>=1 && Math.random()<0.4){
+  if((type==='math-add'||type==='math-sub') && !young && typeof isBig==='function' && isBig(profile) && mathLvl(type)>=2 && Math.random()<0.15){
     const mx=cfg.max||40;
     if(type==='math-add'){ const a=ri(2,Math.floor(mx*0.5)),b=ri(2,Math.floor(mx*0.5)),c=ri(1,a+b-1); return{q:`${a} + ${b} − ${c}`,a:a+b-c,op:'multi'}; }
     const a=ri(8,mx),b=ri(1,a-2),c=ri(1,a-b); return{q:`${a} − ${b} − ${c}`,a:a-b-c,op:'multi'};

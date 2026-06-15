@@ -81,22 +81,45 @@ function feedbackForm(){
     <textarea class="login-in" id="fb-msg" placeholder="შენი აზრი…" style="min-height:88px;resize:vertical;text-align:left"></textarea>
     <button class="btn btn-primary btn-block mt" onclick="sendFeedback()">📨 გაგზავნა</button>
     <button class="btn btn-ghost btn-block mt" onclick="document.getElementById('fbform').remove()">დახურვა</button>
-    <p class="consent-note" style="font-size:.72rem">გაგზავნისას იხსნება შენი ფოსტის აპი. ინფორმაციას შენ თვითონ აგზავნი, აპი არაფერს ინახავს.</p>
+    <p class="consent-note" style="font-size:.72rem">შეტყობინება იგზავნება NikoLearn-თან, რომ დაგიკავშირდეთ. ბავშვის სწავლის მონაცემები მაინც მხოლოდ მოწყობილობაზე რჩება.</p>
   </div>`;
   el.onclick=e=>{if(e.target===el)el.remove();};
   if(window.applyLang)applyLang(el);
   $('.device').appendChild(el);
   const n=$('#fb-name');if(n)n.focus();
 }
+// D3 (v1.179): real DELIVERY — POST the message to NikoLearn so the parent gets a true „✓ received"
+// confirmation and the owner can actually read it (was mailto-only: no confirmation, never visible).
+// Child learning data is NOT sent; only the parent's own voluntary message + optional contact.
+const NIKO_FB_ENDPOINT='https://nikolearn-t.bivision.workers.dev/v1/feedback';
 function sendFeedback(){
   const g=id=>(($('#'+id)||{}).value||'').trim();
   const name=g('fb-name'),phone=g('fb-phone'),email=g('fb-email'),msg=g('fb-msg');
   if(!msg&&!phone&&!email){toast('დაწერე აზრი ან დატოვე საკონტაქტო');return;}
-  const body=`NikoLearn გამოხმაურება\n\nსახელი: ${name||'-'}\nტელეფონი: ${phone||'-'}\nელფოსტა: ${email||'-'}\n\nაზრი:\n${msg||'-'}`;
-  const href='mailto:NikoLearn@outlook.com?subject='+encodeURIComponent('NikoLearn გამოხმაურება')+'&body='+encodeURIComponent(body);
-  const f=$('#fbform');if(f)f.remove();
-  try{ location.href=href; }catch(e){}
-  toast('✓ მადლობა! იხსნება ფოსტის აპი');
+  // offline / worker-down → fall back to the parent's own mail app so nothing is lost.
+  const mailFallback=()=>{
+    const body=`NikoLearn გამოხმაურება\n\nსახელი: ${name||'-'}\nტელეფონი: ${phone||'-'}\nელფოსტა: ${email||'-'}\n\nაზრი:\n${msg||'-'}`;
+    try{ location.href='mailto:NikoLearn@outlook.com?subject='+encodeURIComponent('NikoLearn გამოხმაურება')+'&body='+encodeURIComponent(body); }catch(e){}
+  };
+  const btn=$('#fbform .btn-primary'); if(btn){btn.disabled=true;btn.textContent='იგზავნება…';}
+  let done=false; const fail=()=>{ if(done)return; done=true; const f=$('#fbform');if(f)f.remove(); mailFallback(); toast('✓ მადლობა! იხსნება ფოსტის აპი სარეზერვოდ'); };
+  const t=setTimeout(fail,6000); // network stall → don't leave the parent hanging
+  fetch(NIKO_FB_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,phone,email,msg}),credentials:'omit'})
+    .then(r=>{ if(!r.ok)throw 0; clearTimeout(t); if(done)return; done=true; try{if(window.Analytics)Analytics.event('feedback_send');}catch(e){} const f=$('#fbform');if(f)f.remove(); fbConfirm(); })
+    .catch(()=>{ clearTimeout(t); fail(); });
+}
+// the real delivery confirmation a parent expects (owner ask 2026-06-15).
+function fbConfirm(){
+  const el=document.createElement('div');el.className='gate';el.id='fbok';
+  el.innerHTML=`<div class="gate-card" style="max-width:340px;text-align:center">
+    <div style="font-size:2.6rem;line-height:1">✓</div>
+    <h3>მიღებულია, მადლობა!</h3>
+    <p style="font-size:.9rem;color:var(--muted)">შენი შეტყობინება ჩაგვივიდა. თუ საკონტაქტო დატოვე, მალე გიპასუხებთ.</p>
+    <button class="btn btn-primary btn-block mt" onclick="document.getElementById('fbok').remove()">კარგი</button>
+  </div>`;
+  el.onclick=e=>{if(e.target===el)el.remove();};
+  if(window.applyLang)applyLang(el);
+  $('.device').appendChild(el);
 }
 
 /* ── D1 (v2.03): parent goal-setting + tracking ── */

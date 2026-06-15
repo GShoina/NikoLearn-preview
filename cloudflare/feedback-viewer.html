@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ka">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NikoLearn — მშობლის უკუკავშირი (owner only)</title>
+<style>
+  :root{--amber:#FFB74D;--ink:#2b2b2b;--muted:#777;--line:#e7dcc8}
+  *{box-sizing:border-box;font-family:system-ui,"Noto Sans Georgian",sans-serif}
+  body{margin:0;background:#faf7f0;color:var(--ink);padding:18px;max-width:760px;margin:0 auto}
+  h1{font-size:1.2rem;display:flex;align-items:center;gap:8px}
+  .bar{display:flex;gap:8px;margin:14px 0}
+  input{flex:1;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font-size:.95rem}
+  button{padding:10px 16px;border:0;border-radius:10px;background:var(--amber);font-weight:700;cursor:pointer}
+  .meta{font-size:.8rem;color:var(--muted);margin-bottom:10px}
+  .row{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:10px}
+  .row .ts{font-size:.74rem;color:var(--muted)}
+  .row .who{font-weight:700;margin:4px 0}
+  .row .msg{white-space:pre-wrap;margin-top:6px}
+  .row .contact{font-size:.84rem;color:#3b6;margin-top:6px}
+  .empty{color:var(--muted);padding:20px;text-align:center}
+  .test{opacity:.55}
+</style>
+</head>
+<body>
+  <h1>🦉 მშობლის უკუკავშირი</h1>
+  <div class="meta">მხოლოდ მფლობელისთვის. გასაღები (STATS_KEY) მხოლოდ აქ, ამ ლოკალურ ფაილში ინახება — აპში არასდროს.</div>
+  <div class="bar">
+    <input id="key" type="password" placeholder="STATS_KEY">
+    <button onclick="load()">ჩვენება</button>
+  </div>
+  <div id="out" class="empty">შეიყვანე გასაღები და დააჭირე „ჩვენება".</div>
+<script>
+  const ENDPOINT='https://nikolearn-t.bivision.workers.dev/v1/feedback';
+  const keyEl=document.getElementById('key'), out=document.getElementById('out');
+  try{ const k=localStorage.getItem('niko_fb_key'); if(k)keyEl.value=k; }catch(e){}
+  function esc(s){return String(s||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+  async function load(){
+    const k=keyEl.value.trim(); if(!k){out.innerHTML='<div class="empty">გასაღები შეიყვანე.</div>';return;}
+    try{ localStorage.setItem('niko_fb_key',k); }catch(e){}
+    out.innerHTML='<div class="empty">იტვირთება…</div>';
+    try{
+      const r=await fetch(ENDPOINT+'?k='+encodeURIComponent(k),{cache:'no-store'});
+      if(r.status===403){ out.innerHTML='<div class="empty">გასაღები არასწორია (403).</div>'; return; }
+      if(!r.ok){ out.innerHTML='<div class="empty">ვერ ჩაიტვირთა ('+r.status+').</div>'; return; }
+      const rows=await r.json();
+      if(!rows.length){ out.innerHTML='<div class="empty">ჯერ უკუკავშირი არ არის.</div>'; return; }
+      out.innerHTML='<div class="meta">სულ '+rows.length+' შეტყობინება (ახლები ზემოთ).</div>'+rows.map(r=>{
+        const isTest=/__TEST__/.test(r.name||'');
+        const contact=[r.phone&&('📞 '+esc(r.phone)), r.email&&('✉️ '+esc(r.email))].filter(Boolean).join(' · ');
+        return '<div class="row'+(isTest?' test':'')+'">'
+          +'<div class="ts">'+esc(r.ts)+(r.os?(' · '+esc(r.os)):'')+'</div>'
+          +'<div class="who">'+(esc(r.name)||'(უსახელო)')+'</div>'
+          +(r.msg?'<div class="msg">'+esc(r.msg)+'</div>':'')
+          +(contact?'<div class="contact">'+contact+'</div>':'')
+          +'</div>';
+      }).join('');
+    }catch(e){ out.innerHTML='<div class="empty">შეცდომა: '+esc(e.message)+'</div>'; }
+  }
+  keyEl.addEventListener('keydown',e=>{if(e.key==='Enter')load();});
+</script>
+</body>
+</html>

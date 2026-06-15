@@ -1,6 +1,11 @@
 /**
  * NikoLearn — privacy-minimized telemetry, aggregated before storage (Cloudflare Worker, free tier).
  * Routes: POST /v1/t (collect) · GET /v1/stats?k=SECRET (owner-only read, returns aggregate JSON).
+ *   · POST /v1/feedback (a parent VOLUNTARILY sends a contact message — SEPARATE consented channel,
+ *     stores the parent's own words + optional contact so we can reply) · GET /v1/feedback?k=SECRET
+ *     (owner-only read of those messages). This channel is NOT telemetry: the PII-free aggregate
+ *     guarantees below apply to /v1/t only. Child LEARNING data is never sent here; the parent opts
+ *     in by writing and submitting the form. fb| rows are excluded from the /v1/stats aggregate read.
  * Binding: KV namespace "NIKO_T" (aggregate counters only). Secret: env.STATS_KEY (set at deploy).
  *
  * IP FRAMING (truthful — GPT review pt.2): Cloudflare transiently processes network metadata as
@@ -120,10 +125,26 @@ export default {
       let cursor;
       do {
         const list = await env.NIKO_T.list({ cursor });
-        for (const k of list.keys) out[k.name] = await env.NIKO_T.get(k.name);
+        for (const k of list.keys) if (!k.name.startsWith('fb|')) out[k.name] = await env.NIKO_T.get(k.name); // fb| = feedback rows, not telemetry
         cursor = list.list_complete ? null : list.cursor;
       } while (cursor);
       return new Response(JSON.stringify(out, null, 2), { status: 200, headers: sh });
+    }
+
+    // ── READ side: GET /v1/feedback?k=SECRET → the parent feedback messages (owner-only, same gate).
+    if (request.method === 'GET' && url.pathname === '/v1/feedback') {
+      const sh = { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'Access-Control-Allow-Origin': '*' };
+      if (!env.STATS_KEY || url.searchParams.get('k') !== env.STATS_KEY) {
+        return new Response('forbidden', { status: 403, headers: { 'Access-Control-Allow-Origin': '*' } });
+      }
+      const rows = []; let cursor;
+      do {
+        const list = await env.NIKO_T.list({ prefix: 'fb|', cursor });
+        for (const k of list.keys) { try { rows.push(JSON.parse(await env.NIKO_T.get(k.name))); } catch (e) {} }
+        cursor = list.list_complete ? null : list.cursor;
+      } while (cursor);
+      rows.sort((a, b) => (b.ts || '').localeCompare(a.ts || '')); // newest first
+      return new Response(JSON.stringify(rows, null, 2), { status: 200, headers: sh });
     }
 
     if (request.method !== 'POST') return new Response('method', { status: 405, headers: cors(origin) });
@@ -132,6 +153,20 @@ export default {
     // IP-FREE BY DESIGN: we do NOT read CF-Connecting-IP (see the privacy guarantee above), so the limit is
     // GLOBAL (a constant key). Dropping a few anonymous telemetry beacons during a flood is harmless.
     if (env.RL) { const { success } = await env.RL.limit({ key: 'g' }); if (!success) return new Response(null, { status: 429, headers: cors(origin) }); }
+
+    // ── FEEDBACK (consented contact channel) — store the parent's message + optional contact as a
+    // discrete row so the owner can read and reply. Length-capped; strings only; rate-limited above.
+    if (url.pathname === '/v1/feedback') {
+      let fb; try { fb = await request.json(); } catch { return new Response('bad json', { status: 400, headers: cors(origin) }); }
+      const str = (v, max) => (typeof v === 'string' ? v.slice(0, max).trim() : '');
+      const msg = str(fb.msg, 2000), name = str(fb.name, 120), phone = str(fb.phone, 60), email = str(fb.email, 160);
+      if (!msg && !phone && !email) return new Response(JSON.stringify({ ok: false, error: 'empty' }), { status: 400, headers: { ...cors(origin), 'Content-Type': 'application/json' } });
+      const row = { ts: new Date().toISOString(), name, phone, email, msg, os: coarseUA(request.headers.get('User-Agent')).os };
+      try {
+        await env.NIKO_T.put(`fb|${row.ts}|${crypto.randomUUID().slice(0, 8)}`, JSON.stringify(row));
+      } catch (e) { return new Response(JSON.stringify({ ok: false, error: 'store' }), { status: 500, headers: { ...cors(origin), 'Content-Type': 'application/json' } }); }
+      return new Response(JSON.stringify({ ok: true }), { status: 200, headers: { ...cors(origin), 'Content-Type': 'application/json' } });
+    }
 
     let body;
     try { body = await request.json(); } catch { return new Response('bad json', { status: 400, headers: cors(origin) }); }
