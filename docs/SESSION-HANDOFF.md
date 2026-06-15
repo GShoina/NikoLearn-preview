@@ -26,6 +26,10 @@
 >    + length-capped; if abuse appears later, add a honeypot.
 >    (Earlier „2 უკუკავშირი" = those were emails to NikoLearn@outlook.com from the OLD mailto flow — still only in that
 >    Outlook inbox; the new flow makes future ones readable via the viewer.)
+>    **STATS_KEY = SET 2026-06-15** (owner never had one → both readers were 403). Generated a strong key, `wrangler
+>    secret put STATS_KEY` on nikolearn-t, value stored in creds as `NIKO_STATS_KEY` (NOT in any repo file). Verified:
+>    GET /v1/feedback?k=KEY → 200 [] · /v1/stats?k=KEY → 200 · wrong key → 403. Owner pastes it into feedback-viewer.html
+>    (it remembers it in localStorage). To rotate: `wrangler secret put STATS_KEY` + update creds.
 > **SESSION 2026-06-15 (3) — owner iPhone bug report + 2 fixes, all SHIPPED+LIVE v1.178 (commit 7b720c8):**
 > 1) **iOS tap-freeze (root cause = double-tap-zoom).** Owner: on iPhone, „მოისმინე" froze after a few taps (no tap
 >    response, no speech), the voice toggle flipped off by itself, and the screen resized; reload recovered. All four
