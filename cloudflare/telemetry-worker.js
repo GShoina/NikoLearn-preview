@@ -117,7 +117,7 @@ export default {
     if (request.method === 'GET' && url.pathname === '/v1/stats') {
       // ACAO:* so the owner's LOCAL stats viewer (file:// or any origin) can read the JSON.
       // Safe: the STATS_KEY query param is the gate, not the origin; the data is non-PII aggregate.
-      const sh = { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'Access-Control-Allow-Origin': '*' };
+      const sh = { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'Access-Control-Allow-Origin': '*' };
       if (!env.STATS_KEY || url.searchParams.get('k') !== env.STATS_KEY) {
         return new Response('forbidden', { status: 403, headers: { 'Access-Control-Allow-Origin': '*' } });
       }
@@ -133,7 +133,7 @@ export default {
 
     // ── READ side: GET /v1/feedback?k=SECRET → the parent feedback messages (owner-only, same gate).
     if (request.method === 'GET' && url.pathname === '/v1/feedback') {
-      const sh = { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'Access-Control-Allow-Origin': '*' };
+      const sh = { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'Access-Control-Allow-Origin': '*' };
       if (!env.STATS_KEY || url.searchParams.get('k') !== env.STATS_KEY) {
         return new Response('forbidden', { status: 403, headers: { 'Access-Control-Allow-Origin': '*' } });
       }
