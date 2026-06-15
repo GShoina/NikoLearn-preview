@@ -23,6 +23,25 @@
 >    content work: more ka/en cards + edge-tts clips; not a strategy fork).
 > Tooling note: playwright-mcp Chrome profile keeps orphaning („Browser is already in use") — fix = kill chrome procs
 > whose CommandLine matches ms-playwright-mcp, then re-navigate. edge-tts 7.2.8 works locally for ka clips.
+> **2 OPEN OWNER-DECISIONS surfaced 2026-06-15 (investigated, NOT yet changed — both need owner input):**
+> A) **Math „0% სიზუსტე · 73% მიტოვება + რეკომენდაცია" — provenance + fix options.** That exact wording is NOT the
+>    app's local parent dashboard (parent.js recommendation is only „დაბალი დონიდან, ბუს მინიშნებებით"; adminView shows
+>    only GA4 user/signup tiles). It is an AGGREGATED CLOUD TELEMETRY report (abandonment = the Cloudflare worker's
+>    round_abandon/round_start events across devices; /v1/stats is 403 read-protected). At soft-launch the sample is
+>    TINY so 0%/73% ≈ 1-3 rounds = likely early-tester/noise, NOT proven — treat as hypothesis. IF real, the cause is
+>    the owner-set (2026-06-13) 7+ difficulty: mathLvl() FLOORS a 7yo to 1-40 (can't start 1-20) AND genMath() makes
+>    ~40% of 7+ add/sub a 3-operand „a + b − c" (e.g. „17+16−4"); rampMath() steps a level down after a weak round but
+>    the age FLOOR pulls it back up → a struggling 7yo is STUCK at 1-40 and can't get easier. Feasible fixes (each
+>    reverses/adjusts the owner's 2026-06-13 design → owner picks): (1) cut the 3-operand frequency 40%→~15% or gate it
+>    to lvl≥2 / good-accuracy; (2) let rampMath drop BELOW the age floor when genuinely struggling (floor = start, not a
+>    trap); (3) auto-offer „🔁 გაიმეორე" + a stronger owl hint after a weak math round. Niko rec = (2)+(1). NOT changed
+>    yet (thin data + reverses owner design + customer-facing learning). Ready to implement on owner pick.
+> B) **Parent „2 უკუკავშირი" — content is NOT on-device.** feedbackForm()/sendFeedback() (parent.js:72-100) is privacy-
+>    by-design: it opens the parent's mail app via mailto:NikoLearn@outlook.com and STORES NOTHING („აპი არაფერს ინახავს").
+>    So the 2 messages („who + what") exist ONLY in the NikoLearn@outlook.com inbox (or „2" = 2 anonymous feedback_open
+>    telemetry counts). The cloud routines use the gela.shonia GMAIL connector, not Outlook → no agent can read them.
+>    Owner must open NikoLearn@outlook.com. Optional (owner call, changes the „stores nothing" promise): add a local
+>    capture so the parent space shows submitted feedback.
 > **SESSION 2026-06-15 PM (autonomous, owner mid-meeting):**
 > A) **QA + Security cloud routines UN-BLOCKED.** Root cause was per-LAYER, not the shared env: QA fetched via curl(Bash)
 >    → bash network egress allowlist blocked gshoina.github.io; Security used WebFetch → live site 403s the fetch bot.
