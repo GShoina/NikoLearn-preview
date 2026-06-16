@@ -1,11 +1,25 @@
 # NikoLearn — Session Handoff
 
 > ## ▶ RESUME NOW (2026-06-16)
-> **LIVE = v1.182** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
+> **LIVE = v1.183** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
 > commits trail app commits by one. Invariant that matters: clean tree + HEAD == origin/main.)
 > **▶ NEXT (owner-driven):** keep testing with Nikoloz. **Owner to-verify (3, unchanged):** (1) iPhone tap-freeze fix on
 > the REAL phone (v1.178 `*{touch-action:manipulation}`); (2) EAR-check talk clip `tlk_007` („…სად გახვიდოდი?"); (3)
 > double-click Desktop **„NikoLearn უკუკავშირი.cmd"** to read parent feedback (works, list empty).
+> **★ v1.183 SHIPPED 2026-06-16 — FIRST-ROUND ACTIVATION EASING (first attack on the #1 problem).** Diagnosis from the
+> pre-reset backup snapshot (`cloudflare/backups/stats-snapshot-20260616-165242.json`): abandon worst on MATH (74%, but
+> mostly ONE day 06-13 of owner stress-testing hard 7+ math; the v1.179 fix already cut math abandon 82%→50% pre/post 06-15),
+> then ENGLISH 59% (no prior fix). Root structural driver: every round = 8 Qs AND a wrong answer RE-QUEUES the item to the
+> end (round can grow to ~22) → a struggling beginner's finish line keeps moving away. FIX (games.js, universal across ALL
+> modes via the single `gameShell()` choke-point): a brand-new child's first 3 completed rounds (`s.sessions < BEGINNER_ROUNDS=3`)
+> are trimmed to 5 Qs (`BEGINNER_LEN`) and the re-queue cap drops 14→4 (`BEGINNER_REQUEUE`) so the first win comes fast and
+> can't balloon; back to full 8 from round 4. New helpers `isBeginner()`/`reqCap()`; `game.beginnerRound` decided once at
+> game.i===0. match-mode uses `game.pairs` (5) not `game.qs`, so the trim is a harmless no-op there. Node logic-sim + live
+> Playwright BOTH verified: new kid (sessions 0/2) → „1/5" cap 4 across quiz+math+match; experienced (sessions 5) → „1/8"
+> cap 14; screenshot looked at (renders clean). DATA CAVEAT (honest): the 67% headline was inflated by owner testing + one
+> hard-math day; signal is HYPOTHESIS-grade (204 rounds, ~90% owner). The easing is best-practice activation regardless, and
+> with the KV reset baseline now clean, post-launch data will show the real effect. NEXT activation levers if wanted: easy
+> guaranteed FIRST question, owl re-engage on consecutive misses, per-mode difficulty floor check on english.
 > **★★ BIGGEST STRATEGIC FINDING THIS SESSION (carry forward): the #1 problem is ACTIVATION, not traffic.** Owner challenged
 > my „mostly test data" claim with CF edge data — he was RIGHT, I was wrong. REAL Georgian traffic already exists pre-launch
 > (CF: Facebook in-app browser #1, ~280/365 IP-hits real after subtracting owner work/phone IPs). It's SEEDED, not organic:
@@ -13,11 +27,18 @@
 > shows **~67% of started rounds are ABANDONED** (round_abandon 136 vs round_complete 66). So: reach is fine, the lever is
 > first-round COMPLETION. Don't chase more traffic until activation improves. (Full analysis baked into the stats viewer's
 > 🌐 ტრაფიკი tab + funnel; detail in PRODUCT_IDEAS.md 2026-06-16.)
-> **⏳ OPEN OWNER DECISIONS (surfaced 2026-06-16, awaiting his call):** (a) **owner-mode toggle** — owner must enable „📱 ეს
-> ჩემი მოწყობილობაა" on his work + phone + Windows devices so app stats stop counting his sessions (app has no IP, can't
-> auto-subtract him); (b) **KV baseline reset?** — offered: wipe current (mostly-test) telemetry counters for a clean
-> post-launch start; needs owner „yes" (it's deletion, but only aggregate test counters, no user data); (c) if owner names
-> more of his IPs (home/other), add them to OWNER_IPS in the stats viewer for a sharper real-vs-owner split.
+> **⏳ OPEN OWNER DECISIONS (surfaced 2026-06-16):** (a) **owner-mode = ✅ RESOLVED 2026-06-16 — owner DECLINED any
+> owner-mode mechanism (chose „do nothing").** He judged the visible „📱 ეს ჩემი მოწყობილობაა" toggle a weak solution and
+> didn't want it; also declined the invisible owner-link alternative (`?dev=on`). DECISION = rely on the KV reset baseline +
+> the stats-viewer 🌐 ტრაფიკი tab IP filter; his occasional post-launch testing is acceptable noise vs real users. The
+> existing PIN-gated toggle is LEFT IN PLACE as-is (harmless, unused) — do NOT remove it, do NOT re-surface this. (b) **KV
+> baseline reset = ✅ DONE 2026-06-16 (owner
+> „გააკეთე").** Deleted all 266 telemetry counters in KV namespace NIKO_T (9dcf62cb…) via `wrangler kv bulk delete --remote`;
+> fb| feedback rows preserved (there were 0 — test rows already cleared earlier). Local backup of the wiped counters at
+> `cloudflare/backups/stats-snapshot-20260616-165242.json` (266 counters, gitignored). Live-verified post-delete: /v1/stats
+> = 0 counters, /v1/feedback = 0 rows intact. (Verify gotcha: `wrangler kv key list` needs `--remote` or it reads empty local
+> miniflare state; live /v1/stats reads need a browser User-Agent or Cloudflare bot-protection 403s urllib/python.) Stats now
+> count CLEAN from this point. (c) if owner names more of his IPs (home/other), add them to OWNER_IPS in the stats viewer.
 > **SESSION 2026-06-16 SHIPPED (detail in the ★ blocks below):** v1.180 em-dash purge + .kh-del 44px + worker submode enum ·
 > nightly QA routine (01:07 GE) · v1.181 EN math word-problems · stats viewer fixed (embedded local key) + collapse hierarchy
 > + 🌐 ტრაფიკი/CF analyst tab · v1.182 perf batch (~950KB images + defer + opentype-lazy + brand-preview off Pages).

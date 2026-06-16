@@ -44,11 +44,21 @@ function abandonRound(){
   openMenu(game.subj||'math');
 }
 const SUBMODES=['quiz','reverse','listen','match','spell','phrases','math-add','math-sub','math-mul','math-div','math-miss','math-pat','math-word','math-pic','compare','skip','shapes','money','clock','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','digit'];
+// First-round activation easing (2026-06-16). Telemetry showed ~60% of rounds abandoned, worst on a
+// brand-new child's first tries. A new child's first few rounds are SHORTER so they reach the "round
+// complete" reward fast (an early win is what hooks a young learner); re-queue growth is also capped
+// tighter for them so a struggling beginner's finish line can't keep moving away. Back to full 8 once
+// the habit is formed. BEGINNER_ROUNDS = completed rounds (s.sessions) still treated as a beginner.
+const BEGINNER_ROUNDS=3, BEGINNER_LEN=5, BEGINNER_REQUEUE=4;
+function isBeginner(){ try{ return ((state[profile]&&state[profile].sessions)||0) < BEGINNER_ROUNDS; }catch(e){ return false; } }
+function reqCap(){ return game.beginnerRound ? BEGINNER_REQUEUE : 14; }
 function gameShell(area){
   closeHint();
   game.roundActive=true; // marks an in-progress round (cleared by results()/abandonRound())
   // A3: report the sub-mode once per round (first question only); anonymous, fire-and-forget
   if(game.i===0 && window.Analytics && SUBMODES.indexOf(game.mode)>=0){ try{ Analytics.event('submode_usage',{mode:game.mode}); }catch(e){} }
+  // beginner easing: decide once at the first question, then trim this round to a shorter length.
+  if(game.i===0){ game.beginnerRound=isBeginner(); if(game.beginnerRound && game.qs && game.qs.length>BEGINNER_LEN) game.qs=game.qs.slice(0,BEGINNER_LEN); }
   const tot=game.qs?game.qs.length:8;
   render(`<div class="screen game" id="gscreen">
     <div class="progress-row">
@@ -135,7 +145,7 @@ function checkSpell(cor){
     if(e){ e.value=cor; e.disabled=true; e.style.borderColor='var(--green)'; }
     try{speak(cor,'en-US');}catch(x){}
     if(n>=2) setTimeout(maybeOfferHelp,650);
-    game.requeues=game.requeues||0; if(game.requeues<14){game.qs.push(q);game.requeues++;}
+    game.requeues=game.requeues||0; if(game.requeues<reqCap()){game.qs.push(q);game.requeues++;}
     setTimeout(()=>{game.i++;advance();}, n>=2?1700:1400);
   }
 }
@@ -188,7 +198,7 @@ function reQueueWrong(cor,lang,nextFn){
   document.querySelectorAll('.opt').forEach(b=>{b.classList.add('dim');b.style.pointerEvents='none';});
   if(lang!==false) revealCorrect(cor,lang||null);
   game.requeues=game.requeues||0;
-  if(game.requeues<14){ game.qs.push(q); game.requeues++; }  // capped so the round always terminates
+  if(game.requeues<reqCap()){ game.qs.push(q); game.requeues++; }  // capped so the round always terminates (tighter for beginners)
   const advance=()=>{ game.i++; (nextFn||nextForMode())(); };
   setTimeout(()=>{ try{closeFeedback();}catch(e){} teachAndConfirm(cor,lang,advance); }, 600);
 }
