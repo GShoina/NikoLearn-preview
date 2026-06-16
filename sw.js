@@ -1,5 +1,5 @@
 // NikoLearn service worker — offline-first app shell (HANDOFF §6 priority 5).
-const CACHE = 'nikolearn-1.181';
+const CACHE = 'nikolearn-1.182';
 const ASSETS = [
   './',
   './index.html',
@@ -26,7 +26,6 @@ const ASSETS = [
   './niko/placement.js',
   './niko/talk.js',
   './niko/alpha.js',
-  './niko/opentype.min.js',
   './niko/fonts/ka.ttf',
   './niko/owl.js',
   './niko/parent.js',
@@ -58,8 +57,9 @@ self.addEventListener('activate', e => {
 });
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
-  // Audio clips: cache on first play so they work offline afterwards (not precached: keeps install light + robust).
-  if (e.request.url.includes('/niko/audio/')) {
+  // Cache-on-first-fetch (not precached, to keep install light): audio clips + opentype.min.js (~167KB, only
+  // needed when the ✍️ tracing screen opens). Both work offline after the first online use, same as audio.
+  if (e.request.url.includes('/niko/audio/') || e.request.url.includes('opentype.min.js')) {
     e.respondWith(caches.match(e.request).then(r => r || fetch(e.request).then(resp => {
       if (resp && resp.ok) { const copy = resp.clone(); caches.open(CACHE).then(c => c.put(e.request, copy)); }
       return resp;

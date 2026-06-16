@@ -33,3 +33,7 @@ output/
 # wrangler local cache (tooling, not for repo)
 .wrangler/
 cloudflare/.wrangler/
+
+# design artifacts — keep local, do NOT deploy to Pages
+brand-preview/
+niko-brand.html

@@ -77,33 +77,36 @@ window.__NIKO_DEFAULTS = /*EDITMODE-BEGIN*/{
 }/*EDITMODE-END*/;
 </script>
 
-<script src="niko/i18n-strings.js"></script>
-<script src="niko/i18n-landing.js"></script>
-<script src="niko/i18n.js"></script>
-<script src="niko/data.js"></script>
-<script src="niko/tutor.js"></script>
-<script src="niko/core.js"></script>
-<script src="niko/analytics.js"></script>
-<script src="niko/audio-manifest.js"></script>
-<script src="niko/audio.js"></script>
-<script src="niko/screens.js"></script>
-<script src="niko/games.js"></script>
-<script src="niko/placement.js"></script>
-<script src="niko/talk.js"></script>
-<script src="niko/owl.js"></script>
-<!-- opentype.min.js (~170KB) is NOT loaded here: alpha.js lazy-loads it only when the ✍️ tracing screen opens -->
-<script src="niko/alpha.js"></script>
-<script src="niko/parent.js"></script>
-<script src="niko/tweaks.js"></script>
+<!-- defer keeps execution ORDER (document order) but moves parse/exec off the critical path → faster first paint.
+     The inline boot below is wrapped in DOMContentLoaded so it runs AFTER these deferred modules define `I`. -->
+<script defer src="niko/i18n-strings.js"></script>
+<script defer src="niko/i18n-landing.js"></script>
+<script defer src="niko/i18n.js"></script>
+<script defer src="niko/data.js"></script>
+<script defer src="niko/tutor.js"></script>
+<script defer src="niko/core.js"></script>
+<script defer src="niko/analytics.js"></script>
+<script defer src="niko/audio-manifest.js"></script>
+<script defer src="niko/audio.js"></script>
+<script defer src="niko/screens.js"></script>
+<script defer src="niko/games.js"></script>
+<script defer src="niko/placement.js"></script>
+<script defer src="niko/talk.js"></script>
+<script defer src="niko/owl.js"></script>
+<!-- opentype.min.js (~167KB) is NOT loaded here: alpha.js lazy-loads it only when the ✍️ tracing screen opens -->
+<script defer src="niko/alpha.js"></script>
+<script defer src="niko/parent.js"></script>
+<script defer src="niko/tweaks.js"></script>
 <script>
-// fill bottom-nav icons (after app.js defines I)
-(function(){
-  const b=document.querySelectorAll('#bottomnav button');
+// fill bottom-nav icons. Deferred modules run before DOMContentLoaded, so `I` + #bottomnav are ready here.
+document.addEventListener('DOMContentLoaded',function(){
+  var b=document.querySelectorAll('#bottomnav button');
+  if(b.length<4 || typeof I==='undefined')return;
   b[0].innerHTML=I.home+'<span class="navdot"></span>';
   b[1].innerHTML='<span class="navemoji">🎨</span><span class="navdot"></span>';
   b[2].innerHTML=I.abc+'<span class="navdot"></span>';
   b[3].innerHTML=I.calc+'<span class="navdot"></span>';
-})();
+});
 </script>
 
 <!-- PWA: offline + installable (layered on, non-invasive) -->
