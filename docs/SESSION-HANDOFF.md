@@ -1,13 +1,32 @@
 # NikoLearn — Session Handoff
 
-> ## ▶ RESUME NOW (2026-06-15)
-> **LIVE = v1.179** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
+> ## ▶ RESUME NOW (2026-06-16)
+> **LIVE = v1.180** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
 > commits trail app commits by one. Invariant that matters: clean tree + HEAD == origin/main.)
-> **▶ NEXT (owner-driven), as of 2026-06-16:** keep testing with Nikoloz. **Owner to-verify (3):** (1) iPhone tap-freeze
-> fix on the REAL phone (v1.178 `*{touch-action:manipulation}` — couldn't repro on desktop); (2) EAR-check the reworded
-> talk clip `tlk_007` („…სად გახვიდოდი?", edge-tts) — agent can't hear; (3) double-click the Desktop launcher
-> **„NikoLearn უკუკავშირი.cmd"** to read parent feedback (works, list currently empty). **PENDING owner call:** run a
-> fresh multi-agent audit on v1.179? (offered; bigger token spend → owner says „გაუშვი" to run). Everything below = SHIPPED+LIVE.
+> **▶ NEXT (owner-driven):** keep testing with Nikoloz. **Owner to-verify (3, unchanged):** (1) iPhone tap-freeze fix on
+> the REAL phone (v1.178 `*{touch-action:manipulation}`); (2) EAR-check talk clip `tlk_007` („…სად გახვიდოდი?"); (3)
+> double-click Desktop **„NikoLearn უკუკავშირი.cmd"** to read parent feedback (works, list empty).
+> **★ NEW OWNER DIRECTIVE 2026-06-16 — NIGHTLY AUTONOMOUS TESTING:** owner wants testing/QA to run at NIGHT from 1:00am
+> Georgia time (= **21:00 UTC**, cron `0 21 * * *`) WITHOUT asking him, so it never interferes with his daytime work.
+> Standing rule now: schedule regression/QA testing nightly, deliver results to NikoLearn@outlook.com for the morning;
+> never run a heavy interactive test during his work hours. (See "NIGHTLY TEST ROUTINE" block below for what was wired.)
+> **★ 5-AGENT AUDIT DONE 2026-06-16 (owner „გაუშვი ეხლავე") → fixes SHIPPED+LIVE v1.180 (commit 1e12394).** Report:
+> `output/2026-06-16-სრული აუდიტი v1.179 (5 აგენტი) by Niko.html`. 5 read-only agents (correctness/a11y/child-safety/
+> i18n/perf), all findings Niko-challenged before fixing. **VERDICT = app HEALTHY, no P1 crash, safety model INTACT.**
+> FIXED v1.180: (a) **em-dash purge — 10 human-facing strings** (i18n agent found 3; manual cross-file sweep found 7 more
+> the per-file pass misses — tweaks AI descs ×2, math-pat prompt, 2 talk cards [talk.js + audio-manifest keys synced],
+> goal heading, Premium heading, placement heading; map keys synced so EN lookup + ka render + audio all stay matched);
+> (b) **.kh-del profile-delete button 40→44px**; (c) **worker submode_usage enum +math-div/miss/word/pic** (4 modes were
+> silently dropped from owner stats; worker redeployed, version 179191de). Live-verified: sw+APP_VERSION=1.180, 0 console
+> error, .kh-del 44px live, talk period-strings live, 0 rendered em-dash (remaining em-dashes = code comments, exempt).
+> **AUDIT QUEUE (NOT done — batch separately, my recs in report):** P1 owl-logo.png 589KB→WebP ~35KB (−555KB, needs image
+> tooling+visual gate); P1 `defer` on 17 scripts (needs inline-boot order analysis + Playwright render verify); brand-preview/
+> 1.4MB off Pages (entangled w/ niko-brand.html); icon-512/og compress; opentype off precache (offline-trace trade-off).
+> **AUDIT FORK (owner business decision, NOT touched):** full EN content — math word-problems + teach-panels render ka under
+> EN (architecture doc's CONFIRMED BUG). Priority hinges on: ARE non-Georgian/diaspora kids a real target? If GE-only →
+> leave it; if international → easy 25% (2-4d) + heavy 75% (3-6wk). Hold until owner answers the audience question.
+> **REJECTED via challenge (do NOT re-apply):** v1.179 adaptive math is correct (200k fuzz clean); re-queue scoring quirk =
+> design trade-off; no-PIN single-digit gate = intentional toddler-proof; contrast fine (9.4:1+). Everything below = SHIPPED+LIVE.
 > **⛔ BEHAVIOR LOCK (owner corrected AGAIN 2026-06-15, „never ever ask"):** when you KNOW what to do and it's reversible
 > dev (~10 min), DO NOT ask „გავაკეთო?" / present „tell me to do it" — just DO it, verify, deploy, report. Asking on
 > confident reversible work = the exact anti-pattern the owner has flagged MANY times (GELA'S RULE / §6b). Pause ONLY for:
