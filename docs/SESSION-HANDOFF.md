@@ -1,8 +1,17 @@
 # NikoLearn — Session Handoff
 
 > ## ▶ RESUME NOW (2026-06-16)
-> **LIVE = v1.185** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
+> **LIVE = v1.186** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
 > commits trail app commits by one. Invariant that matters: clean tree + HEAD == origin/main.)
+> **★ v1.186 SHIPPED 2026-06-16 — Talk & Think: 3 owner grammar fixes + deck grown 27→33.** Owner reviewed talk cards live
+> and dictated 3 corrections (applied directly per §6f, text + AUDIO regenerated so the spoken clip matches): tlk_013 „რა
+> დაარქმევდი"→„რას", tlk_016 „ზესძალა"→„ზებუნებრივი ძალა", tlk_025 „თავდაყირა იყო"→„იყოს". Then expanded the deck with 6 NEW
+> cards (ka+en PARALLEL decks in talk.js — that's how bilingual works here, NOT i18n), clips tlk_027-032 (edge-tts
+> ka-GE-EkaNeural via `tools/_gen_talk4.py`). 2 of the 6 refined by Gemini KA-QA (cross-model, §6f): „ჟღერდებოდა"→„იჟღერებდა",
+> „გააკეთე, რითაც იამაყე"→„გააკეთე ისეთი, რითაც ამაყობ". Live-verified (Playwright): ka & en both 33; EVERY ka card has a
+> matching AUDIO_MANIFEST clip (manifest key MUST == card q exactly, else playClip fails); all 9 clips 200; new card renders
+> „28/33"; 0 console errors. (Talk-card edit recipe = change in 4 spots: talk.js TALK.ka q + audio-manifest.js key +
+> tools/_gen_talk*.py + regen the mp3; en deck is parallel + uses runtime English voice, no clip.) Source idea = Totolino.
 > **★ v1.185 SHIPPED 2026-06-16 — guaranteed-winnable first-ever math question (2nd activation lever).** A brand-new child's
 > VERY FIRST math problem (`s.sessions===0`) is now small/easily-winnable (`easyFirstMath()`: add 1-4+1-4, sub a-1/2, mul
 > 2-3×2-4, div ÷2; miss/pat keep their generator) so the first interaction is a success → confidence. Only the first-ever
