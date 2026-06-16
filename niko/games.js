@@ -565,7 +565,19 @@ function genMath(type){
   }
 }
 function mathOpts(ans){const set=new Set([ans]);while(set.size<4){const v=ans+ri(1,Math.max(3,Math.ceil(Math.abs(ans)*0.3)+1))*(Math.random()>.5?1:-1);if(v>=0)set.add(v);}return shuffle([...set]);}
-function mathRound(m){game.mode=m;game.leveledMath=null;game.qs=Array.from({length:8},()=>genMath(m));game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextMath();}
+// activation: a brand-new child's VERY FIRST math problem ever is guaranteed easily winnable (small
+// numbers), so the first interaction is a success → confidence to keep going. Only the first-ever round
+// (s.sessions===0); ongoing play is never dumbed down. miss/pat keep their own generator (rare first pick).
+function easyFirstMath(type){
+  if(type==='math-add'){const a=ri(1,4),b=ri(1,4);return{q:`${a} + ${b}`,a:a+b,op:'add',a1:a,a2:b};}
+  if(type==='math-sub'){const a=ri(3,7),b=ri(1,2);return{q:`${a} − ${b}`,a:a-b,op:'sub',a1:a,a2:b};}
+  if(type==='math-mul'){const t=ri(2,3),b=ri(2,4);return{q:`${t} × ${b}`,a:t*b,op:'mul',a1:t,a2:b};}
+  if(type==='math-div'){const b=2,c=ri(2,5);return{q:`${b*c} ÷ ${b}`,a:c,op:'div',a1:b*c,a2:b};}
+  return genMath(type);
+}
+function mathRound(m){game.mode=m;game.leveledMath=null;game.qs=Array.from({length:8},()=>genMath(m));
+  if(((state[profile]&&state[profile].sessions)||0)===0)game.qs[0]=easyFirstMath(m); // first-ever: winnable opener
+  game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextMath();}
 function nextMath(){
   if(game.i>=game.qs.length)return results();
   const q=game.qs[game.i];game.cur=q;
