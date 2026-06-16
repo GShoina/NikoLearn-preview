@@ -47,13 +47,17 @@
 > **★ STATS VIEWER FIXED 2026-06-16 (owner: file gave „403 STATS_KEY არასწორია").** Root cause: `output/NikoLearn-stats-
 > viewer.html` had a WRONG hardcoded key (`c6f4…`, 40 chars) ≠ the real worker secret (NIKO_STATS_KEY in creds, 27 chars;
 > verified live = HTTP 200, 251 counters). Worker `/v1/stats` returns `ACAO:*` so CORS was never the issue — purely the key.
-> FIX = mirror the feedback launcher (key NEVER in a file): removed the hardcoded key, added a `<!--STATS_DATA-->` slot +
-> `window.__STATS_DATA__` path in the viewer; built **`tools/open-stats.ps1`** (reads NIKO_STATS_KEY from creds → fetches
-> live → injects JSON → opens) + `tools/open-stats.cmd` + **Desktop „NikoLearn სტატისტიკა.cmd"**. Opening the raw file now
-> shows a „use the launcher" note (no key in it). Verified end-to-end: launcher exit 0, placeholder replaced, data injected,
-> parse clean (19 profiles / 209 sessions / math 162 busiest — mostly owner test data pre-launch). **Owner opens stats via
-> the Desktop .cmd now (same one-double-click pattern as feedback).** output/ viewer = gitignored (local); tools/*.ps1/.cmd
-> committed. To rotate the key: `wrangler secret put STATS_KEY` + update creds — launcher auto-follows, no file edit.
+> **First attempt (injection launcher, like feedback) CONFUSED the owner** — it opened a SEPARATE `%TEMP%\nikolearn-stats.html`
+> while he kept opening the output file (which then showed a „use the launcher" note + dead refresh). Lesson: don't fight the
+> owner's habit of opening the file he knows; „key never in a file" is a REPO/public rule, and output/ is gitignored (local).
+> **FINAL FIX = embed the read-only key directly in the local gitignored viewer** so a plain double-click + [↻ განახლება]
+> just fetch live and render. `load()` prefers `window.__STATS_DATA__` if injected (the .ps1 path still works), else live-
+> fetches with the embedded key. Key was patched in via a creds-reading script (never typed/printed). **Render-verified over
+> a local http server in a real browser: key len 27, live fetch 254 counters, 8 cards, KPIs (19 profiles / 210 sessions /
+> 7.5 min avg), 0 console error, no err box.** Owner just opens `output/NikoLearn-stats-viewer.html` (or the Desktop .cmd —
+> both work). output/ viewer = gitignored (key stays LOCAL, never committed); `tools/open-stats.ps1/.cmd` committed. To
+> rotate: `wrangler secret put STATS_KEY` + update NIKO_STATS_KEY in creds, then re-patch the key into the local viewer (or
+> just re-run the .cmd launcher, which reads creds live). Numbers = mostly owner pre-launch test data (real audience ~0).
 > **⛔ BEHAVIOR LOCK (owner corrected AGAIN 2026-06-15, „never ever ask"):** when you KNOW what to do and it's reversible
 > dev (~10 min), DO NOT ask „გავაკეთო?" / present „tell me to do it" — just DO it, verify, deploy, report. Asking on
 > confident reversible work = the exact anti-pattern the owner has flagged MANY times (GELA'S RULE / §6b). Pause ONLY for:
