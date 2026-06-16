@@ -51,7 +51,7 @@ const EVENTS = {
   round_complete:     { mode: ['alphabet','english','math','counting','kings','reading','movement'], band: ['low','mid','high'], retries: 'int' },
   round_abandon:      { mode: ['alphabet','english','math','counting','kings','reading','movement'] },
   // A3: actual sub-mode used (controlled allow-list = the game.mode values games.js emits)
-  submode_usage:      { mode: ['quiz','reverse','listen','match','spell','phrases','math-add','math-sub','math-mul','math-pat','compare','skip','shapes','money','clock','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','digit'] },
+  submode_usage:      { mode: ['quiz','reverse','listen','match','spell','phrases','math-add','math-sub','math-mul','math-div','math-miss','math-pat','math-word','math-pic','compare','skip','shapes','money','clock','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','digit'] },
 };
 const ALLOWED_ORIGINS = ['https://gshoina.github.io']; // tighten to the live app origin
 

@@ -126,7 +126,7 @@ function fbConfirm(){
 function kidGoalModal(p){
   const el=document.createElement('div');el.className='gate';el.id='goalmodal';
   el.innerHTML=`<div class="gate-card" style="max-width:340px">
-    <h3>🎯 დაუსახე მიზანი — ${nameOf(p)}</h3>
+    <h3>🎯 დაუსახე მიზანი, ${nameOf(p)}</h3>
     <p style="font-size:.84rem;color:var(--muted)">აირჩიე, რას მივადევნოთ თვალი.</p>
     <button class="btn btn-ghost btn-block" onclick="pickGoal('${p}','words',30,'30 ინგლისური სიტყვა')">📚 30 ინგლისური სიტყვა</button>
     <button class="btn btn-ghost btn-block mt" onclick="pickGoal('${p}','words',50,'50 ინგლისური სიტყვა')">📚 50 ინგლისური სიტყვა</button>

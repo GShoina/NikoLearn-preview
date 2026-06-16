@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.179'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.180'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 /* GA4 key-metrics proxy (Apps Script web app). Empty until deployed; admin shows live numbers once set. Returns aggregate counts only (no PII). */
 const GA4_METRICS_URL='';
 function goHome(){
@@ -325,7 +325,7 @@ function upsellPremium(subj){
   const name=MODE_TITLES[subj]||subj;
   render(`<div class="screen" style="justify-content:center;text-align:center;gap:14px;padding:24px">
     <div style="font-size:3.6rem">👑</div>
-    <h2>${name} — Premium</h2>
+    <h2>${name} · Premium</h2>
     <p style="color:var(--muted);max-width:300px;line-height:1.5">ეს გაღრმავებული, საგამოცდო ნაწილია. უფასო ვერსიაში ხელმისაწვდომია მთელი საბაზისო სწავლა, Premium კი ხსნის გამოცდისთვის მზადებას და დამატებით სიღრმეს.</p>
     <div class="perm-points" style="max-width:320px;margin:0 auto;text-align:left">
       <div class="perm-point">${I.check} Cambridge YLE / ოლიმპიადის ტესტები</div>

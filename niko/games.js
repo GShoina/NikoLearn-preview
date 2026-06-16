@@ -419,7 +419,7 @@ const MATH_WHY={
   'math-mul':{ka:'გამრავლება = იგივეს რამდენჯერმე შეკრება, სწრაფად. ✖️',en:'Multiplying = adding the same number several times, fast. ✖️'},
   'math-div':{ka:'გაყოფა = თანაბრად დაყოფა ყველას შორის. 🍪',en:'Dividing = sharing equally among everyone. 🍪'},
   'math-miss':{ka:'იპოვე გამოტოვებული რიცხვი. რა აკლია? 🔍',en:'Find the missing number. What is gone? 🔍'},
-  'math-pat':{ka:'იპოვე კანონზომიერება — რა მოდის შემდეგ? 🔢',en:'Find the pattern. What comes next? 🔢'},
+  'math-pat':{ka:'იპოვე კანონზომიერება. რა მოდის შემდეგ? 🔢',en:'Find the pattern. What comes next? 🔢'},
   'math-word':{ka:'ჯერ ამბავი წაიკითხე, წარმოიდგინე, მერე დათვალე. 🦉',en:'First read the story, picture it, then count. 🦉'},
   'math-pic':{ka:'ჯერ ცნობილი ფასები ნახე, მერე იფიქრე რა აკლია. ნელა, ნაბიჯ-ნაბიჯ. 🧠',en:'First look at the known prices, then think what is missing. Slowly, step by step. 🧠'}
 };

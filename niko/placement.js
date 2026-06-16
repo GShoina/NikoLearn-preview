@@ -237,7 +237,7 @@ function renderPathStrip(subj){
   }).join('<span class="parrow">·</span>');
   const startHint=pr.allDone?'მთელი გზა გაიარე! 🎉':(diag&&!diag.skipped?`რეკომენდებული დასაწყისი: <b>${path[startIdx]?path[startIdx].label:''}</b>`:'');
   return `<div class="pathcard">
-    <div class="path-top"><b>🧭 შენი გზა — ${pathDisplayName(subj)}</b><span class="path-pct">${pr.done}/${pr.total}</span></div>
+    <div class="path-top"><b>🧭 შენი გზა: ${pathDisplayName(subj)}</b><span class="path-pct">${pr.done}/${pr.total}</span></div>
     <div class="path-steps">${steps}</div>
     ${startHint?`<div class="path-hint">${startHint}</div>`:''}
   </div>`;
