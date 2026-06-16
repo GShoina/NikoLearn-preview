@@ -3,6 +3,11 @@
 > ## ▶ RESUME NOW (2026-06-15)
 > **LIVE = v1.179** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
 > commits trail app commits by one. Invariant that matters: clean tree + HEAD == origin/main.)
+> **▶ NEXT (owner-driven), as of 2026-06-16:** keep testing with Nikoloz. **Owner to-verify (3):** (1) iPhone tap-freeze
+> fix on the REAL phone (v1.178 `*{touch-action:manipulation}` — couldn't repro on desktop); (2) EAR-check the reworded
+> talk clip `tlk_007` („…სად გახვიდოდი?", edge-tts) — agent can't hear; (3) double-click the Desktop launcher
+> **„NikoLearn უკუკავშირი.cmd"** to read parent feedback (works, list currently empty). **PENDING owner call:** run a
+> fresh multi-agent audit on v1.179? (offered; bigger token spend → owner says „გაუშვი" to run). Everything below = SHIPPED+LIVE.
 > **⛔ BEHAVIOR LOCK (owner corrected AGAIN 2026-06-15, „never ever ask"):** when you KNOW what to do and it's reversible
 > dev (~10 min), DO NOT ask „გავაკეთო?" / present „tell me to do it" — just DO it, verify, deploy, report. Asking on
 > confident reversible work = the exact anti-pattern the owner has flagged MANY times (GELA'S RULE / §6b). Pause ONLY for:
