@@ -1,7 +1,7 @@
 # NikoLearn — Session Handoff
 
 > ## ▶ RESUME NOW (2026-06-16)
-> **LIVE = v1.180** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
+> **LIVE = v1.181** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
 > commits trail app commits by one. Invariant that matters: clean tree + HEAD == origin/main.)
 > **▶ NEXT (owner-driven):** keep testing with Nikoloz. **Owner to-verify (3, unchanged):** (1) iPhone tap-freeze fix on
 > the REAL phone (v1.178 `*{touch-action:manipulation}`); (2) EAR-check talk clip `tlk_007` („…სად გახვიდოდი?"); (3)
@@ -22,9 +22,16 @@
 > **AUDIT QUEUE (NOT done — batch separately, my recs in report):** P1 owl-logo.png 589KB→WebP ~35KB (−555KB, needs image
 > tooling+visual gate); P1 `defer` on 17 scripts (needs inline-boot order analysis + Playwright render verify); brand-preview/
 > 1.4MB off Pages (entangled w/ niko-brand.html); icon-512/og compress; opentype off precache (offline-trace trade-off).
-> **AUDIT FORK (owner business decision, NOT touched):** full EN content — math word-problems + teach-panels render ka under
-> EN (architecture doc's CONFIRMED BUG). Priority hinges on: ARE non-Georgian/diaspora kids a real target? If GE-only →
-> leave it; if international → easy 25% (2-4d) + heavy 75% (3-6wk). Hold until owner answers the audience question.
+> **★ EN MATH LEAK = FIXED v1.181 (commit 5da881c, owner overrode the fork: „გაასწორე, კითხვა რა უნდა").** The architecture
+> doc's CONFIRMED BUG is closed: `genWord` (10 math word-problem cases) + `teachMore` teach-count explainer lines are now
+> bilingual via `window.UILANG` branch (same pattern as whyText/teachMore). ka keeps grammatical cases (dative -ს/ergative
+> -მ); en uses plural nouns + simple frames (every noun slot count>=2 so plain plurals are correct; removed unused
+> twoNames/rpick). genPic + MATH_WHY intros were already bilingual. **LIVE-VERIFIED in-browser at v1.181:** EN mode → all 10
+> cases English (0 Georgian), ka mode → unchanged Georgian, 0 console error. (Verify gotcha: the SW serves cached JS — to
+> test new code in a browser you MUST unregister SW + delete caches + reload, else you eval the OLD function. Direct fetch
+> of the deployed file + node simulation also confirm.) **STILL OPEN (broader EN parity, NOT the math leak):** fb-sub coin-
+> celebration sub-line (`games.js:847`, applyLang/MAP path — add the static string to i18n-strings.js); the `Tutor.build`
+> explain fallback can emit ka under EN; tutor.js heavy generated content (~weeks) if full international parity is ever greenlit.
 > **REJECTED via challenge (do NOT re-apply):** v1.179 adaptive math is correct (200k fuzz clean); re-queue scoring quirk =
 > design trade-off; no-PIN single-digit gate = intentional toddler-proof; contrast fine (9.4:1+). Everything below = SHIPPED+LIVE.
 > **★ NIGHTLY TEST ROUTINE (wired 2026-06-16 per owner directive):** existing cloud routine **NikoLearn QA Tester**
