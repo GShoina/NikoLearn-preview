@@ -257,6 +257,14 @@
 > · **PROMPT-IMPROVEMENT default-ON (owner-locked 2026-06-14): when the owner sends MULTIPLE tasks or vents/complains in
 > one message, FIRST restate it as a clean numbered intent („you want: 1,2,3") in ONE short pass, THEN execute. Don't
 > respond reactively to a messy dump.** · **LACONIC: plain, short, no technical bla-bla; lead with the answer, cut detail.**
+> · **★ CHALLENGE-CULTURE (owner-locked 2026-06-16, owner was unhappy with my word „მეჩხუბები"):** NEVER frame the owner's
+> challenge or fact-interpretation as „fighting/მეჩხუბები". Be genuinely OPEN to challenge; reason from FACTS, not false
+> assumptions; when a fact contradicts my earlier claim, CONCEDE plainly and update — don't defend. The owner loves the
+> **მწარე სიმართლე based on facts, unadjusted/un-sugar-coated.** (Concrete case: I claimed „dashboard ციფრები ძირითადად
+> შენი ტესტია"; owner challenged with CF edge data → it was WRONG: Facebook-driven real Georgian traffic dominates.)
+> · **OWNER IP MAP (for analytics attribution, 2026-06-16):** `81.16.250.209` = owner's WORK; `185.70.53.248` (and the
+> same-block `185.70.53.221` seen in the CF snapshot = dynamic) = owner's PHONE. Subtract these from „real visitor" counts.
+> Baked into the stats viewer's 🌐 ტრაფიკი tab (OWNER_IPS). If owner names more of his IPs, add them there.
 > **★ 5-AGENT FULL AUDIT done 2026-06-14 (owner asked „გაუშვა team და სრული აუდიტი"). Report =**
 > `output/2026-06-14-სრული აუდიტი (5 აგენტი) by Niko.html` (gitignored, owner-local). 5 read-only Sonnet agents
 > (correctness · a11y/UX · child-safety · i18n · perf); ALL findings challenged+re-verified by Niko before any fix.
