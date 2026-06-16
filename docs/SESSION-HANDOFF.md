@@ -1,7 +1,7 @@
 # NikoLearn — Session Handoff
 
 > ## ▶ RESUME NOW (2026-06-16)
-> **LIVE = v1.181** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
+> **LIVE = v1.182** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
 > commits trail app commits by one. Invariant that matters: clean tree + HEAD == origin/main.)
 > **▶ NEXT (owner-driven):** keep testing with Nikoloz. **Owner to-verify (3, unchanged):** (1) iPhone tap-freeze fix on
 > the REAL phone (v1.178 `*{touch-action:manipulation}`); (2) EAR-check talk clip `tlk_007` („…სად გახვიდოდი?"); (3)
@@ -19,9 +19,14 @@
 > (b) **.kh-del profile-delete button 40→44px**; (c) **worker submode_usage enum +math-div/miss/word/pic** (4 modes were
 > silently dropped from owner stats; worker redeployed, version 179191de). Live-verified: sw+APP_VERSION=1.180, 0 console
 > error, .kh-del 44px live, talk period-strings live, 0 rendered em-dash (remaining em-dashes = code comments, exempt).
-> **AUDIT QUEUE (NOT done — batch separately, my recs in report):** P1 owl-logo.png 589KB→WebP ~35KB (−555KB, needs image
-> tooling+visual gate); P1 `defer` on 17 scripts (needs inline-boot order analysis + Playwright render verify); brand-preview/
-> 1.4MB off Pages (entangled w/ niko-brand.html); icon-512/og compress; opentype off precache (offline-trace trade-off).
+> **AUDIT QUEUE = ✅ ALL DONE v1.182 (commit d753aa3, owner „fix it"):** ~950KB images re-encoded via Pillow (quantize+
+> optimize, VISUALLY verified crisp): owl-logo 589→26KB (resized 400px), icon-512 161→66, icon-maskable 126→53, og 321→127,
+> icon-192 31→14, apple-touch 28→13 — SAME filenames (zero ref changes); originals in `backups/img-pre-v1.182` (gitignored).
+> · 17 module scripts → `defer` (order preserved) + inline nav-boot wrapped in DOMContentLoaded (verified live at ?app=1: I
+> defined, 4 nav icons filled, 0 console errors). · opentype.min.js OUT of SW precache (−167KB install) + fetch-handler now
+> lazy-caches it like audio (offline tracing works after first use — resolves the v1.169 rejection cleanly; verified live:
+> not in ASSETS, is in fetch handler). · brand-preview/ (1.4MB) + niko-brand.html untracked (gitignored, kept local; 404 on
+> Pages confirmed). · teach-panel EN-leak was already fixed v1.181. Live-verified: sw 1.182, owl 26KB, defer×17, brand 404.
 > **★ EN MATH LEAK = FIXED v1.181 (commit 5da881c, owner overrode the fork: „გაასწორე, კითხვა რა უნდა").** The architecture
 > doc's CONFIRMED BUG is closed: `genWord` (10 math word-problem cases) + `teachMore` teach-count explainer lines are now
 > bilingual via `window.UILANG` branch (same pattern as whyText/teachMore). ka keeps grammatical cases (dative -ს/ergative
