@@ -44,6 +44,16 @@
 > regression check (no `—` in human-facing RENDERED strings — owner-locked rule, today's audit found 10); (2) add a
 > tap-target ≥44px check; (3) fix the subject/body wording „weekly"→„nightly". Other NikoLearn routines unchanged (PO Mon
 > 05:00, Security Mon 06:00, Business Brief Mon 08:00 UTC).
+> **★ STATS VIEWER FIXED 2026-06-16 (owner: file gave „403 STATS_KEY არასწორია").** Root cause: `output/NikoLearn-stats-
+> viewer.html` had a WRONG hardcoded key (`c6f4…`, 40 chars) ≠ the real worker secret (NIKO_STATS_KEY in creds, 27 chars;
+> verified live = HTTP 200, 251 counters). Worker `/v1/stats` returns `ACAO:*` so CORS was never the issue — purely the key.
+> FIX = mirror the feedback launcher (key NEVER in a file): removed the hardcoded key, added a `<!--STATS_DATA-->` slot +
+> `window.__STATS_DATA__` path in the viewer; built **`tools/open-stats.ps1`** (reads NIKO_STATS_KEY from creds → fetches
+> live → injects JSON → opens) + `tools/open-stats.cmd` + **Desktop „NikoLearn სტატისტიკა.cmd"**. Opening the raw file now
+> shows a „use the launcher" note (no key in it). Verified end-to-end: launcher exit 0, placeholder replaced, data injected,
+> parse clean (19 profiles / 209 sessions / math 162 busiest — mostly owner test data pre-launch). **Owner opens stats via
+> the Desktop .cmd now (same one-double-click pattern as feedback).** output/ viewer = gitignored (local); tools/*.ps1/.cmd
+> committed. To rotate the key: `wrangler secret put STATS_KEY` + update creds — launcher auto-follows, no file edit.
 > **⛔ BEHAVIOR LOCK (owner corrected AGAIN 2026-06-15, „never ever ask"):** when you KNOW what to do and it's reversible
 > dev (~10 min), DO NOT ask „გავაკეთო?" / present „tell me to do it" — just DO it, verify, deploy, report. Asking on
 > confident reversible work = the exact anti-pattern the owner has flagged MANY times (GELA'S RULE / §6b). Pause ONLY for:
