@@ -27,6 +27,16 @@
 > leave it; if international → easy 25% (2-4d) + heavy 75% (3-6wk). Hold until owner answers the audience question.
 > **REJECTED via challenge (do NOT re-apply):** v1.179 adaptive math is correct (200k fuzz clean); re-queue scoring quirk =
 > design trade-off; no-PIN single-digit gate = intentional toddler-proof; contrast fine (9.4:1+). Everything below = SHIPPED+LIVE.
+> **★ NIGHTLY TEST ROUTINE (wired 2026-06-16 per owner directive):** existing cloud routine **NikoLearn QA Tester**
+> `trig_017M47saqRQL4f1373rQ3WNi` changed weekly→**NIGHTLY** `7 21 * * *` (21:07 UTC = **01:07 Georgia**, off-minute to
+> dodge fleet :00 collisions). Cloud-side = survives /clear, runs WITHOUT owner. Report-only (no code changes): fetches
+> live files, checks audio integrity, audio-vs-text clip coverage, version-sync, age-safety; drafts report to
+> NikoLearn@outlook.com (Gmail connector = draft-only). Prompt/connector/model/enabled all PRESERVED (cron-only partial
+> update). **Heavy 5-agent audit stays OWNER-TRIGGERED** („გაუშვი") for cost control — nightly job is the light regression
+> guard. **QUEUED enhancements to this routine (do when convenient, careful full-prompt update):** (1) add an EM-DASH
+> regression check (no `—` in human-facing RENDERED strings — owner-locked rule, today's audit found 10); (2) add a
+> tap-target ≥44px check; (3) fix the subject/body wording „weekly"→„nightly". Other NikoLearn routines unchanged (PO Mon
+> 05:00, Security Mon 06:00, Business Brief Mon 08:00 UTC).
 > **⛔ BEHAVIOR LOCK (owner corrected AGAIN 2026-06-15, „never ever ask"):** when you KNOW what to do and it's reversible
 > dev (~10 min), DO NOT ask „გავაკეთო?" / present „tell me to do it" — just DO it, verify, deploy, report. Asking on
 > confident reversible work = the exact anti-pattern the owner has flagged MANY times (GELA'S RULE / §6b). Pause ONLY for:
