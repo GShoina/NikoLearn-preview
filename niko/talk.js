@@ -44,10 +44,10 @@ const TALK = {
     {theme:'values',  emoji:'🦁',   by:'masho', q:'რას ნიშნავს გამბედავი? შენ როდის იყავი გამბედავი?', subs:['ვინ არის შენთვის ყველაზე გამბედავი?']},
     // v1.162 — Talk & Think expansion #3 (15 quirkier prompts; clips tlk_012-026)
     {theme:'think',   emoji:'🧦', by:'niko',  q:'წინდები რომ ქრებიან, სად მიდიან, როგორ ფიქრობ?', subs:[]},
-    {theme:'imagine', emoji:'🐲', by:'owl',   q:'ჯიბეში პატარა დრაკონი რომ გეპოვა, რა დაარქმევდი და რას აჭმევდი?', subs:['სად დაამალავდი, რომ არავის შეეშინდეს?']},
+    {theme:'imagine', emoji:'🐲', by:'owl',   q:'ჯიბეში პატარა დრაკონი რომ გეპოვა, რას დაარქმევდი და რას აჭმევდი?', subs:['სად დაამალავდი, რომ არავის შეეშინდეს?']},
     {theme:'values',  emoji:'🛝', by:'masho', q:'ეზოში ახალი ბავშვი მარტო დგას. შენ რას იზამდი?', subs:[]},
     {theme:'bedtime', emoji:'⭐', by:'owl',   q:'ცის ერთ ვარსკვლავს ქილაში რომ დაიჭერდი, მის შუქს რას უზამდი?', subs:['ბნელ ოთახში რას გააკეთებდი იმ შუქით?']},
-    {theme:'think',   emoji:'🦸', by:'niko',  q:'ყველაზე სასაცილო ზესძალა რომელი იქნებოდა?', subs:[]},
+    {theme:'think',   emoji:'🦸', by:'niko',  q:'ყველაზე სასაცილო ზებუნებრივი ძალა რომელი იქნებოდა?', subs:[]},
     {theme:'imagine', emoji:'🏠', by:'masho', q:'სახლი ფეხებზე რომ დადიოდეს, სასეირნოდ სად წავიდოდა?', subs:[]},
     {theme:'values',  emoji:'🌍', by:'owl',   q:'მთელ მსოფლიოს ერთ წესს რომ უყენებდე, რა იქნებოდა?', subs:['ეს წესი შენც მოგეწონებოდა?']},
     {theme:'think',   emoji:'🌧️', by:'niko',  q:'წვიმას გემო რომ ჰქონდეს, რა გემოს ისურვებდი?', subs:[]},
@@ -56,8 +56,15 @@ const TALK = {
     {theme:'think',   emoji:'🐜', by:'owl',   q:'ერთი დღით ჭიანჭველასავით პატარა იქნებოდი თუ შენობასავით დიდი? რატომ?', subs:['რა ნახავდი, რასაც ახლა ვერ ხედავ?']},
     {theme:'values',  emoji:'😄', by:'masho', q:'მეგობარი მოწყენილია. როგორ გააცინებდი?', subs:[]},
     {theme:'imagine', emoji:'🎉', by:'niko',  q:'ახალ დღესასწაულს რომ მოიგონებდი, ხალხი იმ დღეს რას აკეთებდა?', subs:['რა იქნებოდა დღესასწაულის სახელი?']},
-    {theme:'think',   emoji:'🙃', by:'niko',  q:'დილით რომ გაიღვიძებდი და ყველაფერი თავდაყირა იყო, რას იზამდი?', subs:[]},
-    {theme:'bedtime', emoji:'💬', by:'owl',   q:'ძილის წინ დღეს ერთ სიტყვას რომ ეტყოდი, რას ეტყვი?', subs:[]}
+    {theme:'think',   emoji:'🙃', by:'niko',  q:'დილით რომ გაიღვიძებდი და ყველაფერი თავდაყირა იყოს, რას იზამდი?', subs:[]},
+    {theme:'bedtime', emoji:'💬', by:'owl',   q:'ძილის წინ დღეს ერთ სიტყვას რომ ეტყოდი, რას ეტყვი?', subs:[]},
+    // v1.186 — Talk & Think expansion #4 (6 new; clips tlk_027-032) → deck = 33
+    {theme:'imagine', emoji:'🐙', by:'owl',   q:'ზღვის ფსკერზე ერთ დღეს რომ გაატარებდი, ვის შეხვდებოდი?', subs:['რას უამბობდი იქაურ თევზებს?']},
+    {theme:'values',  emoji:'🤲', by:'masho', q:'მარტო და მოწყენილი ბავშვი რომ დაინახო, რას ეტყოდი?', subs:[]},
+    {theme:'think',   emoji:'🎵', by:'niko',  q:'ფერებს ხმა რომ ჰქონდეთ, წითელი როგორ იჟღერებდა?', subs:[]},
+    {theme:'bedtime', emoji:'🛏️', by:'owl',   q:'დღეს რა გააკეთე ისეთი, რითაც ამაყობ?', subs:['ხვალ რისი გაკეთება გინდა?']},
+    {theme:'imagine', emoji:'🎈', by:'masho', q:'ბევრი ბუშტი რომ აგაფრენდა ცაში, პირველად სად გაფრინდებოდი?', subs:[]},
+    {theme:'values',  emoji:'🌱', by:'niko',  q:'ხვალ ერთ კეთილ საქმეს რომ გააკეთებდი, რა იქნებოდა?', subs:[]}
   ],
   en:[
     {theme:'think',   emoji:'☁️🍬', by:'owl',   q:'What would happen if clouds were made of candy? What would you do?', subs:["Now you make up a 'What if...' question!"]},
@@ -88,7 +95,14 @@ const TALK = {
     {theme:'values',  emoji:'😄', by:'masho', q:'A friend is feeling sad. How would you make them laugh?', subs:[]},
     {theme:'imagine', emoji:'🎉', by:'niko',  q:'If you invented a new holiday, what would people do on that day?', subs:['What would the holiday be called?']},
     {theme:'think',   emoji:'🙃', by:'niko',  q:'If you woke up and everything was upside down, what would you do?', subs:[]},
-    {theme:'bedtime', emoji:'💬', by:'owl',   q:'If you could say one word to today before sleep, what would it be?', subs:[]}
+    {theme:'bedtime', emoji:'💬', by:'owl',   q:'If you could say one word to today before sleep, what would it be?', subs:[]},
+    // v1.186 — Talk & Think expansion #4 (English deck; runtime English voice)
+    {theme:'imagine', emoji:'🐙', by:'owl',   q:'If you spent one day at the bottom of the sea, who would you meet?', subs:['What would you tell the fish down there?']},
+    {theme:'values',  emoji:'🤲', by:'masho', q:'If you saw a child all alone and sad, what would you say?', subs:[]},
+    {theme:'think',   emoji:'🎵', by:'niko',  q:'If colors had a sound, how would red sound?', subs:[]},
+    {theme:'bedtime', emoji:'🛏️', by:'owl',   q:'What did you do today that made you proud?', subs:['What do you want to do tomorrow?']},
+    {theme:'imagine', emoji:'🎈', by:'masho', q:'If lots of balloons lifted you into the sky, where would you fly first?', subs:[]},
+    {theme:'values',  emoji:'🌱', by:'niko',  q:'If you did one kind thing tomorrow, what would it be?', subs:[]}
   ]
 };
 
