@@ -1,8 +1,18 @@
 # NikoLearn — Session Handoff
 
 > ## ▶ RESUME NOW (2026-06-16)
-> **LIVE = v1.184** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
+> **LIVE = v1.185** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
 > commits trail app commits by one. Invariant that matters: clean tree + HEAD == origin/main.)
+> **★ v1.185 SHIPPED 2026-06-16 — guaranteed-winnable first-ever math question (2nd activation lever).** A brand-new child's
+> VERY FIRST math problem (`s.sessions===0`) is now small/easily-winnable (`easyFirstMath()`: add 1-4+1-4, sub a-1/2, mul
+> 2-3×2-4, div ÷2; miss/pat keep their generator) so the first interaction is a success → confidence. Only the first-ever
+> round; ongoing play uses the normal adaptive generator (never dumbed down). Pairs with v1.183 (first 3 rounds = 5 Qs).
+> Live-verified (Playwright): sessions=0 → small opener (3+1, 7−1, 4÷2) at „1/5"; sessions≥1 → normal (21+5, 28+9).
+> **▶ ACTIVATION — STOP-AND-WAIT recommendation (Niko, honest):** the two evidence-based levers are now shipped (v1.179
+> math difficulty, v1.183 short first rounds + tight requeue, v1.185 easy first-ever Q). The 67% abandon signal was thin +
+> owner-dominated; further activation tuning should WAIT for real post-launch data on the now-CLEAN KV baseline rather than
+> chase noise. Parked ideas if data later justifies: owl re-engage line on consecutive misses (note: 2nd-miss comprehension
+> gate already exists); english-mode first-round investigation (59% abandon, no difficulty lever since it's recognition).
 > **★ v1.184 SHIPPED 2026-06-16 — removed DEAD GA4 from the owner admin view (?admin=1).** Owner asked why the admin
 > „📊 GA4, სრული რეპორტი" button opened GA4 under his BIVISION Google account. Root cause: GA4 was removed from the app on
 > 2026-06-06 (privacy — GA4 sent a child's IP to Google); the button was a leftover deep-link to GA4 property 539978869 via
