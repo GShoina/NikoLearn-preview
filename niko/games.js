@@ -237,18 +237,19 @@ function teachMore(q,cor,m,advanceFn){
   const ov=document.getElementById('teachov'); if(!ov)return;
   const card=ov.querySelector('.teach-card'); if(!card)return;
   const a1=q&&q.a1, a2=q&&q.a2;
+  const en=(window.UILANG==='en');
   const solved=(m.startsWith('math-')&&q&&q.q)?(q.q.indexOf('?')>=0?q.q.replace('?',cor):`${q.q} = ${cor}`):String(cor);
   let visual='';
   if(m==='math-add' && a1!=null && a2!=null && (a1+a2)<=24){
     visual=`<div class="teach-dots">${_teDots(a1,'g1')}<span class="te-plus">+</span>${_teDots(a2,'g2')}</div>
-      <div class="teach-count">ყველა დავთვალოთ ერთად: <b>${a1+a2}</b></div>`;
+      <div class="teach-count">${en?'Count them all together':'ყველა დავთვალოთ ერთად'}: <b>${a1+a2}</b></div>`;
   } else if(m==='math-sub' && a1!=null && a2!=null && a1<=24){
     let d=''; for(let i=0;i<a1;i++) d+=`<span class="td ${i<a1-a2?'g1':'x'}">●</span>`;
     visual=`<div class="teach-dots"><span class="dg">${d}</span></div>
-      <div class="teach-count">გადახაზულის შემდეგ დარჩა: <b>${a1-a2}</b></div>`;
+      <div class="teach-count">${en?'Left after crossing out':'გადახაზულის შემდეგ დარჩა'}: <b>${a1-a2}</b></div>`;
   } else if(m==='math-mul' && a1!=null && a2!=null && (a1*a2)<=24){
     visual=`<div class="teach-rows">${Array.from({length:a2},()=>`<div class="te-row">${_teDots(a1,'g1')}</div>`).join('')}</div>
-      <div class="teach-count">${a2} ჯგუფი, თითო ${a1}: <b>${a1*a2}</b></div>`;
+      <div class="teach-count">${en?`${a2} groups of ${a1}`:`${a2} ჯგუფი, თითო ${a1}`}: <b>${a1*a2}</b></div>`;
   } else {
     let explain=''; try{ const t=Tutor.build({subject:gameSubject(),q,mode:m,profile,aiRole:aiRole()}); explain=t.explain||''; }catch(e){}
     visual=`<div class="teach-explain">${explain}</div>`;
@@ -429,26 +430,33 @@ function whyText(mode){ const w=MATH_WHY[mode]; if(!w) return ''; return w[(wind
 const WP_NAMES=['ნიკო','მაშო','ლუკა','ანა','დათო','ნინო'];
 const WP_FOOD=['ვაშლი','ბანანი','კანფეტი','მსხალი','ნამცხვარი'];      // can be EATEN
 const WP_OBJ =['ბურთი','მანქანა','წიგნი','ფანქარი','ყვავილი','ბუშტი']; // had / given / found — NOT eaten
-const rpick=a=>a[ri(0,a.length-1)];
-function twoNames(){const i=ri(0,WP_NAMES.length-1);let j=ri(0,WP_NAMES.length-1);if(j===i)j=(j+1)%WP_NAMES.length;return [WP_NAMES[i],WP_NAMES[j]];}
+// EN parallels — same index = same item. Food/obj are PLURAL: every slot they fill carries a count >= 2.
+const EN_NAMES=['Niko','Masho','Luka','Ana','Dato','Nino'];
+const EN_FOOD =['apples','bananas','candies','pears','cakes'];
+const EN_OBJ  =['balls','cars','books','pencils','flowers','balloons'];
 // Varied real-life scenarios (owner 2026-06-13: more variety + fun, not always "N boxes M-M each").
 // 7+ (isBig) also gets comparison/shopping(money)/equal-sharing(division); younger get add/sub only.
+// Bilingual: ka uses grammatical cases (dative -ს / ergative -მ); en uses plural nouns + simple frames.
 function genWord(){
   const adv=(typeof isBig==='function'&&isBig(profile));
-  const [n1,n2]=twoNames(), d1=n1+'ს', d2=n2+'ს', e1=n1+'მ';
-  const obj=rpick(WP_OBJ), food=rpick(WP_FOOD);
+  const en=(window.UILANG==='en');
+  const i=ri(0,WP_NAMES.length-1); let j=ri(0,WP_NAMES.length-1); if(j===i)j=(j+1)%WP_NAMES.length;
+  const n1=WP_NAMES[i], n2=WP_NAMES[j], d1=n1+'ს', d2=n2+'ს', e1=n1+'მ';
+  const E1=EN_NAMES[i], E2=EN_NAMES[j];
+  const oi=ri(0,WP_OBJ.length-1), fi=ri(0,WP_FOOD.length-1);
+  const obj=WP_OBJ[oi], food=WP_FOOD[fi], eobj=EN_OBJ[oi], efood=EN_FOOD[fi];
   const t=adv?ri(0,9):ri(0,6);
   switch(t){
-    case 0:{const a=ri(2,9),b=ri(2,9);return{q:`${d1} ჰქონდა ${a} ${obj}. კიდევ ${b} იშოვა. სულ რამდენი ${obj} აქვს?`,a:a+b,op:'word'};}
-    case 1:{const a=ri(2,9),b=ri(2,9);return{q:`${d1} აქვს ${a} ${food}, ${d2} ${b}. სულ რამდენი ${food} აქვთ?`,a:a+b,op:'word'};}
-    case 2:{const a=ri(2,9),b=ri(2,9);return{q:`ერთ ყუთში ${a} ${obj}, მეორეში ${b}. სულ რამდენი ${obj}?`,a:a+b,op:'word'};}
-    case 3:{const a=ri(5,14),b=ri(1,a-1);return{q:`${d1} ჰქონდა ${a} ${food}. ${b} შეჭამა. რამდენი ${food} დარჩა?`,a:a-b,op:'word'};}
-    case 4:{const a=ri(5,14),b=ri(1,a-1);return{q:`${d1} ჰქონდა ${a} ${obj}. ${b} მისცა მეგობარს. რამდენი ${obj} დარჩა?`,a:a-b,op:'word'};}
-    case 5:{const a=ri(4,12),b=ri(1,a-1);return{q:`ხეზე იჯდა ${a} ჩიტი. ${b} გაფრინდა. რამდენი ჩიტი დარჩა?`,a:a-b,op:'word'};}
-    case 6:{const a=ri(5,14),b=ri(2,a-1);return{q:`${d1} აქვს ${a} ${food}, ${d2} ${b}. რამდენით მეტი აქვს ${d1}?`,a:a-b,op:'word'};}
-    case 7:{const k=ri(2,5),m=ri(2,5);return{q:`${k} ყუთში ${m}-${m} ${obj}. სულ რამდენი ${obj}?`,a:k*m,op:'word'};}
-    case 8:{const k=ri(2,5),p=ri(2,5);return{q:`${e1} იყიდა ${k} ${food}, თითო ${p} ლარად. სულ რამდენი ლარი გადაიხადა?`,a:k*p,op:'word'};}
-    default:{const b=ri(2,5),qn=ri(2,6),tot=b*qn;return{q:`${tot} ${food} თანაბრად დაურიგდა ${b} ბავშვს. რამდენი ერგო თითოს?`,a:qn,op:'word'};}
+    case 0:{const a=ri(2,9),b=ri(2,9);return{q:en?`${E1} had ${a} ${eobj}. ${E1} found ${b} more. How many ${eobj} now?`:`${d1} ჰქონდა ${a} ${obj}. კიდევ ${b} იშოვა. სულ რამდენი ${obj} აქვს?`,a:a+b,op:'word'};}
+    case 1:{const a=ri(2,9),b=ri(2,9);return{q:en?`${E1} has ${a} ${efood}, ${E2} has ${b}. How many ${efood} together?`:`${d1} აქვს ${a} ${food}, ${d2} ${b}. სულ რამდენი ${food} აქვთ?`,a:a+b,op:'word'};}
+    case 2:{const a=ri(2,9),b=ri(2,9);return{q:en?`One box has ${a} ${eobj}, another has ${b}. How many ${eobj} in total?`:`ერთ ყუთში ${a} ${obj}, მეორეში ${b}. სულ რამდენი ${obj}?`,a:a+b,op:'word'};}
+    case 3:{const a=ri(5,14),b=ri(1,a-1);return{q:en?`${E1} had ${a} ${efood}. ${E1} ate ${b}. How many ${efood} are left?`:`${d1} ჰქონდა ${a} ${food}. ${b} შეჭამა. რამდენი ${food} დარჩა?`,a:a-b,op:'word'};}
+    case 4:{const a=ri(5,14),b=ri(1,a-1);return{q:en?`${E1} had ${a} ${eobj}. ${E1} gave ${b} to a friend. How many ${eobj} are left?`:`${d1} ჰქონდა ${a} ${obj}. ${b} მისცა მეგობარს. რამდენი ${obj} დარჩა?`,a:a-b,op:'word'};}
+    case 5:{const a=ri(4,12),b=ri(1,a-1);return{q:en?`${a} birds sat on a tree. ${b} flew away. How many birds are left?`:`ხეზე იჯდა ${a} ჩიტი. ${b} გაფრინდა. რამდენი ჩიტი დარჩა?`,a:a-b,op:'word'};}
+    case 6:{const a=ri(5,14),b=ri(2,a-1);return{q:en?`${E1} has ${a} ${efood}, ${E2} has ${b}. How many more does ${E1} have?`:`${d1} აქვს ${a} ${food}, ${d2} ${b}. რამდენით მეტი აქვს ${d1}?`,a:a-b,op:'word'};}
+    case 7:{const k=ri(2,5),m=ri(2,5);return{q:en?`${k} boxes have ${m} ${eobj} each. How many ${eobj} in total?`:`${k} ყუთში ${m}-${m} ${obj}. სულ რამდენი ${obj}?`,a:k*m,op:'word'};}
+    case 8:{const k=ri(2,5),p=ri(2,5);return{q:en?`${E1} bought ${k} ${efood}, each costing ${p} GEL. How much did ${E1} pay in total?`:`${e1} იყიდა ${k} ${food}, თითო ${p} ლარად. სულ რამდენი ლარი გადაიხადა?`,a:k*p,op:'word'};}
+    default:{const b=ri(2,5),qn=ri(2,6),tot=b*qn;return{q:en?`${tot} ${efood} were shared equally among ${b} children. How many did each child get?`:`${tot} ${food} თანაბრად დაურიგდა ${b} ბავშვს. რამდენი ერგო თითოს?`,a:qn,op:'word'};}
   }
 }
 function wordRound(){game.mode='math-word';game.qs=Array.from({length:6},()=>genWord());game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextWordQ();}
