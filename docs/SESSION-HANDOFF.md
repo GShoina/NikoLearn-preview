@@ -1,8 +1,16 @@
 # NikoLearn — Session Handoff
 
 > ## ▶ RESUME NOW (2026-06-16)
-> **LIVE = v1.183** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
+> **LIVE = v1.184** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
 > commits trail app commits by one. Invariant that matters: clean tree + HEAD == origin/main.)
+> **★ v1.184 SHIPPED 2026-06-16 — removed DEAD GA4 from the owner admin view (?admin=1).** Owner asked why the admin
+> „📊 GA4, სრული რეპორტი" button opened GA4 under his BIVISION Google account. Root cause: GA4 was removed from the app on
+> 2026-06-06 (privacy — GA4 sent a child's IP to Google); the button was a leftover deep-link to GA4 property 539978869 via
+> analytics.google.com, which Google opens under whatever Google account the browser is signed into (his Bivision/
+> info@bivision.ge session) and which gets NO NikoLearn data anymore. Removed: the button, `loadGA4Metrics()`, the empty
+> never-deployed `GA4_METRICS_URL` proxy, the `#ga4box`, and 7 orphaned GA4 i18n keys. Admin info line now honestly points
+> to the local Desktop stats-viewer for real cross-device numbers. Real analytics today = the Cloudflare telemetry worker
+> (the stats-viewer) + Cloudflare Web Analytics. Live-verified (Playwright): admin renders clean, 0 GA4 refs, 0 console err.
 > **▶ NEXT (owner-driven):** keep testing with Nikoloz. **Owner to-verify (3, unchanged):** (1) iPhone tap-freeze fix on
 > the REAL phone (v1.178 `*{touch-action:manipulation}`); (2) EAR-check talk clip `tlk_007` („…სად გახვიდოდი?"); (3)
 > double-click Desktop **„NikoLearn უკუკავშირი.cmd"** to read parent feedback (works, list empty).
