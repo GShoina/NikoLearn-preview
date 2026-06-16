@@ -350,3 +350,25 @@ a **GUIDE** (relevance for Georgian kids), NOT the rigid spine. Don't over-fit t
 **O4 — drawing / coloring.** Motor-skill + creative, screen-positive. Sub-options: (a) free finger-paint canvas (touch, color palette, brush sizes, undo/clear); (b) themed coloring pages — pick a character from a theme (animals, space, Niko & friends) and fill it in; (c) save/print the result (export PNG / window.print). Phase 1: (a) free-paint + (b) a few coloring templates; (c) print later. *Works offline; no PII.*
 
 **PO recommendation (build order):** quick wins first → **O2 (movement)** then **O1 (animal avatar)** [each ~1 session, high delight]; then **O4 (drawing)** [medium]; then **O3 (parent-voice stories)** [flagship, multi-session — worth a dedicated push].
+
+### 2026-06-16 — STRATEGY: reach is solved, ACTIVATION is the bottleneck (data-backed)
+
+Owner challenged the assumption that pre-launch traffic was „mostly Niko's testing". Cross-checking the
+Cloudflare EDGE analytics (which has IP/browser, unlike the privacy-first app telemetry) proved real
+traffic dominates. Conclusions to drive the roadmap:
+
+- **Distribution channels that WORK (validated, keep doing):** owner seeded two warm-network channels and
+  both produced real visits — (1) **Facebook** link shared to Niko's classmates' parents (FB in-app browser
+  = the #1 browser in CF, dominant share); (2) **QR code** handed to kids in the yard (direct mobile visits).
+  Real Georgian traffic = ~280 of ~365 IP-hits after subtracting the owner's confirmed work + phone IPs.
+- **#1 PRODUCT PROBLEM = activation, not traffic.** App telemetry: **round_abandon 136 vs round_complete 66
+  ≈ 67% of started rounds abandoned.** Many arrive and play, most don't finish a round. More traffic won't
+  help until first-round completion improves. (This also makes the older „73% მიტოვება" hypothesis real, not noise.)
+- **So the lever is the FIRST ROUND.** Candidate moves (to design/test): make round 1 trivially winnable
+  (easier first item, guaranteed early success), stronger Niko-owl hint after the 1st miss, a „🔁 გაიმეორე"
+  nudge, shorter rounds, clearer „X done · Y left". Tie into the existing comprehension gate + adaptive difficulty.
+- **Growth (later, AFTER activation):** scale what works — more QR (schools/yards/kindergartens) + more FB
+  parent groups. Warm network is cheap and high-intent. Don't buy ads yet.
+- **Measurement model:** CF tab = WHO/where/how-many real (reach); app dashboard = WHAT they do (behavior).
+  Always read them together (the stats viewer's 🌐 ტრაფიკი funnel does this). Owner-mode toggle + (optional)
+  KV reset will clean the owner's own sessions out of the app numbers going forward.

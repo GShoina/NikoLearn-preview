@@ -6,6 +6,21 @@
 > **▶ NEXT (owner-driven):** keep testing with Nikoloz. **Owner to-verify (3, unchanged):** (1) iPhone tap-freeze fix on
 > the REAL phone (v1.178 `*{touch-action:manipulation}`); (2) EAR-check talk clip `tlk_007` („…სად გახვიდოდი?"); (3)
 > double-click Desktop **„NikoLearn უკუკავშირი.cmd"** to read parent feedback (works, list empty).
+> **★★ BIGGEST STRATEGIC FINDING THIS SESSION (carry forward): the #1 problem is ACTIVATION, not traffic.** Owner challenged
+> my „mostly test data" claim with CF edge data — he was RIGHT, I was wrong. REAL Georgian traffic already exists pre-launch
+> (CF: Facebook in-app browser #1, ~280/365 IP-hits real after subtracting owner work/phone IPs). It's SEEDED, not organic:
+> owner shared the FB link to Niko's classmates' parents + gave a QR to yard kids — both channels WORK. BUT app telemetry
+> shows **~67% of started rounds are ABANDONED** (round_abandon 136 vs round_complete 66). So: reach is fine, the lever is
+> first-round COMPLETION. Don't chase more traffic until activation improves. (Full analysis baked into the stats viewer's
+> 🌐 ტრაფიკი tab + funnel; detail in PRODUCT_IDEAS.md 2026-06-16.)
+> **⏳ OPEN OWNER DECISIONS (surfaced 2026-06-16, awaiting his call):** (a) **owner-mode toggle** — owner must enable „📱 ეს
+> ჩემი მოწყობილობაა" on his work + phone + Windows devices so app stats stop counting his sessions (app has no IP, can't
+> auto-subtract him); (b) **KV baseline reset?** — offered: wipe current (mostly-test) telemetry counters for a clean
+> post-launch start; needs owner „yes" (it's deletion, but only aggregate test counters, no user data); (c) if owner names
+> more of his IPs (home/other), add them to OWNER_IPS in the stats viewer for a sharper real-vs-owner split.
+> **SESSION 2026-06-16 SHIPPED (detail in the ★ blocks below):** v1.180 em-dash purge + .kh-del 44px + worker submode enum ·
+> nightly QA routine (01:07 GE) · v1.181 EN math word-problems · stats viewer fixed (embedded local key) + collapse hierarchy
+> + 🌐 ტრაფიკი/CF analyst tab · v1.182 perf batch (~950KB images + defer + opentype-lazy + brand-preview off Pages).
 > **★ NEW OWNER DIRECTIVE 2026-06-16 — NIGHTLY AUTONOMOUS TESTING:** owner wants testing/QA to run at NIGHT from 1:00am
 > Georgia time (= **21:00 UTC**, cron `0 21 * * *`) WITHOUT asking him, so it never interferes with his daytime work.
 > Standing rule now: schedule regression/QA testing nightly, deliver results to NikoLearn@outlook.com for the morning;
