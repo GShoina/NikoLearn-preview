@@ -653,13 +653,23 @@ function answerShape(btn,sel,cor){
 }
 
 /* ── money: count coins (tetri) → total ── */
-const COINS=[5,10,20,50];
-function moneyRound(){game.mode='money';game.qs=Array.from({length:8},()=>{const n=ri(2,3);const coins=[];let total=0;for(let i=0;i<n;i++){const v=COINS[ri(0,COINS.length-1)];coins.push(v);total+=v;}return{coins:coins,total:total};});game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextMoney();}
+const COINS=[5,10,20,50];      // tetri coins
+const BILLS=[1,2,5,10,20];     // lari banknotes (კუპიური) — v1.196
+// v1.196: money mixes tetri-coin rounds and lari-banknote (კუპიური) rounds. Prompt is now bilingual
+// (was ka-only „რამდენი თეთრია?" = EN-leak for an English-deck kid).
+function moneyRound(){game.mode='money';game.qs=Array.from({length:8},()=>{
+    const lari=Math.random()<0.45; const pool=lari?BILLS:COINS; const n=ri(2,3); const items=[]; let total=0;
+    for(let i=0;i<n;i++){const v=pool[ri(0,pool.length-1)];items.push(v);total+=v;}
+    return{items:items,total:total,lari:lari};
+  });game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextMoney();}
 function nextMoney(){
   if(game.i>=game.qs.length)return results();
   const q=game.qs[game.i];game.cur=q;
-  const coins=q.coins.map(v=>`<span style="display:inline-flex;flex-direction:column;align-items:center;margin:2px 6px"><span style="font-size:2.6rem;line-height:1">🪙</span><b class="num" style="font-size:.95rem">${v}</b></span>`).join('');
-  gameShell(`<div class="prompt"><div style="display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-end">${coins}</div><div class="p-sub">რამდენი თეთრია?</div></div>
+  const kl=(kidObj(profile)&&kidObj(profile).langs)||['ka'], en=kl.indexOf('ka')<0;
+  const ic=q.lari?'💵':'🪙', unit=q.lari?'₾':'';
+  const items=q.items.map(v=>`<span style="display:inline-flex;flex-direction:column;align-items:center;margin:2px 6px"><span style="font-size:2.6rem;line-height:1">${ic}</span><b class="num" style="font-size:.95rem">${v}${unit}</b></span>`).join('');
+  const sub=q.lari?(en?'How many lari?':'რამდენი ლარია?'):(en?'How many tetri?':'რამდენი თეთრია?');
+  gameShell(`<div class="prompt"><div style="display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-end">${items}</div><div class="p-sub">${sub}</div></div>
     <div class="options">${mathOpts(q.total).map(o=>`<button class="opt num" onclick="answerMoney(this,${o},${q.total})">${o}</button>`).join('')}</div>`);
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
 }
