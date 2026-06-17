@@ -24,7 +24,10 @@ const TALK_THEMES = {
   finish:    {ic:'🖍️', label:'დაასრულე ამბავი',    color:'var(--green)'},
   whatif:    {ic:'🦄', label:'რა მოხდებოდა თუ...',   color:'var(--purple)'},
   theater:   {ic:'🎭', label:'წარმოსახვის თეატრი',   color:'var(--sun)'},
-  poem:      {ic:'🐸', label:'სასაცილო ლექსი',        color:'var(--green)'}
+  poem:      {ic:'🐸', label:'სასაცილო ლექსი',        color:'var(--green)'},
+  // v1.193 — ჟანრების კუთხე (curriculum-mined: ESG ქართ. ენა-ლიტ. „მხატვრული ჟანრები"). open-ended, Talk-engine.
+  tale:      {ic:'🏰', label:'ზღაპრის გაგრძელება',    color:'var(--purple)'},
+  fable:     {ic:'🐢', label:'პატარა იგავი',          color:'var(--sun)'}
 };
 /* who asks (the app's characters: Niko the owl + Nikoloz + Masho) */
 const TALK_CHARS = {
@@ -85,7 +88,13 @@ const TALK = {
     {theme:'theater',    emoji:'🤖',   by:'niko', q:'გახდი რობოტი, რომელმაც ახლახან ისწავლა სიცილი. როგორ იცინი?', subs:[]},
     // v1.192 (owner 2026-06-17): one verse-line per \n (split crammed lines), em-dash → hyphen. Audio (tlk_044/045) unaffected (text-only).
     {theme:'poem', min:5, emoji:'🐸',  q:'ბაყაყმა იყიდა წითელი ჩექმა,\nტბაში აღარ შედის - ნახეთ, როგორ მოიქცა!\nდადის და ტრაბახობს: „ვინ მნახა ასეთი -\nფეხსაცმელიანი ბაყაყი ერთადერთი!"', subs:[]},
-    {theme:'poem', min:5, emoji:'🐭',  q:'საათში თაგვი ცხოვრობდა,\nტიკ-ტაკის ხმაზე ხტოდა,\nცეკვაში დრო გაეპარა,\nდროს სულაც არ ნაღვლობდა.\nამიტომ მთელმა ქალაქმა,\nერთი საათით დააგვიანა.', subs:[]}
+    {theme:'poem', min:5, emoji:'🐭',  q:'საათში თაგვი ცხოვრობდა,\nტიკ-ტაკის ხმაზე ხტოდა,\nცეკვაში დრო გაეპარა,\nდროს სულაც არ ნაღვლობდა.\nამიტომ მთელმა ქალაქმა,\nერთი საათით დააგვიანა.', subs:[]},
+    // ── v1.193 ჟანრების კუთხე — ზღაპარი (გაგრძელება) + იგავი (გაკვეთილით). open-ended, clip არ სჭირდება (მშობელი კითხულობს). ──
+    {theme:'tale',  emoji:'🌟', by:'owl',   q:'პატარა სოფელში ცხოვრობდა გოგონა, რომელსაც ვარსკვლავების დათვლა უყვარდა. ერთ ღამეს ცაში ერთი ვარსკვლავი დააკლდა. სად წავიდა, როგორ ფიქრობ?', subs:['ვინ შეიძლება დაეხმაროს, რომ უკან დაბრუნდეს?']},
+    {theme:'tale',  emoji:'🐉', by:'niko',  q:'ცეცხლისმფრქვეველ პატარა დრაკონს გაცივება დაემართა და ცეცხლის ნაცვლად ფიფქებს აცხიკვებდა. რა მოხდა შემდეგ?', subs:[]},
+    {theme:'tale',  emoji:'🌳', by:'masho', q:'ეზოში მდგარ ხეს ყველა ფოთოლი შემოეცალა და გული დასწყდა. ერთ დილას კი ტოტებზე რაღაც საოცარი შენიშნა. რა იყო ის?', subs:['შენ რას ეტყოდი ამ ხეს, რომ გაამხნევო?']},
+    {theme:'fable', emoji:'🐢', by:'owl',   q:'კურდღელი დასცინოდა კუს, რომ ნელა დადიოდა. სირბილში კი კუმ მოიგო, რადგან კურდღელი გზად დაიძინა. შენ რას ისწავლი ამ ამბავიდან?', subs:[]},
+    {theme:'fable', emoji:'🦊', by:'masho', q:'მელას მაღლა ჩამოკიდებული ყურძენი მოუნდა, მაგრამ ვერ მისწვდა. წავიდა და თქვა: ალბათ მჟავეა, არც მინდოდაო. მართლა მჟავე იყო, თუ მელა თავს იმართლებდა?', subs:[]}
   ],
   en:[
     {theme:'think',   emoji:'☁️🍬', by:'owl',   q:'What would happen if clouds were made of candy? What would you do?', subs:["Now you make up a 'What if...' question!"]},
@@ -135,7 +144,13 @@ const TALK = {
     {theme:'whatif',     emoji:'🌧️',  by:'niko', q:'What would happen if raindrops fell upward, toward the sky?', subs:[]},
     {theme:'theater',    emoji:'☁️',   by:'owl',  q:'Pretend you are a little cloud. Show me how you move when the wind blows you.', subs:[]},
     {theme:'theater',    emoji:'🐱❄️', by:'masho',q:'Pretend you are a brave cat seeing snow for the first time. What do you do?', subs:[]},
-    {theme:'theater',    emoji:'🤖',   by:'niko', q:'Become a robot that just learned to laugh. How do you laugh?', subs:[]}
+    {theme:'theater',    emoji:'🤖',   by:'niko', q:'Become a robot that just learned to laugh. How do you laugh?', subs:[]},
+    // ── v1.193 ჟანრების კუთხე — parallel EN deck (runtime English voice) ──
+    {theme:'tale',  emoji:'🌟', by:'owl',   q:'In a small village lived a girl who loved counting stars. One night, one star was missing from the sky. Where do you think it went?', subs:['Who could help it find its way back?']},
+    {theme:'tale',  emoji:'🐉', by:'niko',  q:'A little fire-breathing dragon caught a cold and sneezed snowflakes instead of fire. What happened next?', subs:[]},
+    {theme:'tale',  emoji:'🌳', by:'masho', q:'A tree in the yard lost all its leaves and felt sad. But one morning it noticed something wonderful on its branches. What was it?', subs:['What would you say to cheer the tree up?']},
+    {theme:'fable', emoji:'🐢', by:'owl',   q:'A hare laughed at the slow tortoise. But the tortoise won the race, because the hare fell asleep along the way. What can we learn from this?', subs:[]},
+    {theme:'fable', emoji:'🦊', by:'masho', q:'A fox wanted the grapes hanging up high but could not reach them. She walked off saying: they are probably sour anyway. Were they really sour, or was the fox making excuses?', subs:[]}
   ]
 };
 
@@ -200,7 +215,7 @@ function talkCard(){
   // creative trio; values/bedtime (EQ/reflection) get only „what would you add" so we never mislabel them.
   const ten=(UILANG==='en');
   const isPoem=(c.theme==='poem'); // reading content: multi-line, no character ask, no audio
-  const creative=['imagine','think','impossible','finish','whatif','theater'].includes(c.theme);
+  const creative=['imagine','think','impossible','finish','whatif','theater','tale'].includes(c.theme);
   const acts=[`<span class="td-chip">🤔 ${ten?'What would you add?':'შენ რას დაამატებდი?'}</span>`];
   if(creative){
     acts.push(`<span class="td-chip">🎨 ${ten?'Draw this scene':'დახატე ეს სცენა'}</span>`);

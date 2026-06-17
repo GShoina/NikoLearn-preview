@@ -73,6 +73,8 @@ window.I18N_MAP = {
   "ღირებულებები":"Values",
   "ძილისწინა საუბრები":"Bedtime talk",
   "შეუძლებელი ისტორია":"Impossible story",
+  "ზღაპრის გაგრძელება":"Continue the tale",
+  "პატარა იგავი":"A little fable",
   "დაასრულე ამბავი":"Finish the story",
   "რა მოხდებოდა თუ...":"What would happen if...",
   "წარმოსახვის თეატრი":"Imagination theatre",
