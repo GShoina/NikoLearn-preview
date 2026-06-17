@@ -2,22 +2,34 @@
 <html lang="ka">
 <head>
 <meta charset="UTF-8">
-<!-- NikoLearn Privacy Policy. DRAFT v1 (2026-06-08): best-practice, written to GDPR grade +
-     COPPA + Georgian Law on Personal Data Protection. NOT legal advice — have a lawyer review the
-     final wording before a US marketing push, and confirm the legal controller entity (see [ENTITY]). -->
+<!-- NikoLearn Privacy Policy. v2 (2026-06-18): owner-redacted base (Privacy-by-Design framing, cleaner
+     structure) + 3 compliance-essential merges kept in the owner's style: parent-feedback-form disclosure
+     (the form in parent.js collects parent name/phone/email → must be disclosed), data controller identity,
+     and data-subject rights + supervisory-authority complaint. Georgian: owner-validated base + Gemini-QA'd
+     additions. NOT legal advice — have a lawyer review before a US marketing push. Bilingual ka/en toggle. -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="index,follow">
 <title>NikoLearn · კონფიდენციალურობის პოლიტიკა / Privacy Policy</title>
 <style>
   :root{ --bg:#f6f7fb; --card:#fff; --ink:#1f2433; --muted:#5b6273; --line:#e6e8f0;
-         --accent:#6B63B5; --accent-soft:#eef0fb; }
+         --accent:#6B63B5; --accent-d:#534c93; --accent-soft:#eef0fb; --green:#00A651; }
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);
        font:15.5px/1.62 -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans Georgian",Roboto,sans-serif;
-       padding:26px 16px 70px}
-  .wrap{max-width:760px;margin:0 auto}
+       padding:0 0 70px}
+  /* ── NikoLearn header panel (owner ask 2026-06-18) ── */
+  .site-head{background:linear-gradient(135deg,var(--accent),var(--accent-d));color:#fff;padding:14px 16px}
+  .site-head .inner{max-width:760px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff}
+  .brand img{width:40px;height:40px;object-fit:contain;display:block}
+  .brand b{font-size:19px;font-weight:800;letter-spacing:-.2px}
+  .brand small{display:block;font-size:11px;opacity:.85;font-weight:500;margin-top:-2px}
+  .home-link{color:#fff;text-decoration:none;font-size:13.5px;font-weight:600;background:rgba(255,255,255,.16);
+       border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 14px}
+  .home-link:hover{background:rgba(255,255,255,.26)}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 0}
   .top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:6px}
-  h1{font-size:22px;margin:0;font-weight:700}
+  h1.title{font-size:21px;margin:0;font-weight:800}
   .lang{display:flex;gap:6px}
   .lang button{border:1px solid var(--line);background:var(--card);color:var(--muted);
        border-radius:8px;padding:6px 13px;font-size:13.5px;cursor:pointer;font-weight:600}
@@ -30,6 +42,9 @@
   li{margin:5px 0}
   .lead{background:var(--accent-soft);border:1px solid #dfe2f5;border-radius:12px;padding:14px 16px;margin:0 0 8px}
   .lead strong{color:var(--accent)}
+  .nocollect{list-style:none;padding-left:2px} .nocollect li::before{content:"❌ ";}
+  .keep{background:#f0faf4;border:1px solid #bfe6cf;border-radius:10px;padding:11px 14px;margin:10px 0}
+  .keep strong{color:var(--green)}
   a{color:var(--accent)}
   code{background:#eef1f6;border-radius:5px;padding:1px 5px;font-size:13px}
   footer{color:var(--muted);font-size:12.5px;text-align:center;margin-top:34px;border-top:1px solid var(--line);padding-top:16px}
@@ -37,9 +52,21 @@
 </style>
 </head>
 <body>
+
+<!-- ════════ NikoLearn header panel ════════ -->
+<header class="site-head">
+  <div class="inner">
+    <a class="brand" href="landing.html">
+      <img src="owl-logo.png" alt="NikoLearn">
+      <span><b>NikoLearn</b><small>სასწავლო აპლიკაცია ბავშვებისთვის</small></span>
+    </a>
+    <a class="home-link" href="landing.html">← მთავარი / Home</a>
+  </div>
+</header>
+
 <div class="wrap">
   <div class="top">
-    <h1>NikoLearn</h1>
+    <h1 class="title" id="page-title">კონფიდენციალურობის პოლიტიკა</h1>
     <div class="lang">
       <button id="b-ka" class="on" onclick="setLang('ka')">ქართული</button>
       <button id="b-en" onclick="setLang('en')">English</button>
@@ -48,167 +75,195 @@
 
   <!-- ════════════════ ქართული ════════════════ -->
   <section id="ka">
-    <h1 style="font-size:19px;margin:2px 0 2px">კონფიდენციალურობის პოლიტიკა</h1>
     <p class="eff">ბოლო განახლება: 2026 წლის 18 ივნისი</p>
 
     <div class="lead">
-      <strong>მთავარი პრინციპი:</strong> NikoLearn მუშაობს მთლიანად ბავშვის მოწყობილობაზე.
-      აპლიკაცია არ ითხოვს ანგარიშს, არ აგროვებს ბავშვის სახელს, ელფოსტას ან ტელეფონს სერვერზე, და
-      <strong>ბავშვის სასწავლო მონაცემებს არსად არ აგზავნის.</strong> არ არის რეკლამა, არ არის გარე ბმულები
-      ბავშვის აპში, არ ვყიდით მონაცემებს.
+      <strong>მთავარი პრინციპი:</strong> NikoLearn შექმნილია <strong>Privacy-by-Design</strong> პრინციპით.
+      აპლიკაცია მუშაობს ძირითადად ბავშვის მოწყობილობაზე, არ საჭიროებს ანგარიშის შექმნას, არ აჩვენებს რეკლამებს,
+      არ ყიდის მონაცემებს და არ იყენებს მესამე მხარის ტრეკერებს სასწავლო გარემოში.
     </div>
 
     <h2>1. ვინ ვართ</h2>
-    <p>NikoLearn („სერვისი") ქართული სასწავლო აპლიკაციაა ბავშვებისთვის. სერვისს მართავს და პერსონალურ მონაცემთა დამმუშავებელია გელა შონია (ფიზიკური პირი)
-      („ჩვენ"). კითხვებზე დაგვიკავშირდით: <a href="mailto:NikoLearn@outlook.com">NikoLearn@outlook.com</a>
-      ან WhatsApp <a href="https://wa.me/995593255385">+995 593 255 385</a>.</p>
+    <p>NikoLearn არის ქართული სასწავლო აპლიკაცია ბავშვებისთვის. სერვისს მართავს და პერსონალურ მონაცემთა
+      დამმუშავებელია გელა შონია (ფიზიკური პირი). კითხვების შემთხვევაში დაგვიკავშირდით:</p>
+    <p>📧 <a href="mailto:NikoLearn@outlook.com">NikoLearn@outlook.com</a><br>
+       📱 WhatsApp: <a href="https://wa.me/995593255385">+995 593 255 385</a></p>
 
-    <h2>2. რა მონაცემები რჩება მოწყობილობაზე (და არსად არ იგზავნება)</h2>
-    <p>თქვენი ბავშვის პროფილი (სახელი, რომელსაც სურვილისამებრ უთითებთ), პროგრესი, ქულები და პარამეტრები
-      ინახება მხოლოდ ამ მოწყობილობის ბრაუზერში (<code>localStorage</code>). ეს მონაცემები ჩვენამდე არ
-      აღწევს. შეგიძლიათ ნებისმიერ დროს წაშალოთ: პროფილის წაშლით ან ბრაუზერის მონაცემების გასუფთავებით.</p>
+    <h2>2. რა მონაცემები ინახება მხოლოდ მოწყობილობაზე</h2>
+    <p>ბავშვის პროფილი (მათ შორის სურვილისამებრ მითითებული სახელი), სასწავლო პროგრესი, ქულები და პარამეტრები
+      ინახება მხოლოდ მომხმარებლის მოწყობილობის ბრაუზერში (<code>localStorage</code>). ამ მონაცემებზე
+      NikoLearn-ის ოპერატორს წვდომა არ აქვს და ისინი ჩვენს სისტემებში არ გადაიცემა.</p>
     <p>NikoLearn-ის AI დამხმარე (ბუ-ტუტორი) სრულად თქვენს მოწყობილობაზე მუშაობს. ბავშვის პასუხები და სხვა
       ინფორმაცია გარე AI სერვისებს არ ეგზავნება.</p>
+    <p>თქვენ შეგიძლიათ ნებისმიერ დროს წაშალოთ ეს ინფორმაცია: პროფილის წაშლით ან ბრაუზერის მონაცემების
+      გასუფთავებით.</p>
 
-    <h2>3. რას ვაგროვებთ (შეზღუდული, ანონიმური)</h2>
+    <h2>3. რა მონაცემებს ვაგროვებთ</h2>
+    <h3>Cloudflare Web Analytics</h3>
+    <p>ვიყენებთ Cloudflare Web Analytics-ს საიტისა და აპის გამოყენების ზოგადი სტატისტიკის მისაღებად. ის:</p>
     <ul>
-      <li><strong>Cloudflare Web Analytics</strong> (საიტსა და აპის გვერდებზე): cookie-ს გარეშე, პერსონალური
-        მონაცემების გარეშე, IP-მისამართს არ ინახავს. გვეხმარება მხოლოდ ვიზიტების დათვლასა და ზოგადი
-        გამოყენების გაგებაში (რომელი ქვეყანა, მოწყობილობის ტიპი, ვიზიტორების რაოდენობა). ვერ ამოიცნობს თქვენს ბავშვს.</li>
-      <li><strong>ჩვენი საკუთარი სასწავლო სტატისტიკა</strong> (აპში): ვაგროვებთ მხოლოდ ჯამურ, ანონიმურ
-        რიცხვებს იმის გასაგებად, რომელ საგანს იყენებენ ბავშვები ყველაზე ხშირად (მაგ. მათემატიკა, ანბანი).
-        არცერთი სახელი, ასაკი, პასუხი ან IP-მისამართი არ იგზავნება. cookie-ს გარეშე. მონაცემი ჩვენს
-        საკუთარ endpoint-ზე მუშავდება, მესამე-მხარის tracker-ის გარეშე.</li>
-      <li><strong>Microsoft Clarity</strong> (მხოლოდ მარკეტინგულ landing გვერდზე, არა ბავშვის აპში): ჯამური,
-        ანონიმური სტატისტიკა მშობლების/მარკეტინგისთვის.</li>
+      <li>არ იყენებს cookies-ს;</li>
+      <li>არ ქმნის მუდმივ მომხმარებლის პროფილებს;</li>
+      <li>გვეხმარება მხოლოდ ვიზიტების რაოდენობის, მოწყობილობების ტიპებისა და გამოყენების ტენდენციების შეფასებაში.</li>
     </ul>
-    <p>არ ვიყენებთ სარეკლამო ქსელებს, არ ვაკეთებთ პროფილირებას და არ ვუზიარებთ მონაცემებს მესამე მხარეს
-      ბავშვის შესახებ.</p>
-    <p><strong>მშობლის უკუკავშირი (ნებაყოფლობითი):</strong> თუ შეავსებთ უკუკავშირის ფორმას, თქვენ მიერ
-      მითითებული სახელი, ტელეფონი ან ელფოსტა და შეტყობინების შინაარსი ჩვენს სერვერზე მხოლოდ თქვენთან
-      დასაკავშირებლად ინახება. ბავშვის სასწავლო მონაცემები ამ ფორმაში არ ხვდება.</p>
-    <p><strong>ქუქი-ფაილები:</strong> არ ვიყენებთ cookie-ებს ბავშვის თვალყურის დევნებისთვის. ანალიტიკა
-      cookie-ების გარეშე მუშაობს.</p>
-    <p><strong>საერთაშორისო გადაცემა:</strong> ვებ-ანალიტიკა შესაძლოა მუშავდებოდეს საქართველოს ფარგლებს
-      გარეთ. ეს მონაცემები ჯამური (აგრეგირებული) და ანონიმურია და მუშავდება შესაბამისი დაცვის მექანიზმებით.</p>
+    <p>ვებ-ანალიტიკა შესაძლოა მუშავდებოდეს საქართველოს ფარგლებს გარეთ. ეს მონაცემები ჯამური (აგრეგირებული) და
+      ანონიმურია და მუშავდება შესაბამისი დაცვის მექანიზმებით.</p>
+
+    <h3>საკუთარი სასწავლო სტატისტიკა</h3>
+    <p>აპლიკაციაში ვაგროვებთ მხოლოდ ჯამურ და არა-მაიდენტიფიცირებელ სტატისტიკას, მაგალითად: რამდენჯერ გაიხსნა
+      კონკრეტული საგანი, რამდენი რაუნდი დასრულდა, საშუალო სესიის ხანგრძლივობა. <strong>არ იგზავნება:</strong></p>
+    <ul class="nocollect">
+      <li>ბავშვის სახელი</li><li>ასაკი</li><li>პასუხები</li><li>პროფილი</li><li>IP მისამართი</li>
+    </ul>
+    <p>მონაცემები მუშავდება მხოლოდ NikoLearn-ის საკუთარ endpoint-ზე, მესამე მხარის ტრეკერების გარეშე.</p>
+
+    <h3>მშობლის უკუკავშირი (ნებაყოფლობითი)</h3>
+    <p>თუ შეავსებთ უკუკავშირის ფორმას, თქვენ მიერ მითითებული სახელი, ტელეფონი ან ელფოსტა და შეტყობინების
+      შინაარსი ჩვენს სერვერზე მხოლოდ თქვენთან დასაკავშირებლად ინახება. ბავშვის სასწავლო მონაცემები ამ ფორმაში
+      არ ხვდება.</p>
+
+    <h3>Microsoft Clarity</h3>
+    <p>Microsoft Clarity გამოიყენება მხოლოდ მარკეტინგულ landing გვერდზე, რომელიც მშობლებისთვისაა განკუთვნილი.
+      ის არ არის ჩართული სასწავლო გარემოში. Clarity-ის მიერ მონაცემების დამუშავება რეგულირდება Microsoft-ის
+      კონფიდენციალურობის პოლიტიკით.</p>
+
+    <p>არ ვიყენებთ სარეკლამო ქსელებს, არ ვაკეთებთ პროფილირებას და არ ვუზიარებთ ბავშვის მონაცემებს მესამე მხარეებს.</p>
 
     <h2>4. ბავშვების კონფიდენციალურობა</h2>
-    <p>NikoLearn განკუთვნილია ბავშვებისთვის, ამიტომ ბავშვის დაცვა ჩვენთვის უპირობოა.</p>
+    <p>NikoLearn განკუთვნილია დაახლოებით 3–12 წლის ბავშვებისთვის.</p>
     <h3>აშშ (COPPA)</h3>
-    <p>ჩვენ შეგნებულად არ ვაგროვებთ 13 წლამდე ბავშვის პერსონალურ ინფორმაციას. რადგან ბავშვისგან არანაირ
-      პერსონალურ მონაცემს არ ვიღებთ, არც მესამე მხარეს ვუზიარებთ.</p>
-    <h3>ევროკავშირი/ეეზ (GDPR, მათ შორის მუხ. 8 ბავშვებზე)</h3>
-    <p>ჩვენ არ ვამუშავებთ ბავშვის პერსონალურ მონაცემებს; ანალიტიკა ჯამური და არა-მაიდენტიფიცირებელია.
-      ვებ-ანალიტიკის სამართლებრივი საფუძველი არის ლეგიტიმური ინტერესი ჯამური სტატისტიკისთვის,
-      პროფილირების გარეშე. მშობელს/მეურვეს შეუძლია დაგვიკავშირდეს უფლებების განსახორციელებლად.</p>
-    <h3>საქართველო (პერსონალურ მონაცემთა დაცვის შესახებ კანონი)</h3>
-    <p>ვმოქმედებთ საქართველოს „პერსონალურ მონაცემთა დაცვის შესახებ" კანონის შესაბამისად. რადგან ბავშვის
-      პერსონალურ მონაცემს არ ვამუშავებთ, დამუშავება შემოიფარგლება ანონიმური, ჯამური სტატისტიკით.</p>
+    <p>ჩვენ შეგნებულად არ ვაგროვებთ 13 წლამდე ბავშვის პერსონალურ ინფორმაციას ჩვენს სისტემებში და არ ვუზიარებთ
+      მას მესამე მხარეებს.</p>
+    <h3>ევროკავშირი / ეეზ (GDPR)</h3>
+    <p>NikoLearn-ის ოპერატორს არ აქვს წვდომა ბავშვის პროფილზე ან სასწავლო პროგრესზე, რადგან ისინი ინახება
+      მხოლოდ მოწყობილობაზე. ვებ-ანალიტიკის დამუშავების სამართლებრივი საფუძველია ლეგიტიმური ინტერესი ჯამური
+      სტატისტიკის მიღების მიზნით, პროფილირების გარეშე. მშობელს ან მეურვეს შეუძლია დაგვიკავშირდეს თავისი
+      უფლებების განსახორციელებლად.</p>
+    <h3>საქართველო</h3>
+    <p>ვმოქმედებთ საქართველოს „პერსონალურ მონაცემთა დაცვის შესახებ" კანონის შესაბამისად. ბავშვის სასწავლო
+      მონაცემები არ ინახება NikoLearn-ის ცენტრალურ სისტემებში და შემოიფარგლება მხოლოდ ანონიმური და ჯამური
+      სტატისტიკით.</p>
 
     <h2>5. მშობლის კონტროლი და უფლებები</h2>
-    <p>ბავშვის ყველა მონაცემი თქვენს მოწყობილობაზეა და სრულად თქვენ აკონტროლებთ: წაშალეთ პროფილი ან
-      გაასუფთავეთ ბრაუზერის მონაცემები. ნებისმიერ კითხვაზე ან მონაცემის წაშლის მოთხოვნაზე დაგვიკავშირდით
-      ზემოთ მითითებულ კონტაქტზე.</p>
-    <p>თქვენ გაქვთ უფლება მოითხოვოთ: მონაცემებზე წვდომა, მათი გასწორება, წაშლა, დამუშავების შეზღუდვა,
-      დამუშავებაზე უარი ან თანხმობის გაუქმება. ასევე შეგიძლიათ საჩივრით მიმართოთ პერსონალურ მონაცემთა
-      დაცვის სამსახურს.</p>
+    <p>ბავშვის მონაცემები სრულად კონტროლდება მშობლის ან მეურვის მიერ. მშობელს შეუძლია: წაშალოს პროფილი,
+      გაასუფთაოს ბრაუზერის მონაცემები, ან დაგვიკავშირდეს ნებისმიერი შეკითხვით.</p>
+    <p>თქვენ ასევე გაქვთ უფლება მოითხოვოთ: მონაცემებზე წვდომა, მათი გასწორება, წაშლა, დამუშავების შეზღუდვა,
+      დამუშავებაზე უარი ან თანხმობის გაუქმება. შეგიძლიათ საჩივრით მიმართოთ პერსონალურ მონაცემთა დაცვის სამსახურს.</p>
 
     <h2>6. მონაცემთა შენახვა</h2>
-    <p>მოწყობილობაზე არსებული მონაცემი ინახება, სანამ თქვენ თვითონ არ წაშლით. ანალიტიკა ჯამურია და ინახება
-      შესაბამისი პროვაიდერის პოლიტიკის მიხედვით.</p>
+    <p>მოწყობილობაზე არსებული მონაცემები ინახება მანამ, სანამ მომხმარებელი თავად არ წაშლის მათ. ანალიტიკური
+      მონაცემების შენახვის ვადა განისაზღვრება შესაბამისი პროვაიდერის პოლიტიკით.</p>
 
     <h2>7. უსაფრთხოება</h2>
-    <p>სერვისი მუშაობს დაშიფრული კავშირით (HTTPS). ბავშვების მონაცემთა ცენტრალური ბაზა, რომელიც შეიძლება
-      გატეხილიყო, არ არსებობს. მონაცემი მოწყობილობაზე რჩება.</p>
+    <p>NikoLearn იყენებს დაშიფრულ HTTPS კავშირს. ბავშვების სასწავლო მონაცემების ცენტრალური მონაცემთა ბაზა არ
+      არსებობს. მიუხედავად ამისა, ინტერნეტით მონაცემთა გადაცემა ან მოწყობილობაზე მათი შენახვა სრულ უსაფრთხოებას
+      ვერ უზრუნველყოფს.</p>
 
     <h2>8. ცვლილებები</h2>
-    <p>პოლიტიკის განახლებისას შევცვლით ზემოთ მითითებულ თარიღს.</p>
+    <p>პოლიტიკის განახლების შემთხვევაში შეიცვლება ზემოთ მითითებული „ბოლო განახლების" თარიღი.</p>
   </section>
 
   <!-- ════════════════ English ════════════════ -->
   <section id="en" class="hidden">
-    <h1 style="font-size:19px;margin:2px 0 2px">Privacy Policy</h1>
-    <p class="eff">Last updated: 18 June 2026</p>
+    <p class="eff">Last updated: June 18, 2026</p>
 
     <div class="lead">
-      <strong>Core principle:</strong> NikoLearn runs entirely on your child's device. The app requires
-      no account, does not collect a child's name, email or phone on any server, and
-      <strong>never sends your child's learning data anywhere.</strong> No advertising, no external links
-      in the kids' app, no selling of data.
+      <strong>Core principle:</strong> NikoLearn is designed according to <strong>Privacy-by-Design</strong>
+      principles. The app operates primarily on the child's device, does not require account creation, does
+      not display advertisements, does not sell personal data, and does not use third-party trackers within
+      the learning environment.
     </div>
 
     <h2>1. Who we are</h2>
-    <p>NikoLearn (the "Service") is a Georgian learning app for children, operated by Gela Shonia (a natural person), the data controller ("we").
-      Contact us at <a href="mailto:NikoLearn@outlook.com">NikoLearn@outlook.com</a> or WhatsApp
-      <a href="https://wa.me/995593255385">+995 593 255 385</a>.</p>
+    <p>NikoLearn is a Georgian learning app for children. It is operated by Gela Shonia (a natural person),
+      the data controller. If you have any questions about this Privacy Policy, please contact us:</p>
+    <p>📧 <a href="mailto:NikoLearn@outlook.com">NikoLearn@outlook.com</a><br>
+       📱 WhatsApp: <a href="https://wa.me/995593255385">+995 593 255 385</a></p>
 
-    <h2>2. Data that stays on the device (and is never sent)</h2>
-    <p>Your child's profile (the name you optionally enter), progress, scores and settings are stored only
-      in that device's browser (<code>localStorage</code>). This data never reaches us. You can delete it
-      at any time by removing the profile or clearing browser data.</p>
-    <p>NikoLearn's AI helper (the owl tutor) runs entirely on your device. A child's answers and other
-      input are never sent to an outside AI service.</p>
+    <h2>2. Information stored only on your device</h2>
+    <p>A child's profile (including an optional display name), learning progress, scores and settings are
+      stored solely in the browser's local storage (<code>localStorage</code>) on the user's device. The
+      operator of NikoLearn does not have access to this information, and it is never transmitted to our systems.</p>
+    <p>NikoLearn's AI helper (the owl tutor) runs entirely on your device. A child's answers and other input
+      are never sent to an outside AI service.</p>
+    <p>You may delete this information at any time by deleting the profile within the app, or clearing your
+      browser data.</p>
 
-    <h2>3. What we collect (limited, anonymous)</h2>
+    <h2>3. Information we collect</h2>
+    <h3>Cloudflare Web Analytics</h3>
+    <p>We use Cloudflare Web Analytics to understand general usage trends of our website and app. It:</p>
     <ul>
-      <li><strong>Cloudflare Web Analytics</strong> (on the site and app pages): cookieless, no personal
-        data, does not store IP addresses. It only counts visits and general usage (country, device type,
-        number of visitors). It cannot identify your child.</li>
-      <li><strong>Our own learning statistics</strong> (in the app): we collect only aggregate, anonymous
-        counts to understand which subjects children use most (e.g. math, alphabet). No name, age, answer
-        or IP address is ever sent. Cookieless. Data is processed on our own endpoint, with no third-party
-        tracker.</li>
-      <li><strong>Microsoft Clarity</strong> (marketing landing page only, NOT the kids' app): aggregate,
-        anonymous statistics for parents/marketing.</li>
+      <li>does not use cookies;</li>
+      <li>does not create persistent user profiles;</li>
+      <li>helps us understand aggregate information such as visit counts, device types, and overall usage trends.</li>
     </ul>
-    <p>We use no ad networks, do no profiling, and share no data about a child with third parties.</p>
-    <p><strong>Parent feedback (optional):</strong> if you fill in the feedback form, the name, phone or
-      email and the message you provide are stored on our server only so we can reply to you. A child's
-      learning data is not part of this form.</p>
-    <p><strong>Cookies:</strong> we use no cookies to track a child. Our analytics are cookieless.</p>
-    <p><strong>International transfer:</strong> web analytics may be processed outside Georgia. This data is
-      aggregate and anonymous, and is handled with appropriate safeguards.</p>
+    <p>Web analytics may be processed outside Georgia. This data is aggregate and anonymous, and is handled
+      with appropriate safeguards.</p>
+
+    <h3>Our own learning statistics</h3>
+    <p>Within the app, we collect only aggregated, non-identifiable statistics, such as how many times a
+      subject was opened, how many learning rounds were completed, and average session duration.
+      <strong>We do not collect or transmit:</strong></p>
+    <ul class="nocollect">
+      <li>Child names</li><li>Age</li><li>Answers</li><li>Learning profiles</li><li>IP addresses</li>
+    </ul>
+    <p>Data is processed only through NikoLearn's own endpoint, with no third-party trackers.</p>
+
+    <h3>Parent feedback (optional)</h3>
+    <p>If you fill in the feedback form, the name, phone or email and the message you provide are stored on
+      our server only so we can reply to you. A child's learning data is not part of this form.</p>
+
+    <h3>Microsoft Clarity</h3>
+    <p>Microsoft Clarity is used exclusively on our marketing landing page intended for parents. It is not
+      enabled within the children's learning environment. Any data processing performed by Clarity is governed
+      by Microsoft's own Privacy Statement.</p>
+
+    <p>We do not use advertising networks, perform profiling, or share children's information with third parties.</p>
 
     <h2>4. Children's privacy</h2>
-    <p>NikoLearn is intended for children, so protecting them is non-negotiable.</p>
+    <p>NikoLearn is intended primarily for children approximately 3–12 years old.</p>
     <h3>United States (COPPA)</h3>
-    <p>We do not knowingly collect personal information from children under 13. Because we collect no
-      personal information from a child, none is shared with third parties.</p>
-    <h3>EU/EEA (GDPR, incl. Art. 8 on children)</h3>
-    <p>We process no personal data of children; our analytics are aggregate and non-identifying. The lawful
-      basis for web analytics is legitimate interest in aggregate statistics, with no profiling. A
-      parent/guardian may contact us to exercise their rights.</p>
-    <h3>Georgia (Law on Personal Data Protection)</h3>
-    <p>We act in accordance with Georgia's Law on Personal Data Protection. As we process no personal data
-      of a child, processing is limited to anonymous, aggregate statistics.</p>
+    <p>We do not knowingly collect personal information from children under 13 within our systems, nor do we
+      share such information with third parties.</p>
+    <h3>European Union / EEA (GDPR)</h3>
+    <p>NikoLearn's operator does not have access to a child's profile or learning progress because such
+      information remains stored exclusively on the user's device. The legal basis for processing web
+      analytics data is our legitimate interest in obtaining aggregated statistics without profiling
+      individuals. Parents or guardians may contact us at any time to exercise their privacy rights.</p>
+    <h3>Georgia</h3>
+    <p>We operate in accordance with the Law of Georgia on Personal Data Protection. A child's learning
+      information is not stored in NikoLearn's central systems and is limited to anonymous, aggregated statistics.</p>
 
     <h2>5. Parental control and rights</h2>
-    <p>All of a child's data is on your device and fully under your control: delete the profile or clear
-      browser data. For any question or a request to remove data, contact us at the address above.</p>
-    <p>You have the right to ask us to: access your data, correct it, delete it, restrict processing, object
-      to processing, or withdraw consent. You can also lodge a complaint with the Personal Data Protection
-      Service.</p>
+    <p>Parents or guardians retain full control over their child's information. They may delete profiles,
+      clear browser data, or contact us with any privacy-related questions.</p>
+    <p>You also have the right to ask us to: access your data, correct it, delete it, restrict processing,
+      object to processing, or withdraw consent. You can also lodge a complaint with the Personal Data
+      Protection Service.</p>
 
     <h2>6. Data retention</h2>
-    <p>On-device data is kept until you delete it. Analytics are aggregate and retained per the relevant
-      provider's policy.</p>
+    <p>Information stored on the user's device remains there until it is deleted by the user. Retention
+      periods for analytics information are determined by the respective service providers' policies.</p>
 
     <h2>7. Security</h2>
-    <p>The Service runs over an encrypted connection (HTTPS). There is no central database of children's
-      data that could be breached: the data stays on the device.</p>
+    <p>NikoLearn uses encrypted HTTPS connections. There is no centralized database containing children's
+      learning information. However, no method of internet transmission or local data storage can be
+      guaranteed to be completely secure.</p>
 
-    <h2>8. Changes</h2>
-    <p>If we update this policy, we will change the date above.</p>
+    <h2>8. Changes to this policy</h2>
+    <p>If we update this Privacy Policy, we will revise the "Last updated" date shown at the top of this document.</p>
   </section>
 
   <footer>NikoLearn · <a href="landing.html">← მთავარი / Home</a></footer>
 </div>
+
 <script>
   function setLang(l){
     document.getElementById('ka').classList.toggle('hidden', l!=='ka');
     document.getElementById('en').classList.toggle('hidden', l!=='en');
     document.getElementById('b-ka').classList.toggle('on', l==='ka');
     document.getElementById('b-en').classList.toggle('on', l==='en');
+    document.getElementById('page-title').textContent = (l==='en') ? 'Privacy Policy' : 'კონფიდენციალურობის პოლიტიკა';
     document.documentElement.lang = l;
     try{ localStorage.setItem('niko_priv_lang', l); }catch(e){}
   }
