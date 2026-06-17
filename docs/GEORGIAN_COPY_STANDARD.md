@@ -56,6 +56,15 @@ After self-review: run it through **Gemini KA-QA** (catches anglicism / translat
 misses), then surface to the **owner for native validation**. Owner-dictated exact wording = already validated,
 apply directly. 1-hour timeout: if the owner is silent, proceed with the Gemini-passed version.
 
+## 6. English copy — plain and human (owner-locked 2026-06-18)
+Owner trusts the agent on English (no Gemini gate required), but the bar holds: **plain, human, warm English.**
+Simple words, short sentences, contractions, the way a kind person actually talks to a child or a parent. NO
+corporate/AI flavor, no buzzwords, no filler, no over-clever phrasing. The same G1-G4 outcome gates apply
+(human voice, first-read clarity, one focus, concrete + honest); only the Gemini/owner Georgian-validation step
+is skipped. Self-test: "would a real person say this out loud to a kid?" If it reads like a brand deck, rewrite.
+**Georgian stays CRITICAL: always Gemini KA-QA + owner gate, zero tolerance on grammar and naturalness** (the
+non-word „აცხიკვებდა" → „აცემინებდა" catch, 2026-06-18, is exactly why this gate is non-negotiable).
+
 ---
 *This is a general Georgian-copy standard scoped to NikoLearn. The core gates (G1-G4) are universal; G5 + §6f
 are NikoLearn-specific. If a sibling project wants it, adapt the core there — do not cross the NikoLearn silo.*
