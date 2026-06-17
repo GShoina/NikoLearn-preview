@@ -18,7 +18,40 @@
   „no right answer, talk together with a parent" framing (it's the parent-trust + Amonashvili angle). Tie-in: the
   curation-as-authority idea above. Effort low-med per batch. NOT a strategy fork — just queued content work.
 
-**Last updated:** 2026-06-15 (parked: expand Talk & Think — owner-loved; + 2026-06-06 strategic grilldown)
+## 😄 NEW CONTENT IDEA — სასაცილო ლექსები / Funny poems (owner ask 2026-06-16 — DON'T FORGET, carry to next session)
+- Owner liked the idea of short FUNNY poems as a NEW content type: 1-stanza, ka + en, ORIGINAL in each language (not
+  translations of each other). Fits the Talk & Think / reading lane = humor + reading + ka/en pairing. Owner explicitly
+  asked to carry this topic into the next window. Sample seeds written this session (owner liked the direction):
+  ka „ბაყაყმა იყიდა წითელი ჩექმა…" (a frog won't enter the lake in his new red boots); en "My socks went off on
+  holiday…" (socks flee stinky feet). Build path if greenlit: a small POEMS deck (own section, or inside Talk), each
+  ka poem gets an edge-tts clip (ka-GE-EkaNeural, tlk_*/poem_* pattern, manifest key = exact text), en uses runtime
+  English voice. APPLY the Georgian copy gate = NO em dash in shipped app strings (the seed poems above used dashes for
+  rhythm in chat only). Effort low per batch. NOT a strategy fork — queued content work.
+
+## ✅ Talk & Think EXPANSION — progress (2026-06-16, v1.186)
+- Deck grown 27 → 33: +6 new cards (ka+en parallel decks) + clips tlk_027-032, plus 3 owner grammar fixes (tlk_013
+  „რას დაარქმევდი" / tlk_016 „ზებუნებრივი ძალა" / tlk_025 „იყოს"), 2 cards refined by Gemini KA-QA. The "expand Talk &
+  Think" parked item above is PARTIALLY delivered; more batches still welcome (owner-loved). Recipe = talk.js TALK.ka q
+  + audio-manifest.js key + tools/_gen_talk*.py + regen the mp3; en deck parallel, runtime English voice (no clip).
+
+## 🧭 MARKETING / LAUNCH STRATEGY — discussed 2026-06-16 (owner GREEN-LIT w/ 3 caveats; capture into launch doc at Phase 2)
+- DISTRIBUTION: launch = the PWA link (Add to Home Screen). NO App Store / Google Play for Phase 0-1. Stores = Phase 2
+  only; Google Play first (cheap, TWA wrap ~1 day), Apple later ($99/yr + strict kids-category review) for iOS diaspora.
+- REGISTRATION: NOT mandatory at launch (friction kills retention signal + breaks the on-device privacy trust moat).
+  Capture leads OPTIONALLY via a value-carrot (leave WhatsApp/email → progress report / founding-family early access).
+- "first 100 free instead of 180₾" = use NOW as FRAMING (value-anchor + urgency); referral/discount MECHANICS = Phase 2
+  (needs payment infra). CAVEAT 1: the 180₾ anchor needs a real basis, or use softer „founding family" framing until price set.
+- FREE vs PREMIUM: everything free now (no payment yet); SPLIT at Phase 2 — keep the hook free (counting / basic English
+  / alphabet), gate depth (advanced math, full vocab, new content, tutor depth, parent analytics).
+- GEO (Georgia free / diaspora paid): can't be cleanly enforced in-app (no backend, privacy-first IP-free worker,
+  VPN-leaky). Enforce by CHANNEL (Georgia funnel = free; diaspora/Sunday-schools = paid) + at the payment layer (Phase
+  2). CAVEAT 2 (Niko): this is the MOST FRAGILE part — diaspora parents talk to Georgia parents ("they pay, we don't").
+- PAYMENT: diaspora (foreign cards USD/EUR/CAD) → international processor (Paddle Merchant-of-Record / Stripe), NOT a
+  Georgian bank. BOG/TBC iPay = only if/when monetizing the GEORGIA market (GEL). Both need a legal entity (Bivision exists).
+- CAVEAT 3: all monetization stays HYPOTHESIS until Phase 0 proves retention on the now-clean KV baseline. Don't over-build
+  marketing mechanics before kids-come-back is proven.
+
+**Last updated:** 2026-06-16 (funny-poems topic + Talk&Think→33 + marketing/launch strategy green-lit; prior: 2026-06-15 Talk&Think parked; 2026-06-06 grilldown)
 
 This is the single source of truth for product ideas. Every idea is logged, scored,
 and given a roadmap decision. The weekly Product Owner routine appends competitor

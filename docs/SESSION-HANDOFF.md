@@ -33,6 +33,13 @@
 > **▶ NEXT (owner-driven):** keep testing with Nikoloz. **Owner to-verify (3, unchanged):** (1) iPhone tap-freeze fix on
 > the REAL phone (v1.178 `*{touch-action:manipulation}`); (2) EAR-check talk clip `tlk_007` („…სად გახვიდოდი?"); (3)
 > double-click Desktop **„NikoLearn უკუკავშირი.cmd"** to read parent feedback (works, list empty).
+> **★ PARKED FOR THE NEW WINDOW (owner ask 2026-06-16, „არ დაგავიწყდეს"): „სასაცილო ლექსები" / FUNNY POEMS content type** —
+> seeds written + full build path in `docs/PRODUCT_IDEAS.md` (😄 section). That same file now also holds THIS SESSION'S
+> MARKETING/LAUNCH STRATEGY decisions (owner green-lit w/ 3 caveats): registration=optional+lead-carrot · „first 100 free
+> vs 180₾"=framing-now/mechanics-Phase-2 · free vs premium split=Phase 2 · geo „Georgia free/diaspora paid"=enforce by
+> CHANNEL + payment-layer (most fragile part) · payment Paddle(diaspora)/BOG(Georgia) · DISTRIBUTION = PWA link now, App
+> Store/Google Play = Phase 2 only (Play first, cheap). When convenient: EAR-check the new/fixed v1.186 talk clips
+> (tlk_013/016/025 + tlk_027-032) since the agent can't hear them.
 > **★ v1.183 SHIPPED 2026-06-16 — FIRST-ROUND ACTIVATION EASING (first attack on the #1 problem).** Diagnosis from the
 > pre-reset backup snapshot (`cloudflare/backups/stats-snapshot-20260616-165242.json`): abandon worst on MATH (74%, but
 > mostly ONE day 06-13 of owner stress-testing hard 7+ math; the v1.179 fix already cut math abandon 82%→50% pre/post 06-15),
