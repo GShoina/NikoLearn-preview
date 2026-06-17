@@ -20,13 +20,22 @@
 
 ## 😄 NEW CONTENT IDEA — სასაცილო ლექსები / Funny poems (owner ask 2026-06-16 — DON'T FORGET, carry to next session)
 - Owner liked the idea of short FUNNY poems as a NEW content type: 1-stanza, ka + en, ORIGINAL in each language (not
-  translations of each other). Fits the Talk & Think / reading lane = humor + reading + ka/en pairing. Owner explicitly
-  asked to carry this topic into the next window. Sample seeds written this session (owner liked the direction):
-  ka „ბაყაყმა იყიდა წითელი ჩექმა…" (a frog won't enter the lake in his new red boots); en "My socks went off on
-  holiday…" (socks flee stinky feet). Build path if greenlit: a small POEMS deck (own section, or inside Talk), each
-  ka poem gets an edge-tts clip (ka-GE-EkaNeural, tlk_*/poem_* pattern, manifest key = exact text), en uses runtime
-  English voice. APPLY the Georgian copy gate = NO em dash in shipped app strings (the seed poems above used dashes for
-  rhythm in chat only). Effort low per batch. NOT a strategy fork — queued content work.
+  translations of each other). Fits the reading lane = humor + reading + ka/en pairing.
+- **DESIGN DECISIONS (owner-set 2026-06-16):**
+  - **NO audio / გახმოვანება** — these are READING content, not voiced. Saves resources (no edge-tts clips, no manifest).
+  - **Age-gate: show to 7+ ONLY** (reading-capable kids). Younger kids skip them.
+  - **Grammar MUST be Gemini-challenged** before shipping (owner caught that the chat seeds weren't QA'd). Cross-model
+    Georgian QA via the `gemini` CLI = mandatory gate for every poem (catches grammar + keeps the rhyme).
+- **GEMINI-VALIDATED ka poem (ready, owner corrections applied: „ჩექმები" plural + behaviour line; rhyme preserved):**
+  > ბაყაყმა იყიდა წითელი ჩექმები,
+  > ტბაში აღარ შედის, ნახეთ, რა წესები!
+  > დადის და ტრაბახობს: ვინ მნახა ასეთი?
+  > ფეხსაცმლიანი ბაყაყი ერთადერთი!
+  (alt 2nd line, owner to pick: „ნახეთ, როგორი აქვს ახლა ნაბიჯები!") · en seed still NEEDS its own Gemini pass:
+  "My socks went off on holiday, they packed a tiny shoe, they left a note that simply said: too stinky here, we flew!"
+- **BUILD PATH if greenlit:** a small POEMS deck (own section or inside the reading area), 7+ gate, text-only (no clips),
+  each poem Gemini-validated for grammar, Georgian copy gate (NO em dash in shipped strings). Effort low per batch.
+  NOT a strategy fork — queued content work.
 
 ## ✅ Talk & Think EXPANSION — progress (2026-06-16, v1.186)
 - Deck grown 27 → 33: +6 new cards (ka+en parallel decks) + clips tlk_027-032, plus 3 owner grammar fixes (tlk_013
