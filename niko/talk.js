@@ -83,8 +83,8 @@ const TALK = {
     {theme:'theater',    emoji:'☁️',   by:'owl',  q:'წარმოიდგინე, რომ პატარა ღრუბელი ხარ. მაჩვენე, როგორ მოძრაობ, როცა ქარი გიბერავს.', subs:[]},
     {theme:'theater',    emoji:'🐱❄️', by:'masho',q:'წარმოიდგინე, რომ მამაცი კატა ხარ, რომელმაც პირველად ნახა თოვლი. რას იზამ?', subs:[]},
     {theme:'theater',    emoji:'🤖',   by:'niko', q:'გახდი რობოტი, რომელმაც ახლახან ისწავლა სიცილი. როგორ იცინი?', subs:[]},
-    {theme:'poem', min:7, emoji:'🐸',  q:'ბაყაყმა იყიდა წითელი ჩექმა,\nტბაში აღარ შედის — ნახეთ, როგორ მოიქცა!\nდადის და ტრაბახობს: „ვინ მნახა ასეთი —\nფეხსაცმელიანი ბაყაყი ერთადერთი!"', subs:[]},
-    {theme:'poem', min:7, emoji:'🐭',  q:'საათში თაგვი ცხოვრობდა, ტიკ-ტაკის ხმაზე ხტოდა,\nცეკვაში დრო გაეპარა, დროს სულაც არ ნაღვლობდა.\nამიტომ მთელმა ქალაქმა, ერთი საათით დააგვიანა.', subs:[]}
+    {theme:'poem', min:5, emoji:'🐸',  q:'ბაყაყმა იყიდა წითელი ჩექმა,\nტბაში აღარ შედის — ნახეთ, როგორ მოიქცა!\nდადის და ტრაბახობს: „ვინ მნახა ასეთი —\nფეხსაცმელიანი ბაყაყი ერთადერთი!"', subs:[]},
+    {theme:'poem', min:5, emoji:'🐭',  q:'საათში თაგვი ცხოვრობდა, ტიკ-ტაკის ხმაზე ხტოდა,\nცეკვაში დრო გაეპარა, დროს სულაც არ ნაღვლობდა.\nამიტომ მთელმა ქალაქმა, ერთი საათით დააგვიანა.', subs:[]}
   ],
   en:[
     {theme:'think',   emoji:'☁️🍬', by:'owl',   q:'What would happen if clouds were made of candy? What would you do?', subs:["Now you make up a 'What if...' question!"]},
@@ -153,11 +153,13 @@ function openTalk(){
   </div>`,false);
 }
 
-// v1.188 — age-gate certain cards (poems are reading content → 7+ only via `min`). Never mutate source TALK.
+// v1.190 — age-gate via `min` (card's minimum age). Poems were 7+ (reading); now they are VOICED, so the only
+// group to skip is the text-free tinies (age <= 4) — 5+ get them (listen + early word exposure). Owner 2026-06-17.
+// Never mutate source TALK. age 0 = guest/unknown → show (likely a parent/older tester).
 function talkPool(lang){
   let pool=TALK[lang].slice();
-  const ok7=(typeof isBig==='function')?isBig(profile):true; // under-7 → hide min:7 cards (poems)
-  if(!ok7) pool=pool.filter(c=>!c.min);
+  const age=(typeof kidObj==='function')?(kidObj(profile).age||0):0;
+  pool=pool.filter(c=>!c.min || age===0 || age>=c.min);
   return pool;
 }
 function talkDeck(lang){
