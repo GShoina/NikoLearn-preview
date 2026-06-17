@@ -152,6 +152,18 @@ function talkCard(){
   const th=TALK_THEMES[c.theme]||TALK_THEMES.think;
   const ch=TALK_CHARS[c.by]||TALK_CHARS.owl;
   const subs=(c.subs&&c.subs.length)?`<div class="talk-subs"><span class="ts-lab">კიდევ ჰკითხე:</span> ${c.subs.join(' ')}</div>`:'';
+  // v1.187 — end-of-card interaction (owner principle 2026-06-17): leave a CREATIVE residue, not just a read.
+  // Offline prompts (draw on paper, say it in a real funny voice) — NO on-screen canvas/recording; more
+  // screen-positive + keeps the parent⇄child „together" ethos. Theme-aware: imagine/think (fantasy) get the
+  // creative trio; values/bedtime (EQ/reflection) get only „what would you add" so we never mislabel them.
+  const ten=(UILANG==='en');
+  const creative=(c.theme==='imagine'||c.theme==='think');
+  const acts=[`<span class="td-chip">🤔 ${ten?'What would you add?':'შენ რას დაამატებდი?'}</span>`];
+  if(creative){
+    acts.push(`<span class="td-chip">🎨 ${ten?'Draw this scene':'დახატე ეს სცენა'}</span>`);
+    acts.push(`<span class="td-chip">🎭 ${ten?'Say it in a funny voice':'თქვი სასაცილო ხმით'}</span>`);
+  }
+  const doRow=`<div class="talk-do"><span class="td-lab">${ten?'Now you:':'ახლა შენ:'}</span>${acts.join('')}</div>`;
   // progress bar (scales to ANY deck size; the old per-card dot row overflowed once the deck grew to 27,
   // pushing the „next" button off-screen — owner 2026-06-14). Position is also shown as the „N / total" count.
   const prog=Math.round((tl.i+1)/tl.deck.length*100);
@@ -168,6 +180,7 @@ function talkCard(){
       <div class="talk-emoji">${c.emoji}</div>
       <div class="talk-q">${c.q}</div>
       ${subs}
+      ${doRow}
       <div class="talk-by"><span class="tb-em">${ch.emoji}</span><span class="tb-say">${ch.say}</span></div>
     </div>
     ${listen}

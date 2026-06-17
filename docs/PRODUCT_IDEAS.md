@@ -40,7 +40,67 @@
   each poem Gemini-validated for grammar, Georgian copy gate (NO em dash in shipped strings). Effort low per batch.
   NOT a strategy fork — queued content work.
 
-## ✅ Talk & Think EXPANSION — progress (2026-06-16, v1.186)
+## 🎭 ფანტაზიის კუთხე / Creativity & Imagination Lab (owner ask 2026-06-17 — refined spec)
+**Goal:** the app's FIRST divergent-thinking space (every other mode = convergent / one right answer).
+No right answer; the aim is to GENERATE. Framing hook = „დღეს ცოტა მოვიგონოთ". Balanced parent⇄child
+value (child = freedom + humor + no-failure; parent = expression + confidence + „we built it together").
+
+**🔑 KEY ARCHITECTURE FINDING:** „საუბარი და ფიქრი" (talk.js, 33 cards) ALREADY IS a divergent imagination
+space — its `imagine` theme literally = „რა მოხდებოდა თუ...". So this is NOT greenfield. 4 of the 5
+subsections reuse the proven talk-card engine (ka+en parallel deck + edge-tts ka audio + owl/niko/masho).
+Only 🐸 funny poems is a new (reading, no-audio) type.
+
+**🔒 FINAL DECISION 2026-06-17 (owner overrode the umbrella idea — chose Variant A, conservative):**
+Don't restructure. „საუბარი და ფიქრი" stays AS-IS (33 cards = proven working behavior, owner's child loves it →
+the most precious thing in a product is existing behavior that works; don't break it before data shows a problem).
+Just ADD 5-6 new categories/themes inside it. (Owner-rated: A conservative 9.5/10 > B „ჩვენი სამყარო" rename 8.5/10.)
+- GOAL / child feeling = „today I discovered something WEIRD, FUNNY, INTERESTING" + a creative residue (made something, not just read).
+- GUARDRAIL 1 (bitter-truth): text must be SHORT (readable in 20-60s). A storehouse of random AI poems gets boring in days. Quality > volume.
+- GUARDRAIL 2: every card ENDS with a tiny interaction — 🤔 რას დაამატებდი? / 🎨 დახატე ეს სცენა / 🎭 თქვი სასაცილო ხმით.
+  Niko call: these stay OFFLINE prompts (draw on paper, use a real funny voice) — NOT new on-screen canvas/recording.
+  More screen-positive + reinforces the parent⇄child „together" ethos. (Theme-aware: imagine/think get all 3; values/bedtime get 🤔 only.)
+- Earlier umbrella/re-sort idea (PATH 1/2 below) = SUPERSEDED by Variant A. Kept for the reasoning record only.
+
+**[SUPERSEDED — reasoning record] DESIGN FORK — grilled 2026-06-17:**
+- Q1 (separate tile?) = NO. Kid home grid is ALREADY 6 tiles (7 for older). An 8th top-level tile = choice
+  paralysis (Hick) and works directly AGAINST the #1 problem (67% activation/abandon). Diversity is gained via
+  SUBSECTIONS under one umbrella, not a new top-level tile.
+- Q2 (rename საუბარი → ფანტაზიის კუთხე, Talk&Think as one direction inside) = YES, this is the path. Same tile
+  count (zero nav cost), stronger label, room for 5 subsections, and creativity = a no-fail activation refuge +
+  the differentiator vs drill-apps.
+- ⚠️ NIKO CORRECTION (do NOT skip): the 33 Talk&Think cards are NOT all fantasy. `values` (EQ) + `bedtime`
+  (reflection) themes are the parent-trust / Amonashvili angle — mislabeling them „fantasy" is a category error
+  and loses the strongest moat. So RE-SORT the 33 cards by theme inside the umbrella:
+    · `imagine`+`think` → 🦄 რა მოხდებოდა თუ / 🎭 წარმოსახვის თეატრი
+    · `values`+`bedtime` → 💛 ჩვენი საუბარი (keeps its own honest identity, NOT under „fantasy")
+    · + 🐸 ლექსები · 🚀 შეუძლებელი ისტორიები · 🎨 დაასრულე ამბავი
+- Depth: umbrella→subsection→card = +1 tap, ACCEPTABLE here (explore/play zone, choosing is part of the fun;
+  the +1-tap objection only applies to drill modes where time-to-practice matters).
+- Naming caveat: „ფანტაზიის კუთხე" = abstract 13-char word; pre-readers navigate by icon + spoken nav-clip →
+  needs a strong 🎭 icon + a recorded edge-tts nav clip (like NAV_SPOKEN entries).
+
+**A/B → C (Niko upgrade of owner's A/B):** owner's Variant B („two owls offer a new daily scenario") is great
+but live-AI = backend + cost + child↔AI privacy fork. NOT needed for the magic. Variant C (hybrid, recommended
+default) = a curated „დღის ფანტაზია" deck rotated DETERMINISTICALLY by day-of-year index → same „new every day"
+feel, ZERO backend / cost / privacy risk, fully on-device. Real generative AI = Phase 2 only if retention proves it.
+Ladder = A now · C smart-default · B later.
+
+**Subsections (type / age / audio):**
+- 🐸 სასაცილო ლექსები — reading · 7+ · NO audio · Gemini grammar gate (per 2026-06-16 decision; owner-final frog poem above).
+- 🚀 შეუძლებელი ისტორიები — voiced prompt-card · all ages · edge-tts.
+- 🎨 დაასრულე ამბავი — owl starts a 1-line story, child continues aloud · voiced starter · all ages.
+- 🦄 რა მოხდებოდა თუ... — = the existing talk `imagine` theme (surface it) · voiced · all ages.
+- 🎭 წარმოსახვის თეატრი — role-play prompt („წარმოიდგინე რომ ხარ...") · voiced · all ages.
+
+**Parent⇄child balance:** built-in via the card `subs:[]` field (child action + a parent „ask/do together" hook).
+Section intro makes parent value explicit („no wrong answers, imagine together").
+
+**BUILD PATH (when fork resolved):** reuse talk.js deck pattern + audio-manifest + tools/_gen_talk*.py for the 4
+voiced subsections; a separate text-only POEMS deck for 🐸 (7+ gate). Daily-fantasy = deterministic day-index
+rotation. Georgian copy gate (NO em dash in shipped strings) + Gemini KA-QA + owner-final per §6f. Visual-verify
+before done (§6c). Bilingual via ka/en parallel decks (NOT i18n), runtime English voice for en, no en clips.
+
+
 - Deck grown 27 → 33: +6 new cards (ka+en parallel decks) + clips tlk_027-032, plus 3 owner grammar fixes (tlk_013
   „რას დაარქმევდი" / tlk_016 „ზებუნებრივი ძალა" / tlk_025 „იყოს"), 2 cards refined by Gemini KA-QA. The "expand Talk &
   Think" parked item above is PARTIALLY delivered; more batches still welcome (owner-loved). Recipe = talk.js TALK.ka q
