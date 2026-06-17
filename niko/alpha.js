@@ -318,6 +318,50 @@ function answerSent(btn,sel,cor){
 }
 
 /* ═══════════════════════════════════════════════════════════
+   #1 top rung — READING COMPREHENSION (გაგება). A 2-3 sentence mini-text
+   the CHILD reads themselves (the skill), then a comprehension question.
+   No audio: reading is the point. Gemini KA-QA'd 2026-06-18 (all KEEP).
+   ═══════════════════════════════════════════════════════════ */
+const READING_TEXT_KA=[
+  {e:'🐱', t:'პატარა კატა ეზოში თამაშობდა. მან წითელი ბურთი ნახა და გაუხარდა.', q:'რა ფერი იყო ბურთი?', a:'წითელი', opts:['ლურჯი','მწვანე','ყვითელი']},
+  {e:'🐦', t:'ჩიტმა ხეზე ბუდე ააშენა. ბუდეში სამი კვერცხი იდო.', q:'სად ააშენა ჩიტმა ბუდე?', a:'ხეზე', opts:['სახლზე','მიწაზე','წყალში']},
+  {e:'🌧️', t:'დილით წვიმდა. ნიკომ ქოლგა აიღო და სკოლაში წავიდა.', q:'რა აიღო ნიკომ?', a:'ქოლგა', opts:['ჩანთა','წიგნი','ბურთი']},
+  {e:'🐶', t:'მაშოს ძაღლი ჰყავს. ძაღლს ბარბი ჰქვია და ბურთით თამაში უყვარს.', q:'რა ჰქვია ძაღლს?', a:'ბარბი', opts:['რექსი','ჯეკი','ლუნა']},
+  {e:'⛄', t:'ზამთარში თოვს. ლუკამ თოვლის ბაბუა გააკეთა და ქუდი დაახურა.', q:'რა გააკეთა ლუკამ?', a:'თოვლის ბაბუა', opts:['სახლი','ბურთი','ნავი']}
+];
+function startTextQuiz(){
+  game.mode='rtext';game.subj='ka-alpha';game.i=0;game.shields=0;game.wrong=0;
+  game.start=Date.now();game.preLvl=levelIdx(profile);
+  game.qs=shuffle(READING_TEXT_KA).slice(0,Math.min(8,READING_TEXT_KA.length));
+  nextText();
+}
+function nextText(){
+  if(game.i>=game.qs.length){markAlphaDone('read');return results();}
+  const q=game.qs[game.i];game.cur=q;
+  const esc=s=>String(s).replace(/'/g,"\\'");
+  const opts=shuffle([q.a].concat(q.opts).slice(0,4));
+  const area=`<div class="prompt">
+      <div class="p-emoji" style="font-size:2.8rem">${q.e}</div>
+      <div class="read-sent" style="font-size:1.16rem;line-height:1.5">${q.t}</div>
+      <div class="count-q" style="margin-top:8px">${q.q}</div>
+      <div class="finger-hint">👆 წაიკითხე და აირჩიე პასუხი</div>
+    </div>
+    <div class="options">${opts.map(o=>`<button class="opt" style="font-size:1.05rem" onclick="answerText(this,'${esc(o)}','${esc(q.a)}')">${o}</button>`).join('')}</div>`;
+  gameShell(area);
+  const c=$('#gcount');if(c)c.textContent=`${game.i+1}/${game.qs.length}`;
+}
+function answerText(btn,sel,cor){
+  if(String(sel)===String(cor)){
+    document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');
+    const s=state[profile];s.shields++;game.shields++;s.streak++;s.maxStreak=Math.max(s.maxStreak,s.streak);
+    save();try{praise();feedback(true);}catch(e){}
+    setTimeout(()=>{game.i++;closeFeedback();nextText();},1000);
+  } else {
+    btn.classList.add('wrong','dim');state[profile].streak=0;game.wrong++;save();
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
    #2 — INTERACTIVE SYLLABLE BUILDER ("our მარცვლობანა"). The child
    ASSEMBLES the word from shuffled syllable chips (active, not pick-one).
    Each tap plays that syllable's recorded clip; correct = whole word + praise.

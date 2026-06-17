@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.199'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.200'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 function goHome(){
   // A4: if a round was in progress, count it as abandoned before we leave it
   if(typeof game!=='undefined'&&game&&game.roundActive){ try{ if(window.Analytics)Analytics.event('round_abandon',{mode:coarseMode()}); }catch(e){} game.roundActive=false; }
@@ -404,6 +404,7 @@ function openMenu(subj){
     // Georgian also gets READING (syllable→word), the #1 gap + Georgian-first differentiator.
     const reading = subj==='ka-alpha' ? `<div class="mode play" style="min-height:120px" onclick="readLearn(0)">${PLAY_BADGE}<div class="kids-ico">📖</div><div class="m-name">კითხვა</div><div class="m-sub">მარცვალი → სიტყვა</div></div>` : '';
     const sentence = subj==='ka-alpha' ? `<div class="mode play" style="min-height:120px" onclick="sentLearn(0)">${PLAY_BADGE}<div class="kids-ico">📝</div><div class="m-name">წინადადება</div><div class="m-sub">წაიკითხე და გაიგე</div></div>` : '';
+    const comprehend = subj==='ka-alpha' ? `<div class="mode play" style="min-height:120px" onclick="startTextQuiz()">${PLAY_BADGE}<div class="kids-ico">📚</div><div class="m-name">გაგება</div><div class="m-sub">წაიკითხე და უპასუხე</div></div>` : '';
     const build = subj==='ka-alpha' ? `<div class="mode play" style="min-height:120px" onclick="startBuild()">${PLAY_BADGE}<div class="kids-ico">🧩</div><div class="m-name">ააწყვე</div><div class="m-sub">მარცვლებით სიტყვა</div></div>` : '';
     const trace = subj==='ka-alpha' ? `<div class="mode play" style="min-height:120px" onclick="traceLearn(0)">${PLAY_BADGE}<div class="kids-ico">✍️</div><div class="m-name">ამოწერა</div><div class="m-sub">ასოს წერა თითით</div></div>` : '';
     body=`<div class="mode-grid">
@@ -411,6 +412,7 @@ function openMenu(subj){
       <div class="mode play" style="min-height:120px" onclick="alphaQuiz('${subj}')">${PLAY_BADGE}<div class="kids-ico">🎯</div><div class="m-name">ტესტები</div></div>
       ${reading}
       ${sentence}
+      ${comprehend}
       ${build}
       ${trace}
     </div>`;
