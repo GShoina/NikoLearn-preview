@@ -1,8 +1,38 @@
 # NikoLearn — Session Handoff
 
-> ## ▶ RESUME NOW (2026-06-16)
-> **LIVE = v1.186** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
+> ## ▶ RESUME NOW (2026-06-17)
+> **LIVE = v1.190** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
 > commits trail app commits by one. Invariant that matters: clean tree + HEAD == origin/main.)
+> **★★ THIS SESSION (2026-06-17) — „ფანტაზიის კუთხე" Batch 1 SHIPPED LIVE (v1.187→v1.190) + first real-user stats insight.**
+> STRATEGY DECISION (owner-locked, detail in `PRODUCT_IDEAS.md`): owner chose **Variant A (conservative)** — do NOT restructure
+> Talk & Think; just ADD new categories to the existing 33-card deck (working behavior = precious, don't break it). I grilled
+> Q1/Q2 (separate section vs umbrella rename); owner overrode an umbrella idea → Variant A. The 5 new categories live as new
+> THEMES inside „საუბარი და ფიქრი" (NOT a new home tile).
+> - **v1.187** — end-of-card interaction row on EVERY talk card („ახლა შენ:" + 🤔/🎨/🎭, OFFLINE prompts = draw on paper /
+>   real funny voice, NO on-screen canvas). Theme-aware: imagine/think/impossible/finish/whatif/theater get the trio;
+>   values/bedtime/poem get only 🤔.
+> - **v1.188** — 13 new cards / 5 new themes added to TALK.ka (+11 to TALK.en parallel). Themes: impossible 🚀 / finish 🖍️ /
+>   whatif 🦄 / theater 🎭 (11 VOICED cards, edge-tts clips tlk_033-043) + poem 🐸 (2 poems). i18n: 5 en theme labels added.
+>   New `talkPool()` age-filter + poem render branch (multi-line, no character line). Gemini-QA'd (§6f, owner approved all 13).
+> - **v1.189** — owner polish after seeing it LIVE: (a) POEMS now VOICED too (clips tlk_044/045 — overrides the old
+>   „poems = no audio" decision); (b) COLOUR differentiation (owner's real idea): „ახლა შენ:"+chips take the THEME colour,
+>   question stays dark ink, poems warm themed ink; (c) FONT (owner delegated to Niko): poems → **Noto Serif Georgian** serif,
+>   rest stays FiraGO. (BPG Glaho `ka.ttf` available but deliberately UNUSED — 3 fonts/card = noise; future accent option.)
+> - **v1.190** — poem age-gate **7+ → 5+** (voicing removed the reading barrier; only text-free tinies ≤4 skip poems). Poem `min:5`.
+> **★ FULL BUG-AUDIT on LIVE v1.190 (owner „უზრუნველყავი რომ არ გაქვს ბაგები") — VERDICT: NO BUGS.** Real deployed app
+> (SW-cache cleared first — the known stale-JS gotcha): 0 console errors · 46 ka / 44 en cards · 9 themes · poem renders
+> (serif+listen+no-char+1 chip) · impossible renders (3 chips+listen+theme-colour „ახლა შენ:") · **46/46 ka cards resolve a
+> clip via the REAL clipFor (`.trim().toLowerCase()` — poems' newline+ASCII-quote keys resolve because Georgian is caseless)** ·
+> tlk_033-045 all 200 · age-gate verified (4→poems hidden, 6→shown) · en deck poem-free · 0 dup keys · 0 Cyrillic · syntax OK.
+> **🎧 ONLY OPEN ITEM (owner-side, agent CAN'T do): EAR-CHECK the 13 new ka clips tlk_033-043 (voiced) + tlk_044/045 (poems).**
+> If any sounds wrong, owner names the number → regenerate via `tools/_gen_talk5.py` / `tools/_gen_poems.py` (reads `tools/_poems.json`).
+> **★ FIRST REAL-USER STATS INSIGHT (2026-06-17, owner „1 პროფილი 16 სესია, მე არ ვარ"):** on the CLEAN post-reset KV baseline,
+> 1 profile (age 6-8) + 16 sessions, dominant device **Android** (owner tests on iPhone → NOT him) = **first organic real user**.
+> ~86s avg session (short, repeated). Favourite = „kings"/english vocab (16 opens, 64%); ALL abandons = english/kings (62%
+> completion). Confirms the thesis: **english/recognition = the weak rung**. n=1, 2 days = HYPOTHESIS, but first clean organic
+> signal. Recommendation logged: watch 3-5 days of real traffic before more activation tuning.
+> **▶ NEXT (owner-driven):** (1) ear-check the 13 clips; (2) Batch 2 of ფანტაზიის კუთხე (more cards per theme + EN-original
+> poems) when owner wants; (3) keep watching the clean stats baseline. Font BPG-Glaho accent = parked option.
 > **★ v1.186 SHIPPED 2026-06-16 — Talk & Think: 3 owner grammar fixes + deck grown 27→33.** Owner reviewed talk cards live
 > and dictated 3 corrections (applied directly per §6f, text + AUDIO regenerated so the spoken clip matches): tlk_013 „რა
 > დაარქმევდი"→„რას", tlk_016 „ზესძალა"→„ზებუნებრივი ძალა", tlk_025 „თავდაყირა იყო"→„იყოს". Then expanded the deck with 6 NEW
