@@ -1,7 +1,7 @@
 # NikoLearn — Session Handoff
 
 > ## ▶ RESUME NOW (2026-06-17)
-> **LIVE = v1.190** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
+> **LIVE = v1.191** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
 > commits trail app commits by one. Invariant that matters: clean tree + HEAD == origin/main.)
 > **★★ THIS SESSION (2026-06-17) — „ფანტაზიის კუთხე" Batch 1 SHIPPED LIVE (v1.187→v1.190) + first real-user stats insight.**
 > STRATEGY DECISION (owner-locked, detail in `PRODUCT_IDEAS.md`): owner chose **Variant A (conservative)** — do NOT restructure
@@ -19,6 +19,11 @@
 >   question stays dark ink, poems warm themed ink; (c) FONT (owner delegated to Niko): poems → **Noto Serif Georgian** serif,
 >   rest stays FiraGO. (BPG Glaho `ka.ttf` available but deliberately UNUSED — 3 fonts/card = noise; future accent option.)
 > - **v1.190** — poem age-gate **7+ → 5+** (voicing removed the reading barrier; only text-free tinies ≤4 skip poems). Poem `min:5`.
+> - **v1.191** — BRAND consistency (owner caught it): the owl CHARACTER on Talk cards + the landing CTA hero now render
+>   `owl-logo.png` (golden Niko mascot) instead of the grey 🦉 emoji (which also rendered DIFFERENTLY per device + didn't
+>   match the nav/footer logo). SURGICAL — kid characters (Nikoloz/Masho) stay emoji (owl = mascot, kids = supporting);
+>   did NOT touch the tutor-animal picker, inline-text 🦉, parent tip, or crash screen (intentional 2026-06-13 decision).
+>   Talk owl uses a new `img` field on TALK_CHARS.owl + `.tb-logo` 32px; landing `.ce` → img 4.4rem. Live-verified both.
 > **★ FULL BUG-AUDIT on LIVE v1.190 (owner „უზრუნველყავი რომ არ გაქვს ბაგები") — VERDICT: NO BUGS.** Real deployed app
 > (SW-cache cleared first — the known stale-JS gotcha): 0 console errors · 46 ka / 44 en cards · 9 themes · poem renders
 > (serif+listen+no-char+1 chip) · impossible renders (3 chips+listen+theme-colour „ახლა შენ:") · **46/46 ka cards resolve a
