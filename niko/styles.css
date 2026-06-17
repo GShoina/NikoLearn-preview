@@ -1246,6 +1246,8 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .talk-do{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;align-items:center;width:100%;margin-top:2px}
 .talk-do .td-lab{font-weight:700;color:var(--faint);font-size:.82rem;width:100%}
 .talk-do .td-chip{display:inline-flex;align-items:center;gap:5px;padding:7px 12px;border-radius:999px;background:color-mix(in oklch,var(--tc,var(--primary)) 12%,var(--card));color:var(--ink);font-size:.92rem;font-weight:600;line-height:1.2}
+/* v1.188 — poem card: multi-line reading content, preserve line breaks */
+.talk-q.talk-poem{white-space:pre-line;font-size:1.18rem;font-style:italic;line-height:1.55}
 .talk-by{display:inline-flex;align-items:center;gap:8px;margin-top:2px;color:var(--faint);font-size:.92rem}
 .talk-by .tb-em{font-size:1.4rem}
 .talk-listen{max-width:200px}

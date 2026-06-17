@@ -18,7 +18,13 @@ const TALK_THEMES = {
   think:   {ic:'🤔', label:'როგორ ფიქრობ?',       color:'var(--sky)'},
   imagine: {ic:'🦸', label:'თუ მე ვიქნებოდი',      color:'var(--purple)'},
   values:  {ic:'💛', label:'ღირებულებები',         color:'var(--green)'},
-  bedtime: {ic:'🌙', label:'ძილისწინა საუბრები',    color:'var(--primary)'}
+  bedtime: {ic:'🌙', label:'ძილისწინა საუბრები',    color:'var(--primary)'},
+  // v1.188 — ფანტაზიის კუთხე batch 1 (owner-approved 2026-06-17, Gemini-QA'd)
+  impossible:{ic:'🚀', label:'შეუძლებელი ისტორია', color:'var(--sky)'},
+  finish:    {ic:'🖍️', label:'დაასრულე ამბავი',    color:'var(--green)'},
+  whatif:    {ic:'🦄', label:'რა მოხდებოდა თუ...',   color:'var(--purple)'},
+  theater:   {ic:'🎭', label:'წარმოსახვის თეატრი',   color:'var(--sun)'},
+  poem:      {ic:'🐸', label:'სასაცილო ლექსი',        color:'var(--green)'}
 };
 /* who asks (the app's characters: Niko the owl + Nikoloz + Masho) */
 const TALK_CHARS = {
@@ -64,7 +70,21 @@ const TALK = {
     {theme:'think',   emoji:'🎵', by:'niko',  q:'ფერებს ხმა რომ ჰქონდეთ, წითელი როგორ იჟღერებდა?', subs:[]},
     {theme:'bedtime', emoji:'🛏️', by:'owl',   q:'დღეს რა გააკეთე ისეთი, რითაც ამაყობ?', subs:['ხვალ რისი გაკეთება გინდა?']},
     {theme:'imagine', emoji:'🎈', by:'masho', q:'ბევრი ბუშტი რომ აგაფრენდა ცაში, პირველად სად გაფრინდებოდი?', subs:[]},
-    {theme:'values',  emoji:'🌱', by:'niko',  q:'ხვალ ერთ კეთილ საქმეს რომ გააკეთებდი, რა იქნებოდა?', subs:[]}
+    {theme:'values',  emoji:'🌱', by:'niko',  q:'ხვალ ერთ კეთილ საქმეს რომ გააკეთებდი, რა იქნებოდა?', subs:[]},
+    // ── v1.188 ფანტაზიის კუთხე batch 1 — 11 voiced cards (clips tlk_033-043) + 2 poems (7+, no audio) ──
+    {theme:'impossible', emoji:'🌙⭐', by:'owl',  q:'ერთ დილას მზე დაიღალა და დაიძინა. ცაში მხოლოდ ერთი პატარა ვარსკვლავი დარჩა. რა მოხდა მერე?', subs:[]},
+    {theme:'impossible', emoji:'🐟',   by:'niko', q:'თევზს ფეხები ამოუვიდა და ხმელეთზე გამოვიდა სასეირნოდ. პირველად ვის შეხვდა?', subs:[]},
+    {theme:'impossible', emoji:'🧸',   by:'masho',q:'ღამით სათამაშოები გაცოცხლდნენ და სამზარეულოში დიდი წვეულება გამართეს. რა მოამზადეს?', subs:[]},
+    {theme:'finish',     emoji:'☁️🎨', by:'owl',  q:'პატარა ღრუბელს ცისარტყელის დახატვა უნდოდა, მაგრამ მხოლოდ ლურჯი საღებავი ჰქონდა. ამიტომ მან...', subs:[]},
+    {theme:'finish',     emoji:'🐜',   by:'niko', q:'ჭიანჭველამ უზარმაზარი ნამცეცი იპოვა და სახლში წაღება მოინდომა. გზად კი...', subs:[]},
+    {theme:'whatif',     emoji:'🌗',   by:'owl',  q:'რა მოხდებოდა, შენი ჩრდილი შენგან რომ გაქცეულიყო და თვითონ ეცეკვა?', subs:[]},
+    {theme:'whatif',     emoji:'📚',   by:'masho',q:'რა მოხდებოდა, წიგნებს ზღაპრების ხმამაღლა კითხვა რომ შეძლებოდათ მაშინ, როცა მათ არავინ უსმენს?', subs:[]},
+    {theme:'whatif',     emoji:'🌧️',  by:'niko', q:'რა მოხდებოდა, წვიმის წვეთები ზევით, ცისკენ რომ ცვიოდნენ?', subs:[]},
+    {theme:'theater',    emoji:'☁️',   by:'owl',  q:'წარმოიდგინე, რომ პატარა ღრუბელი ხარ. მაჩვენე, როგორ მოძრაობ, როცა ქარი გიბერავს.', subs:[]},
+    {theme:'theater',    emoji:'🐱❄️', by:'masho',q:'წარმოიდგინე, რომ მამაცი კატა ხარ, რომელმაც პირველად ნახა თოვლი. რას იზამ?', subs:[]},
+    {theme:'theater',    emoji:'🤖',   by:'niko', q:'გახდი რობოტი, რომელმაც ახლახან ისწავლა სიცილი. როგორ იცინი?', subs:[]},
+    {theme:'poem', min:7, emoji:'🐸',  q:'ბაყაყმა იყიდა წითელი ჩექმა,\nტბაში აღარ შედის — ნახეთ, როგორ მოიქცა!\nდადის და ტრაბახობს: „ვინ მნახა ასეთი —\nფეხსაცმელიანი ბაყაყი ერთადერთი!"', subs:[]},
+    {theme:'poem', min:7, emoji:'🐭',  q:'საათში თაგვი ცხოვრობდა, ტიკ-ტაკის ხმაზე ხტოდა,\nცეკვაში დრო გაეპარა, დროს სულაც არ ნაღვლობდა.\nამიტომ მთელმა ქალაქმა, ერთი საათით დააგვიანა.', subs:[]}
   ],
   en:[
     {theme:'think',   emoji:'☁️🍬', by:'owl',   q:'What would happen if clouds were made of candy? What would you do?', subs:["Now you make up a 'What if...' question!"]},
@@ -102,7 +122,19 @@ const TALK = {
     {theme:'think',   emoji:'🎵', by:'niko',  q:'If colors had a sound, how would red sound?', subs:[]},
     {theme:'bedtime', emoji:'🛏️', by:'owl',   q:'What did you do today that made you proud?', subs:['What do you want to do tomorrow?']},
     {theme:'imagine', emoji:'🎈', by:'masho', q:'If lots of balloons lifted you into the sky, where would you fly first?', subs:[]},
-    {theme:'values',  emoji:'🌱', by:'niko',  q:'If you did one kind thing tomorrow, what would it be?', subs:[]}
+    {theme:'values',  emoji:'🌱', by:'niko',  q:'If you did one kind thing tomorrow, what would it be?', subs:[]},
+    // ── v1.188 ფანტაზიის კუთხე batch 1 — parallel EN deck (runtime English voice, no clips; poems are ka-only) ──
+    {theme:'impossible', emoji:'🌙⭐', by:'owl',  q:'One morning the sun got tired and fell asleep. Only one little star was left in the sky. What happened next?', subs:[]},
+    {theme:'impossible', emoji:'🐟',   by:'niko', q:'A fish grew legs and came out for a walk on land. Who did it meet first?', subs:[]},
+    {theme:'impossible', emoji:'🧸',   by:'masho',q:'At night the toys came alive and threw a big party in the kitchen. What did they cook?', subs:[]},
+    {theme:'finish',     emoji:'☁️🎨', by:'owl',  q:'A little cloud wanted to paint a rainbow, but it only had blue paint. So it...', subs:[]},
+    {theme:'finish',     emoji:'🐜',   by:'niko', q:'An ant found a giant crumb and wanted to carry it home. But on the way...', subs:[]},
+    {theme:'whatif',     emoji:'🌗',   by:'owl',  q:'What would happen if your shadow ran away from you and danced on its own?', subs:[]},
+    {theme:'whatif',     emoji:'📚',   by:'masho',q:'What would happen if books could read their stories out loud when no one is listening?', subs:[]},
+    {theme:'whatif',     emoji:'🌧️',  by:'niko', q:'What would happen if raindrops fell upward, toward the sky?', subs:[]},
+    {theme:'theater',    emoji:'☁️',   by:'owl',  q:'Pretend you are a little cloud. Show me how you move when the wind blows you.', subs:[]},
+    {theme:'theater',    emoji:'🐱❄️', by:'masho',q:'Pretend you are a brave cat seeing snow for the first time. What do you do?', subs:[]},
+    {theme:'theater',    emoji:'🤖',   by:'niko', q:'Become a robot that just learned to laugh. How do you laugh?', subs:[]}
   ]
 };
 
@@ -121,11 +153,18 @@ function openTalk(){
   </div>`,false);
 }
 
+// v1.188 — age-gate certain cards (poems are reading content → 7+ only via `min`). Never mutate source TALK.
+function talkPool(lang){
+  let pool=TALK[lang].slice();
+  const ok7=(typeof isBig==='function')?isBig(profile):true; // under-7 → hide min:7 cards (poems)
+  if(!ok7) pool=pool.filter(c=>!c.min);
+  return pool;
+}
 function talkDeck(lang){
   lang=(lang==='en')?'en':'ka';
-  // shuffle a COPY each entry so the (still small) set feels fresh and isn't always in the same order
+  // shuffle a COPY each entry so the set feels fresh and isn't always in the same order
   // (owner 2026-06-13). Never mutate the source TALK array. shuffle() is the global Fisher-Yates helper.
-  const deck=(typeof shuffle==='function')?shuffle(TALK[lang].slice()):TALK[lang].slice();
+  const deck=(typeof shuffle==='function')?shuffle(talkPool(lang)):talkPool(lang);
   tl={lang, i:0, deck};
   // UNIFY language controls (owner 2026-06-13): picking a deck also sets the global UI language, so the
   // ka/en deck choice and the top-right EN/ქარ toggle never disagree. tl is set first → the lang-change
@@ -141,7 +180,7 @@ window.addEventListener('niko-lang-change', function(){
   if(!document.querySelector('.screen.talk')) return;          // only act while a Talk card is on screen
   const lang=(window.UILANG==='en')?'en':'ka';
   if(lang===tl.lang) return;
-  const deck=(typeof shuffle==='function')?shuffle(TALK[lang].slice()):TALK[lang].slice();
+  const deck=(typeof shuffle==='function')?shuffle(talkPool(lang)):talkPool(lang);
   tl={lang, i:0, deck};
   talkCard();
 });
@@ -157,7 +196,8 @@ function talkCard(){
   // screen-positive + keeps the parent⇄child „together" ethos. Theme-aware: imagine/think (fantasy) get the
   // creative trio; values/bedtime (EQ/reflection) get only „what would you add" so we never mislabel them.
   const ten=(UILANG==='en');
-  const creative=(c.theme==='imagine'||c.theme==='think');
+  const isPoem=(c.theme==='poem'); // reading content: multi-line, no character ask, no audio
+  const creative=['imagine','think','impossible','finish','whatif','theater'].includes(c.theme);
   const acts=[`<span class="td-chip">🤔 ${ten?'What would you add?':'შენ რას დაამატებდი?'}</span>`];
   if(creative){
     acts.push(`<span class="td-chip">🎨 ${ten?'Draw this scene':'დახატე ეს სცენა'}</span>`);
@@ -168,7 +208,8 @@ function talkCard(){
   // pushing the „next" button off-screen — owner 2026-06-14). Position is also shown as the „N / total" count.
   const prog=Math.round((tl.i+1)/tl.deck.length*100);
   // Listen: KA plays the recorded edge-tts clip (v1.120, AUDIO_MANIFEST); EN uses the English voice.
-  const listen=`<button class="btn btn-ghost talk-listen" onclick="talkSpeak()">🔊 ${UILANG==='en'?'Listen':'მოსმენა'}</button>`;
+  // Poems are reading content → no audio button (silent by design, not a missing clip).
+  const listen=isPoem?'':`<button class="btn btn-ghost talk-listen" onclick="talkSpeak()">🔊 ${UILANG==='en'?'Listen':'მოსმენა'}</button>`;
   render(`<div class="screen talk">
     <div class="talk-top">
       <button class="iconbtn talk-back" onclick="openTalk()" aria-label="უკან">←</button>
@@ -178,10 +219,10 @@ function talkCard(){
     <div class="talk-card" style="--tc:${th.color}">
       <div class="talk-theme"><span class="tt-ic">${th.ic}</span><b>${th.label}</b></div>
       <div class="talk-emoji">${c.emoji}</div>
-      <div class="talk-q">${c.q}</div>
+      <div class="talk-q${isPoem?' talk-poem':''}">${c.q}</div>
       ${subs}
       ${doRow}
-      <div class="talk-by"><span class="tb-em">${ch.emoji}</span><span class="tb-say">${ch.say}</span></div>
+      ${isPoem?'':`<div class="talk-by"><span class="tb-em">${ch.emoji}</span><span class="tb-say">${ch.say}</span></div>`}
     </div>
     ${listen}
     <div class="talk-nav">

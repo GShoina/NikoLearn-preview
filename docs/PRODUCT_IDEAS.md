@@ -50,6 +50,13 @@ space — its `imagine` theme literally = „რა მოხდებოდა 
 subsections reuse the proven talk-card engine (ka+en parallel deck + edge-tts ka audio + owl/niko/masho).
 Only 🐸 funny poems is a new (reading, no-audio) type.
 
+**✅ SHIPPED v1.188 (2026-06-17) — Batch 1 LIVE.** owner-approved all 13 cards (§6f passed). Added to „საუბარი და ფიქრი":
+4 new voiced themes (impossible/finish/whatif/theater) = 11 cards ka+en parallel, edge-tts clips tlk_033-043; + 1 new
+poem theme (🐸, min:7 age-gate, reading, no audio, no character line) = 2 poems (frog=owner-final, mouse=Gemini fix).
+v1.187 = the end-interaction row that every card now uses. Verified: syntax + 11 q-texts byte-match talk.js↔manifest +
+0 Cyrillic + visual render (impossible card creative-trio + poem multi-line) + deploy synced. Poem em-dashes = sanctioned
+owner poetic exception (the only em-dashes in app strings). NEXT batches welcome (more cards per theme + en poems).
+
 **🔒 FINAL DECISION 2026-06-17 (owner overrode the umbrella idea — chose Variant A, conservative):**
 Don't restructure. „საუბარი და ფიქრი" stays AS-IS (33 cards = proven working behavior, owner's child loves it →
 the most precious thing in a product is existing behavior that works; don't break it before data shows a problem).
