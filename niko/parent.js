@@ -79,6 +79,7 @@ function feedbackForm(){
     <input class="login-in" id="fb-phone" placeholder="ტელეფონი (არასავალდებულო)" inputmode="tel" autocomplete="tel">
     <input class="login-in" id="fb-email" placeholder="ელფოსტა (არასავალდებულო)" inputmode="email" autocomplete="email">
     <textarea class="login-in" id="fb-msg" placeholder="შენი აზრი…" style="min-height:88px;resize:vertical;text-align:left"></textarea>
+    <p style="font-size:.72rem;color:var(--muted);margin:4px 2px 0">⚠️ გთხოვთ, ნუ მიუთითებთ ბავშვის ჯანმრთელობის შესახებ ინფორმაციას.</p>
     <button class="btn btn-primary btn-block mt" onclick="sendFeedback()">📨 გაგზავნა</button>
     <button class="btn btn-ghost btn-block mt" onclick="document.getElementById('fbform').remove()">დახურვა</button>
     <p class="consent-note" style="font-size:.72rem">შეტყობინება იგზავნება NikoLearn-თან, რომ დაგიკავშირდეთ. ბავშვის სწავლის მონაცემები მაინც მხოლოდ მოწყობილობაზე რჩება.</p>
