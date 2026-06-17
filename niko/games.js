@@ -19,6 +19,7 @@ function startGame(m){
   if(m==='shapes')return shapeRound();
   if(m==='money')return moneyRound();
   if(m==='clock')return clockRound();
+  if(m==='cal')return calRound();
   if(m==='math-word')return wordRound();
   if(m==='math-pic')return picRound();
   game.mode=m;game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);
@@ -35,7 +36,7 @@ function coarseMode(m){
   if(m==='kings-eng'||m==='kings-math')return 'kings';
   if(m==='ka-alpha'||m==='en-alpha')return 'alphabet';
   if(m==='read'||m==='sent'||m==='build'||m==='trace')return 'reading'; // Georgian reading suite
-  if(m.indexOf('math')===0||['compare','skip','shapes','money','clock'].indexOf(m)>=0)return 'math';
+  if(m.indexOf('math')===0||['compare','skip','shapes','money','clock','cal'].indexOf(m)>=0)return 'math';
   return 'english'; // quiz/reverse/listen/match/spell/phrases
 }
 // fired (fire-and-forget) when a child leaves a round before finishing it
@@ -43,7 +44,7 @@ function abandonRound(){
   if(game.roundActive){ try{ if(window.Analytics) Analytics.event('round_abandon',{mode:coarseMode()}); }catch(e){} game.roundActive=false; }
   openMenu(game.subj||'math');
 }
-const SUBMODES=['quiz','reverse','listen','match','spell','phrases','math-add','math-sub','math-mul','math-div','math-miss','math-pat','math-word','math-pic','compare','skip','shapes','money','clock','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','digit'];
+const SUBMODES=['quiz','reverse','listen','match','spell','phrases','math-add','math-sub','math-mul','math-div','math-miss','math-pat','math-word','math-pic','compare','skip','shapes','money','clock','cal','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','digit'];
 // First-round activation easing (2026-06-16). Telemetry showed ~60% of rounds abandoned, worst on a
 // brand-new child's first tries. A new child's first few rounds are SHORTER so they reach the "round
 // complete" reward fast (an early win is what hooks a young learner); re-queue growth is also capped
@@ -164,6 +165,7 @@ function nextForMode(){
   if(m==='shapes')return nextShape;
   if(m==='money')return nextMoney;
   if(m==='clock')return nextClock;
+  if(m==='cal')return nextCal;
   if(m==='count')return nextCount;
   if(m==='phrases')return nextPhrase;
   if(m==='kings-eng'||m==='kings-math')return nextKings;
@@ -701,6 +703,38 @@ function answerClock(btn,sel,cor){
   else{btn.classList.add('wrong','dim');mrec(false);reQueueWrong(cor,null);}
 }
 
+/* ── calendar (v1.195): weekday order + seasons. MULTILINGUAL: day/season names render in the kid's
+   content language (ka or en) via calLang(); structure is ready for more languages (add an array key). ── */
+const CAL_DAYS={ka:['ორშაბათი','სამშაბათი','ოთხშაბათი','ხუთშაბათი','პარასკევი','შაბათი','კვირა'],en:['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']};
+const CAL_SEASONS={ka:['ზამთარი','გაზაფხული','ზაფხული','შემოდგომა'],en:['Winter','Spring','Summer','Autumn'],ic:['❄️','🌸','☀️','🍂']};
+function calLang(){return (typeof voiceLang==='function'&&voiceLang(profile)==='en')?'en':'ka';}
+function calRound(){
+  game.mode='cal';
+  game.qs=Array.from({length:8},()=>{const k=ri(0,2);return k===0?{kind:'day',i:ri(0,6)}:k===1?{kind:'sNext',i:ri(0,3)}:{kind:'sIc',i:ri(0,3)};});
+  game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);
+  nextCal();
+}
+function nextCal(){
+  if(game.i>=game.qs.length)return results();
+  const q=game.qs[game.i];game.cur=q; const L=calLang(), en=(L==='en');
+  let emoji,sub,correct,pool;
+  if(q.kind==='day'){ const D=CAL_DAYS[L]; correct=D[(q.i+1)%7]; pool=D;
+    emoji='📅'; sub=en?(D[q.i]+'. Which day comes next?'):(D[q.i]+'. რომელი დღე მოდის შემდეგ?'); }
+  else if(q.kind==='sNext'){ const S=CAL_SEASONS[L]; correct=S[(q.i+1)%4]; pool=S;
+    emoji=CAL_SEASONS.ic[q.i]; sub=en?(S[q.i]+'. Which season comes next?'):(S[q.i]+'. რომელი სეზონი მოდის შემდეგ?'); }
+  else { const S=CAL_SEASONS[L]; correct=S[q.i]; pool=S;
+    emoji=CAL_SEASONS.ic[q.i]; sub=en?'Which season is this?':'რომელი სეზონია?'; }
+  const set=new Set([correct]); while(set.size<4 && set.size<pool.length) set.add(pool[ri(0,pool.length-1)]);
+  const esc=s=>String(s).replace(/'/g,"\\'");
+  gameShell(`<div class="prompt"><div class="p-emoji" style="font-size:3.2rem">${emoji}</div><div class="p-sub">${sub}</div></div>
+    <div class="options">${shuffle([...set]).map(o=>`<button class="opt" onclick="answerCal(this,'${esc(o)}','${esc(correct)}')">${o}</button>`).join('')}</div>`);
+  $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
+}
+function answerCal(btn,sel,cor){
+  if(String(sel)===String(cor)){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);winStep(null,null,()=>{game.i++;nextCal();});}
+  else{btn.classList.add('wrong','dim');mrec(false);reQueueWrong(cor,null);}
+}
+
 /* ── counting (Masho, zero-text) ── */
 function startCount(mode){game.mode='count';game.cmode=mode;game.qs=shuffle(COUNTING).slice(0,6);game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextCount();}
 function nextCount(){
@@ -855,6 +889,7 @@ function replay(){
   if(m==='shapes')return shapeRound();
   if(m==='money')return moneyRound();
   if(m==='clock')return clockRound();
+  if(m==='cal')return calRound();
   if(m==='kings-eng')return startKings('eng');
   if(m==='kings-math')return startKings('math');
   if(m==='count')return startCount(game.cmode);

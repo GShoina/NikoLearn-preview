@@ -75,6 +75,7 @@ window.I18N_MAP = {
   "შეუძლებელი ისტორია":"Impossible story",
   "ზღაპრის გაგრძელება":"Continue the tale",
   "პატარა იგავი":"A little fable",
+  "კალენდარი":"Calendar",
   "დაასრულე ამბავი":"Finish the story",
   "რა მოხდებოდა თუ...":"What would happen if...",
   "წარმოსახვის თეატრი":"Imagination theatre",
