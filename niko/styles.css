@@ -1244,10 +1244,12 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .talk-subs .ts-lab{font-weight:700;color:var(--faint);display:block;margin-bottom:2px;font-size:.82rem;text-transform:none}
 /* v1.187 — end-of-card interaction row (offline creative prompts) */
 .talk-do{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;align-items:center;width:100%;margin-top:2px}
-.talk-do .td-lab{font-weight:700;color:var(--faint);font-size:.82rem;width:100%}
-.talk-do .td-chip{display:inline-flex;align-items:center;gap:5px;padding:7px 12px;border-radius:999px;background:color-mix(in oklch,var(--tc,var(--primary)) 12%,var(--card));color:var(--ink);font-size:.92rem;font-weight:600;line-height:1.2}
-/* v1.188 — poem card: multi-line reading content, preserve line breaks */
-.talk-q.talk-poem{white-space:pre-line;font-size:1.18rem;font-style:italic;line-height:1.55}
+/* v1.189 — owner: differentiate elements by COLOR. „ახლა შენ:" prompt + chips take the theme color (accent),
+   the question stays dark ink (max readability). So a regular card has 2 colour zones: dark question + themed prompt. */
+.talk-do .td-lab{font-weight:800;color:color-mix(in oklch,var(--tc,var(--primary)) 70%,var(--ink));font-size:.84rem;width:100%}
+.talk-do .td-chip{display:inline-flex;align-items:center;gap:5px;padding:7px 12px;border-radius:999px;background:color-mix(in oklch,var(--tc,var(--primary)) 14%,var(--card));color:color-mix(in oklch,var(--tc,var(--primary)) 78%,var(--ink));font-size:.92rem;font-weight:700;line-height:1.2}
+/* v1.188/1.189 — poem card: serif typeface (reads like a verse) + a warm themed ink, multi-line preserved */
+.talk-q.talk-poem{white-space:pre-line;font-family:'Noto Serif Georgian',serif;font-size:1.16rem;font-style:italic;line-height:1.6;color:color-mix(in oklch,var(--tc,var(--green)) 58%,var(--ink))}
 .talk-by{display:inline-flex;align-items:center;gap:8px;margin-top:2px;color:var(--faint);font-size:.92rem}
 .talk-by .tb-em{font-size:1.4rem}
 .talk-listen{max-width:200px}

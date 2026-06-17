@@ -50,6 +50,14 @@ space — its `imagine` theme literally = „რა მოხდებოდა 
 subsections reuse the proven talk-card engine (ka+en parallel deck + edge-tts ka audio + owl/niko/masho).
 Only 🐸 funny poems is a new (reading, no-audio) type.
 
+**✅ SHIPPED v1.189 (2026-06-17) — owner polish after seeing it live:** (1) POEMS now VOICED too (owner: „გახმოვანებით
+უკეთესი იყო" → overrides the old „poems = no audio" decision); edge-tts clips tlk_044 (frog) + tlk_045 (mouse), listen
+button re-enabled on poem cards. (2) COLOR differentiation (owner idea — his font feedback was really about colour): the
+„ახლა შენ:" prompt + chips take the theme colour (accent), the question stays dark ink (readability), poems get a warm
+themed ink. (3) FONT (owner delegated to Niko): poems → Noto Serif Georgian serif (reads like a verse); everything else
+stays FiraGO (no over-fonting). Visual-verified (harness + Google-fonts) both card types; poem manifest keys byte-match c.q
+(incl. \n + escaped quote). Poem 7+ gate kept for now (voicing could later open to younger — owner call if wanted).
+
 **✅ SHIPPED v1.188 (2026-06-17) — Batch 1 LIVE.** owner-approved all 13 cards (§6f passed). Added to „საუბარი და ფიქრი":
 4 new voiced themes (impossible/finish/whatif/theater) = 11 cards ka+en parallel, edge-tts clips tlk_033-043; + 1 new
 poem theme (🐸, min:7 age-gate, reading, no audio, no character line) = 2 poems (frog=owner-final, mouse=Gemini fix).

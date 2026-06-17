@@ -208,8 +208,8 @@ function talkCard(){
   // pushing the „next" button off-screen — owner 2026-06-14). Position is also shown as the „N / total" count.
   const prog=Math.round((tl.i+1)/tl.deck.length*100);
   // Listen: KA plays the recorded edge-tts clip (v1.120, AUDIO_MANIFEST); EN uses the English voice.
-  // Poems are reading content → no audio button (silent by design, not a missing clip).
-  const listen=isPoem?'':`<button class="btn btn-ghost talk-listen" onclick="talkSpeak()">🔊 ${UILANG==='en'?'Listen':'მოსმენა'}</button>`;
+  // v1.189 — poems are now VOICED too (owner: voicing is better) → clips tlk_044/045, keep the listen button.
+  const listen=`<button class="btn btn-ghost talk-listen" onclick="talkSpeak()">🔊 ${UILANG==='en'?'Listen':'მოსმენა'}</button>`;
   render(`<div class="screen talk">
     <div class="talk-top">
       <button class="iconbtn talk-back" onclick="openTalk()" aria-label="უკან">←</button>
