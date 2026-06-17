@@ -26,12 +26,15 @@
   - **Age-gate: show to 7+ ONLY** (reading-capable kids). Younger kids skip them.
   - **Grammar MUST be Gemini-challenged** before shipping (owner caught that the chat seeds weren't QA'd). Cross-model
     Georgian QA via the `gemini` CLI = mandatory gate for every poem (catches grammar + keeps the rhyme).
-- **GEMINI-VALIDATED ka poem (ready, owner corrections applied: „ჩექმები" plural + behaviour line; rhyme preserved):**
-  > ბაყაყმა იყიდა წითელი ჩექმები,
-  > ტბაში აღარ შედის, ნახეთ, რა წესები!
-  > დადის და ტრაბახობს: ვინ მნახა ასეთი?
-  > ფეხსაცმლიანი ბაყაყი ერთადერთი!
-  (alt 2nd line, owner to pick: „ნახეთ, როგორი აქვს ახლა ნაბიჯები!") · en seed still NEEDS its own Gemini pass:
+- **OWNER-FINAL ka poem (owner overrode Gemini 2026-06-16 — Gemini's „რა წესები" lost the context; owner's version reads better):**
+  > ბაყაყმა იყიდა წითელი ჩექმა,
+  > ტბაში აღარ შედის — ნახეთ, როგორ მოიქცა!
+  > დადის და ტრაბახობს: „ვინ მნახა ასეთი —
+  > ფეხსაცმელიანი ბაყაყი ერთადერთი!"
+  LESSON: Gemini optimizes for RHYME but can lose CONTEXTUAL sense; the OWNER is the final Georgian filter (§6f) and
+  overrides Gemini. (Here owner reverted to singular „ჩექმა" + „ნახეთ, როგორ მოიქცა" = how the frog behaved.)
+  EM-DASH NOTE: owner kept „—" for poetic rhythm; at SHIP time decide per the Georgian copy gate (a poem may be the rare
+  allowed exception, owner's call — do NOT silently strip it). · en seed still NEEDS its own Gemini + owner pass:
   "My socks went off on holiday, they packed a tiny shoe, they left a note that simply said: too stinky here, we flew!"
 - **BUILD PATH if greenlit:** a small POEMS deck (own section or inside the reading area), 7+ gate, text-only (no clips),
   each poem Gemini-validated for grammar, Georgian copy gate (NO em dash in shipped strings). Effort low per batch.
