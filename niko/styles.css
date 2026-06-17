@@ -1248,8 +1248,14 @@ body.on-landing #app{padding:0;padding-bottom:24px}
    the question stays dark ink (max readability). So a regular card has 2 colour zones: dark question + themed prompt. */
 .talk-do .td-lab{font-weight:800;color:color-mix(in oklch,var(--tc,var(--primary)) 70%,var(--ink));font-size:.84rem;width:100%}
 .talk-do .td-chip{display:inline-flex;align-items:center;gap:5px;padding:7px 12px;border-radius:999px;background:color-mix(in oklch,var(--tc,var(--primary)) 14%,var(--card));color:color-mix(in oklch,var(--tc,var(--primary)) 78%,var(--ink));font-size:.92rem;font-weight:700;line-height:1.2}
-/* v1.188/1.189 — poem card: serif typeface (reads like a verse) + a warm themed ink, multi-line preserved */
-.talk-q.talk-poem{white-space:pre-line;font-family:'Noto Serif Georgian',serif;font-size:1.16rem;font-style:italic;line-height:1.6;color:color-mix(in oklch,var(--tc,var(--green)) 58%,var(--ink))}
+/* v1.188/1.189 — poem card: serif typeface (reads like a verse) + a warm themed ink, multi-line preserved.
+   v1.192 (owner 2026-06-17): align LEFT so verse lines read naturally (not centre-ragged); the block is
+   shrink-to-fit and centred in the card, so a short poem still sits in the middle; stanzas (blank lines /
+   \n\n in the source) are preserved by white-space:pre-line. */
+.talk-q.talk-poem{white-space:pre-line;text-align:left;display:block;width:fit-content;max-width:100%;margin:0 auto;font-family:'Noto Serif Georgian',serif;font-size:1.06rem;font-style:italic;line-height:1.5;color:color-mix(in oklch,var(--tc,var(--green)) 58%,var(--ink))}
+/* v1.192: each verse line is its own .pln element so a too-long line wraps with a HANGING INDENT
+   (continuation tucks under the line, never a lone dangling word/dash). Empty line = stanza gap. */
+.talk-q.talk-poem .pln{display:block;padding-left:1.15em;text-indent:-1.15em;min-height:.6em}
 .talk-by{display:inline-flex;align-items:center;gap:8px;margin-top:2px;color:var(--faint);font-size:.92rem}
 .talk-by .tb-em{font-size:1.4rem}
 .talk-by .tb-logo{width:32px;height:32px;object-fit:contain;vertical-align:middle} /* v1.191 — brand owl mascot on talk cards */

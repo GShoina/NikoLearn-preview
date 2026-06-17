@@ -83,8 +83,9 @@ const TALK = {
     {theme:'theater',    emoji:'☁️',   by:'owl',  q:'წარმოიდგინე, რომ პატარა ღრუბელი ხარ. მაჩვენე, როგორ მოძრაობ, როცა ქარი გიბერავს.', subs:[]},
     {theme:'theater',    emoji:'🐱❄️', by:'masho',q:'წარმოიდგინე, რომ მამაცი კატა ხარ, რომელმაც პირველად ნახა თოვლი. რას იზამ?', subs:[]},
     {theme:'theater',    emoji:'🤖',   by:'niko', q:'გახდი რობოტი, რომელმაც ახლახან ისწავლა სიცილი. როგორ იცინი?', subs:[]},
-    {theme:'poem', min:5, emoji:'🐸',  q:'ბაყაყმა იყიდა წითელი ჩექმა,\nტბაში აღარ შედის — ნახეთ, როგორ მოიქცა!\nდადის და ტრაბახობს: „ვინ მნახა ასეთი —\nფეხსაცმელიანი ბაყაყი ერთადერთი!"', subs:[]},
-    {theme:'poem', min:5, emoji:'🐭',  q:'საათში თაგვი ცხოვრობდა, ტიკ-ტაკის ხმაზე ხტოდა,\nცეკვაში დრო გაეპარა, დროს სულაც არ ნაღვლობდა.\nამიტომ მთელმა ქალაქმა, ერთი საათით დააგვიანა.', subs:[]}
+    // v1.192 (owner 2026-06-17): one verse-line per \n (split crammed lines), em-dash → hyphen. Audio (tlk_044/045) unaffected (text-only).
+    {theme:'poem', min:5, emoji:'🐸',  q:'ბაყაყმა იყიდა წითელი ჩექმა,\nტბაში აღარ შედის - ნახეთ, როგორ მოიქცა!\nდადის და ტრაბახობს: „ვინ მნახა ასეთი -\nფეხსაცმელიანი ბაყაყი ერთადერთი!"', subs:[]},
+    {theme:'poem', min:5, emoji:'🐭',  q:'საათში თაგვი ცხოვრობდა,\nტიკ-ტაკის ხმაზე ხტოდა,\nცეკვაში დრო გაეპარა,\nდროს სულაც არ ნაღვლობდა.\nამიტომ მთელმა ქალაქმა,\nერთი საათით დააგვიანა.', subs:[]}
   ],
   en:[
     {theme:'think',   emoji:'☁️🍬', by:'owl',   q:'What would happen if clouds were made of candy? What would you do?', subs:["Now you make up a 'What if...' question!"]},
@@ -221,7 +222,7 @@ function talkCard(){
     <div class="talk-card" style="--tc:${th.color}">
       <div class="talk-theme"><span class="tt-ic">${th.ic}</span><b>${th.label}</b></div>
       <div class="talk-emoji">${c.emoji}</div>
-      <div class="talk-q${isPoem?' talk-poem':''}">${c.q}</div>
+      <div class="talk-q${isPoem?' talk-poem':''}">${isPoem?c.q.split('\n').map(l=>`<span class="pln">${l}</span>`).join(''):c.q}</div>
       ${subs}
       ${doRow}
       ${isPoem?'':`<div class="talk-by">${ch.img?`<img class="tb-logo" src="${ch.img}" alt="">`:`<span class="tb-em">${ch.emoji}</span>`}<span class="tb-say">${ch.say}</span></div>`}
