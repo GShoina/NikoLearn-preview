@@ -28,7 +28,7 @@ const TALK_THEMES = {
 };
 /* who asks (the app's characters: Niko the owl + Nikoloz + Masho) */
 const TALK_CHARS = {
-  owl:   {emoji:'🦉', say:'ნიკო ბუ გეკითხება'},
+  owl:   {emoji:'🦉', img:'owl-logo.png', say:'ნიკო ბუ გეკითხება'}, // v1.191 — owl = the brand mascot image, not the grey emoji
   niko:  {emoji:'👦🏻', say:'ნიკოლოზი გეკითხება'},
   masho: {emoji:'👧🏻', say:'მაშო გეკითხება'}
 };
@@ -224,7 +224,7 @@ function talkCard(){
       <div class="talk-q${isPoem?' talk-poem':''}">${c.q}</div>
       ${subs}
       ${doRow}
-      ${isPoem?'':`<div class="talk-by"><span class="tb-em">${ch.emoji}</span><span class="tb-say">${ch.say}</span></div>`}
+      ${isPoem?'':`<div class="talk-by">${ch.img?`<img class="tb-logo" src="${ch.img}" alt="">`:`<span class="tb-em">${ch.emoji}</span>`}<span class="tb-say">${ch.say}</span></div>`}
     </div>
     ${listen}
     <div class="talk-nav">

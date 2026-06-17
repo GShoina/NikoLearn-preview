@@ -1252,6 +1252,7 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .talk-q.talk-poem{white-space:pre-line;font-family:'Noto Serif Georgian',serif;font-size:1.16rem;font-style:italic;line-height:1.6;color:color-mix(in oklch,var(--tc,var(--green)) 58%,var(--ink))}
 .talk-by{display:inline-flex;align-items:center;gap:8px;margin-top:2px;color:var(--faint);font-size:.92rem}
 .talk-by .tb-em{font-size:1.4rem}
+.talk-by .tb-logo{width:32px;height:32px;object-fit:contain;vertical-align:middle} /* v1.191 — brand owl mascot on talk cards */
 .talk-listen{max-width:200px}
 .talk-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;max-width:380px;margin-top:2px}
 .tnav{flex:0 0 auto;min-width:96px;height:52px;border-radius:99px;border:none;background:var(--primary);color:#fff;font-size:1rem;font-weight:700;padding:0 16px;cursor:pointer;box-shadow:var(--shadow);transition:transform .1s,opacity .15s;white-space:nowrap}
