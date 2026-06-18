@@ -1,6 +1,7 @@
 # NikoLearn — Session Handoff
 
-> ## ▶ RESUME NOW (2026-06-18b) — **v1.202 LIVE: placement upgrade #2, LAYER (a)**. Clean tree, HEAD==origin/main.
+> ## ▶ RESUME NOW (2026-06-18b) — **v1.203 LIVE: placement #2 BOTH layers + privacy AI-clarifier**. Clean tree, HEAD==origin/main.
+> **★ #2 placement COMPLETE (a+b). v1.202 = engine (layer a); v1.203 = full ~30/subj/age pools (layer b) + privacy edit.**
 > **★ #2 შეფასების upgrade — owner-scoped 2-layer split (owner: logic-first on existing Qs = fast/no-copy; content = slow/Gemini-QA).**
 > **LAYER (a) SHIPPED v1.202** (`niko/placement.js` rewrite): the entry diagnostic is now a real ADAPTIVE test on the
 > EXISTING question sets — each item tagged d:1/2/3, asks `PL_ASK=9` items ADAPTIVELY (right→difficulty up, wrong→down,
@@ -17,10 +18,18 @@
 > key is **`nikolearn_p2`** (NOT niko_state_v1); inject a profile via `state.t=blankKid()` + `save()`, and a malformed
 > profile makes boot `levelOf` throw → the index.html `window.onerror` appends a `z-index:99999` crash overlay that PERSISTS
 > until reload (it sat on top of correctly-rendered screens → misleading screenshots). Clean profile + fresh nav = no overlay.
-> **🟡 LAYER (b) STAGED, NOT LIVE** — `docs/PLACEMENT_LAYER_B.staging.js`: full ~30/subject/age pools with NEW Georgian
-> (words/syllables/en2ka + new distractors), each `// QA`-flagged. **NEXT for (b): run Gemini KA-QA on all flagged Georgian
-> → owner gate → replace the SUBJ_DIAG object in placement.js with the QA'd version → 3-spot bump → deploy.** (English/numeric/
-> single-letter items in the staging file need no QA.)
+> **✅ LAYER (b) SHIPPED v1.203** — full pools merged into `placement.js` (5 pools × 30 items, clean 10/10/10 d-tiers, all
+> 4-opt; self-test: no dup items, adaptive routing OK, strong→„მაღალი"). **Gemini KA-QA done** (82 Georgian items): first pass
+> ALL_CLEAN; adversarial re-pass flagged 2 → FIXED: en2ka „difficult" dropped the synonym distractor „მარტივი"→„მოკლე"; word
+> „ბაღი" swapped rare/dialectal „ბაღჩა/ბაგა"→common „ბურთი/ბატი/ბალი". Pre-merge content kept in
+> `docs/PLACEMENT_LAYER_B.staging.js` (with the 2 fixes). Live-verified v1.203 (eng.big 30-pool, new en2ka/tr Georgian render
+> 4-opt, flow→„მაღალი", 0 console errors). 🔴 OWNER (post-hoc, §6f native-speaker glance): the new layer-b Georgian is
+> Gemini-clean but you may eyeball the staging file / live diagnostic; flag anything → quick reversible fix.
+> **★ PRIVACY clarifier added v1.203** (owner-spotted §2 tension: Strategy „AI content creation w/ Claude/GPT" vs Privacy
+> „on-device, nothing to external AI"). Added 1 sentence to `privacy.html` §2 (KA + EN): content is AI-made on OUR side
+> pre-release, but the child's LIVE data is never sent to any AI. NOTE [FACT]: the AI-tools claim is NOT on any public page
+> (landing/privacy) — only internal strategy docs; landing footer links to privacy. So this is proactive transparency, not a
+> visible contradiction. privacy.html IS in SW precache → the v1.203 bump ships it. Render-verified (KA+EN, no layout break).
 > **★ Owner Q's answered this session (FACT, measured):** (1) **size/speed** — initial PWA install ≈ **1.1 MB** (921 KB assets
 > + 180 KB web-fonts); biggest = styles.css 93 / i18n-strings.js 86 / games.js 68 / icons. Audio (6.5 MB, 456 clips) +
 > opentype.min.js (166 KB) are LAZY (cached on first use), NOT in the precache → they don't slow startup. Placement upgrade

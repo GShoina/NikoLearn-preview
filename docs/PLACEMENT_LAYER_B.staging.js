@@ -74,7 +74,7 @@ const SUBJ_DIAG_LAYER_B = {
       {kind:'spell', emoji:'🐘', q:'რომელია სწორად დაწერილი?', a:'elephant', opts:['elephant','elefant','eliphant','elephent'], d:3},
       {kind:'en2ka', q:'beautiful', a:'ლამაზი', opts:['ლამაზი','ჭკვიანი','ძლიერი','მხიარული'], d:3}, // QA all-new
       {kind:'en2ka', q:'strong', a:'ძლიერი', opts:['ძლიერი','სუსტი','სწრაფი','მაღალი'], d:3}, // QA all-new
-      {kind:'en2ka', q:'difficult', a:'რთული', opts:['რთული','ადვილი','მარტივი','საინტერესო'], d:3}, // QA all-new
+      {kind:'en2ka', q:'difficult', a:'რთული', opts:['რთული','ადვილი','საინტერესო','მოკლე'], d:3}, // QA all-new (Gemini: dropped synonym „მარტივი")
       {kind:'en2ka', q:'clever', a:'ჭკვიანი', opts:['ჭკვიანი','ზარმაცი','ცელქი','მორცხვი'], d:3} // QA all-new
     ]
   },
@@ -173,7 +173,7 @@ const SUBJ_DIAG_LAYER_B = {
       {kind:'word', q:'წაიკითხე: რომელია „დათვი"?', a:'დათვი', opts:['დათვი','მგელი','მელია','კურდღელი'], d:3}, // QA all-new
       {kind:'word', q:'წაიკითხე: რომელია „ყვავილი"?', a:'ყვავილი', opts:['ყვავილი','ბალახი','ფოთოლი','ხე'], d:3}, // QA all-new
       {kind:'word', q:'წაიკითხე: რომელია „წყალი"?', a:'წყალი', opts:['წყალი','რძე','წვენი','ჩაი'], d:3}, // QA all-new
-      {kind:'word', q:'წაიკითხე: რომელია „ბაღი"?', a:'ბაღი', opts:['ბაღი','ბაღჩა','ბანკი','ბაგა'], d:3} // QA all-new
+      {kind:'word', q:'წაიკითხე: რომელია „ბაღი"?', a:'ბაღი', opts:['ბაღი','ბურთი','ბატი','ბალი'], d:3} // QA all-new (Gemini: dropped rare/dialectal ბაღჩა/ბაგა → common kid words)
     ]
   }
 };
