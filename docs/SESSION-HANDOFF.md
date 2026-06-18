@@ -1,5 +1,55 @@
 # NikoLearn — Session Handoff
 
+> ## ▶ RESUME NOW (2026-06-18) — MARATHON SESSION: v1.191 → **v1.201 LIVE**. Clean tree, HEAD==origin/main.
+> **★ 10 versions shipped + verified + pushed (all 3-spot bumped, GitHub Pages live):** v1.192 poems (align-left, hanging
+> indent, em-dash→hyphen) · v1.193 **ჟანრების კუთხე** NEW Talk themes tale(ზღაპარი)+fable(იგავი) · v1.194 Gemini KA-QA genre
+> fixes (non-word „აცხიკვებდა"→„აცემინებდა" + grammar) · v1.195 **calendar** math mini-game (weekday/season, multilingual,
+> `games.js` cal mode) · v1.196 **money lari banknotes (კუპიური)** + bilingual prompt · v1.197 privacy +5 disclosures ·
+> v1.198 **privacy.html v2** (owner's Privacy-by-Design rewrite + NikoLearn header panel) · v1.199 privacy legal hardening
+> (Gemini DPO review 9/8/9/10 publish-ready: sensitive-child-info warning on feedback form+policy, retention, AI future-proof) ·
+> v1.200 **Georgian reading bridge — comprehension rung „გაგება"** (`alpha.js` rtext, mini-text+question) · v1.201 review-team fixes.
+> **★ KEY FINDING: reading bridge (#1) was already 80% built** (read/sent/build/trace in alpha.js); v1.200 added the missing
+> comprehension top rung (rtext, 5 Gemini-QA'd mini-texts, ka-alpha menu „გაგება" tile = read/sent → THIS → build/trace).
+> **★ NEW modes wired** (both startGame+replay dispatch, coarseMode, SUBMODES, menu): `cal` (math menu), `rtext` (ka-alpha menu).
+> money mixes COINS(tetri)+BILLS(lari). **Telemetry worker REDEPLOYED** (nikolearn-t, version e4d733fa) enum +cal +rtext (else
+> those stats silently drop — was the P1 bug). Worker deploy = `cd cloudflare && CLOUDFLARE_API_TOKEN=$CF_NIKO_API_TOKEN npx wrangler deploy`.
+> **★ BUG-REVIEW TEAM ran** (4 parallel `agent-teams:team-reviewer`, ~2.5min): fixed P1 telemetry enum · P2 genre age-gate
+> (min 5 via talkPool) · P2 comprehension no-guess-through (re-queue+reveal) · P2 money EN-signal (→voiceLang, was dead langs branch).
+> privacy.html = **CLEAN**. Verdict: app HEALTHY. (NOTE pre-existing, not fixed: shapes uses langs not voiceLang; feedback form ka-only.)
+> **★ MISSION SLOGAN locked** (`docs/MISSION-SLOGAN.md`, on dashboard banner): „დაეხმარე ბავშვს გახდეს უფრო თავდაჯერებული,
+> შემოქმედებითი და დამოუკიდებელი მოსწავლე". 3 words = 3 product pillars (confident=activation, creative=Talk/genres, independent=on-device).
+> **★ COPY STANDARD updated** (`docs/GEORGIAN_COPY_STANDARD.md` §6): Georgian = ALWAYS Gemini KA-QA + owner gate (CRITICAL,
+> zero-tolerance — Gemini caught the non-word „აცხიკვებდა"). English = plain & human (owner trusts agent, no Gemini gate).
+> Multilingual structure MANDATORY (ka/en parallel everywhere + structure ready for ქართ.-L2). Gemini CLI works: `gemini -p "..."`.
+> **★ NODI competitor deep-analysis** (`competitor-profiles/nodi.md` + `output/2026-06-17-NODI...html`): nodiedu.com, founders
+> Keti Burduli + Omar Shirinian, GITA accelerator (Phase II 50K₾ + Phase III 150K₾), 69₾/mo·500₾/yr·39₾ summer, active Meta ads.
+> Validates the market; **under-7 lane OPEN** (they're grades 4-10); **wedge = our deterministic hand-checked math vs their
+> AI-wrapper** (their Terms §3.2 literally admits „არასწორი გამოთვლები"). Abundance frame. Also earlier competitors: garnamatac
+> (KA animation, COLLAB not rival), Khan Kids, HOMER/Starfall.
+> **★ Unified DASHBOARD** `output/NikoLearn-dashboard.html` (gitignored local, stats-viewer cream/owl style): tabs 📊 სტატისტიკა
+> (3 deep-links to stats-viewer `?view=dash/trend/cf` — added that param to the viewer) · 🔍 აუდიტი · 🧭 სტრატეგია v2 · 🏭 Production
+> · 🥊 კონკურენტები (data-driven, editable COMPETITORS array) · 🎯 wedge+ToDo (localStorage checkboxes) + mission banner on top.
+> **★ 2 background agents delivered DRAFTS** (output/, NEED Gemini-QA + owner before any use): PR founder-story pitch
+> (`output/2026-06-18-PR founder-story pitch by Niko.html`) + Nagle pricing strategy (`output/2026-06-18-NikoLearn ფასების
+> სტრატეგია (Nagle) by Niko.html`, rec **149₾/yr/family ~30% of NODI**, free-engine + premium, diaspora-vs-Georgia fence, „first 100 free").
+> **★ 6am fix-finder cloud routine SET** `trig_01Aa8QPKj6ccm1xrUQLkehCG` (daily 02:03 UTC = 06:03 GE, WebFetch live source,
+> multi-dimension review, draft → NikoLearn@outlook.com, report-only).
+> **▶ NEXT — owner PRE-APPROVED all 4; #1 reading + #3 PR-draft + A3 pricing-draft DONE. Remaining BUILD queue (🟢 agent):**
+> **#2 შეფასების upgrade** (`placement.js`: item-pool ~30/subj/age + adaptive difficulty + 4 options + guess-correction —
+> current 10×3-option is weak placement; the Path/real-data mastery is the strong part, keep it). **#4 ახალი math** (🪞 symmetry,
+> 📊 pictograph/data, 🍕 fractions, 📏 measure — IMPORTANT code-check: shapes/clock/money/compare/math-pat ALREADY BUILT). Plus
+> Viktor landing fixes (Kings „რატომ" line · GDPR badge → factual · „სკოლის თემები" track block) + reading-bridge EN-original texts.
+> **🔴 OPEN OWNER DECISIONS:** (a) review the 2 DRAFTS (PR pitch + pricing) — Gemini-QA before any public use; (b) GITA: apply
+> to an accelerator? (500 Global / Founder Institute open July 2026, up to 200K₾ non-dilutive — money/strategy); (c) pricing
+> direction (Nagle draft = 149₾/yr); (d) FB/IG page open? (name-change risk = the @handle/URL not display-name; brand = NikoLearn,
+> contact NikoLearn@outlook.com everywhere; agent can prep page assets); (e) ქართ.-L2 (Georgian as 2nd language) for diaspora +
+> minorities = new audience direction (mirror the English engine). **🔴 OWNER ACTION:** 🎧 ear-check tlk_033-045 (still open).
+> **PROCESS reminders:** version bump = 3 spots (screens.js APP_VERSION + sw.js CACHE `nikolearn-X` + landing.html footer vX).
+> Deploy = `git push origin main` (GShoina/NikoLearn → gshoina.github.io/NikoLearn). Local preview = `python -m http.server 8731`
+> + playwright screenshot; SW serves STALE privacy/JS → cache-bust with `?v=` query. privacy.html IS in SW precache → bump version
+> when editing it. Commit DOCS alongside code (owner caught uncommitted docs once). output/ = gitignored owner-local.
+>
+> ── older pointer (kept for history) ──
 > ## ▶ RESUME NOW (2026-06-17)
 > **LIVE = v1.191** — app+landing+sw synced, pushed, working tree clean. (`git log -1` for exact HEAD; handoff/report
 > commits trail app commits by one. Invariant that matters: clean tree + HEAD == origin/main.)
