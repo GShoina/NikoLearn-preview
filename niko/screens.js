@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.201'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.202'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 function goHome(){
   // A4: if a round was in progress, count it as abandoned before we leave it
   if(typeof game!=='undefined'&&game&&game.roundActive){ try{ if(window.Analytics)Analytics.event('round_abandon',{mode:coarseMode()}); }catch(e){} game.roundActive=false; }
@@ -322,7 +322,7 @@ function openMenu(subj){
   let pathHead='';
   if(typeof PATH_SUBJS!=='undefined' && PATH_SUBJS.indexOf(subj)>=0){
     if(typeof subjDiagNeeded==='function' && subjDiagNeeded(profile,subj)){
-      const nq=(typeof diagSet==='function'?diagSet(profile,subj):(SUBJ_DIAG[subj]||[])).length;
+      const nq=(typeof plAskCount==='function'?plAskCount(profile,subj):(typeof diagSet==='function'?diagSet(profile,subj):(SUBJ_DIAG[subj]||[])).length);
       pathHead=`<div class="pathcard diag-offer"><div class="path-top"><b>🧭 ვნახოთ რა იცი ${pathLocName(subj)}</b></div>
         <div class="path-hint">სულ რაღაც ${nq} კითხვა, რომ გითხრა საიდან დაიწყო.</div>
         <div style="display:flex;gap:8px;margin-top:10px">

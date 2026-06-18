@@ -1,6 +1,36 @@
 # NikoLearn — Session Handoff
 
-> ## ▶ RESUME NOW (2026-06-18) — MARATHON SESSION: v1.191 → **v1.201 LIVE**. Clean tree, HEAD==origin/main.
+> ## ▶ RESUME NOW (2026-06-18b) — **v1.202 LIVE: placement upgrade #2, LAYER (a)**. Clean tree, HEAD==origin/main.
+> **★ #2 შეფასების upgrade — owner-scoped 2-layer split (owner: logic-first on existing Qs = fast/no-copy; content = slow/Gemini-QA).**
+> **LAYER (a) SHIPPED v1.202** (`niko/placement.js` rewrite): the entry diagnostic is now a real ADAPTIVE test on the
+> EXISTING question sets — each item tagged d:1/2/3, asks `PL_ASK=9` items ADAPTIVELY (right→difficulty up, wrong→down,
+> converges on the child's ceiling instead of a fixed flat 10). **4 options** where it is NOT translatable copy (English
+> distractor / numeral / letter); en2ka + word items keep their original **3** Georgian options. **GUESSING-CORRECTION is
+> OPTION-COUNT-AWARE** (a wrong answer costs 1/(opts−1), so mixed 3/4-opt items score right and lucky guesses don't inflate
+> placement). `diagResult` maps corrected pct + hardest-tier-passed → start milestone + level word + math seed. The
+> Path/real-data mastery system is UNTOUCHED (the strong part). `screens.js` diag-offer preview now shows the ASKED count
+> (`plAskCount`=9), not the pool size. CSS unchanged (`.options` already 2-col → 4 opts render 2×2).
+> **VERIFIED:** node vm logic-sim (all pools valid, adaptive routing climbs/drops, no item repeats, option-count-aware
+> correction: 6/3 raw 67%→corrected 56%, 3-opt wrong costs more) + LIVE Playwright on v1.202 (math 4-opt 2×2 + ka-young
+> letters 4-opt + en2ka 3-opt all render; 9-Q adaptive flow; all-correct→„მაღალი" startIdx 2, math seed add/sub=2 mul=1;
+> result screen clean; **0 console errors in clean runs**). ⚠️ test-setup gotcha (cost time, noted): the app's localStorage
+> key is **`nikolearn_p2`** (NOT niko_state_v1); inject a profile via `state.t=blankKid()` + `save()`, and a malformed
+> profile makes boot `levelOf` throw → the index.html `window.onerror` appends a `z-index:99999` crash overlay that PERSISTS
+> until reload (it sat on top of correctly-rendered screens → misleading screenshots). Clean profile + fresh nav = no overlay.
+> **🟡 LAYER (b) STAGED, NOT LIVE** — `docs/PLACEMENT_LAYER_B.staging.js`: full ~30/subject/age pools with NEW Georgian
+> (words/syllables/en2ka + new distractors), each `// QA`-flagged. **NEXT for (b): run Gemini KA-QA on all flagged Georgian
+> → owner gate → replace the SUBJ_DIAG object in placement.js with the QA'd version → 3-spot bump → deploy.** (English/numeric/
+> single-letter items in the staging file need no QA.)
+> **★ Owner Q's answered this session (FACT, measured):** (1) **size/speed** — initial PWA install ≈ **1.1 MB** (921 KB assets
+> + 180 KB web-fonts); biggest = styles.css 93 / i18n-strings.js 86 / games.js 68 / icons. Audio (6.5 MB, 456 clips) +
+> opentype.min.js (166 KB) are LAZY (cached on first use), NOT in the precache → they don't slow startup. Placement upgrade
+> adds ~0 KB (layer a reused existing Qs). Verdict: fast, no speed concern. (2) **do returning users get updates** — YES: the
+> SW cache is versioned (`nikolearn-X`); each deploy bumps it (3-spot bump) → returning browsers auto-fetch all fresh files
+> (`cache:'reload'`), delete the old cache, `clients.claim()`. At most ONE stale paint, self-heals next load. The ONLY way it
+> breaks = forgetting the version bump → old cache sticks (that's why the bump is mandatory every deploy).
+>
+> ── earlier 2026-06-18a (v1.191 → v1.201 marathon, kept for history) ──
+> ## ▶ (2026-06-18a) — MARATHON SESSION: v1.191 → **v1.201**. Clean tree, HEAD==origin/main.
 > **★ 10 versions shipped + verified + pushed (all 3-spot bumped, GitHub Pages live):** v1.192 poems (align-left, hanging
 > indent, em-dash→hyphen) · v1.193 **ჟანრების კუთხე** NEW Talk themes tale(ზღაპარი)+fable(იგავი) · v1.194 Gemini KA-QA genre
 > fixes (non-word „აცხიკვებდა"→„აცემინებდა" + grammar) · v1.195 **calendar** math mini-game (weekday/season, multilingual,
