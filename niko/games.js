@@ -665,7 +665,7 @@ function moneyRound(){game.mode='money';game.qs=Array.from({length:8},()=>{
 function nextMoney(){
   if(game.i>=game.qs.length)return results();
   const q=game.qs[game.i];game.cur=q;
-  const kl=(kidObj(profile)&&kidObj(profile).langs)||['ka'], en=kl.indexOf('ka')<0;
+  const en=(typeof voiceLang==='function'&&voiceLang(profile)==='en'); // v1.201: same content-lang signal as calendar (was a dead langs branch)
   const ic=q.lari?'💵':'🪙', unit=q.lari?'₾':'';
   const items=q.items.map(v=>`<span style="display:inline-flex;flex-direction:column;align-items:center;margin:2px 6px"><span style="font-size:2.6rem;line-height:1">${ic}</span><b class="num" style="font-size:.95rem">${v}${unit}</b></span>`).join('');
   const sub=q.lari?(en?'How many lari?':'რამდენი ლარია?'):(en?'How many tetri?':'რამდენი თეთრია?');

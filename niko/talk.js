@@ -175,7 +175,8 @@ function openTalk(){
 function talkPool(lang){
   let pool=TALK[lang].slice();
   const age=(typeof kidObj==='function')?(kidObj(profile).age||0):0;
-  pool=pool.filter(c=>!c.min || age===0 || age>=c.min);
+  // v1.201: tale/fable (genres with a moral) are a 5+ cognitive task → gate like poems even without an explicit min.
+  pool=pool.filter(c=>{ const m=c.min||(['tale','fable'].includes(c.theme)?5:0); return !m || age===0 || age>=m; });
   return pool;
 }
 function talkDeck(lang){

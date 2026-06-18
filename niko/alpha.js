@@ -357,7 +357,15 @@ function answerText(btn,sel,cor){
     save();try{praise();feedback(true);}catch(e){}
     setTimeout(()=>{game.i++;closeFeedback();nextText();},1000);
   } else {
-    btn.classList.add('wrong','dim');state[profile].streak=0;game.wrong++;save();
+    // v1.201: no free guess-through — dim all, reveal the correct answer, re-queue, then advance.
+    document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));
+    btn.classList.add('wrong');
+    const r=[...document.querySelectorAll('.opt')].find(b=>b.textContent===String(cor));
+    if(r){r.classList.remove('dim');r.classList.add('correct');}
+    state[profile].streak=0;game.wrong++;
+    game.requeues=game.requeues||0; if(game.requeues<6){game.qs.push(game.cur);game.requeues++;}
+    save();
+    setTimeout(()=>{game.i++;closeFeedback();nextText();},1300);
   }
 }
 
