@@ -1,6 +1,29 @@
 # NikoLearn — Session Handoff
 
-> ## ▶ RESUME NOW (2026-06-18b) — **v1.203 LIVE: placement #2 BOTH layers + privacy AI-clarifier**. Clean tree, HEAD==origin/main.
+> ## ▶ RESUME NOW (2026-06-19) — **v1.204 LIVE: lang toggle → footer + tale/fable voiced**. Clean tree, HEAD==origin/main (5e22987).
+> **★ Owner 6-item batch (analyze-then-execute). SHIPPED v1.204:**
+> - **#3 EN button overlap FIXED** — the floating top-right UI-language toggle was `position:absolute` ON TOP of the topbar chips
+>   (🔊 voice / 🪙 / 🔥). Moved into the bottom-nav FOOTER (`i18n.js mountToggle`: priority `.nav .wrap`→`#bottomnav`→absolute
+>   fallback; new `.langtgl-foot` CSS pill, 44px tap). Verified live: EN pill bottom-right, chips clean, 0 overlap.
+> - **#1 Talk footer** — SENIOR CALL (challenged owner's "it's a bug"): the deck-PICKER now shows the footer (menu, has room +
+>   carries the EN button); the immersive talk CARD stays footer-less BY DESIGN — it already has full top (back/count/home) +
+>   bottom (back/next/progress) nav, and a screenshot proved the global footer HID the next/back buttons. `talk.js`: openTalk→'talk', talkCard→false.
+> - **#2 footer height** — MEASURED live = **8.2% of viewport** with 44px tap targets → already under owner's ~10% ask; NOT shrunk
+>   (44px = child-ergonomics/a11y floor; smaller hurts small fingers). No change, by analysis.
+> - **#4 voicing** — new ჟანრების კუთხე ka cards (3 tale + 2 fable) were SILENT (Niko noticed). edge-tts clips **tlk_046-050**
+>   (`tools/_gen_talk6.py` reads q straight from talk.js → manifest key matches exactly) + audio-manifest entries. Coverage now:
+>   only the 2 poems unvoiced (intentional, owner "ლექსების გარდა"). EN cards use live TTS (by design, untouched). Clips resolve live.
+> **▶ STILL OPEN from this batch (answered in chat, NOT yet built):** #6 (local-copy/architecture exposure) = ANALYSIS given:
+>   frontend is fully public by nature (PWA served from Pages; private repo does NOT hide built files) — no secret is in the client
+>   (STATS_KEY etc. live in the CF worker, server-side); moat = brand/content/execution + server-gated premium, NOT code secrecy.
+>   #7 (UX/design-testing skills) = brainstorm given (cro / emil-design-eng / a11y-reviewer agent / Lighthouse / real-user). Owner to
+>   pick which to wire as a repeatable check. **🔴 OWNER:** 🎧 ear-check the 5 new clips tlk_046-050 (agent can't hear).
+> **▶ AWAITING (carried from v1.203):** Niki play-test feedback on the #2 PLACEMENT test → difficulty-tuning if needed; owner KA glance on layer-b.
+> **PROCESS:** bump = `node bump.mjs` (3-spot auto). Deploy = `git push origin main`. Local verify = `python -m http.server 8731` +
+> playwright; SW serves STALE JS → MUST unregister SW + clear caches + reload (or `?v=` bust) before testing edits, else you eval old code.
+>
+> ── earlier 2026-06-18b (v1.203, kept for history) ──
+> ## ▶ RESUME (2026-06-18b) — **v1.203 LIVE: placement #2 BOTH layers + privacy AI-clarifier**. Clean tree, HEAD==origin/main.
 > **★ #2 placement COMPLETE (a+b). v1.202 = engine (layer a); v1.203 = full ~30/subj/age pools (layer b) + privacy edit.**
 > **▶ AWAITING OWNER (2026-06-18 eve): owner + Niki play-testing v1.203 placement — feedback PENDING on return.**
 > ⚠️ To actually SEE the new adaptive entry test: it shows ONLY the first time per subject (gated by `s.subjDiag[subj]`);
