@@ -87,8 +87,11 @@
   /* ── floating language toggle (one button, all screens) ── */
   function updateToggle(){
     var b=document.getElementById('langtgl'); if(!b)return;
-    b.textContent=(window.UILANG==='en')?'ქარ':'EN';
-    b.setAttribute('aria-label',(window.UILANG==='en')?'Switch to Georgian':'Switch to English');
+    var isEn=(window.UILANG==='en');
+    b.textContent=isEn?'ქარ':'EN';
+    // aria-pressed + a state-aware label so a screen-reader user knows the CURRENT language, not just the action
+    b.setAttribute('aria-pressed',isEn?'true':'false');
+    b.setAttribute('aria-label',isEn?'English is active — switch to Georgian':'Georgian is active — switch to English');
   }
   // Home of the language toggle (owner 2026-06-19): the floating top-right button used to sit ON TOP of the
   // topbar chips (🔊 voice / 🪙 / 🔥) because it was position:absolute. It now lives inside the bottom-nav
