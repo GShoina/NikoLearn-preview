@@ -14,6 +14,26 @@
 > **▶ DATA next-step (the real 'wait for data' move):** enrich `round_abandon` telemetry with POSITION (which question index they bail)
 >   — needs a telemetry-worker change to STORE it; until then 'wait for data' on activation is hollow. Also MISSED by the CRO pass:
 >   new-user COLD START (blank profile grid, no demo/try-one-question before the 3-4 onboarding screens) = likely a big slice of the 67%.
+> **★ STRATEGY (2026-06-19, big thread — analysis only, nothing built):**
+>   • **Canonical spine = `~/Downloads/NikoLearn_Strategy_v1.5.docx` (FINAL, owner-authored) + `docs/OWNER_GRILLDOWN_BRIEF.md` (intent)
+>     + `output/2026-06-09 Grilldown v2` (reasoning) + `output/2026-06-17 idea-mine roadmap` (content).** v1.5 = 11 sections,
+>     evidence-tagged: Hybrid C · curriculum=idea-mine-not-compliance · BOTH audiences (GE + diaspora, dual pricing) · metric=Curious
+>     Days/Month · 30-day sprint goal 50 families. **The old PRODUCT_IDEAS v2 „diaspora-spearhead LOCK" is DEAD** (owner corrected it
+>     2026-06-09: „I over-locked diaspora, that was wrong, nothing closed unless owner says so"). `output/2026-06-06 Grilldown` → archive.
+>   • **5 contradictions v1.5 exposes (to resolve):** (1) PRICING MECHANIC — old SSOT „Paddle one-time unlock" vs v1.5 tiered/recurring;
+>     owner's „$5000/MONTH" target now RESOLVES this → SUBSCRIPTION. (2) spearhead — both audiences, GTM sequence open. (3) „Georgian-first"
+>     = differentiator for diaspora, NOT the universal core. (4) slogan triad: v1.5 „curious/confident/creative" vs MISSION-SLOGAN.md
+>     „confident/creative/independent" — pick one. (5) v1.5 §5 stale („Reading Bridge doesn't exist" — it shipped v1.200).
+>   • **Red Team + Pre-mortem done** on the growth strategy (in chat). Pre-mortem #1 death cause = founder-time starvation; the most
+>     dangerous belief = the product (built for Niko, GE-resident, EN/Math) is diverging from the locked strategy (diaspora, ka-heritage, subs).
+> **★ LAUNCH PROGRAM (owner-set 2026-06-19):** target = launch in 2mo (GE+US+1 EU diaspora) → 500 paying subs / $5000+/mo within 1-3mo
+>   of launch, owner time = 1h/day. **Realistic 8-week plan written: `output/2026-06-19-NikoLearn გაშვების გეგმა (8 კვირა) by Niko.html`**
+>   (First Principles feasibility math: $5000 = stretch/North-Star, base-case = few-hundred→low-thousands MRR; needs backend+retention+channels
+>   all perfect). Workstreams: W1-2 backend+telemetry-v2+pricing-lock · W2-4 retention+ka-moat+content-engine · W3-5 channels · W5-6 soft-launch
+>   1 channel (falsifiable test) · W6-8 scale. **NEXT (recommended first step): pricing-lock (Nagle, value-based) + telemetry-v2 architecture**
+>   (both cheap, both prerequisites). Agents/skills to create: content-engine · growth/channel · pricing-experiment · retention-analytics.
+> **★ STANDING PROCESS (owner 2026-06-19):** run **Red Team + Pre-mortem periodically** on strategy/launch; **ALL owner-facing reports = HTML
+>   in output/ (phone-readable), NEVER .md** („md ვერ წავიკითხავ"). Offer to wire a weekly red-team/pre-mortem routine → HTML to output/ + email.
 > **── v1.205 (design-review pill fixes) ──**
 > **★ v1.205 — 4-agent design review (cro / emil-design-eng / a11y / Georgian-copy lenses, owner-requested #7) → shipped the
 > high-confidence in-scope pill fixes:** contrast `--faint→--muted` (~3.3→4.8:1 AA), slim-mode pill back to 44px (my v1.204
