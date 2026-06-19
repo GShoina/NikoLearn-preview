@@ -1,6 +1,24 @@
 # NikoLearn — Session Handoff
 
-> ## ▶ RESUME NOW (2026-06-19) — **v1.204 LIVE: lang toggle → footer + tale/fable voiced**. Clean tree, HEAD==origin/main (5e22987).
+> ## ▶ RESUME NOW (2026-06-19) — **v1.205 LIVE: footer pill polish/a11y** (after v1.204 lang→footer + tale/fable voiced). Clean tree, HEAD==origin/main (316864d).
+> **★ v1.205 — 4-agent design review (cro / emil-design-eng / a11y / Georgian-copy lenses, owner-requested #7) → shipped the
+> high-confidence in-scope pill fixes:** contrast `--faint→--muted` (~3.3→4.8:1 AA), slim-mode pill back to 44px (my v1.204
+> regression), `:hover`+`:active translateY` press vocab, font .74→.68rem (was louder than nav labels), `aria-pressed`+state-aware
+> label. Verified live (44px normal+slim, picker decks clear footer, 0 errors).
+> **▶ DEFERRED review findings (NOT shipped — owner gate):**
+>   • **Activation/flow (CRO agent)** — handoff rule = WAIT for real data before more activation tuning, so these are PROPOSALS:
+>     (1) results-screen CTA hierarchy (share button is primary; replay/„კიდევ ერთი" should be); (2) abandon-intercept on the
+>     mid-round ← back (zero-friction abandon feeds the 67%); (3) profile-creation friction (3-4 screens before first question;
+>     default to parent path); (4) day-streak tracked but never shown to the child (Duolingo-style return motivator);
+>     (5) talk deck-complete dead-end → add a finish moment + „ვითამაშოთ→". Owner picks which (activation philosophy + data).
+>   • **Georgian copy (copy agent)** — §6f: Gemini+owner gate, do NOT self-apply. Flags: PIN vs „PIN-კოდი" inconsistency;
+>     „სინქრონიზაცია" anglicism in trust copy; opaque „მაგალითი" PIN-removal dialog (i18n-strings.js:472); fox/grapes & dragon
+>     phrasing nits. ⚠️ agent flagged „სურდო"(tlk_047) as a non-word — it is NOT, „სურდო"=common cold is real Georgian → likely
+>     leave; owner ear-check decides. Bundle these for a Gemini KA-QA pass + owner glance.
+>   • **a11y (a11y agent)** — also deferred: broader nav-icon contrast (inactive icons use --faint too), talk-card has no global
+>     lang control (by design now), talk counter no aria-live. Low-priority; revisit if accessibility is prioritized.
+> **★ #7 Lighthouse runner** added `qa/lighthouse.mjs` (repeatable a11y/perf/seo) but the npx run FAILED on Windows (status 1,
+> dual --output / npx-fetch quirk) → needs 1 debug pass before wiring into the nightly QA routine.
 > **★ Owner 6-item batch (analyze-then-execute). SHIPPED v1.204:**
 > - **#3 EN button overlap FIXED** — the floating top-right UI-language toggle was `position:absolute` ON TOP of the topbar chips
 >   (🔊 voice / 🪙 / 🔥). Moved into the bottom-nav FOOTER (`i18n.js mountToggle`: priority `.nav .wrap`→`#bottomnav`→absolute
