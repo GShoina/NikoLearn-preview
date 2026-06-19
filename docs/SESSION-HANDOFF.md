@@ -46,9 +46,21 @@
 >   D1/D7/D30 cohorts, funnel (install→first-win→return), **abandon-POSITION** (which q-index), per-mode. Privacy promise intact (only
 >   anonymous behavioral events leave device, same as today, just structured). BUILD steps: (1) worker D1 binding + POST /v2/ev;
 >   (2) telemetry.js install-id + structured events; (3) viewer retention-curve/funnel/abandon-heatmap; (4) v1 counters stay parallel.
->   Reversible internal infra (no gate) → just build next. **W1 STATUS: pricing ✅design + telemetry ✅design; NEXT execution = build
->   telemetry-v2 worker (wrangler deploy, CF token in creds) + then backend MVP (auth+Paddle+entitlement).** Operating mode = MANDATE
->   (owner said „გო"): autonomous, surface only 4 gates (money / customer-facing go-live / strategy fork / audio ear-check), report via HTML.
+>   Reversible internal infra (no gate) → just build next. Operating mode = MANDATE (owner „გო"): autonomous, surface only 4 gates.
+> **★ W1.2 SHIPPED — abandon-POSITION telemetry LIVE+VERIFIED (v1.207).** Worker redeployed (version 53c26d1b, bindings NIKO_T+RL intact,
+>   secret preserved) with `round_abandon.q` enum (0-7,'8+') = within-round position histogram (the abandon heatmap). Client (games.js
+>   abandonRound + screens.js goHome) emits the bucket. Verified end-to-end: POST round_abandon{q:3} → http 204 + key present in /v1/stats;
+>   test counter deleted to keep baseline clean. ⚠️ ORDERING NOTE: client v1.207 sends `q`; worker MUST stay deployed (old worker rejected
+>   unknown keys → would drop round_abandon). Both now aligned. Deploy recipe worked: `cd cloudflare && CLOUDFLARE_API_TOKEN=$(token from
+>   creds CF_NIKO_API_TOKEN, 53 chars) npx wrangler deploy` (network was flaky — ECONNRESET on first tries, succeeded on clean retry; do
+>   NOT pipe wrangler to `head` — SIGPIPE can kill mid-publish).
+> **🔴 TWO GATES now block further autonomous progress (owner decisions):**
+>   • **PRIVACY/retention-cohorts:** true D1/D7/D30 needs a persistent id, which the codebase DELIBERATELY forbids (child-PII). NOT built.
+>     Options for owner: (a) device-side anonymous return-bucket (softer, still changes the „no return tracking" promise) vs (b) keep the
+>     promise, rely on within-session funnel + abandon-position + DAU trend. Recommend (b) until launch, revisit if retention is unmeasurable.
+>   • **PAYMENT backend (auth+Paddle+entitlement):** = money + customer-facing → owner go required (Paddle account, $ decision). Can DESIGN autonomously, can't build/deploy payment.
+>   • **PRICING:** v1-lock recommendation pending owner „კი" (W1.1).
+> **W1 = essentially DONE (pricing design + telemetry abandon-position live). Next big rocks are GATED → short decision queue, not more autonomous churn.**
 > **── v1.205 (design-review pill fixes) ──**
 > **★ v1.205 — 4-agent design review (cro / emil-design-eng / a11y / Georgian-copy lenses, owner-requested #7) → shipped the
 > high-confidence in-scope pill fixes:** contrast `--faint→--muted` (~3.3→4.8:1 AA), slim-mode pill back to 44px (my v1.204
