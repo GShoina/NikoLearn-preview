@@ -34,6 +34,13 @@
 >   (both cheap, both prerequisites). Agents/skills to create: content-engine · growth/channel · pricing-experiment · retention-analytics.
 > **★ STANDING PROCESS (owner 2026-06-19):** run **Red Team + Pre-mortem periodically** on strategy/launch; **ALL owner-facing reports = HTML
 >   in output/ (phone-readable), NEVER .md** („md ვერ წავიკითხავ"). Offer to wire a weekly red-team/pre-mortem routine → HTML to output/ + email.
+> **★ W1.1 PRICING — DONE (mandate active, owner said „გო"). `output/2026-06-19-NikoLearn ფასების სტრატეგია (Nagle value-based) by Niko.html`.**
+>   Value-based (Nagle: Value Cascade/EVE/fences/price-metric/G-B-B). **Recommended LOCK (owner needs 1 „კი", may nudge numbers):**
+>   metric=per-FAMILY · mechanic=SUBSCRIPTION (one-time unlock dead; $5000/MONTH ⇒ subs). Diaspora: Free / $8.99 Plus / $12.99 Family,
+>   annual -43% ($59/$89). Georgia: Free / 19₾ Plus / 29₾ Family, annual -43% (129₾/199₾). default=annual Family (monthly=decoy);
+>   7-day trial + money-back + „first 100 free" framing. 3 fences: geo(currency/channel) · version(backend-gate) · commitment(annual).
+>   $5000 math: needs ~525-833 subs by mix; lever = push annual+Family to raise blended ARPU ~$6→$9.5. **NEXT = W1.2 telemetry-v2 arch.**
+>   (HTML lives in gitignored output/ = owner-local; substance captured here so a connection/disk loss can't erase the decision.)
 > **── v1.205 (design-review pill fixes) ──**
 > **★ v1.205 — 4-agent design review (cro / emil-design-eng / a11y / Georgian-copy lenses, owner-requested #7) → shipped the
 > high-confidence in-scope pill fixes:** contrast `--faint→--muted` (~3.3→4.8:1 AA), slim-mode pill back to 44px (my v1.204
