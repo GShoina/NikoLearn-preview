@@ -1,6 +1,20 @@
 # NikoLearn — Session Handoff
 
-> ## ▶ RESUME NOW (2026-06-19) — **v1.205 LIVE: footer pill polish/a11y** (after v1.204 lang→footer + tale/fable voiced). Clean tree, HEAD==origin/main (316864d).
+> ## ▶ RESUME NOW (2026-06-19) — **v1.206 LIVE: activation (results CTA + Talk finish)**. Clean tree, HEAD==origin/main (f013991).
+> **★ v1.206 — CRO findings, owner said act NOW (override 'wait for data') + challenge first. Spawned an adversarial UX challenger
+> (Gemini CLI is DOWN — free tier deprecated by Google; used a Claude challenger agent instead). Shipped the survivors:**
+>   ① results screen — replay „↻ კიდევ ერთი" is now the PRIMARY block CTA; parent-share kept as a full-width SECOND block
+>     (challenger: don't bury the bonding loop); menu → light ghost. ⑤ Talk last card — dead-end disabled „next" → enabled
+>     „✅ მორჩა" that returns to the deck picker (closure + forward choice). Verified live (SW-cache defeated), 0 errors.
+> **▶ KILLED by senior judgment + challenge (do NOT re-surface without new data):** ② mid-round back-abandon INTERCEPT = anti-pattern
+>   (trapping a child's exit frustrates + reads as dark pattern); ③ profile friction = form already defaults color/tutor/lang, only
+>   name required, rest is the legal consent flow; ④ child-side day-streak = developmental pressure for under-6 (Duolingo Kids removed
+>   child-side streaks). **🔴 OWNER FLAG (child-dev):** the challenger argues the EXISTING in-game 🔥 streak chip (core.js topbar) is
+>   itself questionable for under-6 — your call whether to soften/hide it for young profiles.
+> **▶ DATA next-step (the real 'wait for data' move):** enrich `round_abandon` telemetry with POSITION (which question index they bail)
+>   — needs a telemetry-worker change to STORE it; until then 'wait for data' on activation is hollow. Also MISSED by the CRO pass:
+>   new-user COLD START (blank profile grid, no demo/try-one-question before the 3-4 onboarding screens) = likely a big slice of the 67%.
+> **── v1.205 (design-review pill fixes) ──**
 > **★ v1.205 — 4-agent design review (cro / emil-design-eng / a11y / Georgian-copy lenses, owner-requested #7) → shipped the
 > high-confidence in-scope pill fixes:** contrast `--faint→--muted` (~3.3→4.8:1 AA), slim-mode pill back to 44px (my v1.204
 > regression), `:hover`+`:active translateY` press vocab, font .74→.68rem (was louder than nav labels), `aria-pressed`+state-aware
