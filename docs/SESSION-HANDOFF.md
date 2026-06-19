@@ -2,6 +2,11 @@
 
 > ## ▶ RESUME NOW (2026-06-18b) — **v1.203 LIVE: placement #2 BOTH layers + privacy AI-clarifier**. Clean tree, HEAD==origin/main.
 > **★ #2 placement COMPLETE (a+b). v1.202 = engine (layer a); v1.203 = full ~30/subj/age pools (layer b) + privacy edit.**
+> **▶ AWAITING OWNER (2026-06-18 eve): owner + Niki play-testing v1.203 placement — feedback PENDING on return.**
+> ⚠️ To actually SEE the new adaptive entry test: it shows ONLY the first time per subject (gated by `s.subjDiag[subj]`);
+> a profile that already placed on an old version won't re-show it (it shows the „გზა" Path instead) → test with a NEW child
+> profile, or clear that subject's subjDiag. Returning device auto-updates to v1.203 (reload once if it paints stale).
+> When feedback arrives: tune difficulty tiers / start-mapping if needed; then optional owner KA glance on layer-b Georgian.
 > **★ #2 შეფასების upgrade — owner-scoped 2-layer split (owner: logic-first on existing Qs = fast/no-copy; content = slow/Gemini-QA).**
 > **LAYER (a) SHIPPED v1.202** (`niko/placement.js` rewrite): the entry diagnostic is now a real ADAPTIVE test on the
 > EXISTING question sets — each item tagged d:1/2/3, asks `PL_ASK=9` items ADAPTIVELY (right→difficulty up, wrong→down,
