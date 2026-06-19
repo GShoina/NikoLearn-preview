@@ -49,7 +49,9 @@ const EVENTS = {
   feedback_open:      {},
   // A4: outcome / struggle signals per round (mode = coarse subject; band = accuracy bucket; retries = wrong taps)
   round_complete:     { mode: ['alphabet','english','math','counting','kings','reading','movement'], band: ['low','mid','high'], retries: 'int' },
-  round_abandon:      { mode: ['alphabet','english','math','counting','kings','reading','movement'] },
+  // q = WITHIN-ROUND position bucket where the child bailed (0..7, '8+'). Enum (not int) so it aggregates
+  // as a histogram = the abandon heatmap. NO persistent id, NO cross-session link → privacy guarantees intact.
+  round_abandon:      { mode: ['alphabet','english','math','counting','kings','reading','movement'], q: ['0','1','2','3','4','5','6','7','8+'] },
   // A3: actual sub-mode used (controlled allow-list = the game.mode values games.js emits)
   submode_usage:      { mode: ['quiz','reverse','listen','match','spell','phrases','math-add','math-sub','math-mul','math-div','math-miss','math-pat','math-word','math-pic','compare','skip','shapes','money','clock','cal','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','rtext','digit'] },
 };
