@@ -880,11 +880,9 @@ function results(){
     </div>
     ${beat}
     <div class="actions">
+      <button class="btn btn-primary btn-block" onclick="replay()">↻ კიდევ ერთი</button>
       <button class="btn btn-sun btn-block" onclick="showDad(${pct})">🎉 მამას &amp; დედას აჩვენე</button>
-      <div class="btn-row">
-        <button class="btn btn-ghost" onclick="openMenu(game.subj||'math')">📋 მენიუ</button>
-        <button class="btn btn-primary" onclick="replay()">↻ ისევ</button>
-      </div>
+      <button class="btn btn-ghost btn-block" onclick="openMenu(game.subj||'math')">📋 მენიუ</button>
     </div>
   </div>`,'home');
   try{if(isYoung(profile))praise();}catch(e){}

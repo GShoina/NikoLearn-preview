@@ -247,7 +247,9 @@ function talkCard(){
     <div class="talk-nav">
       <button class="tnav" onclick="talkGo(-1)" ${tl.i===0?'disabled':''} aria-label="წინა">← ${UILANG==='en'?'Back':'წინა'}</button>
       <div class="talk-prog" aria-hidden="true"><i style="width:${prog}%"></i></div>
-      <button class="tnav" onclick="talkGo(1)" ${tl.i===tl.deck.length-1?'disabled':''} aria-label="შემდეგი">${UILANG==='en'?'Next':'შემდეგი'} →</button>
+      ${tl.i===tl.deck.length-1
+        ? `<button class="tnav" style="border-color:var(--primary);color:var(--primary-d);font-weight:700" onclick="openTalk()" aria-label="${UILANG==='en'?'Done':'მორჩა'}">✅ ${UILANG==='en'?'Done':'მორჩა'}</button>`
+        : `<button class="tnav" onclick="talkGo(1)" aria-label="${UILANG==='en'?'Next':'შემდეგი'}">${UILANG==='en'?'Next':'შემდეგი'} →</button>`}
     </div>
     <div class="talk-note">ერთად ისაუბრეთ. სწორი პასუხი არ არსებობს.</div>
   </div>`,false);
