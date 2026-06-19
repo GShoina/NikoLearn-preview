@@ -166,7 +166,7 @@ function openTalk(){
       <button class="talk-deck ka" onclick="talkDeck('ka')"><span class="td-flag">🇬🇪</span><span class="td-name">ქართული საუბრები</span><span class="td-sub">${TALK.ka.length} ${UILANG==='en'?'cards':'ბარათი'}</span></button>
       <button class="talk-deck en" onclick="talkDeck('en')"><span class="td-flag">🇬🇧</span><span class="td-name">English talk</span><span class="td-sub">${TALK.en.length} ${UILANG==='en'?'cards':'ბარათი'}</span></button>
     </div>
-  </div>`,false);
+  </div>`,'talk');
 }
 
 // v1.190 — age-gate via `min` (card's minimum age). Poems were 7+ (reading); now they are VOICED, so the only

@@ -454,6 +454,13 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .bottomnav button.on{color:var(--primary)}
 .bottomnav button.on .navdot{opacity:1}
 .navdot{width:5px;height:5px;border-radius:50%;background:var(--primary);opacity:0;margin-top:1px}
+/* language toggle living inside the footer (owner 2026-06-19) — no longer a floating top-right overlay.
+   Pill shape so it reads as a setting, distinct from the 4 nav icons; ≥44px tap target for small fingers. */
+.bottomnav .langtgl-foot{background:none;border:1.5px solid var(--line);color:var(--faint);
+  font-family:inherit;font-weight:800;font-size:.74rem;letter-spacing:.02em;min-height:44px;min-width:46px;
+  padding:6px 12px;border-radius:13px;cursor:pointer;transition:color .15s,border-color .15s,transform .1s}
+.bottomnav .langtgl-foot:active{transform:scale(.94)}
+.bottomnav.slim .langtgl-foot{min-height:38px;font-size:.7rem;padding:4px 10px}
 
 /* ── AI TUTOR ── */
 .ai-fab{position:absolute;right:16px;bottom:84px;width:58px;height:58px;border-radius:20px;border:none;

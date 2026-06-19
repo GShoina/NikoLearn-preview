@@ -90,16 +90,25 @@
     b.textContent=(window.UILANG==='en')?'ქარ':'EN';
     b.setAttribute('aria-label',(window.UILANG==='en')?'Switch to Georgian':'Switch to English');
   }
+  // Home of the language toggle (owner 2026-06-19): the floating top-right button used to sit ON TOP of the
+  // topbar chips (🔊 voice / 🪙 / 🔥) because it was position:absolute. It now lives inside the bottom-nav
+  // FOOTER — a global setting in the global-nav zone, easiest thumb-reach, and it never overlaps content.
+  // Priority: landing nav (.nav .wrap, marketing page) → app footer (#bottomnav) → absolute fallback.
   function mountToggle(){
     if(document.getElementById('langtgl'))return;
-    var host=document.querySelector('.nav .wrap')||document.querySelector('.device')||document.body;
+    var navWrap=document.querySelector('.nav .wrap');
+    var footer=document.getElementById('bottomnav');
+    var host=navWrap||footer||document.querySelector('.device')||document.body;
     var b=document.createElement('button');
     b.id='langtgl'; b.type='button';
-    var onNav=!!document.querySelector('.nav .wrap');
-    b.style.cssText=onNav
-      ? 'margin-left:10px;border:1.5px solid currentColor;background:transparent;color:inherit;border-radius:999px;padding:6px 12px;font:600 .82rem/1 inherit;cursor:pointer;opacity:.85'
-      : 'position:absolute;top:8px;right:8px;z-index:60;border:none;background:rgba(0,0,0,.16);color:#fff;border-radius:999px;padding:5px 11px;font:700 .76rem/1 system-ui,sans-serif;cursor:pointer;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)';
     b.onclick=function(){ switchLang(window.UILANG==='en'?'ka':'en'); };
+    if(navWrap){
+      b.style.cssText='margin-left:10px;border:1.5px solid currentColor;background:transparent;color:inherit;border-radius:999px;padding:6px 12px;font:600 .82rem/1 inherit;cursor:pointer;opacity:.85';
+    } else if(footer){
+      b.className='langtgl-foot';        // styled in styles.css to sit ergonomically among the nav buttons
+    } else {
+      b.style.cssText='position:absolute;top:8px;right:8px;z-index:60;border:none;background:rgba(0,0,0,.16);color:#fff;border-radius:999px;padding:5px 11px;font:700 .76rem/1 system-ui,sans-serif;cursor:pointer;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)';
+    }
     host.appendChild(b);
     updateToggle();
   }
