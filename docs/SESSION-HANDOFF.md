@@ -39,8 +39,16 @@
 >   metric=per-FAMILY · mechanic=SUBSCRIPTION (one-time unlock dead; $5000/MONTH ⇒ subs). Diaspora: Free / $8.99 Plus / $12.99 Family,
 >   annual -43% ($59/$89). Georgia: Free / 19₾ Plus / 29₾ Family, annual -43% (129₾/199₾). default=annual Family (monthly=decoy);
 >   7-day trial + money-back + „first 100 free" framing. 3 fences: geo(currency/channel) · version(backend-gate) · commitment(annual).
->   $5000 math: needs ~525-833 subs by mix; lever = push annual+Family to raise blended ARPU ~$6→$9.5. **NEXT = W1.2 telemetry-v2 arch.**
+>   $5000 math: needs ~525-833 subs by mix; lever = push annual+Family to raise blended ARPU ~$6→$9.5.
 >   (HTML lives in gitignored output/ = owner-local; substance captured here so a connection/disk loss can't erase the decision.)
+> **★ W1.2 TELEMETRY-v2 ARCH — DESIGNED. `output/2026-06-19-NikoLearn ტელემეტრია v2 (არქიტექტურა) by Niko.html`.** Current worker only
+>   COUNTS events → can't see retention. v2 = anonymous install-id (UUID, no PII) + structured event log → **Cloudflare D1 (free)** for
+>   D1/D7/D30 cohorts, funnel (install→first-win→return), **abandon-POSITION** (which q-index), per-mode. Privacy promise intact (only
+>   anonymous behavioral events leave device, same as today, just structured). BUILD steps: (1) worker D1 binding + POST /v2/ev;
+>   (2) telemetry.js install-id + structured events; (3) viewer retention-curve/funnel/abandon-heatmap; (4) v1 counters stay parallel.
+>   Reversible internal infra (no gate) → just build next. **W1 STATUS: pricing ✅design + telemetry ✅design; NEXT execution = build
+>   telemetry-v2 worker (wrangler deploy, CF token in creds) + then backend MVP (auth+Paddle+entitlement).** Operating mode = MANDATE
+>   (owner said „გო"): autonomous, surface only 4 gates (money / customer-facing go-live / strategy fork / audio ear-check), report via HTML.
 > **── v1.205 (design-review pill fixes) ──**
 > **★ v1.205 — 4-agent design review (cro / emil-design-eng / a11y / Georgian-copy lenses, owner-requested #7) → shipped the
 > high-confidence in-scope pill fixes:** contrast `--faint→--muted` (~3.3→4.8:1 AA), slim-mode pill back to 44px (my v1.204
