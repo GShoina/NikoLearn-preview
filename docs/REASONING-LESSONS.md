@@ -43,7 +43,12 @@ original "kids apps do X" it replaced. Neither was checked.
 - For privacy specifically: a written/bilingual/COPPA-adjacent commitment is a HARD constraint to design
   WITHIN, never a "wording tweak" to reverse. Prefer client-side computation + aggregate-only flags.
 
-## L2 — Apply the same skepticism to the COUNTER-proposal (owner 2026-06-23, 3rd-order)
+## L2 (MUST) — The counter-proposal earns the SAME skepticism as the original (owner 2026-06-23, 3rd-order)
+**The rule, owner-worded (hard, not advisory):** the counter-proposal deserves the same skepticism as
+the original. A clever third option is NOT automatically right — (1) verify ITS claims too, (2) check it
+is not PREMATURE, and (3) "not-a-reversal" != "zero-change". Whenever I produce a "better" option, I MUST
+run these three before recommending it; skipping them is the same failure as L1, one level up.
+
 After L1, both sides kept reasoning — and the *correction* carried the same flaws as the original:
 - The clever "third option" (client-side cohort) was seductive *because* it sounded smart — which is
   exactly the reason to doubt it (same-model / elegance bias). It was right as a LATER upgrade but its
