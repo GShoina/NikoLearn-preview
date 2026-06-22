@@ -1,6 +1,43 @@
 # NikoLearn — Session Handoff
 
-> ## ▶ RESUME NOW (2026-06-22 eve) — **v1.211 LIVE: YLE Listening + tutor variety + YLE Reading&Writing**. Clean tree, HEAD==origin/main.
+> ## ▶ RESUME NOW (2026-06-22 late) — **v1.213 LIVE: Kings = Cambridge YLE level ladder + Speaking + traffic beacon**. Clean tree, HEAD==origin/main.
+> **★ STRATEGIC LOCK (owner 2026-06-22): audience = ~6-9, CONCENTRATE ONLY ON KINGS (Cambridge YLE), build toward a "handbook v2".**
+>   Skip non-Kings work until Kings is genuinely Cambridge-grade. Pricing + launch still PARKED (owner reviewing).
+> **★ Owner ran this as a FULL autonomous mandate** ("define ideal outcome + done-criteria yourself, use RED-TEAM not just /Roast,
+>   execute without yes-yes"). Delivered v1.212-1.213, red-teamed by 3 adversarial agents, all Playwright-validated, 0 console errors.
+> **★ v1.212 — Kings = YLE LEVEL LADDER (Starters/Movers/Flyers).** `kingsLevel()` (core.js) defaults to the child's age band,
+>   overridable via a 3-chip selector bar atop the kings-eng menu (`kingsLevelBar`/`setKLevel`, screens.js). `byLevel(pool,lvl)`
+>   (games.js) cumulative-filters every Kings mode by the selected band; LISTEN_YLE/YESNO_YLE/STORY_YLE tagged `lv:1/2/3`,
+>   KINGS_ENG laddered by question-type (KENG_TYPE_LV). Verified: switch changes content, Starters=lv1 only, Flyers incl lv3.
+> **★ v1.212 — first-party TRAFFIC beacon (solves "I don't have traffic").** `page_view` event (analytics.js refBucket/pageBucket
+>   → worker enum) = anonymous visit + COARSE referrer source (direct/facebook/google/youtube/instagram/telegram/search/internal/other)
+>   + page(landing/app). Enum-only, no URL/PII, same localhost/DNT/owner skip. We now OWN traffic data going forward — query it
+>   from /v1/stats like the in-app stats (key = NIKO_STATS_KEY in creds). NOTE: only index.html(app) loads analytics.js → app
+>   page_views captured; landing.html (owner's standalone) is NOT instrumented yet (add analytics.js there to capture landing traffic).
+> **★ v1.213 — YLE SPEAKING (P5, offline, no mic/AI → privacy gate untouched).** `speak` mode: owl reads a YLE picture prompt,
+>   child answers OUT LOUD, taps „✓ ვთქვი", earns a coin. Level-laddered, tutor hint, completes the skill set (listen/read/speak).
+> **★ v1.213 — AUDIO SOFTENED (owner: too loud).** English TTS volume 1.0→0.85 (core.js speakOne) + 2 main recorded-clip paths→0.85.
+> **★ RED-TEAM (owner-requested method): 3 adversarial agents (bugs / YLE-content / privacy).** Verdict: NO P1/P2 bugs, NO wrong
+>   answer keys, PRIVACY CLEAN. Fixed their real P2/P3 findings: coarseMode now maps the 4 YLE modes→'kings' (were mislabeled
+>   'english'); escaped listen-yle answer interpolation; removed platform-unreliable emoji-COLOUR items ("red apple"/"red car");
+>   fixed a duck/chick near-synonym distractor, a "NOT" test-tell, off-wordlist "lovely"→"happy" spelling, absurd "crocodile"
+>   distractor; re-levelled 2 mis-tagged items. Data re-checked: 0 integrity problems, healthy per-level counts.
+> **★ WORKER redeployed twice** (page_view enum → version 4b463017; speak submode → version 43e823c8; NIKO_T+RL bindings intact).
+>   Did NOT POST test events → KV baseline stays clean.
+> **🔴 OWNER ear-checks pending:** prs_01..06 praise clips (v1.210); the new English TTS at 0.85 — confirm it's the right loudness.
+> **▶ INSIGHTS this session (from real /v1/stats, clean 06-16→22 week — all [HYPOTHESIS], n small + owner-polluted):**
+>   (#1) Kings = MOST-opened subject (61) but ~2 actual plays — NOT a paywall (premiumOn defaults true; Kings was already unlocked) →
+>   a menu→play conversion drop; the level ladder + clearer entry target this. (#2) abandon is at q0/first-question (12 of 18 positioned
+>   abandons) = navigation-bounce, not round-length → the cold-start demo + ladder help; a deeper q0 fix needs the NEW position+traffic
+>   data to act on (don't guess). (#3) most-played = quiz/build/math-add/match; english+math worst completion. NO PMF signal yet.
+> **▶ NEXT (gated/queued):** P4 = expand each YLE level toward full handbook coverage (more items/parts per Starters/Movers/Flyers) +
+>   add `lv` to KINGS_ENG items for finer laddering. q0-deep fix = wait for the new abandon-position + page_view data, then act.
+>   Instrument landing.html for traffic. Speaking mic-grading (real scoring) = STILL GATED (AI/backend = owner money/privacy decision).
+> **⚠️ TEST-NOISE NOTE (owner flagged): Playwright validation plays the app's TTS OUT LOUD on the owner's machine.** For future
+>   live checks, MUTE first (override `window.speak`/`window.playClip` to no-ops in the eval, or launch chrome with --mute-audio).
+>
+> ── earlier 2026-06-22 eve (v1.209-1.211, kept for history) ──
+> ## ▶ RESUME (2026-06-22 eve) — **v1.211 LIVE: YLE Listening + tutor variety + YLE Reading&Writing**. Clean tree, HEAD==origin/main.
 > **★ STRATEGIC LOCK (owner 2026-06-22): audience = 6–12 Cambridge YLE exam-prep** (chosen over under-7-wedge / 8+-older).
 >   This decides P4 content scope. Pricing (W1.1) + launch strategy still PARKED (owner reviewing, will return).
 > **★ Root diagnosis (audits done, in `output/2026-06-22-NikoLearn სტრატეგია — ტუტორი, ასაკი, Kings by Niko.html`):**
