@@ -4,7 +4,14 @@
 > binding policy+code FIRST, never present a 2-option binary without a third-path line, no unverified
 > "best practice" claims). Added 2026-06-23 after the telemetry-retention miss.
 
-> ## ▶ RESUME NOW (2026-06-23) — **v1.215 LIVE + pricing red-team revision**. Clean tree, HEAD==origin/main.
+> ## ▶ RESUME NOW (2026-06-23) — **v1.216 LIVE: post-demo conversion nudge + pricing red-team revision**. Clean tree, HEAD==origin/main.
+> **★ v1.216 — post-demo CONVERSION nudge (the one ungated activation win).** After a guest demo round, the results screen leads with
+>   „შექმენი პროფილი, რომ შენი 🪙 X მონეტა შეინახო" (create-profile = primary, show-dad dropped for guest). `createChild` MIGRATES the
+>   guest demo's coins/words/sessions into the FIRST real profile (honest, not empty) + resets guest; guarded to the first profile
+>   (a 2nd child does NOT inherit guest). Verified muted: nudge+coins, migration+reset, real-kid results unchanged, 2nd-kid guard, 0 err.
+> **▶ NEXT (honest, owner-agreed posture): MEASURE→LEARN, stop feature-churn.** Funnel now instrumented (page_view + first_win +
+>   abandon-position, all live). Let it accrue a few days → read /v1/stats → act on activation/retention with DATA, not guesses.
+>   Building more YLE content now = polishing an unreadable number. Park: P4 depth · pricing (conversion-data) · GITA · client-side cohort.
 > **🔒 PRICING — GEORGIA red-team REVISION (owner 2026-06-23, SUPERSEDES the old W1.1 "Free/19₾/29₾ lock"):** owner challenged
 >   GE pricing (too few tiers? 5/10/15/20? 19₾ entry too high?). 2 independent red-team agents (pricing-structure + GE-market WTP)
 >   converged. **New view (in `output/2026-06-23-NikoLearn საქართველოს ფასი — red-team გადააზრება by Niko.html`; old 06-18/06-19
