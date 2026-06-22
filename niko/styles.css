@@ -256,6 +256,14 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .pcard.parent{flex-direction:row;justify-content:center;gap:11px;background:var(--card-2)}
 .pcard.parent .avatar{width:42px;height:42px;border-radius:14px;font-size:1.1rem}
 .pcard.parent .pname{font-size:.98rem}
+/* cold-start demo card: the primary, inviting action for a brand-new visitor (play now, no profile) */
+.pcard.demo{flex-direction:row;justify-content:center;gap:13px;
+  background:linear-gradient(150deg,color-mix(in oklch,var(--green) 14%,var(--card)),var(--card));
+  border:2px solid color-mix(in oklch,var(--green) 55%,var(--line))}
+.pcard.demo:hover{border-color:var(--green)}
+.pcard.demo .avatar{width:48px;height:48px;border-radius:15px;font-size:1.5rem}
+.pcard.demo .pname{font-size:1.12rem;color:var(--green-d)}
+.pcard.demo .pmeta{color:var(--muted)}
 .lockwrap{display:flex;align-items:center;gap:6px;color:var(--faint);font-size:.74rem;margin-top:2px}
 .lockwrap svg{width:13px;height:13px}
 .pmeta svg{width:13px;height:13px}

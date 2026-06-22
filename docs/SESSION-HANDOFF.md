@@ -1,6 +1,27 @@
 # NikoLearn — Session Handoff
 
-> ## ▶ RESUME NOW (2026-06-19→22) — **v1.207 LIVE: abandon-position telemetry**. Clean tree, HEAD==origin/main (3f80150).
+> ## ▶ RESUME NOW (2026-06-22) — **v1.208 LIVE: cold-start demo + under-6 streak-chip removed**. Clean tree, HEAD==origin/main.
+> **★ Owner decisions 2026-06-22:** PRICING (W1.1) + LAUNCH strategy = owner will review & come back (PARKED, do NOT churn).
+>   Approved building 2 ungated items, ORDER: child-dev streak FIRST then cold-start. Then opened a BIG strategy thread (below).
+> **★ v1.208 #1 — under-6 day-streak chip REMOVED (child-dev).** Topbar 🔥 dayStreak = return-pressure, wrong for under-6
+>   (Duolingo Kids removed child-side streaks). `core.js topbar()`: `showStreak=kidObj(profile).age>=6` → chip ONLY age≥6;
+>   hidden ≤5 AND guest(age 0). dayStreak DATA still tracks silently (parent dash unaffected). Verified: age4→none, age7→shows,
+>   🪙 kept. NOTE (left as-is, flagged): end-of-round `s.streak` "🔥 სერია" (games.js:879) = within-round momentum, not
+>   return-pressure → kept; revisit only if owner wants under-6 to lose it too.
+> **★ v1.208 #2 — COLD START fix (CRO-missed slice of 67% abandon).** New visitor used to see ONLY "create profile" → forced
+>   3-4 screen profile+consent before any question. NEW cold-start home (isNew) shows primary green "🎮 სცადე ახლავე — ითამაშე
+>   ერთ წუთში, პროფილის გარეშე" → `tryDemo()`→`selectProfile('guest')` = REAL playable subject grid (one tap from a question,
+>   back→home, guest path pre-tested). Create-profile demoted to secondary. Files: screens.js (demoCard+tryDemo), styles.css
+>   (.pcard.demo). Verified end-to-end: demo→math→winnable "2+2" at 1/5, 0 console errors.
+> **▶ Optional v1.209 polish (ungated):** post-demo "create profile to save progress" nudge on guest results screen to lift demo→signup.
+> **🔴 BIG STRATEGY THREAD opened 2026-06-22 (owner, brainstorm→plan→act):** 3 product-truth concerns — (1) tutor functionality
+>   is WEAK, role unclear, Niko doesn't return with joy → what should the tutor BE; (2) showed an 8th-grader, we're unprepared for
+>   that age — is under-8 launch scope right / what's its real value; (3) Kings/Cambridge YLE: owner unimpressed by our existing
+>   tests vs the real YLE (more varied, complex, multi-skill); NO benchmarking research done → we can't credibly promise parents a
+>   Kings advantage. See output/ strategy report + docs for the analysis & plan. STATUS: in progress this session.
+>
+> ── earlier (v1.207, kept for history) ──
+> ## ▶ RESUME (2026-06-19→22) — **v1.207 LIVE: abandon-position telemetry**. Clean tree, HEAD==origin/main (3f80150).
 > **🔴 3 OPEN OWNER DECISIONS (the whole next move waits on these — operating mode = MANDATE, agent works autonomously until a gate):**
 >   1. **💰 PRICING v-lock** (W1.1): diaspora Free/$8.99/$12.99 · GE Free/19₾/29₾ · annual −43% · default annual Family · SUBSCRIPTION. Owner „კი" or nudge numbers.
 >   2. **🔒 PRIVACY/retention** (gate): true D1/D7/D30 needs a persistent id the codebase forbids (child-PII). (a) device-side anon return-bucket vs **(b) keep no-tracking promise + rely on within-session funnel + abandon-position + DAU — agent recommends (b)**.

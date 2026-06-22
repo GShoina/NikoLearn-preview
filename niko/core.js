@@ -130,13 +130,18 @@ function setNav(active){
 }
 function topbar(title,sub,back){
   const s=state[profile]||{shields:0,dayStreak:0};
+  // Day-streak chip is a return-pressure mechanic. Developmentally inappropriate for under-6
+  // (Duolingo Kids removed child-side streaks for the same reason). Show only for age>=6;
+  // this also hides it for the guest profile (age 0). The streak data still tracks silently
+  // (parent dashboard can still use it) — we only suppress the child-facing pressure cue.
+  const showStreak=kidObj(profile).age>=6;
   return `<div class="topbar">
     ${back?`<button class="iconbtn" onclick="${back}">←</button>`:''}
     <div class="who">${title}${sub?`<small>${sub}</small>`:''}</div>
     <div class="chips">
       ${voiceToggleBtn()}
       <span class="chip shield">🪙<span class="num">${s.shields}</span></span>
-      <span class="chip streak" title="დღის სერია">${I.flame}<span class="num">${s.dayStreak||0}</span></span>
+      ${showStreak?`<span class="chip streak" title="დღის სერია">${I.flame}<span class="num">${s.dayStreak||0}</span></span>`:''}
     </div>
   </div>`;
 }

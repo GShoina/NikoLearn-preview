@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.207'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.208'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 function goHome(){
   // A4: if a round was in progress, count it as abandoned before we leave it
   if(typeof game!=='undefined'&&game&&game.roundActive){ try{ if(window.Analytics)Analytics.event('round_abandon',{mode:coarseMode(),q:(game.i>=8?'8+':String(game.i||0))}); }catch(e){} game.roundActive=false; }
@@ -26,15 +26,25 @@ function goHome(){
   }).join('');
   const addCard=`<div class="pcard add" onclick="addChild()">
       <div class="avatar add-av">＋</div>
-      <div class="pname"${isNew?'':' style="color:var(--muted)"'}>${isNew?'შექმენი ბავშვის პროფილი':'დაამატე ბავშვი'}</div>
+      <div class="pname" style="color:var(--muted)">${isNew?'შექმენი პროფილი (პროგრესი შეინახება)':'დაამატე ბავშვი'}</div>
     </div>`;
+  // COLD START: a brand-new visitor used to see only the "create profile" card, so the FIRST
+  // thing the app asked was a 3-4 screen profile+consent flow before a single question — a likely
+  // big slice of the abandon rate. Give an instant, zero-commitment taste: play as the guest
+  // profile right now, create a real (saved) profile only once they want to keep progress.
+  const demoCard=isNew?`<div class="pcard demo" style="grid-column:span 2" onclick="tryDemo()">
+      <div class="avatar a-green">🎮</div>
+      <div><div class="pname">სცადე ახლავე</div>
+      <div class="pmeta">ითამაშე ერთ წუთში, პროფილის გარეშე 👇</div></div>
+    </div>`:'';
   render(`<div class="screen home">
     <div class="brand brand-btn" onclick="landing()" title="მთავარი გვერდი">
       <div class="sun-badge" style="background:none;box-shadow:none;padding:0"><img src="owl-logo.png" alt="" style="width:100%;height:100%;object-fit:contain"></div>
       <div class="mark">NikoLearn</div>
-      <div class="tag">${isNew?'მოგესალმები 👋, შექმენი ბავშვის პროფილი დასაწყებად':'ვინ თამაშობს?'}</div>
+      <div class="tag">${isNew?'მოგესალმები 👋 ჯერ თამაში სცადე, მერე შექმენი პროფილი':'ვინ თამაშობს?'}</div>
     </div>
     <div class="profile-grid">
+      ${demoCard}
       ${cards}
       ${addCard}
       <div class="pcard parent" style="grid-column:span 2" onclick="openGate()">
@@ -47,6 +57,12 @@ function goHome(){
     <div style="margin-top:14px;font-size:.78rem;color:var(--muted);text-align:center">NikoLearn v${APP_VERSION}</div>
   </div>`,'home');
 }
+
+/* ── cold-start demo: play immediately as the guest profile, no profile/consent flow first.
+   Reuses the fully-tested guest path (state, levels, back-nav to home all already wired), so the
+   new visitor lands on the real, playable subject grid one tap from a question. They create a
+   saved profile only when they want progress kept. ── */
+function tryDemo(){ selectProfile('guest'); }
 
 /* ── landing page (real marketing landing: what + why; desktop + mobile) ── */
 function enterApp(){ state.authed=true; save(); goHome(); }
