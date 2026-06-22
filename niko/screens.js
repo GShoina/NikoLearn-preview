@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.211'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.212'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 function goHome(){
   // A4: if a round was in progress, count it as abandoned before we leave it
   if(typeof game!=='undefined'&&game&&game.roundActive){ try{ if(window.Analytics)Analytics.event('round_abandon',{mode:coarseMode(),q:(game.i>=8?'8+':String(game.i||0))}); }catch(e){} game.roundActive=false; }
@@ -366,7 +366,8 @@ function openMenu(subj){
       ${(!isYoung(profile)&&typeof dueWords==='function'&&dueWords().length)?`<div class="mode play refresh-tile" onclick="startRefresh()">${PLAY_BADGE}<div class="m-ico">🔄</div><div class="m-name">დღევანდელი გამეორება</div><div class="m-sub">${dueWords().length} ${window.UILANG==='en'?'words':'სიტყვა'}</div></div>`:''}
     </div>`;
   } else if(subj==='kings-eng'){
-    body=`<div class="mode-grid">
+    body=`${kingsLevelBar()}
+    <div class="mode-grid">
       <div class="mode feature play" onclick="startKings('eng')">${PLAY_BADGE}<div class="m-ico">👑</div><div><div class="m-name">კინგსის ტესტი</div><div class="m-sub">სურათი · თარგმანი · მართლწერა · გრამატიკა</div></div></div>
       ${mode('quiz','🎯','ლექსიკა','')}
       ${mode('listen','👂','მოსმენა','სიტყვა')}
@@ -444,6 +445,14 @@ function openMenu(subj){
 }
 function mode(m,ic,name,sub){
   return `<div class="mode play" onclick="startGame('${m}')">${PLAY_BADGE}<div class="m-ico">${ic}</div><div class="m-name">${name||'&nbsp;'}</div>${sub?`<div class="m-sub">${sub}</div>`:''}</div>`;
+}
+/* Kings = Cambridge YLE level ladder selector (Starters/Movers/Flyers). Tapping a band sets it on the
+   profile and re-renders the Kings menu so every mode then draws level-appropriate items. */
+function setKLevel(n){ if(typeof setKingsLevel==='function')setKingsLevel(n); openMenu('kings-eng'); }
+function kingsLevelBar(){
+  const cur=(typeof kingsLevel==='function')?kingsLevel():1;
+  const L=[[1,'Starters','დამწყები'],[2,'Movers','საშუალო'],[3,'Flyers','მაღალი']];
+  return `<div class="klevel-bar">${L.map(([n,en,ka])=>`<button class="klevel${n===cur?' on':''}" onclick="setKLevel(${n})"><b>${en}</b><small>${ka}</small></button>`).join('')}</div>`;
 }
 
 /* ── category pickers ── */

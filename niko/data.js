@@ -317,7 +317,7 @@ const KINGS_ENG = [
   {type:'pic2word',emoji:'📖',q:'It is a _____.',opts:['table','box','book'],a:'book'},
   {type:'pic2word',emoji:'🏠',q:'It is a _____.',opts:['house','car','desk'],a:'house'},
   {type:'pic2word',emoji:'⭐',q:'It is a _____.',opts:['desk','box','star'],a:'star'},
-  {type:'pic2word',emoji:'🚲',q:'It is a _____.',opts:['bike','crocodile','car'],a:'bike'},
+  {type:'pic2word',emoji:'🚲',q:'It is a _____.',opts:['bike','bus','car'],a:'bike'},
   {type:'pic2word',emoji:'🦒',q:'It is a _____.',opts:['giraffe','zebra','horse'],a:'giraffe'},
   {type:'pic2word',emoji:'🌂',q:'It is an _____.',opts:['apple','umbrella','orange'],a:'umbrella'},
   {type:'pic2word',emoji:'📖🖊️',q:'I see _____.',opts:['a book and a pen','a pen and a ball','a bag and a pen'],a:'a book and a pen'},
@@ -331,7 +331,7 @@ const KINGS_ENG = [
   {type:'translate',q:'სამი თეთრი იხვი',opts:['three white ducks','two white ducks','three white dogs'],a:'three white ducks'},
   // Task: spelling
   {type:'spelling',q:'Which is correct?',opts:['book','buuk','bok'],a:'book'},
-  {type:'spelling',q:'Which is correct?',opts:['lovelly','lovly','lovely'],a:'lovely'},
+  {type:'spelling',q:'Which is correct?',opts:['happy','hapy','happi'],a:'happy'},
   {type:'spelling',q:'შენობა: Which is correct?',opts:['bulding','bilding','building'],a:'building'},
   {type:'spelling',q:'პარასკევი: Which is correct?',opts:['Friday','Fridey','Friady'],a:'Friday'},
   {type:'spelling',q:'მეგობარი: Which is correct?',opts:['freind','friend','frend'],a:'friend'},
@@ -353,61 +353,82 @@ const KINGS_ENG = [
 ];
 const TYPE_LABEL={pic2word:'🖼️ Picture',translate:'🇬🇪→🇬🇧 Translate',spelling:'✍️ Spelling',number:'🔢 Number',grammar:'📝 Grammar'};
 
-/* ── YLE LISTENING comprehension (sentence level) — owner 2026-06-22 ──
-   Real Cambridge YLE Listening format: the child HEARS a short English sentence (number + object,
-   object + action, "a X and a Y") and taps the matching PICTURE. A genuine comprehension step beyond
-   the single-word `listen` mode (which only tests one-word recognition). The owl reading the sentence
-   aloud = the tutor's real voice role. Distractors differ from the answer by ONE attribute (number OR
-   object) so it tests careful listening, not guessing. Answers are UNAMBIGUOUS emoji combos. */
+/* ── YLE LISTENING comprehension (sentence level) — owner 2026-06-22; level-laddered 2026-06-22 ──
+   Real Cambridge YLE Listening format: the child HEARS a short English sentence and taps the matching
+   PICTURE. `lv` = YLE band (1 Starters / 2 Movers / 3 Flyers); rounds draw items with lv<=selected so
+   higher bands are cumulative supersets. Distractors differ by ONE attribute so it tests careful
+   listening, not guessing. Answers are UNAMBIGUOUS emoji combos. */
 const LISTEN_YLE = [
-  {en:'three cats',          a:'🐱🐱🐱',     opts:['🐱🐱🐱','🐱🐱','🐶🐶🐶']},
-  {en:'two dogs',            a:'🐕🐕',       opts:['🐕🐕','🐕🐕🐕','🐱🐱']},
-  {en:'a dog and a ball',    a:'🐕⚽',       opts:['🐕⚽','🐱⚽','🐕📕']},
-  {en:'a cat and a fish',    a:'🐱🐟',       opts:['🐱🐟','🐕🐟','🐱🐦']},
-  {en:'five apples',         a:'🍎🍎🍎🍎🍎', opts:['🍎🍎🍎🍎🍎','🍎🍎🍎','🍎🍎🍎🍎']},
-  {en:'a happy face',        a:'😀',         opts:['😀','😢','😠']},
-  {en:'a sad face',          a:'😢',         opts:['😢','😀','😮']},
-  {en:'a big elephant',      a:'🐘',         opts:['🐘','🐭','🐰']},
-  {en:'the sun and a tree',  a:'☀️🌳',       opts:['☀️🌳','🌙🌳','☀️🌸']},
-  {en:'four stars',          a:'⭐⭐⭐⭐',     opts:['⭐⭐⭐⭐','⭐⭐⭐','⭐⭐⭐⭐⭐']},
-  {en:'a boy and a girl',    a:'👦👧',       opts:['👦👧','👦👦','👧👧']},
-  {en:'two ducks',           a:'🦆🦆',       opts:['🦆🦆','🦆🦆🦆','🐤🐤']},
-  {en:'a cake and a candle', a:'🍰🕯️',      opts:['🍰🕯️','🍰🎈','🍪🕯️']},
-  {en:'a bird and a flower', a:'🐦🌸',       opts:['🐦🌸','🐦🌳','🦆🌸']}
+  // lv1 Starters — simple nouns + small numbers
+  {lv:1,en:'three cats',          a:'🐱🐱🐱',     opts:['🐱🐱🐱','🐱🐱','🐶🐶🐶']},
+  {lv:1,en:'two dogs',            a:'🐕🐕',       opts:['🐕🐕','🐕🐕🐕','🐱🐱']},
+  {lv:1,en:'a dog and a ball',    a:'🐕⚽',       opts:['🐕⚽','🐱⚽','🐕📕']},
+  {lv:1,en:'five apples',         a:'🍎🍎🍎🍎🍎', opts:['🍎🍎🍎🍎🍎','🍎🍎🍎','🍎🍎🍎🍎']},
+  {lv:1,en:'a happy face',        a:'😀',         opts:['😀','😢','😠']},
+  {lv:1,en:'a big elephant',      a:'🐘',         opts:['🐘','🐭','🐰']},
+  {lv:1,en:'four stars',          a:'⭐⭐⭐⭐',     opts:['⭐⭐⭐⭐','⭐⭐⭐','⭐⭐⭐⭐⭐']},
+  {lv:1,en:'two ducks',           a:'🦆🦆',       opts:['🦆🦆','🦆🦆🦆','🐱🐱']},
+  // lv2 Movers — two objects, adjectives
+  {lv:2,en:'a cat and a fish',    a:'🐱🐟',       opts:['🐱🐟','🐕🐟','🐱🐦']},
+  {lv:2,en:'the sun and a tree',  a:'☀️🌳',       opts:['☀️🌳','🌙🌳','☀️🌸']},
+  {lv:2,en:'a boy and a girl',    a:'👦👧',       opts:['👦👧','👦👦','👧👧']},
+  {lv:2,en:'a cake and a candle', a:'🍰🕯️',      opts:['🍰🕯️','🍰🎈','🍪🕯️']},
+  {lv:2,en:'a bird and a flower', a:'🐦🌸',       opts:['🐦🌸','🐦🌳','🦆🌸']},
+  {lv:2,en:'a sad face',          a:'😢',         opts:['😢','😀','😮']},
+  // lv3 Flyers — longer noun groups, contrast
+  {lv:3,en:'three boys and two girls', a:'👦👦👦👧👧', opts:['👦👦👦👧👧','👦👦👧👧👧','👦👦👦👧']},
+  {lv:3,en:'a car and a bike',         a:'🚗🚲',       opts:['🚗🚲','🚌🚲','🚗🛴']},
+  {lv:3,en:'a cat, a dog and a bird',  a:'🐱🐕🐦',     opts:['🐱🐕🐦','🐱🐕🐟','🐱🐰🐦']},
+  {lv:2,en:'two cakes and a candle',   a:'🍰🍰🕯️',     opts:['🍰🍰🕯️','🍰🕯️🕯️','🍪🍪🕯️']}
 ];
 
 /* ── YLE Reading & Writing: TICK yes/no (Starters R&W Part 1 format) — owner 2026-06-22 ──
    Look at a picture + read an English sentence, decide if it is TRUE. A real YLE reading format
    we did not have (the old Kings was only 3-option MCQ). Sentences are simple, unambiguous. */
 const YESNO_YLE = [
-  {e:'🐘', s:'It is a big animal.',  a:'yes'},
-  {e:'🐭', s:'It is a big animal.',  a:'no'},
-  {e:'🍎', s:'It is a red apple.',   a:'yes'},
-  {e:'🐱', s:'It is a dog.',         a:'no'},
-  {e:'☀️', s:'It is the sun.',       a:'yes'},
-  {e:'🐟', s:'It can fly.',          a:'no'},
-  {e:'🐦', s:'It can fly.',          a:'yes'},
-  {e:'🚗', s:'It is a car.',         a:'yes'},
-  {e:'🍌', s:'It is a blue banana.', a:'no'},
-  {e:'🦆', s:'It is a duck.',        a:'yes'},
-  {e:'🌳', s:'It is a tree.',        a:'yes'},
-  {e:'🐶', s:'It is a cat.',         a:'no'},
-  {e:'⭐', s:'It is a star.',        a:'yes'},
-  {e:'🐰', s:'It has long ears.',    a:'yes'}
+  // lv1 Starters — "It is a ___"
+  {lv:1,e:'🍎', s:'It is an apple.',      a:'yes'},
+  {lv:1,e:'🐱', s:'It is a dog.',         a:'no'},
+  {lv:1,e:'☀️', s:'It is the sun.',       a:'yes'},
+  {lv:1,e:'🚗', s:'It is a car.',         a:'yes'},
+  {lv:1,e:'🦆', s:'It is a duck.',        a:'yes'},
+  {lv:1,e:'🌳', s:'It is a tree.',        a:'yes'},
+  {lv:1,e:'🐶', s:'It is a cat.',         a:'no'},
+  {lv:1,e:'⭐', s:'It is a star.',        a:'yes'},
+  // lv2 Movers — properties / can / has
+  {lv:2,e:'🐘', s:'It is a big animal.',  a:'yes'},
+  {lv:2,e:'🐭', s:'It is a big animal.',  a:'no'},
+  {lv:2,e:'🐟', s:'It can fly.',          a:'no'},
+  {lv:2,e:'🐦', s:'It can fly.',          a:'yes'},
+  {lv:2,e:'🍌', s:'It is a blue banana.', a:'no'},
+  {lv:2,e:'🐰', s:'It has long ears.',    a:'yes'},
+  // lv3 Flyers — comparatives / actions
+  {lv:3,e:'🐘🐭', s:'The elephant is bigger than the mouse.', a:'yes'},
+  {lv:3,e:'🐢🐇', s:'The rabbit is slower than the turtle.',  a:'no'},
+  {lv:3,e:'☀️',   s:'The sun comes out at night.',            a:'no'},
+  {lv:3,e:'🐦',   s:'Birds can fly and sing.',                a:'yes'}
 ];
 
 /* ── YLE Reading & Writing: READ A STORY + answer (Movers/Flyers R&W comprehension) — owner 2026-06-22 ──
    Read 2-3 short English sentences, then answer one question (3 options). Real reading comprehension,
    the deepest skill we were missing. A 🔊 reads the story so pre-readers can follow too. */
 const STORY_YLE = [
-  {text:'Sam has a red ball. He likes to play with his dog in the park.', q:'What does Sam have?', opts:['a red ball','a cat','a book'], a:'a red ball'},
-  {text:'Anna is six. She has a big blue bike. She goes to school on it.', q:'What colour is the bike?', opts:['blue','red','green'], a:'blue'},
-  {text:'The cat is on the table. It is sleeping. The dog is under the table.', q:'Where is the dog?', opts:['under the table','on the table','in the box'], a:'under the table'},
-  {text:'Tom likes apples and bananas. He does not like fish.', q:'What does Tom NOT like?', opts:['fish','apples','bananas'], a:'fish'},
-  {text:'It is a sunny day. The children play football in the garden.', q:'What do the children play?', opts:['football','tennis','music'], a:'football'},
-  {text:'Mum has two cats. One is black and one is white.', q:'How many cats does Mum have?', opts:['two','three','one'], a:'two'},
-  {text:'Ben has a green hat. He wears it when it is cold.', q:'When does Ben wear his hat?', opts:['when it is cold','when it is hot','at night'], a:'when it is cold'},
-  {text:'The bird is in the tree. It is singing a song.', q:'What is the bird doing?', opts:['singing','sleeping','eating'], a:'singing'}
+  // lv1 Starters — 2 short sentences, present tense
+  {lv:1,text:'Sam has a red ball. He likes to play with his dog.', q:'What does Sam have?', opts:['a red ball','a cat','a book'], a:'a red ball'},
+  {lv:1,text:'Anna has a big blue bike. She goes to school on it.', q:'What colour is the bike?', opts:['blue','red','green'], a:'blue'},
+  {lv:1,text:'Mum has two cats. One is black and one is white.', q:'How many cats does Mum have?', opts:['two','three','one'], a:'two'},
+  {lv:1,text:'Pat has a small dog. The dog likes to run.', q:'What does the dog like to do?', opts:['run','sleep','eat'], a:'run'},
+  {lv:2,text:'The bird is in the tree. It is singing a song.', q:'What is the bird doing?', opts:['singing','sleeping','eating'], a:'singing'},
+  // lv2 Movers — 3 sentences, more detail
+  {lv:2,text:'The cat is on the table. It is sleeping. The dog is under the table.', q:'Where is the dog?', opts:['under the table','on the table','in the box'], a:'under the table'},
+  {lv:2,text:'Tom likes apples and bananas. He does not like fish.', q:'What food does Tom not like?', opts:['fish','apples','bananas'], a:'fish'},
+  {lv:2,text:'It is a sunny day. The children play football in the garden.', q:'What do the children play?', opts:['football','tennis','music'], a:'football'},
+  {lv:2,text:'Ben has a green hat. He wears it when it is cold.', q:'When does Ben wear his hat?', opts:['when it is cold','when it is hot','at night'], a:'when it is cold'},
+  // lv3 Flyers — longer, past tense
+  {lv:3,text:'Yesterday Lucy went to the zoo. She saw a big elephant and three monkeys. The monkeys were funny.', q:'How many monkeys did Lucy see?', opts:['three','two','one'], a:'three'},
+  {lv:3,text:'Last weekend Max played in the rain. He wore his red boots and a yellow coat. After that he had hot soup.', q:'What did Max wear on his feet?', opts:['red boots','yellow socks','blue shoes'], a:'red boots'},
+  {lv:3,text:'Grandma made a cake on Sunday. It was a chocolate cake with ten candles. Everyone sang a happy song.', q:'How many candles were on the cake?', opts:['ten','six','five'], a:'ten'},
+  {lv:3,text:'The little dog was lost in the park. A kind girl found it and gave it some water. Then she took it home.', q:'Who found the dog?', opts:['a kind girl','a boy','a man'], a:'a kind girl'}
 ];
 
 /* ── KINGS MATH, expanded (word problems / logic / sequences) ── */

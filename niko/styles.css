@@ -374,6 +374,14 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .opt.yn-no{border-color:color-mix(in oklch,var(--red) 40%,var(--line));background:color-mix(in oklch,var(--red) 7%,var(--card))}
 .story-text{background:var(--card-2);border:1.5px solid var(--line);border-radius:14px;padding:14px 16px;
   font-size:1.18rem;line-height:1.6;color:var(--ink);text-align:left;margin:4px 0 8px}
+/* Kings YLE level ladder selector — owner 2026-06-22 */
+.klevel-bar{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:2px 0 12px}
+.klevel{display:flex;flex-direction:column;align-items:center;gap:1px;padding:9px 4px;border:1.5px solid var(--line);
+  border-radius:12px;background:var(--card);color:var(--muted);cursor:pointer;font-family:inherit;box-shadow:var(--shadow);transition:all .14s}
+.klevel b{font-size:.92rem;font-family:'Fredoka';font-weight:600}
+.klevel small{font-size:.62rem}
+.klevel:active{transform:scale(.96)}
+.klevel.on{background:color-mix(in oklch,var(--primary) 14%,var(--card));border-color:var(--primary);color:var(--primary-d)}
 .opt:active{transform:scale(.96)}
 .opt.correct{border-color:var(--green);background:color-mix(in oklch,var(--green) 16%,var(--card));color:var(--green-d);animation:pop .34s}
 .opt.wrong{border-color:var(--red);background:color-mix(in oklch,var(--red) 12%,var(--card));animation:shake .34s}

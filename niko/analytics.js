@@ -107,6 +107,30 @@
     document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') flushSession(); });
   } catch (e) {}
 
+  // ── anonymous TRAFFIC beacon (owner 2026-06-22): one page_view per load with a COARSE referrer
+  //    BUCKET (fixed enum, never the URL) + which page. Gives first-party visit + source counts so we
+  //    no longer depend on the Cloudflare dashboard. Privacy identical to the rest of this facade:
+  //    no URL, no PII, no cookie; localhost + DNT + owner-device are all skipped via fanout().
+  function refBucket() {
+    try {
+      var r = (document.referrer || '').toLowerCase();
+      if (!r) return 'direct';
+      var h = new URL(r).hostname.replace(/^www\./, '');
+      if (location.hostname && h.indexOf(location.hostname) >= 0) return 'internal';
+      if (/facebook|fbclid|fb\.com|m\.facebook/.test(r)) return 'facebook';
+      if (/instagram/.test(r)) return 'instagram';
+      if (/youtube|youtu\.be/.test(r)) return 'youtube';
+      if (/t\.me|telegram/.test(r)) return 'telegram';
+      if (/google\./.test(h)) return 'google';
+      if (/bing|duckduckgo|yandex/.test(h)) return 'search';
+      return 'other';
+    } catch (e) { return 'other'; }
+  }
+  function pageBucket() { try { return /landing/.test(location.pathname) ? 'landing' : 'app'; } catch (e) { return 'app'; } }
+  try {
+    setTimeout(function () { try { if (window.Analytics) Analytics.event('page_view', { ref: refBucket(), page: pageBucket() }); } catch (e) {} }, 300);
+  } catch (e) {}
+
   function fanout(method, a, b) {
     if (OFF) return;
     // owner's own device (set in the PIN-gated parent space): skip telemetry so real-user

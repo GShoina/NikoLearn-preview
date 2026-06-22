@@ -35,6 +35,7 @@ function startGame(m){
 // A4 telemetry: map the specific game.mode → the worker's coarse subject enum.
 function coarseMode(m){
   m=m||game.mode||'';
+  if(m==='listen-yle'||m==='yesno'||m==='story')return 'kings'; // YLE exam-prep modes live under Kings
   if(m==='count'||m==='counting'||m==='digit')return 'counting';
   if(m==='kings-eng'||m==='kings-math')return 'kings';
   if(m==='ka-alpha'||m==='en-alpha')return 'alphabet';
@@ -771,10 +772,15 @@ function answerCount(btn,sel,cor){
     try{speakSeq([{t:numWord(sel,profile),lang:vCode(profile)},{t:retryWord(profile),lang:vCode(profile)}]);}catch(e){}}
 }
 
-/* ── Kings tests ── */
+/* ── Kings = Cambridge YLE level ladder (Starters/Movers/Flyers). byLevel() keeps only items at or
+   below the selected band (cumulative); falls back to the full pool if a band is somehow empty so a
+   round can always be built. KENG_TYPE_LV maps the legacy KINGS_ENG question types onto YLE bands. */
+function byLevel(pool,lvl){const f=pool.filter(x=>!x.lv||x.lv<=lvl);return f.length>=3?f:pool;}
+const KENG_TYPE_LV={pic2word:1,number:1,translate:2,spelling:2,grammar:2};
 function startKings(kind){
   game.kind=kind;game.shields=0;game.wrong=0;game.i=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);
-  game.qs=kind==='eng'?shuffle(KINGS_ENG).slice(0,10):shuffle(KINGS_MATH).slice(0,8);
+  if(kind==='eng'){const lvl=kingsLevel();const pool=KINGS_ENG.filter(q=>(KENG_TYPE_LV[q.type]||1)<=lvl);game.qs=shuffle((pool.length>=6?pool:KINGS_ENG).slice()).slice(0,10);}
+  else game.qs=shuffle(KINGS_MATH.slice()).slice(0,8);
   game.mode=kind==='eng'?'kings-eng':'kings-math';
   nextKings();
 }
@@ -810,7 +816,7 @@ function listenYleRound(){
   game.mode='listen-yle';game.kind='listen-yle';game.shields=0;game.wrong=0;game.i=0;
   game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);
   game.subj=game.subj||'kings-eng';
-  game.qs=shuffle(LISTEN_YLE.slice()).slice(0,8);
+  game.qs=shuffle(byLevel(LISTEN_YLE,kingsLevel())).slice(0,8);
   nextListenYle();
 }
 function nextListenYle(){
@@ -822,7 +828,7 @@ function nextListenYle(){
       <div class="section-label">🎧 Listening</div>
       <button class="listen-cta" onclick="event.stopPropagation();speak('${sen}')">${I.speaker}</button>
       <div class="p-sub">მოუსმინე წინადადებას და აირჩიე სწორი სურათი</div></div>
-    <div class="options">${opts.map(o=>`<button class="opt emoji" onclick="answerListenYle(this,'${o}','${q.a}','${sen}')">${o}</button>`).join('')}</div>`;
+    <div class="options">${opts.map(o=>`<button class="opt emoji" onclick="answerListenYle(this,'${o}','${String(q.a).replace(/'/g,"\\'")}','${sen}')">${o}</button>`).join('')}</div>`;
   gameShell(area);
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
   setTimeout(()=>{try{speak(q.en);}catch(e){}},400); // auto-play once on render (the tutor's voice job)
@@ -858,7 +864,7 @@ function yesNoRound(){
   game.mode='yesno';game.kind='yesno';game.shields=0;game.wrong=0;game.i=0;
   game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);
   game.subj=game.subj||'kings-eng';
-  game.qs=shuffle(YESNO_YLE.slice()).slice(0,8);
+  game.qs=shuffle(byLevel(YESNO_YLE,kingsLevel())).slice(0,8);
   nextYesNo();
 }
 function nextYesNo(){
@@ -905,7 +911,7 @@ function storyRound(){
   game.mode='story';game.kind='story';game.shields=0;game.wrong=0;game.i=0;
   game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);
   game.subj=game.subj||'kings-eng';
-  game.qs=shuffle(STORY_YLE.slice()).slice(0,6);
+  game.qs=shuffle(byLevel(STORY_YLE,kingsLevel())).slice(0,6);
   nextStory();
 }
 function nextStory(){

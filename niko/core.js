@@ -73,6 +73,11 @@ function isBig(p){const a=kidObj(p).age;return a>=7;} // 7+ : harder math (divis
 function premiumOn(){return !state||state.premium!==false;}
 const PREMIUM_SUBJ=['kings-eng','kings-math']; // example paid tier: Cambridge YLE / olympiad exam prep
 function isPremiumSubj(subj){return PREMIUM_SUBJ.indexOf(subj)>=0;}
+// ── Kings = Cambridge YLE level ladder (1 Starters / 2 Movers / 3 Flyers), owner 2026-06-22.
+// Defaults to the child's age band; the parent/child can override in the Kings menu. Stored per profile.
+function kingsLevel(p){p=p||profile;const s=state&&state[p];if(s&&s.kingsLevel)return s.kingsLevel;const a=(kidObj(p).age)||7;return a>=9?3:a>=8?2:1;}
+function setKingsLevel(n){n=Math.max(1,Math.min(3,n|0));if(state&&state[profile]){state[profile].kingsLevel=n;save();}}
+function kLevelName(n){return n>=3?'Flyers':n>=2?'Movers':'Starters';}
 /* ── tutor animal (O1): the child picks who teaches them; visual only, voice unchanged ── */
 const TUTOR_ANIMALS=['🦉','🐱','🦁','🐶','🐰','🐼','🦊','🐵'];
 function tutorAva(p){const k=kidObj(p);return (k&&k.tutor)||'🦉';}
