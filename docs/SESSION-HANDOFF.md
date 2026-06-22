@@ -1,6 +1,12 @@
 # NikoLearn — Session Handoff
 
-> ## ▶ RESUME NOW (2026-06-19) — **v1.206 LIVE: activation (results CTA + Talk finish)**. Clean tree, HEAD==origin/main (f013991).
+> ## ▶ RESUME NOW (2026-06-19→22) — **v1.207 LIVE: abandon-position telemetry**. Clean tree, HEAD==origin/main (3f80150).
+> **🔴 3 OPEN OWNER DECISIONS (the whole next move waits on these — operating mode = MANDATE, agent works autonomously until a gate):**
+>   1. **💰 PRICING v-lock** (W1.1): diaspora Free/$8.99/$12.99 · GE Free/19₾/29₾ · annual −43% · default annual Family · SUBSCRIPTION. Owner „კი" or nudge numbers.
+>   2. **🔒 PRIVACY/retention** (gate): true D1/D7/D30 needs a persistent id the codebase forbids (child-PII). (a) device-side anon return-bucket vs **(b) keep no-tracking promise + rely on within-session funnel + abandon-position + DAU — agent recommends (b)**.
+>   3. **💳 PAYMENT backend go** (auth+Paddle+entitlement): money + customer-facing → owner go (Paddle acct, $). Agent can DESIGN now, can't build payment.
+> **▶ NEXT AUTONOMOUS (no gate, say „გააგრძელე" or pick):** Backend MVP design · Content-engine design (moat). **Plus standing: 🎧 ear-check tlk_046-050.**
+> **── this session (2026-06-19) detail below ──**
 > **★ v1.206 — CRO findings, owner said act NOW (override 'wait for data') + challenge first. Spawned an adversarial UX challenger
 > (Gemini CLI is DOWN — free tier deprecated by Google; used a Claude challenger agent instead). Shipped the survivors:**
 >   ① results screen — replay „↻ კიდევ ერთი" is now the PRIMARY block CTA; parent-share kept as a full-width SECOND block
