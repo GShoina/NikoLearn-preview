@@ -1041,6 +1041,9 @@ function results(){
   // A4: anonymous round outcome (fire-and-forget; the app is unaffected if telemetry is down)
   game.roundActive=false;
   try{ if(window.Analytics) Analytics.event('round_complete',{mode:coarseMode(),band:pct>=80?'high':(pct>=50?'mid':'low'),retries:game.wrong||0}); }catch(e){}
+  // within-session activation milestone: first completed round THIS page-load (aggregate, no id) →
+  // gives the opens→first_win→completes funnel without any cross-session tracking (owner 2026-06-23).
+  try{ if(window.Analytics && !window._firstWinSent){ window._firstWinSent=true; Analytics.event('first_win',{mode:coarseMode()}); } }catch(e){}
   const best=s.best[game.mode]||0;if(game.shields>best)s.best[game.mode]=game.shields;
   const _el=game.start?Date.now()-game.start:0;
   s.sessions++;s.lastPlayed=new Date().toISOString();s.totalTime+=_el;

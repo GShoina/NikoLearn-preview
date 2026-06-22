@@ -56,6 +56,10 @@ const EVENTS = {
   submode_usage:      { mode: ['quiz','reverse','listen','listen-yle','yesno','story','speak','match','spell','phrases','math-add','math-sub','math-mul','math-div','math-miss','math-pat','math-word','math-pic','compare','skip','shapes','money','clock','cal','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','rtext','digit'] },
   // anonymous traffic: one per page-load. ref = COARSE source bucket (enum, never a URL); page = which page.
   page_view:          { ref: ['direct','internal','facebook','instagram','google','youtube','telegram','search','other'], page: ['landing','app'] },
+  // WITHIN-SESSION activation funnel (owner 2026-06-23, "B-honest"): fired ONCE per page-load on the
+  // first completed round. Aggregate-only, NO id, NO cross-session link → keeps the "no persistent
+  // profile" / COPPA promise intact. Funnel = page_view (opens) -> first_win (activated) -> round_complete.
+  first_win:          { mode: ['alphabet','english','math','counting','kings','reading','movement'] },
 };
 const ALLOWED_ORIGINS = ['https://gshoina.github.io']; // tighten to the live app origin
 
