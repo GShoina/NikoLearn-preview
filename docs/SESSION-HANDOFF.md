@@ -1,5 +1,9 @@
 # NikoLearn — Session Handoff
 
+> 📐 **Before any constrained / tradeoff / privacy decision, read `docs/REASONING-LESSONS.md`** (read the
+> binding policy+code FIRST, never present a 2-option binary without a third-path line, no unverified
+> "best practice" claims). Added 2026-06-23 after the telemetry-retention miss.
+
 > ## ▶ RESUME NOW (2026-06-23) — **v1.215 LIVE: KINGS_ENG lv-ladder + a11y/team fixes + activation funnel**. Clean tree, HEAD==origin/main.
 > **★ v1.214 — KINGS_ENG explicitly lv-tagged** (Starters/Movers/Flyers; startKings ladders by item.lv) + **agent-teams bug sweep**
 >   (4 reviewers: correctness/security/perf/a11y — owner asked for the team method). Verdict: NO P1/P2 in correctness/security/perf,
