@@ -10,8 +10,15 @@ contradictory (can't count *returning* without the cross-session persistence the
 to clean DAU); A breaks the moat (server UUID = the exact "persistent user profile" privacy.html + COPPA
 deny). The correct **third option — client-side cohort** (device stores `first_seen` locally like the
 existing `niko_t_opt_in` boolean, never sent; computes returning_d7/cohort itself; sends only an
-aggregate flag; server holds no id) — was sitting in the codebase. The agent missed it by proposing
+aggregate flag; server holds no id) was sitting in the codebase. The agent missed it by proposing
 before reading.
+**3rd-order correction (owner, same day):** the third option is NOT a clean win either — it is still a
+nonzero promise-delta (local-only, but it makes the operator learn aggregate RETURN behaviour, which the
+"no return tracking" promise precludes; "not a reversal" != "zero change"), AND it is premature now (a
+cohort is noise at current volume — the owner's own challenge #3). Near-term honest answer = just
+B-honest (within-session funnel + aggregate DAU, cohort-tracking 0); client-side cohort is BACKLOG. The
+"best-in-class apps count client-side" rationale is [UNVERIFIED] — exactly as unverified as the agent's
+original "kids apps do X" it replaced. Neither was checked.
 
 **Root causes (impact-ranked):**
 1. Manufactured a fact ("best-in-class does X") to support the weaker option — it was an unverified
@@ -35,3 +42,17 @@ before reading.
   + documented trigger for the bigger version later).
 - For privacy specifically: a written/bilingual/COPPA-adjacent commitment is a HARD constraint to design
   WITHIN, never a "wording tweak" to reverse. Prefer client-side computation + aggregate-only flags.
+
+## L2 — Apply the same skepticism to the COUNTER-proposal (owner 2026-06-23, 3rd-order)
+After L1, both sides kept reasoning — and the *correction* carried the same flaws as the original:
+- The clever "third option" (client-side cohort) was seductive *because* it sounded smart — which is
+  exactly the reason to doubt it (same-model / elegance bias). It was right as a LATER upgrade but its
+  cleverness must not pull it into NOW.
+- "Not a reversal" was conflated with "zero change". Local-only return-tracking is a NONZERO promise
+  delta. Smaller than the rejected option ≠ free.
+- The counter-claim ("best-in-class counts client-side") was as [UNVERIFIED] as the original claim it
+  beat. Winning an argument with an equally-unsourced fact is not winning.
+**Rules:** (1) when you produce a better option, stress-test ITS claims and ITS premise (premature?
+nonzero cost?) with the same rigor you used to kill the first. (2) "smaller delta" / "not a reversal" is
+not "no delta" — quantify the residual. (3) elegance is a yellow flag, not a green one. (4) Default to
+the smallest change that is honest NOW; park clever upgrades in backlog with an explicit trigger.

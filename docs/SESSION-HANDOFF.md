@@ -18,10 +18,13 @@
 >   Owner corrected the agent's bad A/B framing (B was internally contradictory: can't count "returning" without the cross-session
 >   persistence the code bans; A breaks the moat: server UUID = the "persistent profile" privacy.html + COPPA explicitly deny).
 >   • **NOW (done, v1.215):** B-honest — aggregate within-session funnel + DAU trend, ZERO cross-session id, ZERO promise-change.
->   • **LATER (when device volume makes a retention curve non-noise):** CLIENT-SIDE COHORT — device stores `first_seen` in localStorage
->     (like the existing `niko_t_opt_in` boolean: local, NEVER sent), computes returning_d7/cohort itself, sends ONLY an aggregate flag;
->     server never sees an id → stays within "server holds no profile"; needs a small privacy.html CLARIFICATION (not reversal):
->     "the app locally stores the first-use date to count returns; it leaves no id on the device."
+>   • **BACKLOG (NOT the anointed next step) — client-side cohort:** device stores `first_seen` in localStorage (like the existing
+>     `niko_t_opt_in` boolean: local, NEVER sent), computes returning_d7/cohort itself, sends ONLY an aggregate flag; server never sees
+>     an id. CORRECTION (owner 2026-06-23, 3rd-order): this is **NOT zero promise-change** — even local-only, it makes the operator learn
+>     *aggregate return behavior*, which the current "no return tracking" promise precludes; the disclosure delta SHRINKS vs A but is
+>     **nonzero** ("reversal-no" ≠ "zero-change"). Gated on BOTH (a) device volume making a retention curve non-noise AND (b) a deliberate
+>     disclosure decision. The "best-in-class apps count client-side" rationale is **[UNVERIFIED]** (so is the agent's original "kids apps
+>     do X") — don't treat either as fact; verify only if/when this leaves backlog. Its cleverness is a reason for MORE scrutiny, not less.
 >   • **REJECTED:** server-side persistent UUID (option A) — breaks the written bilingual "does not create persistent user profiles" /
 >     "non-identifiable aggregate" / COPPA commitment + the privacy moat. [FACT, disk-verified: privacy.html + telemetry.js "No
 >     cross-session identifier of any kind… same_day_return removed (GPT review pt.1)" = deliberate audited ban, not accidental.]
