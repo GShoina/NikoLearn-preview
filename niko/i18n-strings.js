@@ -230,6 +230,7 @@ window.I18N_MAP = {
   "ხმამაღლა":"aloud",
   "უპასუხე ხმამაღლა 🗣️":"Answer out loud 🗣️",
   "✓ ვთქვი":"✓ I said it",
+  "✏️ შექმენი პროფილი":"✏️ Create a profile",
   "ყოველდღიური":"everyday",
   "ლექსიკა":"Vocabulary",
   "მოსმენა":"Listening",

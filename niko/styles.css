@@ -387,6 +387,10 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .klevel small{font-size:.7rem}
 .klevel:active{transform:scale(.96)}
 .klevel.on{background:color-mix(in oklch,var(--primary) 14%,var(--card));border-color:var(--primary);color:var(--primary-d)}
+/* post-demo conversion nudge on the guest results screen — owner 2026-06-23 */
+.guest-nudge{background:linear-gradient(150deg,color-mix(in oklch,var(--green) 12%,var(--card)),var(--card));
+  border:1.5px solid color-mix(in oklch,var(--green) 40%,var(--line));border-radius:14px;padding:12px 16px;
+  margin:6px 0 12px;font-size:.96rem;font-weight:600;color:var(--ink);text-align:center;line-height:1.45}
 .opt:active{transform:scale(.96)}
 .opt.correct{border-color:var(--green);background:color-mix(in oklch,var(--green) 16%,var(--card));color:var(--green-d);animation:pop .34s}
 .opt.wrong{border-color:var(--red);background:color-mix(in oklch,var(--red) 12%,var(--card));animation:shake .34s}

@@ -1071,11 +1071,15 @@ function results(){
       <div class="stat"><div class="v" style="color:var(--primary-d)">${s.streak}</div><div class="l">🔥 სერია</div></div>
     </div>
     ${beat}
+    ${profile==='guest'?`<div class="guest-nudge">მოგეწონა? 🌟 შექმენი პროფილი, რომ შენი 🪙 ${s.shields} მონეტა და პროგრესი შეინახო</div>
     <div class="actions">
+      <button class="btn btn-primary btn-block" onclick="addChild()">✏️ შექმენი პროფილი</button>
+      <button class="btn btn-ghost btn-block" onclick="replay()">↻ კიდევ ერთი</button>
+    </div>`:`<div class="actions">
       <button class="btn btn-primary btn-block" onclick="replay()">↻ კიდევ ერთი</button>
       <button class="btn btn-sun btn-block" onclick="showDad(${pct})">🎉 მამას &amp; დედას აჩვენე</button>
       <button class="btn btn-ghost btn-block" onclick="openMenu(game.subj||'math')">📋 მენიუ</button>
-    </div>
+    </div>`}
   </div>`,'home');
   try{if(isYoung(profile))praise();}catch(e){}
   // level-up → "go show mom/dad" movement + bonding moment

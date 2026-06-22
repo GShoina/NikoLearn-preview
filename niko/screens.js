@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.215'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.216'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 function goHome(){
   // A4: if a round was in progress, count it as abandoned before we leave it
   if(typeof game!=='undefined'&&game&&game.roundActive){ try{ if(window.Analytics)Analytics.event('round_abandon',{mode:coarseMode(),q:(game.i>=8?'8+':String(game.i||0))}); }catch(e){} game.roundActive=false; }
@@ -227,9 +227,21 @@ function renderAddChild(){
 function createChild(){
   const name=(draft.name||'').trim().replace(/[<>&"']/g,'');   // strip HTML-special chars (XSS: name flows into innerHTML)
   if(!name){const n=$('#kid-name');if(n){n.style.borderColor='var(--red)';n.focus();}return;}
+  const wasFirst=!(state.kids&&state.kids.length); // no kids yet = the new-visitor / post-demo signup path
   const id='k'+Date.now();
   state.kids.push({id,name,age:draft.age,color:draft.color,langs:(draft.langs&&draft.langs.length?draft.langs:['ka']),tutor:draft.tutor||'🦉'});
-  state[id]=blankKid();save();
+  state[id]=blankKid();
+  // post-demo conversion: if the visitor tried the guest demo and earned coins/progress, carry it into
+  // their FIRST real profile so the demo effort isn't lost (makes "create a profile to save" honest, not
+  // empty). Only on the first profile, and the guest is reset so it can't be re-claimed.
+  try{ const g=state.guest;
+    if(wasFirst && g && (((g.shields||0)>0)||((g.sessions||0)>0))){
+      const k=state[id];
+      k.shields=g.shields||0; k.sessions=g.sessions||0; k.totalTime=g.totalTime||0;
+      k.maxStreak=g.maxStreak||0; k.words=g.words||{}; k.math=g.math||{}; k.best=g.best||{};
+      state.guest=blankKid();
+    } }catch(e){}
+  save();
   // first-party, aggregate, no-PII: "new registration" with only a coarse age band (never name/age).
   if(window.Analytics)Analytics.event('profile_created',{age_band:draft.age<=5?'3-5':draft.age<=8?'6-8':'9-12'});
   selectProfile(id);
