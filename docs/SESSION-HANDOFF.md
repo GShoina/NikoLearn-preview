@@ -1,6 +1,31 @@
 # NikoLearn — Session Handoff
 
-> ## ▶ RESUME NOW (2026-06-22 late) — **v1.213 LIVE: Kings = Cambridge YLE level ladder + Speaking + traffic beacon**. Clean tree, HEAD==origin/main.
+> ## ▶ RESUME NOW (2026-06-23) — **v1.215 LIVE: KINGS_ENG lv-ladder + a11y/team fixes + activation funnel**. Clean tree, HEAD==origin/main.
+> **★ v1.214 — KINGS_ENG explicitly lv-tagged** (Starters/Movers/Flyers; startKings ladders by item.lv) + **agent-teams bug sweep**
+>   (4 reviewers: correctness/security/perf/a11y — owner asked for the team method). Verdict: NO P1/P2 in correctness/security/perf,
+>   privacy clean. Fixed their real findings: **a11y P1** — cold-load autoplay is blocked → non-reader stranded on English; the listen
+>   button now PULSES (`.pulse-hint`) + has aria-label so "tap to hear" is obvious. a11y P2: level chips→48px, aria-pressed. a11y P3:
+>   section-label contrast --faint→--muted. correctness P3: added lv1 items so Starters varies + beginners reach every item (listen
+>   8→11, yesno 8→11, speak 6→8). security P3: escaped the listen-yle option arg.
+> **★ v1.215 — within-session ACTIVATION FUNNEL (`first_win`).** Fired once per page-load on the first completed round (aggregate,
+>   no id). Funnel = page_view(opens) → first_win(activated) → round_complete. Worker enum live (version d98ac1ef). DAU/activity =
+>   already in date-keyed counters. Query /v1/stats (key=NIKO_STATS_KEY in creds) like the 06-16→22 snapshot.
+> **🔒 LOCKED DECISION — TELEMETRY RETENTION (owner 2026-06-23, do NOT re-surface option A):** retention = SEQUENCE not binary.
+>   Owner corrected the agent's bad A/B framing (B was internally contradictory: can't count "returning" without the cross-session
+>   persistence the code bans; A breaks the moat: server UUID = the "persistent profile" privacy.html + COPPA explicitly deny).
+>   • **NOW (done, v1.215):** B-honest — aggregate within-session funnel + DAU trend, ZERO cross-session id, ZERO promise-change.
+>   • **LATER (when device volume makes a retention curve non-noise):** CLIENT-SIDE COHORT — device stores `first_seen` in localStorage
+>     (like the existing `niko_t_opt_in` boolean: local, NEVER sent), computes returning_d7/cohort itself, sends ONLY an aggregate flag;
+>     server never sees an id → stays within "server holds no profile"; needs a small privacy.html CLARIFICATION (not reversal):
+>     "the app locally stores the first-use date to count returns; it leaves no id on the device."
+>   • **REJECTED:** server-side persistent UUID (option A) — breaks the written bilingual "does not create persistent user profiles" /
+>     "non-identifiable aggregate" / COPPA commitment + the privacy moat. [FACT, disk-verified: privacy.html + telemetry.js "No
+>     cross-session identifier of any kind… same_day_return removed (GPT review pt.1)" = deliberate audited ban, not accidental.]
+>   • Rationale: at current volume D1/D7/D30 cohort = statistical noise; don't spend the one differentiator (the written privacy
+>     promise) on a number you can't yet read. Build the v2 client-side-cohort path only when volume warrants — NOT server UUID.
+>
+> ── earlier 2026-06-22 late (v1.213, kept for history) ──
+> ## ▶ RESUME (2026-06-22 late) — **v1.213 LIVE: Kings = Cambridge YLE level ladder + Speaking + traffic beacon**. Clean tree, HEAD==origin/main.
 > **★ STRATEGIC LOCK (owner 2026-06-22): audience = ~6-9, CONCENTRATE ONLY ON KINGS (Cambridge YLE), build toward a "handbook v2".**
 >   Skip non-Kings work until Kings is genuinely Cambridge-grade. Pricing + launch still PARKED (owner reviewing).
 > **★ Owner ran this as a FULL autonomous mandate** ("define ideal outcome + done-criteria yourself, use RED-TEAM not just /Roast,
