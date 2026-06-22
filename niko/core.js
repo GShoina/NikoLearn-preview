@@ -213,7 +213,10 @@ function speakSeq(parts){if(!('speechSynthesis'in window))return;speechSynthesis
 function sayWord(ka,en){if(voiceLang(profile)==='en')speak(en,'en-US');else speakSeq([{t:ka,lang:'ka-GE'},{t:en,lang:'en-US'}]);}
 function praise(){ // warm spoken encouragement in the chosen voicing language
   const code=vCode(profile);
-  const sets={'ka-GE':['ბრავო','მართალია','შესანიშნავია','ყოჩაღ'],'ru-RU':['молодец','отлично','верно'],'en-US':['well done','great job','you did it','nice work']};
+  // ka praise pool widened 2026-06-22 (was just 4 words → felt repetitive). Every word here has a
+  // recorded clip in AUDIO_MANIFEST (ბრავო/მართალია/შესანიშნავია/ყოჩაღ + the prs_* set), so it is
+  // actually SPOKEN on devices with no Georgian TTS voice instead of falling back to English.
+  const sets={'ka-GE':['ბრავო','მართალია','შესანიშნავია','ყოჩაღ','ზუსტად','სწორია','ძალიან კარგი','გენიოსი ხარ','გაიხარე','აი, ასე'],'ru-RU':['молодец','отлично','верно'],'en-US':['well done','great job','you did it','nice work','excellent','perfect','clever','bravo']};
   const list=sets[code]||sets['ka-GE'];
   let word=list[ri(0,list.length-1)], useCode=code;
   // NEVER read Georgian/Russian with an English voice (it sounds like garbage, e.g. „ყოჩაღ"→"kochas").

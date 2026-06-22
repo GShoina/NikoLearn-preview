@@ -870,7 +870,12 @@ function feedback(ok){
   const el=document.createElement('div');el.className='overlay';el.id='fbov';
   // The friendly OWL is the child's companion on BOTH outcomes (owner 2026-06-13: owl + 💛 heart wherever
   // we praise/encourage; never the muscle). Correct still gets the confetti party on top; wrong stays warm.
-  el.innerHTML=`<div class="fb"><div class="fb-ico">${tutorFace(profile,'5rem')}</div><div class="fb-txt">${ok?'ბრავო, '+voc()+'! 💛':voc()+', კიდევ ცადე! 💛'}</div></div>`;
+  // varied encouragement so the child does not read the identical line every time (owner 2026-06-22:
+  // the tutor felt repetitive). Warm on BOTH outcomes; wrong stays gentle and never scolds.
+  const _win=['ბრავო','შესანიშნავია','ყოჩაღ','გენიოსი ხარ','ზუსტად'];
+  const _try=['კიდევ ცადე','თითქმის მოახერხე','ერთად შევძლებთ','ცოტაღა დარჩა','ნუ დანებდები'];
+  const _txt=ok?(_win[Math.floor(Math.random()*_win.length)]+', '+voc()+'! 💛'):(voc()+', '+_try[Math.floor(Math.random()*_try.length)]+'! 💛');
+  el.innerHTML=`<div class="fb"><div class="fb-ico">${tutorFace(profile,'5rem')}</div><div class="fb-txt">${_txt}</div></div>`;
   if(ok)el.appendChild(confettiEl());
   if(window.applyLang)applyLang(el);
   el.onclick=function(){ try{skipCeleb();}catch(e){} };
