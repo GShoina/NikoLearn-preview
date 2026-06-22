@@ -23,6 +23,8 @@ function startGame(m){
   if(m==='math-word')return wordRound();
   if(m==='math-pic')return picRound();
   if(m==='listen-yle')return listenYleRound();
+  if(m==='yesno')return yesNoRound();
+  if(m==='story')return storyRound();
   game.mode=m;game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);
   if(m.startsWith('math-'))return mathRound(m);
   const pool=wordPool();
@@ -45,7 +47,7 @@ function abandonRound(){
   if(game.roundActive){ try{ if(window.Analytics) Analytics.event('round_abandon',{mode:coarseMode(),q:(game.i>=8?'8+':String(game.i||0))}); }catch(e){} game.roundActive=false; }
   openMenu(game.subj||'math');
 }
-const SUBMODES=['quiz','reverse','listen','listen-yle','match','spell','phrases','math-add','math-sub','math-mul','math-div','math-miss','math-pat','math-word','math-pic','compare','skip','shapes','money','clock','cal','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','rtext','digit'];
+const SUBMODES=['quiz','reverse','listen','listen-yle','yesno','story','match','spell','phrases','math-add','math-sub','math-mul','math-div','math-miss','math-pat','math-word','math-pic','compare','skip','shapes','money','clock','cal','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','rtext','digit'];
 // First-round activation easing (2026-06-16). Telemetry showed ~60% of rounds abandoned, worst on a
 // brand-new child's first tries. A new child's first few rounds are SHORTER so they reach the "round
 // complete" reward fast (an early win is what hooks a young learner); re-queue growth is also capped
@@ -848,6 +850,99 @@ function answerListenYle(btn,sel,cor,sentence){
   game.requeues=game.requeues||0; if(game.requeues<reqCap()){game.qs.push(q);game.requeues++;}
   try{feedback(false);}catch(e){}
   setTimeout(()=>{try{closeFeedback();}catch(e){} game.i++; nextListenYle();},1700);
+}
+
+/* ── YLE Reading & Writing: TICK yes/no — owner 2026-06-22 ──
+   Look at a picture, read the English sentence, decide if it is true (✅ კი / ❌ არა). */
+function yesNoRound(){
+  game.mode='yesno';game.kind='yesno';game.shields=0;game.wrong=0;game.i=0;
+  game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);
+  game.subj=game.subj||'kings-eng';
+  game.qs=shuffle(YESNO_YLE.slice()).slice(0,8);
+  nextYesNo();
+}
+function nextYesNo(){
+  if(game.i>=game.qs.length)return results();
+  const q=game.qs[game.i];const sen=q.s.replace(/'/g,"\\'");
+  const area=`<div class="prompt" onclick="speak('${sen}')">
+      <div class="section-label">✅❌ True or false?</div>
+      <div class="p-emoji" style="font-size:3.4rem">${q.e}</div>
+      <div class="p-word en" style="font-size:1.25rem">${q.s}</div>
+      <button class="speakbtn" onclick="event.stopPropagation();speak('${sen}')">${I.speaker} მოისმინე</button></div>
+    <div class="options yn-opts">
+      <button class="opt yn-yes" onclick="answerYesNo(this,'yes','${q.a}')">✅ კი</button>
+      <button class="opt yn-no" onclick="answerYesNo(this,'no','${q.a}')">❌ არა</button>
+    </div>`;
+  gameShell(area);
+  $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
+}
+function answerYesNo(btn,sel,cor){
+  const s=state[profile];
+  if(sel===cor){
+    document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));
+    btn.classList.remove('dim');btn.classList.add('correct');
+    s.shields++;game.shields++;s.streak++;s.maxStreak=Math.max(s.maxStreak,s.streak);save();
+    winStep(null,null,()=>{game.i++;nextYesNo();});
+    return;
+  }
+  state[profile].streak=0;game.wrong++;save();
+  btn.classList.add('wrong','dim');btn.style.pointerEvents='none';
+  const q=game.qs[game.i];if(!game.missMap)game.missMap=new Map();
+  const n=(game.missMap.get(q)||0)+1;game.missMap.set(q,n);
+  if(n<2){ try{feedback(false);}catch(e){} setTimeout(()=>{try{closeFeedback();}catch(e){}},1100); return; }
+  document.querySelectorAll('.opt').forEach(b=>{b.classList.add('dim');b.style.pointerEvents='none';});
+  const ok=[...document.querySelectorAll('.opt')].find(b=>b.classList.contains(cor==='yes'?'yn-yes':'yn-no'));
+  if(ok){ok.classList.remove('dim');ok.classList.add('correct');}
+  if(typeof maybeOfferHelp==='function'){try{maybeOfferHelp();}catch(e){}}
+  game.requeues=game.requeues||0; if(game.requeues<reqCap()){game.qs.push(q);game.requeues++;}
+  try{feedback(false);}catch(e){}
+  setTimeout(()=>{try{closeFeedback();}catch(e){} game.i++; nextYesNo();},1700);
+}
+
+/* ── YLE Reading & Writing: READ A STORY + answer — owner 2026-06-22 ──
+   Read 2-3 short English sentences (🔊 reads them too), then answer one question. */
+function storyRound(){
+  game.mode='story';game.kind='story';game.shields=0;game.wrong=0;game.i=0;
+  game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);
+  game.subj=game.subj||'kings-eng';
+  game.qs=shuffle(STORY_YLE.slice()).slice(0,6);
+  nextStory();
+}
+function nextStory(){
+  if(game.i>=game.qs.length)return results();
+  const q=game.qs[game.i];const txt=q.text.replace(/'/g,"\\'");
+  const opts=shuffle(q.opts.slice());
+  const area=`<div class="prompt story-prompt">
+      <div class="section-label">📖 Read</div>
+      <div class="story-text en">${q.text}</div>
+      <button class="speakbtn" onclick="speak('${txt}')">${I.speaker} მოისმინე</button>
+      <div class="p-word en" style="font-size:1.12rem;margin-top:8px">${q.q}</div></div>
+    <div class="options">${opts.map(o=>{const oe=o.replace(/'/g,"\\'");return `<button class="opt en" onclick="speak('${oe}');answerStory(this,'${oe}','${q.a.replace(/'/g,"\\'")}')">${o}</button>`;}).join('')}</div>`;
+  gameShell(area);
+  $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
+  setTimeout(()=>{try{speak(q.text);}catch(e){}},400);
+}
+function answerStory(btn,sel,cor){
+  const s=state[profile];
+  if(sel===cor){
+    document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));
+    btn.classList.remove('dim');btn.classList.add('correct');
+    s.shields++;game.shields++;s.streak++;s.maxStreak=Math.max(s.maxStreak,s.streak);save();
+    winStep(cor,'en-US',()=>{game.i++;nextStory();});
+    return;
+  }
+  state[profile].streak=0;game.wrong++;save();
+  btn.classList.add('wrong','dim');btn.style.pointerEvents='none';
+  const q=game.qs[game.i];if(!game.missMap)game.missMap=new Map();
+  const n=(game.missMap.get(q)||0)+1;game.missMap.set(q,n);
+  if(n<2){ try{feedback(false);}catch(e){} setTimeout(()=>{try{closeFeedback();}catch(e){}},1100); return; }
+  document.querySelectorAll('.opt').forEach(b=>{b.classList.add('dim');b.style.pointerEvents='none';});
+  const ok=[...document.querySelectorAll('.opt')].find(b=>b.textContent.trim()===String(cor));
+  if(ok){ok.classList.remove('dim');ok.classList.add('correct');try{speak(cor,'en-US');}catch(e){}}
+  if(typeof maybeOfferHelp==='function'){try{maybeOfferHelp();}catch(e){}}
+  game.requeues=game.requeues||0; if(game.requeues<reqCap()){game.qs.push(q);game.requeues++;}
+  try{feedback(false);}catch(e){}
+  setTimeout(()=>{try{closeFeedback();}catch(e){} game.i++; nextStory();},1800);
 }
 
 /* ── scoring ── */

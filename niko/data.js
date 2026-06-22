@@ -376,6 +376,40 @@ const LISTEN_YLE = [
   {en:'a bird and a flower', a:'🐦🌸',       opts:['🐦🌸','🐦🌳','🦆🌸']}
 ];
 
+/* ── YLE Reading & Writing: TICK yes/no (Starters R&W Part 1 format) — owner 2026-06-22 ──
+   Look at a picture + read an English sentence, decide if it is TRUE. A real YLE reading format
+   we did not have (the old Kings was only 3-option MCQ). Sentences are simple, unambiguous. */
+const YESNO_YLE = [
+  {e:'🐘', s:'It is a big animal.',  a:'yes'},
+  {e:'🐭', s:'It is a big animal.',  a:'no'},
+  {e:'🍎', s:'It is a red apple.',   a:'yes'},
+  {e:'🐱', s:'It is a dog.',         a:'no'},
+  {e:'☀️', s:'It is the sun.',       a:'yes'},
+  {e:'🐟', s:'It can fly.',          a:'no'},
+  {e:'🐦', s:'It can fly.',          a:'yes'},
+  {e:'🚗', s:'It is a car.',         a:'yes'},
+  {e:'🍌', s:'It is a blue banana.', a:'no'},
+  {e:'🦆', s:'It is a duck.',        a:'yes'},
+  {e:'🌳', s:'It is a tree.',        a:'yes'},
+  {e:'🐶', s:'It is a cat.',         a:'no'},
+  {e:'⭐', s:'It is a star.',        a:'yes'},
+  {e:'🐰', s:'It has long ears.',    a:'yes'}
+];
+
+/* ── YLE Reading & Writing: READ A STORY + answer (Movers/Flyers R&W comprehension) — owner 2026-06-22 ──
+   Read 2-3 short English sentences, then answer one question (3 options). Real reading comprehension,
+   the deepest skill we were missing. A 🔊 reads the story so pre-readers can follow too. */
+const STORY_YLE = [
+  {text:'Sam has a red ball. He likes to play with his dog in the park.', q:'What does Sam have?', opts:['a red ball','a cat','a book'], a:'a red ball'},
+  {text:'Anna is six. She has a big blue bike. She goes to school on it.', q:'What colour is the bike?', opts:['blue','red','green'], a:'blue'},
+  {text:'The cat is on the table. It is sleeping. The dog is under the table.', q:'Where is the dog?', opts:['under the table','on the table','in the box'], a:'under the table'},
+  {text:'Tom likes apples and bananas. He does not like fish.', q:'What does Tom NOT like?', opts:['fish','apples','bananas'], a:'fish'},
+  {text:'It is a sunny day. The children play football in the garden.', q:'What do the children play?', opts:['football','tennis','music'], a:'football'},
+  {text:'Mum has two cats. One is black and one is white.', q:'How many cats does Mum have?', opts:['two','three','one'], a:'two'},
+  {text:'Ben has a green hat. He wears it when it is cold.', q:'When does Ben wear his hat?', opts:['when it is cold','when it is hot','at night'], a:'when it is cold'},
+  {text:'The bird is in the tree. It is singing a song.', q:'What is the bird doing?', opts:['singing','sleeping','eating'], a:'singing'}
+];
+
 /* ── KINGS MATH, expanded (word problems / logic / sequences) ── */
 const KINGS_MATH = [
   {q:'რამდენი ფეხი აქვს 3 კატას ჯამში?',a:12,opts:[12,6,8],emoji:'🐱🐱🐱',kind:'mul',hintA:3,hintB:4},

@@ -368,6 +368,12 @@ body.on-landing #app{padding:0;padding-bottom:24px}
   box-shadow:var(--shadow);transition:transform .12s,border-color .15s,background .15s}
 .opt.en{font-family:'Fredoka';font-weight:500}
 .opt.emoji{font-size:2.7rem;min-height:92px}
+/* YLE yes/no (tick) + story reading — owner 2026-06-22 */
+.yn-opts .opt{font-size:1.35rem;min-height:84px;font-weight:700}
+.opt.yn-yes{border-color:color-mix(in oklch,var(--green) 45%,var(--line));background:color-mix(in oklch,var(--green) 8%,var(--card))}
+.opt.yn-no{border-color:color-mix(in oklch,var(--red) 40%,var(--line));background:color-mix(in oklch,var(--red) 7%,var(--card))}
+.story-text{background:var(--card-2);border:1.5px solid var(--line);border-radius:14px;padding:14px 16px;
+  font-size:1.18rem;line-height:1.6;color:var(--ink);text-align:left;margin:4px 0 8px}
 .opt:active{transform:scale(.96)}
 .opt.correct{border-color:var(--green);background:color-mix(in oklch,var(--green) 16%,var(--card));color:var(--green-d);animation:pop .34s}
 .opt.wrong{border-color:var(--red);background:color-mix(in oklch,var(--red) 12%,var(--card));animation:shake .34s}
