@@ -310,46 +310,50 @@ const READING_SENT_KA=[
   {s:'მზე ბრწყინავს',   e:'☀️'}
 ];
 
-/* ── KINGS ENGLISH, expanded (Cambridge YLE Starters→Movers) ── */
+/* ── KINGS ENGLISH (Cambridge YLE) — each item carries `lv` = YLE band (1 Starters / 2 Movers /
+   3 Flyers) so startKings ladders it exactly like the other YLE pools (cumulative lv<=selected).
+   Levels assigned 2026-06-22 per real YLE wordlists/grammar: single common nouns + basic be = Starters;
+   2-word phrases, less-common vocab, prepositions, teen numbers = Movers; 3rd-person -s, present
+   continuous, irregular plurals, 3-word number+adjective+noun = Flyers. ── */
 const KINGS_ENG = [
   // Task: picture → word
-  {type:'pic2word',emoji:'🖊️',q:'It is a _____.',opts:['pen','book','car'],a:'pen',hint:'ცი (c)'},
-  {type:'pic2word',emoji:'📖',q:'It is a _____.',opts:['table','box','book'],a:'book'},
-  {type:'pic2word',emoji:'🏠',q:'It is a _____.',opts:['house','car','desk'],a:'house'},
-  {type:'pic2word',emoji:'⭐',q:'It is a _____.',opts:['desk','box','star'],a:'star'},
-  {type:'pic2word',emoji:'🚲',q:'It is a _____.',opts:['bike','bus','car'],a:'bike'},
-  {type:'pic2word',emoji:'🦒',q:'It is a _____.',opts:['giraffe','zebra','horse'],a:'giraffe'},
-  {type:'pic2word',emoji:'🌂',q:'It is an _____.',opts:['apple','umbrella','orange'],a:'umbrella'},
-  {type:'pic2word',emoji:'📖🖊️',q:'I see _____.',opts:['a book and a pen','a pen and a ball','a bag and a pen'],a:'a book and a pen'},
-  {type:'pic2word',emoji:'🐕🐱',q:'I see _____.',opts:['a dog and a cat','a dog and a ball','a cat and a book'],a:'a dog and a cat'},
+  {lv:1,type:'pic2word',emoji:'🖊️',q:'It is a _____.',opts:['pen','book','car'],a:'pen',hint:'ცი (c)'},
+  {lv:1,type:'pic2word',emoji:'📖',q:'It is a _____.',opts:['table','box','book'],a:'book'},
+  {lv:1,type:'pic2word',emoji:'🏠',q:'It is a _____.',opts:['house','car','desk'],a:'house'},
+  {lv:1,type:'pic2word',emoji:'⭐',q:'It is a _____.',opts:['desk','box','star'],a:'star'},
+  {lv:1,type:'pic2word',emoji:'🚲',q:'It is a _____.',opts:['bike','bus','car'],a:'bike'},
+  {lv:2,type:'pic2word',emoji:'🦒',q:'It is a _____.',opts:['giraffe','zebra','horse'],a:'giraffe'},
+  {lv:2,type:'pic2word',emoji:'🌂',q:'It is an _____.',opts:['apple','umbrella','orange'],a:'umbrella'},
+  {lv:2,type:'pic2word',emoji:'📖🖊️',q:'I see _____.',opts:['a book and a pen','a pen and a ball','a bag and a pen'],a:'a book and a pen'},
+  {lv:2,type:'pic2word',emoji:'🐕🐱',q:'I see _____.',opts:['a dog and a cat','a dog and a ball','a cat and a book'],a:'a dog and a cat'},
   // Task: Georgian → English
-  {type:'translate',q:'ბაყაყი',opts:['a dog','a frog','a star'],a:'a frog'},
-  {type:'translate',q:'პატარა',opts:['small','big','red'],a:'small'},
-  {type:'translate',q:'ლურჯი ჭიქა',opts:['a black cup','a blue cup','a yellow cup'],a:'a blue cup'},
-  {type:'translate',q:'ბედნიერი ოჯახი',opts:['a big family','a happy family','a small family'],a:'a happy family'},
-  {type:'translate',q:'წვიმიანი დღე',opts:['a sunny day','a cold day','a rainy day'],a:'a rainy day'},
-  {type:'translate',q:'სამი თეთრი იხვი',opts:['three white ducks','two white ducks','three white dogs'],a:'three white ducks'},
+  {lv:1,type:'translate',q:'ბაყაყი',opts:['a dog','a frog','a star'],a:'a frog'},
+  {lv:1,type:'translate',q:'პატარა',opts:['small','big','red'],a:'small'},
+  {lv:2,type:'translate',q:'ლურჯი ჭიქა',opts:['a black cup','a blue cup','a yellow cup'],a:'a blue cup'},
+  {lv:2,type:'translate',q:'ბედნიერი ოჯახი',opts:['a big family','a happy family','a small family'],a:'a happy family'},
+  {lv:2,type:'translate',q:'წვიმიანი დღე',opts:['a sunny day','a cold day','a rainy day'],a:'a rainy day'},
+  {lv:3,type:'translate',q:'სამი თეთრი იხვი',opts:['three white ducks','two white ducks','three white dogs'],a:'three white ducks'},
   // Task: spelling
-  {type:'spelling',q:'Which is correct?',opts:['book','buuk','bok'],a:'book'},
-  {type:'spelling',q:'Which is correct?',opts:['happy','hapy','happi'],a:'happy'},
-  {type:'spelling',q:'შენობა: Which is correct?',opts:['bulding','bilding','building'],a:'building'},
-  {type:'spelling',q:'პარასკევი: Which is correct?',opts:['Friday','Fridey','Friady'],a:'Friday'},
-  {type:'spelling',q:'მეგობარი: Which is correct?',opts:['freind','friend','frend'],a:'friend'},
+  {lv:1,type:'spelling',q:'Which is correct?',opts:['book','buuk','bok'],a:'book'},
+  {lv:1,type:'spelling',q:'Which is correct?',opts:['happy','hapy','happi'],a:'happy'},
+  {lv:2,type:'spelling',q:'შენობა: Which is correct?',opts:['bulding','bilding','building'],a:'building'},
+  {lv:2,type:'spelling',q:'პარასკევი: Which is correct?',opts:['Friday','Fridey','Friady'],a:'Friday'},
+  {lv:2,type:'spelling',q:'მეგობარი: Which is correct?',opts:['freind','friend','frend'],a:'friend'},
   // Task: numbers
-  {type:'number',emoji:'7️⃣',q:'7',opts:['seven','one','six'],a:'seven'},
-  {type:'number',emoji:'🔟',q:'10',opts:['nine','ten','seven'],a:'ten'},
-  {type:'number',emoji:'1️⃣2️⃣',q:'12',opts:['twenty','twelve','twenty-two'],a:'twelve'},
-  // Task: grammar (Movers)
-  {type:'grammar',q:'I _____ happy.',opts:['am','is','are'],a:'am'},
-  {type:'grammar',q:'Your books _____ here.',opts:['are','is','do'],a:'are'},
-  {type:'grammar',q:'_____ name is Maria.',opts:['She','Her','Him'],a:'Her'},
-  {type:'grammar',q:'There _____ two cats.',opts:['are','is','am'],a:'are'},
-  {type:'grammar',q:'She _____ to school every day.',opts:['go','goes','going'],a:'goes'},
-  {type:'grammar',q:'Look! The dog _____ running.',opts:['is','are','am'],a:'is'},
-  {type:'grammar',q:'This is _____ apple.',opts:['a','an','the'],a:'an'},
-  {type:'grammar',q:'The cat is _____ the box.',opts:['in','on','of'],a:'in'},
-  {type:'grammar',q:'I have two _____.',opts:['foot','foots','feet'],a:'feet'},
-  {type:'grammar',q:'_____ you like apples?',opts:['Do','Does','Is'],a:'Do'}
+  {lv:1,type:'number',emoji:'7️⃣',q:'7',opts:['seven','one','six'],a:'seven'},
+  {lv:1,type:'number',emoji:'🔟',q:'10',opts:['nine','ten','seven'],a:'ten'},
+  {lv:2,type:'number',emoji:'1️⃣2️⃣',q:'12',opts:['twenty','twelve','twenty-two'],a:'twelve'},
+  // Task: grammar
+  {lv:1,type:'grammar',q:'I _____ happy.',opts:['am','is','are'],a:'am'},
+  {lv:1,type:'grammar',q:'This is _____ apple.',opts:['a','an','the'],a:'an'},
+  {lv:2,type:'grammar',q:'Your books _____ here.',opts:['are','is','do'],a:'are'},
+  {lv:2,type:'grammar',q:'_____ name is Maria.',opts:['She','Her','Him'],a:'Her'},
+  {lv:2,type:'grammar',q:'There _____ two cats.',opts:['are','is','am'],a:'are'},
+  {lv:2,type:'grammar',q:'The cat is _____ the box.',opts:['in','on','of'],a:'in'},
+  {lv:2,type:'grammar',q:'_____ you like apples?',opts:['Do','Does','Is'],a:'Do'},
+  {lv:3,type:'grammar',q:'She _____ to school every day.',opts:['go','goes','going'],a:'goes'},
+  {lv:3,type:'grammar',q:'Look! The dog _____ running.',opts:['is','are','am'],a:'is'},
+  {lv:3,type:'grammar',q:'I have two _____.',opts:['foot','foots','feet'],a:'feet'}
 ];
 const TYPE_LABEL={pic2word:'🖼️ Picture',translate:'🇬🇪→🇬🇧 Translate',spelling:'✍️ Spelling',number:'🔢 Number',grammar:'📝 Grammar'};
 
@@ -368,6 +372,9 @@ const LISTEN_YLE = [
   {lv:1,en:'a big elephant',      a:'🐘',         opts:['🐘','🐭','🐰']},
   {lv:1,en:'four stars',          a:'⭐⭐⭐⭐',     opts:['⭐⭐⭐⭐','⭐⭐⭐','⭐⭐⭐⭐⭐']},
   {lv:1,en:'two ducks',           a:'🦆🦆',       opts:['🦆🦆','🦆🦆🦆','🐱🐱']},
+  {lv:1,en:'three balls',         a:'⚽⚽⚽',     opts:['⚽⚽⚽','⚽⚽','⚽⚽⚽⚽']},
+  {lv:1,en:'a fish',              a:'🐟',         opts:['🐟','🐦','🐰']},
+  {lv:1,en:'two apples',          a:'🍎🍎',       opts:['🍎🍎','🍎🍎🍎','🍌🍌']},
   // lv2 Movers — two objects, adjectives
   {lv:2,en:'a cat and a fish',    a:'🐱🐟',       opts:['🐱🐟','🐕🐟','🐱🐦']},
   {lv:2,en:'the sun and a tree',  a:'☀️🌳',       opts:['☀️🌳','🌙🌳','☀️🌸']},
@@ -395,6 +402,8 @@ const SPEAK_YLE = [
   {lv:1,e:'⭐', q:'What is this? Say it in English.'},
   {lv:1,e:'🚗', q:'What is this? What colour can a car be?'},
   {lv:1,e:'🏠', q:'What is this? Who lives in a house?'},
+  {lv:1,e:'🐦', q:'What is this? What can a bird do?'},
+  {lv:1,e:'🌳', q:'What is this? What colour is a tree?'},
   // lv2 Movers — describe / action / place
   {lv:2,e:'🐘', q:'Tell me about this animal. Is it big or small?'},
   {lv:2,e:'🏃', q:'What is the boy doing?'},
@@ -421,6 +430,9 @@ const YESNO_YLE = [
   {lv:1,e:'🌳', s:'It is a tree.',        a:'yes'},
   {lv:1,e:'🐶', s:'It is a cat.',         a:'no'},
   {lv:1,e:'⭐', s:'It is a star.',        a:'yes'},
+  {lv:1,e:'🐟', s:'It is a fish.',        a:'yes'},
+  {lv:1,e:'⚽', s:'It is a ball.',        a:'yes'},
+  {lv:1,e:'🌙', s:'It is the sun.',       a:'no'},
   // lv2 Movers — properties / can / has
   {lv:2,e:'🐘', s:'It is a big animal.',  a:'yes'},
   {lv:2,e:'🐭', s:'It is a big animal.',  a:'no'},
@@ -444,6 +456,8 @@ const STORY_YLE = [
   {lv:1,text:'Anna has a big blue bike. She goes to school on it.', q:'What colour is the bike?', opts:['blue','red','green'], a:'blue'},
   {lv:1,text:'Mum has two cats. One is black and one is white.', q:'How many cats does Mum have?', opts:['two','three','one'], a:'two'},
   {lv:1,text:'Pat has a small dog. The dog likes to run.', q:'What does the dog like to do?', opts:['run','sleep','eat'], a:'run'},
+  {lv:1,text:'Lily has a big balloon. The balloon is green.', q:'What colour is the balloon?', opts:['green','red','blue'], a:'green'},
+  {lv:1,text:'Tim can see a fish. The fish is in the water.', q:'Where is the fish?', opts:['in the water','in the tree','on the bed'], a:'in the water'},
   {lv:2,text:'The bird is in the tree. It is singing a song.', q:'What is the bird doing?', opts:['singing','sleeping','eating'], a:'singing'},
   // lv2 Movers — 3 sentences, more detail
   {lv:2,text:'The cat is on the table. It is sleeping. The dog is under the table.', q:'Where is the dog?', opts:['under the table','on the table','in the box'], a:'under the table'},

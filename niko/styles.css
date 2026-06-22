@@ -359,6 +359,11 @@ body.on-landing #app{padding:0;padding-bottom:24px}
   box-shadow:0 4px 14px color-mix(in oklch,var(--sky) 30%,transparent);transition:transform .12s}
 .listen-cta svg{width:30px;height:30px}
 .listen-cta:active{transform:scale(.93)}
+/* draw a pre/non-reader's eye to the "tap to hear" button on first paint (autoplay is often blocked
+   on a cold load, so a child who can't read the English needs an obvious way to get the audio). */
+@keyframes listenpulse{0%,100%{transform:scale(1);box-shadow:0 0 0 0 color-mix(in oklch,var(--sky) 45%,transparent)}50%{transform:scale(1.06);box-shadow:0 0 0 10px transparent}}
+.pulse-hint{animation:listenpulse 1.1s ease-in-out 3}
+@media(prefers-reduced-motion:reduce){.pulse-hint{animation:none}}
 .speakbtn:active{transform:scale(.95)}
 
 .options{display:grid;grid-template-columns:1fr 1fr;gap:11px}
@@ -376,10 +381,10 @@ body.on-landing #app{padding:0;padding-bottom:24px}
   font-size:1.18rem;line-height:1.6;color:var(--ink);text-align:left;margin:4px 0 8px}
 /* Kings YLE level ladder selector — owner 2026-06-22 */
 .klevel-bar{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:2px 0 12px}
-.klevel{display:flex;flex-direction:column;align-items:center;gap:1px;padding:9px 4px;border:1.5px solid var(--line);
+.klevel{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-height:48px;padding:11px 4px;border:1.5px solid var(--line);
   border-radius:12px;background:var(--card);color:var(--muted);cursor:pointer;font-family:inherit;box-shadow:var(--shadow);transition:all .14s}
 .klevel b{font-size:.92rem;font-family:'Fredoka';font-weight:600}
-.klevel small{font-size:.62rem}
+.klevel small{font-size:.7rem}
 .klevel:active{transform:scale(.96)}
 .klevel.on{background:color-mix(in oklch,var(--primary) 14%,var(--card));border-color:var(--primary);color:var(--primary-d)}
 .opt:active{transform:scale(.96)}
@@ -950,7 +955,7 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .spacer{flex:1}
 .center{text-align:center}
 .mt{margin-top:14px}
-.section-label{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:6px 2px}
+.section-label{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:6px 2px}
 
 /* ── PARENT: delete, engagement, toast ── */
 .kid-head{display:flex;align-items:center;gap:12px}

@@ -780,7 +780,7 @@ function byLevel(pool,lvl){const f=pool.filter(x=>!x.lv||x.lv<=lvl);return f.len
 const KENG_TYPE_LV={pic2word:1,number:1,translate:2,spelling:2,grammar:2};
 function startKings(kind){
   game.kind=kind;game.shields=0;game.wrong=0;game.i=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);
-  if(kind==='eng'){const lvl=kingsLevel();const pool=KINGS_ENG.filter(q=>(KENG_TYPE_LV[q.type]||1)<=lvl);game.qs=shuffle((pool.length>=6?pool:KINGS_ENG).slice()).slice(0,10);}
+  if(kind==='eng'){const lvl=kingsLevel();const pool=KINGS_ENG.filter(q=>(q.lv||KENG_TYPE_LV[q.type]||1)<=lvl);game.qs=shuffle((pool.length>=6?pool:KINGS_ENG).slice()).slice(0,10);}
   else game.qs=shuffle(KINGS_MATH.slice()).slice(0,8);
   game.mode=kind==='eng'?'kings-eng':'kings-math';
   nextKings();
@@ -827,9 +827,9 @@ function nextListenYle(){
   const opts=shuffle(q.opts.slice());
   const area=`<div class="prompt listen-prompt" onclick="speak('${sen}')">
       <div class="section-label">🎧 Listening</div>
-      <button class="listen-cta" onclick="event.stopPropagation();speak('${sen}')">${I.speaker}</button>
+      <button class="listen-cta pulse-hint" aria-label="მოისმინე" onclick="event.stopPropagation();speak('${sen}')">${I.speaker}</button>
       <div class="p-sub">მოუსმინე წინადადებას და აირჩიე სწორი სურათი</div></div>
-    <div class="options">${opts.map(o=>`<button class="opt emoji" onclick="answerListenYle(this,'${o}','${String(q.a).replace(/'/g,"\\'")}','${sen}')">${o}</button>`).join('')}</div>`;
+    <div class="options">${opts.map(o=>`<button class="opt emoji" onclick="answerListenYle(this,'${String(o).replace(/'/g,"\\'")}','${String(q.a).replace(/'/g,"\\'")}','${sen}')">${o}</button>`).join('')}</div>`;
   gameShell(area);
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
   setTimeout(()=>{try{speak(q.en);}catch(e){}},400); // auto-play once on render (the tutor's voice job)
@@ -875,7 +875,7 @@ function nextYesNo(){
       <div class="section-label">✅❌ True or false?</div>
       <div class="p-emoji" style="font-size:3.4rem">${q.e}</div>
       <div class="p-word en" style="font-size:1.25rem">${q.s}</div>
-      <button class="speakbtn" onclick="event.stopPropagation();speak('${sen}')">${I.speaker} მოისმინე</button></div>
+      <button class="speakbtn pulse-hint" onclick="event.stopPropagation();speak('${sen}')">${I.speaker} მოისმინე</button></div>
     <div class="options yn-opts">
       <button class="opt yn-yes" onclick="answerYesNo(this,'yes','${q.a}')">✅ კი</button>
       <button class="opt yn-no" onclick="answerYesNo(this,'no','${q.a}')">❌ არა</button>
@@ -922,7 +922,7 @@ function nextStory(){
   const area=`<div class="prompt story-prompt">
       <div class="section-label">📖 Read</div>
       <div class="story-text en">${q.text}</div>
-      <button class="speakbtn" onclick="speak('${txt}')">${I.speaker} მოისმინე</button>
+      <button class="speakbtn pulse-hint" onclick="speak('${txt}')">${I.speaker} მოისმინე</button>
       <div class="p-word en" style="font-size:1.12rem;margin-top:8px">${q.q}</div></div>
     <div class="options">${opts.map(o=>{const oe=o.replace(/'/g,"\\'");return `<button class="opt en" onclick="speak('${oe}');answerStory(this,'${oe}','${q.a.replace(/'/g,"\\'")}')">${o}</button>`;}).join('')}</div>`;
   gameShell(area);
@@ -969,7 +969,7 @@ function nextSpeakYle(){
       <div class="section-label">🗣️ Speaking</div>
       <div class="p-emoji" style="font-size:3.4rem">${q.e}</div>
       <div class="p-word en" style="font-size:1.16rem">${q.q}</div>
-      <button class="speakbtn" onclick="event.stopPropagation();speak('${pr}')">${I.speaker} მოისმინე</button>
+      <button class="speakbtn pulse-hint" onclick="event.stopPropagation();speak('${pr}')">${I.speaker} მოისმინე</button>
       <div class="p-sub">უპასუხე ხმამაღლა 🗣️</div></div>
     <div class="actions" style="margin-top:10px">
       <button class="btn btn-primary btn-block" onclick="speakDone()">✓ ვთქვი</button>

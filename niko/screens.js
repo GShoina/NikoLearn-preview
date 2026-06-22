@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.213'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.214'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 function goHome(){
   // A4: if a round was in progress, count it as abandoned before we leave it
   if(typeof game!=='undefined'&&game&&game.roundActive){ try{ if(window.Analytics)Analytics.event('round_abandon',{mode:coarseMode(),q:(game.i>=8?'8+':String(game.i||0))}); }catch(e){} game.roundActive=false; }
@@ -453,7 +453,7 @@ function setKLevel(n){ if(typeof setKingsLevel==='function')setKingsLevel(n); op
 function kingsLevelBar(){
   const cur=(typeof kingsLevel==='function')?kingsLevel():1;
   const L=[[1,'Starters','დამწყები'],[2,'Movers','საშუალო'],[3,'Flyers','მაღალი']];
-  return `<div class="klevel-bar">${L.map(([n,en,ka])=>`<button class="klevel${n===cur?' on':''}" onclick="setKLevel(${n})"><b>${en}</b><small>${ka}</small></button>`).join('')}</div>`;
+  return `<div class="klevel-bar">${L.map(([n,en,ka])=>`<button class="klevel${n===cur?' on':''}" aria-pressed="${n===cur}" onclick="setKLevel(${n})"><b>${en}</b><small>${ka}</small></button>`).join('')}</div>`;
 }
 
 /* ── category pickers ── */
