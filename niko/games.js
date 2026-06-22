@@ -22,6 +22,7 @@ function startGame(m){
   if(m==='cal')return calRound();
   if(m==='math-word')return wordRound();
   if(m==='math-pic')return picRound();
+  if(m==='listen-yle')return listenYleRound();
   game.mode=m;game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);
   if(m.startsWith('math-'))return mathRound(m);
   const pool=wordPool();
@@ -44,7 +45,7 @@ function abandonRound(){
   if(game.roundActive){ try{ if(window.Analytics) Analytics.event('round_abandon',{mode:coarseMode(),q:(game.i>=8?'8+':String(game.i||0))}); }catch(e){} game.roundActive=false; }
   openMenu(game.subj||'math');
 }
-const SUBMODES=['quiz','reverse','listen','match','spell','phrases','math-add','math-sub','math-mul','math-div','math-miss','math-pat','math-word','math-pic','compare','skip','shapes','money','clock','cal','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','rtext','digit'];
+const SUBMODES=['quiz','reverse','listen','listen-yle','match','spell','phrases','math-add','math-sub','math-mul','math-div','math-miss','math-pat','math-word','math-pic','compare','skip','shapes','money','clock','cal','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','rtext','digit'];
 // First-round activation easing (2026-06-16). Telemetry showed ~60% of rounds abandoned, worst on a
 // brand-new child's first tries. A new child's first few rounds are SHORTER so they reach the "round
 // complete" reward fast (an early win is what hooks a young learner); re-queue growth is also capped
@@ -797,6 +798,56 @@ function answerKings(btn,sel,cor){
   if(String(sel)===String(cor)){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');
     const s=state[profile];s.shields++;game.shields++;s.streak++;s.maxStreak=Math.max(s.maxStreak,s.streak);save();winStep(null,null,()=>{game.i++;nextKings();});}
   else{btn.classList.add('wrong','dim');state[profile].streak=0;game.wrong++;save();reQueueWrong(cor,game.kind==='eng'?'en-US':null);}
+}
+
+/* ── YLE Listening comprehension (sentence level) — owner 2026-06-22 ──
+   Hear a short English sentence, tap the matching picture. Reuses the existing listen-card UI
+   (.listen-cta speaker + .opt.emoji options). Self-contained answer loop: 1st miss = try again
+   (replay the sentence, do not reveal), 2nd miss = reveal the right picture + re-queue. */
+function listenYleRound(){
+  game.mode='listen-yle';game.kind='listen-yle';game.shields=0;game.wrong=0;game.i=0;
+  game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);
+  game.subj=game.subj||'kings-eng';
+  game.qs=shuffle(LISTEN_YLE.slice()).slice(0,8);
+  nextListenYle();
+}
+function nextListenYle(){
+  if(game.i>=game.qs.length)return results();
+  const q=game.qs[game.i];
+  const sen=q.en.replace(/'/g,"\\'");
+  const opts=shuffle(q.opts.slice());
+  const area=`<div class="prompt listen-prompt" onclick="speak('${sen}')">
+      <div class="section-label">🎧 Listening</div>
+      <button class="listen-cta" onclick="event.stopPropagation();speak('${sen}')">${I.speaker}</button>
+      <div class="p-sub">მოუსმინე წინადადებას და აირჩიე სწორი სურათი</div></div>
+    <div class="options">${opts.map(o=>`<button class="opt emoji" onclick="answerListenYle(this,'${o}','${q.a}','${sen}')">${o}</button>`).join('')}</div>`;
+  gameShell(area);
+  $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
+  setTimeout(()=>{try{speak(q.en);}catch(e){}},400); // auto-play once on render (the tutor's voice job)
+}
+function answerListenYle(btn,sel,cor,sentence){
+  const s=state[profile];
+  if(sel===cor){
+    document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));
+    btn.classList.remove('dim');btn.classList.add('correct');
+    s.shields++;game.shields++;s.streak++;s.maxStreak=Math.max(s.maxStreak,s.streak);save();
+    winStep(null,null,()=>{game.i++;nextListenYle();});
+    return;
+  }
+  state[profile].streak=0;game.wrong++;save();
+  btn.classList.add('wrong','dim');btn.style.pointerEvents='none';
+  const q=game.qs[game.i];
+  if(!game.missMap)game.missMap=new Map();
+  const n=(game.missMap.get(q)||0)+1;game.missMap.set(q,n);
+  try{speak(sentence);}catch(e){}                       // replay so they can listen again
+  if(n<2){ try{feedback(false);}catch(e){} setTimeout(()=>{try{closeFeedback();}catch(e){}},1100); return; }
+  // 2nd miss: lock options, reveal the right picture, re-queue, advance after a beat
+  document.querySelectorAll('.opt').forEach(b=>{b.classList.add('dim');b.style.pointerEvents='none';});
+  document.querySelectorAll('.opt').forEach(b=>{ if(b.textContent.trim()===String(cor)){b.classList.remove('dim');b.classList.add('correct');} });
+  if(typeof maybeOfferHelp==='function'){try{maybeOfferHelp();}catch(e){}}
+  game.requeues=game.requeues||0; if(game.requeues<reqCap()){game.qs.push(q);game.requeues++;}
+  try{feedback(false);}catch(e){}
+  setTimeout(()=>{try{closeFeedback();}catch(e){} game.i++; nextListenYle();},1700);
 }
 
 /* ── scoring ── */

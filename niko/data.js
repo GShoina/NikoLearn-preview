@@ -353,6 +353,29 @@ const KINGS_ENG = [
 ];
 const TYPE_LABEL={pic2word:'🖼️ Picture',translate:'🇬🇪→🇬🇧 Translate',spelling:'✍️ Spelling',number:'🔢 Number',grammar:'📝 Grammar'};
 
+/* ── YLE LISTENING comprehension (sentence level) — owner 2026-06-22 ──
+   Real Cambridge YLE Listening format: the child HEARS a short English sentence (number + object,
+   object + action, "a X and a Y") and taps the matching PICTURE. A genuine comprehension step beyond
+   the single-word `listen` mode (which only tests one-word recognition). The owl reading the sentence
+   aloud = the tutor's real voice role. Distractors differ from the answer by ONE attribute (number OR
+   object) so it tests careful listening, not guessing. Answers are UNAMBIGUOUS emoji combos. */
+const LISTEN_YLE = [
+  {en:'three cats',          a:'🐱🐱🐱',     opts:['🐱🐱🐱','🐱🐱','🐶🐶🐶']},
+  {en:'two dogs',            a:'🐕🐕',       opts:['🐕🐕','🐕🐕🐕','🐱🐱']},
+  {en:'a dog and a ball',    a:'🐕⚽',       opts:['🐕⚽','🐱⚽','🐕📕']},
+  {en:'a cat and a fish',    a:'🐱🐟',       opts:['🐱🐟','🐕🐟','🐱🐦']},
+  {en:'five apples',         a:'🍎🍎🍎🍎🍎', opts:['🍎🍎🍎🍎🍎','🍎🍎🍎','🍎🍎🍎🍎']},
+  {en:'a happy face',        a:'😀',         opts:['😀','😢','😠']},
+  {en:'a sad face',          a:'😢',         opts:['😢','😀','😮']},
+  {en:'a big elephant',      a:'🐘',         opts:['🐘','🐭','🐰']},
+  {en:'the sun and a tree',  a:'☀️🌳',       opts:['☀️🌳','🌙🌳','☀️🌸']},
+  {en:'four stars',          a:'⭐⭐⭐⭐',     opts:['⭐⭐⭐⭐','⭐⭐⭐','⭐⭐⭐⭐⭐']},
+  {en:'a boy and a girl',    a:'👦👧',       opts:['👦👧','👦👦','👧👧']},
+  {en:'two ducks',           a:'🦆🦆',       opts:['🦆🦆','🦆🦆🦆','🐤🐤']},
+  {en:'a cake and a candle', a:'🍰🕯️',      opts:['🍰🕯️','🍰🎈','🍪🕯️']},
+  {en:'a bird and a flower', a:'🐦🌸',       opts:['🐦🌸','🐦🌳','🦆🌸']}
+];
+
 /* ── KINGS MATH, expanded (word problems / logic / sequences) ── */
 const KINGS_MATH = [
   {q:'რამდენი ფეხი აქვს 3 კატას ჯამში?',a:12,opts:[12,6,8],emoji:'🐱🐱🐱',kind:'mul',hintA:3,hintB:4},

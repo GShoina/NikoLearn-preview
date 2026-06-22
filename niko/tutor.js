@@ -153,6 +153,11 @@
     build(ctx){
       const kid=ctx.profile==='masho';
       let r;
+      if(ctx.mode==='listen-yle'){
+        r={hints:['კიდევ ერთხელ მოუსმინე 🔊. რამდენი საგანია და რა საგანია?','ჯერ რიცხვი დაიჭირე, მერე საგანი. მაგ. „two dogs" = ორი ძაღლი.'],explain:'მოუსმინე ბოლომდე, დათვალე საგნები და აირჩიე სურათი, რომელიც ზუსტად ემთხვევა ნათქვამს.'};
+        r.name = ctx.aiRole==='coach' ? 'ბუ · ინგლისურის მასწავლებელი' : 'ბუ · შენი მეგობარი';
+        return r;
+      }
       switch(ctx.subject){
         case 'math': r=math(ctx.q,kid); break;
         case 'kings-eng': r=kingsEng(ctx.q,kid); break;

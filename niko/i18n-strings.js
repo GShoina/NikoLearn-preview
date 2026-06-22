@@ -203,6 +203,8 @@ window.I18N_MAP = {
   /* game play */
   "აირჩიე მნიშვნელობა":"Pick the meaning",
   "მოისმინე და აირჩიე":"Listen and choose",
+  "მოუსმინე წინადადებას და აირჩიე სწორი სურათი":"Listen to the sentence and choose the right picture",
+  "მოსმენა+":"Listening+",
   "იპოვე კანონზომიერება":"Find the pattern",
   "შედარება":"Comparison",
   "დათვლა":"Counting",
