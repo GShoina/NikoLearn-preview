@@ -4,7 +4,21 @@
 > binding policy+code FIRST, never present a 2-option binary without a third-path line, no unverified
 > "best practice" claims). Added 2026-06-23 after the telemetry-retention miss.
 
-> ## ▶ RESUME NOW (2026-06-23) — **v1.215 LIVE: KINGS_ENG lv-ladder + a11y/team fixes + activation funnel**. Clean tree, HEAD==origin/main.
+> ## ▶ RESUME NOW (2026-06-23) — **v1.215 LIVE + pricing red-team revision**. Clean tree, HEAD==origin/main.
+> **🔒 PRICING — GEORGIA red-team REVISION (owner 2026-06-23, SUPERSEDES the old W1.1 "Free/19₾/29₾ lock"):** owner challenged
+>   GE pricing (too few tiers? 5/10/15/20? 19₾ entry too high?). 2 independent red-team agents (pricing-structure + GE-market WTP)
+>   converged. **New view (in `output/2026-06-23-NikoLearn საქართველოს ფასი — red-team გადააზრება by Niko.html`; old 06-18/06-19
+>   drafts DELETED per owner):** (1) **REJECT 5/10/15/20** — even spacing is NOT a decoy (decoy=asymmetric dominance), 4 tiers =
+>   choice-overload, and it misdiagnoses a first-rung problem as menu-breadth. (2) **19₾ is mid-band** ($7, app-norm $5-15, =28% of
+>   NODI's 69₾) — NOT high; the real barrier is trust×price on first conversion (unproven brand); Buckswood-14k₾ logic = N=1 affluent
+>   bias; NODI's 69₾ WTP = category error (exam-stakes V-XII ≠ early-English). (3) **Premature:** 0 payments + no PMF + 67% drop +
+>   "price can't save broken retention" → tuning tiers now = optimizing an unreadable number (same trap as telemetry). (4) **micro-tier
+>   5-9₾ = KILL** (Paddle ~5%+$0.50 + local fees make recurring small-ticket a fee-trap + "cheap" signal). **RECOMMENDED:** free-first
+>   now (mass-GE FREE, "first 100 families" framing); keep 3 tiers Free/19₾/29₾, do NOT lower base; keep the real decoy (annual −43%,
+>   default annual Family); ease the first step with ONE lever = intro first-month ~5-7₾ (time-fence) OR "first 100 free" (pick one);
+>   annual-default billing; skim-the-willing (diaspora+affluent), free-the-rest. **Only 2 things are DECISION-worthy now: don't build
+>   5/10/15/20, don't lower base price; everything else waits on real free→paid conversion data.** [all HYPOTHESIS until conversion data.]
+> **★ v1.215 LIVE: KINGS_ENG lv-ladder + a11y/team fixes + activation funnel.**
 > **★ v1.214 — KINGS_ENG explicitly lv-tagged** (Starters/Movers/Flyers; startKings ladders by item.lv) + **agent-teams bug sweep**
 >   (4 reviewers: correctness/security/perf/a11y — owner asked for the team method). Verdict: NO P1/P2 in correctness/security/perf,
 >   privacy clean. Fixed their real findings: **a11y P1** — cold-load autoplay is blocked → non-reader stranded on English; the listen
