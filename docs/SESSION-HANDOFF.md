@@ -1,6 +1,36 @@
 # NikoLearn — Session Handoff
 
-> ## ▶ RESUME NOW (2026-06-22) — **v1.208 LIVE: cold-start demo + under-6 streak-chip removed**. Clean tree, HEAD==origin/main.
+> ## ▶ RESUME NOW (2026-06-22 eve) — **v1.211 LIVE: YLE Listening + tutor variety + YLE Reading&Writing**. Clean tree, HEAD==origin/main.
+> **★ STRATEGIC LOCK (owner 2026-06-22): audience = 6–12 Cambridge YLE exam-prep** (chosen over under-7-wedge / 8+-older).
+>   This decides P4 content scope. Pricing (W1.1) + launch strategy still PARKED (owner reviewing, will return).
+> **★ Root diagnosis (audits done, in `output/2026-06-22-NikoLearn სტრატეგია — ტუტორი, ასაკი, Kings by Niko.html`):**
+>   tutor had NO real AI (scripted strings + clips, repetitive); Kings was 48 static MCQ = "Cambridge YLE" label not curriculum
+>   (0% listening, 0% speaking, non-YLE format). 3 builds shipped this session to close the gaps:
+> **★ v1.209 — YLE LISTENING comprehension (`listen-yle`).** Owl reads a short English sentence (number+object, "a X and a Y"),
+>   child taps the matching PICTURE. Real YLE Listening comprehension beyond the existing single-word `listen`. Pool `LISTEN_YLE`
+>   (data.js, 14 unambiguous emoji items). New tile in kings-eng menu "🎧 მოსმენა+". Reuses .listen-cta/.opt.emoji UI. Verified
+>   live: renders, audio fires, full round→results, wrong-path reveals on 2nd miss, tutor hint, 0 console errors.
+> **★ v1.210 — tutor less repetitive.** Spoken ka praise pool 4→10 words, each a NEW edge-tts clip (niko/audio/prs_01..06,
+>   `tools/_gen_praise.py`, voice ka-GE-EkaNeural) so it's actually VOICED (not English-fallback). Feedback-card text now varies
+>   (5 win + 5 gentle-try variants, games.js feedback()). +warm() prefixes, +en praise words. 🔴 OWNER: 🎧 ear-check prs_01..06
+>   (ზუსტად/სწორია/ძალიან კარგი/გენიოსი ხარ/გაიხარე/„აი, ასე") — agent can't hear. NOTE: "ძალიან კარგი" resolves to pre-existing
+>   clip_213 (prs_03 is a harmless unused orphan).
+> **★ v1.211 — real YLE Reading & Writing formats.** Two new modes in kings-eng, beyond the old 3-MCQ: (1) `yesno` tick true/false
+>   (see picture, read sentence, ✅კი/❌არა — YLE Starters R&W Part 1); (2) `story` read 2-3 sentences (owl reads too) + answer a
+>   comprehension Q (Movers/Flyers R&W). Pools `YESNO_YLE`/`STORY_YLE` (data.js). Tiles "✅ კი/არა" + "📖 კითხვა". New CSS
+>   (.yn-yes/.yn-no/.story-text). Verified live: both render + full round→results, 0 console errors.
+> **★ FINALIZE — telemetry worker REDEPLOYED** (version e05b94df, NIKO_T+RL bindings intact) with submode_usage enum +listen-yle
+>   +yesno +story (else those per-mode stats silently dropped). Round-level stats already worked (coarseMode→'english', valid).
+>   Recipe used: `cd cloudflare && CLOUDFLARE_API_TOKEN=$(CF_NIKO_API_TOKEN from creds, 53 chars) npx wrangler deploy`. Did NOT
+>   POST a test event → keeps owner's clean KV baseline unpolluted.
+> **▶ NEXT (P4, gated on the audience lock = now DONE → can proceed on go):** expand Listening to 4 YLE parts × 3 levels
+>   (Starters/Movers/Flyers) with level/skill/part metadata; more yesno/story items; consider word-bank gap-fill. Speaking (P5) =
+>   still gated (mic grading = AI/backend decision). 🔴 §6f: new Georgian strings (tutor hints + praise) want a Gemini KA-QA pass,
+>   but Gemini CLI is DOWN → owner eyeball/ear-check instead. English content (sentences/stories) = agent-trusted per §6f, no gate.
+> **▶ Optional polish (ungated):** post-demo "create profile to save" nudge on guest results (lifts demo→signup, from v1.208 cold-start).
+>
+> ── earlier 2026-06-22 (v1.208, kept for history) ──
+> ## ▶ RESUME (2026-06-22) — **v1.208 LIVE: cold-start demo + under-6 streak-chip removed**. Clean tree, HEAD==origin/main.
 > **★ Owner decisions 2026-06-22:** PRICING (W1.1) + LAUNCH strategy = owner will review & come back (PARKED, do NOT churn).
 >   Approved building 2 ungated items, ORDER: child-dev streak FIRST then cold-start. Then opened a BIG strategy thread (below).
 > **★ v1.208 #1 — under-6 day-streak chip REMOVED (child-dev).** Topbar 🔥 dayStreak = return-pressure, wrong for under-6

@@ -53,7 +53,7 @@ const EVENTS = {
   // as a histogram = the abandon heatmap. NO persistent id, NO cross-session link → privacy guarantees intact.
   round_abandon:      { mode: ['alphabet','english','math','counting','kings','reading','movement'], q: ['0','1','2','3','4','5','6','7','8+'] },
   // A3: actual sub-mode used (controlled allow-list = the game.mode values games.js emits)
-  submode_usage:      { mode: ['quiz','reverse','listen','match','spell','phrases','math-add','math-sub','math-mul','math-div','math-miss','math-pat','math-word','math-pic','compare','skip','shapes','money','clock','cal','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','rtext','digit'] },
+  submode_usage:      { mode: ['quiz','reverse','listen','listen-yle','yesno','story','match','spell','phrases','math-add','math-sub','math-mul','math-div','math-miss','math-pat','math-word','math-pic','compare','skip','shapes','money','clock','cal','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','rtext','digit'] },
 };
 const ALLOWED_ORIGINS = ['https://gshoina.github.io']; // tighten to the live app origin
 
