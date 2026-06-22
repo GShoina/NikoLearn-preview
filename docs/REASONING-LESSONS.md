@@ -61,3 +61,9 @@ After L1, both sides kept reasoning — and the *correction* carried the same fl
 nonzero cost?) with the same rigor you used to kill the first. (2) "smaller delta" / "not a reversal" is
 not "no delta" — quantify the residual. (3) elegance is a yellow flag, not a green one. (4) Default to
 the smallest change that is honest NOW; park clever upgrades in backlog with an explicit trigger.
+
+**STANDING PROCESS (owner-locked 2026-06-23) — the enforcement mechanism for L2:** when the owner brings
+a SUBSTANTIVE challenge, DEFAULT to an independent multi-agent REFUTE-PANEL (≥2 agents tasked to refute,
+diverse lenses) + a cross-model adversary where available, instead of self-adjudicating with same-model
+reasoning. Scale to stakes (trivial → just fix; consequential → full panel). Cross-model = Gemini when
+the CLI works, else independent fresh-context adversarial agents (honest: not a true 2nd model).
