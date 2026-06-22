@@ -33,7 +33,7 @@
     const url = clipFor(t);
     if(url){
       stopClip();
-      try{ curClip = new Audio(url); curClip.play().catch(()=>{}); return; }catch(e){}
+      try{ curClip = new Audio(url); curClip.volume=0.85; curClip.play().catch(()=>{}); return; }catch(e){}
     }
     if(_speakOne) _speakOne(t, lang, opts);
   };
@@ -96,7 +96,7 @@
     try{
       let a = _pre[url];
       if(a){ try{ a.currentTime = 0; }catch(e){} } else { a = new Audio(url); }
-      curClip = a;
+      curClip = a; try{ a.volume = 0.85; }catch(e){} // softened 2026-06-22
       a.onerror = ()=>{ if(curClip===a){ curClip=null; clipFallback(text); } }; // real 404 fallback
       a.play().catch(()=>{ if(curClip===a){ curClip=null; clipFallback(text); } });
     }catch(e){ clipFallback(text); return false; }

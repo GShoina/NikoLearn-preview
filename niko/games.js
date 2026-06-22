@@ -25,6 +25,7 @@ function startGame(m){
   if(m==='listen-yle')return listenYleRound();
   if(m==='yesno')return yesNoRound();
   if(m==='story')return storyRound();
+  if(m==='speak')return speakYleRound();
   game.mode=m;game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);
   if(m.startsWith('math-'))return mathRound(m);
   const pool=wordPool();
@@ -35,7 +36,7 @@ function startGame(m){
 // A4 telemetry: map the specific game.mode → the worker's coarse subject enum.
 function coarseMode(m){
   m=m||game.mode||'';
-  if(m==='listen-yle'||m==='yesno'||m==='story')return 'kings'; // YLE exam-prep modes live under Kings
+  if(m==='listen-yle'||m==='yesno'||m==='story'||m==='speak')return 'kings'; // YLE exam-prep modes live under Kings
   if(m==='count'||m==='counting'||m==='digit')return 'counting';
   if(m==='kings-eng'||m==='kings-math')return 'kings';
   if(m==='ka-alpha'||m==='en-alpha')return 'alphabet';
@@ -48,7 +49,7 @@ function abandonRound(){
   if(game.roundActive){ try{ if(window.Analytics) Analytics.event('round_abandon',{mode:coarseMode(),q:(game.i>=8?'8+':String(game.i||0))}); }catch(e){} game.roundActive=false; }
   openMenu(game.subj||'math');
 }
-const SUBMODES=['quiz','reverse','listen','listen-yle','yesno','story','match','spell','phrases','math-add','math-sub','math-mul','math-div','math-miss','math-pat','math-word','math-pic','compare','skip','shapes','money','clock','cal','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','rtext','digit'];
+const SUBMODES=['quiz','reverse','listen','listen-yle','yesno','story','speak','match','spell','phrases','math-add','math-sub','math-mul','math-div','math-miss','math-pat','math-word','math-pic','compare','skip','shapes','money','clock','cal','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','rtext','digit'];
 // First-round activation easing (2026-06-16). Telemetry showed ~60% of rounds abandoned, worst on a
 // brand-new child's first tries. A new child's first few rounds are SHORTER so they reach the "round
 // complete" reward fast (an early win is what hooks a young learner); re-queue growth is also capped
@@ -949,6 +950,37 @@ function answerStory(btn,sel,cor){
   game.requeues=game.requeues||0; if(game.requeues<reqCap()){game.qs.push(q);game.requeues++;}
   try{feedback(false);}catch(e){}
   setTimeout(()=>{try{closeFeedback();}catch(e){} game.i++; nextStory();},1800);
+}
+
+/* ── YLE SPEAKING practice (offline describe-aloud, no mic, no grading) — owner 2026-06-22 ──
+   Owl reads the prompt, child answers OUT LOUD, taps „✓ ვთქვი" to continue. Nothing recorded or sent
+   (privacy intact). Every card spoken earns a coin so the loop stays warm. Not graded by design. */
+function speakYleRound(){
+  game.mode='speak';game.kind='speak';game.shields=0;game.wrong=0;game.i=0;
+  game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);
+  game.subj=game.subj||'kings-eng';
+  game.qs=shuffle(byLevel(SPEAK_YLE,kingsLevel())).slice(0,6);
+  nextSpeakYle();
+}
+function nextSpeakYle(){
+  if(game.i>=game.qs.length)return results();
+  const q=game.qs[game.i];const pr=q.q.replace(/'/g,"\\'");
+  const area=`<div class="prompt speak-prompt" onclick="speak('${pr}')">
+      <div class="section-label">🗣️ Speaking</div>
+      <div class="p-emoji" style="font-size:3.4rem">${q.e}</div>
+      <div class="p-word en" style="font-size:1.16rem">${q.q}</div>
+      <button class="speakbtn" onclick="event.stopPropagation();speak('${pr}')">${I.speaker} მოისმინე</button>
+      <div class="p-sub">უპასუხე ხმამაღლა 🗣️</div></div>
+    <div class="actions" style="margin-top:10px">
+      <button class="btn btn-primary btn-block" onclick="speakDone()">✓ ვთქვი</button>
+    </div>`;
+  gameShell(area);
+  $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
+  setTimeout(()=>{try{speak(q.q);}catch(e){}},400);
+}
+function speakDone(){
+  const s=state[profile];s.shields++;game.shields++;s.streak++;s.maxStreak=Math.max(s.maxStreak,s.streak);save();
+  winStep(null,null,()=>{game.i++;nextSpeakYle();});
 }
 
 /* ── scoring ── */

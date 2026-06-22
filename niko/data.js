@@ -382,6 +382,32 @@ const LISTEN_YLE = [
   {lv:2,en:'two cakes and a candle',   a:'🍰🍰🕯️',     opts:['🍰🍰🕯️','🍰🕯️🕯️','🍪🍪🕯️']}
 ];
 
+/* ── YLE SPEAKING practice (offline, no microphone, no grading) — owner 2026-06-22 ──
+   Mirrors the real YLE Speaking format: the examiner shows a picture and asks. Here the owl reads the
+   English prompt aloud, the child answers OUT LOUD (offline — privacy promise intact, nothing recorded
+   or sent), then taps „✓ ვთქვი" to continue. Self-paced rehearsal; every card spoken earns a coin so
+   the loop stays warm. `lv` = YLE band. */
+const SPEAK_YLE = [
+  // lv1 Starters — name it / colour / count
+  {lv:1,e:'🐶', q:'What is this animal?'},
+  {lv:1,e:'🍎', q:'What colour is it?'},
+  {lv:1,e:'🐱🐱🐱', q:'How many cats can you see?'},
+  {lv:1,e:'⭐', q:'What is this? Say it in English.'},
+  {lv:1,e:'🚗', q:'What is this? What colour can a car be?'},
+  {lv:1,e:'🏠', q:'What is this? Who lives in a house?'},
+  // lv2 Movers — describe / action / place
+  {lv:2,e:'🐘', q:'Tell me about this animal. Is it big or small?'},
+  {lv:2,e:'🏃', q:'What is the boy doing?'},
+  {lv:2,e:'🌳🐦', q:'Where is the bird?'},
+  {lv:2,e:'🍽️', q:'What food do you like to eat?'},
+  {lv:2,e:'🎒', q:'What do you take to school in your bag?'},
+  // lv3 Flyers — open-ended, past/opinion
+  {lv:3,e:'🏖️', q:'Tell me about a fun day. What did you do?'},
+  {lv:3,e:'🍕', q:'What is your favourite food, and why do you like it?'},
+  {lv:3,e:'🐾', q:'Do you have a pet, or which pet would you like? Why?'},
+  {lv:3,e:'🌧️', q:'What do you like to do when it rains?'}
+];
+
 /* ── YLE Reading & Writing: TICK yes/no (Starters R&W Part 1 format) — owner 2026-06-22 ──
    Look at a picture + read an English sentence, decide if it is TRUE. A real YLE reading format
    we did not have (the old Kings was only 3-option MCQ). Sentences are simple, unambiguous. */

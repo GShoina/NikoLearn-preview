@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.212'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.213'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 function goHome(){
   // A4: if a round was in progress, count it as abandoned before we leave it
   if(typeof game!=='undefined'&&game&&game.roundActive){ try{ if(window.Analytics)Analytics.event('round_abandon',{mode:coarseMode(),q:(game.i>=8?'8+':String(game.i||0))}); }catch(e){} game.roundActive=false; }
@@ -374,6 +374,7 @@ function openMenu(subj){
       ${mode('listen-yle','🎧','მოსმენა+','წინადადება')}
       ${mode('yesno','✅','კი / არა','სწორია?')}
       ${mode('story','📖','კითხვა','ამბავი')}
+      ${mode('speak','🗣️','ლაპარაკი','ხმამაღლა')}
       ${mode('spell','✍️','მართლწერა','')}
       ${mode('match','🧩','დააწყვილე','')}
     </div>`;

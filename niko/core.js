@@ -204,7 +204,7 @@ function speakOne(t,lang,opts){
   const u=new SpeechSynthesisUtterance(t);
   u.lang=lang||'en-US';
   u.rate=(opts&&opts.rate!=null)?opts.rate:defaultRate(u.lang);
-  u.pitch=u.lang.startsWith('ka')?1.04:1.1;u.volume=1;
+  u.pitch=u.lang.startsWith('ka')?1.04:1.1;u.volume=0.85; // softened 2026-06-22 (owner: a bit too loud for kids)
   const v=pickVoice(u.lang);if(v)u.voice=v;
   speechSynthesis.speak(u);
 }
