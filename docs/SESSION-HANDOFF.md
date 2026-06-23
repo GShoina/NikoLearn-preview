@@ -4,7 +4,22 @@
 > binding policy+code FIRST, never present a 2-option binary without a third-path line, no unverified
 > "best practice" claims). Added 2026-06-23 after the telemetry-retention miss.
 
-> ## ▶ RESUME NOW (2026-06-23) — **v1.220 LIVE: Kings math strands Pattern·Rebus·MODEL + Test Room**. Clean tree, HEAD==origin/main.
+> ## ▶ RESUME NOW (2026-06-23) — **v1.221 LIVE: Kings content COMPREHENSIVE; next lever = activation (data-gated)**. Clean tree.
+> **★ v1.221 — English reframe DONE + Test Room enriched.** De-jargoned all live "Cambridge YLE" labels → "Kings & Cambridge"
+>   (English serves BOTH programs, overlapping; 0 "Cambridge YLE" left in the rendered DOM). Test Room mock now mixes all 3 math
+>   reasoning strands (pattern+rebus+model, 12 Q) for a fuller real-Kings imitation. Verified, 0 console errors.
+> **✅ KINGS BUILD = comprehensive now.** MATH: 🧩 Pattern · 🔢 Rebus · 📝 MODEL (Gemini-QA'd) + 🏆 Test Room (timed, mastery-locked,
+>   3-type) + the legacy olympiad/add/sub/mul. ENGLISH (already extensive, serves Kings+Cambridge): vocab/quiz · listen · listen-yle ·
+>   yesno · story · speak · spell · match · translate · grammar + level ladder. All capability-based (capacity tiers, learn-mode), de-jargoned.
+> **🔴 HONEST status (Gela's rule): content is now the most-built part; it is NOT the bottleneck.** The bottleneck is ACTIVATION
+>   (67% drop) + ZERO validated demand. The funnel is instrumented (page_view/first_win/abandon-position) but needs a few DAYS of real
+>   data to read. The disciplined next move = MEASURE→LEARN (read /v1/stats when data accrues), validate demand with ~5 families
+>   (pre-mortem's counsel), NOT more content. Further English "strands" would be redundant (English exists) + hit an engine mismatch
+>   (word-options vs the numeric reasoning engine). Recommend pausing content depth.
+> **▶ Still open (owner gate / data-gated):** parent capacity-legibility surface (v2 plan); transfer measurement; pricing (conversion
+>   data); activation read (~few days). Gemini KA-QA works (5 RPM — space calls). Minor: exam-lock uses alert() (polish).
+> **── earlier 2026-06-23 (v1.220) ──**
+> ## ▶ (2026-06-23) — **v1.220 LIVE: Kings math strands Pattern·Rebus·MODEL + Test Room**. Clean tree.
 > **🔑 ENGLISH REFRAME (owner 2026-06-23, important — fixes a drift):** the owner clarified the ORIGINAL intent: NikoLearn's English
 >   should serve BOTH popular Georgian programs — **Kings (kings.ge olympiad) AND Cambridge (Young Learners English)** — because both
 >   are popular local learning centers and their kids-English expectations OVERLAP (A1-A2). The agent had "taken the abbreviations
