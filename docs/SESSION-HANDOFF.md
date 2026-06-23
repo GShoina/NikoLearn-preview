@@ -4,7 +4,25 @@
 > binding policy+code FIRST, never present a 2-option binary without a third-path line, no unverified
 > "best practice" claims). Added 2026-06-23 after the telemetry-retention miss.
 
-> ## ▶ RESUME NOW (2026-06-23) — **v1.216 LIVE; 🔴 KINGS=kings.ge analysis done, BUILD pending**. Clean tree, HEAD==origin/main.
+> ## ▶ RESUME NOW (2026-06-23) — **v1.216 LIVE; Kings plan v2 (capability-based) GRILLED+LOCKED; building Pattern strand**. Clean tree.
+> **🔒 KINGS PLAN v2 (grilled, owner-locked) — supersedes the grade-ladder v1 (which was COPYING):** 3-panel grill (red-team +
+>   pre-mortem + principle-redesign) + owner's challenge. **Corrected direction:** build the CAPABILITIES Kings rewards (reasoning
+>   strands: pattern/logic/model/symbol + English: vocab/spelling/translate/grammar/reading) INTO the existing CAPACITY engine
+>   (PATHS/placement mastery) — child advances by skill-mastery at own capacity, NOT by grade. **Kings = GUIDE (what skills + difficulty
+>   ramp + style), NOT a template to copy.** Separate **LEARN-mode** (scaffolded, "show why", audio kept) from **EXAM-rehearsal** (one
+>   optional quarantined mock, timed, 3-opt, no-audio). **top-10% = byproduct (owner's Milestones principle), NOT a guarantee.** Cut
+>   finance-bonus. Doc: `output/2026-06-23-NikoLearn — Kings (kings.ge) რეალური ფორმატი + გეგმა by Niko.html` (v2). news/1076 = FINAL
+>   round = the real top-10% target → analyze its difficulty as each strand's TOP tier, AFTER the first strand proves out (not now).
+> **🔴 GRILL'S UNCOMFORTABLE TRUTHS (do not bury):** (1) content-depth WORSENS the 67% activation drop — activation is still #1;
+>   (2) MC olympiad = great assessment, poor teacher → must teach, not just test; (3) "teach-to-test" needs a TRANSFER measurement
+>   (score on novel/held-out items, not the drilled pool); (4) reasoning-Math ≠ arithmetic-drill engine (real rebuild, under-scoped);
+>   (5) solo/$0 → don't author 8 sets on spec. **Owner chose (a): build NOW, but FALSIFIABLE — ONE strand end-to-end, test on real
+>   kids, scale only on engagement.**
+> **▶ BUILDING (task #7): Pattern strand (კანონზომიერება)** — capacity-tiered (arithmetic → growing-diff/alternating → interleaved,
+>   = Kings ramp but by CAPACITY not grade), 3-opt, LEARN-mode reveals the RULE on miss (teaching layer = the grill's #2 fix). Home =
+>   kings-math menu (addresses owner's "Kings math unchanged" complaint). Then validate (MUTED) + deploy.
+> **── earlier 2026-06-23 (Kings analysis) ──**
+> ## ▶ (2026-06-23) — **v1.216 LIVE; KINGS=kings.ge analysis done**. Clean tree, HEAD==origin/main.
 > **🔴🔴 CRITICAL CORRECTION (owner pointed to kings.ge/news/1011; verify-first):** "Kings" = **kings.ge „კინგსის ოლიმპიადა"** (Georgian
 >   national online olympiad, Math/ქართული/English, grades 2-7+), **NOT Cambridge YLE.** The whole Starters/Movers/Flyers YLE framing
 >   was built against the WRONG "Kings". Analyzed 8 real Kings sample tests (Math g2-5 + English g2-5) via 4 agents. Plan in
