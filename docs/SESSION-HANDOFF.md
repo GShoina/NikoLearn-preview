@@ -4,6 +4,32 @@
 > binding policy+code FIRST, never present a 2-option binary without a third-path line, no unverified
 > "best practice" claims). Added 2026-06-23 after the telemetry-retention miss.
 
+> ## ★★ STRATEGIC PRIORITY + PRICING DECISION (2026-06-24, owner-asked, skeptical-board honest) ★★
+> **The uncomfortable truth (repeated all session, now hard fact):** ZERO real users have used the app, and the
+> feedback store is empty (the one „real" message was the owner's own test, deleted). Content is the most-built,
+> most-polished part and is NOT the bottleneck. **Bottleneck = (1) no distribution / no real users, (2) zero
+> validated demand.** Everything else is theoretical until those move.
+> **NEXT, in strict sequence (don't skip ahead to monetization):**
+> 1. **DISTRIBUTION (owner-only, the real blocker) — get it in front of ~5-10 real GE families THIS WEEK.** Owner's
+>    network: his kid + friends' kids + one Facebook post. Without real users, all telemetry + content is theory.
+> 2. **READ the activation funnel** once ~20-50 real sessions land (page_view→first_win→round_abandon{q} via
+>    GET /v1/stats?k=NIKO_STATS_KEY). Find the REAL drop point (vs my guesses). Agent can do this the moment data exists.
+> 3. **DEMAND interviews — ~5 parents.** NOT „do you like it" (enthusiasm≠demand). Ask: what do you do/PAY NOW for your
+>    kid's English / Kings-Cambridge prep (tutor? center? app?), and what would make you switch/pay? Agent drafts the script.
+> 4. **THEN monetize** — only after 1-3 give a real signal.
+> **PRICING DECISION (Gela's rule — I refuse to invent a number):**
+> - **DECIDED now: stay FREE, full-access (penetration).** Charging now would kill the penetration needed to even learn
+>   if anyone wants it; there's no payment path, no users, no demand signal. You cannot price un-validated demand.
+> - **[TO VALIDATE], not decided:** the price, the model (one-time vs subscription vs freemium), and whether GE parents
+>   pay for an app at all from an unknown brand. The aiworkshop.ge „990 GEL" figure = [UNVERIFIED], don't lean on it.
+> - **[ASSUMPTION] (category, not this product):** GE parents DO pay for kids' education (tutors, Kings/Cambridge centers
+>   cost real money) → willingness-to-pay likely EXISTS in the category; whether it transfers here = [TO VALIDATE].
+> - **Cheap path to the real number (when ready):** (a) the demand interviews above, + (b) a FAKE-DOOR — a „Premium ₾Y"
+>   button that, on tap, asks „interested? leave email" (measures real intent, no payment integration). Build real
+>   payment only if the fake-door + interviews show genuine intent; then price BELOW what the tutor/center alternative costs.
+> **Parking board:** NOW = items 1-3 above (1 owner-led, 2-3 agent-ready). PARKED = paywall/freemium split (docs/ROADMAP.md),
+> production payment, more content depth (redundant until demand is proven).
+>
 > ## ▶ RESUME NOW (2026-06-23) — **v1.226 LIVE: paywall OFF (penetration) + Kings Math = pure olympiad + reliable feedback**. Clean tree.
 > **★ v1.226 — feedback delivery made lossless.** Old silent mailto-fallback could lose messages → replaced with an
 >   on-device queue (`niko_fb_q`) + retry on boot/feedback-open until it reaches the worker (parent.js sendFeedback/
