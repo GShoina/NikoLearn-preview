@@ -8,10 +8,12 @@
 > **★ v1.218 — Kings strand #2: REBUSI (🔢 symbol→number/pre-algebra)** + a generic REASON_STRANDS engine (reasonRound/nextReason/
 >   answerReason) so future strands = one entry. capacity-tiered (t1 symbols=values · t2 solve-unknown · t3 two-step), 3-opt,
 >   learn-mode reveals worked solution on 2nd miss. Tile in kings-math. Verified muted (900-gen 0 issues, climb 1→2, 0 err).
-> **▶ TWO QA-free math strands shipped (Pattern v1.217 + Rebus v1.218)** — both GENERATED (numbers/symbols), so NO Georgian-copy QA
->   risk. **🔴 further strands are GATED:** math LOGIC + MODEL(word-problems) and the English strands need AUTHORED GEORGIAN content →
->   §6f Gemini KA-QA + owner gate, and Gemini CLI is DOWN. pre-mortem #9 = "Georgian QA debt destroys credibility in exam-prep" — so
->   do NOT author Georgian reasoning content on spec without QA. Path: owner QA, or author + owner ear-check (like the praise clips).
+> **▶ TWO QA-free math strands shipped (Pattern v1.217 + Rebus v1.218)** — both GENERATED (numbers/symbols), no Georgian-copy.
+> **✅ GEMINI KA-QA FIXED 2026-06-23 (was the gate):** "Gemini down" was a deprecated-OAuth-tier auth error, NOT an outage. Fix =
+>   `~/.gemini/settings.json` selectedType→"gemini-api-key" (backed up) + inline-export GEMINI_API_KEY from creds. Verified: live KA-QA
+>   ran. Detail in memory `reference_gemini_cli_fix.md`. **→ the further Kings strands (LOGIC, MODEL word-problems, English) are NO
+>   LONGER QA-gated** — author Georgian reasoning content WITH Gemini KA-QA (§6f) + owner glance. (pre-mortem #9 stands: an unQA'd wrong
+>   answer key kills exam-prep credibility — so route every authored Georgian item through Gemini now that it works.)
 > **🔴 LANDING factual flag (customer-facing → owner gate, NOT changed):** landing.html "Kings" card still says "Cambridge YLE
 >   გამოცდისთვის მზადება" — but Kings = kings.ge olympiad, NOT Cambridge YLE. Needs owner sign-off to correct the positioning copy.
 > **▶ GRILL counsel still standing:** test the 2 strands on REAL kids (falsifiable) before authoring more; add a TRANSFER measurement;
