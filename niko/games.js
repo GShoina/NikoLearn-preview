@@ -1122,7 +1122,7 @@ function answerReason(btn,sel,cor){
    capacity philosophy + trains racing). LOCKED until mastery (so the clock is met by a confident child →
    neutralizes anxiety). Calm total countdown; results do NOT feed advancement; NO learn-reveal (it's an
    exam, not the learning loop). Assembles EXISTING strands (pattern+rebus) — no new content. ── */
-function examUnlocked(){ const s=state[profile]||{}; return (s.patTier||1)>=2 || (s.rbTier||1)>=2; }
+function examUnlocked(){ const s=state[profile]||{}; return (s.patTier||1)>=2 || (s.rbTier||1)>=2 || (s.mdTier||1)>=2; }
 function fmtClock(t){ t=Math.max(0,t|0); const m=Math.floor(t/60),x=t%60; return m+':'+(x<10?'0':'')+x; }
 let _examTimer=null;
 function examRoom(){
@@ -1130,8 +1130,9 @@ function examRoom(){
     alert('🔒 ჯერ ცოტა ივარჯიშე 🧩 კანონზომიერებასა და 🔢 რებუსში — შემდეგ დონეზე ასვლის მერე გაიხსნება სავარჯიშო გამოცდა.'); return; }
   game.mode='exam';game.kind='exam';game.shields=0;game.wrong=0;game.i=0;game.missMap=new Map();game.requeues=0;
   game.start=Date.now();game.preLvl=levelIdx(profile);game.subj=game.subj||'kings-math';game.examEnded=false;
-  const s=state[profile], pt=(s&&s.patTier)||1, rt=(s&&s.rbTier)||1;
-  const qs=[]; for(let i=0;i<10;i++){ qs.push(i%2 ? Object.assign(genRebus(rt),{_lbl:'🔢 რებუსი'}) : Object.assign(genPattern(pt),{_lbl:'🧩 კანონზომიერება'})); }
+  const s=state[profile], pt=(s&&s.patTier)||1, rt=(s&&s.rbTier)||1, mt=(s&&s.mdTier)||1;
+  const gens=[()=>Object.assign(genPattern(pt),{_lbl:'🧩 კანონზომიერება'}),()=>Object.assign(genRebus(rt),{_lbl:'🔢 რებუსი'}),()=>Object.assign(genModel(mt),{_lbl:'📝 ამოცანა'})];
+  const qs=[]; for(let i=0;i<12;i++){ qs.push(gens[i%3]()); } // mixed 3-type Kings-style mock
   game.qs=shuffle(qs); game.examLeft=8*60;
   clearInterval(_examTimer);
   _examTimer=setInterval(()=>{

@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.220'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.221'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 function goHome(){
   // A4: if a round was in progress, count it as abandoned before we leave it
   if(typeof game!=='undefined'&&game&&game.roundActive){ try{ if(window.Analytics)Analytics.event('round_abandon',{mode:coarseMode(),q:(game.i>=8?'8+':String(game.i||0))}); }catch(e){} game.roundActive=false; }
@@ -85,7 +85,7 @@ function landing(){
         <div class="lp-card"><div class="lp-ic">🔤</div><div class="lp-ct">ინგლისური</div><div class="lp-cs">სიტყვები, ფრაზები, მართლწერა, 13 თემა</div></div>
         <div class="lp-card"><div class="lp-ic">🧮</div><div class="lp-ct">მათემატიკა</div><div class="lp-cs">შეკრება, გამოკლება, გამრავლება, დონეებით</div></div>
         <div class="lp-card"><div class="lp-ic">🇬🇪</div><div class="lp-ct">ანბანი</div><div class="lp-cs">ქართული და English, სწავლა და ქვიზი</div></div>
-        <div class="lp-card"><div class="lp-ic">👑</div><div class="lp-ct">Kings</div><div class="lp-cs">Cambridge YLE გამოცდისთვის მზადება</div></div>
+        <div class="lp-card"><div class="lp-ic">👑</div><div class="lp-ct">Kings</div><div class="lp-cs">Kings & Cambridge მზადება</div></div>
       </div>
     </div>
     <div class="lp-section">
@@ -152,7 +152,7 @@ function welcome(){
       <div class="tag">თბილი სასწავლო სივრცე შენი ბავშვისთვის</div>
     </div>
     <div class="perm-points" style="max-width:330px;margin:0 auto">
-      <div class="perm-point">${I.check} ინგლისური · მათემატიკა · Kings (Cambridge YLE) გამოცდისთვის</div>
+      <div class="perm-point">${I.check} ინგლისური · მათემატიკა · Kings & Cambridge მზადება</div>
       <div class="perm-point">${I.privacy} <b>მონაცემები ამ მოწყობილობაზე რჩება</b>, ონლაინ სინქრონიზაციის გარეშე</div>
       <div class="perm-point">${I.check} <b>ნული</b> რეკლამა · გარე ბმულების გარეშე · მშობლის დაცული სივრცე</div>
     </div>
@@ -284,7 +284,7 @@ function selectProfile(p){
   } else {
     const wc=Object.values(s.words).filter(w=>w.correct>=3).length;
     subjects=`<div class="subj-grid">
-      <div class="subj crown stack" data-sum="Cambridge YLE ტესტი: სურათი, თარგმანი, მართლწერა, გრამატიკა" onclick="openSubj(event,'kings-eng')"><span class="s-badge">${premiumOn()?'👑 გამოცდა':'🔒 Premium'}</span><div class="s-ico">👑</div><div class="s-name">კინგსი ინგლისური</div><div class="s-sub">Cambridge YLE</div></div>
+      <div class="subj crown stack" data-sum="ინგლისური Kings-ისა და Cambridge-ისთვის: სიტყვა · თარგმანი · მართლწერა · გრამატიკა · კითხვა" onclick="openSubj(event,'kings-eng')"><span class="s-badge">${premiumOn()?'👑 გამოცდა':'🔒 Premium'}</span><div class="s-ico">👑</div><div class="s-name">კინგსი ინგლისური</div><div class="s-sub">Kings & Cambridge</div></div>
       <div class="subj crown maths stack" data-sum="ოლიმპიადა: ამოცანები და ლოგიკა" onclick="openSubj(event,'kings-math')"><span class="s-badge">${premiumOn()?'👑 გამოცდა':'🔒 Premium'}</span><div class="s-ico">📐</div><div class="s-name">კინგსი მათემატიკა</div><div class="s-sub">ოლიმპიადა</div></div>
       <div class="subj eng stack" data-sum="13 თემა · 180+ სიტყვა · ფრაზები" onclick="openSubj(event,'english')"><span class="s-badge">13 თემა</span><div class="s-ico">🔤</div><div class="s-name">ინგლისური</div><div class="s-sub">სიტყვები · ფრაზები</div><span class="tap-hint">👆</span></div>
       <div class="subj maths stack" data-sum="შეკრება, გამოკლება, გამრავლება, ფიგურები, ფული, საათი" onclick="openSubj(event,'math')"><span class="s-badge">8 თემა</span><div class="s-ico">🧮</div><div class="s-name">მათემატიკა</div><div class="s-sub">დონეებით 1–100</div><span class="tap-hint">👆</span></div>
@@ -330,7 +330,7 @@ function upsellPremium(subj){
     <h2>${name} · Premium</h2>
     <p style="color:var(--muted);max-width:300px;line-height:1.5">ეს გაღრმავებული, საგამოცდო ნაწილია. უფასო ვერსიაში ხელმისაწვდომია მთელი საბაზისო სწავლა, Premium კი ხსნის გამოცდისთვის მზადებას და დამატებით სიღრმეს.</p>
     <div class="perm-points" style="max-width:320px;margin:0 auto;text-align:left">
-      <div class="perm-point">${I.check} Cambridge YLE / ოლიმპიადის ტესტები</div>
+      <div class="perm-point">${I.check} Kings & Cambridge / ოლიმპიადის სტილის ტესტები</div>
       <div class="perm-point">${I.check} 8-12 წლის გაღრმავებული დონე</div>
       <div class="perm-point">${I.check} მშობლის მიზნები და დეტალური ანალიტიკა</div>
     </div>

@@ -119,6 +119,9 @@ window.I18N_MAP = {
   /* onboarding / welcome */
   "თბილი სასწავლო სივრცე შენი ბავშვისთვის":"A warm learning space for your child",
   "ინგლისური · მათემატიკა · Kings (Cambridge YLE) გამოცდისთვის":"English · Math · Kings (Cambridge YLE) prep",
+  "ინგლისური · მათემატიკა · Kings & Cambridge მზადება":"English · Math · Kings & Cambridge prep",
+  "Kings & Cambridge / ოლიმპიადის სტილის ტესტები":"Kings & Cambridge / olympiad-style tests",
+  "Kings & Cambridge მზადება":"Kings & Cambridge prep",
   ", ონლაინ სინქრონიზაციის გარეშე":", no online sync",
   "ნული":"Zero",
   "რეკლამა · გარე ბმულების გარეშე · მშობლის დაცული სივრცე":"ads · zero external links · a protected parent space",
