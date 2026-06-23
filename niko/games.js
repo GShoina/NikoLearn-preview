@@ -27,6 +27,7 @@ function startGame(m){
   if(m==='story')return storyRound();
   if(m==='speak')return speakYleRound();
   if(m==='pattern')return patternRound();
+  if(REASON_STRANDS[m])return reasonRound(m);
   game.mode=m;game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);
   if(m.startsWith('math-'))return mathRound(m);
   const pool=wordPool();
@@ -37,7 +38,7 @@ function startGame(m){
 // A4 telemetry: map the specific game.mode → the worker's coarse subject enum.
 function coarseMode(m){
   m=m||game.mode||'';
-  if(m==='listen-yle'||m==='yesno'||m==='story'||m==='speak'||m==='pattern')return 'kings'; // Kings strands
+  if(m==='listen-yle'||m==='yesno'||m==='story'||m==='speak'||m==='pattern'||m==='rebus')return 'kings'; // Kings strands
   if(m==='count'||m==='counting'||m==='digit')return 'counting';
   if(m==='kings-eng'||m==='kings-math')return 'kings';
   if(m==='ka-alpha'||m==='en-alpha')return 'alphabet';
@@ -50,7 +51,7 @@ function abandonRound(){
   if(game.roundActive){ try{ if(window.Analytics) Analytics.event('round_abandon',{mode:coarseMode(),q:(game.i>=8?'8+':String(game.i||0))}); }catch(e){} game.roundActive=false; }
   openMenu(game.subj||'math');
 }
-const SUBMODES=['quiz','reverse','listen','listen-yle','yesno','story','speak','pattern','match','spell','phrases','math-add','math-sub','math-mul','math-div','math-miss','math-pat','math-word','math-pic','compare','skip','shapes','money','clock','cal','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','rtext','digit'];
+const SUBMODES=['quiz','reverse','listen','listen-yle','yesno','story','speak','pattern','rebus','match','spell','phrases','math-add','math-sub','math-mul','math-div','math-miss','math-pat','math-word','math-pic','compare','skip','shapes','money','clock','cal','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','rtext','digit'];
 // First-round activation easing (2026-06-16). Telemetry showed ~60% of rounds abandoned, worst on a
 // brand-new child's first tries. A new child's first few rounds are SHORTER so they reach the "round
 // complete" reward fast (an early win is what hooks a young learner); re-queue growth is also capped
@@ -1043,6 +1044,56 @@ function answerPattern(btn,sel,cor){
   document.querySelectorAll('.opt').forEach(b=>{b.classList.add('dim');b.style.pointerEvents='none'; if(+b.textContent.trim()===cor){b.classList.remove('dim');b.classList.add('correct');}});
   try{ const area=document.querySelector('#garea'); if(area){ const t=document.createElement('div'); t.className='pat-rule'; t.innerHTML=`🦉 წესი: <b>${q.rule}</b><br>ამიტომ პასუხია <b>${cor}</b>`; area.appendChild(t); } }catch(e){}
   setTimeout(()=>{ game.i++; nextPattern(); }, 2800);
+}
+
+/* ── Generic KINGS reasoning-strand engine (owner 2026-06-23). A strand = a generator gen(tier) that
+   returns {q (HTML), a (number), opts (3), rule (worked solution for learn-mode), tier}. Reuses the
+   Pattern strand's design: capacity tier via s[tierKey] (advances on a 4-correct mastery streak, NOT
+   grade), 3 options, LEARN-mode reveals the worked rule on the 2nd miss. New strands = one REASON_STRANDS
+   entry. Pattern stays its own (already shipped) special case. ── */
+function genRebus(tier){
+  tier=Math.max(1,Math.min(3,tier||1));
+  if(tier===1){ const S=shuffle(['🔵','🟢','⭐','🔺','🟪']).slice(0,2); const v0=ri(2,8), v1=ri(2,8); const a=v0+v1;
+    return {q:`${S[0]} = ${v0},  ${S[1]} = ${v1}<br>${S[0]} + ${S[1]} = ?`, a, opts:pat3opts(a), rule:`${S[0]}=${v0}, ${S[1]}=${v1} → ${v0}+${v1}=<b>${a}</b>`, tier}; }
+  if(tier===2){ const X=['N','A','□','⭐'][ri(0,3)]; const x=ri(2,9), b=ri(2,9); const res=x+b;
+    return {q:`${X} + ${b} = ${res}<br>${X} = ?`, a:x, opts:pat3opts(x), rule:`${X} = ${res} − ${b} = <b>${x}</b>`, tier}; }
+  const a0=ri(1,5), s=ri(2,6), sEq=s+a0, c=ri(2,5), a=s+c;
+  return {q:`△ + ${a0} = ${sEq}<br>⬛ = △ + ${c}<br>⬛ = ?`, a, opts:pat3opts(a), rule:`△ = ${sEq}−${a0} = ${s};  ⬛ = ${s}+${c} = <b>${a}</b>`, tier};
+}
+const REASON_STRANDS={ rebus:{label:'🔢 რებუსი', tierKey:'rbTier', gen:genRebus} };
+function reasonRound(mode){
+  const st=REASON_STRANDS[mode]; if(!st)return;
+  game.mode=mode;game.kind=mode;game.rStrand=st;game.shields=0;game.wrong=0;game.i=0;
+  game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);game.subj=game.subj||'kings-math';
+  const s=state[profile]; game.rTier=(s&&s[st.tierKey])||1;
+  game.qs=Array.from({length:6},()=>st.gen(game.rTier));
+  nextReason();
+}
+function nextReason(){
+  if(game.i>=game.qs.length)return results();
+  const q=game.qs[game.i];game.cur=q;
+  const tn=['','დამწყები','საშუალო','რთული'][q.tier]||'';
+  gameShell(`<div class="prompt"><div class="section-label">${game.rStrand.label} · ${tn}</div>
+      <div class="p-word" style="font-size:1.5rem;line-height:1.55;letter-spacing:1px">${q.q}</div>
+      <div class="p-sub">იპოვე პასუხი</div></div>
+    <div class="options">${q.opts.map(o=>`<button class="opt num" onclick="answerReason(this,${o},${q.a})">${o}</button>`).join('')}</div>`);
+  $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
+}
+function answerReason(btn,sel,cor){
+  const s=state[profile], tk=game.rStrand.tierKey;
+  if(sel===cor){ document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim')); btn.classList.remove('dim');btn.classList.add('correct');
+    s.shields++;game.shields++;s.streak++;s.maxStreak=Math.max(s.maxStreak,s.streak);
+    s[tk+'_st']=(s[tk+'_st']||0)+1;
+    if(s[tk+'_st']>=4 && (s[tk]||1)<3 && (s[tk]||1)===game.rTier){ s[tk]=(s[tk]||1)+1; s[tk+'_st']=0; }
+    save(); winStep(null,null,()=>{game.i++;nextReason();}); return; }
+  state[profile].streak=0;s[tk+'_st']=0;game.wrong++;save();
+  btn.classList.add('wrong','dim');btn.style.pointerEvents='none';
+  const q=game.qs[game.i];if(!game.missMap)game.missMap=new Map();
+  const n=(game.missMap.get(q)||0)+1;game.missMap.set(q,n);
+  if(n<2){ try{feedback(false);}catch(e){} setTimeout(()=>{try{closeFeedback();}catch(e){}},1100); return; }
+  document.querySelectorAll('.opt').forEach(b=>{b.classList.add('dim');b.style.pointerEvents='none'; if(+b.textContent.trim()===cor){b.classList.remove('dim');b.classList.add('correct');}});
+  try{ const area=document.querySelector('#garea'); if(area){ const t=document.createElement('div'); t.className='pat-rule'; t.innerHTML=`🦉 წესი: ${q.rule}`; area.appendChild(t); } }catch(e){}
+  setTimeout(()=>{ game.i++; nextReason(); }, 2800);
 }
 
 /* ── scoring ── */
