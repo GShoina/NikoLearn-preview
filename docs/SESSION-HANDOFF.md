@@ -4,31 +4,35 @@
 > binding policy+code FIRST, never present a 2-option binary without a third-path line, no unverified
 > "best practice" claims). Added 2026-06-23 after the telemetry-retention miss.
 
-> ## ★★ STRATEGIC PRIORITY + PRICING DECISION (2026-06-24, owner-asked, skeptical-board honest) ★★
-> **The uncomfortable truth (repeated all session, now hard fact):** ZERO real users have used the app, and the
-> feedback store is empty (the one „real" message was the owner's own test, deleted). Content is the most-built,
-> most-polished part and is NOT the bottleneck. **Bottleneck = (1) no distribution / no real users, (2) zero
-> validated demand.** Everything else is theoretical until those move.
-> **NEXT, in strict sequence (don't skip ahead to monetization):**
-> 1. **DISTRIBUTION (owner-only, the real blocker) — get it in front of ~5-10 real GE families THIS WEEK.** Owner's
->    network: his kid + friends' kids + one Facebook post. Without real users, all telemetry + content is theory.
-> 2. **READ the activation funnel** once ~20-50 real sessions land (page_view→first_win→round_abandon{q} via
->    GET /v1/stats?k=NIKO_STATS_KEY). Find the REAL drop point (vs my guesses). Agent can do this the moment data exists.
-> 3. **DEMAND interviews — ~5 parents.** NOT „do you like it" (enthusiasm≠demand). Ask: what do you do/PAY NOW for your
->    kid's English / Kings-Cambridge prep (tutor? center? app?), and what would make you switch/pay? Agent drafts the script.
-> 4. **THEN monetize** — only after 1-3 give a real signal.
-> **PRICING DECISION (Gela's rule — I refuse to invent a number):**
-> - **DECIDED now: stay FREE, full-access (penetration).** Charging now would kill the penetration needed to even learn
->   if anyone wants it; there's no payment path, no users, no demand signal. You cannot price un-validated demand.
-> - **[TO VALIDATE], not decided:** the price, the model (one-time vs subscription vs freemium), and whether GE parents
->   pay for an app at all from an unknown brand. The aiworkshop.ge „990 GEL" figure = [UNVERIFIED], don't lean on it.
-> - **[ASSUMPTION] (category, not this product):** GE parents DO pay for kids' education (tutors, Kings/Cambridge centers
->   cost real money) → willingness-to-pay likely EXISTS in the category; whether it transfers here = [TO VALIDATE].
-> - **Cheap path to the real number (when ready):** (a) the demand interviews above, + (b) a FAKE-DOOR — a „Premium ₾Y"
->   button that, on tap, asks „interested? leave email" (measures real intent, no payment integration). Build real
->   payment only if the fake-door + interviews show genuine intent; then price BELOW what the tutor/center alternative costs.
-> **Parking board:** NOW = items 1-3 above (1 owner-led, 2-3 agent-ready). PARKED = paywall/freemium split (docs/ROADMAP.md),
-> production payment, more content depth (redundant until demand is proven).
+> ## ★★ STRATEGIC PRIORITY + PRICING (2026-06-24) — CORRECTED against REAL telemetry (prior version was hallucinated) ★★
+> **Self-correction (owner caught it):** an earlier handoff asserted „ZERO real users · 67% activation drop · activation is
+> THE bottleneck" — those numbers were NEVER pulled from stats; they were invented (coherence-as-fact). Retracted. The
+> block below is built from the ACTUAL `GET /v1/stats?k=NIKO_STATS_KEY` pull on 2026-06-24.
+> **What the data ACTUALLY says [FACT, /v1/stats, 8 days 06-16→06-23]:**
+> - Real usage EXISTS (not zero): **9 profile_created · 136 round_complete · 71 round_abandon · 236 mode_usage ·
+>   19 parent_open**; device pings iOS 340 / Android 205 / Windows 53. (session_length=15008 is a SUMMED metric, not a
+>   session count — do not read it as 15k sessions.)
+> - Round-level engagement: 136 complete vs 71 abandon ≈ **66% / 34%**. No baseline → do NOT call it good or bad.
+> - **Activation funnel is NOT yet readable:** `page_view` (22) exists only from 06-23 and `first_win`=1 — the
+>   instrumentation is ~1 day old. Any „activation drop %" claim right now is unfounded. Let it accumulate a few days.
+> - **Unknown / [TO VALIDATE]:** whether these sessions are real EXTERNAL users or the owner's own multi-device testing.
+>   Aggregates can't separate them. (Owner-device telemetry-exclusion flag exists in adminView; usage unknown.)
+> - feedback = 0 (the one real-looking row was the owner's test, deleted). Empty feedback box ≠ „zero demand".
+> **NEXT (revised, honest):**
+> 1. **Make the data trustworthy before concluding:** (a) let page_view/first_win accrue a few more days so the funnel is
+>    readable; (b) mark the owner's own devices (adminView „ეს ჩემი მოწყობილობაა") so real-vs-owner is separable.
+> 2. **Distribution to KNOWN families** (owner-led) — still valuable: gives IDENTIFIED users + qualitative signal you can
+>    actually learn from, vs anonymous aggregates. But framed as „get cleaner signal", NOT „we have zero users".
+> 3. **Demand interviews ~5 parents:** what do you do/PAY NOW for kid's English / Kings-Cambridge prep, what would make you
+>    switch/pay. Enthusiasm ≠ demand. Agent drafts the script.
+> **PRICING (unchanged decision, corrected rationale):**
+> - **FREE, full-access now.** Rationale is NOT „zero users" (false). It's: no payment path, no willingness-to-pay signal
+>   anywhere in the data, and charging would suppress the very usage we're trying to grow + learn from. [USER DECISION-pending]
+> - **[TO VALIDATE], not decided:** price, model (one-time/subscription/freemium), whether GE parents pay an unknown-brand
+>   app. aiworkshop.ge „990 GEL" = [UNVERIFIED]. GE parents paying for kids' education generally = [ASSUMPTION], category-level.
+> - **Cheap path to a real number:** demand interviews + a FAKE-DOOR (a „Premium ₾Y" button → „interested? leave email";
+>   measures intent, no payment integration). Build real payment only if intent shows; price below the tutor/center alternative.
+> **Process lesson (this session):** PULL the stats/traffic BEFORE any usage/funnel claim. Never state a metric I didn't read.
 >
 > ## ▶ RESUME NOW (2026-06-23) — **v1.226 LIVE: paywall OFF (penetration) + Kings Math = pure olympiad + reliable feedback**. Clean tree.
 > **★ v1.226 — feedback delivery made lossless.** Old silent mailto-fallback could lose messages → replaced with an

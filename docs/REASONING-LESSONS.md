@@ -74,6 +74,20 @@ EXTRACT the capability it implies and build THAT; treat the program(s) as overla
 never as the product's taxonomy to replicate, and never let the abbreviation become the deliverable or
 the parent-facing label. Extends L1 (read the substance, not the label).
 
+## L4 — PULL the data before stating ANY usage/funnel/metric claim (owner 2026-06-24)
+**Incident:** in a close-out handoff the agent asserted „ZERO real users · 67% activation drop · activation is THE
+bottleneck" and built a whole priority + pricing narrative on it — WITHOUT ever calling `GET /v1/stats`. The numbers
+were invented to fit a tidy story. The owner caught it: „uncountable hallucinated conclusions without checking the
+stats or traffic." When the real stats were pulled, they CONTRADICTED the story: 9 profiles, 136 completed rounds, 71
+abandons, 19 parent-opens over 8 days across iOS/Android/Windows — real usage EXISTS, and the activation funnel was
+simply un-readable yet (page_view ~1 day old, first_win=1), so no drop % could be claimed at all.
+**Rules (falsifiable):**
+- Before ANY sentence containing a usage number, funnel %, „bottleneck", „users", „retention", or „drop" — FETCH the
+  source (`/v1/stats?k=NIKO_STATS_KEY`, `/v1/feedback`, GA, etc.) IN THE SAME TURN and quote it. No fetch → no number.
+- If the instrument is too new/thin to support the claim (e.g. page_view 1 day old), say „not yet readable", don't infer.
+- Aggregates can't tell real external users from the owner's own testing → label that [TO VALIDATE], never assert „real users".
+- A clean, motivating narrative is a RED flag to verify, not a green light to ship. Extends Gela's rule (coherence ≠ fact).
+
 **STANDING PROCESS (owner-locked 2026-06-23) — the enforcement mechanism for L2:** when the owner brings
 a SUBSTANTIVE challenge, DEFAULT to an independent multi-agent REFUTE-PANEL (≥2 agents tasked to refute,
 diverse lenses) + a cross-model adversary where available, instead of self-adjudicating with same-model
