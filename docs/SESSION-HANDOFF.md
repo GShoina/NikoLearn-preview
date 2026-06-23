@@ -4,7 +4,22 @@
 > binding policy+code FIRST, never present a 2-option binary without a third-path line, no unverified
 > "best practice" claims). Added 2026-06-23 after the telemetry-retention miss.
 
-> ## ▶ RESUME NOW (2026-06-23) — **v1.224 LIVE: Parent-space IA rework + Kings freemium preview**. Clean tree.
+> ## ▶ RESUME NOW (2026-06-23) — **v1.226 LIVE: paywall OFF (penetration) + Kings Math = pure olympiad + reliable feedback**. Clean tree.
+> **★ v1.226 — feedback delivery made lossless.** Old silent mailto-fallback could lose messages → replaced with an
+>   on-device queue (`niko_fb_q`) + retry on boot/feedback-open until it reaches the worker (parent.js sendFeedback/
+>   flushFeedbackQueue). Also DELETED the 2 test rows from the worker KV (owner's „მირანდა" test + agent ping) via
+>   `wrangler kv key delete --remote` (namespace 9dcf62cbcff34d6295f67d9d9227aa78, token=CF_NIKO_API_TOKEN); live store = 0 rows.
+>   **Owner read key = `NIKO_STATS_KEY` in creds; GET /v1/feedback?k=KEY reads parent messages; `wrangler … --remote` for KV.**
+> **★ v1.225 — paywall OFF in MVP (penetration > restriction).** Removed the user-facing Kings lock entirely (no payment
+>   path + landing says „free" + a fake lock measures nothing + gating = tension). Moved the premium-OFF „paywall preview"
+>   toggle OUT of parent UI INTO adminView (owner-only, `?admin=1`). Default = everything free+open. Freemium scaffolding
+>   parked for production (docs/ROADMAP.md). ALSO removed plain შეკრება/გამოკლება/გამრავლება tiles from Kings Math → it's now
+>   purely olympiad strands (ოლიმპიადა·კანონზომიერება·რებუსი·ამოცანები·გამოცდა). owner red-team, both verified muted, 0 err.
+> **🔴 Owner follow-up (his data):** the only real feedback ever (Miranda) was his own test, now deleted — feedback store is
+>   genuinely empty. Still ZERO validated demand → the bottleneck remains activation + demand, not features.
+> **⚠️ Owner lesson (saved to memory):** do NOT offer reversible internal work as a yes/no question — decide + execute + report.
+> **── earlier 2026-06-23 (v1.224) ──**
+> ## ▶ (2026-06-23) — **v1.224: Parent-space IA rework + Kings freemium preview**. Clean tree.
 > **★ v1.224 — parent space red-teamed + Kings freemium (owner ask, "help me prompt this … then execute").**
 >   PARENT: (1) retired „რეპორტი მასწავლებელს" → docs/ROADMAP.md (preconditions don't exist pre-traction; diluted the
 >   one action that matters = feedback; buildReport/exportReport kept dormant). (2) moved „ეს ჩემი მოწყობილობაა"
