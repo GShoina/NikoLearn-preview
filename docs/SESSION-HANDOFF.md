@@ -4,7 +4,22 @@
 > binding policy+code FIRST, never present a 2-option binary without a third-path line, no unverified
 > "best practice" claims). Added 2026-06-23 after the telemetry-retention miss.
 
-> ## ▶ RESUME NOW (2026-06-23) — **v1.219 LIVE: Kings Test Room (timed exam-rehearsal); 3 strands + mock**. Clean tree.
+> ## ▶ RESUME NOW (2026-06-23) — **v1.220 LIVE: Kings math strands Pattern·Rebus·MODEL + Test Room**. Clean tree, HEAD==origin/main.
+> **🔑 ENGLISH REFRAME (owner 2026-06-23, important — fixes a drift):** the owner clarified the ORIGINAL intent: NikoLearn's English
+>   should serve BOTH popular Georgian programs — **Kings (kings.ge olympiad) AND Cambridge (Young Learners English)** — because both
+>   are popular local learning centers and their kids-English expectations OVERLAP (A1-A2). The agent had "taken the abbreviations
+>   (Cambridge YLE / Starters-Movers-Flyers / kings.ge) but lost the substance." → DIRECTION: build one strong English CAPABILITY
+>   (vocab/grammar/reading/spelling/translate) that serves BOTH; both = GUIDES, not separate taxonomies. **MATH = Kings only** (Cambridge
+>   has no math olympiad). **De-jargon parent-facing copy:** the LIVE "Cambridge YLE" label is on the kings-eng SUBJECT CARD
+>   (screens.js ~287 subtitle + data-sum) — propose "Cambridge YLE"→"კინგსი & Cambridge"/"ინგლისური" (owner-gate, customer-facing,
+>   NOT yet changed). landing.html itself is CLEAN (the Cambridge-YLE text was in DEAD inline-landing code, never rendered). Lesson L3
+>   persisted (chase substance not labels) in docs/REASONING-LESSONS.md.
+> **★ v1.220 — Kings MATH strand #3: MODEL (📝 ამოცანები, multi-step word problems).** Gemini KA-QA'd Georgian (gate now WORKS) + math
+>   self-verified (12/12). Generic REASON_STRANDS engine. Now LIVE: 🧩 Pattern · 🔢 Rebus · 📝 MODEL · 🏆 Test Room (all kings-math).
+> **★ v1.219 — Kings TEST ROOM** (timed exam-rehearsal): TIME = a SEPARATE optional section, NOT a tier gate (first-principles + red-team
+>   + Gemini cross-model). Locked until mastery, 8-min calm countdown, no learn-reveal, results don't feed advancement.
+> **── earlier 2026-06-23 (v1.218) ──**
+> ## ▶ (2026-06-23) — **v1.218 LIVE: Kings Pattern + Rebus strands**. Clean tree.
 > **★ v1.219 — Kings TEST ROOM (🏆 სავარჯიშო გამოცდა, timed exam-rehearsal).** First-principles + red-team + TRUE cross-model (Gemini
 >   now fixed) decided: **TIME = a SEPARATE optional section, NOT a tier-advancement gate** (speed-gating contradicts the capacity
 >   philosophy + trains racing; fluency is an OUTPUT of mastery, not a drill input). Timed mixed mock from EXISTING strands

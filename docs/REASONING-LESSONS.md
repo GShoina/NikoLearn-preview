@@ -62,6 +62,18 @@ nonzero cost?) with the same rigor you used to kill the first. (2) "smaller delt
 not "no delta" — quantify the residual. (3) elegance is a yellow flag, not a green one. (4) Default to
 the smallest change that is honest NOW; park clever upgrades in backlog with an explicit trigger.
 
+## L3 — Chase the SUBSTANCE, not the framework's labels (owner 2026-06-23)
+**Incident:** burned enormous effort disambiguating LABELS — "Cambridge YLE vs kings.ge vs Starters/
+Movers/Flyers vs school grades" — and LOST the substance. The owner's actual intent for the English
+content: build the child's English CAPABILITY that serves the popular local programs (the **Kings**
+olympiad AND **Cambridge** English — BOTH are popular Georgian learning centers, and their kids-English
+expectations heavily OVERLAP at A1-A2). A parent does not care which framework's name; they care that
+the child gets good at the English (and Kings-style math) that matters locally. The agent "took the
+abbreviations but lost the content." **Rule:** when a task references an external framework/program/exam,
+EXTRACT the capability it implies and build THAT; treat the program(s) as overlapping outcome-GUIDES,
+never as the product's taxonomy to replicate, and never let the abbreviation become the deliverable or
+the parent-facing label. Extends L1 (read the substance, not the label).
+
 **STANDING PROCESS (owner-locked 2026-06-23) — the enforcement mechanism for L2:** when the owner brings
 a SUBSTANTIVE challenge, DEFAULT to an independent multi-agent REFUTE-PANEL (≥2 agents tasked to refute,
 diverse lenses) + a cross-model adversary where available, instead of self-adjudicating with same-model
