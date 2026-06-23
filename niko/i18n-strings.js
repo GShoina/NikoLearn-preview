@@ -211,6 +211,8 @@ window.I18N_MAP = {
   "რებუსი":"Rebus",
   "სიმბოლო=რიცხვი":"symbol=number",
   "იპოვე პასუხი":"Find the answer",
+  "სავარჯიშო გამოცდა":"Practice exam",
+  "დროზე · ნამდვილივით":"Timed · like the real one",
   "იპოვე წესი — რა მოდის ?-ის ნაცვლად":"Find the rule — what replaces the ?",
   "შედარება":"Comparison",
   "დათვლა":"Counting",

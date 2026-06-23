@@ -28,6 +28,7 @@ function startGame(m){
   if(m==='speak')return speakYleRound();
   if(m==='pattern')return patternRound();
   if(REASON_STRANDS[m])return reasonRound(m);
+  if(m==='exam')return examRoom();
   game.mode=m;game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);
   if(m.startsWith('math-'))return mathRound(m);
   const pool=wordPool();
@@ -38,7 +39,7 @@ function startGame(m){
 // A4 telemetry: map the specific game.mode → the worker's coarse subject enum.
 function coarseMode(m){
   m=m||game.mode||'';
-  if(m==='listen-yle'||m==='yesno'||m==='story'||m==='speak'||m==='pattern'||m==='rebus')return 'kings'; // Kings strands
+  if(m==='listen-yle'||m==='yesno'||m==='story'||m==='speak'||m==='pattern'||m==='rebus'||m==='exam')return 'kings'; // Kings strands
   if(m==='count'||m==='counting'||m==='digit')return 'counting';
   if(m==='kings-eng'||m==='kings-math')return 'kings';
   if(m==='ka-alpha'||m==='en-alpha')return 'alphabet';
@@ -51,7 +52,7 @@ function abandonRound(){
   if(game.roundActive){ try{ if(window.Analytics) Analytics.event('round_abandon',{mode:coarseMode(),q:(game.i>=8?'8+':String(game.i||0))}); }catch(e){} game.roundActive=false; }
   openMenu(game.subj||'math');
 }
-const SUBMODES=['quiz','reverse','listen','listen-yle','yesno','story','speak','pattern','rebus','match','spell','phrases','math-add','math-sub','math-mul','math-div','math-miss','math-pat','math-word','math-pic','compare','skip','shapes','money','clock','cal','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','rtext','digit'];
+const SUBMODES=['quiz','reverse','listen','listen-yle','yesno','story','speak','pattern','rebus','exam','match','spell','phrases','math-add','math-sub','math-mul','math-div','math-miss','math-pat','math-word','math-pic','compare','skip','shapes','money','clock','cal','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','rtext','digit'];
 // First-round activation easing (2026-06-16). Telemetry showed ~60% of rounds abandoned, worst on a
 // brand-new child's first tries. A new child's first few rounds are SHORTER so they reach the "round
 // complete" reward fast (an early win is what hooks a young learner); re-queue growth is also capped
@@ -1094,6 +1095,65 @@ function answerReason(btn,sel,cor){
   document.querySelectorAll('.opt').forEach(b=>{b.classList.add('dim');b.style.pointerEvents='none'; if(+b.textContent.trim()===cor){b.classList.remove('dim');b.classList.add('correct');}});
   try{ const area=document.querySelector('#garea'); if(area){ const t=document.createElement('div'); t.className='pat-rule'; t.innerHTML=`🦉 წესი: ${q.rule}`; area.appendChild(t); } }catch(e){}
   setTimeout(()=>{ game.i++; nextReason(); }, 2800);
+}
+
+/* ── EXAM-REHEARSAL "Test Room" (🏆 სავარჯიშო გამოცდა) — owner 2026-06-23, first-principles + red-team
+   decided. TIME = a SEPARATE optional section, NOT a tier-advancement gate (speed-gating contradicts the
+   capacity philosophy + trains racing). LOCKED until mastery (so the clock is met by a confident child →
+   neutralizes anxiety). Calm total countdown; results do NOT feed advancement; NO learn-reveal (it's an
+   exam, not the learning loop). Assembles EXISTING strands (pattern+rebus) — no new content. ── */
+function examUnlocked(){ const s=state[profile]||{}; return (s.patTier||1)>=2 || (s.rbTier||1)>=2; }
+function fmtClock(t){ t=Math.max(0,t|0); const m=Math.floor(t/60),x=t%60; return m+':'+(x<10?'0':'')+x; }
+let _examTimer=null;
+function examRoom(){
+  if(!examUnlocked()){ try{const a=document.querySelector('#garea')||document.querySelector('.screen');}catch(e){}
+    alert('🔒 ჯერ ცოტა ივარჯიშე 🧩 კანონზომიერებასა და 🔢 რებუსში — შემდეგ დონეზე ასვლის მერე გაიხსნება სავარჯიშო გამოცდა.'); return; }
+  game.mode='exam';game.kind='exam';game.shields=0;game.wrong=0;game.i=0;game.missMap=new Map();game.requeues=0;
+  game.start=Date.now();game.preLvl=levelIdx(profile);game.subj=game.subj||'kings-math';game.examEnded=false;
+  const s=state[profile], pt=(s&&s.patTier)||1, rt=(s&&s.rbTier)||1;
+  const qs=[]; for(let i=0;i<10;i++){ qs.push(i%2 ? Object.assign(genRebus(rt),{_lbl:'🔢 რებუსი'}) : Object.assign(genPattern(pt),{_lbl:'🧩 კანონზომიერება'})); }
+  game.qs=shuffle(qs); game.examLeft=8*60;
+  clearInterval(_examTimer);
+  _examTimer=setInterval(()=>{
+    if(game.mode!=='exam'||game.examEnded){ clearInterval(_examTimer); return; }
+    if(!document.querySelector('.exam-top')){ clearInterval(_examTimer); game.examEnded=true; return; } // user left
+    game.examLeft--; const el=document.querySelector('#examclock'); if(el)el.textContent=fmtClock(game.examLeft);
+    if(game.examLeft<=0){ clearInterval(_examTimer); examFinish(); }
+  },1000);
+  nextExam();
+}
+function nextExam(){
+  if(game.examEnded)return;
+  if(game.i>=game.qs.length)return examFinish();
+  const q=game.qs[game.i];game.cur=q;
+  gameShell(`<div class="exam-top">🏆 სავარჯიშო გამოცდა · ⏱️ <span id="examclock">${fmtClock(game.examLeft)}</span> · ${game.i+1}/${game.qs.length}</div>
+    <div class="prompt"><div class="section-label">${q._lbl}</div>
+      <div class="p-word" style="font-size:1.55rem;line-height:1.5;letter-spacing:1px">${q.q}</div></div>
+    <div class="options">${q.opts.map(o=>`<button class="opt num" onclick="answerExam(this,${o},${q.a})">${o}</button>`).join('')}</div>`);
+}
+function answerExam(btn,sel,cor){
+  if(game.examEnded)return;
+  const s=state[profile];
+  if(sel===cor){ btn.classList.add('correct'); s.shields++;game.shields++; } else { btn.classList.add('wrong'); game.wrong++; }
+  document.querySelectorAll('.opt').forEach(b=>{b.classList.add('dim');b.style.pointerEvents='none';}); save();
+  setTimeout(()=>{ if(!game.examEnded){ game.i++; nextExam(); } }, 650); // exam: no learn-reveal, no tier climb
+}
+function examFinish(){
+  if(game.examEnded)return; game.examEnded=true; clearInterval(_examTimer); game.roundActive=false;
+  try{ if(window.Analytics) Analytics.event('round_complete',{mode:'kings',band:'mid',retries:game.wrong||0}); }catch(e){}
+  const tot=game.qs.length, got=game.shields, pct=tot?Math.round(got/tot*100):0, used=fmtClock(8*60-Math.max(0,game.examLeft));
+  render(`<div class="screen results">
+    <div class="r-owl">${tutorFace(profile,'3.2rem')}</div>
+    <div class="r-ring"><i>${pct>=80?'🏆':pct>=50?'⭐':'🌱'}</i></div>
+    <h2>${voc()}, გამოცდა დასრულდა! 💛</h2>
+    <div class="stat-row">
+      <div class="stat"><div class="v">${got}/${tot}</div><div class="l">სწორი</div></div>
+      <div class="stat"><div class="v">${pct}%</div><div class="l">სიზუსტე</div></div>
+      <div class="stat"><div class="v">${used}</div><div class="l">⏱️ დრო</div></div>
+    </div>
+    <div class="pat-rule" style="text-align:center">🦉 ეს იყო ნამდვილი გამოცდის რეპეტიცია. დონე აქ არ იცვლება — ისწავლე 🧩 და 🔢, მერე ისევ სცადე.</div>
+    <div class="actions"><button class="btn btn-primary btn-block" onclick="openMenu('kings-math')">📋 მენიუ</button></div>
+  </div>`,'home');
 }
 
 /* ── scoring ── */

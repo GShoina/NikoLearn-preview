@@ -394,6 +394,10 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 /* Kings Pattern strand — learn-mode RULE reveal on a miss (teaching, not just testing) — owner 2026-06-23 */
 .pat-rule{margin-top:14px;background:#fff8ee;border:1.5px solid #ffe2bd;border-radius:14px;padding:11px 15px;
   font-size:.96rem;line-height:1.5;color:#6b5640;animation:pop .34s}
+/* Exam-rehearsal Test Room header (timer + progress) — owner 2026-06-23 */
+.exam-top{background:color-mix(in oklch,var(--sun) 16%,var(--card));border:1.5px solid color-mix(in oklch,var(--sun) 45%,var(--line));
+  border-radius:12px;padding:8px 14px;margin-bottom:12px;font-size:.92rem;font-weight:700;color:var(--ink);text-align:center}
+.exam-top #examclock{color:var(--red);font-variant-numeric:tabular-nums}
 .opt:active{transform:scale(.96)}
 .opt.correct{border-color:var(--green);background:color-mix(in oklch,var(--green) 16%,var(--card));color:var(--green-d);animation:pop .34s}
 .opt.wrong{border-color:var(--red);background:color-mix(in oklch,var(--red) 12%,var(--card));animation:shake .34s}
