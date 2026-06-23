@@ -4,7 +4,20 @@
 > binding policy+code FIRST, never present a 2-option binary without a third-path line, no unverified
 > "best practice" claims). Added 2026-06-23 after the telemetry-retention miss.
 
-> ## ▶ RESUME NOW (2026-06-23) — **v1.217 LIVE: Kings Pattern strand (capability-based) shipped**. Clean tree, HEAD==origin/main.
+> ## ▶ RESUME NOW (2026-06-23) — **v1.218 LIVE: Kings math reasoning strands Pattern + Rebus (capability-based)**. Clean tree.
+> **★ v1.218 — Kings strand #2: REBUSI (🔢 symbol→number/pre-algebra)** + a generic REASON_STRANDS engine (reasonRound/nextReason/
+>   answerReason) so future strands = one entry. capacity-tiered (t1 symbols=values · t2 solve-unknown · t3 two-step), 3-opt,
+>   learn-mode reveals worked solution on 2nd miss. Tile in kings-math. Verified muted (900-gen 0 issues, climb 1→2, 0 err).
+> **▶ TWO QA-free math strands shipped (Pattern v1.217 + Rebus v1.218)** — both GENERATED (numbers/symbols), so NO Georgian-copy QA
+>   risk. **🔴 further strands are GATED:** math LOGIC + MODEL(word-problems) and the English strands need AUTHORED GEORGIAN content →
+>   §6f Gemini KA-QA + owner gate, and Gemini CLI is DOWN. pre-mortem #9 = "Georgian QA debt destroys credibility in exam-prep" — so
+>   do NOT author Georgian reasoning content on spec without QA. Path: owner QA, or author + owner ear-check (like the praise clips).
+> **🔴 LANDING factual flag (customer-facing → owner gate, NOT changed):** landing.html "Kings" card still says "Cambridge YLE
+>   გამოცდისთვის მზადება" — but Kings = kings.ge olympiad, NOT Cambridge YLE. Needs owner sign-off to correct the positioning copy.
+> **▶ GRILL counsel still standing:** test the 2 strands on REAL kids (falsifiable) before authoring more; add a TRANSFER measurement;
+>   activation is still #1. exam-rehearsal mock (P4) = assemble EXISTING strands (no new authoring) — buildable when wanted.
+> **── earlier 2026-06-23 (v1.217 Pattern) ──**
+> ## ▶ (2026-06-23) — **v1.217 LIVE: Kings Pattern strand**. Clean tree.
 > **★ v1.217 — Kings reasoning strand #1: PATTERN (კანონზომიერება) — first falsifiable strand of the v2 plan.** `genPattern(tier)`
 >   generator, 3 CAPACITY tiers (t1 arithmetic · t2 growing-diff/alternating · t3 interleaved/doubling = Kings ramp by CAPACITY not
 >   grade; `s.patTier` climbs on a 4-correct mastery streak). 3-option (Kings format). **LEARN-mode: 2nd miss reveals the RULE**
