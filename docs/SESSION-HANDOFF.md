@@ -4,7 +4,16 @@
 > binding policy+code FIRST, never present a 2-option binary without a third-path line, no unverified
 > "best practice" claims). Added 2026-06-23 after the telemetry-retention miss.
 
-> ## ▶ RESUME NOW (2026-06-23) — **v1.221 LIVE: Kings content COMPREHENSIVE; next lever = activation (data-gated)**. Clean tree.
+> ## ▶ RESUME NOW (2026-06-23) — **v1.222 LIVE: 2 owner-reported bugs fixed (Speaking self-check + app language toggle removed)**. Clean tree.
+> **★ v1.222 — fixed both bugs the owner flagged.** (1) **Speaking (ლაპარაკი)**: the "უპასუხე ხმამაღლა" step was dead (child spoke
+>   to the air, nothing happened). Now after `✓ ვთქვი` the app REVEALS + SPEAKS a **model answer** (`SPEAK_YLE[].m`) so the child
+>   self-checks (`.speak-model` card; `s:1` items label it "ერთ-ერთი კარგი პასუხი"). **Deliberately NO mic/recording/recognition**:
+>   a real STT streams a child's voice to a cloud service = breaks the on-device/COPPA privacy promise + cost + poor kids-accent
+>   accuracy. Cost-reasonable + privacy-safe = rehearse-then-compare. (2) **Language toggle**: removed from the kids APP (kept only on
+>   the marketing landing, which has full en coverage). The app's growing content lacked en mappings → confusing half-ka/half-en UI.
+>   App now forces Georgian chrome (English taught via CONTENT, not by flipping the UI). Verified muted: full loop, both label variants,
+>   `langtgl` absent in app, 0 console errors. (`vtgl`/🔊ქარ in topbar = the separate VOICE on/off chip, untouched.)
+> **── earlier 2026-06-23 (v1.221) ──**
 > **★ v1.221 — English reframe DONE + Test Room enriched.** De-jargoned all live "Cambridge YLE" labels → "Kings & Cambridge"
 >   (English serves BOTH programs, overlapping; 0 "Cambridge YLE" left in the rendered DOM). Test Room mock now mixes all 3 math
 >   reasoning strands (pattern+rebus+model, 12 Q) for a fuller real-Kings imitation. Verified, 0 console errors.
