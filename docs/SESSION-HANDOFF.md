@@ -4,7 +4,16 @@
 > binding policy+code FIRST, never present a 2-option binary without a third-path line, no unverified
 > "best practice" claims). Added 2026-06-23 after the telemetry-retention miss.
 
-> ## ▶ RESUME NOW (2026-06-23) — **v1.216 LIVE; Kings plan v2 (capability-based) GRILLED+LOCKED; building Pattern strand**. Clean tree.
+> ## ▶ RESUME NOW (2026-06-23) — **v1.217 LIVE: Kings Pattern strand (capability-based) shipped**. Clean tree, HEAD==origin/main.
+> **★ v1.217 — Kings reasoning strand #1: PATTERN (კანონზომიერება) — first falsifiable strand of the v2 plan.** `genPattern(tier)`
+>   generator, 3 CAPACITY tiers (t1 arithmetic · t2 growing-diff/alternating · t3 interleaved/doubling = Kings ramp by CAPACITY not
+>   grade; `s.patTier` climbs on a 4-correct mastery streak). 3-option (Kings format). **LEARN-mode: 2nd miss reveals the RULE**
+>   (`.pat-rule` "🦉 წესი: …, ამიტომ პასუხია X") — teaching the move, the grill's assessment≠instruction fix. Tile in kings-math
+>   (fixes "Kings math unchanged"). Worker submode 'pattern' redeployed (version dfa9b258). Verified muted: 900-gen integrity 0 issues,
+>   render, rule-reveal, capacity-climb 1→2, 0 console errors. **Kings used as GUIDE for the pattern TYPES, not copied.**
+> **▶ NEXT strands (same pattern: capability-tiered + learn-mode, falsifiable one-at-a-time):** math logic / model / symbol(rebus);
+>   English vocab/translate/grammar/reading as Kings-style strands. Then the EXAM-rehearsal mock (quarantined). + the grill's open
+>   items: a TRANSFER measurement (novel-item score), parent capacity-legibility, and the standing truth — activation is still #1.
 > **🔒 KINGS PLAN v2 (grilled, owner-locked) — supersedes the grade-ladder v1 (which was COPYING):** 3-panel grill (red-team +
 >   pre-mortem + principle-redesign) + owner's challenge. **Corrected direction:** build the CAPABILITIES Kings rewards (reasoning
 >   strands: pattern/logic/model/symbol + English: vocab/spelling/translate/grammar/reading) INTO the existing CAPACITY engine
