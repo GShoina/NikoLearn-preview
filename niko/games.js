@@ -39,7 +39,7 @@ function startGame(m){
 // A4 telemetry: map the specific game.mode → the worker's coarse subject enum.
 function coarseMode(m){
   m=m||game.mode||'';
-  if(m==='listen-yle'||m==='yesno'||m==='story'||m==='speak'||m==='pattern'||m==='rebus'||m==='exam')return 'kings'; // Kings strands
+  if(m==='listen-yle'||m==='yesno'||m==='story'||m==='speak'||m==='pattern'||m==='rebus'||m==='model'||m==='exam')return 'kings'; // Kings strands
   if(m==='count'||m==='counting'||m==='digit')return 'counting';
   if(m==='kings-eng'||m==='kings-math')return 'kings';
   if(m==='ka-alpha'||m==='en-alpha')return 'alphabet';
@@ -52,7 +52,7 @@ function abandonRound(){
   if(game.roundActive){ try{ if(window.Analytics) Analytics.event('round_abandon',{mode:coarseMode(),q:(game.i>=8?'8+':String(game.i||0))}); }catch(e){} game.roundActive=false; }
   openMenu(game.subj||'math');
 }
-const SUBMODES=['quiz','reverse','listen','listen-yle','yesno','story','speak','pattern','rebus','exam','match','spell','phrases','math-add','math-sub','math-mul','math-div','math-miss','math-pat','math-word','math-pic','compare','skip','shapes','money','clock','cal','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','rtext','digit'];
+const SUBMODES=['quiz','reverse','listen','listen-yle','yesno','story','speak','pattern','rebus','model','exam','match','spell','phrases','math-add','math-sub','math-mul','math-div','math-miss','math-pat','math-word','math-pic','compare','skip','shapes','money','clock','cal','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','rtext','digit'];
 // First-round activation easing (2026-06-16). Telemetry showed ~60% of rounds abandoned, worst on a
 // brand-new child's first tries. A new child's first few rounds are SHORTER so they reach the "round
 // complete" reward fast (an early win is what hooks a young learner); re-queue growth is also capped
@@ -1061,7 +1061,27 @@ function genRebus(tier){
   const a0=ri(1,5), s=ri(2,6), sEq=s+a0, c=ri(2,5), a=s+c;
   return {q:`△ + ${a0} = ${sEq}<br>⬛ = △ + ${c}<br>⬛ = ?`, a, opts:pat3opts(a), rule:`△ = ${sEq}−${a0} = ${s};  ⬛ = ${s}+${c} = <b>${a}</b>`, tier};
 }
-const REASON_STRANDS={ rebus:{label:'🔢 რებუსი', tierKey:'rbTier', gen:genRebus} };
+/* Kings MATH "გამოიანგარიშე" strand: multi-step real-world word problems (Gemini KA-QA'd 2026-06-23,
+   math self-verified). Curated by capacity tier; genModel picks one; learn-mode shows the steps. */
+const MODEL_POOL=[
+  {lv:1,q:'ნიკას აქვს 6 ვაშლი. დედამ კიდევ 5 მისცა. მერე 3 შეჭამა. რამდენი დარჩა?', a:8, opts:[8,11,14], rule:'6+5=11, მერე 11−3=<b>8</b>'},
+  {lv:1,q:'მაღაზიაში 4 ბურთი იყო. კიდევ 7 მოიტანეს. ახლა რამდენია?', a:11, opts:[11,3,10], rule:'4+7=<b>11</b>'},
+  {lv:1,q:'3 კალათაში, თითოეულში 2 ვაშლია. ჯამში რამდენი ვაშლია?', a:6, opts:[6,5,8], rule:'3×2=<b>6</b>'},
+  {lv:1,q:'ლუკას აქვს 8 კანფეტი. დას მისცა 3, ძმას 2. რამდენი დარჩა?', a:3, opts:[3,5,6], rule:'8−3−2=<b>3</b>'},
+  {lv:2,q:'10 ბავშვი ეზოში თამაშობდა. 4 წავიდა, მერე 3 მოვიდა. ახლა რამდენია?', a:9, opts:[9,7,11], rule:'10−4=6, 6+3=<b>9</b>'},
+  {lv:2,q:'მარის ჰქონდა 15 ლარი. იყიდა წიგნი 6-ად და კალამი 4-ად. რამდენი დარჩა?', a:5, opts:[5,9,11], rule:'15−6−4=<b>5</b>'},
+  {lv:2,q:'ერთ ყუთში 6 კვერცხია. რამდენი კვერცხია 3 ყუთში?', a:18, opts:[18,9,12], rule:'6×3=<b>18</b>'},
+  {lv:2,q:'12 ფანქარი 2 ბავშვმა თანაბრად გაიყო. რამდენი ერგო თითოს?', a:6, opts:[6,10,4], rule:'12÷2=<b>6</b>'},
+  {lv:3,q:'ნიკა 2 წლის წინ 7 წლის იყო. რამდენი წლის იქნება 3 წელიწადში?', a:12, opts:[12,10,9], rule:'ახლა 7+2=9; 3 წელში 9+3=<b>12</b>'},
+  {lv:3,q:'ვაშლი 3 ლარია, მსხალი 2 ლარით ძვირია. რა ღირს მსხალი?', a:5, opts:[5,2,1], rule:'3+2=<b>5</b>'},
+  {lv:3,q:'4 მეგობარს თითოეულს 3 ბურთი აქვს. 2 დაიკარგა. ჯამში რამდენი დარჩა?', a:10, opts:[10,12,14], rule:'4×3=12, 12−2=<b>10</b>'},
+  {lv:3,q:'კიბეს 9 საფეხური აქვს. შუა საფეხური მერამდენეა?', a:5, opts:[5,4,6], rule:'შუა = (9+1)÷2 = <b>5</b>'}
+];
+function genModel(tier){ tier=Math.max(1,Math.min(3,tier||1)); const pool=MODEL_POOL.filter(x=>x.lv<=tier); const q=pool[ri(0,pool.length-1)]; return {q:q.q, a:q.a, opts:shuffle(q.opts.slice()), rule:q.rule, tier:q.lv}; }
+const REASON_STRANDS={
+  rebus:{label:'🔢 რებუსი', tierKey:'rbTier', gen:genRebus},
+  model:{label:'📝 ამოცანები', tierKey:'mdTier', gen:genModel}
+};
 function reasonRound(mode){
   const st=REASON_STRANDS[mode]; if(!st)return;
   game.mode=mode;game.kind=mode;game.rStrand=st;game.shields=0;game.wrong=0;game.i=0;
