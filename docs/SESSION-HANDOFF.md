@@ -4,7 +4,22 @@
 > binding policy+code FIRST, never present a 2-option binary without a third-path line, no unverified
 > "best practice" claims). Added 2026-06-23 after the telemetry-retention miss.
 
-> ## ▶ RESUME NOW (2026-06-23) — **v1.223 LIVE: Speaking record→playback (hear your own voice, ephemeral)**. Clean tree.
+> ## ▶ RESUME NOW (2026-06-23) — **v1.224 LIVE: Parent-space IA rework + Kings freemium preview**. Clean tree.
+> **★ v1.224 — parent space red-teamed + Kings freemium (owner ask, "help me prompt this … then execute").**
+>   PARENT: (1) retired „რეპორტი მასწავლებელს" → docs/ROADMAP.md (preconditions don't exist pre-traction; diluted the
+>   one action that matters = feedback; buildReport/exportReport kept dormant). (2) moved „ეს ჩემი მოწყობილობაა"
+>   (owner telemetry-exclusion flag) OUT of parent UI INTO adminView (owner tool, meaningless+risky for a parent).
+>   (3) reordered settings most-used-first: **დრო&უსაფრთხოება FIRST**, then გამოხმაურება (was გაზიარება), then
+>   Transfer (collapsible), then ანგარიში (collapsible) — new collapsibleGroup/togglePGroup helpers.
+>   KINGS FREEMIUM: openSubj no longer hard-walls a premium subject — the menu OPENS (every topic VISIBLE), free
+>   tasters playable + the Kings test as the hook, deeper modes 🔒 → upsell (new kmode/isFreeMode/FREE_PREVIEW_MODES
+>   in core.js). eng free: ლექსიკა,მოსმენა · math free: კანონზომიერება + basic add/sub/mul. **Premium defaults ON →
+>   today everything is open (free launch + owner universal test access); the split is demo-only + a [HYPOTHESIS]
+>   to validate before charging** (docs/ROADMAP.md). Verified muted: group order, no teacher-report/owner-device in
+>   parent UI, collapsibles toggle, adminView owner-device, both Kings menus' free/locked split, locked→upsell,
+>   premium ON→0 locks, 0 console errors + 2 screenshots.
+> **── earlier 2026-06-23 (v1.223) ──**
+> ## ▶ (2026-06-23) — **v1.223 LIVE: Speaking record→playback (hear your own voice, ephemeral)**. Clean tree.
 > **★ v1.223 — Speaking now has OPTIONAL record→playback (owner-decided "B").** On the speak card the child can
 >   `🎙️ ჩაიწერე შენი ხმა` → record → `▶️ მოისმინე შენი ხმა` (hear their OWN pronunciation, real speaking value the
 >   model-reveal alone can't give). **Privacy-strict + owner's hard constraint "delete on moving to next":** audio is an
