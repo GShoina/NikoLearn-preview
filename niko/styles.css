@@ -1203,6 +1203,9 @@ body.on-landing #app{padding:0;padding-bottom:24px}
    Layered offset shadows fake the "deck of cards behind" without z-index tricks, so it works
    inside any stacking context. A non-reader reads the depth, not the text. */
 .mode{position:relative}
+/* freemium-locked Kings mode: visible (transparency) but dimmed + 🔒 badge; tap = upsell (owner 2026-06-23) */
+.mode.locked{opacity:.62;filter:saturate(.55)}
+.mode.locked .lock-badge{position:absolute;right:8px;top:8px;font-size:.82rem;opacity:.85;pointer-events:none}
 .stack{box-shadow:3px 4px 0 -1px var(--card),3.5px 4.5px 0 0 var(--line),7px 9px 0 -2px var(--card),7.5px 9.5px 0 -1px color-mix(in oklch,var(--line) 70%,transparent)}
 .stack:active{box-shadow:1px 1.5px 0 -1px var(--card),1.5px 2px 0 0 var(--line)}
 .play-badge{position:absolute;right:9px;bottom:9px;width:23px;height:23px;border-radius:50%;
@@ -1259,6 +1262,12 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 /* v1.108: parent settings grouped into tidy cards (was a long flat label+button list) */
 .pgroup{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 15px;margin:14px 0 0}
 .pgroup-h{font-family:'Fredoka','Noto Sans Georgian',sans-serif;font-weight:600;font-size:1rem;color:var(--ink);margin:0 0 10px}
+/* collapsible settings group (rare/admin groups start collapsed, owner 2026-06-23) */
+.pgroup.collapsible{padding-bottom:14px}
+.pgroup-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;background:none;border:none;
+  cursor:pointer;padding:0;margin:0;font-family:inherit;color:inherit;text-align:left}
+.pgroup.collapsible .pg-chev{font-size:.9rem;opacity:.55;margin-left:8px}
+.pgroup .pg-body[hidden]{display:none}
 .pset-lbl{font-size:.84rem;font-weight:700;color:var(--ink);opacity:.78;margin:0 0 7px}
 .pset-hint{font-size:.8rem;color:var(--ink);opacity:.66;line-height:1.45;margin:7px 2px 0;text-align:center}
 .limit-chips{display:flex;flex-wrap:wrap;gap:7px;justify-content:center}

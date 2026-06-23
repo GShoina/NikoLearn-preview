@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.223'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.224'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 function goHome(){
   // A4: if a round was in progress, count it as abandoned before we leave it
   if(typeof game!=='undefined'&&game&&game.roundActive){ try{ if(window.Analytics)Analytics.event('round_abandon',{mode:coarseMode(),q:(game.i>=8?'8+':String(game.i||0))}); }catch(e){} game.roundActive=false; }
@@ -127,6 +127,7 @@ function adminView(){
   state=load();
   const kids=state.kids||[];
   const sessions=kids.reduce((a,k)=>a+(((state[k.id]||{}).sessions)||0),0);
+  const ownerDev=(function(){try{return localStorage.getItem('niko_owner')==='1';}catch(e){return false;}})();
   render(`<div class="screen home" style="gap:16px;justify-content:flex-start">
     <div class="brand" style="margin-top:8px">
       <div class="sun-badge" style="width:64px;height:64px;background:none;box-shadow:none;padding:0"><img src="owl-logo.png" alt="" style="width:100%;height:100%;object-fit:contain"></div>
@@ -139,6 +140,8 @@ function adminView(){
       <div class="perm-point">${I.check} სესიები ამ ბრაუზერში: <b>${sessions}</b></div>
       <div class="perm-point">ℹ️ ეს რიცხვები მხოლოდ ამ ბრაუზერს ეხება. ყველა მოწყობილობის ნამდვილ რიცხვებს Desktop-ის stats-viewer-ში ხედავ.</div>
     </div>
+    <button class="btn btn-ghost btn-block" style="max-width:360px" onclick="toggleOwnerDevice();adminView()">📱 ეს ჩემი მოწყობილობაა <b>${ownerDev?'✓':''}</b></button>
+    <div class="pset-hint" style="max-width:360px;margin:-6px auto 0">ჩართულზე ამ მოწყობილობის გამოყენება ნამდვილ-მომხმარებლის სტატისტიკაში არ ითვლება (მხოლოდ შენთვის).</div>
     <button class="btn btn-ghost btn-block" style="max-width:360px;margin-top:10px" onclick="location.href='index.html?app=1'">← აპში დაბრუნება</button>
   </div>`,false);
 }
@@ -318,7 +321,8 @@ function unfoldThen(ev,go){
   if(el&&!rm){ el.classList.add('unfolding'); setTimeout(go,200); } else go();
 }
 function openSubj(ev,subj){
-  if(typeof isPremiumSubj==='function' && isPremiumSubj(subj) && !premiumOn()){ return unfoldThen(ev,()=>upsellPremium(subj)); }
+  // FREEMIUM (owner 2026-06-23): a premium subject is NO LONGER hard-walled when premium is off. We OPEN the
+  // menu so the parent can SEE every topic and play the free tasters; locked modes inside badge 🔒 → upsell.
   if(window.playClipSeq)playClipSeq([NAV_SPOKEN[subj],'აირჩიე'].filter(Boolean));
   unfoldThen(ev,()=>openMenu(subj));
 }
@@ -381,22 +385,24 @@ function openMenu(subj){
     body=`${kingsLevelBar()}
     <div class="mode-grid">
       <div class="mode feature play" onclick="startKings('eng')">${PLAY_BADGE}<div class="m-ico">👑</div><div><div class="m-name">კინგსის ტესტი</div><div class="m-sub">სურათი · თარგმანი · მართლწერა · გრამატიკა</div></div></div>
-      ${mode('quiz','🎯','ლექსიკა','')}
-      ${mode('listen','👂','მოსმენა','სიტყვა')}
-      ${mode('listen-yle','🎧','მოსმენა+','წინადადება')}
-      ${mode('yesno','✅','კი / არა','სწორია?')}
-      ${mode('story','📖','კითხვა','ამბავი')}
-      ${mode('speak','🗣️','ლაპარაკი','ხმამაღლა')}
-      ${mode('spell','✍️','მართლწერა','')}
-      ${mode('match','🧩','დააწყვილე','')}
+      ${kmode('kings-eng','quiz','🎯','ლექსიკა','')}
+      ${kmode('kings-eng','listen','👂','მოსმენა','სიტყვა')}
+      ${kmode('kings-eng','listen-yle','🎧','მოსმენა+','წინადადება')}
+      ${kmode('kings-eng','yesno','✅','კი / არა','სწორია?')}
+      ${kmode('kings-eng','story','📖','კითხვა','ამბავი')}
+      ${kmode('kings-eng','speak','🗣️','ლაპარაკი','ხმამაღლა')}
+      ${kmode('kings-eng','spell','✍️','მართლწერა','')}
+      ${kmode('kings-eng','match','🧩','დააწყვილე','')}
     </div>`;
   } else if(subj==='kings-math'){
     body=`<div class="mode-grid">
       <div class="mode feature play" onclick="startKings('math')">${PLAY_BADGE}<div class="m-ico">👑</div><div><div class="m-name">კინგსის ოლიმპიადა</div><div class="m-sub">ამოცანები + ლოგიკა</div></div></div>
-      ${mode('pattern','🧩','კანონზომიერება','იპოვე წესი')}
-      ${mode('rebus','🔢','რებუსი','სიმბოლო=რიცხვი')}
-      ${mode('model','📝','ამოცანები','ცხოვრებისეული')}
-      <div class="mode play exam-tile" onclick="startGame('exam')">${PLAY_BADGE}<div class="m-ico">🏆</div><div class="m-name">სავარჯიშო გამოცდა</div><div class="m-sub">დროზე · ნამდვილივით</div></div>
+      ${kmode('kings-math','pattern','🧩','კანონზომიერება','იპოვე წესი')}
+      ${kmode('kings-math','rebus','🔢','რებუსი','სიმბოლო=რიცხვი')}
+      ${kmode('kings-math','model','📝','ამოცანები','ცხოვრებისეული')}
+      ${(typeof isFreeMode==='function'&&!isFreeMode('kings-math','exam'))
+        ?`<div class="mode play locked" onclick="upsellPremium('kings-math')"><span class="lock-badge">🔒</span><div class="m-ico">🏆</div><div class="m-name">სავარჯიშო გამოცდა</div><div class="m-sub">დროზე · ნამდვილივით</div></div>`
+        :`<div class="mode play exam-tile" onclick="startGame('exam')">${PLAY_BADGE}<div class="m-ico">🏆</div><div class="m-name">სავარჯიშო გამოცდა</div><div class="m-sub">დროზე · ნამდვილივით</div></div>`}
       ${mode('math-add','➕','შეკრება','1–100')}
       ${mode('math-sub','➖','გამოკლება','1–100')}
       ${mode('math-mul','✖️','გამრავლება','×2–×9')}
@@ -462,6 +468,11 @@ function openMenu(subj){
 }
 function mode(m,ic,name,sub){
   return `<div class="mode play" onclick="startGame('${m}')">${PLAY_BADGE}<div class="m-ico">${ic}</div><div class="m-name">${name||'&nbsp;'}</div>${sub?`<div class="m-sub">${sub}</div>`:''}</div>`;
+}
+// Kings mode tile with freemium gating: free taster → normal playable tile; locked → 🔒 badge + tap = upsell.
+function kmode(subj,m,ic,name,sub){
+  if(typeof isFreeMode!=='function' || isFreeMode(subj,m)) return mode(m,ic,name,sub);
+  return `<div class="mode play locked" onclick="upsellPremium('${subj}')"><span class="lock-badge">🔒</span><div class="m-ico">${ic}</div><div class="m-name">${name||'&nbsp;'}</div>${sub?`<div class="m-sub">${sub}</div>`:''}</div>`;
 }
 /* Kings = Cambridge YLE level ladder selector (Starters/Movers/Flyers). Tapping a band sets it on the
    profile and re-renders the Kings menu so every mode then draws level-appropriate items. */

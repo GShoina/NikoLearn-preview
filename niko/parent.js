@@ -65,7 +65,24 @@ function setScreenLimit(m){state.screenLimitMin=m;save();try{if(window.Analytics
 function togglePremium(){state.premium=(state.premium===false)?true:false;save();parentDash();}
 // owner-device marker (honest LOCAL flag, not security): when on, analytics.js skips telemetry from this
 // device so real-user launch stats stay clean. Lives in the PIN-gated parent space. (closes audit B4)
-function toggleOwnerDevice(){try{if(localStorage.getItem('niko_owner')==='1')localStorage.removeItem('niko_owner');else localStorage.setItem('niko_owner','1');}catch(e){}parentDash();}
+function toggleOwnerDevice(){try{if(localStorage.getItem('niko_owner')==='1')localStorage.removeItem('niko_owner');else localStorage.setItem('niko_owner','1');}catch(e){}} // caller re-renders (now lives in adminView, owner-only)
+// collapsible settings group: rare/admin groups (transfer, account) start COLLAPSED to cut clutter (owner 2026-06-23)
+let _pgid=0;
+function collapsibleGroup(title,inner){
+  const id='pg'+(++_pgid);
+  return `<div class="pgroup collapsible">
+    <button class="pgroup-h pgroup-toggle" onclick="togglePGroup('${id}',this)" aria-expanded="false">${title}<span class="pg-chev">▾</span></button>
+    <div class="pg-body" id="${id}" hidden>${inner}</div>
+  </div>`;
+}
+function togglePGroup(id,btn){
+  const b=document.getElementById(id); if(!b)return;
+  const open=b.hasAttribute('hidden');
+  if(open)b.removeAttribute('hidden'); else b.setAttribute('hidden','');
+  btn.setAttribute('aria-expanded',String(open));
+  const cv=btn.querySelector('.pg-chev'); if(cv)cv.textContent=open?'▴':'▾';
+  const grp=btn.closest('.pgroup'); if(grp)grp.classList.toggle('open',open);
+}
 
 /* ── D3 (v2.02): structured parent feedback form. Privacy-clean: nothing is auto-collected — the
    parent's own mail app sends it, so the only data shared is what the parent chooses to send. ── */
@@ -254,24 +271,12 @@ function parentDash(){
     if(p!=='guest')html+=`<button class="btn btn-ghost btn-block" onclick="deleteKid('${p}')" style="margin-top:14px">🗑️ პროფილის წაშლა</button>`;
     html+=`</div></div>`;
   });
-  // v1.108: settings grouped into 3 tidy cards (was a long flat list of label+button stacks)
+  // settings IA, reordered most-used-first + clutter collapsed (owner red-team 2026-06-23):
+  // 1) Time & Safety (the control parents actually use) FIRST · 2) Feedback (teacher-report retired to roadmap,
+  // its preconditions don't exist yet) · 3) Transfer (rare) collapsed · 4) Account (admin) collapsed.
+  // Owner-device telemetry flag moved out of the parent UI into adminView (owner-only, confused/risked parents).
   const lim=state.screenLimitMin||0;const hasPin=!!state.parentPin;const prem=premiumOn();
-  html+=`<div class="pgroup"><div class="pgroup-h">📤 გაზიარება</div>
-    <button class="btn btn-sky btn-block" onclick="exportReport()">📋 რეპორტი მასწავლებელს</button>
-    <button class="btn btn-ghost btn-block mt" onclick="feedbackForm()">💬 დაგვიტოვე აზრი ან საკონტაქტო</button>
-    <div class="pset-hint">ან: <a href="https://wa.me/995593255385?text=NikoLearn%20feedback" target="_blank" rel="noopener" style="color:var(--primary-d);font-weight:600;text-decoration:none">WhatsApp 💬</a> · <a href="mailto:NikoLearn@outlook.com?subject=NikoLearn%20feedback" style="color:inherit;text-decoration:none">✉️ ელფოსტა</a></div>
-  </div>`;
-  const ownerDev=(function(){try{return localStorage.getItem('niko_owner')==='1';}catch(e){return false;}})();
-  html+=`<div class="pgroup"><div class="pgroup-h">ℹ️ მფლობელი</div>
-    <button class="btn btn-ghost btn-block" onclick="toggleOwnerDevice()">📱 ეს ჩემი მოწყობილობაა <b>${ownerDev?'✓':''}</b></button>
-    <div class="pset-hint">ჩართულზე ამ მოწყობილობის გამოყენება სტატისტიკაში არ ითვლება.</div>
-    <button class="btn btn-ghost btn-block mt" onclick="adminView()">ℹ️ ვერსია და ანალიტიკა</button>
-  </div>`;
-  html+=`<div class="pgroup"><div class="pgroup-h">📦 ახალ მოწყობილობაზე გადატანა</div>
-    <div class="pset-hint" style="margin-bottom:8px">ახალ ტელეფონს იყენებ? გადაიტანე ბავშვის პროგრესი (დონეები და ვარსკვლავები) კოდით. ღრუბელი და ანგარიში არ სჭირდება.</div>
-    <button class="btn btn-ghost btn-block" onclick="backupCode()">📦 სარეზერვო კოდის შექმნა</button>
-    <button class="btn btn-ghost btn-block mt" onclick="restoreCode()">♻️ აღდგენა კოდით</button>
-  </div>`;
+  // 1) TIME & SAFETY — first (highest-value parent control)
   html+=`<div class="pgroup"><div class="pgroup-h">⏱️ დრო და უსაფრთხოება</div>
     <div class="pset-lbl">ეკრანის დღიური ლიმიტი</div>
     <div class="limit-chips">${[0,15,30,45,60].map(m=>`<button class="lang-chip ${lim===m?'on':''}" onclick="setScreenLimit(${m})">${m===0?'გამორთ.':m+' წთ'}</button>`).join('')}</div>
@@ -281,13 +286,24 @@ function parentDash(){
     ${hasPin?'<button class="btn btn-ghost btn-block mt" onclick="clearParentPin()">PIN-კოდის მოხსნა</button>':''}
     <div class="pset-hint">${hasPin?'მშობლის სივრცეში მხოლოდ PIN-კოდით შეხვალ.':'PIN-კოდის ნაცვლად მშობლის სივრცეს მათემატიკური ამოცანა იცავს, რომელსაც პატარა ვერ ამოხსნის.'}</div>
   </div>`;
-  html+=`<div class="pgroup"><div class="pgroup-h">⚙️ ანგარიში</div>
-    <div class="pset-lbl">💎 Premium (დემო)</div>
-    <div class="pset-hint">უფასო: სრული საბაზისო სწავლა. Premium: საგამოცდო მზადება (კინგსი), 8-12 დონე, მიზნები. გადახდა ჯერ არ არის, გადამრთველი მხოლოდ საჩვენებელია.</div>
-    <button class="btn btn-ghost btn-block" onclick="togglePremium()">${prem?'👁️ ნახე როგორია უფასო ვერსია (Premium OFF)':'👑 Premium-ის ჩართვა'}</button>
-    <button class="btn btn-ghost btn-block mt" onclick="logout()">🔒 გასვლა (ჩაკეტვა)</button>
-    <button class="btn btn-ghost btn-block mt" onclick="if(confirm(tx('წავშალო პროგრესი?'))){localStorage.removeItem('${SK}');state=load();goHome();}">🗑️ პროგრესის გასუფთავება</button>
+  // 2) FEEDBACK / CONTACT (was „გაზიარება"; „რეპორტი მასწავლებელს" retired → docs/ROADMAP until institutional credibility)
+  html+=`<div class="pgroup"><div class="pgroup-h">💬 გამოხმაურება</div>
+    <button class="btn btn-primary btn-block" onclick="feedbackForm()">💬 დაგვიტოვე აზრი ან საკონტაქტო</button>
+    <div class="pset-hint">ან: <a href="https://wa.me/995593255385?text=NikoLearn%20feedback" target="_blank" rel="noopener" style="color:var(--primary-d);font-weight:600;text-decoration:none">WhatsApp 💬</a> · <a href="mailto:NikoLearn@outlook.com?subject=NikoLearn%20feedback" style="color:inherit;text-decoration:none">✉️ ელფოსტა</a></div>
   </div>`;
+  // 3) TRANSFER — collapsible (rare action)
+  html+=collapsibleGroup('📦 ახალ მოწყობილობაზე გადატანა',
+    `<div class="pset-hint" style="margin-bottom:8px">ახალ ტელეფონს იყენებ? გადაიტანე ბავშვის პროგრესი (დონეები და ვარსკვლავები) კოდით. ღრუბელი და ანგარიში არ სჭირდება.</div>
+     <button class="btn btn-ghost btn-block" onclick="backupCode()">📦 სარეზერვო კოდის შექმნა</button>
+     <button class="btn btn-ghost btn-block mt" onclick="restoreCode()">♻️ აღდგენა კოდით</button>`);
+  // 4) ACCOUNT — collapsible (admin): access demo + version/analytics + logout + clear
+  html+=collapsibleGroup('⚙️ ანგარიში',
+    `<div class="pset-lbl">💎 წვდომა (სატესტო)</div>
+     <div class="pset-hint">ახლა <b>ყველაფერი ღიაა</b> (უფასო გაშვება + შენი სატესტო წვდომა). ღილაკით ნახავ, როგორ გამოიყურება უფასო ვერსია: Kings-ის თემები ჩანს, ტესტი და 1-2 მარტივი თემა უფასოა, დანარჩენი 🔒. გადახდა ჯერ არ არის — გადამრთველი მხოლოდ საჩვენებელია.</div>
+     <button class="btn btn-ghost btn-block" onclick="togglePremium()">${prem?'👁️ ნახე უფასო ვერსია (Premium OFF)':'👑 ყველაფრის გახსნა (Premium ON)'}</button>
+     <button class="btn btn-ghost btn-block mt" onclick="adminView()">ℹ️ ვერსია და ანალიტიკა</button>
+     <button class="btn btn-ghost btn-block mt" onclick="logout()">🔒 გასვლა (ჩაკეტვა)</button>
+     <button class="btn btn-ghost btn-block mt" onclick="if(confirm(tx('წავშალო პროგრესი?'))){localStorage.removeItem('${SK}');state=load();goHome();}">🗑️ პროგრესის გასუფთავება</button>`);
   html+=`</div>`;
   render(html,false);
 }
@@ -369,7 +385,11 @@ function doDeleteKid(id){
 // kept for any old callers
 function deleteKid(id){confirmDelete(id);}
 
-/* ── export report (offline: copy a plain-text summary to share) ── */
+/* ── export report (offline text summary) — RETIRED FROM UI 2026-06-23 (→ docs/ROADMAP.md) ──
+   The „📋 რეპორტი მასწავლებელს" button was removed: at this pre-traction stage its preconditions
+   (a teacher using the app, a parent wanting to share, the report reading as credible) don't exist, and
+   it diluted the one parent action that matters now (feedback/contact). Functions kept dormant + callable
+   for the day there's institutional credibility; re-add a button then. ── */
 function buildReport(){
   const lines=['NIKO LEARN: პროგრესის რეპორტი',new Date().toLocaleString('ka-GE'),''];
   [...state.kids.map(k=>k.id),'guest'].forEach(p=>{

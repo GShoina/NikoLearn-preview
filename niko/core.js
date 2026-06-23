@@ -71,8 +71,15 @@ function isBig(p){const a=kidObj(p).age;return a>=7;} // 7+ : harder math (divis
 /* ── D2 (v2.05): free vs paid scaffold. Default = everything UNLOCKED (free launch); the boundary is a
    previewable demo, never a hard-hide — premium content stays visible, just badged + parent-gated. ── */
 function premiumOn(){return !state||state.premium!==false;}
-const PREMIUM_SUBJ=['kings-eng','kings-math']; // example paid tier: Cambridge YLE / olympiad exam prep
+const PREMIUM_SUBJ=['kings-eng','kings-math']; // example paid tier: Kings / Cambridge / olympiad exam prep
 function isPremiumSubj(subj){return PREMIUM_SUBJ.indexOf(subj)>=0;}
+// FREEMIUM PREVIEW (owner 2026-06-23): when premium is OFF, a premium subject is NOT hard-walled — its menu
+// opens so the parent SEES every topic (transparency), with a few "taster" modes playable free + the Kings
+// test as the hook; the rest are badged 🔒 and tap → upsell. The headline test (`kings`) is free everywhere.
+// NOTE: premium defaults ON, so by default EVERYTHING is open (free launch + the owner's universal test access);
+// this split only takes effect in the "preview the free version" demo. Free/paid split = [HYPOTHESIS], demo-only.
+const FREE_PREVIEW_MODES={'kings-eng':['kings','quiz','listen'],'kings-math':['kings','pattern','math-add','math-sub','math-mul']};
+function isFreeMode(subj,m){ return premiumOn() || m==='kings' || (FREE_PREVIEW_MODES[subj]||[]).indexOf(m)>=0; }
 // ── Kings = Cambridge YLE level ladder (1 Starters / 2 Movers / 3 Flyers), owner 2026-06-22.
 // Defaults to the child's age band; the parent/child can override in the Kings menu. Stored per profile.
 function kingsLevel(p){p=p||profile;const s=state&&state[p];if(s&&s.kingsLevel)return s.kingsLevel;const a=(kidObj(p).age)||7;return a>=9?3:a>=8?2:1;}
