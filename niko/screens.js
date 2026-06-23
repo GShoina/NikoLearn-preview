@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.216'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.217'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 function goHome(){
   // A4: if a round was in progress, count it as abandoned before we leave it
   if(typeof game!=='undefined'&&game&&game.roundActive){ try{ if(window.Analytics)Analytics.event('round_abandon',{mode:coarseMode(),q:(game.i>=8?'8+':String(game.i||0))}); }catch(e){} game.roundActive=false; }
@@ -393,6 +393,7 @@ function openMenu(subj){
   } else if(subj==='kings-math'){
     body=`<div class="mode-grid">
       <div class="mode feature play" onclick="startKings('math')">${PLAY_BADGE}<div class="m-ico">👑</div><div><div class="m-name">კინგსის ოლიმპიადა</div><div class="m-sub">ამოცანები + ლოგიკა</div></div></div>
+      ${mode('pattern','🧩','კანონზომიერება','იპოვე წესი')}
       ${mode('math-add','➕','შეკრება','1–100')}
       ${mode('math-sub','➖','გამოკლება','1–100')}
       ${mode('math-mul','✖️','გამრავლება','×2–×9')}

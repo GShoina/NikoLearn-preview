@@ -26,6 +26,7 @@ function startGame(m){
   if(m==='yesno')return yesNoRound();
   if(m==='story')return storyRound();
   if(m==='speak')return speakYleRound();
+  if(m==='pattern')return patternRound();
   game.mode=m;game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);
   if(m.startsWith('math-'))return mathRound(m);
   const pool=wordPool();
@@ -36,7 +37,7 @@ function startGame(m){
 // A4 telemetry: map the specific game.mode → the worker's coarse subject enum.
 function coarseMode(m){
   m=m||game.mode||'';
-  if(m==='listen-yle'||m==='yesno'||m==='story'||m==='speak')return 'kings'; // YLE exam-prep modes live under Kings
+  if(m==='listen-yle'||m==='yesno'||m==='story'||m==='speak'||m==='pattern')return 'kings'; // Kings strands
   if(m==='count'||m==='counting'||m==='digit')return 'counting';
   if(m==='kings-eng'||m==='kings-math')return 'kings';
   if(m==='ka-alpha'||m==='en-alpha')return 'alphabet';
@@ -49,7 +50,7 @@ function abandonRound(){
   if(game.roundActive){ try{ if(window.Analytics) Analytics.event('round_abandon',{mode:coarseMode(),q:(game.i>=8?'8+':String(game.i||0))}); }catch(e){} game.roundActive=false; }
   openMenu(game.subj||'math');
 }
-const SUBMODES=['quiz','reverse','listen','listen-yle','yesno','story','speak','match','spell','phrases','math-add','math-sub','math-mul','math-div','math-miss','math-pat','math-word','math-pic','compare','skip','shapes','money','clock','cal','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','rtext','digit'];
+const SUBMODES=['quiz','reverse','listen','listen-yle','yesno','story','speak','pattern','match','spell','phrases','math-add','math-sub','math-mul','math-div','math-miss','math-pat','math-word','math-pic','compare','skip','shapes','money','clock','cal','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','rtext','digit'];
 // First-round activation easing (2026-06-16). Telemetry showed ~60% of rounds abandoned, worst on a
 // brand-new child's first tries. A new child's first few rounds are SHORTER so they reach the "round
 // complete" reward fast (an early win is what hooks a young learner); re-queue growth is also capped
@@ -981,6 +982,67 @@ function nextSpeakYle(){
 function speakDone(){
   const s=state[profile];s.shields++;game.shields++;s.streak++;s.maxStreak=Math.max(s.maxStreak,s.streak);save();
   winStep(null,null,()=>{game.i++;nextSpeakYle();});
+}
+
+/* ── KINGS reasoning strand #1: PATTERN (კანონზომიერება) — owner 2026-06-23 (Kings v2, capability-based).
+   Capacity-TIERED (NOT grade): t1 arithmetic · t2 growing-difference/alternating · t3 interleaved/doubling
+   — mirrors the Kings difficulty ramp by the child's CAPACITY (s.patTier advances by mastery). 3 options
+   (Kings format). LEARN-mode: on the 2nd miss the RULE is revealed (teaching the reasoning move, not just
+   the answer) — the grill's "assessment != instruction" fix. Kings = guide for the pattern TYPES, not a copy. */
+function pat3opts(a){ const s=new Set([a]); let g=0;
+  while(s.size<3&&g++<80){ const d=ri(1,Math.max(2,Math.round(Math.abs(a)*0.25)+2)); const v=a+(Math.random()<.5?d:-d); if(v>=0&&v!==a) s.add(v); }
+  let f=0; while(s.size<3&&f++<40){ const v=ri(0,Math.abs(a)+6); if(v!==a) s.add(v); }
+  return shuffle([...s]); }
+function genPattern(tier){
+  tier=Math.max(1,Math.min(3,tier||1)); let full, blank, rule;
+  if(tier===1){ const step=ri(2,5), s=ri(1,9); full=[0,1,2,3,4].map(i=>s+step*i); blank=4; rule=`ყოველ ჯერზე +${step}`; }
+  else if(tier===2){
+    if(Math.random()<0.5){ const d=ri(2,4), s=ri(1,6); full=[s]; let c=s; for(let i=1;i<5;i++){c+=d+(i-1);full.push(c);} blank=4; rule=`სხვაობა იზრდება: +${d}, +${d+1}, +${d+2}…`; }
+    else{ const a=ri(1,3), b=a+ri(1,3), s=ri(2,6); full=[s]; let c=s; for(let i=1;i<6;i++){c+=(i%2?a:b);full.push(c);} blank=5; rule=`მონაცვლეობით +${a}, მერე +${b}`; }
+  } else {
+    if(Math.random()<0.5){ const sA=ri(9,12), sB=ri(1,3); const A=[0,1,2,3,4].map(i=>sA-2*i), B=[0,1,2,3].map(i=>sB+2*i);
+      full=[]; for(let i=0;i<4;i++){full.push(A[i]);full.push(B[i]);} full.push(A[4]); blank=full.length-1; rule='ორი მიმდევრობა ერთმანეთშია არეული (ცალკე დააკვირდი 1-ლს, 3-ეს, 5-ეს…)'; }
+    else{ const s=[1,2,3][ri(0,2)]; full=[0,1,2,3,4].map(i=>s*Math.pow(2,i)); blank=4; rule='ყოველი რიცხვი ორმაგდება (×2)'; }
+  }
+  const a=full[blank]; return {q:full.map((v,i)=>i===blank?'?':v).join(', '), a, opts:pat3opts(a), rule, tier};
+}
+function patternRound(){
+  game.mode='pattern';game.kind='pattern';game.shields=0;game.wrong=0;game.i=0;
+  game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);
+  game.subj=game.subj||'kings-math';
+  const s=state[profile]; game.patTier=(s&&s.patTier)||1; // capacity tier, advances by mastery (NOT grade)
+  game.qs=Array.from({length:6},()=>genPattern(game.patTier));
+  nextPattern();
+}
+function nextPattern(){
+  if(game.i>=game.qs.length)return results();
+  const q=game.qs[game.i];game.cur=q;
+  const tn=['','დამწყები','საშუალო','რთული'][q.tier]||'';
+  gameShell(`<div class="prompt"><div class="section-label">🧩 კანონზომიერება · ${tn}</div>
+      <div class="p-word num" style="font-size:1.9rem;letter-spacing:2px">${q.q}</div>
+      <div class="p-sub">იპოვე წესი — რა მოდის ?-ის ნაცვლად</div></div>
+    <div class="options">${q.opts.map(o=>`<button class="opt num" onclick="answerPattern(this,${o},${q.a})">${o}</button>`).join('')}</div>`);
+  $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
+}
+function answerPattern(btn,sel,cor){
+  const s=state[profile];
+  if(sel===cor){
+    document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));
+    btn.classList.remove('dim');btn.classList.add('correct');
+    s.shields++;game.shields++;s.streak++;s.maxStreak=Math.max(s.maxStreak,s.streak);
+    s.patStreak=(s.patStreak||0)+1; // capacity climb: a short mastery streak at this tier bumps patTier
+    if(s.patStreak>=4 && (s.patTier||1)<3 && (s.patTier||1)===game.patTier){ s.patTier=(s.patTier||1)+1; s.patStreak=0; }
+    save(); winStep(null,null,()=>{game.i++;nextPattern();}); return;
+  }
+  state[profile].streak=0;state[profile].patStreak=0;game.wrong++;save();
+  btn.classList.add('wrong','dim');btn.style.pointerEvents='none';
+  const q=game.qs[game.i];if(!game.missMap)game.missMap=new Map();
+  const n=(game.missMap.get(q)||0)+1;game.missMap.set(q,n);
+  if(n<2){ try{feedback(false);}catch(e){} setTimeout(()=>{try{closeFeedback();}catch(e){}},1100); return; }
+  // 2nd miss → LEARN: reveal the RULE (teach the move) + the answer, then advance
+  document.querySelectorAll('.opt').forEach(b=>{b.classList.add('dim');b.style.pointerEvents='none'; if(+b.textContent.trim()===cor){b.classList.remove('dim');b.classList.add('correct');}});
+  try{ const area=document.querySelector('#garea'); if(area){ const t=document.createElement('div'); t.className='pat-rule'; t.innerHTML=`🦉 წესი: <b>${q.rule}</b><br>ამიტომ პასუხია <b>${cor}</b>`; area.appendChild(t); } }catch(e){}
+  setTimeout(()=>{ game.i++; nextPattern(); }, 2800);
 }
 
 /* ── scoring ── */

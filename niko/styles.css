@@ -391,6 +391,9 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .guest-nudge{background:linear-gradient(150deg,color-mix(in oklch,var(--green) 12%,var(--card)),var(--card));
   border:1.5px solid color-mix(in oklch,var(--green) 40%,var(--line));border-radius:14px;padding:12px 16px;
   margin:6px 0 12px;font-size:.96rem;font-weight:600;color:var(--ink);text-align:center;line-height:1.45}
+/* Kings Pattern strand — learn-mode RULE reveal on a miss (teaching, not just testing) — owner 2026-06-23 */
+.pat-rule{margin-top:14px;background:#fff8ee;border:1.5px solid #ffe2bd;border-radius:14px;padding:11px 15px;
+  font-size:.96rem;line-height:1.5;color:#6b5640;animation:pop .34s}
 .opt:active{transform:scale(.96)}
 .opt.correct{border-color:var(--green);background:color-mix(in oklch,var(--green) 16%,var(--card));color:var(--green-d);animation:pop .34s}
 .opt.wrong{border-color:var(--red);background:color-mix(in oklch,var(--red) 12%,var(--card));animation:shake .34s}
