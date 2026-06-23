@@ -78,7 +78,7 @@ function isPremiumSubj(subj){return PREMIUM_SUBJ.indexOf(subj)>=0;}
 // test as the hook; the rest are badged 🔒 and tap → upsell. The headline test (`kings`) is free everywhere.
 // NOTE: premium defaults ON, so by default EVERYTHING is open (free launch + the owner's universal test access);
 // this split only takes effect in the "preview the free version" demo. Free/paid split = [HYPOTHESIS], demo-only.
-const FREE_PREVIEW_MODES={'kings-eng':['kings','quiz','listen'],'kings-math':['kings','pattern','math-add','math-sub','math-mul']};
+const FREE_PREVIEW_MODES={'kings-eng':['kings','quiz','listen'],'kings-math':['kings','pattern']};
 function isFreeMode(subj,m){ return premiumOn() || m==='kings' || (FREE_PREVIEW_MODES[subj]||[]).indexOf(m)>=0; }
 // ── Kings = Cambridge YLE level ladder (1 Starters / 2 Movers / 3 Flyers), owner 2026-06-22.
 // Defaults to the child's age band; the parent/child can override in the Kings menu. Stored per profile.

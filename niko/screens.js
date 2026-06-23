@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.224'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.225'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 function goHome(){
   // A4: if a round was in progress, count it as abandoned before we leave it
   if(typeof game!=='undefined'&&game&&game.roundActive){ try{ if(window.Analytics)Analytics.event('round_abandon',{mode:coarseMode(),q:(game.i>=8?'8+':String(game.i||0))}); }catch(e){} game.roundActive=false; }
@@ -142,6 +142,8 @@ function adminView(){
     </div>
     <button class="btn btn-ghost btn-block" style="max-width:360px" onclick="toggleOwnerDevice();adminView()">📱 ეს ჩემი მოწყობილობაა <b>${ownerDev?'✓':''}</b></button>
     <div class="pset-hint" style="max-width:360px;margin:-6px auto 0">ჩართულზე ამ მოწყობილობის გამოყენება ნამდვილ-მომხმარებლის სტატისტიკაში არ ითვლება (მხოლოდ შენთვის).</div>
+    <button class="btn btn-ghost btn-block" style="max-width:360px;margin-top:10px" onclick="togglePremium();adminView()">💎 Paywall preview: <b>${premiumOn()?'OFF (ყველაფერი ღია)':'ON (locks ჩანს)'}</b></button>
+    <div class="pset-hint" style="max-width:360px;margin:-6px auto 0">მხოლოდ შენთვის: ნახე როგორ გამოიყურება მომავალი ფასიანი გეგმა (Kings locks). MVP-ში მომხმარებელი ამას ვერ ხედავს — ყველაფერი უფასოა.</div>
     <button class="btn btn-ghost btn-block" style="max-width:360px;margin-top:10px" onclick="location.href='index.html?app=1'">← აპში დაბრუნება</button>
   </div>`,false);
 }
@@ -403,10 +405,8 @@ function openMenu(subj){
       ${(typeof isFreeMode==='function'&&!isFreeMode('kings-math','exam'))
         ?`<div class="mode play locked" onclick="upsellPremium('kings-math')"><span class="lock-badge">🔒</span><div class="m-ico">🏆</div><div class="m-name">სავარჯიშო გამოცდა</div><div class="m-sub">დროზე · ნამდვილივით</div></div>`
         :`<div class="mode play exam-tile" onclick="startGame('exam')">${PLAY_BADGE}<div class="m-ico">🏆</div><div class="m-name">სავარჯიშო გამოცდა</div><div class="m-sub">დროზე · ნამდვილივით</div></div>`}
-      ${mode('math-add','➕','შეკრება','1–100')}
-      ${mode('math-sub','➖','გამოკლება','1–100')}
-      ${mode('math-mul','✖️','გამრავლება','×2–×9')}
-    </div>`;
+    </div>
+    <div class="pset-hint" style="margin-top:10px">ჩვეულებრივი შეკრება/გამოკლება/გამრავლება „🧮 მათემატიკაშია". Kings = ოლიმპიადური აზროვნება: წესის პოვნა, რებუსი, მრავალბიჯიანი ამოცანა.</div>`;
   } else if(subj==='math'){
     const kid=isYoung(profile);
     const tiny=isTiny(profile);

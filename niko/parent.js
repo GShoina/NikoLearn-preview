@@ -62,7 +62,7 @@ function setParentPin(){
 }
 function clearParentPin(){if(confirm(tx('მოვხსნა PIN-კოდი? სივრცეს მაინც დაიცავს მაგალითი.'))){state.parentPin=null;save();parentDash();}}
 function setScreenLimit(m){state.screenLimitMin=m;save();try{if(window.Analytics)Analytics.event('screenlimit_set',{minutes:String(m)});}catch(e){}parentDash();}
-function togglePremium(){state.premium=(state.premium===false)?true:false;save();parentDash();}
+function togglePremium(){state.premium=(state.premium===false)?true:false;save();} // caller re-renders. Owner-only preview now (lives in adminView); MVP keeps everything free, no user-facing lock (owner 2026-06-23)
 // owner-device marker (honest LOCAL flag, not security): when on, analytics.js skips telemetry from this
 // device so real-user launch stats stay clean. Lives in the PIN-gated parent space. (closes audit B4)
 function toggleOwnerDevice(){try{if(localStorage.getItem('niko_owner')==='1')localStorage.removeItem('niko_owner');else localStorage.setItem('niko_owner','1');}catch(e){}} // caller re-renders (now lives in adminView, owner-only)
@@ -275,7 +275,7 @@ function parentDash(){
   // 1) Time & Safety (the control parents actually use) FIRST · 2) Feedback (teacher-report retired to roadmap,
   // its preconditions don't exist yet) · 3) Transfer (rare) collapsed · 4) Account (admin) collapsed.
   // Owner-device telemetry flag moved out of the parent UI into adminView (owner-only, confused/risked parents).
-  const lim=state.screenLimitMin||0;const hasPin=!!state.parentPin;const prem=premiumOn();
+  const lim=state.screenLimitMin||0;const hasPin=!!state.parentPin;
   // 1) TIME & SAFETY — first (highest-value parent control)
   html+=`<div class="pgroup"><div class="pgroup-h">⏱️ დრო და უსაფრთხოება</div>
     <div class="pset-lbl">ეკრანის დღიური ლიმიტი</div>
@@ -296,12 +296,11 @@ function parentDash(){
     `<div class="pset-hint" style="margin-bottom:8px">ახალ ტელეფონს იყენებ? გადაიტანე ბავშვის პროგრესი (დონეები და ვარსკვლავები) კოდით. ღრუბელი და ანგარიში არ სჭირდება.</div>
      <button class="btn btn-ghost btn-block" onclick="backupCode()">📦 სარეზერვო კოდის შექმნა</button>
      <button class="btn btn-ghost btn-block mt" onclick="restoreCode()">♻️ აღდგენა კოდით</button>`);
-  // 4) ACCOUNT — collapsible (admin): access demo + version/analytics + logout + clear
+  // 4) ACCOUNT — collapsible (admin): version/analytics + logout + clear. Paywall preview lives in adminView
+  // (owner-only); MVP keeps every topic FREE + open so nothing breaks the „free" landing promise (owner 2026-06-23).
   html+=collapsibleGroup('⚙️ ანგარიში',
-    `<div class="pset-lbl">💎 წვდომა (სატესტო)</div>
-     <div class="pset-hint">ახლა <b>ყველაფერი ღიაა</b> (უფასო გაშვება + შენი სატესტო წვდომა). ღილაკით ნახავ, როგორ გამოიყურება უფასო ვერსია: Kings-ის თემები ჩანს, ტესტი და 1-2 მარტივი თემა უფასოა, დანარჩენი 🔒. გადახდა ჯერ არ არის — გადამრთველი მხოლოდ საჩვენებელია.</div>
-     <button class="btn btn-ghost btn-block" onclick="togglePremium()">${prem?'👁️ ნახე უფასო ვერსია (Premium OFF)':'👑 ყველაფრის გახსნა (Premium ON)'}</button>
-     <button class="btn btn-ghost btn-block mt" onclick="adminView()">ℹ️ ვერსია და ანალიტიკა</button>
+    `<div class="pset-hint" style="margin:0 2px 4px">ყველა თემა ახლა <b>უფასო და ღიაა</b>.</div>
+     <button class="btn btn-ghost btn-block" onclick="adminView()">ℹ️ ვერსია და ანალიტიკა</button>
      <button class="btn btn-ghost btn-block mt" onclick="logout()">🔒 გასვლა (ჩაკეტვა)</button>
      <button class="btn btn-ghost btn-block mt" onclick="if(confirm(tx('წავშალო პროგრესი?'))){localStorage.removeItem('${SK}');state=load();goHome();}">🗑️ პროგრესის გასუფთავება</button>`);
   html+=`</div>`;

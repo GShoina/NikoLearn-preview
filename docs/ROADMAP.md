@@ -20,9 +20,16 @@ memory, so parked ideas live here instead of dying in chat.
   real „verification" without cloud STT). Currently shipped: model-reveal self-check + optional record→playback.
 - **RE-SURFACE TRIGGER:** if usage shows parents sit with the child during Speaking and want a way to mark it.
 
-## Kings free/paid split — [HYPOTHESIS], demo-only (2026-06-23)
-- Current split (when premium is OFF, demo only): FREE = the Kings test + 1-2 simple modes
-  (eng: ლექსიკა, მოსმენა · math: კანონზომიერება + basic add/sub/mul); PREMIUM 🔒 = the deeper modes +
-  Test Room. Premium defaults ON, so today everything is open (free launch + owner test access).
-- **VALIDATE BEFORE charging:** the split is a guess. Confirm with real conversion/willingness-to-pay data
-  before wiring payment. Adjust which modes are free based on what drives the upgrade.
+## Kings free/paid split — PAYWALL OFF in MVP (owner red-team 2026-06-23)
+- **DECISION (penetration > restriction for MVP):** the kids app ships with NO user-facing lock — every
+  topic is free + open. Reasons: (1) there is no payment path, so a 🔒 the parent can't unlock is a pure
+  dead-end; (2) the landing promises „free", so an in-app paywall breaks that promise + looks broken;
+  (3) a fake lock measures nothing (a tap ≠ willingness-to-pay) and (4) gating creates tension in kids +
+  parents (owner's own prior insight). The bottleneck now is activation + demand, not monetization.
+- **Scaffolding kept + parked:** `kmode` / `isFreeMode` / `FREE_PREVIEW_MODES` (core.js) + `upsellPremium`
+  stay in the code. The premium-OFF "preview the paywall" toggle was moved OUT of the parent UI INTO
+  adminView (owner-only) — so the owner can still preview the future paid layout, but no real user hits a lock.
+- **Current preview split (owner-only, when toggled in adminView):** FREE = Kings test + eng:ლექსიკა,მოსმენა /
+  math:კანონზომიერება; the deeper modes + Test Room show 🔒. This split is a [HYPOTHESIS].
+- **RE-SURFACE TRIGGER:** production launch WITH a real payment path + a retention/demand signal. THEN decide
+  the real free/paid boundary from conversion data, and expose it to users. Until then: everything free.
