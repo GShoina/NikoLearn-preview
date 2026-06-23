@@ -371,6 +371,17 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .speak-model .sm-label{font-size:.86rem;color:var(--muted);font-weight:700;margin-bottom:5px}
 .speak-model .sm-en{font-size:1.12rem;font-weight:700;color:var(--ink);line-height:1.3}
 .speak-model .speakbtn{margin-top:11px;min-height:46px;padding:10px 20px;font-size:.98rem}
+/* optional record→playback (hear your own voice). Privacy note always visible in idle state (2026-06-23) */
+.srbox{display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap;margin:12px auto 0;max-width:340px}
+.srbtn{display:inline-flex;align-items:center;gap:7px;min-height:46px;padding:10px 18px;border:none;border-radius:999px;
+  background:color-mix(in oklch,var(--sky) 14%,var(--card));color:var(--sky-d);font-weight:700;font-size:.98rem;cursor:pointer;font-family:inherit}
+.srbtn:active{transform:scale(.95)}
+.srbtn.ghost{background:transparent;border:1.5px solid color-mix(in oklch,var(--sky) 35%,transparent)}
+.srbtn.rec{background:color-mix(in oklch,#ef4444 16%,var(--card));color:#b91c1c}
+.srdot{width:10px;height:10px;border-radius:50%;background:#ef4444;display:inline-block;animation:srpulse 1s infinite}
+@keyframes srpulse{0%,100%{opacity:1}50%{opacity:.25}}
+@media(prefers-reduced-motion:reduce){.srdot{animation:none}}
+.sr-priv{flex-basis:100%;text-align:center;font-size:.8rem;color:var(--muted);line-height:1.35;margin-top:2px}
 
 .options{display:grid;grid-template-columns:1fr 1fr;gap:11px}
 .opt{background:var(--card);border:1.5px solid var(--line);border-radius:var(--radius-sm);

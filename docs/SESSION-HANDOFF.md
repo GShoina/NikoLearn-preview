@@ -4,7 +4,20 @@
 > binding policy+code FIRST, never present a 2-option binary without a third-path line, no unverified
 > "best practice" claims). Added 2026-06-23 after the telemetry-retention miss.
 
-> ## ▶ RESUME NOW (2026-06-23) — **v1.222 LIVE: 2 owner-reported bugs fixed (Speaking self-check + app language toggle removed)**. Clean tree.
+> ## ▶ RESUME NOW (2026-06-23) — **v1.223 LIVE: Speaking record→playback (hear your own voice, ephemeral)**. Clean tree.
+> **★ v1.223 — Speaking now has OPTIONAL record→playback (owner-decided "B").** On the speak card the child can
+>   `🎙️ ჩაიწერე შენი ხმა` → record → `▶️ მოისმინე შენი ხმა` (hear their OWN pronunciation, real speaking value the
+>   model-reveal alone can't give). **Privacy-strict + owner's hard constraint "delete on moving to next":** audio is an
+>   IN-MEMORY Blob only (never disk/localStorage/IndexedDB, never sent), mic track released on stop, and `speakRecCleanup()`
+>   (revokeObjectURL + null) runs at the TOP of every `nextSpeakYle` → a recording never outlives its card. The recording
+>   stays playable on the model card (same item) for side-by-side compare, deleted on advance. NO speech-recognition/grading
+>   (decided: a real STT = cloud = privacy/COPPA break; the only "judge" is the human ear — there is no free+private auto-grader).
+>   **NOTE (honest):** this is the app's FIRST REAL mic use — the old owl.js "voice mode" (`voiceListen`) is a SIMULATION
+>   (2.6s fake "listening" then repeats the word, never touches the mic). Consent = browser's native mic prompt + a visible
+>   on-card privacy line. Verified muted w/ mocked getUserMedia+MediaRecorder: full state machine (idle→rec→done), model-card
+>   keeps recording, advance deletes it (revoke +1, url null, mic stopped), 0 console errors. **Real-device mic = owner to try.**
+> **── earlier 2026-06-23 (v1.222) ──**
+> ## ▶ (2026-06-23) — **v1.222 LIVE: 2 owner-reported bugs fixed (Speaking self-check + app language toggle removed)**. Clean tree.
 > **★ v1.222 — fixed both bugs the owner flagged.** (1) **Speaking (ლაპარაკი)**: the "უპასუხე ხმამაღლა" step was dead (child spoke
 >   to the air, nothing happened). Now after `✓ ვთქვი` the app REVEALS + SPEAKS a **model answer** (`SPEAK_YLE[].m`) so the child
 >   self-checks (`.speak-model` card; `s:1` items label it "ერთ-ერთი კარგი პასუხი"). **Deliberately NO mic/recording/recognition**:

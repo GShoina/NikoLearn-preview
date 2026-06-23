@@ -955,14 +955,18 @@ function answerStory(btn,sel,cor){
   setTimeout(()=>{try{closeFeedback();}catch(e){} game.i++; nextStory();},1800);
 }
 
-/* ── YLE SPEAKING practice (offline say-aloud + MODEL self-check, no mic, no grading) — owner 2026-06-23 ──
-   THE LOOP, made honest: owl asks → child answers OUT LOUD → taps „✓ ვთქვი" → the app now REVEALS and
-   SPEAKS a model answer so the child can compare their own try to a good one. There is NO microphone,
-   recording, or speech-recognition BY DESIGN: a real recogniser would have to stream a child's voice to a
-   cloud STT service = breaks the on-device/COPPA privacy promise + ongoing cost + poor accuracy on kids'
-   accents. The cost-reasonable, privacy-safe capability is rehearse-then-self-check against a model.
+/* ── YLE SPEAKING practice (say-aloud + MODEL self-check + optional record→playback) — owner 2026-06-23 ──
+   THE LOOP, made honest: owl asks → child answers OUT LOUD → (optional) records & plays back their OWN
+   voice to hear their pronunciation → taps „✓ ვთქვი" → the app REVEALS + SPEAKS a model answer to compare
+   against. There is NO speech-recognition / auto-grading BY DESIGN: a real recogniser would stream a child's
+   voice to a cloud STT = breaks the on-device/COPPA privacy promise + ongoing cost + poor kids-accent accuracy.
+   The optional recorder (owner 2026-06-23) is the FIRST real mic use; its audio is captured to an in-memory
+   Blob ONLY — never written to disk/localStorage/IndexedDB, never sent, and DELETED the instant the child
+   moves to the next card (speakRecCleanup at the top of nextSpeakYle). Mic track is released immediately on
+   stop. Fully optional: the listen→say→model loop works untouched without ever granting the mic.
    Every card earns a coin so the loop stays warm. Not graded by design (`s:1` items = the model is a sample). */
 function speakYleRound(){
+  speakRecCleanup();
   game.mode='speak';game.kind='speak';game.shields=0;game.wrong=0;game.i=0;
   game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);
   game.subj=game.subj||'kings-eng';
@@ -970,6 +974,7 @@ function speakYleRound(){
   nextSpeakYle();
 }
 function nextSpeakYle(){
+  speakRecCleanup();                       // delete the previous card's recording before moving on (ephemeral)
   if(game.i>=game.qs.length)return results();
   const q=game.qs[game.i];const pr=q.q.replace(/'/g,"\\'");
   const area=`<div class="prompt speak-prompt" onclick="speak('${pr}')">
@@ -978,11 +983,13 @@ function nextSpeakYle(){
       <div class="p-word en" style="font-size:1.16rem">${q.q}</div>
       <button class="speakbtn pulse-hint" onclick="event.stopPropagation();speak('${pr}')">${I.speaker} მოისმინე</button>
       <div class="p-sub">ხმამაღლა უპასუხე, მერე ნახე ნიმუში 🗣️</div></div>
+    <div id="srbox" class="srbox"></div>
     <div class="actions" style="margin-top:10px">
       <button class="btn btn-primary btn-block" onclick="speakDone()">✓ ვთქვი</button>
     </div>`;
   gameShell(area);
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
+  srRender();
   setTimeout(()=>{try{speak(q.q);}catch(e){}},400);
 }
 function speakDone(){
@@ -1004,13 +1011,56 @@ function showSpeakModel(){
         <button class="speakbtn" onclick="speak('${mdl}')">${I.speaker} მოუსმინე ნიმუშს</button>
       </div>
       <div class="p-sub">შენი პასუხი მსგავსი იყო? 🙂</div></div>
+    <div id="srbox" class="srbox"></div>
     <div class="actions" style="margin-top:10px">
       <button class="btn btn-primary btn-block" onclick="game.i++;nextSpeakYle()">${last?'✓ დასრულება':'შემდეგი →'}</button>
     </div>`;
   gameShell(area);
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
+  srRender();                              // keep the child's recording playable next to the model (same card)
   setTimeout(()=>{try{speak(q.m||'');}catch(e){}},400);
 }
+/* ── optional RECORD → PLAYBACK helper (hear your own voice), privacy-strict — owner 2026-06-23 ──
+   In-memory only. Never persisted, never sent. Mic released on stop. speakRecCleanup() deletes everything
+   and is called on every card advance, so a recording never outlives the card the child made it on. */
+let _srRec=null,_srChunks=[],_srUrl=null,_srStream=null,_srState='idle';
+function speakRecSupported(){ return !!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia&&window.MediaRecorder); }
+function speakRecCleanup(){
+  try{ if(_srRec&&_srRec.state&&_srRec.state!=='inactive')_srRec.stop(); }catch(e){}
+  try{ if(_srStream)_srStream.getTracks().forEach(t=>t.stop()); }catch(e){}   // release the mic (OS indicator off)
+  try{ if(_srUrl)URL.revokeObjectURL(_srUrl); }catch(e){}                      // free the in-memory audio
+  _srRec=null;_srChunks=[];_srUrl=null;_srStream=null;_srState='idle';
+}
+function srBox(){ return document.getElementById('srbox'); }
+function srRender(){
+  const b=srBox(); if(!b)return;
+  if(!speakRecSupported()){ b.innerHTML=''; return; }                          // unsupported browser → no broken button
+  if(_srState==='rec'){
+    b.innerHTML=`<button class="srbtn rec" onclick="speakRecStop()"><span class="srdot"></span>⏹️ გააჩერე</button>`;
+  }else if(_srState==='done'){
+    b.innerHTML=`<button class="srbtn" onclick="speakRecPlay()">▶️ მოისმინე შენი ხმა</button>`+
+                `<button class="srbtn ghost" onclick="speakRecStart()">🎙️ თავიდან</button>`;
+  }else{
+    b.innerHTML=`<button class="srbtn" onclick="speakRecStart()">🎙️ ჩაიწერე შენი ხმა</button>`+
+                `<div class="sr-priv">🔒 ხმა შენს მოწყობილობაზე რჩება, არსად იგზავნება და შემდეგზე გადასვლისას იშლება</div>`;
+  }
+}
+async function speakRecStart(){
+  speakRecCleanup();
+  try{ _srStream=await navigator.mediaDevices.getUserMedia({audio:true}); }
+  catch(e){ const b=srBox(); if(b)b.innerHTML=`<div class="sr-priv">მიკროფონი არ ჩაირთო. ეს არ უშლის ხელს — უბრალოდ ხმამაღლა თქვი 🙂</div>`; return; }
+  _srChunks=[];
+  try{ _srRec=new MediaRecorder(_srStream); }catch(e){ speakRecCleanup(); return; }
+  _srRec.ondataavailable=ev=>{ if(ev.data&&ev.data.size)_srChunks.push(ev.data); };
+  _srRec.onstop=()=>{
+    try{ const blob=new Blob(_srChunks,{type:(_srRec&&_srRec.mimeType)||'audio/webm'}); _srUrl=URL.createObjectURL(blob); }catch(e){}
+    try{ if(_srStream)_srStream.getTracks().forEach(t=>t.stop()); }catch(e){}  // release mic the moment recording ends
+    _srStream=null;_srState='done';srRender();
+  };
+  try{ _srRec.start(); _srState='rec'; srRender(); }catch(e){ speakRecCleanup(); srRender(); }
+}
+function speakRecStop(){ try{ if(_srRec&&_srRec.state!=='inactive')_srRec.stop(); }catch(e){} }
+function speakRecPlay(){ if(!_srUrl)return; try{ const a=new Audio(_srUrl); a.play(); }catch(e){} }
 
 /* ── KINGS reasoning strand #1: PATTERN (კანონზომიერება) — owner 2026-06-23 (Kings v2, capability-based).
    Capacity-TIERED (NOT grade): t1 arithmetic · t2 growing-difference/alternating · t3 interleaved/doubling

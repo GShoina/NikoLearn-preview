@@ -389,11 +389,12 @@ const LISTEN_YLE = [
   {lv:2,en:'two cakes and a candle',   a:'🍰🍰🕯️',     opts:['🍰🍰🕯️','🍰🕯️🕯️','🍪🍪🕯️']}
 ];
 
-/* ── YLE SPEAKING practice (offline, no microphone, no grading) — owner 2026-06-22 ──
-   Mirrors the real YLE Speaking format: the examiner shows a picture and asks. Here the owl reads the
-   English prompt aloud, the child answers OUT LOUD (offline — privacy promise intact, nothing recorded
-   or sent), then taps „✓ ვთქვი" to continue. Self-paced rehearsal; every card spoken earns a coin so
-   the loop stays warm. `lv` = YLE band. */
+/* ── YLE SPEAKING practice (say-aloud + model self-check + OPTIONAL record→playback) — owner 2026-06-23 ──
+   Mirrors the real YLE Speaking format: the examiner shows a picture and asks. The owl reads the English
+   prompt aloud, the child answers OUT LOUD, optionally RECORDS & plays back their own voice (in-memory only,
+   never saved/sent, deleted on advancing — see games.js speakRec*), then taps „✓ ვთქვი" to see a spoken
+   model answer to compare against. NO speech-recognition/grading by design (privacy + accuracy). Self-paced;
+   every card spoken earns a coin so the loop stays warm. `lv` = YLE band. `m` = model answer, `s:1` = sample. */
 const SPEAK_YLE = [
   // lv1 Starters — name it / colour / count. `m` = spoken MODEL answer revealed AFTER the child speaks
   // (offline self-check, nothing recorded/recognised). `s:1` = open-ended → model is ONE sample, not "the" answer.
