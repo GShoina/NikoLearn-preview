@@ -4,7 +4,20 @@
 > binding policy+code FIRST, never present a 2-option binary without a third-path line, no unverified
 > "best practice" claims). Added 2026-06-23 after the telemetry-retention miss.
 
-> ## ▶ RESUME NOW (2026-06-23) — **v1.218 LIVE: Kings math reasoning strands Pattern + Rebus (capability-based)**. Clean tree.
+> ## ▶ RESUME NOW (2026-06-23) — **v1.219 LIVE: Kings Test Room (timed exam-rehearsal); 3 strands + mock**. Clean tree.
+> **★ v1.219 — Kings TEST ROOM (🏆 სავარჯიშო გამოცდა, timed exam-rehearsal).** First-principles + red-team + TRUE cross-model (Gemini
+>   now fixed) decided: **TIME = a SEPARATE optional section, NOT a tier-advancement gate** (speed-gating contradicts the capacity
+>   philosophy + trains racing; fluency is an OUTPUT of mastery, not a drill input). Timed mixed mock from EXISTING strands
+>   (pattern+rebus at the child's tiers), **LOCKED until mastery** (patTier|rbTier≥2 → a confident child meets the clock = neutralizes
+>   anxiety), 8-min calm countdown, results do NOT feed advancement, NO learn-reveal (it's a test). Tile in kings-math. Verified muted
+>   (lock/unlock, timer, no-tier-climb, no mid-Q reveal, finish+banner, 0 err). Security-checked: ZERO new attack surface.
+> **★ SKILLS marked + trigger-mapped → `docs/SKILLS-TO-USE.md`** (owner ask). NOW: gemini (KA-QA every Georgian item), code/security-
+>   review (run before "done"), agent-teams+gemini (refute-panel). NEXT (activation #1): cro/onboarding/ab-testing/customer-research.
+>   Immediate: landing.html "Cambridge YLE"→kings.ge fix (owner-gate, customer-facing).
+> **▶ Kings reasoning strands now LIVE: 🧩 Pattern (v1.217) · 🔢 Rebus (v1.218) · 🏆 Test Room (v1.219).** Generic REASON_STRANDS engine
+>   → next strands cheap. Gemini KA-QA UNBLOCKED → can now author logic/model/English strands WITH QA. Minor UX: exam-lock uses alert() (polish later).
+> **── earlier 2026-06-23 (v1.218 Pattern+Rebus) ──**
+> ## ▶ (2026-06-23) — **v1.218 LIVE: Kings Pattern + Rebus strands**. Clean tree.
 > **★ v1.218 — Kings strand #2: REBUSI (🔢 symbol→number/pre-algebra)** + a generic REASON_STRANDS engine (reasonRound/nextReason/
 >   answerReason) so future strands = one entry. capacity-tiered (t1 symbols=values · t2 solve-unknown · t3 two-step), 3-opt,
 >   learn-mode reveals worked solution on 2nd miss. Tile in kings-math. Verified muted (900-gen 0 issues, climb 1→2, 0 err).
