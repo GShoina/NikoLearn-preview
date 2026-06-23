@@ -955,9 +955,13 @@ function answerStory(btn,sel,cor){
   setTimeout(()=>{try{closeFeedback();}catch(e){} game.i++; nextStory();},1800);
 }
 
-/* ── YLE SPEAKING practice (offline describe-aloud, no mic, no grading) — owner 2026-06-22 ──
-   Owl reads the prompt, child answers OUT LOUD, taps „✓ ვთქვი" to continue. Nothing recorded or sent
-   (privacy intact). Every card spoken earns a coin so the loop stays warm. Not graded by design. */
+/* ── YLE SPEAKING practice (offline say-aloud + MODEL self-check, no mic, no grading) — owner 2026-06-23 ──
+   THE LOOP, made honest: owl asks → child answers OUT LOUD → taps „✓ ვთქვი" → the app now REVEALS and
+   SPEAKS a model answer so the child can compare their own try to a good one. There is NO microphone,
+   recording, or speech-recognition BY DESIGN: a real recogniser would have to stream a child's voice to a
+   cloud STT service = breaks the on-device/COPPA privacy promise + ongoing cost + poor accuracy on kids'
+   accents. The cost-reasonable, privacy-safe capability is rehearse-then-self-check against a model.
+   Every card earns a coin so the loop stays warm. Not graded by design (`s:1` items = the model is a sample). */
 function speakYleRound(){
   game.mode='speak';game.kind='speak';game.shields=0;game.wrong=0;game.i=0;
   game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);
@@ -973,7 +977,7 @@ function nextSpeakYle(){
       <div class="p-emoji" style="font-size:3.4rem">${q.e}</div>
       <div class="p-word en" style="font-size:1.16rem">${q.q}</div>
       <button class="speakbtn pulse-hint" onclick="event.stopPropagation();speak('${pr}')">${I.speaker} მოისმინე</button>
-      <div class="p-sub">უპასუხე ხმამაღლა 🗣️</div></div>
+      <div class="p-sub">ხმამაღლა უპასუხე, მერე ნახე ნიმუში 🗣️</div></div>
     <div class="actions" style="margin-top:10px">
       <button class="btn btn-primary btn-block" onclick="speakDone()">✓ ვთქვი</button>
     </div>`;
@@ -983,7 +987,29 @@ function nextSpeakYle(){
 }
 function speakDone(){
   const s=state[profile];s.shields++;game.shields++;s.streak++;s.maxStreak=Math.max(s.maxStreak,s.streak);save();
-  winStep(null,null,()=>{game.i++;nextSpeakYle();});
+  winStep(null,null,showSpeakModel);
+}
+/* reveal + speak the model answer so the child compares their own try to a good one (offline self-check). */
+function showSpeakModel(){
+  const q=game.qs[game.i];const last=(game.i+1>=game.qs.length);
+  const mdl=(q.m||'').replace(/'/g,"\\'");
+  const lbl=q.s?'ნიმუში (ერთ-ერთი კარგი პასუხი) 👂':'ნიმუში-პასუხი 👂';
+  const area=`<div class="prompt speak-prompt">
+      <div class="section-label">🗣️ Speaking</div>
+      <div class="p-emoji" style="font-size:2.5rem">${q.e}</div>
+      <div class="p-word en" style="font-size:1rem;opacity:.65">${q.q}</div>
+      <div class="speak-model">
+        <div class="sm-label">${lbl}</div>
+        <div class="sm-en en">${q.m||''}</div>
+        <button class="speakbtn" onclick="speak('${mdl}')">${I.speaker} მოუსმინე ნიმუშს</button>
+      </div>
+      <div class="p-sub">შენი პასუხი მსგავსი იყო? 🙂</div></div>
+    <div class="actions" style="margin-top:10px">
+      <button class="btn btn-primary btn-block" onclick="game.i++;nextSpeakYle()">${last?'✓ დასრულება':'შემდეგი →'}</button>
+    </div>`;
+  gameShell(area);
+  $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
+  setTimeout(()=>{try{speak(q.m||'');}catch(e){}},400);
 }
 
 /* ── KINGS reasoning strand #1: PATTERN (კანონზომიერება) — owner 2026-06-23 (Kings v2, capability-based).

@@ -395,26 +395,27 @@ const LISTEN_YLE = [
    or sent), then taps „✓ ვთქვი" to continue. Self-paced rehearsal; every card spoken earns a coin so
    the loop stays warm. `lv` = YLE band. */
 const SPEAK_YLE = [
-  // lv1 Starters — name it / colour / count
-  {lv:1,e:'🐶', q:'What is this animal?'},
-  {lv:1,e:'🍎', q:'What colour is it?'},
-  {lv:1,e:'🐱🐱🐱', q:'How many cats can you see?'},
-  {lv:1,e:'⭐', q:'What is this? Say it in English.'},
-  {lv:1,e:'🚗', q:'What is this? What colour can a car be?'},
-  {lv:1,e:'🏠', q:'What is this? Who lives in a house?'},
-  {lv:1,e:'🐦', q:'What is this? What can a bird do?'},
-  {lv:1,e:'🌳', q:'What is this? What colour is a tree?'},
+  // lv1 Starters — name it / colour / count. `m` = spoken MODEL answer revealed AFTER the child speaks
+  // (offline self-check, nothing recorded/recognised). `s:1` = open-ended → model is ONE sample, not "the" answer.
+  {lv:1,e:'🐶', q:'What is this animal?', m:'It is a dog.'},
+  {lv:1,e:'🍎', q:'What colour is it?', m:'It is red.'},
+  {lv:1,e:'🐱🐱🐱', q:'How many cats can you see?', m:'I can see three cats.'},
+  {lv:1,e:'⭐', q:'What is this? Say it in English.', m:'It is a star.'},
+  {lv:1,e:'🚗', q:'What is this? What colour can a car be?', m:'It is a car. A car can be red or blue.'},
+  {lv:1,e:'🏠', q:'What is this? Who lives in a house?', m:'It is a house. A family lives in a house.'},
+  {lv:1,e:'🐦', q:'What is this? What can a bird do?', m:'It is a bird. A bird can fly.'},
+  {lv:1,e:'🌳', q:'What is this? What colour is a tree?', m:'It is a tree. A tree is green.'},
   // lv2 Movers — describe / action / place
-  {lv:2,e:'🐘', q:'Tell me about this animal. Is it big or small?'},
-  {lv:2,e:'🏃', q:'What is the boy doing?'},
-  {lv:2,e:'🌳🐦', q:'Where is the bird?'},
-  {lv:2,e:'🍽️', q:'What food do you like to eat?'},
-  {lv:2,e:'🎒', q:'What do you take to school in your bag?'},
+  {lv:2,e:'🐘', q:'Tell me about this animal. Is it big or small?', m:'It is an elephant. It is very big.'},
+  {lv:2,e:'🏃', q:'What is the boy doing?', m:'The boy is running.'},
+  {lv:2,e:'🌳🐦', q:'Where is the bird?', m:'The bird is in the tree.'},
+  {lv:2,e:'🍽️', q:'What food do you like to eat?', m:'I like to eat pizza and apples.', s:1},
+  {lv:2,e:'🎒', q:'What do you take to school in your bag?', m:'I take my books and a pencil.', s:1},
   // lv3 Flyers — open-ended, past/opinion
-  {lv:3,e:'🏖️', q:'Tell me about a fun day. What did you do?'},
-  {lv:3,e:'🍕', q:'What is your favourite food, and why do you like it?'},
-  {lv:3,e:'🐾', q:'Do you have a pet, or which pet would you like? Why?'},
-  {lv:3,e:'🌧️', q:'What do you like to do when it rains?'}
+  {lv:3,e:'🏖️', q:'Tell me about a fun day. What did you do?', m:'Last weekend I went to the beach. I played in the sea and ate ice cream. It was great.', s:1},
+  {lv:3,e:'🍕', q:'What is your favourite food, and why do you like it?', m:'My favourite food is pizza because it is warm and tasty.', s:1},
+  {lv:3,e:'🐾', q:'Do you have a pet, or which pet would you like? Why?', m:'I would like a dog because dogs are friendly and like to play.', s:1},
+  {lv:3,e:'🌧️', q:'What do you like to do when it rains?', m:'When it rains, I like to read books and watch films at home.', s:1}
 ];
 
 /* ── YLE Reading & Writing: TICK yes/no (Starters R&W Part 1 format) — owner 2026-06-22 ──

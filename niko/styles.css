@@ -365,6 +365,12 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .pulse-hint{animation:listenpulse 1.1s ease-in-out 3}
 @media(prefers-reduced-motion:reduce){.pulse-hint{animation:none}}
 .speakbtn:active{transform:scale(.95)}
+/* speaking self-check: the model answer card revealed after the child says their own answer (2026-06-23) */
+.speak-model{margin:14px auto 2px;max-width:340px;padding:14px 16px;border-radius:16px;
+  background:color-mix(in oklch,var(--mint,#34d399) 13%,var(--card));border:1.5px dashed color-mix(in oklch,var(--mint,#34d399) 40%,transparent)}
+.speak-model .sm-label{font-size:.86rem;color:var(--muted);font-weight:700;margin-bottom:5px}
+.speak-model .sm-en{font-size:1.12rem;font-weight:700;color:var(--ink);line-height:1.3}
+.speak-model .speakbtn{margin-top:11px;min-height:46px;padding:10px 20px;font-size:.98rem}
 
 .options{display:grid;grid-template-columns:1fr 1fr;gap:11px}
 .opt{background:var(--card);border:1.5px solid var(--line);border-radius:var(--radius-sm);

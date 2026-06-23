@@ -93,30 +93,29 @@
     b.setAttribute('aria-pressed',isEn?'true':'false');
     b.setAttribute('aria-label',isEn?'English is active — switch to Georgian':'Georgian is active — switch to English');
   }
-  // Home of the language toggle (owner 2026-06-19): the floating top-right button used to sit ON TOP of the
-  // topbar chips (🔊 voice / 🪙 / 🔥) because it was position:absolute. It now lives inside the bottom-nav
-  // FOOTER — a global setting in the global-nav zone, easiest thumb-reach, and it never overlaps content.
-  // Priority: landing nav (.nav .wrap, marketing page) → app footer (#bottomnav) → absolute fallback.
+  // Language toggle scope (owner 2026-06-23): the EN/ქარ toggle now lives ONLY on the marketing LANDING
+  // page (.nav .wrap host), where an English-speaking / diaspora visitor benefits from an English read of
+  // the offer — and that page's strings have full en coverage, so it never half-translates. It is
+  // intentionally NOT mounted inside the kids APP: the app teaches English through CONTENT, the chrome
+  // stays Georgian for the Georgian child/parent, and the app's growing content lacked en mappings so the
+  // toggle produced a confusing half-Georgian/half-English UI. Removing it there kills that bug + confusion.
   function mountToggle(){
     if(document.getElementById('langtgl'))return;
     var navWrap=document.querySelector('.nav .wrap');
-    var footer=document.getElementById('bottomnav');
-    var host=navWrap||footer||document.querySelector('.device')||document.body;
+    if(!navWrap)return;                  // app (no landing nav) → no toggle, UI stays Georgian
     var b=document.createElement('button');
     b.id='langtgl'; b.type='button';
     b.onclick=function(){ switchLang(window.UILANG==='en'?'ka':'en'); };
-    if(navWrap){
-      b.style.cssText='margin-left:10px;border:1.5px solid currentColor;background:transparent;color:inherit;border-radius:999px;padding:6px 12px;font:600 .82rem/1 inherit;cursor:pointer;opacity:.85';
-    } else if(footer){
-      b.className='langtgl-foot';        // styled in styles.css to sit ergonomically among the nav buttons
-    } else {
-      b.style.cssText='position:absolute;top:8px;right:8px;z-index:60;border:none;background:rgba(0,0,0,.16);color:#fff;border-radius:999px;padding:5px 11px;font:700 .76rem/1 system-ui,sans-serif;cursor:pointer;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)';
-    }
-    host.appendChild(b);
+    b.style.cssText='margin-left:10px;border:1.5px solid currentColor;background:transparent;color:inherit;border-radius:999px;padding:6px 12px;font:600 .82rem/1 inherit;cursor:pointer;opacity:.85';
+    navWrap.appendChild(b);
     updateToggle();
   }
 
   function boot(){
+    var onLanding=!!document.querySelector('.nav .wrap');
+    // App has no toggle now: never strand a user in English (e.g. a stale 'en' in localStorage from the old
+    // app toggle, or set earlier on the landing page). Force Georgian in the app so the chrome is consistent.
+    if(!onLanding && window.UILANG==='en'){ window.UILANG='ka'; persist(); try{document.documentElement.lang='ka';}catch(e){} }
     mountToggle();
     if(window.UILANG==='en')applyLang(document.body);
   }
