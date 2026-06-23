@@ -88,6 +88,7 @@ function togglePGroup(id,btn){
    parent's own mail app sends it, so the only data shared is what the parent chooses to send. ── */
 function feedbackForm(){
   try{if(window.Analytics)Analytics.event('feedback_open');}catch(e){}
+  try{ flushFeedbackQueue(); }catch(e){}   // good moment to retry anything queued (network likely up)
   const el=document.createElement('div');el.className='gate';el.id='fbform';
   el.innerHTML=`<div class="gate-card" style="max-width:360px">
     <h3>💬 დაგვიკავშირდი</h3>
@@ -110,21 +111,39 @@ function feedbackForm(){
 // confirmation and the owner can actually read it (was mailto-only: no confirmation, never visible).
 // Child learning data is NOT sent; only the parent's own voluntary message + optional contact.
 const NIKO_FB_ENDPOINT='https://nikolearn-t.bivision.workers.dev/v1/feedback';
+// RELIABLE delivery (owner 2026-06-23): the old silent mailto-fallback could lose feedback (depended on the
+// parent having + actually sending from a mail app, and it never reached the worker). Now on ANY network
+// failure we QUEUE the message on-device (the parent's own voluntary data) and re-POST it on the next app
+// boot + next feedback-open, until it lands. Nothing is silently lost. Manual WhatsApp/email links remain.
+const FB_Q='niko_fb_q';
+function _fbQGet(){ try{return JSON.parse(localStorage.getItem(FB_Q)||'[]');}catch(e){return [];} }
+function _fbQSet(a){ try{localStorage.setItem(FB_Q,JSON.stringify(a));}catch(e){} }
+function _fbQueue(row){ const a=_fbQGet(); a.push(row); while(a.length>20)a.shift(); _fbQSet(a); }
+function flushFeedbackQueue(){
+  const a=_fbQGet(); if(!a.length)return;
+  const keep=[]; let i=0;
+  const step=()=>{
+    if(i>=a.length){ _fbQSet(keep); return; }
+    const row=a[i++];
+    fetch(NIKO_FB_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(row),credentials:'omit'})
+      .then(r=>{ if(!r.ok)throw 0; }).catch(()=>{ keep.push(row); }).finally(step);
+  };
+  step();
+}
 function sendFeedback(){
   const g=id=>(($('#'+id)||{}).value||'').trim();
   const name=g('fb-name'),phone=g('fb-phone'),email=g('fb-email'),msg=g('fb-msg');
   if(!msg&&!phone&&!email){toast('დაწერე აზრი ან დატოვე საკონტაქტო');return;}
-  // offline / worker-down → fall back to the parent's own mail app so nothing is lost.
-  const mailFallback=()=>{
-    const body=`NikoLearn გამოხმაურება\n\nსახელი: ${name||'-'}\nტელეფონი: ${phone||'-'}\nელფოსტა: ${email||'-'}\n\nაზრი:\n${msg||'-'}`;
-    try{ location.href='mailto:NikoLearn@outlook.com?subject='+encodeURIComponent('NikoLearn გამოხმაურება')+'&body='+encodeURIComponent(body); }catch(e){}
-  };
+  const row={name,phone,email,msg};
   const btn=$('#fbform .btn-primary'); if(btn){btn.disabled=true;btn.textContent='იგზავნება…';}
-  let done=false; const fail=()=>{ if(done)return; done=true; const f=$('#fbform');if(f)f.remove(); mailFallback(); toast('✓ მადლობა! იხსნება ფოსტის აპი სარეზერვოდ'); };
-  const t=setTimeout(fail,6000); // network stall → don't leave the parent hanging
-  fetch(NIKO_FB_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,phone,email,msg}),credentials:'omit'})
-    .then(r=>{ if(!r.ok)throw 0; clearTimeout(t); if(done)return; done=true; try{if(window.Analytics)Analytics.event('feedback_send');}catch(e){} const f=$('#fbform');if(f)f.remove(); fbConfirm(); })
-    .catch(()=>{ clearTimeout(t); fail(); });
+  let done=false;
+  const succeed=()=>{ if(done)return; done=true; try{if(window.Analytics)Analytics.event('feedback_send');}catch(e){} const f=$('#fbform');if(f)f.remove(); fbConfirm(); flushFeedbackQueue(); };
+  // failure/timeout → persist on-device + retry on next boot (no loss), and still confirm to the parent.
+  const queueAndConfirm=()=>{ if(done)return; done=true; _fbQueue(row); const f=$('#fbform');if(f)f.remove(); fbConfirm(); };
+  const t=setTimeout(queueAndConfirm,6000); // network stall → queue, don't leave the parent hanging
+  fetch(NIKO_FB_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(row),credentials:'omit'})
+    .then(r=>{ if(!r.ok)throw 0; clearTimeout(t); succeed(); })
+    .catch(()=>{ clearTimeout(t); queueAndConfirm(); });
 }
 // the real delivery confirmation a parent expects (owner ask 2026-06-15).
 function fbConfirm(){
@@ -446,6 +465,7 @@ function toast(msg){
 
 /* ═══════════════ BOOT ═══════════════ */
 state=load();boot();
+try{ flushFeedbackQueue(); }catch(e){}   // re-send any feedback that failed to reach the worker last time
 // re-render on theme/ai tweak change
 window.addEventListener('niko-tweak',()=>{ if($('#aifab')) syncAiFab(); });
 // language toggle: the parent dashboard builds some prose bilingually at render time
