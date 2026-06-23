@@ -4,7 +4,27 @@
 > binding policy+code FIRST, never present a 2-option binary without a third-path line, no unverified
 > "best practice" claims). Added 2026-06-23 after the telemetry-retention miss.
 
-> ## ▶ RESUME NOW (2026-06-23) — **v1.216 LIVE: post-demo conversion nudge + pricing red-team revision**. Clean tree, HEAD==origin/main.
+> ## ▶ RESUME NOW (2026-06-23) — **v1.216 LIVE; 🔴 KINGS=kings.ge analysis done, BUILD pending**. Clean tree, HEAD==origin/main.
+> **🔴🔴 CRITICAL CORRECTION (owner pointed to kings.ge/news/1011; verify-first):** "Kings" = **kings.ge „კინგსის ოლიმპიადა"** (Georgian
+>   national online olympiad, Math/ქართული/English, grades 2-7+), **NOT Cambridge YLE.** The whole Starters/Movers/Flyers YLE framing
+>   was built against the WRONG "Kings". Analyzed 8 real Kings sample tests (Math g2-5 + English g2-5) via 4 agents. Plan in
+>   `output/2026-06-23-NikoLearn — Kings (kings.ge) რეალური ფორმატი + გეგმა by Niko.html`. KEY FINDINGS [FACT, from real tests]:
+>   • **Kings MATH** = 16 Q (10 core + 6 finance bonus), 3-opt MC, **reasoning-first** in 5 named blocks: კანონზომიერება(pattern) /
+>     ლოგიკა(logic: pigeonhole/parity/transitivity/time-zone) / გამოიანგარიშე(multi-step word problems) / რებუსი(symbol→number, letter
+>     vars) + finance bonus. Differentiator = modeling+insight+trap-distractors, NOT big arithmetic. g2→g5 ramps reasoning depth.
+>   • **Kings ENGLISH** = ~35 MC (3-opt) + visual bonus, 100pts, **NO audio/listening** (paper-based), bilingual instr. Tasks: vocab
+>     (pic→word) · spelling (missing letter) · **GE→EN translation** · grammar block (g3+) · reading (g4 picture / g5 short text). CEFR
+>     g2 Pre-A1 → g5 A2 (so YLE LEVEL wasn't far off, but FORMAT is Kings-specific: 3-opt, GE→EN translate, no listening).
+>   • **🔴 my big YLE Listening/Speaking investment (listen-yle/speak) does NOT match Kings format** (Kings English has no audio).
+>     Keep them as "general English", not "Kings". Owner's complaint ("Kings Math unchanged, existing test unchanged, new = side tiles")
+>     is now fully explained + correct.
+> **▶ BUILD PLAN (Kings v2, NOT yet built — task #7):** P1 ladder = grade 2/3/4/5 (not Starters/Movers/Flyers) · P2 **Kings MATH rebuild**
+>   = 4 reasoning blocks + finance bonus, real-Kings-style, by grade (fixes #1 complaint) · P3 Kings ENGLISH rebuild = real tasks by
+>   grade · P4 full 16-Q mock per grade · P5 Gemini-QA + refute-panel + validate + deploy. OUTPUT CRITERIA in the HTML.
+> **▶ 90%/top-10% — honest:** can build a near-replica of real Kings (strongest controllable lever); top-10% OUTCOME = design target
+>   [HYPOTHESIS], not a guarantee (needs longitudinal results). Do NOT manufacture that confidence.
+> **── earlier 2026-06-23 (v1.216) ──**
+> ## ▶ RESUME (2026-06-23) — **v1.216 LIVE: post-demo conversion nudge + pricing red-team revision**. Clean tree, HEAD==origin/main.
 > **★ v1.216 — post-demo CONVERSION nudge (the one ungated activation win).** After a guest demo round, the results screen leads with
 >   „შექმენი პროფილი, რომ შენი 🪙 X მონეტა შეინახო" (create-profile = primary, show-dad dropped for guest). `createChild` MIGRATES the
 >   guest demo's coins/words/sessions into the FIRST real profile (honest, not empty) + resets guest; guarded to the first profile
