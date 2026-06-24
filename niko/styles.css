@@ -565,6 +565,31 @@ body.on-landing #app{padding:0;padding-bottom:24px}
   background:color-mix(in oklch,var(--sun) 24%,var(--card));border-radius:13px;padding:5px 14px;animation:pop .34s}
 @media (prefers-reduced-motion:reduce){.fb-streak{animation:none}}
 
+/* ── ხატვა / Draw & Color (v1.234) ── */
+.draw-screen{display:flex;flex-direction:column;gap:8px;height:100%;padding:6px 4px}
+.dw-top{display:flex;align-items:center;gap:6px}
+.dw-tools{display:flex;gap:5px;flex:1;justify-content:center}
+.dw-tool{width:44px;height:44px;border:1.5px solid var(--line);background:var(--card);border-radius:12px;font-size:1.25rem;cursor:pointer;padding:0;display:grid;place-items:center}
+.dw-tool:active{transform:scale(.94)}
+.dw-tool.on{border-color:var(--primary);background:color-mix(in oklch,var(--primary) 14%,var(--card))}
+.dw-save{border:1.5px solid var(--line);background:var(--card);border-radius:12px;padding:0 12px;font-weight:700;font-size:.82rem;cursor:pointer;min-height:44px;white-space:nowrap}
+.dw-canvas-wrap{flex:1;min-height:230px;background:#fff;border:2px solid var(--line);border-radius:14px;overflow:hidden;touch-action:none}
+#dwCanvas{display:block;cursor:crosshair}
+.dw-tmpls{display:flex;gap:6px;overflow-x:auto;padding:2px 1px}
+.dw-tmpl{flex:0 0 auto;width:46px;height:46px;border:1.5px solid var(--line);background:var(--card);border-radius:12px;font-size:1.45rem;cursor:pointer;padding:0}
+.dw-tmpl:active{transform:scale(.92)}
+.dw-palette{display:flex;flex-direction:column;gap:7px}
+.dw-colors{display:flex;gap:7px;flex-wrap:wrap;justify-content:center}
+.dw-color{width:36px;height:36px;border-radius:50%;border:3px solid transparent;cursor:pointer;box-shadow:var(--shadow);padding:0}
+.dw-color.light{border:1.5px solid var(--line)}
+.dw-color.on{border-color:var(--ink);transform:scale(1.1)}
+.dw-color:active{transform:scale(.92)}
+.dw-sizes{display:flex;gap:8px;justify-content:center}
+.dw-size{width:48px;height:38px;border:1.5px solid var(--line);background:var(--card);border-radius:11px;cursor:pointer;display:grid;place-items:center;padding:0}
+.dw-size.on{border-color:var(--primary);background:color-mix(in oklch,var(--primary) 12%,var(--card))}
+.dw-size span{background:var(--ink);border-radius:50%;display:block}
+.subj.draw .s-ico{filter:saturate(1.1)}
+
 .ai-bubble{background:var(--card);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow-lg);
   border:1.5px solid color-mix(in oklch,var(--sky) 30%,var(--line));display:flex;flex-direction:column;animation:rise .3s}
 .ai-ava{width:48px;height:48px;flex:0 0 auto;border-radius:15px;background:linear-gradient(150deg,var(--sky),var(--purple));

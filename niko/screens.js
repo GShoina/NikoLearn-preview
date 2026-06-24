@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.233'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.234'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 function goHome(){
   // A4: if a round was in progress, count it as abandoned before we leave it
   if(typeof game!=='undefined'&&game&&game.roundActive){ try{ if(window.Analytics)Analytics.event('round_abandon',{mode:coarseMode(),q:(game.i>=8?'8+':String(game.i||0))}); }catch(e){} game.roundActive=false; }
@@ -285,6 +285,7 @@ function selectProfile(p){
         : `<div class="subj kids maths stack" data-sum="შეკრება და გამოკლება" onclick="openSubj(event,'math')"><span class="s-badge">3 თემა</span><div class="s-ico">➕➖</div><div class="s-name num">➕</div><span class="tap-hint">👆</span></div>`}
       <div class="subj kids talk play" data-sum="საუბრის ბარათები მშობელთან ერთად" onclick="openTalk()">${PLAY_BADGE}<span class="s-badge">4 თემა</span><div class="s-ico">💬</div><div class="s-name">საუბარი</div></div>
       <div class="subj kids move play" data-sum="მოკლე მოძრაობის შესვენება" onclick="showBreak(true)">${PLAY_BADGE}<div class="s-ico">🤸</div><div class="s-name">მოძრაობა</div></div>
+      <div class="subj kids draw play" data-sum="ხატვა და გაფერადება" onclick="openDraw()">${PLAY_BADGE}<div class="s-ico">🎨</div><div class="s-name">ხატვა</div></div>
     </div>`;
   } else {
     const wc=Object.values(s.words).filter(w=>w.correct>=3).length;
@@ -296,6 +297,7 @@ function selectProfile(p){
       <div class="subj stack" data-sum="ანბანი · კითხვა · წერა · ამოწერა" onclick="openSubj(event,'ka-alpha')"><span class="s-badge">4 თემა</span><div class="s-ico">🇬🇪</div><div class="s-name">ქართული</div><div class="s-sub">კითხვა · წერა · ამოწერა</div><span class="tap-hint">👆</span></div>
       <div class="subj talk play" data-sum="საუბრის ბარათები მშობელთან ერთად (ემოციები, ღირებულებები, ფანტაზია)" onclick="openTalk()">${PLAY_BADGE}<span class="s-badge">4 თემა</span><div class="s-ico">💬</div><div class="s-name">საუბარი</div><div class="s-sub">ფიქრი · ღირებულებები</div></div>
       <div class="subj move play" data-sum="მოკლე მოძრაობის შესვენება ვარჯიშებით" onclick="showBreak(true)">${PLAY_BADGE}<div class="s-ico">🤸</div><div class="s-name">მოძრაობა</div><div class="s-sub">პატარა შესვენება</div></div>
+      <div class="subj draw play" data-sum="ხატვა, გაფერადება და გასაფერადებელი შაბლონები" onclick="openDraw()">${PLAY_BADGE}<div class="s-ico">🎨</div><div class="s-name">ხატვა</div><div class="s-sub">ფუნჯი · ფერები · შაბლონები</div></div>
     </div>`;
   }
   render(`<div class="screen">
