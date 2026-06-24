@@ -34,7 +34,20 @@
 >   measures intent, no payment integration). Build real payment only if intent shows; price below the tutor/center alternative.
 > **Process lesson (this session):** PULL the stats/traffic BEFORE any usage/funnel claim. Never state a metric I didn't read.
 >
-> ## ▶ RESUME NOW (2026-06-23) — **v1.226 LIVE: paywall OFF (penetration) + Kings Math = pure olympiad + reliable feedback**. Clean tree.
+> ## ▶ RESUME NOW (2026-06-24) — **v1.228 LIVE: Kings English = faithful sectioned EXAM (grade 2 + 3)**. Clean tree.
+> **★ v1.228 — rebuilt the Kings English test into a FAITHFUL sectioned exam (owner: the old one was "thin").**
+>   Fetched + analysed the REAL kings.ge grade-2..6 English PDFs (firecrawl) + the 2 math PDFs. New
+>   `niko/kings-exam.js`: grade chooser (მე-2/მე-3) → scored /100 exam running the real task sequence +
+>   point weights + LIBERTY bonus (only helps if main<100). G2: ALPHABET-capital(10)·VOCAB-picture(30)·
+>   TRANSLATION(30)·SPELLING-add-letter(30)·BONUS(5). G3: VOCAB-jobs(20)·SPELLING(30)·TRANSLATION-phrases(30)·
+>   GRAMMAR-fill-blank(20)·BONUS(5). Content = faithful own-authored variants (PDFs have no answer key). Tile
+>   „კინგსის ტესტი" → kxPick('eng'). Verified muted: full play-through both grades = 100/100, all task types
+>   render, result card, 0 errors + 3 screenshots. **v1.227 fixed the stale-state.premium lock-strand bug.**
+> **▶ NEXT (blueprint READY in docs/ROADMAP.md): faithful MATH exam grade 2+3** — reuse genPattern/genRebus/
+>   genModel; add Logic (clock/cages/geometry) + Calculate (day/age/money) + financial bonus. English grades
+>   4-6 (reading/definition/odd-one-out) = parked. **Still no demand validation — see the data block below.**
+> **── earlier 2026-06-23 (v1.226) ──**
+> ## ▶ (2026-06-23) — **v1.226: paywall OFF (penetration) + Kings Math = pure olympiad + reliable feedback**. Clean tree.
 > **★ v1.226 — feedback delivery made lossless.** Old silent mailto-fallback could lose messages → replaced with an
 >   on-device queue (`niko_fb_q`) + retry on boot/feedback-open until it reaches the worker (parent.js sendFeedback/
 >   flushFeedbackQueue). Also DELETED the 2 test rows from the worker KV (owner's „მირანდა" test + agent ping) via

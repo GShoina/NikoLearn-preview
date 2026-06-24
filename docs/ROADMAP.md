@@ -20,6 +20,23 @@ memory, so parked ideas live here instead of dying in chat.
   real „verification" without cloud STT). Currently shipped: model-reveal self-check + optional record→playback.
 - **RE-SURFACE TRIGGER:** if usage shows parents sit with the child during Speaking and want a way to mark it.
 
+## Kings faithful EXAM — built + parked items (from real kings.ge PDFs, fetched 2026-06-24)
+- **DONE (v1.228):** faithful sectioned ENGLISH exam, grade 2 + grade 3 (niko/kings-exam.js). Real task
+  sequence + point weights + LIBERTY bonus. Grade chooser. Scored /100.
+- **NEXT (blueprint ready, from the 2 math PDFs):** faithful MATH exam, grade 2 + grade 3.
+  - Math grade 2 (100+30 bonus): T1 Pattern (number seq + arrow/shape, 20) · T2 Logic (clock, cages÷,
+    cut-triangle-corners geometry, 20) · T3 Calculate (word problems: lessons/week, money, age, 30) ·
+    T4 Rebus (symbol=number, 30) · Bonus financial word-problems (30).
+  - Math grade 3 (100+30): T1 Pattern (shape + seq 1,5,10,16,? , 20) · T2 Calculate (day-of-week, age,
+    melon-knapsack, 20) · T3 Logic (balls-in-box, coin-change, kinder-eggs, 30) · T4 Rebus (N+5=11, 30) ·
+    Bonus financial (30). NOTE: existing genPattern/genRebus/genModel cover much of this — reuse them.
+- **PARKED — ENGLISH grades 4-6** (real structures captured): G4 = READING (picture-scene Qs) + add-letter +
+  translation + GRAMMAR (advanced) + bonus. G5 = READING (passage comprehension) + spelling + translation +
+  grammar + bonus. G6 = READING (passage) + VOCABULARY (definition→word) + ODD-ONE-OUT + grammar + bonus
+  (Statue-of-Liberty). Build these once grade 2-3 is validated with real users.
+- **Build caveat:** real picture/reading items need images or an answer key (the PDFs are question sheets,
+  no answer key — our items are faithful own-authored variants, not copied).
+
 ## Kings free/paid split — PAYWALL OFF in MVP (owner red-team 2026-06-23)
 - **DECISION (penetration > restriction for MVP):** the kids app ships with NO user-facing lock — every
   topic is free + open. Reasons: (1) there is no payment path, so a 🔒 the parent can't unlock is a pure
