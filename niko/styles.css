@@ -397,6 +397,7 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .kx-score span{font-size:1.3rem;color:var(--muted);font-weight:700}
 .kx-bonus{font-size:.9rem;color:var(--sun-d,#b8860b);font-weight:700;margin-top:2px}
 .kx-msg{font-size:1rem;color:var(--ink);margin:10px 0 16px}
+.kx-mq{font-size:1.12rem;font-weight:600;line-height:1.55;color:var(--ink);max-width:330px;margin:6px auto;text-align:center}
 
 .options{display:grid;grid-template-columns:1fr 1fr;gap:11px}
 .opt{background:var(--card);border:1.5px solid var(--line);border-radius:var(--radius-sm);
