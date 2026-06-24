@@ -3,90 +3,129 @@
    Built from the REAL grade-2 & grade-3 English sample PDFs (kings.ge, fetched 2026-06-24). Each grade
    runs the real task SEQUENCE with the real section labels, instructions, question counts and POINT
    weights, and scores out of 100 (+ a 5-pt bonus that only helps if the main score isn't maxed — the
-   real Kings rule). Loads AFTER games.js (reuses gameShell/winStep/shuffle/state). Grades 4-6 (reading
-   comprehension / definition→word / odd-one-out) are parked for the roadmap (docs/ROADMAP.md). owner 2026-06-24.
+   real Kings rule). Loads AFTER games.js (reuses gameShell/winStep/shuffle/ri/state).
+   VARIETY (owner 2026-06-24): ALPHABET + BONUS are GENERATED (effectively unlimited); the other sections
+   draw n items from pools of ~18-22, so a second attempt rarely repeats. Option order is shuffled every time.
+   Grades 4-6 (reading comprehension / definition→word / odd-one-out) are parked → docs/ROADMAP.md.
    ═══════════════════════════════════════════════════════════ */
 
-/* ── content pools (faithful variants of the real items, same style + difficulty) ── */
-// Task: ALPHABET — given a lowercase letter, pick the matching CAPITAL (A/B/C).
-const KEX_CAPITAL=[
-  {l:'d',opts:['B','D','P'],a:'D'},{l:'m',opts:['N','M','W'],a:'M'},{l:'g',opts:['G','Q','C'],a:'G'},
-  {l:'f',opts:['E','F','T'],a:'F'},{l:'r',opts:['P','R','B'],a:'R'},{l:'q',opts:['O','Q','G'],a:'Q'},
-  {l:'h',opts:['K','H','N'],a:'H'},{l:'e',opts:['F','E','B'],a:'E'},{l:'a',opts:['A','R','H'],a:'A'},
-  {l:'k',opts:['X','K','R'],a:'K'}
-];
-// Task: VOCABULARY (picture) grade 2 — emoji + "It is a ___." → pick the word.
+function kxP1(a){ return a[ri(0,a.length-1)]; }
+
+/* ── GENERATED tasks (no repetition) ── */
+const KX_AZ='abcdefghijklmnopqrstuvwxyz'.split('');
+// ALPHABET — show a lowercase letter, pick the matching CAPITAL (A/B/C).
+function kxGenCap(){
+  const low=kxP1(KX_AZ), cap=low.toUpperCase();
+  const others=shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').filter(c=>c!==cap)).slice(0,2);
+  return {l:low, a:cap, opts:[cap].concat(others)};
+}
+// BONUS — count how many times the word LIBERTY appears (the real Liberty-Bank task), generated.
+const KX_SCR=['LIBETRY','LIBRTEY','LBIERTY','LIBRETY','LIBTREY','LIEBRTY','ILBERTY'];
+function kxGenBonus(){
+  const n=ri(2,4), m=ri(2,3), toks=[];
+  for(let i=0;i<n;i++)toks.push('LIBERTY');
+  for(let i=0;i<m;i++)toks.push(kxP1(KX_SCR));
+  const seq=shuffle(toks).join('  ');
+  const set=[String(n),String(n+1),String(Math.max(1,n-1))].filter((v,i,a)=>a.indexOf(v)===i);
+  while(set.length<3){ const c=String(ri(1,6)); if(set.indexOf(c)<0)set.push(c); }
+  return {seq, a:String(n), opts:set.slice(0,3)};
+}
+
+/* ── POOL tasks (drawn n-of-pool each attempt; pools sized for low repetition) ── */
+// VOCABULARY (picture) grade 2 — emoji + "It is a ___." → pick the word.
 const KEX_PIC2=[
   {e:'🐮',a:'cow',opts:['cow','cat','horse']},{e:'🐭',a:'mouse',opts:['mouse','pig','chicken']},
   {e:'🐱',a:'cat',opts:['cat','mouse','car']},{e:'🌳',a:'tree',opts:['tree','plane','book']},
   {e:'🐦',a:'bird',opts:['frog','bird','dog']},{e:'🍌',a:'banana',opts:['orange','banana','ball']},
   {e:'🐶',a:'dog',opts:['dog','frog','cat']},{e:'🐷',a:'pig',opts:['pig','cow','hen']},
-  {e:'⭐',a:'star',opts:['star','car','sun']},{e:'🚗',a:'car',opts:['car','cat','cup']}
+  {e:'⭐',a:'star',opts:['star','car','sun']},{e:'🚗',a:'car',opts:['car','cat','cup']},
+  {e:'🍎',a:'apple',opts:['apple','egg','ball']},{e:'🐰',a:'rabbit',opts:['rabbit','mouse','cat']},
+  {e:'🦁',a:'lion',opts:['lion','bear','dog']},{e:'🐟',a:'fish',opts:['fish','bird','frog']},
+  {e:'🏠',a:'house',opts:['house','box','tree']},{e:'☀️',a:'sun',opts:['sun','star','moon']},
+  {e:'🌸',a:'flower',opts:['flower','tree','grass']},{e:'🐝',a:'bee',opts:['bee','fly','bird']},
+  {e:'🍊',a:'orange',opts:['orange','apple','ball']},{e:'🐸',a:'frog',opts:['frog','fish','duck']}
 ];
-// Task: VOCABULARY (picture) grade 3 — jobs, "Who am I? I am a ___."
+// VOCABULARY (picture) grade 3 — jobs, "Who am I? I am a ___."
 const KEX_PIC3=[
   {e:'👮',a:'policeman',opts:['policeman','singer','nurse']},{e:'👩‍⚕️',a:'doctor',opts:['nurse','doctor','princess']},
   {e:'👨‍🏫',a:'teacher',opts:['teacher','driver','nurse']},{e:'👨‍🎨',a:'painter',opts:['driver','builder','painter']},
   {e:'👷',a:'builder',opts:['builder','baker','farmer']},{e:'🧑‍🍳',a:'cook',opts:['cook','clown','pilot']},
-  {e:'👨‍✈️',a:'pilot',opts:['pilot','painter','postman']},{e:'👩‍🌾',a:'farmer',opts:['farmer','fisher','dancer']}
+  {e:'👨‍✈️',a:'pilot',opts:['pilot','painter','postman']},{e:'👩‍🌾',a:'farmer',opts:['farmer','fisher','dancer']},
+  {e:'👨‍🚒',a:'firefighter',opts:['firefighter','driver','doctor']},{e:'💃',a:'dancer',opts:['dancer','singer','nurse']},
+  {e:'🧑‍🚀',a:'astronaut',opts:['astronaut','pilot','driver']},{e:'🎤',a:'singer',opts:['singer','dancer','teacher']}
 ];
-// Task: TRANSLATION grade 2 (single words) — Georgian → pick the English.
+// TRANSLATION grade 2 (single words) — Georgian → pick the English.
 const KEX_TR2=[
   {ka:'ჩანთა',a:'a bag',opts:['a pen','a book','a bag']},{ka:'ავტობუსი',a:'a bus',opts:['a bus','a car','a cat']},
   {ka:'გოგონა',a:'a girl',opts:['a girl','a boy','a child']},{ka:'რძე',a:'milk',opts:['water','tea','milk']},
   {ka:'ვარსკვლავი',a:'a star',opts:['a star','a car','a dog']},{ka:'წიგნი',a:'a book',opts:['a pen','a book','a bag']},
   {ka:'ძაღლი',a:'a dog',opts:['a cat','a dog','a doll']},{ka:'მაგიდა',a:'a table',opts:['a chair','a room','a table']},
-  {ka:'ყუთი',a:'a box',opts:['a cup','a box','a book']},{ka:'თოჯინა',a:'a doll',opts:['a dog','a doll','a ball']}
+  {ka:'ყუთი',a:'a box',opts:['a cup','a box','a book']},{ka:'თოჯინა',a:'a doll',opts:['a dog','a doll','a ball']},
+  {ka:'კატა',a:'a cat',opts:['a cat','a dog','a cow']},{ka:'სახლი',a:'a house',opts:['a house','a horse','a mouse']},
+  {ka:'ვაშლი',a:'an apple',opts:['an apple','an egg','an orange']},{ka:'მზე',a:'the sun',opts:['the sun','the moon','a star']},
+  {ka:'ყვავილი',a:'a flower',opts:['a flower','a tree','grass']},{ka:'თევზი',a:'a fish',opts:['a fish','a bird','a frog']},
+  {ka:'წყალი',a:'water',opts:['water','milk','tea']},{ka:'ბავშვი',a:'a child',opts:['a child','a girl','a boy']}
 ];
-// Task: TRANSLATION grade 3 (phrases).
+// TRANSLATION grade 3 (phrases).
 const KEX_TR3=[
   {ka:'მსხალი',a:'a pear',opts:['a peach','a carrot','a pear']},{ka:'ვახშამი',a:'supper',opts:['supper','breakfast','lunch']},
   {ka:'კუდი',a:'a tail',opts:['a tale','a tile','a tail']},{ka:'სასაცილო ბაყაყი',a:'a funny frog',opts:['a funny dog','a funny frog','a happy frog']},
-  {ka:'კარგი ძაღლი',a:'a good dog',opts:['a good dog','a good cat','a bad dog']},{ka:'ყვავილი',a:'a flower',opts:['a tree','a flower','grass']},
-  {ka:'მწვანე კაბა',a:'a green dress',opts:['a short dress','a green scarf','a green dress']},{ka:'ზარმაცი მოსწავლე',a:'a lazy pupil',opts:['a good pupil','a lazy pupil','a lazy boy']}
+  {ka:'კარგი ძაღლი',a:'a good dog',opts:['a good dog','a good cat','a bad dog']},{ka:'მწვანე კაბა',a:'a green dress',opts:['a short dress','a green scarf','a green dress']},
+  {ka:'ზარმაცი მოსწავლე',a:'a lazy pupil',opts:['a good pupil','a lazy pupil','a lazy boy']},{ka:'თვე',a:'a month',opts:['a day','a year','a month']},
+  {ka:'აქლემი',a:'a camel',opts:['a lion','a camel','a tiger']},{ka:'ცარიელი ჭიქა',a:'an empty glass',opts:['an empty glass','a full glass','an empty bottle']},
+  {ka:'ახლო მეგობარი',a:'a close friend',opts:['a close friend','a near friend','a closed friend']},{ka:'მძიმე ჩანთა',a:'a heavy bag',opts:['a full bag','a thick bag','a heavy bag']},
+  {ka:'ღრმა ტბა',a:'a deep lake',opts:['a deep lake','a deep sea','a big lake']},{ka:'ხმაურიანი წვეულება',a:'a noisy party',opts:['a noisy party','a quiet party','a happy party']},
+  {ka:'სუფთა იატაკი',a:'a clean floor',opts:['a clean floor','a clean wall','a dirty floor']},{ka:'ყვავილი',a:'a flower',opts:['a tree','a flower','grass']}
 ];
-// Task: SPELLING grade 2 — add one letter (A/B/C) to make the word. `_` marks the gap.
+// SPELLING grade 2 — add one letter (A/B/C). `_` marks the gap. Gaps + distractors curated to stay unambiguous.
 const KEX_SP2=[
-  {w:'a b_y',a:'o',opts:['o','k','y']},{w:'a _ar',a:'c',opts:['c','z','a']},{w:'a fro_',a:'g',opts:['h','g','i']},
-  {w:'a ca_e',a:'k',opts:['i','k','u']},{w:'a he_',a:'n',opts:['o','n','z']},{w:'a hor_e',a:'s',opts:['e','k','s']},
-  {w:'a b_g',a:'a',opts:['v','a','y']},{w:'a gam_',a:'e',opts:['u','i','e']}
+  {w:'b_y',a:'o',opts:['o','k','y']},{w:'_ar',a:'c',opts:['c','z','m']},{w:'fro_',a:'g',opts:['h','g','i']},
+  {w:'ca_e',a:'k',opts:['i','k','u']},{w:'he_',a:'n',opts:['o','n','z']},{w:'hor_e',a:'s',opts:['e','k','s']},
+  {w:'ba_',a:'g',opts:['v','g','y']},{w:'gam_',a:'e',opts:['u','i','e']},{w:'fi_h',a:'s',opts:['s','t','r']},
+  {w:'st_r',a:'a',opts:['a','o','u']},{w:'tr_e',a:'e',opts:['e','a','i']},{w:'mil_',a:'k',opts:['k','t','p']},
+  {w:'du_k',a:'c',opts:['c','b','t']},{w:'ne_t',a:'s',opts:['s','z','r']},{w:'ki_g',a:'n',opts:['n','m','r']},
+  {w:'la_p',a:'m',opts:['m','n','b']},{w:'shi_',a:'p',opts:['p','d','t']},{w:'do_l',a:'l',opts:['l','r','n']}
 ];
-// Task: SPELLING grade 3 (harder words).
+// SPELLING grade 3 (longer words).
 const KEX_SP3=[
-  {w:'a chi_ken',a:'c',opts:['s','c','z']},{w:'a bab_',a:'y',opts:['y','o','i']},{w:'a cha_r',a:'i',opts:['e','i','a']},
-  {w:'a h_use',a:'o',opts:['e','a','o']},{w:'a le_ter',a:'t',opts:['t','h','l']},{w:'a ga_den',a:'r',opts:['c','e','r']},
-  {w:'a cit_',a:'y',opts:['y','o','i']},{w:'a paren_',a:'t',opts:['t','h','l']}
+  {w:'chi_ken',a:'c',opts:['s','c','z']},{w:'bab_',a:'y',opts:['y','o','i']},{w:'cha_r',a:'i',opts:['e','i','a']},
+  {w:'h_use',a:'o',opts:['e','a','o']},{w:'le_ter',a:'t',opts:['t','h','l']},{w:'ga_den',a:'r',opts:['c','e','r']},
+  {w:'cit_',a:'y',opts:['y','o','i']},{w:'paren_',a:'t',opts:['t','h','l']},{w:'mushro_m',a:'o',opts:['e','a','o']},
+  {w:'oni_n',a:'o',opts:['u','o','a']},{w:'flo_er',a:'w',opts:['w','v','u']},{w:'wi_dow',a:'n',opts:['n','m','r']},
+  {w:'bas_et',a:'k',opts:['k','c','t']},{w:'pen_il',a:'c',opts:['c','s','z']},{w:'rab_it',a:'b',opts:['b','d','p']},
+  {w:'ora_ge',a:'n',opts:['n','m','g']}
 ];
-// Task: GRAMMAR grade 3 — fill the blank (A/B/C). `___` marks the gap.
+// GRAMMAR grade 3 — fill the blank (A/B/C). `___` marks the gap.
 const KEX_GR3=[
   {q:'I ___ happy.',a:'am',opts:['am','is','are']},{q:'___ name is Maria.',a:'Her',opts:['She','Her','Him']},
   {q:'We ___ a big house.',a:'have',opts:['has','have','haves']},{q:'A cup is ___ the table.',a:'on',opts:['in','from','on']},
   {q:'He ___ very kind.',a:'is',opts:['is','am','are']},{q:'My sister ___ milk.',a:'loves',opts:['love','loving','loves']},
-  {q:'Stars ___ in the sky.',a:'are',opts:['is','are','am']},{q:'___ apple is red.',a:'This',opts:['Those','These','This']}
-];
-// BONUS — count how many times the word LIBERTY appears (the real Liberty-Bank sponsored task).
-const KEX_BONUS=[
-  {seq:'LIBERTY LIBRTEY LIBERTY LIBETRY LIBERTY',a:'3',opts:['3','2','4']},
-  {seq:'LIBETRY LIBERTY LIBERTY LBIERTY',a:'2',opts:['2','3','1']},
-  {seq:'LIBERTY LIBERTY LIBRETY LIBERTY LIBTREY LIBERTY',a:'4',opts:['4','3','5']}
+  {q:'Stars ___ in the sky.',a:'are',opts:['is','are','am']},{q:'___ apple is red.',a:'This',opts:['Those','These','This']},
+  {q:'They ___ my friends.',a:'are',opts:['is','am','are']},{q:'She ___ a nice cat.',a:'has',opts:['have','has','haves']},
+  {q:'The book is ___ the bag.',a:'in',opts:['in','on','at']},{q:'I have ___ apple.',a:'an',opts:['a','an','the']},
+  {q:'We ___ football on Sunday.',a:'play',opts:['plays','play','playing']},{q:'There ___ two birds.',a:'are',opts:['is','are','am']},
+  {q:'This is ___ pen.',a:'a',opts:['a','an','the']},{q:'He goes ___ school.',a:'to',opts:['to','in','at']},
+  {q:'The cat is ___ the box.',a:'in',opts:['in','from','of']},{q:'My mother ___ tea.',a:'makes',opts:['make','makes','making']},
+  {q:'I can ___ very fast.',a:'run',opts:['run','runs','running']},{q:'My dog ___ big.',a:'is',opts:['are','is','am']},
+  {q:'___ you like tea?',a:'Do',opts:['Do','Are','Is']},{q:'I play ___ my dog.',a:'with',opts:['with','to','of']}
 ];
 
 /* ── exam blueprint: section sequence + point weights, faithful to the real PDFs (sum = 100 + 5 bonus) ── */
 const KINGS_EXAM={
   eng:{
     2:[
-      {label:'🔠 ALPHABET',  instr:'იპოვე პატარა ასოს დიდი ვარიანტი (A, B ან C)', pts:10, n:5, pool:KEX_CAPITAL, type:'cap'},
+      {label:'🔠 ALPHABET',  instr:'იპოვე პატარა ასოს დიდი ვარიანტი (A, B ან C)', pts:10, n:5, gen:kxGenCap, type:'cap'},
       {label:'🖼️ VOCABULARY',instr:'აირჩიე სწორი პასუხი სურათის მიხედვით', pts:30, n:8, pool:KEX_PIC2, type:'pic', stem:'It is a ___.'},
       {label:'🔁 TRANSLATION',instr:'რომელია სწორი ინგლისური თარგმანი?', pts:30, n:8, pool:KEX_TR2, type:'tr'},
       {label:'✍️ SPELLING',  instr:'დაამატე ასო (A, B ან C) და ააწყვე სიტყვა', pts:30, n:8, pool:KEX_SP2, type:'sp'},
-      {label:'🎁 BONUS',     instr:'რამდენჯერ მეორდება სიტყვა LIBERTY?', pts:5, n:1, pool:KEX_BONUS, type:'bonus', bonus:true}
+      {label:'🎁 BONUS',     instr:'რამდენჯერ მეორდება სიტყვა LIBERTY?', pts:5, n:1, gen:kxGenBonus, type:'bonus', bonus:true}
     ],
     3:[
       {label:'🖼️ VOCABULARY',instr:'აირჩიე სწორი პასუხი სურათის მიხედვით', pts:20, n:5, pool:KEX_PIC3, type:'pic', stem:'Who am I? I am a ___.'},
       {label:'✍️ SPELLING',  instr:'დაამატე ასო და ააწყვე სიტყვა', pts:30, n:8, pool:KEX_SP3, type:'sp'},
       {label:'🔁 TRANSLATION',instr:'რომელია სწორი ინგლისური თარგმანი?', pts:30, n:8, pool:KEX_TR3, type:'tr'},
       {label:'📝 GRAMMAR',    instr:'აირჩიე სწორი ვარიანტი', pts:20, n:8, pool:KEX_GR3, type:'gr'},
-      {label:'🎁 BONUS',     instr:'რამდენჯერ მეორდება სიტყვა LIBERTY?', pts:5, n:1, pool:KEX_BONUS, type:'bonus', bonus:true}
+      {label:'🎁 BONUS',     instr:'რამდენჯერ მეორდება სიტყვა LIBERTY?', pts:5, n:1, gen:kxGenBonus, type:'bonus', bonus:true}
     ]
   }
 };
@@ -110,9 +149,13 @@ function startKingsExam(subject, grade){
   if(!secs){ if(typeof startKings==='function')return startKings(subject); return; }  // fallback to the old test
   const qs=[];
   secs.forEach(sec=>{
-    const picked=shuffle(sec.pool.slice()).slice(0,sec.n);
+    let items;
+    if(sec.gen){ items=[]; const seen={}; let g=0;
+      while(items.length<sec.n && g++<sec.n*10){ const it=sec.gen(); const k=(it.l||it.w||it.q||it.ka||it.seq||'')+'|'+it.a;
+        if(!seen[k]){ seen[k]=1; items.push(it); } } }
+    else { items=shuffle(sec.pool.slice()).slice(0, sec.n); }
     const per=sec.pts/sec.n;
-    picked.forEach(it=>qs.push({sec,it,per}));
+    items.forEach(it=>qs.push({sec,it,per}));
   });
   kx={subject,grade,qs,i:0,score:0,bonusScore:0};
   game.mode='kings-'+subject; game.kind=subject; game.subj='kings-'+subject;
