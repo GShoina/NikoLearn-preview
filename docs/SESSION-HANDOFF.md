@@ -34,7 +34,19 @@
 >   measures intent, no payment integration). Build real payment only if intent shows; price below the tutor/center alternative.
 > **Process lesson (this session):** PULL the stats/traffic BEFORE any usage/funnel claim. Never state a metric I didn't read.
 >
-> ## ▶ RESUME NOW (2026-06-24) — **v1.228 LIVE: Kings English = faithful sectioned EXAM (grade 2 + 3)**. Clean tree.
+> ## ▶ RESUME NOW (2026-06-24) — **v1.230 LIVE: Kings English + MATH = faithful sectioned EXAMS (grade 2 + 3), low-repeat**. Clean tree.
+> **★ v1.230 — Kings MATH faithful exam added** (grade 2 + 3), same approach as English, from the real math PDFs.
+>   kxPick('math') → grade chooser → /100 exam. G2: 🧩Pattern(20)·🧠Logic(20)·🧮Calculate(30)·🔢Rebus(30)·🎁Bonus(30).
+>   G3: Pattern(20)·Calculate(20)·Logic(30)·Rebus(30)·Bonus(30). Curated pools (~6/section, draw 3), verified
+>   answers, Georgian stems A/B/C. Tile „კინგსის ოლიმპიადა" → kxPick('math'). NOTE: math Georgian stems were
+>   NOT Gemini-QA'd (functional problem text, self-verified math) — run Gemini if you want a copy pass.
+> **★ v1.229 — exam VARIETY:** ALPHABET + BONUS generated (never repeat); other pools grew to ~16-22. Measured
+>   retake overlap: G2 11/30, G3 15/30 (most questions change). **v1.228 — Kings ENGLISH faithful exam** (g2+g3).
+> **★ v1.227 fixed the stale-state.premium lock-strand bug** (premiumOn now reads only a sessionStorage owner-preview flag).
+> **▶ Kings exams = DONE for MVP (EN + Math, g2+g3).** Parked → ROADMAP: English g4-6 (reading/definition/odd-one-out),
+>   bigger pools for full uniqueness, optional Gemini copy-pass on math stems.
+> **🔴 STILL the real gap (see the data block below): no validated demand; the bottleneck is distribution + demand, not content.**
+> **── earlier 2026-06-24 (v1.228) ──
 > **★ v1.228 — rebuilt the Kings English test into a FAITHFUL sectioned exam (owner: the old one was "thin").**
 >   Fetched + analysed the REAL kings.ge grade-2..6 English PDFs (firecrawl) + the 2 math PDFs. New
 >   `niko/kings-exam.js`: grade chooser (მე-2/მე-3) → scored /100 exam running the real task sequence +

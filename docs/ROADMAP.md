@@ -23,7 +23,9 @@ memory, so parked ideas live here instead of dying in chat.
 ## Kings faithful EXAM — built + parked items (from real kings.ge PDFs, fetched 2026-06-24)
 - **DONE (v1.228):** faithful sectioned ENGLISH exam, grade 2 + grade 3 (niko/kings-exam.js). Real task
   sequence + point weights + LIBERTY bonus. Grade chooser. Scored /100.
-- **NEXT (blueprint ready, from the 2 math PDFs):** faithful MATH exam, grade 2 + grade 3.
+- **DONE (v1.230):** faithful MATH exam, grade 2 + grade 3 (kxPick('math')) — Pattern/Logic/Calculate/Rebus/
+  Bonus, curated verified pools. Optional follow-up: Gemini copy-pass on the Georgian math stems.
+- **(original blueprint, now built — from the 2 math PDFs):** faithful MATH exam, grade 2 + grade 3.
   - Math grade 2 (100+30 bonus): T1 Pattern (number seq + arrow/shape, 20) · T2 Logic (clock, cages÷,
     cut-triangle-corners geometry, 20) · T3 Calculate (word problems: lessons/week, money, age, 30) ·
     T4 Rebus (symbol=number, 30) · Bonus financial word-problems (30).
