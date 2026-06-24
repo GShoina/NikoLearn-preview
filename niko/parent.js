@@ -62,7 +62,9 @@ function setParentPin(){
 }
 function clearParentPin(){if(confirm(tx('მოვხსნა PIN-კოდი? სივრცეს მაინც დაიცავს მაგალითი.'))){state.parentPin=null;save();parentDash();}}
 function setScreenLimit(m){state.screenLimitMin=m;save();try{if(window.Analytics)Analytics.event('screenlimit_set',{minutes:String(m)});}catch(e){}parentDash();}
-function togglePremium(){state.premium=(state.premium===false)?true:false;save();} // caller re-renders. Owner-only preview now (lives in adminView); MVP keeps everything free, no user-facing lock (owner 2026-06-23)
+// owner-only paywall PREVIEW (adminView). Uses sessionStorage so it NEVER persists past the tab and can't
+// strand a real user; it is fully decoupled from real gating (state.premium is no longer read). owner 2026-06-24.
+function togglePremium(){ try{ if(sessionStorage.getItem('niko_pw_preview')==='1') sessionStorage.removeItem('niko_pw_preview'); else sessionStorage.setItem('niko_pw_preview','1'); }catch(e){} }
 // owner-device marker (honest LOCAL flag, not security): when on, analytics.js skips telemetry from this
 // device so real-user launch stats stay clean. Lives in the PIN-gated parent space. (closes audit B4)
 function toggleOwnerDevice(){try{if(localStorage.getItem('niko_owner')==='1')localStorage.removeItem('niko_owner');else localStorage.setItem('niko_owner','1');}catch(e){}} // caller re-renders (now lives in adminView, owner-only)

@@ -70,7 +70,13 @@ function isTiny(p){const a=kidObj(p).age;return a>0&&a<=4;} // pre-arithmetic: c
 function isBig(p){const a=kidObj(p).age;return a>=7;} // 7+ : harder math (division / missing-number / 2-digit) + faster celebration. Owner 2026-06-13: 7-8 yos need age-appropriate challenge.
 /* ── D2 (v2.05): free vs paid scaffold. Default = everything UNLOCKED (free launch); the boundary is a
    previewable demo, never a hard-hide — premium content stays visible, just badged + parent-gated. ── */
-function premiumOn(){return !state||state.premium!==false;}
+function premiumOn(){
+  // MVP: the paywall is OFF for everyone — every topic is free. The ONLY thing that shows locks is the
+  // owner's explicit preview in adminView, stored in sessionStorage (auto-clears on tab close, so it can
+  // NEVER strand a real user; a stale state.premium=false from an older build is now IGNORED). owner 2026-06-24.
+  try{ if(sessionStorage.getItem('niko_pw_preview')==='1') return false; }catch(e){}
+  return true;
+}
 const PREMIUM_SUBJ=['kings-eng','kings-math']; // example paid tier: Kings / Cambridge / olympiad exam prep
 function isPremiumSubj(subj){return PREMIUM_SUBJ.indexOf(subj)>=0;}
 // FREEMIUM PREVIEW (owner 2026-06-23): when premium is OFF, a premium subject is NOT hard-walled — its menu
