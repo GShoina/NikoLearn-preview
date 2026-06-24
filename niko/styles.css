@@ -218,9 +218,9 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .pcard{background:var(--card);border:1.5px solid var(--line);border-radius:var(--radius);
   padding:18px 14px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:9px;
   box-shadow:var(--shadow);transition:transform .16s, border-color .16s;position:relative}
-.pcard-del{position:absolute;top:8px;right:8px;width:34px;height:34px;border:none;border-radius:10px;
-  background:color-mix(in oklch,var(--card-2) 80%,transparent);color:var(--faint);font-size:.95rem;cursor:pointer;
-  display:grid;place-items:center;opacity:.55;transition:all .14s;z-index:2}
+.pcard-del{position:absolute;top:8px;right:8px;width:40px;height:40px;border:none;border-radius:11px;
+  background:color-mix(in oklch,var(--card-2) 80%,transparent);color:var(--muted);font-size:1rem;cursor:pointer;
+  display:grid;place-items:center;opacity:.6;transition:all .14s;z-index:2}
 .pcard-del:hover{opacity:1;background:color-mix(in oklch,var(--red) 12%,var(--card));color:var(--red)}
 .pcard-del:active{transform:scale(.9)}
 .pcard:active{transform:translateY(2px) scale(.985)}
@@ -321,7 +321,8 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 /* ── MODE GRID ── */
 .mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
 .mode{background:var(--card);border:1.5px solid var(--line);border-radius:var(--radius-sm);
-  padding:16px 12px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;
+  padding:16px 12px;min-height:104px;cursor:pointer;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:6px;
   text-align:center;box-shadow:var(--shadow);transition:transform .15s,border-color .15s}
 .mode:active{transform:translateY(2px) scale(.97)}
 .mode:hover{border-color:color-mix(in oklch,var(--primary) 50%,var(--line))}
@@ -434,6 +435,12 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .opt:active{transform:scale(.96)}
 .opt.correct{border-color:var(--green);background:color-mix(in oklch,var(--green) 16%,var(--card));color:var(--green-d);animation:pop .34s}
 .opt.wrong{border-color:var(--red);background:color-mix(in oklch,var(--red) 12%,var(--card));animation:shake .34s}
+/* v1.232: bake a ✓/✗ glyph into the option itself so right/wrong isn't conveyed by COLOUR alone
+   (color-blind-safe + clearer for a pre-reader). Corner badge, doesn't shift the option's layout. */
+.opt.correct,.opt.wrong{position:relative}
+.opt.correct::after,.opt.wrong::after{position:absolute;top:5px;right:8px;font-size:1rem;font-weight:900;line-height:1}
+.opt.correct::after{content:'✓';color:var(--green-d)}
+.opt.wrong::after{content:'✗';color:var(--red)}
 .opt.dim{opacity:.42;pointer-events:none}
 @keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.06)}100%{transform:scale(1)}}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
@@ -543,6 +550,20 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .ai-fab .ping{position:absolute;inset:0;border-radius:20px;animation:ping 2.6s ease-out infinite;
   box-shadow:0 0 0 0 color-mix(in oklch,var(--sky) 60%,transparent)}
 @keyframes ping{0%{box-shadow:0 0 0 0 color-mix(in oklch,var(--sky) 55%,transparent)}70%,100%{box-shadow:0 0 0 16px transparent}}
+
+/* idle-help nudge (v1.232): soft, dismissible "need help?" the owl offers when a child sits stuck.
+   Sits just above the floating tutor button; never blocks the question; auto-fades if ignored. */
+.idle-hint{position:absolute;right:16px;bottom:150px;z-index:46;animation:rise .3s;max-width:210px}
+.idle-hint-btn{background:var(--card);border:1.5px solid color-mix(in oklch,var(--sky) 38%,var(--line));
+  color:var(--ink);font-family:inherit;font-weight:700;font-size:.9rem;padding:11px 15px;border-radius:16px;
+  box-shadow:var(--shadow-lg);cursor:pointer;min-height:48px;line-height:1.2}
+.idle-hint-btn:active{transform:scale(.96)}
+@media (prefers-reduced-motion:reduce){.idle-hint{animation:none}}
+
+/* streak chip inside the win feedback (v1.232) */
+.fb-streak{margin-top:9px;font-weight:800;font-size:1rem;color:var(--primary-d);
+  background:color-mix(in oklch,var(--sun) 24%,var(--card));border-radius:13px;padding:5px 14px;animation:pop .34s}
+@media (prefers-reduced-motion:reduce){.fb-streak{animation:none}}
 
 .ai-bubble{background:var(--card);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow-lg);
   border:1.5px solid color-mix(in oklch,var(--sky) 30%,var(--line));display:flex;flex-direction:column;animation:rise .3s}

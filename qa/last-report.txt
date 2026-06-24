@@ -1,5 +1,5 @@
-NikoLearn QA report — version 1.175 — 0 finding(s)
-clips: 450 manifest / 437 files on disk · missing: 0
+NikoLearn QA report — version 1.232 — 0 finding(s)
+clips: 478 manifest / 467 files on disk · missing: 0
 severity: P1=0 P2=0 P3=0
 
 ✅ all checks passed — no issues found.

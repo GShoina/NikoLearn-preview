@@ -41,6 +41,31 @@ function maybeOfferHelp(){
   if(aiRole()==='coach'){clearTimeout(helpTimer);helpTimer=setTimeout(openHint,300);}
   else{const f=$('#aifab');if(f){f.style.transform='scale(1.14)';setTimeout(()=>{const g=$('#aifab');if(g)g.style.transform='';},600);}}
 }
+/* ── Idle-help (v1.232): a stuck child shows NO activity — no tap, no answer. Until now the owl only
+   reacted on the 2nd WRONG tap, so a child who simply freezes got nothing. Now the owl NOTICES the
+   pause and gently offers help: companion = a soft, dismissible "გჭირდება დახმარება?" bubble; coach =
+   auto-open the hint. Re-armed per question by gameShell, cleared the moment the child answers, opens
+   a hint, or leaves the round. Visual-only (no TTS — the ka hint voice is gated, never garble). ── */
+let idleTimer=null;
+function clearIdleHelp(){ if(idleTimer){clearTimeout(idleTimer);idleTimer=null;} closeIdleHint(); }
+function armIdleHelp(){
+  clearIdleHelp();
+  if(!profile||!$('#aifab'))return;          // only inside a live game round
+  const ms=isYoung(profile)?22000:16000;     // young kids get a longer, calmer think-pause
+  idleTimer=setTimeout(idleNudge,ms);
+}
+function idleNudge(){
+  idleTimer=null;
+  if(!$('#aifab')||$('#aiov')||$('#teachov'))return;  // gone, or child already in a hint/teach gate
+  if(aiRole()==='coach'){openHint();return;}           // coach: open the hint, as on the 2nd miss
+  const fab=$('#aifab');if(fab){fab.style.transform='scale(1.12)';setTimeout(()=>{const g=$('#aifab');if(g)g.style.transform='';},700);}
+  if($('#idlehint'))return;
+  const b=document.createElement('div');b.className='idle-hint';b.id='idlehint';
+  b.innerHTML=`<button class="idle-hint-btn" onclick="closeIdleHint();openHint()">💡 გჭირდება დახმარება?</button>`;
+  $('.device').appendChild(b);
+  setTimeout(closeIdleHint,7000);            // unobtrusive: fades itself if ignored
+}
+function closeIdleHint(){const e=$('#idlehint');if(e)e.remove();}
 function ensureTutor(){
   const q=curQ();if(!q)return null;
   const subject=gameSubject();
@@ -49,6 +74,7 @@ function ensureTutor(){
   return game.tutor;
 }
 function openHint(){
+  clearIdleHelp();                 // the child engaged → cancel any pending idle nudge
   const t=ensureTutor();if(!t)return;
   const total=t.hints.length;
   const atExplain=game.hintLevel>=total;

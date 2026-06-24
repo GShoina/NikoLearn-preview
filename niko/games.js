@@ -50,6 +50,7 @@ function coarseMode(m){
 }
 // fired (fire-and-forget) when a child leaves a round before finishing it
 function abandonRound(){
+  if(typeof clearIdleHelp==='function')clearIdleHelp();
   if(game.roundActive){ try{ if(window.Analytics) Analytics.event('round_abandon',{mode:coarseMode(),q:(game.i>=8?'8+':String(game.i||0))}); }catch(e){} game.roundActive=false; }
   openMenu(game.subj||'math');
 }
@@ -80,6 +81,7 @@ function gameShell(area){
     <div class="game" id="garea">${area}</div>
   </div>`,'slim');
   syncAiFab();
+  if(typeof armIdleHelp==='function')armIdleHelp();   // owl watches for a stuck child this question
 }
 function nextWord(){
   if(game.i>=game.qs.length)return results();
@@ -1256,6 +1258,7 @@ function examFinish(){
 
 /* ── scoring ── */
 function record(word,ok){
+  if(typeof clearIdleHelp==='function')clearIdleHelp();   // child answered → stop the idle watch
   const s=state[profile];if(!s.words[word])s.words[word]={correct:0,wrong:0};
   // 2.3: per-word consecutive-correct streak → "ნამდვილად ნასწავლი" = 3-in-a-row (stricter than the
   // cumulative correct>=3 that drives Paths/levels, which stays unchanged so progress only moves forward).
@@ -1279,7 +1282,11 @@ function feedback(ok){
   const _win=['ბრავო','შესანიშნავია','ყოჩაღ','გენიოსი ხარ','ზუსტად'];
   const _try=['კიდევ ცადე','თითქმის მოახერხე','ერთად შევძლებთ','ცოტაღა დარჩა','ნუ დანებდები'];
   const _txt=ok?(_win[Math.floor(Math.random()*_win.length)]+', '+voc()+'! 💛'):(voc()+', '+_try[Math.floor(Math.random()*_try.length)]+'! 💛');
-  el.innerHTML=`<div class="fb"><div class="fb-ico">${tutorFace(profile,'5rem')}</div><div class="fb-txt">${_txt}</div></div>`;
+  // v1.232: the owl reacts to MOMENTUM, not just the single answer — a hot streak earns a fire chip so
+  // praise feels responsive instead of uniform. Reads the live consecutive-correct streak (set in record()).
+  let _streakLine='';
+  if(ok){ const st=(state[profile]&&state[profile].streak)||0; if(st>=5)_streakLine=`<div class="fb-streak">🔥 ${st} ზედიზედ!</div>`; }
+  el.innerHTML=`<div class="fb"><div class="fb-ico">${tutorFace(profile,'5rem')}</div><div class="fb-txt">${_txt}</div>${_streakLine}</div>`;
   if(ok)el.appendChild(confettiEl());
   if(window.applyLang)applyLang(el);
   el.onclick=function(){ try{skipCeleb();}catch(e){} };
@@ -1307,6 +1314,7 @@ function confettiEl(){
 
 /* ═══════════════ RESULTS ═══════════════ */
 function results(){
+  if(typeof clearIdleHelp==='function')clearIdleHelp();
   const s=state[profile],lv=levelOf(profile);
   const tot=game.shields+game.wrong,pct=tot?Math.round(game.shields/tot*100):0;
   // A4: anonymous round outcome (fire-and-forget; the app is unaffected if telemetry is down)
