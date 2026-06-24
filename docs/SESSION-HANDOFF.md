@@ -34,7 +34,32 @@
 >   measures intent, no payment integration). Build real payment only if intent shows; price below the tutor/center alternative.
 > **Process lesson (this session):** PULL the stats/traffic BEFORE any usage/funnel claim. Never state a metric I didn't read.
 >
-> ## ▶ RESUME NOW (2026-06-24) — **v1.232 LIVE: tutor idle-help + streak chip + option ✓/✗ glyphs + UI polish**. Clean tree, HEAD==origin/main.
+> ## ▶ RESUME NOW (2026-06-24) — **v1.233 LIVE: honest voice mode + per-animal tutor persona + Kings-exam confetti**. Clean tree, HEAD==origin/main.
+> **Same owner directive (UX/UI + tutor functionality, Lane A). 2nd batch this day, on the v1.232 NEXT list. Owner was at work →
+>   verified FULLY HEADLESS + muted (silent, no window, no audio) via the cached playwright + chrome-headless-shell-1223. Recipe for
+>   future silent checks:** `node` a CJS script that `require()`s `C:/Users/gela.shonia/AppData/Local/npm-cache/_npx/9833c18b2d85bc59/
+>   node_modules/playwright`, `chromium.launch({headless:true, executablePath:'…/ms-playwright/chromium_headless_shell-1223/chrome-
+>   headless-shell-win64/chrome-headless-shell.exe'})`, `addInitScript` to neuter `speechSynthesis.speak`. NEVER pops a window on the
+>   owner's screen. (The Playwright MCP browser is headed/visible → avoid it when the owner asks not to be disturbed.)
+> **★ TUTOR (headline):** (1) **Honest voice mode** — replaced the FAKE 2.6s „გისმენ…" simulation (`voiceListen`, never touched the
+>   granted mic) with the REAL record→playback recorder already in Speaking mode (`speakRecStart/srRender/speakRecCleanup`). Child
+>   hears their OWN voice next to Niko's model word and self-compares. Privacy-strict: in-memory only, never stored/sent, mic released
+>   on stop, wiped on leaving the card (`voiceExit`). Deleted dead `voiceListen/voiceResult` + the listening-wave theatre. owl.js.
+>   (2) **Per-animal tutor persona** — each animal now has its OWN name (ბუ/კატუ/ლომი/ჭიკო/კურდღელა/პანდა/მელია/მაიმუნა) in the hint-
+>   bubble header + under each animal in the picker (a fox ≠ the owl; was identical). `TUTOR_PERSONA`+`tutorName()`/`tutorCheer()` in
+>   core.js; openHint swaps the „ბუ" prefix to the chosen animal's name. **🔴 NAMES are customer-facing copy — owner can rename any
+>   (not Gemini-QA'd, they're short proper names; flag if you want a copy pass).** Verified: fox → „მელია · ინგლისურის მასწავლებელი".
+> **★ UX/UI / parity:** (3) **Kings-exam confetti** — a confetti burst on a strong score (>=70) so finishing an exam feels as rewarding
+>   as a normal round. Coins stay OFF by design (a /100 exam is graded, not a coin round); replay („🔁 თავიდან ცადე") already existed. kings-exam.js.
+> **▶ VERIFIED (headless, muted):** voice screen renders the real recorder (no „გისმენ"), persona name swaps to „მელია" for the fox +
+>   all 8 picker names, confetti 26 pieces. **0 console errors. QA 0 findings. Live = v1.233 confirmed.** Screenshots were throwaway
+>   (in scratchpad) — not kept. The 2 v1.232 home-dir screenshots were deleted per owner cleanup ask.
+> **▶ NEXT (same lane, still open from v1.232 list):** per-animal CHEER is defined (`tutorCheer`) but only the NAME is wired so far —
+>   could surface the cheer in win-feedback/idle bubble for fuller personality; screen-transition + real back-button (`history.pushState`);
+>   finish `--faint→--muted` small-text swap (21 uses) + `role=dialog`/focus-trap on modals; re-arm idle-help after a 1st miss (today it
+>   stays cleared until the next question). **Strategic truth UNCHANGED: bottleneck = distribution + demand, not polish.**
+> **── earlier 2026-06-24 (v1.232) ──**
+> ## ▶ (2026-06-24) — **v1.232 LIVE: tutor idle-help + streak chip + option ✓/✗ glyphs + UI polish**. Clean tree, HEAD==origin/main.
 > **Owner directive this session:** concentrate on **UX/UI + tutor functionality** (Lane A build). Shipped a focused, fully-verified batch:
 > **★ TUTOR (headline):** (1) **Idle-help** — the owl now NOTICES a stuck child. Before, nothing happened until a 2nd wrong tap;
 >   now an age-tuned think-pause (22s young / 16s big) fires `idleNudge()`: companion shows a soft, dismissible
