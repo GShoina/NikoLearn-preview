@@ -93,7 +93,7 @@ function openHint(){
   if(!ov){ov=document.createElement('div');ov.className='overlay';ov.id='aiov';ov.style.alignItems='flex-end';ov.style.padding='0 16px 96px';ov.onclick=closeHint;$('.device').appendChild(ov);}
   ov.innerHTML=`<div class="ai-bubble" onclick="event.stopPropagation()">
     <button class="ai-close" onclick="closeHint()" aria-label="დახურვა">✕</button>
-    <div class="ai-top"><div class="ai-ava alive" onclick="event.stopPropagation();pickTutor()" title="შეცვალე მასწავლებელი">${tutorFace(profile)}</div><div class="ai-name">${t.name}</div></div>
+    <div class="ai-top"><div class="ai-ava alive" onclick="event.stopPropagation();pickTutor()" title="შეცვალე მასწავლებელი">${tutorFace(profile)}</div><div class="ai-name">${(typeof tutorName==='function'?t.name.replace(/^ბუ/,tutorName(profile)):t.name)}</div></div>
     <div class="ai-text">${text}</div>
     <div class="hint-dots">${dots}</div>
     <button class="ai-listen-big" onclick="speakHint(this)">${I.speaker} მოისმინე</button>
@@ -132,7 +132,7 @@ function pickTutor(){
   ov.innerHTML=`<div class="tutor-modal" onclick="event.stopPropagation()">
     <button class="ai-close" onclick="document.getElementById('tutorpick').remove()" aria-label="დახურვა">✕</button>
     <div class="tutor-modal-h">აირჩიე მასწავლებელი</div>
-    <div class="tutor-grid">${TUTOR_ANIMALS.map(a=>`<button class="tutor-pick ${tutorAva(profile)===a?'on':''}" onclick="chooseTutor('${a}')">${a}</button>`).join('')}</div>
+    <div class="tutor-grid">${TUTOR_ANIMALS.map(a=>`<button class="tutor-pick ${tutorAva(profile)===a?'on':''}" onclick="chooseTutor('${a}')"><span class="tp-face">${a}</span><span class="tp-name">${(typeof TUTOR_PERSONA!=='undefined'&&TUTOR_PERSONA[a]?TUTOR_PERSONA[a].name:'')}</span></button>`).join('')}</div>
   </div>`;
   $('.device').appendChild(ov);
 }
@@ -141,77 +141,54 @@ function chooseTutor(a){
   const o=$('#tutorpick');if(o)o.remove();
   syncAiFab();                       // update the floating tutor button
   if($('#aiov'))openHint();          // refresh the open hint bubble with the new face
-  if($('.voice'))voiceScreen('idle');// refresh voice screen if open
+  if($('.voice'))voiceScreen();      // refresh voice screen if open
 }
 
-/* ── VOICE MODE ── */
+/* ── VOICE MODE (honest, v1.232): real record → playback so the child HEARS THEIR OWN voice next to
+   Niko's model word and self-compares. The old flow was theatre: `voiceListen` was a 2.6s FAKE timer
+   ("გისმენ…") that NEVER touched the granted mic, then just replayed the word. Removed. Now it reuses the
+   privacy-strict recorder from Speaking mode (speakRecStart/srRender/speakRecCleanup): in-memory only,
+   never stored, never sent, mic released on stop, wiped the moment the child leaves the card. ── */
 function openVoice(){
   if($('#aiov'))$('#aiov').remove();
-  // gate behind mic-permission once per session
-  if(!game.micOk)return micPermission();
-  voiceScreen('idle');
+  if(!game.micOk)return micPermission();   // one-time parent-facing consent before the OS mic prompt
+  voiceScreen();
 }
 function micPermission(){
   render(`<div class="screen permwrap">
     <div class="perm-ico">${I.mic}</div>
     <h2>ხმოვანი რეჟიმი</h2>
-    <p>ბუ მოგისმენს, როცა მიკროფონს დააჭერ, და დაგეხმარება გამოთქმაში.</p>
+    <p>ჩაიწერ შენს ხმას, მერე ნიკოს ნიმუშს მოუსმენ და შეადარებ. ასე გამოთქმას ივარჯიშებ.</p>
     <div class="perm-points">
-      <div class="perm-point">${I.check} ვსმენთ მხოლოდ მაშინ, როცა მიკროფონს დააჭერ</div>
+      <div class="perm-point">${I.check} ვიწერთ მხოლოდ მაშინ, როცა ჩაწერას დააჭერ</div>
       <div class="perm-point">${I.privacy} ხმა მუშავდება <b>შენს მოწყობილობაზე</b>, არსად იგზავნება</div>
-      <div class="perm-point">${I.check} არაფერი ინახება და არ ზიარდება</div>
+      <div class="perm-point">${I.check} არაფერი ინახება — შემდეგზე გადასვლისას იშლება</div>
     </div>
     <button class="btn btn-primary btn-block" style="max-width:320px" onclick="grantMic()">დართე ნება (მშობელი)</button>
     <button class="btn btn-ghost btn-block" style="max-width:320px" onclick="game.subj?openMenu(game.subj):selectProfile(profile)">ახლა არა</button>
     <p class="consent-note">ეს ერთჯერადი თანხმობაა. ხმის დამუშავება ხდება მხოლოდ მოწყობილობაზე, ღრუბელში არ იგზავნება.</p>
   </div>`,false);
 }
-function grantMic(){game.micOk=true;voiceScreen('idle');}
-function voiceScreen(stateName){
-  // always pronounce the ENGLISH word. kings-eng "translate" cards have no .en (prompt is Georgian in
-  // .q) → use .a, NEVER the Georgian .q (that was being read by the English voice = garbled).
+function grantMic(){game.micOk=true;voiceScreen();}
+function voiceExit(){ if(typeof speakRecCleanup==='function')speakRecCleanup(); game.subj?openMenu(game.subj):selectProfile(profile); }
+function voiceScreen(){
+  if(typeof speakRecCleanup==='function')speakRecCleanup();   // fresh card: no leftover recording
   const _q=game.qs&&game.qs[game.i]?game.qs[game.i]:null;
+  // always pronounce the ENGLISH word. kings-eng "translate" cards have no .en (prompt is ka in .q) → use .a.
   const target=(_q&&(_q.en||_q.a))||'apple';
   const tk=_q?(_q.ka||''):'ვაშლი';
-  const states={
-    idle:{s:'დააჭირე და თქვი',h:'წარმოთქვი სიტყვა ხმამაღლა, მერე ერთად გავიმეოროთ',ava:tutorFace(profile)},
-    listening:{s:'გისმენ…',h:'ლაპარაკობ ნათლად 🎙️',ava:'👂'},
-    speaking:{s:'ახლა ნიკოს მოუსმინე',h:'',ava:'🗣️'}
-  };
-  const st=states[stateName];
-  let mid='';
-  if(stateName==='idle')mid=`<button class="mic" id="micbtn" onclick="voiceListen()"><span class="pulse"></span>${I.mic}</button>`;
-  else if(stateName==='listening')mid=`<div class="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><button class="mic live" onclick="voiceResult()"><span class="pulse"></span>${I.mic}</button>`;
-  else mid=`<div class="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>`;
+  const esc=String(target).replace(/'/g,"\\'");
   render(`<div class="screen voice">
-    <button class="iconbtn" style="position:absolute;top:18px;left:18px" onclick="game.subj?openMenu(game.subj):selectProfile(profile)">←</button>
-    <div class="v-ava">${st.ava}</div>
-    <div class="v-target">${target}<small>${tk}</small></div>
-    <div class="v-state">${st.s}</div>
-    ${st.h?`<div class="v-hint">${st.h}</div>`:''}
-    ${mid}
-  </div>`,false);
-  if(stateName==='speaking')speak(target,'en-US');
-}
-function voiceListen(){voiceScreen('listening');setTimeout(()=>{if($('.voice'))voiceResult();},2600);}
-// HONEST repeat mode: the app cannot really grade pronunciation, so it does NOT fake a score.
-// Instead it plays the correct English word for the child to hear and repeat ("გაიმეორე ნიკოსთან").
-function voiceResult(){
-  const _q=game.qs&&game.qs[game.i]?game.qs[game.i]:null;
-  const target=(_q&&(_q.en||_q.a))||'apple';
-  const tk=_q?(_q.ka||''):'';
-  render(`<div class="screen voice">
-    <button class="iconbtn" style="position:absolute;top:18px;left:18px" onclick="game.subj?openMenu(game.subj):selectProfile(profile)">←</button>
-    <div class="v-ava">🗣️</div>
+    <button class="iconbtn" style="position:absolute;top:18px;left:18px" onclick="voiceExit()">←</button>
+    <div class="v-ava">${tutorFace(profile)}</div>
     <div class="v-target">${target}${tk?`<small>${tk}</small>`:''}</div>
     <div class="v-state">მოისმინე და გაიმეორე</div>
-    <div class="v-hint">ნიკო სიტყვას იტყვის, შენ კი ხმამაღლა გაიმეორე.</div>
-    <button class="ai-listen-big" onclick="speak('${target.replace(/'/g,"\\'")}','en-US')">${I.speaker} ისევ მოისმინე</button>
-    <div class="ai-chips" style="justify-content:center">
-      <button class="ai-chip primary" onclick="voiceScreen('idle')">${I.mic} კიდევ ვცადო</button>
-    </div>
+    <div class="v-hint">ჯერ ნიკოს მოუსმინე, მერე შენ ჩაიწერე და შეადარე 🙂</div>
+    <button class="ai-listen-big" onclick="speak('${esc}','en-US')">${I.speaker} მოისმინე ნიკო</button>
+    <div id="srbox" class="srbox" style="margin-top:16px"></div>
   </div>`,false);
-  speak(target,'en-US');
+  if(typeof srRender==='function')srRender();   // the real record→playback controls (Speaking-mode recorder)
+  setTimeout(()=>{try{speak(target,'en-US');}catch(e){}},350);
 }
 
 /* ═══════════════ MOVEMENT BREAK v2, rigged-SVG kids in the Georgian kit ═══════════════

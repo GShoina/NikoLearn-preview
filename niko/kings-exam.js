@@ -304,6 +304,9 @@ function kxFinish(){
     <button class="btn btn-primary btn-block" onclick="kxPick('${subj}')">🔁 თავიდან ცადე</button>
     <button class="btn btn-ghost btn-block mt" onclick="openMenu('kings-${subj}')">უკან</button>
   </div></div>`, false);
+  // v1.232: bring the exam finish to parity with a normal round's celebration — a confetti burst on a
+  // strong score (coins stay OFF by design: a /100 exam is graded, not a coin round). Self-removes.
+  if(total>=70){ try{ if(typeof confettiEl==='function'){ const c=confettiEl(); (document.querySelector('.device')||document.body).appendChild(c); setTimeout(()=>{try{c.remove();}catch(e){}},2200); } }catch(e){} }
   kx=null;
 }
 

@@ -94,6 +94,21 @@ function kLevelName(n){return n>=3?'Flyers':n>=2?'Movers':'Starters';}
 /* ── tutor animal (O1): the child picks who teaches them; visual only, voice unchanged ── */
 const TUTOR_ANIMALS=['🦉','🐱','🦁','🐶','🐰','🐼','🦊','🐵'];
 function tutorAva(p){const k=kidObj(p);return (k&&k.tutor)||'🦉';}
+// Per-animal PERSONA (v1.232): a chosen animal now has its OWN name (and a tiny cheer flavor), so a fox
+// feels different from the owl — before, every animal said identical lines. TEXT-only (no new content/voice);
+// the name shows in the hint-bubble header and under each animal in the picker. Owner can rename any of these.
+const TUTOR_PERSONA={
+  '🦉':{name:'ბუ',       cheer:'ბრძენია!'},
+  '🐱':{name:'კატუ',     cheer:'მიუ, ყოჩაღ!'},
+  '🦁':{name:'ლომი',     cheer:'ძლიერი ხარ!'},
+  '🐶':{name:'ჭიკო',     cheer:'ჰავ, მართალია!'},
+  '🐰':{name:'კურდღელა', cheer:'ერთი ხტომით!'},
+  '🐼':{name:'პანდა',    cheer:'მშვიდად და სწორად!'},
+  '🦊':{name:'მელია',    cheer:'ეშმაკურია!'},
+  '🐵':{name:'მაიმუნა',  cheer:'მარჯვედ!'}
+};
+function tutorName(p){const a=tutorAva(p);return (TUTOR_PERSONA[a]&&TUTOR_PERSONA[a].name)||'ბუ';}
+function tutorCheer(p){const a=tutorAva(p);return (TUTOR_PERSONA[a]&&TUTOR_PERSONA[a].cheer)||'';}
 // Display face for the tutor. The DEFAULT owl renders as the brand mascot image (owl-logo.png) instead of
 // the flat 🦉 emoji, so the tutor everywhere matches the app's owl branding (owner 2026-06-13). A kid who
 // picked a different animal (🦊🐱…) still gets that emoji. Pass a CSS size for inline contexts; omit it to
