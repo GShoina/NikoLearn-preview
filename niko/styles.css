@@ -382,6 +382,21 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 @keyframes srpulse{0%,100%{opacity:1}50%{opacity:.25}}
 @media(prefers-reduced-motion:reduce){.srdot{animation:none}}
 .sr-priv{flex-basis:100%;text-align:center;font-size:.8rem;color:var(--muted);line-height:1.35;margin-top:2px}
+/* ── Kings faithful EXAM (sectioned, real format) — owner 2026-06-24 ── */
+.kx-pts{font-size:.72rem;font-weight:700;color:var(--sun-d,#b8860b);background:color-mix(in oklch,var(--sun,#f5c518) 20%,var(--card));border-radius:999px;padding:2px 9px;margin-left:6px;vertical-align:middle}
+.kx-big{font-size:4.6rem;font-weight:800;line-height:1;color:var(--ink);margin:4px 0;font-family:'Fredoka',system-ui,sans-serif}
+.kx-word{font-size:1.9rem;font-weight:700;letter-spacing:1px}
+.kx-word u,.prompt u{text-decoration:none;border-bottom:3px solid color-mix(in oklch,var(--sky) 60%,transparent);padding:0 2px}
+.kx-seq{font-size:1.04rem;font-weight:700;letter-spacing:1px;line-height:1.7;word-spacing:5px;color:var(--ink);max-width:330px;margin:4px auto}
+.opt.kx-opt{font-size:1.5rem;font-weight:800}
+.screen.kx-result{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:0}
+.kx-card{background:#fff;border:1.5px solid color-mix(in oklch,var(--line) 80%,transparent);border-radius:24px;padding:28px 22px;max-width:340px;width:92%;text-align:center;box-shadow:0 14px 36px color-mix(in oklch,var(--ink) 16%,transparent)}
+.kx-trophy{font-size:3rem;line-height:1}
+.kx-title{font-weight:700;font-size:1.05rem;color:var(--ink);margin-top:4px}
+.kx-score{font-size:3.4rem;font-weight:800;color:var(--green-d,#1a7a3a);margin:8px 0 0;font-family:'Fredoka',system-ui,sans-serif}
+.kx-score span{font-size:1.3rem;color:var(--muted);font-weight:700}
+.kx-bonus{font-size:.9rem;color:var(--sun-d,#b8860b);font-weight:700;margin-top:2px}
+.kx-msg{font-size:1rem;color:var(--ink);margin:10px 0 16px}
 
 .options{display:grid;grid-template-columns:1fr 1fr;gap:11px}
 .opt{background:var(--card);border:1.5px solid var(--line);border-radius:var(--radius-sm);

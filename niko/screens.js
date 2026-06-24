@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.227'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.228'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 function goHome(){
   // A4: if a round was in progress, count it as abandoned before we leave it
   if(typeof game!=='undefined'&&game&&game.roundActive){ try{ if(window.Analytics)Analytics.event('round_abandon',{mode:coarseMode(),q:(game.i>=8?'8+':String(game.i||0))}); }catch(e){} game.roundActive=false; }
@@ -386,7 +386,7 @@ function openMenu(subj){
   } else if(subj==='kings-eng'){
     body=`${kingsLevelBar()}
     <div class="mode-grid">
-      <div class="mode feature play" onclick="startKings('eng')">${PLAY_BADGE}<div class="m-ico">👑</div><div><div class="m-name">კინგსის ტესტი</div><div class="m-sub">სურათი · თარგმანი · მართლწერა · გრამატიკა</div></div></div>
+      <div class="mode feature play" onclick="kxPick('eng')">${PLAY_BADGE}<div class="m-ico">👑</div><div><div class="m-name">კინგსის ტესტი</div><div class="m-sub">ნამდვილი ფორმატი · მე-2/3 კლასი · 100 ქულა</div></div></div>
       ${kmode('kings-eng','quiz','🎯','ლექსიკა','')}
       ${kmode('kings-eng','listen','👂','მოსმენა','სიტყვა')}
       ${kmode('kings-eng','listen-yle','🎧','მოსმენა+','წინადადება')}
