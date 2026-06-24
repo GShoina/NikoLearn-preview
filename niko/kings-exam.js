@@ -306,3 +306,41 @@ function kxFinish(){
   </div></div>`, false);
   kx=null;
 }
+
+/* ── standalone PRACTICE modes ported from the Kings pools into the REGULAR English subject (owner 2026-06-24).
+   Verified gap: regular English had NO grammar and no single-letter spelling (only full-word „spell"); regular
+   math already had word-problems/patterns/logic, so nothing was ported there. Repeatable practice (re-queues
+   misses, awards coins, ends on the standard results screen) — NOT an exam. ── */
+function kxPracticeRound(mode){
+  let pool, render;
+  if(mode==='engram'){
+    pool=KEX_GR3;
+    render=it=>`<div class="section-label">📝 გრამატიკა</div><div class="p-word en" style="font-size:1.3rem">${it.q.replace('___','<u>＿＿</u>')}</div><div class="p-sub" style="margin-top:8px">აირჩიე სწორი ვარიანტი</div>`;
+  } else { // addlet — single-letter spelling (phonics), level-appropriate pool
+    const lv=(typeof kingsLevel==='function')?kingsLevel():1; pool=(lv>=2?KEX_SP3:KEX_SP2);
+    render=it=>`<div class="section-label">🔡 ასოს დამატება</div><div class="p-word en kx-word">${it.w.replace('_','<u>＿</u>')}</div><div class="p-sub" style="margin-top:8px">დაამატე ასო და ააწყვე სიტყვა</div>`;
+  }
+  game.mode=mode; game.kind=mode; game.subj=game.subj||'english'; game.shields=0; game.wrong=0; game.i=0;
+  game.missMap=new Map(); game.requeues=0; game.start=Date.now(); game.preLvl=levelIdx(profile);
+  game.qs=shuffle(pool.slice()).slice(0,8); game._prRender=render;
+  kxprNext();
+}
+function kxprNext(){
+  if(game.i>=game.qs.length)return results();
+  const it=game.qs[game.i], cor=it.a, oo=shuffle(it.opts.slice());
+  const body=`<div class="prompt">${game._prRender(it)}</div>
+    <div class="opt-list">${oo.map(o=>{const e=String(o).replace(/'/g,"\\'");return `<button class="opt en kx-opt" onclick="speak('${e}');kxprAnswer(this,'${e}','${String(cor).replace(/'/g,"\\'")}')">${o}</button>`;}).join('')}</div>`;
+  gameShell(body); $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
+}
+function kxprAnswer(btn,sel,cor){
+  const s=state[profile];
+  if(String(sel)===String(cor)){
+    document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim')); btn.classList.remove('dim'); btn.classList.add('correct');
+    s.shields++; game.shields++; s.streak++; s.maxStreak=Math.max(s.maxStreak,s.streak); save();
+    winStep(null,null,()=>{game.i++;kxprNext();});
+  } else {
+    btn.classList.add('wrong','dim'); s.streak=0; game.wrong++; save();
+    if(typeof reQueueWrong==='function')reQueueWrong(cor,'en-US');
+    else { document.querySelectorAll('.opt').forEach(b=>{b.style.pointerEvents='none'; if(String(b.textContent).trim()===String(cor))b.classList.add('correct');}); setTimeout(()=>{game.i++;kxprNext();},900); }
+  }
+}

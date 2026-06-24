@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.230'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.231'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 function goHome(){
   // A4: if a round was in progress, count it as abandoned before we leave it
   if(typeof game!=='undefined'&&game&&game.roundActive){ try{ if(window.Analytics)Analytics.event('round_abandon',{mode:coarseMode(),q:(game.i>=8?'8+':String(game.i||0))}); }catch(e){} game.roundActive=false; }
@@ -379,6 +379,8 @@ function openMenu(subj){
       ${mode('listen','👂','სურათი','🔊 → ხატულა')}
       ${mode('match','🧩','დააწყვილე','ქართ ↔ ინგლ')}
       ${mode('spell','✍️','დაწერე','მართლწერა')}
+      ${mode('addlet','🔡','ასოს დამატება','ააწყვე სიტყვა')}
+      ${!isYoung(profile)?mode('engram','📝','გრამატიკა','am / is / are…'):''}
       <div class="mode stack" onclick="openPhrases(event)"><div class="m-ico">💬</div><div class="m-name">ფრაზები</div><div class="m-sub">ყოველდღიური</div></div>
       ${(typeof weakWords==='function'&&weakWords().length)?`<div class="mode play review-tile" onclick="startReview()">${PLAY_BADGE}<div class="m-ico">🔁</div><div class="m-name">გაიმეორე</div><div class="m-sub">რთული სიტყვები</div></div>`:''}
       ${(!isYoung(profile)&&typeof dueWords==='function'&&dueWords().length)?`<div class="mode play refresh-tile" onclick="startRefresh()">${PLAY_BADGE}<div class="m-ico">🔄</div><div class="m-name">დღევანდელი გამეორება</div><div class="m-sub">${dueWords().length} ${window.UILANG==='en'?'words':'სიტყვა'}</div></div>`:''}
