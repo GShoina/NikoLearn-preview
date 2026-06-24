@@ -34,7 +34,29 @@
 >   measures intent, no payment integration). Build real payment only if intent shows; price below the tutor/center alternative.
 > **Process lesson (this session):** PULL the stats/traffic BEFORE any usage/funnel claim. Never state a metric I didn't read.
 >
-> ## ▶ RESUME NOW (2026-06-24) — **v1.231 LIVE: Kings EN+MATH faithful exams + Grammar/Add-letter ported into regular English**. Clean tree.
+> ## ▶ RESUME NOW (2026-06-24) — **v1.232 LIVE: tutor idle-help + streak chip + option ✓/✗ glyphs + UI polish**. Clean tree, HEAD==origin/main.
+> **Owner directive this session:** concentrate on **UX/UI + tutor functionality** (Lane A build). Shipped a focused, fully-verified batch:
+> **★ TUTOR (headline):** (1) **Idle-help** — the owl now NOTICES a stuck child. Before, nothing happened until a 2nd wrong tap;
+>   now an age-tuned think-pause (22s young / 16s big) fires `idleNudge()`: companion shows a soft, dismissible
+>   „💡 გჭირდება დახმარება?" bubble (`.idle-hint`, opens the hint on tap, self-fades 7s), coach auto-opens the hint. Armed per
+>   question at the end of `gameShell`, cleared on answer (`record()`), hint-open (`openHint`), abandon, results. Visual-only (no
+>   TTS — ka hint voice stays gated, never garble). New `armIdleHelp/clearIdleHelp/idleNudge/closeIdleHint` in owl.js.
+>   (2) **Streak-aware celebration** — `feedback(true)` shows a „🔥 N ზედიზედ!" chip (`.fb-streak`) when `state[p].streak>=5`, so
+>   praise reacts to MOMENTUM instead of uniform random.
+> **★ UX/UI:** (3) answer options carry a baked-in ✓/✗ corner glyph (`.opt.correct/.wrong::after`) → not colour-only
+>   (colour-blind-safe + clearer for pre-readers); (4) `.mode` tiles got `min-height:104px` → mode-grid rows no longer ragged;
+>   (5) `.pcard-del` 34→40px + faint→muted (proper tap target; confirmDelete flow already existed, untouched).
+> **▶ VERIFIED (Playwright, muted):** 4-opt quiz renders, computed ✓/✗ glyphs, idle bubble shows+clears, streak chip „🔥 6
+>   ზედიზედ!", `.mode` min-height 104px (settled), `.pcard-del` 40px. **0 console errors. QA 0 findings. Live = v1.232 confirmed.**
+> **▶ NEXT (same lane, owner's focus = UX/UI + tutor):** candidates from this session's full audit (in chat) — wire VOICE MODE's
+>   fake `voiceListen` (owl.js:170, 2.6s timer) to the REAL record→playback that already exists (games.js ~1024) so „ხმით" is honest;
+>   per-animal tutor personality (a fox vs owl currently say identical lines); pre-record/compose hint lines so the „მოისმინე" button
+>   isn't silent on ka-voiceless devices; Kings-exam result parity (no coins/confetti/replay vs normal rounds); screen-transition +
+>   real back-button (`history.pushState`); finish the `--faint→--muted` small-text swap (21 uses) + `role=dialog`/focus-trap on modals.
+> **🔴 Strategic truth UNCHANGED (data block below):** the bottleneck is distribution + demand, NOT content/polish. UX/tutor work
+>   improves the product a real child feels, but does not by itself validate demand. Keep that honest.
+>
+> ## ▶ (2026-06-24) — **v1.231 LIVE: Kings EN+MATH faithful exams + Grammar/Add-letter ported into regular English**. Clean tree.
 > **★ v1.231 — ported the genuinely-missing Kings capabilities into the REGULAR English subject** (owner asked what's
 >   worth carrying over; verified first). Added 📝 გრამატიკა (`engram`, fill-blank, non-young) + 🔡 ასოს დამატება (`addlet`,
 >   phonics single-letter). MATH = nothing ported (regular math already has word-problems `math-word`, patterns `math-pat`,
