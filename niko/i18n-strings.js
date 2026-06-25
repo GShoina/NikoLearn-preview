@@ -864,3 +864,37 @@ window.I18N_PATTERNS = [
   /* -- profile-chooser card level badge "N · 🐣 დამწყები" (composite, level name reused from MAP) -- */
   [new RegExp("^(\\d+) · (🐣|🌱|🚀|⭐|🏆) (დამწყები|მზარდი|მსწავლელი|მკვლევარი|ჩემპიონი)$"), m=>`${m[1]} · ${m[2]} ${window.I18N_MAP[m[3]]||m[3]}`],
 ];
+
+/* ── Tier-1 app chrome EN coverage, batch 1 (owner 2026-06-25) — STATIC UI strings only;
+   content (vocab, math problems, reading texts, proper names) stays Georgian by design. ── */
+Object.assign(window.I18N_MAP, {
+  "ბრავო":"Bravo","მართალია":"Correct!","შესანიშნავია":"Excellent!","ყოჩაღ":"Well done!",
+  "ზუსტად":"Exactly!","სწორია":"That's right!","ძალიან კარგი":"Very good!","გენიოსი ხარ":"You're a genius!",
+  "გაიხარე":"Way to go!","აი, ასე":"That's it!","ბრძენია!":"So smart!","მარჯვედ!":"Nicely done!",
+  "ერთი ხტომით!":"In one leap!","მშვიდად და სწორად!":"Calm and correct!","ძლიერი ხარ!":"You're strong!","ეშმაკურია!":"Clever!",
+  "ვინ სწავლობს?":"Who's learning?","დაიწყე ახლავე, პროფილის გარეშე":"Start now, no profile",
+  "შექმენი პროფილი, პროგრესი შეინახება":"Create a profile, progress is saved",
+  "მოგესალმები 👋 ჯერ ისწავლე თამაშით, მერე შექმენი პროფილი":"Hi 👋 first learn through play, then create a profile",
+  "ააწყვე სიტყვა":"Build a word","ასოს დამატება":"Add a letter","გრამატიკა":"Grammar","ინგლისური ანბანი":"English alphabet",
+  "ხატვა და გაფერადება":"Draw & colour","ხატვა, გაფერადება და გასაფერადებელი შაბლონები":"Draw, colour and templates",
+  "რთული":"Hard","თითქმის მოახერხე":"Almost there","ცოტაღა დარჩა":"Almost done!","ნუ დანებდები":"Don't give up",
+  "ერთად შევძლებთ":"We'll do it together","შემდეგი →":"Next →","✓ დასრულება":"✓ Finish","კიდევ ცადე":"Try again",
+  "📝 ამოცანა":"📝 Problem","📝 ამოცანები":"📝 Problems","🔢 რებუსი":"🔢 Rebus","🧩 კანონზომიერება":"🧩 Pattern",
+  "ადექი და აჩვენე დედას ან მამას":"Get up and show mum or dad","ყველა დავთვალოთ ერთად":"Let's count them all together",
+  "ნიმუში-პასუხი 👂":"Sample answer 👂","ნიმუში (ერთ-ერთი კარგი პასუხი) 👂":"Sample (one good answer) 👂",
+  "NIKO LEARN: პროგრესის რეპორტი":"NIKO LEARN: Progress report","ათვისებული":"Mastered","კარგად დამახსოვრებული":"Well remembered",
+  "საუკეთესო სერია:":"Best streak:","ჯამური პროგრესი:":"Total progress:","უკვე იცის:":"Already knows:",
+  "დღე":"day","წთ":"min","ეტაპი":"stage","3-ჯერ ზედიზედ სწორად":"3 correct in a row",
+  "გასაფერადებელი":"To colour","გასაფერადებელი შაბლონები":"Colouring templates","გასუფთავება":"Clear",
+  "ფუნჯი":"Brush","ფუნჯის ზომა":"Brush size","შტამპები":"Stamps","შტამპი":"Stamp","საშლელი":"Eraser",
+  "შევსება":"Fill","ცისარტყელა ფუნჯი":"Rainbow brush","ერთი ნაბიჯით უკან":"Undo",
+  "აირჩიე სწორი ვარიანტი":"Choose the correct option","ამოხსენი ამოცანა":"Solve the problem",
+  "დაფიქრდი და აირჩიე სწორი პასუხი":"Think and choose the right answer","გამოიცანი გამოტოვებული":"Find the missing one",
+  "დაამატე ასო და ააწყვე სიტყვა":"Add a letter and build the word","აირჩიე სწორი პასუხი სურათის მიხედვით":"Choose the right answer from the picture",
+  "🎁 ბონუსი":"🎁 Bonus","🧠 ლოგიკა":"🧠 Logic","🧮 გამოთვლა":"🧮 Calculate",
+  "ძალიან კარგი! 🌟":"Very good! 🌟","შესანიშნავია! 🏆":"Excellent! 🏆","ნუ ღელავ, ერთად გავიმეოროთ 🦉":"Don't worry, let's repeat together 🦉",
+  "ფულის ამოცანა":"Money problem","გჭირდება დახმარება?":"Need help?",
+  "ენა / Language":"Language / ენა","აპის ინტერფეისის ენა":"App interface language",
+  "ისწავლე თამაშით ერთ წუთში, პროფილის გარეშე 👇":"Learn through play in a minute, no profile 👇",
+  "პროგრესი შეინახება":"Progress is saved"
+});

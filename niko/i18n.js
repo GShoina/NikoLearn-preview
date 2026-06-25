@@ -113,9 +113,8 @@
 
   function boot(){
     var onLanding=!!document.querySelector('.nav .wrap');
-    // App has no toggle now: never strand a user in English (e.g. a stale 'en' in localStorage from the old
-    // app toggle, or set earlier on the landing page). Force Georgian in the app so the chrome is consistent.
-    if(!onLanding && window.UILANG==='en'){ window.UILANG='ka'; persist(); try{document.documentElement.lang='ka';}catch(e){} }
+    // App now RESPECTS the persisted UI language (parent switches EN/ka in the parent space — Tier-1 EN
+    // coverage, owner 2026-06-25). No force-Georgian. mountToggle still mounts only on the landing nav.
     mountToggle();
     if(window.UILANG==='en')applyLang(document.body);
   }
