@@ -39,6 +39,7 @@
     <div class="app" id="app"></div>
     <nav class="bottomnav hidden" id="bottomnav">
       <button data-nav="home" onclick="goHome()" aria-label="მთავარი" title="მთავარი"><span></span></button>
+      <button data-nav="lang" onclick="openLangPicker(event)" aria-label="ინტერფეისის ენა / interface language" title="ინტერფეისის ენა / language"><span></span></button>
       <button data-nav="theme" onclick="cycleTheme()" aria-label="თემა" title="თემა"><span></span></button>
       <button data-nav="abc" onclick="profile&&openMenu('ka-alpha')" aria-label="ანბანი" title="ანბანი"><span></span></button>
       <button data-nav="math" onclick="profile&&openMenu('math')" aria-label="მათემატიკა" title="მათემატიკა"><span></span></button>
@@ -102,12 +103,12 @@ window.__NIKO_DEFAULTS = /*EDITMODE-BEGIN*/{
 <script>
 // fill bottom-nav icons. Deferred modules run before DOMContentLoaded, so `I` + #bottomnav are ready here.
 document.addEventListener('DOMContentLoaded',function(){
-  var b=document.querySelectorAll('#bottomnav button');
-  if(b.length<4 || typeof I==='undefined')return;
-  b[0].innerHTML=I.home+'<span class="navdot"></span>';
-  b[1].innerHTML='<span class="navemoji">🎨</span><span class="navdot"></span>';
-  b[2].innerHTML=I.abc+'<span class="navdot"></span>';
-  b[3].innerHTML=I.calc+'<span class="navdot"></span>';
+  if(typeof I==='undefined')return;
+  // position-aware fill (by data-nav, so inserting a button never misaligns icons)
+  var ico={home:I.home,theme:'<span class="navemoji">🎨</span>',lang:'<span class="navemoji">🌐</span>',abc:I.abc,math:I.calc};
+  document.querySelectorAll('#bottomnav button').forEach(function(btn){
+    var key=btn.getAttribute('data-nav'); if(ico[key])btn.innerHTML=ico[key]+'<span class="navdot"></span>';
+  });
 });
 </script>
 

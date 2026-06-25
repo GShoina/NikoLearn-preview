@@ -135,6 +135,22 @@ function toggleVoice(e){if(e)e.stopPropagation();setVoice(profile,voiceLang(prof
 // 🌐 INTERFACE language toggle (distinct from 🔊 voice): always-available UI-language switch (owner 2026-06-25)
 function langToggleBtn(){return `<button class="app-lang" onclick="appLang(event)" aria-label="ინტერფეისის ენა / interface language" title="ინტერფეისის ენა / language">🌐 ${window.UILANG==='en'?'ქარ':'EN'}</button>`;}
 function appLang(e){if(e)e.stopPropagation(); try{ if(typeof setUILang==='function') setUILang(window.UILANG==='en'?'ka':'en'); }catch(_){} if(typeof goHome==='function') goHome();}
+// 🌐 bottom-nav language PICKER (owner 2026-06-25): tap opens a 2-choice KA/EN menu (active highlighted),
+// pick re-renders the UI in place. Lives in the global bottom-nav next to 🏠, mirroring the 🎨 theme control.
+function openLangPicker(e){
+  if(e)e.stopPropagation();
+  if(document.getElementById('langpick')){closeLangPicker();return;} // tap again = close
+  var en=(window.UILANG==='en');
+  var back=document.createElement('div'); back.id='langpick'; back.className='langpick-back';
+  back.onclick=function(ev){ if(ev.target===back) closeLangPicker(); };
+  back.innerHTML='<div class="langpick" role="menu" aria-label="ინტერფეისის ენა / interface language">'
+    +'<button role="menuitemradio" aria-checked="'+(!en)+'" class="lp-opt'+(en?'':' on')+'" onclick="pickLang(\'ka\')"><span class="lp-flag">🇬🇪</span> ქართული</button>'
+    +'<button role="menuitemradio" aria-checked="'+en+'" class="lp-opt'+(en?' on':'')+'" onclick="pickLang(\'en\')"><span class="lp-flag">🇬🇧</span> English</button>'
+    +'</div>';
+  (document.querySelector('.device')||document.body).appendChild(back);
+}
+function closeLangPicker(){var w=document.getElementById('langpick'); if(w)w.remove();}
+function pickLang(l){ try{ if(typeof setUILang==='function') setUILang(l); }catch(_){} closeLangPicker(); }
 function catsFor(p){return isYoung(p)?AGE_CATS.masho:AGE_CATS.niko;}
 function demoNiko(){ // seeded so the prototype shows realistic data
   const k=blankKid();k.shields=148;k.streak=6;k.maxStreak=11;k.sessions=23;k.lastPlayed=new Date().toISOString();k.totalTime=3600000*2.4;
@@ -173,7 +189,6 @@ function topbar(title,sub,back){
   const showStreak=kidObj(profile).age>=6;
   return `<div class="topbar">
     ${back?`<button class="iconbtn" onclick="${back}" aria-label="უკან"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>`:''}
-    ${langToggleBtn()}
     <div class="who">${title}${sub?`<small>${sub}</small>`:''}</div>
     <div class="chips">
       ${voiceToggleBtn()}
