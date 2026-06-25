@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.246'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.247'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 function goHome(){
   // A4: if a round was in progress, count it as abandoned before we leave it
   if(typeof game!=='undefined'&&game&&game.roundActive){ try{ if(window.Analytics)Analytics.event('round_abandon',{mode:coarseMode(),q:(game.i>=8?'8+':String(game.i||0))}); }catch(e){} game.roundActive=false; }
@@ -38,6 +38,7 @@ function goHome(){
       <div class="pmeta">ისწავლე თამაშით ერთ წუთში, პროფილის გარეშე 👇</div></div>
     </button>`:'';
   render(`<div class="screen home">
+    <button class="app-lang gate-lang" onclick="appLang(event)" aria-label="ინტერფეისის ენა / interface language" title="ენა / language">🌐 ${window.UILANG==='en'?'ქარ':'EN'}</button>
     <div class="brand brand-btn" onclick="landing()" title="მთავარი გვერდი">
       <div class="sun-badge" style="background:none;box-shadow:none;padding:0"><img src="owl-logo.png" alt="" style="width:100%;height:100%;object-fit:contain"></div>
       <h1 class="mark" style="margin:0">NikoLearn</h1>

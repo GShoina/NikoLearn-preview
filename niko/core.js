@@ -132,6 +132,10 @@ function numWord(n,p){return voiceLang(p)==='en'?(EN_NUM[n]||String(n)):String(n
 function retryWord(p){return voiceLang(p)==='en'?'try again':'კიდევ სცადე.';}
 function voiceToggleBtn(){return `<button class="vtgl" onclick="toggleVoice(event)" aria-label="გახმოვანების ენა" title="გახმოვანების ენა">🔊 ${voiceLang(profile)==='en'?'ENG':'ქარ'}</button>`;}
 function toggleVoice(e){if(e)e.stopPropagation();setVoice(profile,voiceLang(profile)==='en'?'ka':'en');document.querySelectorAll('.vtgl').forEach(b=>{b.innerHTML='🔊 '+(voiceLang(profile)==='en'?'ENG':'ქარ');});}
+// 🌐 INTERFACE language toggle (distinct from 🔊 voice): always-available UI-language switch (owner 2026-06-25)
+function langToggleBtn(){return `<button class="app-lang" onclick="appLang(event)" aria-label="ინტერფეისის ენა / interface language" title="ინტერფეისის ენა / language">🌐 ${window.UILANG==='en'?'ქარ':'EN'}</button>`;}
+function appLang(e){if(e)e.stopPropagation(); try{ if(typeof setUILang==='function') setUILang(window.UILANG==='en'?'ka':'en'); }catch(_){}
+  document.querySelectorAll('.app-lang').forEach(b=>{b.innerHTML='🌐 '+(window.UILANG==='en'?'ქარ':'EN');});}
 function catsFor(p){return isYoung(p)?AGE_CATS.masho:AGE_CATS.niko;}
 function demoNiko(){ // seeded so the prototype shows realistic data
   const k=blankKid();k.shields=148;k.streak=6;k.maxStreak=11;k.sessions=23;k.lastPlayed=new Date().toISOString();k.totalTime=3600000*2.4;
@@ -172,6 +176,7 @@ function topbar(title,sub,back){
     ${back?`<button class="iconbtn" onclick="${back}" aria-label="უკან"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>`:''}
     <div class="who">${title}${sub?`<small>${sub}</small>`:''}</div>
     <div class="chips">
+      ${langToggleBtn()}
       ${voiceToggleBtn()}
       <span class="chip shield">🪙<span class="num">${s.shields}</span></span>
       ${showStreak?`<span class="chip streak" title="დღის სერია">${I.flame}<span class="num">${s.dayStreak||0}</span></span>`:''}

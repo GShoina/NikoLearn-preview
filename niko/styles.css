@@ -226,6 +226,11 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .pcard-del:hover{opacity:1;background:color-mix(in oklch,var(--red) 12%,var(--card));color:var(--red)}
 /* entry cards as semantic <button> (a11y) — reset native button look, keep card visuals */
 button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-appearance:none;appearance:none}
+/* 🌐 interface-language toggle (always-available, distinct from 🔊 voice). owner 2026-06-25 */
+.app-lang{display:inline-flex;align-items:center;gap:4px;min-height:36px;border:1.5px solid var(--line);
+  background:var(--card);color:var(--ink);border-radius:999px;padding:0 12px;font:700 .8rem/1 inherit;cursor:pointer;white-space:nowrap}
+.app-lang:active{transform:scale(.95)}
+.gate-lang{position:absolute;top:14px;right:14px;z-index:30;box-shadow:var(--shadow)}
 .pcard-del:active{transform:scale(.9)}
 .pcard:active{transform:translateY(2px) scale(.985)}
 .pcard:hover{border-color:color-mix(in oklch,var(--primary) 55%,var(--line))}
