@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.241'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.242'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 function goHome(){
   // A4: if a round was in progress, count it as abandoned before we leave it
   if(typeof game!=='undefined'&&game&&game.roundActive){ try{ if(window.Analytics)Analytics.event('round_abandon',{mode:coarseMode(),q:(game.i>=8?'8+':String(game.i||0))}); }catch(e){} game.roundActive=false; }
@@ -170,8 +170,8 @@ function finishOnboard(){state.onboarded=true;save();goHome();}
 
 let draft={name:'',age:6,color:'green'};
 function addChild(){
-  draft={name:'',age:6,color:AV_COLORS[(state.kids.length)%AV_COLORS.length],langs:['ka'],tutor:'🦉',by:null};
-  renderInitiator();
+  draft={name:'',age:6,color:AV_COLORS[(state.kids.length)%AV_COLORS.length],langs:['ka'],tutor:'🦉',by:'parent'};
+  renderAddChild(); // direct to registration; parent/child split removed (was security theater), consent is inline. owner 2026-06-25
 }
 function renderInitiator(){
   render(`<div class="screen" style="justify-content:flex-start">
@@ -208,6 +208,7 @@ function renderAddChild(){
   const init=draft.name?draft.name[0]:'?';
   render(`<div class="screen" style="justify-content:flex-start">
     ${topbarPlain('ახალი ბავშვი','goHome()')}
+    <div class="consent-banner" id="cbanner">${I.privacy}<span class="cb-tx">მონაცემები <b>ამ მოწყობილობაზე</b> რჩება · რეკლამა ნული · გარე ბმული ნული</span><button class="cb-x" onclick="this.parentElement.remove()" aria-label="დახურვა">✕</button></div>
     <div class="center" style="margin:14px 0 18px">
       <div class="avatar a-${draft.color}" style="width:84px;height:84px;border-radius:26px;font-size:2.2rem;margin:0 auto">${init}</div>
     </div>
@@ -226,6 +227,7 @@ function renderAddChild(){
     <div class="lvl-hint" style="margin:6px 2px">ბავშვი აირჩევს, რომელი ცხოველი ასწავლის. შემდეგ შეცვლაც შეიძლება.</div>
     <div class="spacer"></div>
     <button class="btn btn-primary btn-block mt" onclick="createChild()">შექმენი პროფილი</button>
+    <div class="consent-mini">${I.check} შექმნით ადასტურებ, რომ მშობელი ხარ და ეთანხმები</div>
   </div>`,false);
   const n=$('#kid-name');if(n){n.focus();n.setSelectionRange(n.value.length,n.value.length);}
 }
