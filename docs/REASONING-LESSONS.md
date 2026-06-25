@@ -88,6 +88,20 @@ simply un-readable yet (page_view ~1 day old, first_win=1), so no drop % could b
 - Aggregates can't tell real external users from the owner's own testing → label that [TO VALIDATE], never assert „real users".
 - A clean, motivating narrative is a RED flag to verify, not a green light to ship. Extends Gela's rule (coherence ≠ fact).
 
+## L5 — Label ASYMMETRY is the tell of narrative-optimisation (owner 2026-06-25)
+The owner caught my GTM doc tagging the COMFORTABLE claims as [FACT] while only the inconvenient ones got [HYPOTHESIS].
+Specifically: WTP + diaspora = HYPOTHESIS (correct), but „ერთადერთი რეალური პროდუქტი" + „8-day telemetry = traction"
+were tagged FACT (wrong). Both were flattering and both were unearned.
+- „Only product in the niche" was a TAUTOLOGY: I drew the box so narrow (6-9 ∩ EN+math ∩ Kings ∩ on-device ∩ live)
+  that N=1 was guaranteed. A self-drawn box is not a market fact. Real test = the parent's actual choice-set
+  (Khan Kids, Duolingo ABC, local tutor) → crowded → HYPOTHESIS.
+- „telemetry users / 8-day usage = traction" CONTRADICTED our own architecture (localStorage anonymous aggregate,
+  ZERO cross-session id by design → retention is UNMEASURABLE without breaking the privacy moat). Advantage = „code
+  exists/works", NOT „users validated". Never conflate the two.
+- RULE: apply the SAME evidence bar to claims that flatter you as to claims that don't. If a label makes the story
+  nicer, that's the cue to downgrade it, not to keep it. Where retention/WTP truly matters, get it from a consented
+  closed-beta, NOT by relaxing the privacy design (that's LOCKED-rejected). Extends L2/L4.
+
 **STANDING PROCESS (owner-locked 2026-06-23) — the enforcement mechanism for L2:** when the owner brings
 a SUBSTANTIVE challenge, DEFAULT to an independent multi-agent REFUTE-PANEL (≥2 agents tasked to refute,
 diverse lenses) + a cross-model adversary where available, instead of self-adjudicating with same-model
