@@ -162,7 +162,7 @@ function micPermission(){
     <div class="perm-points">
       <div class="perm-point">${I.check}<span class="pp-tx">ვიწერთ მხოლოდ მაშინ, როცა ჩაწერას დააჭერ</span></div>
       <div class="perm-point">${I.privacy}<span class="pp-tx">ხმა მუშავდება <b>შენს მოწყობილობაზე</b>, არსად იგზავნება</span></div>
-      <div class="perm-point">${I.check}<span class="pp-tx">არაფერი ინახება — შემდეგზე გადასვლისას იშლება</span></div>
+      <div class="perm-point">${I.check}<span class="pp-tx">არაფერი ინახება. შემდეგზე გადასვლისას იშლება</span></div>
     </div>
     <button class="btn btn-primary btn-block" style="max-width:320px" onclick="grantMic()">დართე ნება (მშობელი)</button>
     <button class="btn btn-ghost btn-block" style="max-width:320px" onclick="game.subj?openMenu(game.subj):selectProfile(profile)">ახლა არა</button>
@@ -179,7 +179,7 @@ function voiceScreen(){
   const tk=_q?(_q.ka||''):'ვაშლი';
   const esc=String(target).replace(/'/g,"\\'");
   render(`<div class="screen voice">
-    <button class="iconbtn" style="position:absolute;top:18px;left:18px" onclick="voiceExit()">←</button>
+    <button class="iconbtn" style="position:absolute;top:18px;left:18px" onclick="voiceExit()">&lt;</button>
     <div class="v-ava">${tutorFace(profile)}</div>
     <div class="v-target">${target}${tk?`<small>${tk}</small>`:''}</div>
     <div class="v-state">მოისმინე და გაიმეორე</div>
@@ -275,7 +275,7 @@ function showBreak(manual){
   const el=document.createElement('div');el.className='breakscreen mv2';el.id='breakscr';
   el.innerHTML=`
     <header class="mv-top">
-      <button class="iconbtn" onclick="closeBreak()" aria-label="უკან">←</button>
+      <button class="iconbtn" onclick="closeBreak()" aria-label="უკან">&lt;</button>
       <div class="who">მოძრაობის შესვენება<small>გავიმოძრაოთ ერთად 🙌</small></div>
       <div class="pill"><span class="num" id="mvProg">1</span>/<span id="mvPtot">${_mvList.length}</span></div>
     </header>

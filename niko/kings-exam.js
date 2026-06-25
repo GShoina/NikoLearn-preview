@@ -127,7 +127,7 @@ const KMX_LOG2=[
   {q:'კვირაში რამდენი დღეა?',a:'7',opts:['5','7','12']}
 ];
 const KMX_CAL2=[
-  {q:'ნიკას სამშ. და ხუთშ. 2-2 გაკვეთილი აქვს, ორშ/ოთხ/პარ — 3-3, შაბ-კვ ისვენებს. სულ რამდენი კვირაში?',a:'13',opts:['5','4','13']},
+  {q:'ნიკას სამშ. და ხუთშ. 2-2 გაკვეთილი აქვს, ორშ/ოთხ/პარ: 3-3, შაბ-კვ ისვენებს. სულ რამდენი კვირაში?',a:'13',opts:['5','4','13']},
   {q:'თოჯინა 6₾, გემი 11₾. რატის 10₾ აქვს. კიდევ რამდენი ₾ სჭირდება ორივესთვის?',a:'7',opts:['17','27','7']},
   {q:'დემნა 2 წლის შემდეგ იქნება 10, მერაბი 2 წლის წინ იყო 10. რამდენით უფროსია მერაბი?',a:'4',opts:['2','4','6']},
   {q:'მარიამს 8 კანფეტი ჰქონდა, 3 შეჭამა. რამდენი დარჩა?',a:'5',opts:['5','11','4']},
@@ -293,7 +293,7 @@ function kxFinish(){
   const main=Math.min(100,Math.round(kx.score)), bonus=Math.round(kx.bonusScore);
   const total=Math.min(100, main+(main<100?bonus:0));   // bonus tops up toward 100, never beyond (real rule)
   try{ if(window.Analytics)Analytics.event('kings_exam_done',{grade:String(kx.grade)}); }catch(e){}
-  const msg=total>=90?'შესანიშნავია! 🏆':total>=70?'ძალიან კარგი! 🌟':total>=50?'კარგი დასაწყისი — კიდევ ვივარჯიშოთ 💪':'ნუ ღელავ, ერთად გავიმეოროთ 🦉';
+  const msg=total>=90?'შესანიშნავია! 🏆':total>=70?'ძალიან კარგი! 🌟':total>=50?'კარგი დასაწყისი. კიდევ ვივარჯიშოთ 💪':'ნუ ღელავ, ერთად გავიმეოროთ 🦉';
   const g=kx.grade, subj=kx.subject;
   render(`<div class="screen kx-result"><div class="kx-card">
     <div class="kx-trophy">👑</div>

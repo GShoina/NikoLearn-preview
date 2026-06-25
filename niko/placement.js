@@ -309,7 +309,7 @@ function plNext(){
   const optCls=isNum?'opt num':(isEn?'opt en':'opt');
   render(`<div class="screen game" id="gscreen">
     <div class="progress-row">
-      <button class="iconbtn" onclick="skipSubjDiag('${profile}','${pl.subj}')" style="width:40px;height:40px;font-size:1.1rem">←</button>
+      <button class="iconbtn" onclick="skipSubjDiag('${profile}','${pl.subj}')" style="width:40px;height:40px;font-size:1.1rem">&lt;</button>
       <div class="bar"><i style="width:${(pl.i/pl.ask)*100}%"></i></div>
       <span class="q-count">${pl.i+1}/${pl.ask}</span>
     </div>

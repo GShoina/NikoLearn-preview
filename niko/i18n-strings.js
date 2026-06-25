@@ -216,7 +216,7 @@ window.I18N_MAP = {
   "იპოვე პასუხი":"Find the answer",
   "სავარჯიშო გამოცდა":"Practice exam",
   "დროზე · ნამდვილივით":"Timed · like the real one",
-  "იპოვე წესი — რა მოდის ?-ის ნაცვლად":"Find the rule — what replaces the ?",
+  "იპოვე წესი: რა მოდის ?-ის ნაცვლად":"Find the rule: what replaces the ?",
   "შედარება":"Comparison",
   "დათვლა":"Counting",
   "ხუთობით · ათობით":"by 5s · 10s",
@@ -613,7 +613,7 @@ window.I18N_MAP = {
   "პროფილები ამ ბრაუზერში:":"Profiles in this browser:",
   "სესიები ამ ბრაუზერში:":"Sessions in this browser:",
   "ℹ️ ეს რიცხვები მხოლოდ ამ ბრაუზერს ეხება. ყველა მოწყობილობის ნამდვილ რიცხვებს Desktop-ის stats-viewer-ში ხედავ.":"ℹ️ These numbers are for this browser only. The real all-device numbers are in your Desktop stats viewer.",
-  "← აპში დაბრუნება":"← Back to the app",
+  "< აპში დაბრუნება":"< Back to the app",
   "ადმინიდან გასვლა (კოდის თავიდან შეყვანა)":"Sign out of admin (enter the code again)",
   "მონაცემები ამ მოწყობილობაზე რჩება, ონლაინ სინქრონიზაციის გარეშე":"Your data stays on this device, with no online sync",
   "ნული რეკლამა · გარე ბმულების გარეშე · მშობლის დაცული სივრცე":"Zero ads · no outside links · a protected space for parents",
@@ -686,7 +686,7 @@ window.I18N_MAP = {
   "რომელი არ უდრის 10-ს?":"Which one does not equal 10?",
   "კიბეს 11 საფეხური აქვს. შუა საფეხური რომელია?":"A staircase has 11 steps. Which one is the middle step?",
   "10 ფანქარი 2 ბავშვმა თანაბრად გაიყო. რამდენი ერგო თითოს?":"2 children shared 10 pencils equally. How many did each one get?",
-  "ფერები 🎨":"Colors 🎨",
+  "ფერები 🎨":"Colours 🎨",
   "ცხოველები 🐾":"Animals 🐾",
   "საკვები 🍎":"Food 🍎",
   "ოჯახი 👨‍👩‍👧‍👦":"Family 👨‍👩‍👧‍👦",
@@ -725,7 +725,7 @@ window.I18N_MAP = {
 };
 
 /* ── shared ka→en word-category lookup (tutor hints embed the bare category name) ── */
-var NIKO_CAT = {"ფერები":"Colors","ცხოველები":"Animals","საკვები":"Food","ოჯახი":"Family","ბუნება":"Nature","სკოლა":"School","ტანსაცმელი":"Clothes","ტრანსპორტი":"Transport","სხეული":"Body","სპორტი":"Sports","ამინდი":"Weather","პლანეტები":"Planets","პროფესიები":"Jobs","სიტყვები":"Words"};
+var NIKO_CAT = {"ფერები":"Colours","ცხოველები":"Animals","საკვები":"Food","ოჯახი":"Family","ბუნება":"Nature","სკოლა":"School","ტანსაცმელი":"Clothes","ტრანსპორტი":"Transport","სხეული":"Body","სპორტი":"Sports","ამინდი":"Weather","პლანეტები":"Planets","პროფესიები":"Jobs","სიტყვები":"Words"};
 
 /* ── pattern rules for dynamic strings (only used when L==='en') ── */
 window.I18N_PATTERNS = [

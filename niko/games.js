@@ -93,7 +93,7 @@ function gameShell(area){
   const tot=game.qs?game.qs.length:8;
   render(`<div class="screen game" id="gscreen">
     <div class="progress-row">
-      <button class="iconbtn" onclick="abandonRound()" style="width:44px;height:44px;font-size:1.1rem">←</button>
+      <button class="iconbtn" onclick="abandonRound()" style="width:44px;height:44px;font-size:1.1rem">&lt;</button>
       <div class="bar"><i id="gbar" style="width:${(game.i/tot)*100}%"></i></div>
       ${voiceToggleBtn()}
       <span class="q-count" id="gcount">${Math.min(game.i+1,tot)}/${tot}</span>
@@ -1074,7 +1074,7 @@ function srRender(){
 async function speakRecStart(){
   speakRecCleanup();
   try{ _srStream=await navigator.mediaDevices.getUserMedia({audio:true}); }
-  catch(e){ const b=srBox(); if(b)b.innerHTML=`<div class="sr-priv">მიკროფონი არ ჩაირთო. ეს არ უშლის ხელს — უბრალოდ ხმამაღლა თქვი 🙂</div>`; return; }
+  catch(e){ const b=srBox(); if(b)b.innerHTML=`<div class="sr-priv">მიკროფონი არ ჩაირთო. ეს არ უშლის ხელს. უბრალოდ ხმამაღლა თქვი 🙂</div>`; return; }
   _srChunks=[];
   try{ _srRec=new MediaRecorder(_srStream); }catch(e){ speakRecCleanup(); return; }
   _srRec.ondataavailable=ev=>{ if(ev.data&&ev.data.size)_srChunks.push(ev.data); };
@@ -1124,7 +1124,7 @@ function nextPattern(){
   const tn=['','დამწყები','საშუალო','რთული'][q.tier]||'';
   gameShell(`<div class="prompt"><div class="section-label">🧩 კანონზომიერება · ${tn}</div>
       <div class="p-word num" style="font-size:1.9rem;letter-spacing:2px">${q.q}</div>
-      <div class="p-sub">იპოვე წესი — რა მოდის ?-ის ნაცვლად</div></div>
+      <div class="p-sub">იპოვე წესი: რა მოდის ?-ის ნაცვლად</div></div>
     <div class="options">${q.opts.map(o=>`<button class="opt num" onclick="answerPattern(this,${o},${q.a})">${o}</button>`).join('')}</div>`);
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
 }
@@ -1229,7 +1229,7 @@ function fmtClock(t){ t=Math.max(0,t|0); const m=Math.floor(t/60),x=t%60; return
 let _examTimer=null;
 function examRoom(){
   if(!examUnlocked()){ try{const a=document.querySelector('#garea')||document.querySelector('.screen');}catch(e){}
-    alert('🔒 ჯერ ცოტა ივარჯიშე 🧩 კანონზომიერებასა და 🔢 რებუსში — შემდეგ დონეზე ასვლის მერე გაიხსნება სავარჯიშო გამოცდა.'); return; }
+    alert('🔒 ჯერ ცოტა ივარჯიშე 🧩 კანონზომიერებასა და 🔢 რებუსში. შემდეგ დონეზე ასვლის მერე გაიხსნება სავარჯიშო გამოცდა.'); return; }
   game.mode='exam';game.kind='exam';game.shields=0;game.wrong=0;game.i=0;game.missMap=new Map();game.requeues=0;
   game.start=Date.now();game.preLvl=levelIdx(profile);game.subj=game.subj||'kings-math';game.examEnded=false;
   const s=state[profile], pt=(s&&s.patTier)||1, rt=(s&&s.rbTier)||1, mt=(s&&s.mdTier)||1;
@@ -1274,7 +1274,7 @@ function examFinish(){
       <div class="stat"><div class="v">${pct}%</div><div class="l">სიზუსტე</div></div>
       <div class="stat"><div class="v">${used}</div><div class="l">⏱️ დრო</div></div>
     </div>
-    <div class="pat-rule" style="text-align:center">🦉 ეს იყო ნამდვილი გამოცდის რეპეტიცია. დონე აქ არ იცვლება — ისწავლე 🧩 და 🔢, მერე ისევ სცადე.</div>
+    <div class="pat-rule" style="text-align:center">🦉 ეს იყო ნამდვილი გამოცდის რეპეტიცია. დონე აქ არ იცვლება. ისწავლე 🧩 და 🔢, მერე ისევ სცადე.</div>
     <div class="actions"><button class="btn btn-primary btn-block" onclick="openMenu('kings-math')">📋 მენიუ</button></div>
   </div>`,'home');
 }

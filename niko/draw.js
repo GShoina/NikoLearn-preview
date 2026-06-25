@@ -90,7 +90,7 @@ function openDraw(){
   const stamps=DRAW_STAMPS.map(s=>`<button class="dw-stamp${s===_dStamp?' on':''}" onclick="dwPickStamp(this,'${s}')" aria-label="შტამპი">${s}</button>`).join('');
   render(`<div class="screen draw-screen">
     <div class="dw-top">
-      <button class="iconbtn" onclick="dwExit()" aria-label="უკან">←</button>
+      <button class="iconbtn" onclick="dwExit()" aria-label="უკან">&lt;</button>
       <div class="dw-tools">
         <button class="dw-tool on" id="dwT-brush" onclick="dwTool(this,'brush')" aria-label="ფუნჯი">✏️</button>
         <button class="dw-tool" id="dwT-fill" onclick="dwTool(this,'fill')" aria-label="შევსება">🪣</button>

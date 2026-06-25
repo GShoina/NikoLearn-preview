@@ -91,7 +91,7 @@
     b.textContent=isEn?'ქარ':'EN';
     // aria-pressed + a state-aware label so a screen-reader user knows the CURRENT language, not just the action
     b.setAttribute('aria-pressed',isEn?'true':'false');
-    b.setAttribute('aria-label',isEn?'English is active — switch to Georgian':'Georgian is active — switch to English');
+    b.setAttribute('aria-label',isEn?'English is active. Switch to Georgian':'Georgian is active. Switch to English');
   }
   // Language toggle scope (owner 2026-06-23): the EN/ქარ toggle now lives ONLY on the marketing LANDING
   // page (.nav .wrap host), where an English-speaking / diaspora visitor benefits from an English read of

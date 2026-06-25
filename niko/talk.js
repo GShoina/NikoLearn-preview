@@ -158,7 +158,7 @@ const TALK = {
 function openTalk(){
   if(window.Analytics)Analytics.screen('talk');
   render(`<div class="screen talk-pick">
-    <button class="iconbtn talk-back" onclick="goHome()" aria-label="უკან">←</button>
+    <button class="iconbtn talk-back" onclick="goHome()" aria-label="უკან">&lt;</button>
     <div class="talk-hero"><div class="talk-hero-ic">💬</div>
       <h2>საუბარი და ფიქრი</h2>
       <p class="talk-lead">ერთად ისაუბრეთ. სწორი პასუხი არ არსებობს.</p></div>
@@ -231,7 +231,7 @@ function talkCard(){
   const listen=`<button class="btn btn-ghost talk-listen" onclick="talkSpeak()">🔊 ${UILANG==='en'?'Listen':'მოსმენა'}</button>`;
   render(`<div class="screen talk">
     <div class="talk-top">
-      <button class="iconbtn talk-back" onclick="openTalk()" aria-label="უკან">←</button>
+      <button class="iconbtn talk-back" onclick="openTalk()" aria-label="უკან">&lt;</button>
       <span class="talk-count">${tl.i+1} / ${tl.deck.length}</span>
       <button class="iconbtn talk-back" onclick="goHome()" aria-label="მთავარი">🏠</button>
     </div>
@@ -245,7 +245,7 @@ function talkCard(){
     </div>
     ${listen}
     <div class="talk-nav">
-      <button class="tnav" onclick="talkGo(-1)" ${tl.i===0?'disabled':''} aria-label="წინა">← ${UILANG==='en'?'Back':'წინა'}</button>
+      <button class="tnav" onclick="talkGo(-1)" ${tl.i===0?'disabled':''} aria-label="წინა">&lt; ${UILANG==='en'?'Back':'წინა'}</button>
       <div class="talk-prog" aria-hidden="true"><i style="width:${prog}%"></i></div>
       ${tl.i===tl.deck.length-1
         ? `<button class="tnav" style="border-color:var(--primary);color:var(--primary-d);font-weight:700" onclick="openTalk()" aria-label="${UILANG==='en'?'Done':'მორჩა'}">✅ ${UILANG==='en'?'Done':'მორჩა'}</button>`

@@ -45,7 +45,7 @@ function alphaLearn(subj,idx){
       </div>
     </div>
     <div class="alpha-nav">
-      <button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="alphaLearn('${subj}',${idx-1})">←</button>
+      <button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="alphaLearn('${subj}',${idx-1})">&lt;</button>
       <div class="alpha-dots">${idx+1} / ${n}</div>
       ${last
         ? `<button class="abtn go" onclick="alphaQuiz('${subj}')">ტესტები 🎯</button>`
@@ -127,7 +127,7 @@ function digitLearn(idx){
       </div>
     </div>
     <div class="alpha-nav">
-      <button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="digitLearn(${idx-1})">←</button>
+      <button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="digitLearn(${idx-1})">&lt;</button>
       <div class="alpha-dots">${idx+1} / ${n}</div>
       ${last
         ? `<button class="abtn go" onclick="startDigitQuiz()">ტესტები 🎯</button>`
@@ -217,7 +217,7 @@ function readLearn(idx){
       <button class="speakbtn big" onclick="readBlend(game.readIt);pulseTap(this)">${I.speaker} წაიკითხე</button>
     </div>
     <div class="alpha-nav">
-      <button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="readLearn(${idx-1})">←</button>
+      <button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="readLearn(${idx-1})">&lt;</button>
       <div class="alpha-dots">${idx+1} / ${n}</div>
       ${last
         ? `<button class="abtn go" onclick="startReadQuiz()">ტესტები 🎯</button>`
@@ -277,7 +277,7 @@ function sentLearn(idx){
       <button class="speakbtn big" onclick="sentSay('${it.s}');pulseTap(this)">${I.speaker} წაიკითხე</button>
     </div>
     <div class="alpha-nav">
-      <button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="sentLearn(${idx-1})">←</button>
+      <button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="sentLearn(${idx-1})">&lt;</button>
       <div class="alpha-dots">${idx+1} / ${n}</div>
       ${last
         ? `<button class="abtn go" onclick="startSentQuiz()">ტესტები 🎯</button>`
@@ -564,7 +564,7 @@ function traceLearn(idx){
     </div>
     <div class="finger-hint" style="margin-top:6px">👆 ამოწერე ასო თითით</div>
     <div class="alpha-nav">
-      <button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="traceLearn(${idx-1})">←</button>
+      <button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="traceLearn(${idx-1})">&lt;</button>
       <div class="alpha-dots">${idx+1} / ${n}</div>
       ${last?`<button class="abtn go" onclick="markAlphaDone('trace');openMenu('ka-alpha')">დასასრული ✓</button>`:`<button class="abtn" onclick="traceLearn(${idx+1})">→</button>`}
     </div>
