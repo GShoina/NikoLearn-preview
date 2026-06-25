@@ -19,8 +19,9 @@ const COLOR_WORDS=[
   {emoji:'🍊',en:'orange',ka:'ნარინჯისფერი'},{emoji:'🍇',en:'purple',ka:'იისფერი'},
   {emoji:'🌳',en:'green',ka:'მწვანე'}, {emoji:'🐻',en:'brown',ka:'ყავისფერი'},
   {emoji:'🌸',en:'pink',ka:'ვარდისფერი'},{emoji:'🐘',en:'grey',ka:'ნაცრისფერი'},
-  {emoji:'🔵',en:'blue',ka:'ლურჯი'},   {emoji:'⚫',en:'black',ka:'შავი'},
-  {emoji:'⚪',en:'white',ka:'თეთრი'}
+  {emoji:'🔵',en:'blue',ka:'ლურჯი'},   {emoji:'⚫',en:'black',ka:'შავი'}
+  // 'white' dropped: ⚪ renders as a pale lavender sphere on some platforms = ambiguous. Re-add
+  // with a proper illustrated white object once the AI-art coloring/illustration set exists (roadmap).
 ];
 function colourRound(){
   game.mode='colour';game.subj='english';
