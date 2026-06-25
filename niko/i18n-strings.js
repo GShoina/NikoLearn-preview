@@ -863,6 +863,11 @@ window.I18N_PATTERNS = [
   [new RegExp("^ხმა მუშავდება <b>შენს მოწყობილობაზე</b>, არსად იგზავნება$"), m=>`Your voice is handled <b>right on your device</b>, never sent anywhere`],
   /* -- profile-chooser card level badge "N · 🐣 დამწყები" (composite, level name reused from MAP) -- */
   [new RegExp("^(\\d+) · (🐣|🌱|🚀|⭐|🏆) (დამწყები|მზარდი|მსწავლელი|მკვლევარი|ჩემპიონი)$"), m=>`${m[1]} · ${m[2]} ${window.I18N_MAP[m[3]]||m[3]}`],
+  /* -- batch 2 (owner 2026-06-25) -- */
+  // dad-log coin message with percentage (games.js logDad); name is a proper noun, stays as captured
+  [new RegExp("^(.+?)მ (\\d+) 🪙 მოაგროვა \\((\\d+)%\\)!$"), m=>`${m[1]} collected ${m[2]} 🪙 (${m[3]}%)!`],
+  // pattern-game rule reveal "🦉 წესი: <rule>" (single node, games.js); rule body is lesson content, stays KA
+  [new RegExp("^🦉 წესი: (.+)$","s"), m=>`🦉 Rule: ${m[1]}`],
 ];
 
 /* ── Tier-1 app chrome EN coverage, batch 1 (owner 2026-06-25) — STATIC UI strings only;
@@ -909,5 +914,9 @@ Object.assign(window.I18N_MAP, {
   "Screen-time კონტროლი":"Screen-time control",
   "GDPR & KIDS, მონაცემები დაცულია.":"GDPR & KIDS, data is protected.",
   "ყოჩაღ, მაშო! რა კარგად გაიმეორე 🌟":"Well done, Masho! Great repeat 🌟",
-  "მოსწავლე":"Learner"
+  "მოსწავლე":"Learner",
+  // batch 2 (owner 2026-06-25) — deeper app-screen chrome: cheers, results sub, rule reveal, stats label
+  "მიუ, ყოჩაღ!":"Meow, well done!","ჰავ, მართალია!":"Woof, that's right!",
+  "ნასწავლი":"Learned","მშობელი დაინახავს მშობლის სივრცეში ❤️":"Parents see this in the parent space ❤️",
+  "🦉 წესი:":"🦉 Rule:","ამიტომ პასუხია":"so the answer is"
 });
