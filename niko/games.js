@@ -43,7 +43,7 @@ function coarseMode(m){
   if(m==='listen-yle'||m==='yesno'||m==='story'||m==='speak'||m==='pattern'||m==='rebus'||m==='model'||m==='exam')return 'kings'; // Kings strands
   if(m==='count'||m==='counting'||m==='digit')return 'counting';
   if(m==='kings-eng'||m==='kings-math')return 'kings';
-  if(m==='ka-alpha'||m==='en-alpha')return 'alphabet';
+  if(m==='ka-alpha'||m==='en-alpha'||m==='shead')return 'alphabet';
   if(m==='read'||m==='sent'||m==='build'||m==='trace'||m==='rtext')return 'reading'; // Georgian reading suite
   if(m.indexOf('math')===0||['compare','skip','shapes','money','clock','cal'].indexOf(m)>=0)return 'math';
   return 'english'; // quiz/reverse/listen/match/spell/phrases
@@ -54,7 +54,7 @@ function abandonRound(){
   if(game.roundActive){ try{ if(window.Analytics) Analytics.event('round_abandon',{mode:coarseMode(),q:(game.i>=8?'8+':String(game.i||0))}); }catch(e){} game.roundActive=false; }
   openMenu(game.subj||'math');
 }
-const SUBMODES=['quiz','reverse','listen','listen-yle','yesno','story','speak','engram','addlet','pattern','rebus','model','exam','match','spell','phrases','math-add','math-sub','math-mul','math-div','math-miss','math-pat','math-word','math-pic','compare','skip','shapes','money','clock','cal','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','rtext','digit'];
+const SUBMODES=['quiz','reverse','listen','listen-yle','yesno','story','speak','engram','addlet','pattern','rebus','model','exam','match','spell','phrases','math-add','math-sub','math-mul','math-div','math-miss','math-pat','math-word','math-pic','compare','skip','shapes','money','clock','cal','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','rtext','digit','shead'];
 // First-round activation easing (2026-06-16). Telemetry showed ~60% of rounds abandoned, worst on a
 // brand-new child's first tries. A new child's first few rounds are SHORTER so they reach the "round
 // complete" reward fast (an early win is what hooks a young learner); re-queue growth is also capped

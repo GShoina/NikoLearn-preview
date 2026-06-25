@@ -431,6 +431,82 @@ function checkBuild(){
 }
 
 /* ═══════════════════════════════════════════════════════════
+   🔤 შეადგინე სიტყვა (SPELL FROM LETTERS). Pre-reader spelling with NO
+   keyboard: the child taps shuffled LETTER tiles to build the pictured
+   word, one letter per slot. Works for both alphabets (ka & en) off the
+   alphabet example words. ka: silent letter taps (never robot a bare
+   Georgian letter through TTS); en: each tap says the letter. The whole
+   word is voiced at the start and on success only. Reuses the build
+   mode's .syl-slot / .syl-bank visuals.
+   ═══════════════════════════════════════════════════════════ */
+function sheadWords(subj){
+  const out=[];
+  alphaData(subj).forEach(e=>e.x.forEach(p=>{
+    const w=p[0]; if(/[\s-]/.test(w))return;        // skip multi-token (ice cream, x-ray, yo-yo)
+    const n=[...w].length; if(n<3||n>6)return;      // short, pre-reader friendly
+    out.push({w:w,e:p[1]});
+  }));
+  return out;
+}
+function startShead(subj){
+  game.mode='shead';game.subj=subj;game.i=0;game.shields=0;game.wrong=0;
+  game.start=Date.now();game.preLvl=levelIdx(profile);
+  game.qs=shuffle(sheadWords(subj)).slice(0,8);
+  nextShead();
+}
+function sheadDisp(s){ return alphaIsKa(game.subj)?s:s.toUpperCase(); }            // en tiles in CAPS (kids learn caps first)
+function sheadSayWord(w){ speak(w, alphaIsKa(game.subj)?'ka-GE':'en-US', {rate:isYoung(profile)?0.66:0.8}); }
+function nextShead(){
+  if(game.i>=game.qs.length)return results();
+  const q=game.qs[game.i];game.cur=q;game.built=[];
+  game.chips=shuffle([...q.w].map((s,idx)=>({s,id:idx,used:false})));
+  sheadSayWord(q.w);                                 // hear the target word once
+  renderShead();
+}
+function renderShead(){
+  const q=game.cur;
+  const slots=[...q.w].map((_,i)=>{const v=game.built[i];return `<span class="syl-slot ${v!=null?'filled':''}" onclick="sheadUndo(${i})">${v!=null?sheadDisp(v):''}</span>`;}).join('');
+  const chips=game.chips.map(c=>`<button class="syl ${c.used?'used':''}" ${c.used?'disabled':''} onclick="sheadTap(${c.id})">${sheadDisp(c.s)}</button>`).join('');
+  gameShell(`<div class="prompt">
+      <div class="p-emoji" style="font-size:4.2rem">${q.e}</div>
+      <button class="speakbtn pulse-tap" onclick="sheadSayWord('${q.w}');pulseTap(this)">${I.speaker} მოისმინე</button>
+      <div class="finger-hint">👆 ააწყვე სიტყვა ასოებით</div>
+    </div>
+    <div class="syl-slots">${slots}</div>
+    <div class="finger-hint sylhint">👇 აიღე ასო და ჩასვი</div>
+    <div class="syl-bank">${chips}</div>`);
+  const c=$('#gcount');if(c)c.textContent=`${game.i+1}/${game.qs.length}`;
+}
+function sheadTap(id){
+  const len=[...game.cur.w].length;
+  if(game.built.length>=len)return;
+  const chip=game.chips.find(c=>c.id===id); if(!chip||chip.used)return;
+  chip.used=true; game.built.push(chip.s);
+  if(!alphaIsKa(game.subj)){ try{speak(chip.s,'en-US',{rate:0.8});}catch(e){} }   // en: say the letter; ka stays silent (no robot bare letter)
+  renderShead();
+  if(game.built.length===len) checkShead();
+}
+function sheadUndo(i){
+  if(game.built[i]==null)return;
+  const s=game.built[i]; game.built.splice(i,1);
+  const chip=game.chips.find(c=>c.used&&c.s===s); if(chip)chip.used=false;
+  renderShead();
+}
+function checkShead(){
+  const isKa=alphaIsKa(game.subj);
+  if(game.built.join('')===game.cur.w){
+    document.querySelectorAll('.syl-slot').forEach(b=>b.classList.add('correct'));
+    const s=state[profile];s.shields++;game.shields++;s.streak++;s.maxStreak=Math.max(s.maxStreak,s.streak);save();
+    sayThenPraise(game.cur.w, isKa?'ka-GE':'en-US',()=>{game.i++;closeFeedback();nextShead();});
+  } else {
+    document.querySelectorAll('.syl-slot').forEach(b=>b.classList.add('wrong'));
+    state[profile].streak=0;game.wrong++;save();
+    try{speak(isKa?'კიდევ სცადე.':'Try again', isKa?'ka-GE':'en-US');}catch(e){}
+    setTimeout(()=>{ game.built=[]; game.chips.forEach(c=>c.used=false); renderShead(); },950);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
    ✍️ ამოწერა (WRITING/TRACING). High-quality FiraGO guide letter +
    stroke-order ANIMATION (the guide draws each stroke 1→2→3 in the right
    direction, numbered) so the child sees HOW to write it, then traces with

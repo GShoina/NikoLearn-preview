@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.235'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.236'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 function goHome(){
   // A4: if a round was in progress, count it as abandoned before we leave it
   if(typeof game!=='undefined'&&game&&game.roundActive){ try{ if(window.Analytics)Analytics.event('round_abandon',{mode:coarseMode(),q:(game.i>=8?'8+':String(game.i||0))}); }catch(e){} game.roundActive=false; }
@@ -454,9 +454,12 @@ function openMenu(subj){
     const comprehend = subj==='ka-alpha' ? `<div class="mode play" style="min-height:120px" onclick="startTextQuiz()">${PLAY_BADGE}<div class="kids-ico">📚</div><div class="m-name">გაგება</div><div class="m-sub">წაიკითხე და უპასუხე</div></div>` : '';
     const build = subj==='ka-alpha' ? `<div class="mode play" style="min-height:120px" onclick="startBuild()">${PLAY_BADGE}<div class="kids-ico">🧩</div><div class="m-name">ააწყვე</div><div class="m-sub">მარცვლებით სიტყვა</div></div>` : '';
     const trace = subj==='ka-alpha' ? `<div class="mode play" style="min-height:120px" onclick="traceLearn(0)">${PLAY_BADGE}<div class="kids-ico">✍️</div><div class="m-name">ამოწერა</div><div class="m-sub">ასოს წერა თითით</div></div>` : '';
+    // 🔤 tap-to-spell (no keyboard) — both alphabets
+    const spell = `<div class="mode play" style="min-height:120px" onclick="startShead('${subj}')">${PLAY_BADGE}<div class="kids-ico">🔤</div><div class="m-name">შეადგინე სიტყვა</div><div class="m-sub">ასოებით ააწყვე</div></div>`;
     body=`<div class="mode-grid">
       <div class="mode play" style="min-height:120px" onclick="alphaLearn('${subj}',0)">${PLAY_BADGE}<div class="kids-ico">🔡</div><div class="m-name">ისწავლე ასოები</div></div>
       <div class="mode play" style="min-height:120px" onclick="alphaQuiz('${subj}')">${PLAY_BADGE}<div class="kids-ico">🎯</div><div class="m-name">ტესტები</div></div>
+      ${spell}
       ${reading}
       ${sentence}
       ${comprehend}
