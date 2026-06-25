@@ -107,3 +107,15 @@ a SUBSTANTIVE challenge, DEFAULT to an independent multi-agent REFUTE-PANEL (≥
 diverse lenses) + a cross-model adversary where available, instead of self-adjudicating with same-model
 reasoning. Scale to stakes (trivial → just fix; consequential → full panel). Cross-model = Gemini when
 the CLI works, else independent fresh-context adversarial agents (honest: not a true 2nd model).
+
+## L6 (MUST) — Challenge any EXTERNAL-account / irreversible-setup instruction with a 2nd AI BEFORE handing it to the owner (owner 2026-06-25)
+The owner followed my instruction to create a NikoLearn@outlook.com personal account for the brand; Microsoft auto-blocked
+the fresh account and the setup stalled. The instruction was avoidable: a brand never needed a throwaway personal Outlook,
+and a quick cross-model check would likely have flagged it.
+- Trigger: ANY step the owner will execute on an external service/account (email, FB/Meta, domain/DNS, payments, app stores,
+  3rd-party signups). Anything that can lock, cost, or be hard to undo on someone else's system, not just our own code.
+- BEFORE giving the owner the steps: draft them, then run a cross-model challenge (Gemini per the STANDING PROCESS / §6f
+  pattern, else an independent fresh-context refute-agent). Present only the challenged version, and say it was challenged.
+- This is WIDER than §6f (which is Georgian COPY): §6f = words a human reads; L6 = ACTIONS the owner takes on outside systems.
+- RULE: code I can self-verify and reverse; an owner's action on an external account I often cannot. So the bar is HIGHER, not
+  lower, for instructions I can't test myself. When unsure, say „ჯერ ვერ ვარ დარწმუნებული, გადავამოწმებ სანამ მოქმედებ." Extends L1.

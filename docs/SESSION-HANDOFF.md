@@ -34,7 +34,27 @@
 >   measures intent, no payment integration). Build real payment only if intent shows; price below the tutor/center alternative.
 > **Process lesson (this session):** PULL the stats/traffic BEFORE any usage/funnel claim. Never state a metric I didn't read.
 >
-> ## ▶ RESUME NOW (2026-06-25) — **v1.235 LIVE: ხატვა Draw&Color (enriched) + big GTM/brand/competitive session + stats verified**. Clean tree, HEAD==origin/main.
+> ## ▶ RESUME NOW (2026-06-25 · later) — **v1.236 LIVE: 🔤 „შეადგინე სიტყვა" tap-to-spell mode (no keyboard, pre-readers)**. Clean tree, HEAD==origin/main==eda8196.
+> **Build (Lane A):** new alphabet-section mode in BOTH ka & en. Child taps shuffled LETTER tiles to build the pictured word,
+> one letter per slot (sibling to the syllable `build`; reuses .syl-slot/.syl-bank visuals). ka taps stay silent (never robot a
+> bare Georgian letter); en taps say the letter; whole word voiced at start + on success. Files: `niko/alpha.js`
+> (sheadWords/startShead/nextShead/renderShead/sheadTap/sheadUndo/checkShead), tile in `niko/screens.js` (ka+en alphabet menu),
+> registered in SUBMODES + coarseMode (`niko/games.js`) + telemetry submode_usage enum (`cloudflare/telemetry-worker.js`).
+> **Verified:** headless-muted (en „nest", ka „ქათამი" — Georgian letters split correctly) + LIVE re-verify (en „egg", ka
+> „შაქარი"): slots/chips/undo/spell all OK, 0 app console errors; full-page screenshot looked at (ant A·N·T, on-brand).
+> **🟡 PENDING (telemetry only, NON-blocking):** the `telemetry-worker.js` 'shead' enum line is committed but NOT yet
+> `wrangler deploy`'d → `submode_usage` for shead is dropped until the worker is redeployed. App fully works regardless.
+> **▶ THIS SESSION'S OWNER BATCH (NikoLearn prompt 2026-06-25) — status:**
+> - **#1 tap-spell = DONE** (above, live).
+> - **#2 landing hero rewrite = DRAFTED, NOT deployed.** Owner re-confirmed: show HTML, deploy only after his OK + Gemini KA-QA
+>   (§6f). Deliverable: `output/2026-06-25-NikoLearn — hero rewrite + distribution + fake-door by Niko.html` (numbered copy-list).
+> - **#3 distribution + demand action plan** = in that same HTML (concrete action items; closed-beta 15-20 known families = #1).
+> - **#4 WTP fake-door probe = SPEC ready** (same HTML). Monetization PARKED. GO needs: owner „go" + add `premium_interest` to the
+>   worker EVENTS allow-list + `wrangler deploy` + a `premium_interest` Analytics.event on the fake „Premium ₾Y" button. NO build yet.
+> - **#6 FB blocked** — NikoLearn@outlook.com personal acct auto-blocked yesterday (my wrong instruction). Path is being
+>   2nd-AI-challenged before owner acts. New rule captured as **L6** in docs/REASONING-LESSONS.md.
+> **── earlier 2026-06-25 (v1.235) ──**
+> ## ▶ (2026-06-25) — **v1.235 LIVE: ხატვა Draw&Color (enriched) + big GTM/brand/competitive session + stats verified**. Clean tree, HEAD==origin/main.
 > **This was a long multi-thread session (UX/UI+tutor builds → GTM strategy → brand/domain → stats debugging). Nothing below is lost.**
 >
 > **★ APP BUILDS shipped this session (all headless-verified muted, 0 console errors, QA 0 findings):**
