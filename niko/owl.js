@@ -160,9 +160,9 @@ function micPermission(){
     <h2>ხმოვანი რეჟიმი</h2>
     <p>ჩაიწერ შენს ხმას, მერე ნიკოს ნიმუშს მოუსმენ და შეადარებ. ასე გამოთქმას ივარჯიშებ.</p>
     <div class="perm-points">
-      <div class="perm-point">${I.check} ვიწერთ მხოლოდ მაშინ, როცა ჩაწერას დააჭერ</div>
-      <div class="perm-point">${I.privacy} ხმა მუშავდება <b>შენს მოწყობილობაზე</b>, არსად იგზავნება</div>
-      <div class="perm-point">${I.check} არაფერი ინახება — შემდეგზე გადასვლისას იშლება</div>
+      <div class="perm-point">${I.check}<span class="pp-tx">ვიწერთ მხოლოდ მაშინ, როცა ჩაწერას დააჭერ</span></div>
+      <div class="perm-point">${I.privacy}<span class="pp-tx">ხმა მუშავდება <b>შენს მოწყობილობაზე</b>, არსად იგზავნება</span></div>
+      <div class="perm-point">${I.check}<span class="pp-tx">არაფერი ინახება — შემდეგზე გადასვლისას იშლება</span></div>
     </div>
     <button class="btn btn-primary btn-block" style="max-width:320px" onclick="grantMic()">დართე ნება (მშობელი)</button>
     <button class="btn btn-ghost btn-block" style="max-width:320px" onclick="game.subj?openMenu(game.subj):selectProfile(profile)">ახლა არა</button>

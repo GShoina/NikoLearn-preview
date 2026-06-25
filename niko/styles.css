@@ -145,10 +145,12 @@ h1,h2,h3{line-height:1.15;letter-spacing:-0.01em}
 
 /* ── TOP BAR ── */
 .topbar{display:flex;align-items:center;gap:12px;margin-bottom:18px;min-height:48px}
-.iconbtn{width:46px;height:46px;flex:0 0 auto;border:none;background:var(--card);color:var(--ink);
-  border-radius:14px;font-size:1.3rem;cursor:pointer;display:grid;place-items:center;
-  box-shadow:var(--shadow);transition:transform .15s}
-.iconbtn:active{transform:scale(.92)}
+.iconbtn{width:46px;height:46px;flex:0 0 auto;border:none;background:var(--card);color:var(--primary-d);
+  border-radius:50%;font-size:1.3rem;cursor:pointer;display:grid;place-items:center;
+  box-shadow:var(--shadow);transition:transform .15s,background .15s}
+.iconbtn:hover{background:color-mix(in oklch,var(--primary) 12%,var(--card))}
+.iconbtn:active{transform:scale(.9)}
+.iconbtn svg{display:block}
 .topbar .who{font-weight:700;font-size:1.05rem;flex:1}
 .topbar .who small{display:block;font-weight:500;color:var(--muted);font-size:.78rem}
 
@@ -266,8 +268,12 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .pcard.demo .avatar{width:48px;height:48px;border-radius:15px;font-size:1.5rem}
 /* entry cards (owner 2026-06-25): icon pinned LEFT (icons line up across all 3), text centered */
 .pcard.demo,.pcard.add,.pcard.parent{justify-content:flex-start}
-.pcard.demo>div:last-child,.pcard.add>div:last-child,.pcard.parent>div:last-child{flex:1;text-align:center}
-.pcard.demo .pmeta,.pcard.add .pmeta,.pcard.parent .lockwrap{justify-content:center}
+.pcard.demo>div:last-child,.pcard.add>div:last-child,.pcard.parent>div:last-child{flex:1;text-align:left}
+/* "შექმენი პროფილი" — underline draws itself in (owner 2026-06-25) */
+.pcard.add .pname{position:relative;display:inline-block}
+.pcard.add .pname::after{content:'';position:absolute;left:0;bottom:-3px;height:2.5px;width:100%;border-radius:2px;
+  background:linear-gradient(90deg,var(--sky),var(--sky-d));transform:scaleX(0);transform-origin:left;animation:drawline .55s .35s ease forwards}
+@keyframes drawline{to{transform:scaleX(1)}}
 .pcard.demo .pname{font-size:1.12rem;color:var(--green-d)}
 .pcard.demo .pmeta{color:var(--muted)}
 .lockwrap{display:flex;align-items:center;gap:6px;color:var(--faint);font-size:.74rem;margin-top:2px}
@@ -1058,6 +1064,7 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .perm-point{display:flex;gap:11px;align-items:center;background:var(--card);border-radius:var(--radius-sm);
   padding:13px 15px;box-shadow:var(--shadow);text-align:left;font-size:.86rem}
 .perm-point svg{width:20px;height:20px;flex:0 0 auto;color:var(--green-d)}
+.perm-point .pp-tx{flex:1;min-width:0}
 .consent-note{font-size:.76rem;color:var(--faint);max-width:300px}
 
 /* utility */
@@ -1351,7 +1358,8 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .pgroup .pg-body[hidden]{display:none}
 .pset-lbl{font-size:.84rem;font-weight:700;color:var(--ink);opacity:.78;margin:0 0 7px}
 .pset-hint{font-size:.8rem;color:var(--ink);opacity:.66;line-height:1.45;margin:7px 2px 0;text-align:center}
-.limit-chips{display:flex;flex-wrap:wrap;gap:7px;justify-content:center}
+.limit-chips{display:flex;flex-wrap:nowrap;gap:6px;justify-content:center}
+.limit-chips .lang-chip{flex:1;min-width:0;padding:10px 4px;font-size:.9rem;min-height:42px}
 /* container tap: the card "opens" (grows + fades) before its children render */
 .unfolding{animation:stackOpen .2s ease forwards}
 @keyframes stackOpen{to{transform:scale(1.08);opacity:0}}

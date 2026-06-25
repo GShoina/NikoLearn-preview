@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.239'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.240'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 function goHome(){
   // A4: if a round was in progress, count it as abandoned before we leave it
   if(typeof game!=='undefined'&&game&&game.roundActive){ try{ if(window.Analytics)Analytics.event('round_abandon',{mode:coarseMode(),q:(game.i>=8?'8+':String(game.i||0))}); }catch(e){} game.roundActive=false; }
@@ -194,9 +194,9 @@ function renderConsent(){
       <div class="consent-ico">${I.privacy}</div>
       <div class="consent-h">მშობელო, საჭიროა შენი თანხმობა</div>
       <div class="perm-points">
-        <div class="perm-point">${I.check} პროფილი იქმნება ბავშვისთვის</div>
-        <div class="perm-point">${I.privacy} ყველა მონაცემი <b>ამ მოწყობილობაზე</b> ინახება</div>
-        <div class="perm-point">${I.check} რეკლამა: ნული · გარე ბმულების გარეშე</div>
+        <div class="perm-point">${I.check}<span class="pp-tx">პროფილი იქმნება ბავშვისთვის</span></div>
+        <div class="perm-point">${I.privacy}<span class="pp-tx">ყველა მონაცემი <b>ამ მოწყობილობაზე</b> ინახება</span></div>
+        <div class="perm-point">${I.check}<span class="pp-tx">რეკლამა: ნული · გარე ბმულების გარეშე</span></div>
       </div>
       <button class="btn btn-primary btn-block" onclick="renderAddChild()">მე, მშობელი, ვეთანხმები ✓</button>
       <button class="btn btn-ghost btn-block mt" onclick="renderInitiator()">უკან</button>
@@ -252,7 +252,7 @@ function createChild(){
   selectProfile(id);
 }
 function topbarPlain(title,back){
-  return `<div class="topbar"><button class="iconbtn" onclick="${back}">←</button><div class="who">${title}</div></div>`;
+  return `<div class="topbar"><button class="iconbtn" onclick="${back}" aria-label="უკან"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button><div class="who">${title}</div></div>`;
 }
 
 // gentle daily screen-time limit reached → friendly "see you tomorrow" (parent can adjust the limit)
