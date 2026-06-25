@@ -608,6 +608,7 @@ h1,h2,h3{font-weight:800;line-height:1.08;letter-spacing:-0.02em;text-wrap:balan
 }
 @keyframes underline{to{transform:scaleX(1)}}
 .hero .lead{max-width:500px}
+@media(min-width:768px){.hero .lead{font-size:18px;line-height:1.65;max-width:660px}}
 .hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin:26px 0 20px}
 .hero-trust{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
 .tchip{
