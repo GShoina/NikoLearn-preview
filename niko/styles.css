@@ -264,6 +264,10 @@ body.on-landing #app{padding:0;padding-bottom:24px}
   border:2px solid color-mix(in oklch,var(--green) 55%,var(--line))}
 .pcard.demo:hover{border-color:var(--green)}
 .pcard.demo .avatar{width:48px;height:48px;border-radius:15px;font-size:1.5rem}
+/* entry cards (owner 2026-06-25): icon pinned LEFT (icons line up across all 3), text centered */
+.pcard.demo,.pcard.add,.pcard.parent{justify-content:flex-start}
+.pcard.demo>div:last-child,.pcard.add>div:last-child,.pcard.parent>div:last-child{flex:1;text-align:center}
+.pcard.demo .pmeta,.pcard.add .pmeta,.pcard.parent .lockwrap{justify-content:center}
 .pcard.demo .pname{font-size:1.12rem;color:var(--green-d)}
 .pcard.demo .pmeta{color:var(--muted)}
 .lockwrap{display:flex;align-items:center;gap:6px;color:var(--faint);font-size:.74rem;margin-top:2px}
