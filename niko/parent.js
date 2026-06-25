@@ -16,6 +16,7 @@ function openGateMath(hard){
   gate.buf='';
   const el=document.createElement('div');el.className='gate';el.id='gate';
   el.innerHTML=`<div class="gate-card">
+    <button class="gate-x" onclick="closeGate()" aria-label="დახურვა">✕</button>
     <h3>${I.lock} ${hard?'მშობლის აღდგენა':'მშობლის სივრცე'}</h3>
     <p>${hard?'PIN დაგავიწყდა? ეს მაგალითი მხოლოდ მშობელს შეუძლია.':'ეს კარი ბავშვებისთვის არ არის. ამოხსენი მაგალითი გასაგრძელებლად.'}</p>
     <div class="gate-q">${q} = ?</div>
@@ -29,13 +30,16 @@ function openGateMath(hard){
 }
 function gateKey(n){gate.buf=(gate.buf+n).slice(0,3);$('#gdisp').textContent=gate.buf;}
 function gateClear(){gate.buf='';const d=$('#gdisp');if(d)d.textContent='';}
-function gateOk(){if(parseInt(gate.buf)===gate.ans){$('#gate').remove();parentDash();}else{const d=$('#gdisp');d.textContent='✕';d.style.color='var(--red)';gate.buf='';setTimeout(()=>{d.textContent='';d.style.color='';},700);}}
+function closeGate(){const g=$('#gate');if(g)g.remove();}
+function gateShake(){const c=$('#gate .gate-card');if(c){c.classList.remove('shake');void c.offsetWidth;c.classList.add('shake');}}
+function gateOk(){if(parseInt(gate.buf)===gate.ans){$('#gate').remove();parentDash();}else{const d=$('#gdisp');d.textContent='✕';d.style.color='var(--red)';gate.buf='';gateShake();setTimeout(()=>{d.textContent='';d.style.color='';},700);}}
 
 /* ── real 4-digit parent PIN (gate hardening v1.99) ── */
 function openPinGate(){
   gate.buf='';
   const el=document.createElement('div');el.className='gate';el.id='gate';
   el.innerHTML=`<div class="gate-card">
+    <button class="gate-x" onclick="closeGate()" aria-label="დახურვა">✕</button>
     <h3>${I.lock} მშობლის სივრცე</h3>
     <p>შეიყვანე 4-ნიშნა PIN-კოდი.</p>
     <div class="gate-display" id="gdisp"></div>
@@ -50,7 +54,7 @@ function openPinGate(){
 function pinKey(n){gate.buf=(gate.buf+n).slice(0,4);const d=$('#gdisp');if(d)d.textContent='•'.repeat(gate.buf.length);}
 function pinOk(){
   if(gate.buf===state.parentPin){$('#gate').remove();parentDash();}
-  else{const d=$('#gdisp');if(d){d.textContent='✕';d.style.color='var(--red)';}gate.buf='';setTimeout(()=>{const e=$('#gdisp');if(e){e.textContent='';e.style.color='';}},700);}
+  else{const d=$('#gdisp');if(d){d.textContent='✕';d.style.color='var(--red)';}gate.buf='';gateShake();setTimeout(()=>{const e=$('#gdisp');if(e){e.textContent='';e.style.color='';}},700);}
 }
 function pinForgot(){const g=$('#gate');if(g)g.remove();openGateMath(true);} // recovery: ADULT-level problem, not the kid math (owner 2026-06-14)
 function setParentPin(){
