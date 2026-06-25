@@ -896,5 +896,18 @@ Object.assign(window.I18N_MAP, {
   "ფულის ამოცანა":"Money problem","გჭირდება დახმარება?":"Need help?",
   "ენა / Language":"Language / ენა","აპის ინტერფეისის ენა":"App interface language",
   "ისწავლე თამაშით ერთ წუთში, პროფილის გარეშე 👇":"Learn through play in a minute, no profile 👇",
-  "პროგრესი შეინახება":"Progress is saved"
+  "პროგრესი შეინახება":"Progress is saved",
+  // landing leaks (owner screenshots 2026-06-25)
+  "NikoLearn ეხმარება ბავშვს ისწავლოს და განვითარდეს ქართულში, ინგლისურსა და მათემატიკაში, მოკლე თამაშებით. ნიკო ბუ უხსნის, უსმენს და ამხნევებს, ხოლო მშობელი მარტივად ხედავს პროგრესს.":"NikoLearn helps your child learn and grow in Georgian, English and math, through short games. Niko the owl explains, listens and encourages, while the parent sees progress at a glance.",
+  "ყველა ასო სურათით, მაგალითი სიტყვითა და ხმოვანი წარმოთქმით. ბავშვი სწავლობს ცნობასაც და წერასაც.":"Every letter with a picture, an example word and clear pronunciation. The child learns both recognition and writing.",
+  "ანბანი, ყოველდღიური სიტყვები და ცოცხალი ფრაზები მისალმებიდან გრძნობებამდე. გამოთქმის ვარჯიში ხმით.":"The alphabet, everyday words and lively phrases from greetings to feelings. Pronunciation practice with voice.",
+  "დათვლა, ამოცანები, თანმიმდევრობა და ლოგიკა, ყველაფერი ნაბიჯ-ნაბიჯ.":"Counting, problems, sequences and logic, all step by step.",
+  "ნიკო ბუ არ არის უბრალო ღილაკი. ის ესაუბრება ბავშვს, ეუბნება სიტყვებს გარკვევით და აძლევს მინიშნებებს. როცა რთულდება, უხსნის. როცა გამოსდის, აქებს.":"Niko the owl is not just a button. He talks with your child, says words clearly and gives hints. When it gets hard, he explains. When they succeed, he praises.",
+  "ბავშვი ლაპარაკობს, ბუ ნიკო კი სიტყვებს გარკვევით ამბობს, რომ შენც გაიმეორო.":"The child speaks, and Niko the owl says the words clearly so you can repeat them.",
+  "ბავშვის სასწავლო მონაცემები რჩება მხოლოდ შენს მოწყობილობაზე.":"Your child's learning data stays only on your device.",
+  "დიახ. NikoLearn მუშაობს ოფლაინაც, ხოლო ბავშვის სასწავლო მონაცემები რჩება მხოლოდ თქვენს მოწყობილობაზე.":"Yes. NikoLearn works offline too, and your child's learning data stays only on your device.",
+  "Screen-time კონტროლი":"Screen-time control",
+  "GDPR & KIDS, მონაცემები დაცულია.":"GDPR & KIDS, data is protected.",
+  "ყოჩაღ, მაშო! რა კარგად გაიმეორე 🌟":"Well done, Masho! Great repeat 🌟",
+  "მოსწავლე":"Learner"
 });

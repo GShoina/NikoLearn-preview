@@ -231,6 +231,10 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
   background:var(--card);color:var(--ink);border-radius:999px;padding:0 12px;font:700 .8rem/1 inherit;cursor:pointer;white-space:nowrap}
 .app-lang:active{transform:scale(.95)}
 .gate-lang{position:absolute;top:14px;right:14px;z-index:30;box-shadow:var(--shadow)}
+/* language toggle in the gate FOOTER (owner 2026-06-25: moved down from the top) */
+.gate-foot{text-align:center;margin-top:16px}
+.foot-lang{display:inline-flex;align-items:center;gap:5px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 16px;font:700 .82rem/1 inherit;cursor:pointer;box-shadow:var(--shadow)}
+.foot-lang:active{transform:scale(.95)}
 .pcard-del:active{transform:scale(.9)}
 .pcard:active{transform:translateY(2px) scale(.985)}
 .pcard:hover{border-color:color-mix(in oklch,var(--primary) 55%,var(--line))}
