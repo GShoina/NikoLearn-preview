@@ -11,6 +11,24 @@ function phrasePool(){
   if(game.pcat&&PHRASES[game.pcat])return [...PHRASES[game.pcat]];
   let pool=[];Object.values(PHRASES).forEach(a=>pool.push(...a));return pool;
 }
+/* ── Color Words (owner 2026-06-26): "What colour is it?" — a single UNAMBIGUOUS single-colour
+   object (or a colour swatch where no clear object exists), pick the English colour word.
+   Deliberately avoids two-colour items (watermelon slice) + purple-looking "blue" (blueberry). ── */
+const COLOR_WORDS=[
+  {emoji:'🍎',en:'red',ka:'წითელი'},   {emoji:'🍌',en:'yellow',ka:'ყვითელი'},
+  {emoji:'🍊',en:'orange',ka:'ნარინჯისფერი'},{emoji:'🍇',en:'purple',ka:'იისფერი'},
+  {emoji:'🌳',en:'green',ka:'მწვანე'}, {emoji:'🐻',en:'brown',ka:'ყავისფერი'},
+  {emoji:'🌸',en:'pink',ka:'ვარდისფერი'},{emoji:'🐘',en:'grey',ka:'ნაცრისფერი'},
+  {emoji:'🔵',en:'blue',ka:'ლურჯი'},   {emoji:'⚫',en:'black',ka:'შავი'},
+  {emoji:'⚪',en:'white',ka:'თეთრი'}
+];
+function colourRound(){
+  game.mode='colour';game.subj='english';
+  game.qs=shuffle(COLOR_WORDS).slice(0,8);
+  game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;
+  game.start=Date.now();game.preLvl=levelIdx(profile);
+  nextWord();
+}
 function startGame(m){
   if(m==='topics'){return openTopics();}
   if(m==='phrases'){return openPhraseCats();}
@@ -30,6 +48,7 @@ function startGame(m){
   if(m==='pattern')return patternRound();
   if(REASON_STRANDS[m])return reasonRound(m);
   if(m==='exam')return examRoom();
+  if(m==='colour')return colourRound();
   game.mode=m;game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);
   if(m.startsWith('math-'))return mathRound(m);
   const pool=wordPool();
@@ -54,7 +73,7 @@ function abandonRound(){
   if(game.roundActive){ try{ if(window.Analytics) Analytics.event('round_abandon',{mode:coarseMode(),q:(game.i>=8?'8+':String(game.i||0))}); }catch(e){} game.roundActive=false; }
   openMenu(game.subj||'math');
 }
-const SUBMODES=['quiz','reverse','listen','listen-yle','yesno','story','speak','engram','addlet','pattern','rebus','model','exam','match','spell','phrases','math-add','math-sub','math-mul','math-div','math-miss','math-pat','math-word','math-pic','compare','skip','shapes','money','clock','cal','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','rtext','digit','shead'];
+const SUBMODES=['quiz','reverse','listen','listen-yle','yesno','story','speak','engram','addlet','pattern','rebus','model','exam','match','spell','phrases','math-add','math-sub','math-mul','math-div','math-miss','math-pat','math-word','math-pic','compare','skip','shapes','money','clock','cal','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','rtext','digit','shead','colour'];
 // First-round activation easing (2026-06-16). Telemetry showed ~60% of rounds abandoned, worst on a
 // brand-new child's first tries. A new child's first few rounds are SHORTER so they reach the "round
 // complete" reward fast (an early win is what hooks a young learner); re-queue growth is also capped
@@ -85,7 +104,7 @@ function gameShell(area){
 }
 function nextWord(){
   if(game.i>=game.qs.length)return results();
-  const q=game.qs[game.i],pool=wordPool();
+  const q=game.qs[game.i],pool=(game.mode==='colour'?COLOR_WORDS:wordPool());
   // dedup distractors by what the child actually SEES in this mode (emoji in listen, ka in reverse,
   // en otherwise) so two visually-identical options can never appear and mis-score a correct tap.
   const disp=game.mode==='listen'?(o=>o.emoji):game.mode==='reverse'?(o=>o.ka):(o=>o.en);
@@ -115,6 +134,9 @@ function nextWord(){
       <input class="spell-input en" id="sp" autocomplete="off" autocapitalize="off" placeholder="დაწერე…">
       <button class="btn btn-sky btn-block" onclick="checkSpell('${q.en}')">${I.check} შეამოწმე</button>`;
     setTimeout(()=>{const e=$('#sp');if(e){e.focus();e.onkeydown=ev=>{if(ev.key==='Enter')checkSpell(q.en);};}},80);
+  } else if(game.mode==='colour'){
+    area=`<div class="prompt"><div class="p-emoji">${q.emoji}</div><div class="p-sub">${window.UILANG==='en'?'What colour is it?':'რა ფერია?'}</div></div>
+      <div class="options">${opts.map(o=>`<button class="opt en" onclick="speak('${o.en}','en-US');answer(this,'${o.en}','${q.en}')">${o.en}</button>`).join('')}</div>`;
   }
   gameShell(area);
   if(game.mode==='reverse')spellOut($('#spellrev'),q.en);

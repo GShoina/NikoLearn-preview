@@ -919,5 +919,6 @@ Object.assign(window.I18N_MAP, {
   "მიუ, ყოჩაღ!":"Meow, well done!","ჰავ, მართალია!":"Woof, that's right!",
   "ნასწავლი":"Learned","მშობელი დაინახავს მშობლის სივრცეში ❤️":"Parents see this in the parent space ❤️",
   "🦉 წესი:":"🦉 Rule:","ამიტომ პასუხია":"so the answer is",
-  "შეადგინე სიტყვა":"Spell the word","ასოებით ააწყვე":"Spell it with letters"
+  "შეადგინე სიტყვა":"Spell the word","ასოებით ააწყვე":"Spell it with letters",
+  "ფერები":"Colours","რა ფერია?":"What colour is it?"
 });

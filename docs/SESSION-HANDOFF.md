@@ -4,6 +4,19 @@
 > binding policy+code FIRST, never present a 2-option binary without a third-path line, no unverified
 > "best practice" claims). Added 2026-06-23 after the telemetry-retention miss.
 
+> ## ▶ ROADMAP — visual quality + 3 idea-cards (2026-06-26, owner-set)
+> **Art/visual direction (owner: quality matters — "ფიგურა=ფიგურა, ცხოველი=ცხოველი, არა აზელილი"; recognizability = acceptance bar #1):**
+> - **vocab emoji = KEEP.** Owner judged emoji BETTER than the agent's hand-SVG icon set. Do NOT replace vocab emoji. (Agent's "new sun" SVG = optional, owner liked it.) The whole "Niko illustration" vocab-icon swap is KILLED.
+> - **Coloring templates (`draw.js` DRAW_TEMPLATES) = the real low-quality target** (currently canvas primitives = blobby). Hand-SVG by agent is insufficient for organic shapes (proven via before/after; owner agreed). **Direction: AI-generated ORIGINAL line-art in ONE locked coloring-book style.**
+>   - **PAID path PARKED** (owner: no paid). Bivision `GEMINI_API_KEY` is FREE-tier → Imagen = "paid plans only", gemini-*-flash-image = 429 (no free image quota). Enabling Google billing = NOT now.
+>   - **FREE path CHOSEN:** owner generates the set in **AI Studio web UI** (free, interactive) with the locked prompt → sends PNGs → agent cleans / auto-traces to SVG (fillable regions) + bundles offline. (Alt free: CC0 coloring packs, license-checked.) Agent canNOT drive AI Studio web (no interactive Google login in its env).
+>   - Locked coloring prompt: *"Black-and-white coloring book page for a young child: a single [SUBJECT], centered, full body, clear recognizable simple cartoon shapes, bold clean uniform thick black outlines, large open white areas, no shading/grey/color, pure white background, friendly rounded kid style, high clarity, not deformed/blurry."*
+> **3 idea-cards status (from the owner's 2026-06-25 Bebi-Family inspiration images — used as IDEAS only; those files are © Bebi Family, NOT embedded):**
+> 1. **ABC coloring** (letter + word + colorable outline, per-letter, in 🎨 draw + alphabet track) — PARKED on the coloring-art set above (free path).
+> 2. **Color Words** ("What colour is it?" → colored object + 3 color-word options) — **NOW build, art-free.** Owner fix: use UNAMBIGUOUS single-color subjects/swatches (🍎red 🍌yellow 🍊orange 🍇purple 🌳green 🟢🔵 swatches…), AVOID watermelon-slice (2 colors) + blueberry (purple≠blue). Reuses `data.js` "ფერები 🎨" words. Mockup approved-in-principle.
+> 3. **Math triangle number-puzzle** — ROADMAP, art-free. Rule CONFIRMED: (top + bottom-left) × bottom-right = center [(3+8)×4=44, (9+7)×2=32, (8+7)×5=75]. Fits the math logic/pattern tile (🧩).
+> **Other near-term:** alphabet LEARN **capital-letter clarity** (owner: "ცალკეულ კაპიტალ ასოს სიცხადე აკლია") — for EN show capital+lowercase pair clearly; taste item → show owner 2 variants before shipping.
+
 > ## ★★ STRATEGIC PRIORITY + PRICING (2026-06-24) — CORRECTED against REAL telemetry (prior version was hallucinated) ★★
 > **Self-correction (owner caught it):** an earlier handoff asserted „ZERO real users · 67% activation drop · activation is
 > THE bottleneck" — those numbers were NEVER pulled from stats; they were invented (coherence-as-fact). Retracted. The
