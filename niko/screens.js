@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.242'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.243'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 function goHome(){
   // A4: if a round was in progress, count it as abandoned before we leave it
   if(typeof game!=='undefined'&&game&&game.roundActive){ try{ if(window.Analytics)Analytics.event('round_abandon',{mode:coarseMode(),q:(game.i>=8?'8+':String(game.i||0))}); }catch(e){} game.roundActive=false; }
@@ -16,7 +16,7 @@ function goHome(){
     const p=k.id,s=state[p],lv=levelOf(p),init=(k.name||'?')[0];
     const meta=s.shields>0?`<div class="pmeta"><span>🪙</span> ${s.shields} · ${lv.ic} ${lv.name}</div>`
       :`<div class="pmeta">დაიწყე →</div>`;
-    return `<div class="pcard" onclick="selectProfile('${p}')">
+    return `<div class="pcard" role="button" tabindex="0" aria-label="${k.name}, დაიწყე სწავლა" onclick="selectProfile('${p}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectProfile('${p}')}">
       <button class="pcard-del" onclick="event.stopPropagation();deleteKid('${p}')" aria-label="${k.name}-ს წაშლა">🗑️</button>
       <div class="avatar a-${k.color||'sky'}">${init}</div>
       <div class="pname">${k.name}</div>
@@ -24,34 +24,34 @@ function goHome(){
       ${meta}
     </div>`;
   }).join('');
-  const addCard=`<div class="pcard add"${isNew?' style="grid-column:span 2"':''} onclick="addChild()">
+  const addCard=`<button type="button" class="pcard add"${isNew?' style="grid-column:span 2"':''} onclick="addChild()" aria-label="${isNew?'შექმენი პროფილი, პროგრესი შეინახება':'დაამატე ბავშვი'}">
       <div class="avatar add-av">＋</div>
       <div><div class="pname">${isNew?'შექმენი პროფილი':'დაამატე ბავშვი'}</div>${isNew?'<div class="pmeta">პროგრესი შეინახება</div>':''}</div>
-    </div>`;
+    </button>`;
   // COLD START: a brand-new visitor used to see only the "create profile" card, so the FIRST
   // thing the app asked was a 3-4 screen profile+consent flow before a single question — a likely
   // big slice of the abandon rate. Give an instant, zero-commitment taste: play as the guest
   // profile right now, create a real (saved) profile only once they want to keep progress.
-  const demoCard=isNew?`<div class="pcard demo" style="grid-column:span 2" onclick="tryDemo()">
+  const demoCard=isNew?`<button type="button" class="pcard demo" style="grid-column:span 2" onclick="tryDemo()" aria-label="დაიწყე ახლავე, პროფილის გარეშე">
       <div class="avatar a-green">🎮</div>
-      <div><div class="pname">სცადე ახლავე</div>
-      <div class="pmeta">ითამაშე ერთ წუთში, პროფილის გარეშე 👇</div></div>
-    </div>`:'';
+      <div><div class="pname">დაიწყე ახლავე</div>
+      <div class="pmeta">ისწავლე თამაშით ერთ წუთში, პროფილის გარეშე 👇</div></div>
+    </button>`:'';
   render(`<div class="screen home">
     <div class="brand brand-btn" onclick="landing()" title="მთავარი გვერდი">
       <div class="sun-badge" style="background:none;box-shadow:none;padding:0"><img src="owl-logo.png" alt="" style="width:100%;height:100%;object-fit:contain"></div>
-      <div class="mark">NikoLearn</div>
-      <div class="tag">${isNew?'მოგესალმები 👋 ჯერ თამაში სცადე, მერე შექმენი პროფილი':'ვინ თამაშობს?'}</div>
+      <h1 class="mark" style="margin:0">NikoLearn</h1>
+      <div class="tag">${isNew?'მოგესალმები 👋 ჯერ ისწავლე თამაშით, მერე შექმენი პროფილი':'ვინ სწავლობს?'}</div>
     </div>
     <div class="profile-grid">
       ${demoCard}
       ${cards}
       ${addCard}
-      <div class="pcard parent" style="grid-column:span 2" onclick="openGate()">
+      <button type="button" class="pcard parent" style="grid-column:span 2" onclick="openGate()" aria-label="მშობლის სივრცე">
         <div class="avatar a-purple">${I.lock}</div>
         <div><div class="pname">მშობლის სივრცე</div>
         <div class="lockwrap">${I.lock} დაცულია</div></div>
-      </div>
+      </button>
     </div>
     <div class="trustline">${I.privacy} მონაცემები ამ მოწყობილობაზე რჩება</div>
     <div style="margin-top:14px;font-size:.78rem;color:var(--muted);text-align:center">NikoLearn v${APP_VERSION}</div>

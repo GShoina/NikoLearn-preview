@@ -224,6 +224,8 @@ body.on-landing #app{padding:0;padding-bottom:24px}
   background:color-mix(in oklch,var(--card-2) 80%,transparent);color:var(--muted);font-size:1rem;cursor:pointer;
   display:grid;place-items:center;opacity:.6;transition:all .14s;z-index:2}
 .pcard-del:hover{opacity:1;background:color-mix(in oklch,var(--red) 12%,var(--card));color:var(--red)}
+/* entry cards as semantic <button> (a11y) — reset native button look, keep card visuals */
+button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-appearance:none;appearance:none}
 .pcard-del:active{transform:scale(.9)}
 .pcard:active{transform:translateY(2px) scale(.985)}
 .pcard:hover{border-color:color-mix(in oklch,var(--primary) 55%,var(--line))}
