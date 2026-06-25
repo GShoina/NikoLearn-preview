@@ -34,7 +34,12 @@
 >   measures intent, no payment integration). Build real payment only if intent shows; price below the tutor/center alternative.
 > **Process lesson (this session):** PULL the stats/traffic BEFORE any usage/funnel claim. Never state a metric I didn't read.
 >
-> ## ▶ RESUME NOW (2026-06-25 · later) — **v1.236 LIVE: 🔤 „შეადგინე სიტყვა" tap-to-spell mode (no keyboard, pre-readers)**. Clean tree, HEAD==origin/main==eda8196.
+> ## ▶ RESUME NOW (2026-06-25 · latest) — **nikolearn.com LIVE on GitHub Pages (custom domain) + og-image age 3-9→3-12 fixed**. HEAD==origin/main==a7cc284, clean tree.
+> **Domain:** nikolearn.com moved parking → **domenebi.ge Premium DNS** (AWS Route53; NS-change SMS-code confirmed by owner). `A @ → 185.199.108.153` live. GitHub Pages custom domain set (CNAME file + `gh api ... pages cname=nikolearn.com` + Enforce HTTPS). https://nikolearn.com serves the app, cert issued (verified 200 + content, 5/5). og:url/canonical/og:image/twitter in index.html + landing.html all → https://nikolearn.com. App is all relative-paths (sw.js relative, index→landing relative) so it serves at root — no /NikoLearn/ fix needed. domenebi login = Google session as Gela Shonia (creds not stored).
+> **🟡 PENDING (non-blocking, redundancy):** only 1 of 4 GitHub A records added — domenebi DNS-save POST to api.domenebi.ge/v1/dns/zone **CORS-failed in the automation browser AFTER a kill/restart** (1st save worked pre-restart; owner's normal browser won't hit this). To finish in domenebi DNS editor: A @ → 185.199.109.153 / .110.153 / .111.153 + CNAME www → gshoina.github.io. Site fully works on the single A meanwhile.
+> **og-image fix:** "3-9 წ." was baked INTO og-image.png (text meta had no age). Rebuilt via `og-image-template.html` (owl-logo.png → 1200x630 headless screenshot) → "3-12 წ.", `?v=2` cache-bust. FB: share nikolearn.com going forward; the already-posted gshoina preview keeps its cached image unless re-shared (run Sharing Debugger re-scrape on his FB login).
+> **── earlier 2026-06-25 (v1.236) ──**
+> ## ▶ (2026-06-25 · later) — **v1.236 LIVE: 🔤 „შეადგინე სიტყვა" tap-to-spell mode (no keyboard, pre-readers)**. Clean tree, HEAD==origin/main==eda8196.
 > **Build (Lane A):** new alphabet-section mode in BOTH ka & en. Child taps shuffled LETTER tiles to build the pictured word,
 > one letter per slot (sibling to the syllable `build`; reuses .syl-slot/.syl-bank visuals). ka taps stay silent (never robot a
 > bare Georgian letter); en taps say the letter; whole word voiced at start + on success. Files: `niko/alpha.js`

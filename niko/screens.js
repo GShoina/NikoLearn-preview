@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.236'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.237'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 function goHome(){
   // A4: if a round was in progress, count it as abandoned before we leave it
   if(typeof game!=='undefined'&&game&&game.roundActive){ try{ if(window.Analytics)Analytics.event('round_abandon',{mode:coarseMode(),q:(game.i>=8?'8+':String(game.i||0))}); }catch(e){} game.roundActive=false; }
@@ -24,9 +24,9 @@ function goHome(){
       ${meta}
     </div>`;
   }).join('');
-  const addCard=`<div class="pcard add" onclick="addChild()">
+  const addCard=`<div class="pcard add"${isNew?' style="grid-column:span 2"':''} onclick="addChild()">
       <div class="avatar add-av">＋</div>
-      <div class="pname" style="color:var(--muted)">${isNew?'შექმენი პროფილი (პროგრესი შეინახება)':'დაამატე ბავშვი'}</div>
+      <div><div class="pname">${isNew?'შექმენი პროფილი':'დაამატე ბავშვი'}</div>${isNew?'<div class="pmeta">პროგრესი შეინახება</div>':''}</div>
     </div>`;
   // COLD START: a brand-new visitor used to see only the "create profile" card, so the FIRST
   // thing the app asked was a 3-4 screen profile+consent flow before a single question — a likely
