@@ -922,3 +922,30 @@ Object.assign(window.I18N_MAP, {
   "შეადგინე სიტყვა":"Spell the word","ასოებით ააწყვე":"Spell it with letters",
   "ფერები":"Colours","რა ფერია?":"What colour is it?"
 });
+/* ── Tier-1 EN coverage batch 3 (owner 2026-06-26, post team-audit) — deeper menu/dashboard CHROME
+   that leaked Georgian in EN mode. Content (vocab/math stems/proper names/reading) stays Georgian.
+   NOTE: "ქართული" deliberately NOT mapped — it must stay the native autonym in the language picker. ── */
+Object.assign(window.I18N_MAP, {
+  // subject grid tiles
+  "ინგლისური":"English","ანბანი":"Alphabet","ფიგურები":"Shapes","საუბარი":"Talk","მოძრაობა":"Movement",
+  "ხატვა":"Drawing","ოლიმპიადა":"Olympiad","კინგსი ინგლისური":"Kings English","კინგსი მათემატიკა":"Kings Math",
+  // mode / path tiles
+  "კითხვა":"Reading","გაგება":"Comprehension","წინადადება":"Sentence","ააწყვე":"Build","ამოწერა":"Tracing",
+  "მარცვალი → სიტყვა":"Syllable → word","მარცვლებით სიტყვა":"Word from syllables",
+  "ასოს წერა თითით":"Trace with your finger","წაიკითხე და გაიგე":"Read & understand",
+  "წაიკითხე და უპასუხე":"Read & answer","გაიმეორე":"Review","რთული სიტყვები":"Hard words",
+  "დღევანდელი გამეორება":"Today's review","სავარჯიშო გამოცდა":"Practice exam","დროზე · ნამდვილივით":"Timed · like the real one",
+  // common nav buttons
+  "უკან":"Back","გამოტოვება":"Skip","დავიწყოთ →":"Let's start →",
+  // voice-recording + speaking practice
+  "⏹️ გააჩერე":"⏹️ Stop","🎙️ თავიდან":"🎙️ Again","🎙️ ჩაიწერე შენი ხმა":"🎙️ Record your voice",
+  "▶️ მოისმინე შენი ხმა":"▶️ Play your voice","მოუსმინე ნიმუშს":"Listen to the sample","✓ ვთქვი":"✓ I said it",
+  // kings exam chrome
+  "ბონუსი ჩაგერთო 🎁":"Bonus added 🎁","📝 გრამატიკა":"📝 Grammar","🔡 ასოს დამატება":"🔡 Add a letter",
+  "აირჩიე სწორი ვარიანტი":"Choose the correct option","🔁 თავიდან ცადე":"🔁 Try again",
+  "📘 მე-2 კლასი":"📘 Grade 2","📗 მე-3 კლასი":"📗 Grade 3","ვერ დავადგენთ":"Can't tell",
+  // parent dashboard chrome
+  "💬 გამოხმაურება":"💬 Feedback","PIN-კოდის მოხსნა":"Remove PIN","შეცვლა":"Change","მოხსნა":"Remove",
+  "მათემატიკა:":"Math:","ანბანი:":"Alphabet:","სიზუსტე:":"Accuracy:","სიზუსტე":"Accuracy","გასამეორებელი:":"To review:",
+  "📷 შენახვა":"📷 Save","აირჩიე მნიშვნელობა":"Choose the meaning"
+});
