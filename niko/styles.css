@@ -1059,9 +1059,11 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
 .read-word .syl-plus{color:var(--muted);font-size:1.4rem;font-weight:700}
 
 /* ── voicing-language toggle (F5) ── */
-.vtgl{display:inline-flex;align-items:center;min-height:44px;border:1.5px solid var(--line,#e7ddc9);
-  background:var(--card,#fff);color:var(--ink,#3a2a1a);border-radius:999px;padding:0 15px;
-  font:700 .82rem/1 inherit;cursor:pointer;white-space:nowrap;opacity:.92}
+/* voice toggle (🔊 = Niko's spoken language) — green-accented so it reads as a DISTINCT control,
+   visually separate from the neutral 🌐 interface-language pill (owner 2026-06-25) */
+.vtgl{display:inline-flex;align-items:center;gap:4px;min-height:44px;border:1.5px solid var(--green,#4caf6e);
+  background:color-mix(in oklch, var(--green) 15%, var(--card,#fff));color:var(--green-d,#2f7a4f);border-radius:999px;padding:0 15px;
+  font:800 .82rem/1 inherit;cursor:pointer;white-space:nowrap}
 .vtgl:active{transform:scale(.95)}
 .progress-row .vtgl{flex:0 0 auto}
 

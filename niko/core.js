@@ -173,6 +173,7 @@ function topbar(title,sub,back){
   const showStreak=kidObj(profile).age>=6;
   return `<div class="topbar">
     ${back?`<button class="iconbtn" onclick="${back}" aria-label="უკან"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>`:''}
+    ${langToggleBtn()}
     <div class="who">${title}${sub?`<small>${sub}</small>`:''}</div>
     <div class="chips">
       ${voiceToggleBtn()}
