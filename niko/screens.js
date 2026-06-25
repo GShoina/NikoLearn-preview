@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.240'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.241'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 function goHome(){
   // A4: if a round was in progress, count it as abandoned before we leave it
   if(typeof game!=='undefined'&&game&&game.roundActive){ try{ if(window.Analytics)Analytics.event('round_abandon',{mode:coarseMode(),q:(game.i>=8?'8+':String(game.i||0))}); }catch(e){} game.roundActive=false; }
@@ -55,7 +55,7 @@ function goHome(){
     </div>
     <div class="trustline">${I.privacy} მონაცემები ამ მოწყობილობაზე რჩება</div>
     <div style="margin-top:14px;font-size:.78rem;color:var(--muted);text-align:center">NikoLearn v${APP_VERSION}</div>
-  </div>`,'home');
+  </div>`,false); // gate is a chooser, not a play surface → hide bottom-nav (AB/calc subject-jumps are redundant here). owner 2026-06-25
 }
 
 /* ── cold-start demo: play immediately as the guest profile, no profile/consent flow first.
