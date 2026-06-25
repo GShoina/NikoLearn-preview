@@ -588,6 +588,11 @@ body.on-landing #app{padding:0;padding-bottom:24px}
 .dw-size{width:48px;height:38px;border:1.5px solid var(--line);background:var(--card);border-radius:11px;cursor:pointer;display:grid;place-items:center;padding:0}
 .dw-size.on{border-color:var(--primary);background:color-mix(in oklch,var(--primary) 12%,var(--card))}
 .dw-size span{background:var(--ink);border-radius:50%;display:block}
+.dw-stamps{display:flex;gap:6px;overflow-x:auto;padding:2px 1px}
+.dw-stamp{flex:0 0 auto;width:42px;height:42px;border:1.5px solid var(--line);background:var(--card);border-radius:11px;font-size:1.35rem;cursor:pointer;padding:0}
+.dw-stamp.on{border-color:var(--primary);background:color-mix(in oklch,var(--primary) 14%,var(--card));transform:scale(1.05)}
+.dw-stamp:active{transform:scale(.92)}
+.dw-color.rainbow{background:conic-gradient(#e23b3b,#f2894c,#e8c45f,#3aa66e,#4d97d1,#6b63b5,#d65aa0,#e23b3b)}
 .subj.draw .s-ico{filter:saturate(1.1)}
 
 .ai-bubble{background:var(--card);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow-lg);
