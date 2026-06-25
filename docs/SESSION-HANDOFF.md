@@ -34,7 +34,36 @@
 >   measures intent, no payment integration). Build real payment only if intent shows; price below the tutor/center alternative.
 > **Process lesson (this session):** PULL the stats/traffic BEFORE any usage/funnel claim. Never state a metric I didn't read.
 >
-> ## ▶ RESUME NOW (2026-06-24) — **v1.233 LIVE: honest voice mode + per-animal tutor persona + Kings-exam confetti**. Clean tree, HEAD==origin/main.
+> ## ▶ RESUME NOW (2026-06-25) — **v1.235 LIVE: ხატვა Draw&Color (enriched) + big GTM/brand/competitive session + stats verified**. Clean tree, HEAD==origin/main.
+> **This was a long multi-thread session (UX/UI+tutor builds → GTM strategy → brand/domain → stats debugging). Nothing below is lost.**
+>
+> **★ APP BUILDS shipped this session (all headless-verified muted, 0 console errors, QA 0 findings):**
+> - **v1.232** — tutor idle-help (owl notices a stuck child, age-tuned pause → companion bubble „გჭირდება დახმარება?" / coach auto-hint) + streak chip („🔥 N ზედიზედ!") + option ✓/✗ glyphs (not colour-only) + `.mode` min-height + `.pcard-del` 40px.
+> - **v1.233** — HONEST voice mode (removed the fake 2.6s „გისმენ" sim → real record→playback recorder) + per-animal tutor persona (ბუ/კატუ/ლომი/ჭიკო/კურდღელა/პანდა/მელია/მაიმუნა, name in hint header + picker; `TUTOR_PERSONA`/`tutorName` in core.js) + Kings-exam confetti on ≥70.
+> - **v1.234** — **ხატვა (Draw & Color)** NEW play-activity tile (`niko/draw.js`): canvas paint (brush/eraser/scanline-fill/undo/clear), 10 colours, 8 templates, 📷 PNG save. On-device, nothing sent.
+> - **v1.235** — ხატვა ENRICHED (owner: too sparse for under-9): **⭐ 12 sticker stamps + 🌈 rainbow brush + templates 8→15 themed** (cat/cloud/butterfly/ladybug/rocket/balloon/ice-cream) + 12 colours.
+>
+> **★ GTM / DEMAND / COMPETITOR RESEARCH (all in `output/2026-06-24-NikoLearn — GTM, ბრენდი და კონკურენტული ანალიზი by Niko.html`, labels CORRECTED after owner challenge):**
+> - **Competitors [FACT, sourced]:** **eduaiia/AIIA = pre-launch landing only** (dead `/#` download, no store listing, no team/price/reviews; inventor ია აივაზაშვილი; FB facebook.com/p/AIIA-აიია-61579820664789; Imedi yt l9TTeqcpV0U). **NODI (nodiedu.com) = MATH only, grades 4-10 (~9-16), web-only, „მალე", 69₾/mo·500₾/yr·39₾ summer**, founders Keti Burduli+Omar Shirinian, Startupbootcamp/GITA. **Neither overlaps NikoLearn's 6-9 EN+math today.** „AI Teacher" ai.teacher3 = unrelated Indian app.
+> - **Kings wedge [VERIFIED, kings-exam.js:1-130]:** Kings g2-3 exam modes ARE format-faithful to real kings.ge PDFs (real section sequence, weights, /100, Liberty-Bank bonus task). BUT format-faithful authored VARIANTS, g2-3 only, rest of app is generic. Wedge = REAL but bounded → sell as „Kings g2-3 ფორმატის ვარჯიში", NOT „full Kings prep".
+> - **Demand [HYPOTHESIS]:** GE parents pay 150-420₾/mo centers / 70-150₾/child tutors; apps ≈0₾ (the WTP transfer is the #1 risk). Top objection = screen-time guilt (privacy/anti-screen = NikoLearn's structural edge).
+> - **Channels [UNVERIFIED — banner added in doc]:** GE top-8 (ვეძებ მასწავლებელს, English Group, აქტივობები კლასში ~106K?, etc.) + diaspora US/Greece/France (Sunday schools, ეპარქია, georgians.gr). **ALL names/counts UNVERIFIED — owner must personally check (logged-in) before outreach. Do NOT build outreach on a hallucinated contact.**
+> - Owner-accepted CRITIQUE: I had mis-labelled „only product" + „8-day telemetry = traction" as FACT (narrative-optimisation). Corrected to HYPOTHESIS/UNVERIFIED. **LESSON: label asymmetry = optimising for a comfortable story; tag honestly even where it's uncomfortable.** (persist to docs/REASONING-LESSONS.md.)
+>
+> **★ BRAND / DOMAIN [USER DECISIONS]:** **nikolearn.com BOUGHT** (via domenebi.ge) + get **nikolearn.ge**; skip .app for now. **Name „NikoLearn" KEPT** (live, has equity; rebrand only post-validation). **Logo recommendation = concept B** (gradient winking-owl + Kings star) for app-icon, A („o"=owl wordmark) for wordmark — `output/2026-06-24-NikoLearn ლოგო — რაუნდი 2 (კრეატიული) by Niko.html`. **Public email = hello@nikolearn.com** (not parents@/Outlook). FB/IG setup pack ready: `output/2026-06-24-NikoLearn FB-IG setup პაკეტი + DNS by Niko.html` (paste-ready Page fields + 5 value-first posts + DNS→Cloudflare + Email Routing steps). **Georgian copy in these = DRAFT, needs Gemini+owner QA (§6f).**
+>
+> **★ STATS — owner asked „06-24 not showing, did you break it?" [VERIFIED via /v1/stats]:** **NOT broken.** Pipeline alive, 06-24 HAD data (~3 page_views, 3 sessions, 1 Kings open) but **0 round_complete**. The stats VIEWER (`output/NikoLearn-stats-viewer.html`, local/gitignored) „რაუნდების დინამიკა" only plotted dates WITH round_complete → empty days vanished. **FIXED: continuous date axis (enumeratePeriods) so an empty day shows as a 0-bar** (verified: 06-23=3, 06-24=0, 06-25=2). Owner's own testing likely excluded by the **owner-device flag** (`niko_owner=1` skips telemetry — by design) or localhost/DNT. Read key = NIKO_STATS_KEY in creds; GET /v1/stats?k=KEY.
+>
+> **▶ HEADLESS VERIFY RECIPE (silent, no window, no audio — owner-at-work safe):** `node` a CJS that requires `…/npm-cache/_npx/9833c18b2d85bc59/node_modules/playwright`, `chromium.launch({headless:true, executablePath:'…/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-win64/chrome-headless-shell.exe'})`, `addInitScript` neutering `speechSynthesis.speak`. (The Playwright MCP browser is headed/visible → avoid when owner asks not to be disturbed.) NOTE: file:// + remote-fetch is BLOCKED headless → verify viewer logic via `window.__STATS_DATA__` injection instead.
+>
+> **🔴 NEXT PRIORITIES (owner's own reframe, sharpened — DO NOT bury):**
+> 1. **The real #1 = recruit 15-20 KNOWN families + watch their return directly (closed beta).** At single-digit volume, D7/D30 telemetry is statistical NOISE; „first paying family" is the truest near-term signal. Don't over-invest in dashboards/brand polish before this.
+> 2. **OWNER must do (gated, I can't automate — FB CAPTCHA/SMS/outlook-inbox):** create FB Page + IG on phone (5 min) → then I drive Page setup via Playwright OR guide live. DNS→Cloudflare + hello@ Email Routing.
+> 3. **BUILD QUEUE (needs owner GO):** (a) **WTP fake-door probe** — code-ready, NOT built: monetization-facing + pricing PARKED → needs go; would need `premium_interest` added to the telemetry worker allow-list + redeploy. (b) **landing hero rewrite** to the precise wedge (Kings g2-3 + anti-screen + nikolearn.com). (c) **„შეადგინე სიტყვა" tap-mode** (letter-tile spelling, no keyboard) for the alphabet section — owner saw it in a competitor; overlaps existing spell/build but better for pre-readers.
+> 4. Draw module further ideas (owner asked): backgrounds/scenes, sound feedback, „colour-the-whole-thing" completion celebration, in-app gallery.
+> **🔴 Strategic truth UNCHANGED: bottleneck = distribution + demand validation, NOT features/polish.**
+> **── earlier 2026-06-24 (v1.233) ──**
+> ## ▶ (2026-06-24) — **v1.233 LIVE: honest voice mode + per-animal tutor persona + Kings-exam confetti**. Clean tree, HEAD==origin/main.
 > **Same owner directive (UX/UI + tutor functionality, Lane A). 2nd batch this day, on the v1.232 NEXT list. Owner was at work →
 >   verified FULLY HEADLESS + muted (silent, no window, no audio) via the cached playwright + chrome-headless-shell-1223. Recipe for
 >   future silent checks:** `node` a CJS script that `require()`s `C:/Users/gela.shonia/AppData/Local/npm-cache/_npx/9833c18b2d85bc59/
