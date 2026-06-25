@@ -918,5 +918,6 @@ Object.assign(window.I18N_MAP, {
   // batch 2 (owner 2026-06-25) — deeper app-screen chrome: cheers, results sub, rule reveal, stats label
   "მიუ, ყოჩაღ!":"Meow, well done!","ჰავ, მართალია!":"Woof, that's right!",
   "ნასწავლი":"Learned","მშობელი დაინახავს მშობლის სივრცეში ❤️":"Parents see this in the parent space ❤️",
-  "🦉 წესი:":"🦉 Rule:","ამიტომ პასუხია":"so the answer is"
+  "🦉 წესი:":"🦉 Rule:","ამიტომ პასუხია":"so the answer is",
+  "შეადგინე სიტყვა":"Spell the word","ასოებით ააწყვე":"Spell it with letters"
 });

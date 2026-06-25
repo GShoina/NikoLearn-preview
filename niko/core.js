@@ -144,8 +144,8 @@ function openLangPicker(e){
   var back=document.createElement('div'); back.id='langpick'; back.className='langpick-back';
   back.onclick=function(ev){ if(ev.target===back) closeLangPicker(); };
   back.innerHTML='<div class="langpick" role="menu" aria-label="ინტერფეისის ენა / interface language">'
-    +'<button role="menuitemradio" aria-checked="'+(!en)+'" class="lp-opt'+(en?'':' on')+'" onclick="pickLang(\'ka\')"><span class="lp-flag">🇬🇪</span> ქართული</button>'
-    +'<button role="menuitemradio" aria-checked="'+en+'" class="lp-opt'+(en?' on':'')+'" onclick="pickLang(\'en\')"><span class="lp-flag">🇬🇧</span> English</button>'
+    +'<button role="menuitemradio" aria-checked="'+(!en)+'" class="lp-opt'+(en?'':' on')+'" onclick="pickLang(\'ka\')"><span class="lp-badge">KA</span> ქართული</button>'
+    +'<button role="menuitemradio" aria-checked="'+en+'" class="lp-opt'+(en?' on':'')+'" onclick="pickLang(\'en\')"><span class="lp-badge">EN</span> English</button>'
     +'</div>';
   (document.querySelector('.device')||document.body).appendChild(back);
 }
