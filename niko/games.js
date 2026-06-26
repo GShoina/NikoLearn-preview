@@ -451,12 +451,14 @@ function matchTap(el){
    L1 starts easy (±20 = 1st grade); ramps up only when the child is ready,
    drops back if they struggle, so nobody gets blocked by numbers they don't know yet. */
 const MATH_LV = {
-  'math-add':[{max:20,label:'1–20'},{max:40,label:'1–40'},{max:70,label:'1–70'},{max:100,label:'1–100'}],
-  'math-sub':[{max:20,label:'1–20'},{max:40,label:'1–40'},{max:70,label:'1–70'},{max:100,label:'1–100'}],
-  'math-mul':[{tmax:5,label:'×2–×5'},{tmax:9,label:'×2–×9'},{twod:true,label:'2-ნიშნა'}],
+  // ceilings raised 2026-06-26 (parent feedback "math is light" + 9-12 yo signups): the adaptive ramp now
+  // climbs further for kids who master, so older/strong children keep getting challenge instead of plateauing.
+  'math-add':[{max:20,label:'1–20'},{max:40,label:'1–40'},{max:70,label:'1–70'},{max:100,label:'1–100'},{max:200,label:'1–200'}],
+  'math-sub':[{max:20,label:'1–20'},{max:40,label:'1–40'},{max:70,label:'1–70'},{max:100,label:'1–100'},{max:200,label:'1–200'}],
+  'math-mul':[{tmax:5,label:'×2–×5'},{tmax:9,label:'×2–×9'},{tmax:12,label:'×2–×12'},{twod:true,label:'2-ნიშნა'}],
   'math-pat':[{span:2,label:''},{span:3,label:''}],
-  'math-div':[{dmax:5,label:'÷2–÷5'},{dmax:10,label:'÷2–÷10'}],
-  'math-miss':[{ops:['+'],label:'+'},{ops:['+','×'],label:'+ ×'}]
+  'math-div':[{dmax:5,label:'÷2–÷5'},{dmax:10,label:'÷2–÷10'},{dmax:12,label:'÷2–÷12'}],
+  'math-miss':[{ops:['+'],label:'+'},{ops:['+','×'],label:'+ ×'},{ops:['+','−','×'],label:'+ − ×'}]
 };
 // #3 (interest, not just mechanics): Niko explains the concept in ONE concrete, real-life line
 // shown on the FIRST question of a drill. Short, playful, never a lecture.
@@ -587,7 +589,7 @@ function genMath(type){
   // A+ (8-9): integer division — b*c ÷ b = c, always whole
   if(type==='math-div'){const dmax=cfg.dmax||5;const b=ri(2,dmax),c=ri(2,10);return{q:`${b*c} ÷ ${b}`,a:c,op:'div',a1:b*c,a2:b};}
   // A+ (8-9): missing number — ? op y = res, answer is the missing first operand
-  if(type==='math-miss'){const ops=cfg.ops||['+'];const sym=ops[ri(0,ops.length-1)];let x,y;if(sym==='×'){x=ri(2,9);y=ri(2,9);}else{x=ri(2,15);y=ri(2,15);}const res=(sym==='×')?x*y:x+y;return{q:`? ${sym} ${y} = ${res}`,a:x,op:'miss',a1:x,a2:y};}
+  if(type==='math-miss'){const ops=cfg.ops||['+'];const sym=ops[ri(0,ops.length-1)];let x,y,res;if(sym==='×'){x=ri(2,9);y=ri(2,9);res=x*y;}else if(sym==='−'){y=ri(2,12);x=ri(y+1,20);res=x-y;}else{x=ri(2,15);y=ri(2,15);res=x+y;}return{q:`? ${sym} ${y} = ${res}`,a:x,op:'miss',a1:x,a2:y};}
   // pattern: varied types so it isn't always "1,2,3,?" (owner ask 2026-06-13 — more variety + interest).
   // young = simple increasing only; older = increasing(varied step) / skip-5-10 / decreasing / doubling.
   { let full,step,kind=young?0:ri(0,3);
@@ -1347,6 +1349,7 @@ function results(){
   // within-session activation milestone: first completed round THIS page-load (aggregate, no id) →
   // gives the opens→first_win→completes funnel without any cross-session tracking (owner 2026-06-23).
   try{ if(window.Analytics && !window._firstWinSent){ window._firstWinSent=true; Analytics.event('first_win',{mode:coarseMode()}); } }catch(e){}
+  try{ document.dispatchEvent(new Event('niko:value')); }catch(e){} // UX-3: a completed round IS the value moment → let the install nudge appear now (was dead: nothing dispatched niko:value, so the nudge only ever fired on the 28s fallback)
   const best=s.best[game.mode]||0;if(game.shields>best)s.best[game.mode]=game.shields;
   const _el=game.start?Date.now()-game.start:0;
   s.sessions++;s.lastPlayed=new Date().toISOString();s.totalTime+=_el;

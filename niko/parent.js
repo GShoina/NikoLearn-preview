@@ -199,7 +199,8 @@ function parentDash(){
   let html=`<div class="screen parent">${topbarPlain('მშობლის სივრცე','goHome()')}`;
   html+=`<div class="privacy-card" style="margin-bottom:16px">${I.privacy}<div class="pt"><b>ყველაფერი ამ მოწყობილობაზე რჩება.</b> პროგრესი ინახება მხოლოდ აქ. რეკლამა: ნული. გარე ბმულები: ნული.</div></div>`;
   [...state.kids.map(k=>k.id),'guest'].forEach(p=>{
-    const s=state[p];if(!s||(s.sessions===0&&s.shields===0))return;
+    const s=state[p];if(!s)return;
+    const zeroData=(s.sessions===0&&s.shields===0); if(zeroData&&p==='guest')return; // UX-1: still show a REAL child even at zero data (was: parent saw no card right after creating a profile = "child gone")
     const en=(window.UILANG==='en');  // build dashboard prose bilingual (re-rendered on lang toggle)
     const lv=levelOf(p);const words=Object.entries(s.words);
     const cor=words.reduce((a,[,v])=>a+v.correct,0),wr=words.reduce((a,[,v])=>a+v.wrong,0);
@@ -210,7 +211,7 @@ function parentDash(){
     html+=`<div class="kidcard" id="kc-${p}">
       <button class="kid-head-btn" onclick="toggleKid('${p}')" aria-expanded="false">
         <div class="avatar a-${kidObj(p).color}">${nameOf(p)[0]}</div>
-        <div class="kh-meta"><div class="kn">${nameOf(p)}</div><div class="kr">${lv.ic} ${en?tx(lv.name):lv.name} · 🪙 ${s.shields} · ${en?'accuracy':'სიზუსტე'} ${acc}%</div></div>
+        <div class="kh-meta"><div class="kn">${nameOf(p)}</div><div class="kr">${zeroData?(en?'✨ No play yet, tap to start':'✨ ჯერ არ უთამაშია, დააჭირე და დაიწყეთ'):`${lv.ic} ${en?tx(lv.name):lv.name} · 🪙 ${s.shields} · ${en?'accuracy':'სიზუსტე'} ${acc}%`}</div></div>
         <span class="kid-chev">▾</span>
       </button>
       <div class="kid-body" id="kb-${p}" hidden>

@@ -1257,6 +1257,13 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
 .bottomnav.slim button svg{width:19px;height:19px}
 .bottomnav.slim .navemoji{font-size:18px}
 .bottomnav.slim .navdot{display:none}
+/* UX-5: during a round/test, collapse the nav to a single clear exit (🏠). Hides the controls a pre-reader
+   taps by accident mid-game: 🌐 lang (flipped the whole UI to English), 🎨 theme, and the AB/calc subject
+   jumps (which silently abandon the round). The topbar back arrow still returns to the menu. */
+.bottomnav.slim button[data-nav="lang"],
+.bottomnav.slim button[data-nav="theme"],
+.bottomnav.slim button[data-nav="abc"],
+.bottomnav.slim button[data-nav="math"]{display:none}
 
 /* ── parent dashboard: collapsible per-child cards (names by default, tap to expand) ── */
 .kidcard{border:1px solid var(--line);border-radius:16px;background:var(--card);margin:0 0 12px;overflow:hidden}

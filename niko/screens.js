@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.263'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.264'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 function goHome(){
   if(typeof clearCeleb==='function')clearCeleb(); if(typeof closeFeedback==='function')closeFeedback(); // CE-2: kill pending celebration timers so they can't re-render the round over home
   // A4: if a round was in progress, count it as abandoned before we leave it
@@ -33,16 +33,16 @@ function goHome(){
   // thing the app asked was a 3-4 screen profile+consent flow before a single question — a likely
   // big slice of the abandon rate. Give an instant, zero-commitment taste: play as the guest
   // profile right now, create a real (saved) profile only once they want to keep progress.
-  const demoCard=isNew?`<button type="button" class="pcard demo" style="grid-column:span 2" onclick="tryDemo()" aria-label="დაიწყე ახლავე, პროფილის გარეშე">
+  const demoCard=isNew?`<button type="button" class="pcard demo" style="grid-column:span 2" onclick="tryDemo()" aria-label="გამოსცადე ახლავე, პროფილის გარეშე">
       <div class="avatar a-green">🎮</div>
-      <div><div class="pname">დაიწყე ახლავე</div>
+      <div><div class="pname">გამოსცადე ახლავე</div>
       <div class="pmeta">ისწავლე თამაშით ერთ წუთში, პროფილის გარეშე 👇</div></div>
     </button>`:'';
   render(`<div class="screen home">
     <div class="brand brand-btn" onclick="landing()" title="მთავარი გვერდი">
       <div class="sun-badge" style="background:none;box-shadow:none;padding:0"><img src="owl-logo.png" alt="" style="width:100%;height:100%;object-fit:contain"></div>
       <h1 class="mark" style="margin:0">NikoLearn</h1>
-      <div class="tag">${isNew?'მოგესალმები 👋 ჯერ ისწავლე თამაშით, მერე შექმენი პროფილი':'ვინ სწავლობს?'}</div>
+      <div class="tag">${isNew?'მოგესალმები 👋 ჯერ გამოსცადე, მერე შექმენი პროფილი':'ვინ სწავლობს?'}</div>
     </div>
     <div class="profile-grid">
       ${demoCard}
@@ -64,7 +64,24 @@ function goHome(){
    Reuses the fully-tested guest path (state, levels, back-nav to home all already wired), so the
    new visitor lands on the real, playable subject grid one tap from a question. They create a
    saved profile only when they want progress kept. ── */
-function tryDemo(){ selectProfile('guest'); }
+function tryDemo(){
+  // UX-2: ask one quick age band so the demo opens at the RIGHT altitude. Guest age was 0 (not "young"),
+  // so the highest-traffic CTA used to lead with Kings & Cambridge / ოლიმპიადა for parents of pre-readers.
+  render(`<div class="screen">${topbarPlain('სტუმარი','goHome()')}
+    <div class="center" style="margin:18px 0 8px"><div style="font-size:52px;line-height:1">🦉</div>
+      <h2 style="margin:8px 0 4px;font-size:1.35rem">ვინ სწავლობს თამაშით?</h2>
+      <p style="color:var(--muted);margin:0 0 16px">აირჩიე ასაკი და სწორ გამოწვევებს შემოგთავაზებთ</p></div>
+    <div style="display:flex;flex-direction:column;gap:10px;max-width:340px;margin:0 auto;padding:0 16px">
+      <button class="btn btn-primary btn-block" onclick="startDemo(4)">🧸 3-5 წელი</button>
+      <button class="btn btn-primary btn-block" onclick="startDemo(7)">🎒 6-8 წელი</button>
+      <button class="btn btn-primary btn-block" onclick="startDemo(10)">📚 9-12 წელი</button>
+    </div></div>`, false);
+}
+function startDemo(age){
+  try{ state.guestAge=age; save(); }catch(e){}
+  try{ if(window.Analytics) Analytics.event('demo_age',{age_band: age<=5?'3-5':age<=8?'6-8':'9-12'}); }catch(e){}
+  selectProfile('guest');
+}
 
 /* ── landing page (real marketing landing: what + why; desktop + mobile) ── */
 function enterApp(){ state.authed=true; save(); goHome(); }
@@ -217,7 +234,7 @@ function renderAddChild(){
       <div class="avatar a-${draft.color}" style="width:84px;height:84px;border-radius:26px;font-size:2.2rem;margin:0 auto">${init}</div>
     </div>
     <div class="section-label">სახელი</div>
-    <input class="spell-input" id="kid-name" style="text-align:left;letter-spacing:0;font-family:'Noto Sans Georgian'" placeholder="მაგ. ლუკა" value="${draft.name}" oninput="draft.name=this.value;document.querySelector('.avatar.a-${draft.color}').textContent=this.value?this.value[0]:'?'">
+    <input class="spell-input" id="kid-name" style="text-align:left;letter-spacing:0;font-family:'Noto Sans Georgian'" placeholder="მაგ. ლუკა" value="${String(draft.name||'').replace(/[<>&"']/g,'')}" oninput="draft.name=this.value;document.querySelector('.avatar.a-${draft.color}').textContent=this.value?this.value[0]:'?'">
     <div class="section-label mt">ასაკი: <b class="num">${draft.age}</b> წლის</div>
     <div class="age-row" id="age-row">${[3,4,5,6,7,8,9,10,11,12].map(a=>`<button class="age-chip num ${draft.age===a?'on':''}" onclick="draft.age=${a};renderAddChild()">${a}</button>`).join('')}</div>
     <div class="lvl-hint" style="margin:6px 2px">${draft.age<=5?'🧸 პატარებისთვის: ტექსტის გარეშე, ხატულა + ხმა':'🎒 დაიწყებს ინგლისურს, მათემატიკას და Kings-ს'}</div>

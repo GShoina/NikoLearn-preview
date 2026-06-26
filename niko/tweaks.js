@@ -23,7 +23,7 @@
   function setTweak(key,val){
     values = {...values,[key]:val};
     apply();
-    window.parent.postMessage({type:'__edit_mode_set_keys',edits:{[key]:val}},'*');
+    window.parent.postMessage({type:'__edit_mode_set_keys',edits:{[key]:val}},location.origin);
     paint();
   }
 
@@ -97,13 +97,14 @@
   }
 
   function open(){panel.classList.add('on');paint();}
-  function dismiss(){panel.classList.remove('on');window.parent.postMessage({type:'__edit_mode_dismissed'},'*');}
+  function dismiss(){panel.classList.remove('on');window.parent.postMessage({type:'__edit_mode_dismissed'},location.origin);}
 
   window.addEventListener('message',e=>{
+    if(e.origin!==location.origin)return; // SEC-1: reject cross-origin postMessage so a framing page can never open the dev panel
     const t=e&&e.data&&e.data.type;
     if(t==='__activate_edit_mode')open();
     else if(t==='__deactivate_edit_mode')panel.classList.remove('on');
   });
-  window.parent.postMessage({type:'__edit_mode_available'},'*');
+  window.parent.postMessage({type:'__edit_mode_available'},location.origin);
   apply();
 })();
