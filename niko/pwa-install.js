@@ -22,6 +22,14 @@
   function track(name){ try { if (window.Analytics && Analytics.event) Analytics.event(name, {}); } catch(e){} }
   function el(tag, css, html){ var n = document.createElement(tag); if (css) n.style.cssText = css; if (html != null) n.innerHTML = html; return n; }
 
+  // style constants — defined BEFORE any show*() call (showEscape runs synchronously for in-app webviews,
+  // so these must already be assigned, not hoisted-undefined).
+  var WRAP = 'position:fixed;z-index:2147483000;left:0;right:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;';
+  var CARD = 'background:#fff;border-radius:20px;box-shadow:0 12px 40px rgba(60,45,15,.28);padding:20px 18px;max-width:340px;margin:0 auto;text-align:center;color:#3a2a1a;';
+  var BTN  = 'display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:999px;background:#e8612f;color:#fff;font-weight:800;font-size:16px;padding:13px 22px;cursor:pointer;width:100%;box-sizing:border-box;';
+  var X    = 'position:absolute;top:8px;right:12px;border:none;background:transparent;font-size:22px;color:#a08a66;cursor:pointer;line-height:1;';
+  function removeUI(){ ['niko-pwa-esc','niko-pwa-and','niko-pwa-ios'].forEach(function(id){ var n=document.getElementById(id); if(n) n.remove(); }); }
+
   if (isStandalone) return; // already installed as an app → show nothing
 
   // ── 1. INSIDE FB/IG in-app webview → escape overlay (install can't work here) ──
@@ -37,14 +45,7 @@
   // iOS Safari: no beforeinstallprompt. Show A2HS modal once the app has settled.
   if (isIOS && !isInApp && !dismissedRecently()) { setTimeout(showIOSModal, 1800); }
 
-  /* ── UI ─────────────────────────────────────────────────── */
-  var WRAP = 'position:fixed;z-index:2147483000;left:0;right:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;';
-  var CARD = 'background:#fff;border-radius:20px;box-shadow:0 12px 40px rgba(60,45,15,.28);padding:20px 18px;max-width:340px;margin:0 auto;text-align:center;color:#3a2a1a;';
-  var BTN  = 'display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:999px;background:#e8612f;color:#fff;font-weight:800;font-size:16px;padding:13px 22px;cursor:pointer;width:100%;box-sizing:border-box;';
-  var X    = 'position:absolute;top:8px;right:12px;border:none;background:transparent;font-size:22px;color:#a08a66;cursor:pointer;line-height:1;';
-
-  function removeUI(){ ['niko-pwa-esc','niko-pwa-and','niko-pwa-ios'].forEach(function(id){ var n=document.getElementById(id); if(n) n.remove(); }); }
-
+  /* ── UI (style constants + removeUI defined above, before the in-app early-return) ── */
   function showEscape(){
     track('pwa_inapp_escape');
     var back = el('div', 'position:fixed;inset:0;z-index:2147483000;background:rgba(40,30,15,.86);display:flex;align-items:center;justify-content:center;padding:22px;font-family:system-ui,-apple-system,sans-serif;');
