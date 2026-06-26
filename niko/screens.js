@@ -109,7 +109,9 @@ function boot(){
   try{ if(new URLSearchParams(location.search).get('admin')==='1') return adminGate(); }catch(e){}
   var enter=false;
   try{ enter=(new URLSearchParams(location.search).get('app')==='1')||sessionStorage.getItem('niko_enter')==='1'; }catch(e){}
-  if(!state.authed && !enter){ location.href='landing.html'; return; }   // first stop = owner's landing page
+  // Native app (Capacitor APK): there is no marketing landing inside the installed app — open straight into it.
+  try{ if(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform()) enter=true; }catch(e){}
+  if(!state.authed && !enter){ location.href='landing.html'; return; }   // first stop = owner's landing page (web only)
   try{sessionStorage.setItem('niko_enter','1');}catch(e){}
   if(!state.authed){ state.authed=true; save(); }
   goHome();

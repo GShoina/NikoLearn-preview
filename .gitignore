@@ -37,3 +37,11 @@ cloudflare/.wrangler/
 # design artifacts — keep local, do NOT deploy to Pages
 brand-preview/
 niko-brand.html
+node_modules/
+www/
+android/build/
+android/app/build/
+android/.gradle/
+android/app/src/main/assets/public/
+android/local.properties
+*.apk

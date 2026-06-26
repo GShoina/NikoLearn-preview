@@ -1,0 +1,29 @@
+{
+  "name": "nikoland",
+  "version": "1.0.0",
+  "description": "Offline, privacy-first learning PWA for young Georgian children (ages ~5–8). Subjects: Georgian alphabet, English (themed vocabulary, ~100 everyday phrases, Cambridge YLE \"Kings\" prep), counting, and math.",
+  "main": "sw.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GShoina/NikoLearn.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/GShoina/NikoLearn/issues"
+  },
+  "homepage": "https://github.com/GShoina/NikoLearn#readme",
+  "dependencies": {
+    "@capacitor/android": "^8.4.1",
+    "@capacitor/cli": "^8.4.1",
+    "@capacitor/core": "^8.4.1"
+  }
+}
