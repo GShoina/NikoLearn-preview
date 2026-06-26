@@ -33,16 +33,16 @@ function goHome(){
   // thing the app asked was a 3-4 screen profile+consent flow before a single question — a likely
   // big slice of the abandon rate. Give an instant, zero-commitment taste: play as the guest
   // profile right now, create a real (saved) profile only once they want to keep progress.
-  const demoCard=isNew?`<button type="button" class="pcard demo" style="grid-column:span 2" onclick="tryDemo()" aria-label="დაიწყე ახლავე, პროფილის გარეშე">
+  const demoCard=isNew?`<button type="button" class="pcard demo" style="grid-column:span 2" onclick="tryDemo()" aria-label="გამოსცადე ახლავე, პროფილის გარეშე">
       <div class="avatar a-green">🎮</div>
-      <div><div class="pname">დაიწყე ახლავე</div>
+      <div><div class="pname">გამოსცადე ახლავე</div>
       <div class="pmeta">ისწავლე თამაშით ერთ წუთში, პროფილის გარეშე 👇</div></div>
     </button>`:'';
   render(`<div class="screen home">
     <div class="brand brand-btn" onclick="landing()" title="მთავარი გვერდი">
       <div class="sun-badge" style="background:none;box-shadow:none;padding:0"><img src="owl-logo.png" alt="" style="width:100%;height:100%;object-fit:contain"></div>
       <h1 class="mark" style="margin:0">NikoLearn</h1>
-      <div class="tag">${isNew?'მოგესალმები 👋 ჯერ ისწავლე თამაშით, მერე შექმენი პროფილი':'ვინ სწავლობს?'}</div>
+      <div class="tag">${isNew?'მოგესალმები 👋 ჯერ გამოსცადე, მერე შექმენი პროფილი':'ვინ სწავლობს?'}</div>
     </div>
     <div class="profile-grid">
       ${demoCard}
@@ -67,10 +67,10 @@ function goHome(){
 function tryDemo(){
   // UX-2: ask one quick age band so the demo opens at the RIGHT altitude. Guest age was 0 (not "young"),
   // so the highest-traffic CTA used to lead with Kings & Cambridge / ოლიმპიადა for parents of pre-readers.
-  render(`<div class="screen">${topbarPlain('სტუმრად თამაში','goHome()')}
+  render(`<div class="screen">${topbarPlain('სტუმარი','goHome()')}
     <div class="center" style="margin:18px 0 8px"><div style="font-size:52px;line-height:1">🦉</div>
-      <h2 style="margin:8px 0 4px;font-size:1.35rem">ვისთვის ვითამაშოთ?</h2>
-      <p style="color:var(--muted);margin:0 0 16px">ავირჩიოთ ასაკი, რომ სწორი თამაშები გაჩვენო</p></div>
+      <h2 style="margin:8px 0 4px;font-size:1.35rem">ვინ სწავლობს თამაშით?</h2>
+      <p style="color:var(--muted);margin:0 0 16px">ავირჩიოთ ასაკი და სწორ გამოწვევებს შემოგთავაზებთ</p></div>
     <div style="display:flex;flex-direction:column;gap:10px;max-width:340px;margin:0 auto;padding:0 16px">
       <button class="btn btn-primary btn-block" onclick="startDemo(4)">🧸 3-5 წელი</button>
       <button class="btn btn-primary btn-block" onclick="startDemo(7)">🎒 6-8 წელი</button>
