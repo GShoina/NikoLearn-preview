@@ -126,3 +126,15 @@ The owner pushed back hard: stop tagging every UX/onboarding fix with „this wo
 - Reducing onboarding friction (gates, trapped screens, confusing entry) for hard-won users is a legitimate, owner-chosen investment. Treat it as such and just execute.
 - RULE: when the owner asks for a concrete fix, do the fix. Don't re-litigate priorities he has already set. Challenge substance (a wrong approach / a real risk), not his right to choose what to work on. „Skeptical board member" ≠ a nag who repeats the same macro-point.
 - Also OWN design/UX decisions: when he asks for a visual change, pick the best layout yourself, don't wait for pixel-level specs. Owner 2026-06-25: „რატომ ელოდები ასეთ დეტალურ ინსტრუქციას, შეგიძლია უკეთ გადაწყვიტო." (e.g., he said icon-left+text-center looked off → the right call was icon-left+text-LEFT, the standard balanced row; I should have made that call without being told.)
+
+## L8 (MUST) — For a VISUAL/placement change, align on the design with a quick rendered mock BEFORE building, then build ONCE (owner 2026-06-26)
+The language-control went through 4 churned iterations (topbar pair → gate footer → topbar-left → bottom-nav picker) because I built first and discovered his intent after each ship. Owner: „რამდენჯერ გთხოვე დაგეგმე, გაიზომე და მერე გააკეთე" + „დიზაინის კუთხით ჩემი თქმა რათ უნდა".
+- For a placement/layout/visual decision: produce a small RENDERED mock (screenshot) of the concrete option(s), confirm, THEN implement in the real code once. Don't ship-then-discover.
+- „Show, don't tell": the owner approves by SEEING, not by reading a plan. „თუ ვიზუალურად არ მანახე ვერაფერს დაგიდასტურებ." Always put a screenshot in front of him for any UI change.
+- Own the design quality so it doesn't need correction, but de-risk the PLACEMENT call with a 10-second mock when it's his product surface. Pairs with L7.
+
+## L9 (MUST) — Visual-render catches what static can't; mind the two verification traps (owner 2026-06-26)
+Looking at the actual render this session caught 3 real bugs that passed logic/syntax: (1) `.lp-badge` CSS class-name COLLISION (a new picker badge reused the landing `lp-` namespace → 88px square); (2) `⚪` white swatch renders pale-lavender = ambiguous for a colour game; (3) strings only confirmed once rendered.
+- BEFORE adding a CSS class, grep the stylesheet for the name (`lp-` etc. are existing namespaces). Collisions silently win by specificity.
+- Static/team analysis (read+grep+node -c) is real but STATIC: proves syntax/refs/i18n-coverage/dataflow, NOT runtime/logic/device. Pair with a live runtime sweep + viewport test for any UI.
+- GOTCHA: GitHub-Pages HTTP-caches `niko/*.js`; `?v=` on index.html does NOT bust them, and re-assigning `window.I18N_MAP` does NOT update i18n.js's captured closure `MAP`. To live-verify a fresh deploy: `browser_close` + reopen. Else prove logically via `window.t_en()` + rendered-text===key.
