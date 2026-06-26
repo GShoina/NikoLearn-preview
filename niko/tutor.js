@@ -92,7 +92,7 @@
 
   // ── KINGS ENGLISH (q.type) ──
   function kingsEng(q,kid){
-    const t=q.type, core=q.a.replace(/^(a |an |the )/i,'');
+    const t=q.type, core=String(q.a==null?'':q.a).replace(/^(a |an |the )/i,''); // CM-1: q.a may be a number (defensive) — never call .replace on a non-string
     if(t==='pic2word')return {hints:[`დააკვირდი სურათს: ${q.emoji}. რა ხედავ?`,`ინგლისური სიტყვა იწყება ბგერით /${core[0]}/.`],explain:`ჯერ ამოიცანი საგანი სურათზე, მერე იპოვე მისი ინგლისური სახელი.`};
     if(t==='translate')return {hints:[`ქართული: „${q.q}". რომელია მთავარი სიტყვა?`,`აირჩიე ვარიანტი, სადაც მთავარი სიტყვა ემთხვევა (ფერი/რიცხვი ცალკე შეამოწმე).`],explain:`თარგმანში ჯერ მთავარი არსებითი სახელი იპოვე, მერე ფერი, რიცხვი ან ზედსართავი.`};
     if(t==='spelling')return {hints:[`წარმოთქვი სიტყვა ნელა, თითო ბგერა.`,`ერთ ვარიანტში ასოა არასწორი, შეადარე ასო-ასო.`],explain:`მართლწერა: დაშალე სიტყვა ბგერებად და თითო ასო შეამოწმე.`};

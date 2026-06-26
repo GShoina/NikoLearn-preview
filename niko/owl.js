@@ -18,7 +18,7 @@ function gameSubject(){
   if(m==='clock')return 'clock';
   return 'vocab';
 }
-function curQ(){return (game.mode||'').startsWith('math-')?game.cur:(game.qs?game.qs[game.i]:null);}
+function curQ(){var m=game.mode||''; if(m.startsWith('kings-'))return null; /* CM-1: Kings exam runs its own kx state, not game.qs — a stale game.qs[i] here crashed the owl hint */ return m.startsWith('math-')?game.cur:(game.qs?game.qs[game.i]:null);}
 function syncAiFab(){
   let fab=$('#aifab');const inGame=$('#gscreen');
   if(inGame){

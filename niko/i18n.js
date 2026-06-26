@@ -50,6 +50,9 @@
     root=root||document.body; if(!root)return;
     walkText(root,function(node){
       var v=node.nodeValue; if(!v||!v.trim())return;
+      /* CM-2: honour an opt-out marker so a native autonym ("ქართული") in the language picker
+         is never translated to "Georgian" (owner-locked: the autonym must stay native). */
+      try{ var p=node.parentNode; if(p&&p.nodeType===1&&p.closest('[data-noi18n]'))return; }catch(e){}
       var en=toEn(v);
       if(en!==v){ if(node.__ka==null)node.__ka=v; node.nodeValue=en; }
     });

@@ -70,6 +70,7 @@ function coarseMode(m){
 }
 // fired (fire-and-forget) when a child leaves a round before finishing it
 function abandonRound(){
+  clearCeleb(); if(typeof closeFeedback==='function')closeFeedback(); // CE-2: cancel pending win-celebration timers so they can't drag the child back into the round
   if(typeof clearIdleHelp==='function')clearIdleHelp();
   if(game.roundActive){ try{ if(window.Analytics) Analytics.event('round_abandon',{mode:coarseMode(),q:(game.i>=8?'8+':String(game.i||0))}); }catch(e){} game.roundActive=false; }
   openMenu(game.subj||'math');
@@ -1404,6 +1405,8 @@ function replay(){
   if(m==='sent')return startSentQuiz();
   if(m==='rtext')return startTextQuiz();
   if(m==='build')return startBuild();
+  if(m==='math-word')return wordRound(); // CE-1: route word/pic BEFORE the generic math- catch (mirrors startGame)
+  if(m==='math-pic')return picRound();
   if(m&&m.startsWith('math-'))return mathRound(m);
   if(m==='ka-alpha'||m==='en-alpha')return alphaQuiz(m);
   startGame(m);
