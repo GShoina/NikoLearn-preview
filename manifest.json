@@ -1,9 +1,11 @@
 {
   "name": "NikoLearn",
   "short_name": "NikoLearn",
-  "start_url": "./",
+  "description": "Kids' learning app: Georgian & English alphabet, English words, and math, with Niko the owl. Data stays on the device.",
+  "start_url": "index.html?app=1&src=pwa",
   "scope": "./",
   "display": "standalone",
+  "categories": ["education", "kids"],
   "orientation": "portrait",
   "background_color": "#fff3e0",
   "theme_color": "#ffb74d",
