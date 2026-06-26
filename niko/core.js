@@ -64,7 +64,7 @@ function overLimit(p){
   return (s.todayMs||0)>=lim*60000;
 }
 const AV_COLORS=['sky','primary','green','sun','purple'];
-function kidObj(p){return ((state&&state.kids)||[]).find(k=>k.id===p)||(p==='guest'?{id:'guest',name:'სტუმარი',age:0,color:'green'}:{id:p,name:p,age:7,color:'sky'});}
+function kidObj(p){return ((state&&state.kids)||[]).find(k=>k.id===p)||(p==='guest'?{id:'guest',name:'სტუმარი',age:(state&&state.guestAge)||6,color:'green'}:{id:p,name:p,age:7,color:'sky'});}
 function isYoung(p){const a=kidObj(p).age;return a>0&&a<=5;}
 function isTiny(p){const a=kidObj(p).age;return a>0&&a<=4;} // pre-arithmetic: counting/alphabet/shapes only
 function isBig(p){const a=kidObj(p).age;return a>=7;} // 7+ : harder math (division / missing-number / 2-digit) + faster celebration. Owner 2026-06-13: 7-8 yos need age-appropriate challenge.

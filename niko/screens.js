@@ -64,7 +64,24 @@ function goHome(){
    Reuses the fully-tested guest path (state, levels, back-nav to home all already wired), so the
    new visitor lands on the real, playable subject grid one tap from a question. They create a
    saved profile only when they want progress kept. ── */
-function tryDemo(){ selectProfile('guest'); }
+function tryDemo(){
+  // UX-2: ask one quick age band so the demo opens at the RIGHT altitude. Guest age was 0 (not "young"),
+  // so the highest-traffic CTA used to lead with Kings & Cambridge / ოლიმპიადა for parents of pre-readers.
+  render(`<div class="screen">${topbarPlain('სტუმრად თამაში','goHome()')}
+    <div class="center" style="margin:18px 0 8px"><div style="font-size:52px;line-height:1">🦉</div>
+      <h2 style="margin:8px 0 4px;font-size:1.35rem">ვისთვის ვითამაშოთ?</h2>
+      <p style="color:var(--muted);margin:0 0 16px">ავირჩიოთ ასაკი, რომ სწორი თამაშები გაჩვენო</p></div>
+    <div style="display:flex;flex-direction:column;gap:10px;max-width:340px;margin:0 auto;padding:0 16px">
+      <button class="btn btn-primary btn-block" onclick="startDemo(4)">🧸 3-5 წელი</button>
+      <button class="btn btn-primary btn-block" onclick="startDemo(7)">🎒 6-8 წელი</button>
+      <button class="btn btn-primary btn-block" onclick="startDemo(10)">📚 9-12 წელი</button>
+    </div></div>`, false);
+}
+function startDemo(age){
+  try{ state.guestAge=age; save(); }catch(e){}
+  try{ if(window.Analytics) Analytics.event('demo_age',{age_band: age<=5?'3-5':age<=8?'6-8':'9-12'}); }catch(e){}
+  selectProfile('guest');
+}
 
 /* ── landing page (real marketing landing: what + why; desktop + mobile) ── */
 function enterApp(){ state.authed=true; save(); goHome(); }
