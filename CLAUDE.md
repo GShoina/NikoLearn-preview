@@ -141,9 +141,22 @@ Owner has pre-approved the whole plan. Execute reversible internal work and show
 ask yes/no on it. Ask ONLY for: (a) customer-facing content/UI going live to the kids' app, (b)
 money/payment/spending, (c) irreversible deletion a backup cannot restore. Everything else is
 default-go: read/audit, refactor, build, cleanup, local/branch self-test, any reversible technical
-work. Replace "should I do A or B?" with a senior-owner decision plus the outcome. The only
-scheduled pause is the single backup-verified gate before the FIRST live customer-facing deploy;
-after that the agent owns subsequent reversible deploys.
+work. Replace "should I do A or B?" with a senior-owner decision plus the outcome.
+
+## 7b. Preview → owner GO → Live (owner-locked 2026-06-26) — SUPERSEDES the old "agent owns subsequent deploys"
+The product is LIVE now and first impressions matter, so EVERY customer-facing change is gated by
+the owner SEEING it before it reaches nikolearn.com. New flow:
+- Internal / invisible work (bug hunt, refactor, self-test, branch work, audits) = proceed autonomously, as before.
+- ANY change a user can see or feel: build it on a branch, self-test (incl. the §6c visual gate), then
+  PRESENT it for review. Nothing hits nikolearn.com until the owner says "go".
+- A git COMMIT is NOT live — it is a safe branch checkpoint. The gate is the DEPLOY (push to the
+  production repo GShoina/NikoLearn `main`). Commit freely; never deploy to live without the owner's go.
+- Two review channels (owner chose BOTH, 2026-06-26): (a) DEFAULT = screenshots / rendered result in chat
+  (fastest, phone-friendly); (b) tappable PREVIEW SITE = https://gshoina.github.io/NikoLearn-preview/
+  (repo GShoina/NikoLearn-preview, Pages from main). To stage: push the candidate branch to the preview
+  repo's main; the URL rebuilds (~1-2 min); owner taps and tries on his phone.
+- On the owner's "go": deploy to GShoina/NikoLearn main → live-verify (fresh context, cache-bypass) → report.
+  Rollback stays `git revert` + push (~2 min); kids' progress is on-device, never lost.
 
 ## 8. Writing style for human-facing text (NOT code)
 Applies to every string a human reads: in-app text, parent-dashboard messages, AI-tutor responses,
