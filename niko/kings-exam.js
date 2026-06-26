@@ -279,7 +279,7 @@ function kxNext(){
 function kxAnswer(btn,sel,cor){
   if(!kx)return; const {sec,per}=kx.qs[kx.i];
   if(String(sel)===String(cor)){
-    document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim')); btn.classList.remove('dim'); btn.classList.add('correct');
+    document.querySelectorAll('.opt').forEach(b=>{b.classList.add('dim'); b.style.pointerEvents='none';}); btn.classList.remove('dim'); btn.classList.add('correct'); // CM-3: lock input during the win celebration so extra taps can't re-enter and stall the exam
     if(sec.bonus)kx.bonusScore+=per; else kx.score+=per;
     const s=state[profile]; s.shields++; game.shields++; s.streak++; s.maxStreak=Math.max(s.maxStreak,s.streak); save();
     winStep(null,null,()=>{kx.i++;kxNext();});

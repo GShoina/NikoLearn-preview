@@ -733,7 +733,8 @@ window.I18N_PATTERNS = [
   [/^(.+?)\s*წლის$/, function(m){return m[1]+' yrs';}],
   [/^(.+?)-ს წაშლა$/, function(m){return 'Delete '+m[1];}],
   [/^პროფილის წაშლა$/, function(){return 'Delete profile';}],
-  [/^ბრავო,\s*(.+?)! 💛$/, function(m){return 'Well done, '+m[1]+'! 💛';}],
+  [/^ბრავო,\s*(.+?)! 💛$/, function(m){return 'Well done, '+(m[1]==='მეგობარ'?'friend':m[1])+'! 💛';}],
+  [/^ყოჩაღ,\s*(.+?)! 💛$/, function(m){return 'Great job, '+(m[1]==='მეგობარ'?'friend':m[1])+'! 💛';}], // CM-4: ყოჩაღ praise variant + guest-name "მეგობარ"→friend (was leaking whole in EN)
   [/^(.+?),\s*კიდევ ცადე! 💛$/, function(m){return m[1]+', try again! 💛';}],
   [/^(.+?),\s*შესანიშნავია! 💛$/, function(m){return m[1]+', brilliant! 💛';}],
   [/^(.+?),\s*კარგად მიდიხარ! 💛$/, function(m){return m[1]+", you're doing great! 💛";}],

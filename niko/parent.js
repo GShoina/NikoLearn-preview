@@ -311,7 +311,7 @@ function parentDash(){
     ${hasPin?'<button class="btn btn-ghost btn-block mt" onclick="clearParentPin()">PIN-კოდის მოხსნა</button>':''}
     <div class="pset-hint">${hasPin?'მშობლის სივრცეში მხოლოდ PIN-კოდით შეხვალ.':'PIN-კოდის ნაცვლად მშობლის სივრცეს მათემატიკური ამოცანა იცავს, რომელსაც პატარა ვერ ამოხსნის.'}</div>
     <div class="pset-lbl" style="margin-top:14px">ენა / Language</div>
-    <div class="limit-chips"><button class="lang-chip ${window.UILANG==='en'?'':'on'}" onclick="setUILang('ka');parentDash()">ქართული</button><button class="lang-chip ${window.UILANG==='en'?'on':''}" onclick="setUILang('en');parentDash()">English</button></div>
+    <div class="limit-chips"><button class="lang-chip ${window.UILANG==='en'?'':'on'}" data-noi18n onclick="setUILang('ka');parentDash()">ქართული</button><button class="lang-chip ${window.UILANG==='en'?'on':''}" onclick="setUILang('en');parentDash()">English</button></div>
     <div class="pset-hint">აპის ინტერფეისის ენა</div>
   </div>`;
   // 2) FEEDBACK / CONTACT (was „გაზიარება"; „რეპორტი მასწავლებელს" retired → docs/ROADMAP until institutional credibility)
