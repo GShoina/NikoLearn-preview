@@ -950,5 +950,5 @@ Object.assign(window.I18N_MAP, {
   "📷 შენახვა":"📷 Save","აირჩიე მნიშვნელობა":"Choose the meaning",
   "ფუნჯი · ფერები · შაბლონები":"Brush · colours · templates","სიტყვა":"words",
   "ნამდვილი ფორმატი · მე-2/3 კლასი · 100 ქულა":"Real format · grade 2/3 · 100 points",
-  "ყველა თემა ახლა უფასო და ღიაა":"All topics are now free and open"
+  "ყველა თემა ახლა":"All topics are now","უფასო და ღიაა":"free and open"
 });
