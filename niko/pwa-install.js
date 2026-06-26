@@ -21,12 +21,18 @@
   var isIOS = /iPhone|iPad|iPod/i.test(UA) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   var isAndroid = /Android/i.test(UA);
   var isStandalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
-  var DKEY = 'niko_pwa_dismissed';
+  var DKEY = 'niko_pwa_dismissed';   // explicit dismiss → long silence
+  var SKEY = 'niko_pwa_lastshown';   // last time the nudge appeared → soft back-off even if only ignored
+  var DISMISS_DAYS = 14;
+  var SOFT_DAYS = 4;                 // ignored (not dismissed) → don't nag again for this long
   var REVEAL_MS = 28000; // never on arrival: let the parent see the app first
   var deferred = null;   // captured beforeinstallprompt
   var shown = false;     // nudge shown this session
 
-  function dismissedRecently() { try { var t = +localStorage.getItem(DKEY) || 0; return (Date.now() - t) < 14 * 864e5; } catch (e) { return false; } }
+  function ageDays(key) { try { var t = +localStorage.getItem(key) || 0; return t ? (Date.now() - t) / 864e5 : Infinity; } catch (e) { return Infinity; } }
+  function dismissedRecently() { return ageDays(DKEY) < DISMISS_DAYS; }
+  function shownRecently() { return ageDays(SKEY) < SOFT_DAYS; }       // progressive back-off on plain ignore
+  function markShown() { try { localStorage.setItem(SKEY, String(Date.now())); } catch (e) {} }
   function markDismissed() { try { localStorage.setItem(DKEY, String(Date.now())); } catch (e) {} }
   function track(name) { try { if (window.Analytics && Analytics.event) Analytics.event(name, {}); } catch (e) {} }
   function el(tag, css, html) { var n = document.createElement(tag); if (css) n.style.cssText = css; if (html != null) n.innerHTML = html; return n; }
@@ -63,7 +69,7 @@
 
   // Reveal the soft nudge only AFTER value: a custom app signal if present, else a delay. Never on load.
   function maybeReveal() {
-    if (shown || isStandalone || dismissedRecently()) return;
+    if (shown || isStandalone || dismissedRecently() || shownRecently()) return;
     if (isInApp || isIOS || deferred) showBar();
   }
   try { document.addEventListener('niko:value', maybeReveal); } catch (e) {}
@@ -76,6 +82,7 @@
   function showBar() {
     if (shown || document.getElementById('niko-pwa-bar')) return;
     shown = true;
+    markShown(); // stamp now so a plain ignore still backs off for SOFT_DAYS
     track('pwa_nudge');
     var text, actLabel;
     if (isInApp) { text = '🦉 NikoLearn უკეთ მუშაობს ბრაუზერში'; actLabel = 'როგორ?'; }
