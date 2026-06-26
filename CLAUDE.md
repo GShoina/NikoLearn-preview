@@ -176,3 +176,12 @@ Default routing when untagged: clean dev/feature/fix/content → Lane A; mission
 pricing / roadmap / "what should we do" / customer-facing strategy → Lane B; if ambiguous, ask ONE
 line "build or plan?" before acting. Parking board lives in docs/SESSION-HANDOFF.md (NOW = build
 queue, PARKED = strategy/later) so nothing is lost.
+
+## 10. Agent-team standard (owner-locked 2026-06-26) — MINIMUM bar for every multi-agent run
+The owner saw the 2026-06-26 deep audit and locked it as the minimum standard: "always run the team
+exactly like this." Full spec: **`docs/AGENT_TEAM_STANDARD.md`**. Non-negotiables: parallel reviewers
+with file-ownership; read every owned file IN FULL; coverage ledger; absence != clean; RUN THE APP
+(headless) + screenshots; discriminator test; per-finding evidence (file:line + severity + repro + fix);
+a separate adversarial verification pass; the main agent re-verifies each finding against real code
+before fixing; fixes on a branch; Preview -> owner GO -> Live; Gemini challenge for customer-facing copy.
+Never run a shallower team than this.
