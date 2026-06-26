@@ -70,7 +70,7 @@ function tryDemo(){
   render(`<div class="screen">${topbarPlain('სტუმარი','goHome()')}
     <div class="center" style="margin:18px 0 8px"><div style="font-size:52px;line-height:1">🦉</div>
       <h2 style="margin:8px 0 4px;font-size:1.35rem">ვინ სწავლობს თამაშით?</h2>
-      <p style="color:var(--muted);margin:0 0 16px">ავირჩიოთ ასაკი და სწორ გამოწვევებს შემოგთავაზებთ</p></div>
+      <p style="color:var(--muted);margin:0 0 16px">აირჩიე ასაკი და სწორ გამოწვევებს შემოგთავაზებთ</p></div>
     <div style="display:flex;flex-direction:column;gap:10px;max-width:340px;margin:0 auto;padding:0 16px">
       <button class="btn btn-primary btn-block" onclick="startDemo(4)">🧸 3-5 წელი</button>
       <button class="btn btn-primary btn-block" onclick="startDemo(7)">🎒 6-8 წელი</button>
