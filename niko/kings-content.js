@@ -113,7 +113,7 @@ const KEX_RC6 = [
   {q:'How many different kinds of penguins are there?', a:'seventeen', opts:['seventeen','seven','seventy']},
   {q:'Penguins live in ___ areas.', a:'cold', opts:['cold','hot','warm']},
   {q:'Penguins are great at ___.', a:'swimming', opts:['swimming','flying','singing']},
-  {q:'Killer whales are penguins ___.', a:'enemies', opts:['enemies','friends','relatives']},
+  {q:'Killer whales are the ___ of penguins.', a:'enemies', opts:['enemies','friends','relatives']},
   {q:'The largest penguin is the ___ Penguin.', a:'Emperor', opts:['Emperor','Little Blue','King']},
   {q:'The smallest penguin is the Little ___ Penguin.', a:'Blue', opts:['Blue','Green','Red']},
   {q:'Penguins have thick layers of ___ to protect from the cold.', a:'fat', opts:['fat','fur','feathers']},
@@ -162,7 +162,7 @@ const KEX_GR6 = [
   {q:'This book is ___ than that one.', a:'better', opts:['better','more good','gooder']}
 ];
 const KEX_BONUS6 = [
-  {q:'A large copper statue of a woman holding a burning torch on Liberty Island, in New York harbor:', a:'The Statue of Liberty', opts:['The Statue of Liberty','The Great Sphinx','The Statue of David']},
+  {q:'A large copper statue of a woman holding a burning torch on Liberty Island, in New York harbour:', a:'The Statue of Liberty', opts:['The Statue of Liberty','The Great Sphinx','The Statue of David']},
   {q:'A tall iron tower in Paris, France:', a:'The Eiffel Tower', opts:['The Eiffel Tower','Big Ben','The Tower of London']},
   {q:'A famous clock tower in London, England:', a:'Big Ben', opts:['Big Ben','The Eiffel Tower','The Colosseum']},
   {q:'A very long ancient wall built in China:', a:'The Great Wall', opts:['The Great Wall','The Great Sphinx','The Pyramids']},
