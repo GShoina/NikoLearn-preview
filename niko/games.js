@@ -1183,24 +1183,36 @@ const MODEL_POOL=[
   {lv:3,q:'კიბეს 9 საფეხური აქვს. შუა საფეხური მერამდენეა?', a:5, opts:[5,4,6], rule:'შუა = (9+1)÷2 = <b>5</b>'}
 ];
 function genModel(tier){ tier=Math.max(1,Math.min(3,tier||1)); const pool=MODEL_POOL.filter(x=>x.lv<=tier); const q=pool[ri(0,pool.length-1)]; return {q:q.q, a:q.a, opts:shuffle(q.opts.slice()), rule:q.rule, tier:q.lv}; }
-/* Kings MATH "სამკუთხედი" strand (owner roadmap, art-free): a 3-corner number-triangle.
-   Rule: (top + bottom-left) × bottom-right = centre. The child finds the centre. Tier scales the numbers;
-   reuses pat3opts + the reasonRound engine + learn-mode rule reveal. */
+/* Kings MATH "სამკუთხედი" strand (owner roadmap, art-free). PROPER "find the rule" format (redesigned
+   2026-06-27 — a single triangle was unsolvable): show 3 SOLVED example triangles so the rule
+   (top + bottom-left) × bottom-right = centre is INFERABLE, then 1 target with ? to solve. Tier scales numbers. */
 function genTriangle(tier){ tier=Math.max(1,Math.min(3,tier||1));
-  let top,bL,bR;
-  if(tier===1){ top=ri(1,5); bL=ri(1,5); bR=ri(2,3); }
-  else if(tier===2){ top=ri(2,9); bL=ri(2,9); bR=ri(2,4); }
-  else { top=ri(3,12); bL=ri(4,12); bR=ri(2,5); }
-  const a=(top+bL)*bR;
-  const q=`<div style="position:relative;width:210px;height:158px;margin:4px auto">`
-    +`<svg viewBox="0 0 210 158" style="position:absolute;inset:0;width:100%;height:100%"><polygon points="105,10 14,148 196,148" fill="rgba(107,99,181,.06)" stroke="#b9b3df" stroke-width="2"/></svg>`
-    +`<div style="position:absolute;top:16px;left:50%;transform:translateX(-50%);font-size:1.5rem;font-weight:800">${top}</div>`
-    +`<div style="position:absolute;top:74px;left:50%;transform:translateX(-50%);font-size:1.85rem;font-weight:900;color:var(--primary-d)">?</div>`
-    +`<div style="position:absolute;bottom:12px;left:26px;font-size:1.5rem;font-weight:800">${bL}</div>`
-    +`<div style="position:absolute;bottom:12px;right:26px;font-size:1.5rem;font-weight:800">${bR}</div>`
+  const gen = tier===1 ? ()=>[ri(1,5),ri(1,5),ri(2,3)]
+            : tier===2 ? ()=>[ri(2,9),ri(2,9),ri(2,4)]
+            :            ()=>[ri(3,12),ri(4,12),ri(2,5)];
+  const C=(t,l,r)=>(t+l)*r;
+  // the child must infer ONE rule from the 3 solved examples — guarantee no other common rule fits all 3
+  // (so the puzzle is provably unique, not "almost always" unique).
+  const ALT=[(t,l,r)=>t+l+r,(t,l,r)=>t*l*r,(t,l,r)=>t*l+r,(t,l,r)=>t*r+l,(t,l,r)=>l*r+t,(t,l,r)=>(t+r)*l,(t,l,r)=>(l+r)*t,(t,l,r)=>t*l,(t,l,r)=>l*r,(t,l,r)=>t+l*r];
+  function build(){ const items=[]; const seen=new Set(); let g=0;
+    while(items.length<4 && g++<80){ const a=gen(),k=a.join(','),c=C(a[0],a[1],a[2]); if(seen.has(k)||seen.has('c'+c))continue; seen.add(k); seen.add('c'+c); items.push({t:a[0],l:a[1],r:a[2],c}); }
+    while(items.length<4){ const a=gen(); items.push({t:a[0],l:a[1],r:a[2],c:C(a[0],a[1],a[2])}); }
+    return items; }
+  let items, tries=0;
+  do { items=build(); } while(++tries<25 && ALT.some(fn=>{ for(let i=0;i<3;i++){ const s=items[i]; if(fn(s.t,s.l,s.r)!==s.c) return false; } return true; }));
+  const target=items[3], ans=target.c;
+  const tri=(o,solved)=>`<div style="position:relative;width:90px;height:72px">`
+    +`<svg viewBox="0 0 90 72" style="position:absolute;inset:0;width:100%;height:100%"><polygon points="45,5 6,67 84,67" fill="${solved?'rgba(0,166,81,.08)':'rgba(107,99,181,.10)'}" stroke="${solved?'#9ed8b4':'#8e84d6'}" stroke-width="1.6"/></svg>`
+    +`<div style="position:absolute;top:6px;left:50%;transform:translateX(-50%);font-size:.95rem;font-weight:800">${o.t}</div>`
+    +`<div style="position:absolute;top:30px;left:50%;transform:translateX(-50%);font-size:1.15rem;font-weight:900;color:${solved?'#0a7d3f':'var(--primary-d)'}">${solved?o.c:'?'}</div>`
+    +`<div style="position:absolute;bottom:5px;left:12px;font-size:.95rem;font-weight:800">${o.l}</div>`
+    +`<div style="position:absolute;bottom:5px;right:12px;font-size:.95rem;font-weight:800">${o.r}</div>`
     +`</div>`;
-  const rule=`(${top} + ${bL}) × ${bR} = <b>${a}</b>`;
-  return {q, a, opts:pat3opts(a), rule, tier};
+  const q=`<div style="font-size:.82rem;color:var(--muted);margin:0 0 6px;text-align:center">გამოიცანი წესი 🟩 ამოხსნილი მაგალითებიდან, მერე იპოვე ?</div>`
+    +`<div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;align-items:center;max-width:300px;margin:0 auto">`
+    + items.slice(0,3).map(o=>tri(o,true)).join('') + tri(target,false) + `</div>`;
+  const rule=`წესი: (ზედა + ქვედა-მარცხ.) × ქვედა-მარჯვ. = ცენტრი. ანუ (${target.t} + ${target.l}) × ${target.r} = <b>${ans}</b>`;
+  return {q, a:ans, opts:pat3opts(ans), rule, tier};
 }
 const REASON_STRANDS={
   rebus:{label:'🔢 რებუსი', tierKey:'rbTier', gen:genRebus},

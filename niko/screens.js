@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.274'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.275'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 function goHome(){
   if(typeof clearCeleb==='function')clearCeleb(); if(typeof closeFeedback==='function')closeFeedback(); // CE-2: kill pending celebration timers so they can't re-render the round over home
   // A4: if a round was in progress, count it as abandoned before we leave it
@@ -431,6 +431,7 @@ function openMenu(subj){
       ${kmode('kings-math','pattern','🧩','კანონზომიერება','იპოვე წესი')}
       ${kmode('kings-math','rebus','🔢','რებუსი','სიმბოლო=რიცხვი')}
       ${kmode('kings-math','model','📝','ამოცანები','ცხოვრებისეული')}
+      ${kmode('kings-math','triangle','🔺','სამკუთხედი','იპოვე წესი')}
       ${(typeof isFreeMode==='function'&&!isFreeMode('kings-math','exam'))
         ?`<div class="mode play locked" onclick="upsellPremium('kings-math')"><span class="lock-badge">🔒</span><div class="m-ico">🏆</div><div class="m-name">სავარჯიშო გამოცდა</div><div class="m-sub">დროზე · ნამდვილივით</div></div>`
         :`<div class="mode play exam-tile" onclick="startGame('exam')">${PLAY_BADGE}<div class="m-ico">🏆</div><div class="m-name">სავარჯიშო გამოცდა</div><div class="m-sub">დროზე · ნამდვილივით</div></div>`}
