@@ -203,7 +203,9 @@ This rule governs ALL content NikoLearn produces, not just the Kings tracks. (Tr
 g4-6 content was found to be transcribed/translated from real kings.ge PDFs item-for-item; owner ordered a full rework
 to original-only and locked this as standing policy.)
 
-## 12. Execution Loop & Escalation Filter (owner protocol, 2026-06-27 · IMG_1740)
+## 12. „loop წესი" (the LOOP RULE) — Execution Loop & Escalation Filter (owner protocol, 2026-06-27 · IMG_1740)
+**Name + trigger:** the owner named this protocol **„loop წესი" / „loop rule" / „loop"**. When he says it (or asks to apply it),
+run a task exactly by this section. It is also the DEFAULT operating mode for every task, named or not.
 Default operating mode = a SELF-SUFFICIENT loop. The owner gave this protocol and said: stop bringing me contentless questions.
 **Loop (every task):** state the TASK + explicit SUCCESS CRITERIA up front (the bar, no compromises) → then repeat: PLAN one concrete
 next step → DO it → VERIFY (score EACH criterion 1-10, brutally honest; list what's good and what would be better) → DECIDE
