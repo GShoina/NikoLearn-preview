@@ -1117,7 +1117,7 @@ function patternRound(){
   game.mode='pattern';game.kind='pattern';game.shields=0;game.wrong=0;game.i=0;
   game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);
   game.subj=game.subj||'kings-math';
-  const s=state[profile]; game.patTier=(s&&s.patTier)||1; // capacity tier, advances by mastery (NOT grade)
+  const s=state[profile]; game.patTier=(typeof kingsLevel==='function')?kingsLevel():((s&&s.patTier)||1); // unified 3-level selector drives difficulty (consistent with English)
   game.qs=Array.from({length:6},()=>genPattern(game.patTier));
   nextPattern();
 }
@@ -1191,7 +1191,7 @@ function reasonRound(mode){
   const st=REASON_STRANDS[mode]; if(!st)return;
   game.mode=mode;game.kind=mode;game.rStrand=st;game.shields=0;game.wrong=0;game.i=0;
   game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);game.subj=game.subj||'kings-math';
-  const s=state[profile]; game.rTier=(s&&s[st.tierKey])||1;
+  const s=state[profile]; game.rTier=(typeof kingsLevel==='function')?kingsLevel():((s&&s[st.tierKey])||1); // unified 3-level selector drives difficulty (consistent with English)
   game.qs=Array.from({length:6},()=>st.gen(game.rTier));
   nextReason();
 }

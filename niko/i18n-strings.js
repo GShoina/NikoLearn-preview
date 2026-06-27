@@ -951,6 +951,6 @@ Object.assign(window.I18N_MAP, {
   "მათემატიკა:":"Math:","ანბანი:":"Alphabet:","სიზუსტე:":"Accuracy:","სიზუსტე":"Accuracy","გასამეორებელი:":"To review:",
   "📷 შენახვა":"📷 Save","აირჩიე მნიშვნელობა":"Choose the meaning",
   "ფუნჯი · ფერები · შაბლონები":"Brush · colours · templates","სიტყვა":"words",
-  "ნამდვილი ფორმატი · მე-2-6 კლასი · 100 ქულა":"Real format · grades 2-6 · 100 points",
+  "ნამდვილი ფორმატი · შენი დონე · 100 ქულა":"Real format · your level · 100 points",
   "ყველა თემა ახლა":"All topics are now","უფასო და ღიაა":"free and open"
 });

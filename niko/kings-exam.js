@@ -225,21 +225,11 @@ const KINGS_EXAM={
 };
 
 let kx=null;
-function kxGrade(){ const l=(typeof kingsLevel==='function')?kingsLevel():1; return l>=2?3:2; } // app level → real grade
-// grade chooser: the real exam differs by grade, so let the child/parent pick (MVP = grade 2 & 3).
-function kxPick(subject){
-  const def=kxGrade();
-  const grades=Object.keys((KINGS_EXAM[subject]||{})).map(Number).sort((a,b)=>a-b);
-  const icons={2:'📘',3:'📗',4:'📙',5:'📕',6:'📓'};
-  const btns=grades.map(g=>`<button class="btn btn-primary btn-block mt" onclick="startKingsExam('${subject}',${g})">${icons[g]||'📖'} მე-${g} კლასი${def===g?' ⭐':''}</button>`).join('');
-  render(`<div class="screen kx-result"><div class="kx-card">
-    <div class="kx-trophy">👑</div>
-    <div class="kx-title">კინგსის ${subject==='eng'?'ინგლისურის ':''}ტესტი</div>
-    <div class="p-sub" style="margin:4px 0 14px">აირჩიე კლასი (ნამდვილი კინგსის ფორმატი)</div>
-    ${btns}
-    <button class="btn btn-ghost btn-block mt" onclick="openMenu('kings-${subject}')">უკან</button>
-  </div></div>`, false);
-}
+// Unified 3-level model → exam content grade: დამწყები→2, საშუალო→4, მაღალი→6.
+function levelToGrade(){ const l=(typeof kingsLevel==='function')?kingsLevel():1; return l>=3?6:(l>=2?4:2); }
+// No separate grade chooser: the exam runs at the child's currently selected LEVEL (set via the level bar),
+// exactly like the practice modes. kxPick stays as the entry the exam tiles + the "retry" button call.
+function kxPick(subject){ startKingsExam(subject, levelToGrade()); }
 function startKingsExam(subject, grade){
   const secs=(KINGS_EXAM[subject]||{})[grade];
   if(!secs){ if(typeof startKings==='function')return startKings(subject); return; }  // fallback to the old test

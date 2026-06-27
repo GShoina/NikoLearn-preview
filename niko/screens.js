@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.268'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.269'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 function goHome(){
   if(typeof clearCeleb==='function')clearCeleb(); if(typeof closeFeedback==='function')closeFeedback(); // CE-2: kill pending celebration timers so they can't re-render the round over home
   // A4: if a round was in progress, count it as abandoned before we leave it
@@ -412,9 +412,9 @@ function openMenu(subj){
       ${(!isYoung(profile)&&typeof dueWords==='function'&&dueWords().length)?`<div class="mode play refresh-tile" onclick="startRefresh()">${PLAY_BADGE}<div class="m-ico">🔄</div><div class="m-name">დღევანდელი გამეორება</div><div class="m-sub">${dueWords().length} ${window.UILANG==='en'?'words':'სიტყვა'}</div></div>`:''}
     </div>`;
   } else if(subj==='kings-eng'){
-    body=`${kingsLevelBar()}
+    body=`${kingsLevelBar('kings-eng')}
     <div class="mode-grid">
-      <div class="mode feature play" onclick="kxPick('eng')">${PLAY_BADGE}<div class="m-ico">👑</div><div><div class="m-name">კინგსის ტესტი</div><div class="m-sub">ნამდვილი ფორმატი · მე-2-6 კლასი · 100 ქულა</div></div></div>
+      <div class="mode feature play" onclick="kxPick('eng')">${PLAY_BADGE}<div class="m-ico">👑</div><div><div class="m-name">კინგსის ტესტი</div><div class="m-sub">ნამდვილი ფორმატი · შენი დონე · 100 ქულა</div></div></div>
       ${kmode('kings-eng','quiz','🎯','ლექსიკა','')}
       ${kmode('kings-eng','listen','👂','მოსმენა','სიტყვა')}
       ${kmode('kings-eng','listen-yle','🎧','მოსმენა+','წინადადება')}
@@ -425,8 +425,9 @@ function openMenu(subj){
       ${kmode('kings-eng','match','🧩','დააწყვილე','')}
     </div>`;
   } else if(subj==='kings-math'){
-    body=`<div class="mode-grid">
-      <div class="mode feature play" onclick="kxPick('math')">${PLAY_BADGE}<div class="m-ico">👑</div><div><div class="m-name">კინგსის ოლიმპიადა</div><div class="m-sub">ნამდვილი ფორმატი · მე-2-6 კლასი · 100 ქულა</div></div></div>
+    body=`${kingsLevelBar('kings-math')}
+    <div class="mode-grid">
+      <div class="mode feature play" onclick="kxPick('math')">${PLAY_BADGE}<div class="m-ico">👑</div><div><div class="m-name">კინგსის ოლიმპიადა</div><div class="m-sub">ნამდვილი ფორმატი · შენი დონე · 100 ქულა</div></div></div>
       ${kmode('kings-math','pattern','🧩','კანონზომიერება','იპოვე წესი')}
       ${kmode('kings-math','rebus','🔢','რებუსი','სიმბოლო=რიცხვი')}
       ${kmode('kings-math','model','📝','ამოცანები','ცხოვრებისეული')}
@@ -507,11 +508,11 @@ function kmode(subj,m,ic,name,sub){
 }
 /* Kings = Cambridge YLE level ladder selector (Starters/Movers/Flyers). Tapping a band sets it on the
    profile and re-renders the Kings menu so every mode then draws level-appropriate items. */
-function setKLevel(n){ if(typeof setKingsLevel==='function')setKingsLevel(n); openMenu('kings-eng'); }
-function kingsLevelBar(){
+function setKLevel(n,subj){ if(typeof setKingsLevel==='function')setKingsLevel(n); openMenu(subj||'kings-eng'); }
+function kingsLevelBar(subj){
   const cur=(typeof kingsLevel==='function')?kingsLevel():1;
   const L=[[1,'Starters','დამწყები'],[2,'Movers','საშუალო'],[3,'Flyers','მაღალი']];
-  return `<div class="klevel-bar">${L.map(([n,en,ka])=>`<button class="klevel${n===cur?' on':''}" aria-pressed="${n===cur}" onclick="setKLevel(${n})"><b>${en}</b><small>${ka}</small></button>`).join('')}</div>`;
+  return `<div class="klevel-bar">${L.map(([n,en,ka])=>`<button class="klevel${n===cur?' on':''}" aria-pressed="${n===cur}" onclick="setKLevel(${n},'${subj||'kings-eng'}')"><b>${en}</b><small>${ka}</small></button>`).join('')}</div>`;
 }
 
 /* ── category pickers ── */
