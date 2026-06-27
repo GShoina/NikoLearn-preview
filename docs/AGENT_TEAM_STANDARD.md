@@ -40,6 +40,12 @@ parallel workstreams with FILE-OWNERSHIP boundaries, then run a verification pas
   (Trigger: 2026-06-27 — a Triangle puzzle passed "answer matches formula 300/300" yet was UNSOLVABLE because the
   rule `(top+bL)×bR` was never shown; a g6 "READING" section said "read the text" with no text; 2 finance items
   silently needed a month-length. "Is the answer right?" is the wrong-only question; also ask "can the child GET there?")
+  **SOLVABLE IS NECESSARY BUT NOT SUFFICIENT (owner 2026-06-27):** the QUESTION must also be LOGICAL — a natural,
+  sensible question a thoughtful teacher would really ask, NOT a contrived trick that merely happens to have a
+  unique answer (e.g. "find the missing number in two sequences mashed together" is technically solvable once the
+  threads are separable, but it's a gimmick, not a logical question — drop it). And the PATH to the answer must be
+  logical reasoning, not rule-guessing. Three bars, all required: answer-correct + solvable-from-what's-shown + the
+  question and its solution are genuinely LOGICAL.
 - **The main agent re-verifies each finding against the real code before trusting or fixing it**
   (today this caught a genuine genMath `−` bug a fix would have shipped).
 
