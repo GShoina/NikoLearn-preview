@@ -34,6 +34,12 @@ parallel workstreams with FILE-OWNERSHIP boundaries, then run a verification pas
 - A DIFFERENT agent adversarially verifies each CRITICAL/HIGH finding (tries to REFUTE it). Drop or
   downgrade anything that can't survive a refute. Mark each verified / refuted.
 - Spot-check 3 "clean" areas independently.
+- **WELL-POSEDNESS / SOLVABILITY gate (MANDATORY for ANY quiz / test / puzzle / question content).** Verify each
+  item is answerable from ONLY what the child sees on screen, with a SINGLE defensible answer and NO unstated /
+  hidden rule and no required outside fact beyond the skill being taught. ANSWER-CORRECT ≠ WELL-POSED — check BOTH.
+  (Trigger: 2026-06-27 — a Triangle puzzle passed "answer matches formula 300/300" yet was UNSOLVABLE because the
+  rule `(top+bL)×bR` was never shown; a g6 "READING" section said "read the text" with no text; 2 finance items
+  silently needed a month-length. "Is the answer right?" is the wrong-only question; also ask "can the child GET there?")
 - **The main agent re-verifies each finding against the real code before trusting or fixing it**
   (today this caught a genuine genMath `−` bug a fix would have shipped).
 
