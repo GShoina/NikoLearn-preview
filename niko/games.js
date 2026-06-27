@@ -60,7 +60,7 @@ function startGame(m){
 // A4 telemetry: map the specific game.mode → the worker's coarse subject enum.
 function coarseMode(m){
   m=m||game.mode||'';
-  if(m==='listen-yle'||m==='yesno'||m==='story'||m==='speak'||m==='pattern'||m==='rebus'||m==='model'||m==='exam')return 'kings'; // Kings strands
+  if(m==='listen-yle'||m==='yesno'||m==='story'||m==='speak'||m==='pattern'||m==='rebus'||m==='model'||m==='triangle'||m==='exam')return 'kings'; // Kings strands
   if(m==='count'||m==='counting'||m==='digit')return 'counting';
   if(m==='kings-eng'||m==='kings-math')return 'kings';
   if(m==='ka-alpha'||m==='en-alpha'||m==='shead')return 'alphabet';
@@ -75,7 +75,7 @@ function abandonRound(){
   if(game.roundActive){ try{ if(window.Analytics) Analytics.event('round_abandon',{mode:coarseMode(),q:(game.i>=8?'8+':String(game.i||0))}); }catch(e){} game.roundActive=false; }
   openMenu(game.subj||'math');
 }
-const SUBMODES=['quiz','reverse','listen','listen-yle','yesno','story','speak','engram','addlet','pattern','rebus','model','exam','match','spell','phrases','math-add','math-sub','math-mul','math-div','math-miss','math-pat','math-word','math-pic','compare','skip','shapes','money','clock','cal','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','rtext','digit','shead','colour'];
+const SUBMODES=['quiz','reverse','listen','listen-yle','yesno','story','speak','engram','addlet','pattern','rebus','model','triangle','exam','match','spell','phrases','math-add','math-sub','math-mul','math-div','math-miss','math-pat','math-word','math-pic','compare','skip','shapes','money','clock','cal','count','kings-eng','kings-math','ka-alpha','en-alpha','read','sent','build','rtext','digit','shead','colour'];
 // First-round activation easing (2026-06-16). Telemetry showed ~60% of rounds abandoned, worst on a
 // brand-new child's first tries. A new child's first few rounds are SHORTER so they reach the "round
 // complete" reward fast (an early win is what hooks a young learner); re-queue growth is also capped
@@ -1183,9 +1183,29 @@ const MODEL_POOL=[
   {lv:3,q:'კიბეს 9 საფეხური აქვს. შუა საფეხური მერამდენეა?', a:5, opts:[5,4,6], rule:'შუა = (9+1)÷2 = <b>5</b>'}
 ];
 function genModel(tier){ tier=Math.max(1,Math.min(3,tier||1)); const pool=MODEL_POOL.filter(x=>x.lv<=tier); const q=pool[ri(0,pool.length-1)]; return {q:q.q, a:q.a, opts:shuffle(q.opts.slice()), rule:q.rule, tier:q.lv}; }
+/* Kings MATH "სამკუთხედი" strand (owner roadmap, art-free): a 3-corner number-triangle.
+   Rule: (top + bottom-left) × bottom-right = centre. The child finds the centre. Tier scales the numbers;
+   reuses pat3opts + the reasonRound engine + learn-mode rule reveal. */
+function genTriangle(tier){ tier=Math.max(1,Math.min(3,tier||1));
+  let top,bL,bR;
+  if(tier===1){ top=ri(1,5); bL=ri(1,5); bR=ri(2,3); }
+  else if(tier===2){ top=ri(2,9); bL=ri(2,9); bR=ri(2,4); }
+  else { top=ri(3,12); bL=ri(4,12); bR=ri(2,5); }
+  const a=(top+bL)*bR;
+  const q=`<div style="position:relative;width:210px;height:158px;margin:4px auto">`
+    +`<svg viewBox="0 0 210 158" style="position:absolute;inset:0;width:100%;height:100%"><polygon points="105,10 14,148 196,148" fill="rgba(107,99,181,.06)" stroke="#b9b3df" stroke-width="2"/></svg>`
+    +`<div style="position:absolute;top:16px;left:50%;transform:translateX(-50%);font-size:1.5rem;font-weight:800">${top}</div>`
+    +`<div style="position:absolute;top:74px;left:50%;transform:translateX(-50%);font-size:1.85rem;font-weight:900;color:var(--primary-d)">?</div>`
+    +`<div style="position:absolute;bottom:12px;left:26px;font-size:1.5rem;font-weight:800">${bL}</div>`
+    +`<div style="position:absolute;bottom:12px;right:26px;font-size:1.5rem;font-weight:800">${bR}</div>`
+    +`</div>`;
+  const rule=`(${top} + ${bL}) × ${bR} = <b>${a}</b>`;
+  return {q, a, opts:pat3opts(a), rule, tier};
+}
 const REASON_STRANDS={
   rebus:{label:'🔢 რებუსი', tierKey:'rbTier', gen:genRebus},
-  model:{label:'📝 ამოცანები', tierKey:'mdTier', gen:genModel}
+  model:{label:'📝 ამოცანები', tierKey:'mdTier', gen:genModel},
+  triangle:{label:'🔺 სამკუთხედი', tierKey:'trTier', gen:genTriangle}
 };
 function reasonRound(mode){
   const st=REASON_STRANDS[mode]; if(!st)return;
