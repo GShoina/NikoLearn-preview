@@ -202,3 +202,20 @@ copyright/third-party concern.
 This rule governs ALL content NikoLearn produces, not just the Kings tracks. (Trigger context: 2026-06-27 — the Kings
 g4-6 content was found to be transcribed/translated from real kings.ge PDFs item-for-item; owner ordered a full rework
 to original-only and locked this as standing policy.)
+
+## 12. Execution Loop & Escalation Filter (owner protocol, 2026-06-27 · IMG_1740)
+Default operating mode = a SELF-SUFFICIENT loop. The owner gave this protocol and said: stop bringing me contentless questions.
+**Loop (every task):** state the TASK + explicit SUCCESS CRITERIA up front (the bar, no compromises) → then repeat: PLAN one concrete
+next step → DO it → VERIFY (score EACH criterion 1-10, brutally honest; list what's good and what would be better) → DECIDE
+(all criteria ≥8 = FINAL, ship/report; else ITERATE, fixing the WEAKEST criterion first). NEVER call it done until every criterion ≥8.
+**For any QUIZ / TEST / QUESTION content, the criteria (each must reach ≥8 before shipping):** (1) answer correct · (2) solvable from
+ONLY what's shown · (3) the question AND the path to the answer are genuinely LOGICAL / natural (not a contrived trick) · (4) natural
+Georgian, no em dash · (5) grade-appropriate. (A brutal VERIFY on these is exactly what would have caught the absurd Triangle + the
+gimmick items on 2026-06-27.)
+**Don't ask — assume + note + continue.** Default: never bring the owner a contentless or binary question. Make the most reasonable
+assumption, LABEL it explicitly, execute, and report the RESULT with the assumptions made.
+**Escalate ONLY genuine forks:** (a) money / spend, (b) irreversible & non-recoverable, (c) product-direction / strategy where
+assumptions materially diverge AND a wrong guess wastes real work, (d) customer-facing taste/identity you genuinely cannot infer.
+Even then: present analysis + a RECOMMENDATION + a DEFAULT you'll proceed with if the owner is silent — never an open question.
+This kills the two 2026-06-27 failure modes: over-asking ("go" on clear fixes) and shipping half-baked work a brutal VERIFY would
+have caught. See [[feedback_nikoland_no_yesno_questions]].

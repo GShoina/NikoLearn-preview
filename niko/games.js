@@ -1193,7 +1193,7 @@ function genTriangle(tier){ tier=Math.max(1,Math.min(3,tier||1));
             :            ()=>[ri(3,12),ri(4,12),ri(2,5)];
   const C=(t,l,r)=>(t+l)*r;
   // the child must infer ONE rule from the 3 solved examples — guarantee no other common rule fits all 3
-  // (so the puzzle is provably unique, not "almost always" unique).
+  // (unique among the common rules a child would try — a strong guard, not a formal proof over all possible rules).
   const ALT=[(t,l,r)=>t+l+r,(t,l,r)=>t*l*r,(t,l,r)=>t*l+r,(t,l,r)=>t*r+l,(t,l,r)=>l*r+t,(t,l,r)=>(t+r)*l,(t,l,r)=>(l+r)*t,(t,l,r)=>t*l,(t,l,r)=>l*r,(t,l,r)=>t+l*r];
   function build(){ const items=[]; const seen=new Set(); let g=0;
     while(items.length<4 && g++<80){ const a=gen(),k=a.join(','),c=C(a[0],a[1],a[2]); if(seen.has(k)||seen.has('c'+c))continue; seen.add(k); seen.add('c'+c); items.push({t:a[0],l:a[1],r:a[2],c}); }
