@@ -1125,7 +1125,7 @@ function nextPattern(){
   if(game.i>=game.qs.length)return results();
   const q=game.qs[game.i];game.cur=q;
   const tn=['','დამწყები','საშუალო','რთული'][q.tier]||'';
-  gameShell(`<div class="prompt"><div class="section-label">🧩 კანონზომიერება · ${tn}</div>
+  gameShell(`<div class="prompt"><div class="section-label">🧩 კანონზომიერება</div>
       <div class="p-word num" style="font-size:1.9rem;letter-spacing:2px">${q.q}</div>
       <div class="p-sub">იპოვე წესი: რა მოდის ?-ის ნაცვლად</div></div>
     <div class="options">${q.opts.map(o=>`<button class="opt num" onclick="answerPattern(this,${o},${q.a})">${o}</button>`).join('')}</div>`);
@@ -1219,7 +1219,7 @@ function nextReason(){
   if(game.i>=game.qs.length)return results();
   const q=game.qs[game.i];game.cur=q;
   const tn=['','დამწყები','საშუალო','რთული'][q.tier]||'';
-  gameShell(`<div class="prompt"><div class="section-label">${game.rStrand.label} · ${tn}</div>
+  gameShell(`<div class="prompt"><div class="section-label">${game.rStrand.label}</div>
       <div class="p-word" style="font-size:1.5rem;line-height:1.55;letter-spacing:1px">${q.q}</div>
       <div class="p-sub">იპოვე პასუხი</div></div>
     <div class="options">${q.opts.map(o=>`<button class="opt num" onclick="answerReason(this,${o},${q.a})">${o}</button>`).join('')}</div>`);
