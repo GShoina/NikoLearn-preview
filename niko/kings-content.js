@@ -352,5 +352,5 @@ const BLUEPRINT_math6 = [
   {label:'🔢 ნატურალური რიცხვები', instr:'აირჩიე სწორი პასუხი', pts:20, n:3, pool:KMX_NAT6, type:'mq'},
   {label:'🧮 ამოცანები გამოთვლაზე', instr:'ამოხსენი ამოცანა და აირჩიე სწორი პასუხი', pts:30, n:3, pool:KMX_CALC6, type:'mq'},
   {label:'🎯 მაქსიმუმი და მინიმუმი', instr:'იპოვე მაქსიმუმი ან მინიმუმი', pts:30, n:2, pool:KMX_OPT6, type:'mq'},
-  {label:'💰 ბონუსი — ფინანსები', instr:'ფინანსური წიგნიერების ბონუს კითხვა', pts:30, n:3, pool:KMX_BONUS6, type:'mq', bonus:true}
+  {label:'💰 ბონუსი: ფინანსები', instr:'ფინანსური წიგნიერების ბონუს კითხვა', pts:30, n:3, pool:KMX_BONUS6, type:'mq', bonus:true}
 ];

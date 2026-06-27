@@ -272,11 +272,16 @@ function kxNext(){
   else if(sec.type==='mq'){ stem=`<div class="kx-mq">${it.q}</div>`; }  // math question (Georgian stem, A/B/C, no voice)
   const oo=shuffle(opts.slice());
   const optCls=(sec.type==='tr'||sec.type==='pic')?'en':(sec.type==='gr'||sec.type==='sp'||sec.type==='cap'||sec.type==='bonus'?'en kx-opt':'');
+  // C-1 fix: escape for BOTH the JS string literal AND the surrounding double-quoted onclick="" attribute.
+  // A literal " in an option/answer (e.g. the g6-math Magti bonus „მარტივი 25" 25 ლარად) used to close the
+  // attribute early and break every button -> tapping any answer threw and dumped the child to the error screen.
+  const ja=s=>String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+  const ht=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   const body=`<div class="prompt">
       <div class="section-label">${sec.label} <span class="kx-pts">${sec.pts} ქ.</span></div>
       ${stem}
       <div class="p-sub" style="margin-top:8px">${sec.instr}</div></div>
-    <div class="opt-list">${oo.map(o=>{const e=String(o).replace(/'/g,"\\'");return `<button class="opt ${optCls}" onclick="${speakEn?`speak('${e}');`:''}kxAnswer(this,'${e}','${String(correct).replace(/'/g,"\\'")}')">${o}</button>`;}).join('')}</div>`;
+    <div class="opt-list">${oo.map(o=>{const e=ja(o);return `<button class="opt ${optCls}" onclick="${speakEn?`speak('${e}');`:''}kxAnswer(this,'${e}','${ja(correct)}')">${ht(o)}</button>`;}).join('')}</div>`;
   gameShell(body);
   $('#gcount').textContent=`${kx.i+1}/${kx.qs.length}`;
 }
