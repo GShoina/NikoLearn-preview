@@ -185,3 +185,20 @@ with file-ownership; read every owned file IN FULL; coverage ledger; absence != 
 a separate adversarial verification pass; the main agent re-verifies each finding against real code
 before fixing; fixes on a branch; Preview -> owner GO -> Live; Gemini challenge for customer-facing copy.
 Never run a shallower team than this.
+
+## 11. Content originality / IP (owner-locked 2026-06-27) — NEVER copy, ALWAYS create
+The owner's permanent directive: **be the "creative teacher," always.** Never copy questions, problems, passages,
+or any content from existing or official tests (Kings/kings.ge or ANY third-party source) as-is, and never as a
+lightly-reworded / translated / number-swapped version of someone else's item. Existing tests may be used ONLY as
+inspiration for the *skill being tested, the format, and the difficulty level* — which are not copyrightable. Every
+question NikoLearn ships must be ORIGINAL content we authored = NikoLearn's own intellectual property, raising zero
+copyright/third-party concern.
+- Math: use public-domain problem *archetypes* (pigeonhole, sequences, rate, order-of-operations, etc.) with our OWN
+  numbers, scenarios and wording. No real brand/company names (no "Magti", "Liberty Bank", etc.) — use neutral, generic,
+  or invented contexts.
+- English: our own sentences, vocabulary items, reading snippets, and translations.
+- Always verify every answer is correct, options contain the answer, distractors are genuinely wrong, Georgian is natural
+  (no em dash, §8), difficulty matches the target grade.
+This rule governs ALL content NikoLearn produces, not just the Kings tracks. (Trigger context: 2026-06-27 — the Kings
+g4-6 content was found to be transcribed/translated from real kings.ge PDFs item-for-item; owner ordered a full rework
+to original-only and locked this as standing policy.)
