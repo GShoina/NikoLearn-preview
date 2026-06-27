@@ -203,7 +203,8 @@ const KINGS_EXAM={
       {label:'🔁 TRANSLATION',instr:'რომელია სწორი ინგლისური თარგმანი?', pts:30, n:8, pool:KEX_TR3, type:'tr'},
       {label:'📝 GRAMMAR',    instr:'აირჩიე სწორი ვარიანტი', pts:20, n:8, pool:KEX_GR3, type:'gr'},
       {label:'🎁 BONUS',     instr:'რამდენჯერ მეორდება სიტყვა LIBERTY?', pts:5, n:1, gen:kxGenBonus, type:'bonus', bonus:true}
-    ]
+    ],
+    4:BLUEPRINT_eng4, 5:BLUEPRINT_eng5, 6:BLUEPRINT_eng6
   },
   math:{
     2:[
@@ -219,7 +220,8 @@ const KINGS_EXAM={
       {label:'🧠 ლოგიკა',        instr:'დაფიქრდი და აირჩიე სწორი პასუხი', pts:30, n:3, pool:KMX_LOG3, type:'mq'},
       {label:'🔢 რებუსი',         instr:'სიმბოლო = რიცხვი. გამოიცანი', pts:30, n:3, pool:KMX_REB3, type:'mq'},
       {label:'🎁 ბონუსი',         instr:'ფულის ამოცანა', pts:30, n:3, pool:KMX_BON3, type:'mq', bonus:true}
-    ]
+    ],
+    4:BLUEPRINT_math4, 5:BLUEPRINT_math5, 6:BLUEPRINT_math6
   }
 };
 
@@ -228,12 +230,14 @@ function kxGrade(){ const l=(typeof kingsLevel==='function')?kingsLevel():1; ret
 // grade chooser: the real exam differs by grade, so let the child/parent pick (MVP = grade 2 & 3).
 function kxPick(subject){
   const def=kxGrade();
+  const grades=Object.keys((KINGS_EXAM[subject]||{})).map(Number).sort((a,b)=>a-b);
+  const icons={2:'📘',3:'📗',4:'📙',5:'📕',6:'📓'};
+  const btns=grades.map(g=>`<button class="btn btn-primary btn-block mt" onclick="startKingsExam('${subject}',${g})">${icons[g]||'📖'} მე-${g} კლასი${def===g?' ⭐':''}</button>`).join('');
   render(`<div class="screen kx-result"><div class="kx-card">
     <div class="kx-trophy">👑</div>
     <div class="kx-title">კინგსის ${subject==='eng'?'ინგლისურის ':''}ტესტი</div>
     <div class="p-sub" style="margin:4px 0 14px">აირჩიე კლასი (ნამდვილი კინგსის ფორმატი)</div>
-    <button class="btn btn-primary btn-block" onclick="startKingsExam('${subject}',2)">📘 მე-2 კლასი${def===2?' ⭐':''}</button>
-    <button class="btn btn-primary btn-block mt" onclick="startKingsExam('${subject}',3)">📗 მე-3 კლასი${def===3?' ⭐':''}</button>
+    ${btns}
     <button class="btn btn-ghost btn-block mt" onclick="openMenu('kings-${subject}')">უკან</button>
   </div></div>`, false);
 }
