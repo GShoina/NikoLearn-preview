@@ -21,7 +21,7 @@ const KEX_TR4 = [
   {ka:'წიგნი', a:'a book', opts:['a book','a pen','a desk']},{ka:'მზე', a:'the sun', opts:['the sun','the moon','the star']},
   {ka:'წყალი', a:'water', opts:['water','milk','bread']},{ka:'კატა', a:'a cat', opts:['a cat','a dog','a bird']},
   {ka:'წითელი ვაშლი', a:'a red apple', opts:['a red apple','a green apple','a red ball']},{ka:'დიდი სახლი', a:'a big house', opts:['a big house','a small house','a big garden']},
-  {ka:'ცხელი ჩაი', a:'hot tea', opts:['hot tea','cold tea','hot soup']},{ka:'ხუთი თითი', a:'five fingers', opts:['five fingers','four fingers','five toes']},
+  {ka:'ცხელი ჩაი', a:'hot tea', opts:['hot tea','cold tea','hot soup']},{ka:'ხელის ხუთი თითი', a:'five fingers', opts:['five fingers','four fingers','five toes']},
   {ka:'მწვანე ხე', a:'a green tree', opts:['a green tree','a green leaf','a tall tree']},{ka:'პატარა ძაღლი', a:'a small dog', opts:['a small dog','a small cat','a big dog']}
 ];
 const KEX_GR4 = [
@@ -66,7 +66,7 @@ const KEX_SP5 = [
   {w:'wh_stle', a:'i', opts:['i','e','y']},{w:'jew_l', a:'e', opts:['e','a','o']},{w:'rhy_hm', a:'t', opts:['t','d','m']},{w:'colo_r', a:'u', opts:['u','o','e']}
 ];
 const KEX_TR5 = [
-  {ka:'მაღალი ხე', a:'a tall tree', opts:['a tall tree','a high tree','a long tree']},
+  {ka:'მაღალი ხე', a:'a tall tree', opts:['a tall tree','a wide tree','a long tree']},
   {ka:'ძველი ხიდი', a:'an old bridge', opts:['an old bridge','an old bench','a new bridge']},
   {ka:'ცივი ამინდი', a:'cold weather', opts:['cold weather','cold water','warm weather']},
   {ka:'მძიმე წვიმა', a:'heavy rain', opts:['heavy rain','strong rain','big rain']},
@@ -116,7 +116,7 @@ const KEX_RC6 = [
   {q:'The bees that gather food and build the hive are called ___ bees.', a:'worker', opts:['worker','lazy','baby']},
   {q:'When a bee finds flowers, it tells the others by doing a special ___.', a:'dance', opts:['dance','song','drawing']},
   {q:'Bees build their honeycomb out of ___.', a:'wax', opts:['wax','mud','paper']},
-  {q:'As bees move from flower to flower, they help plants by spreading ___.', a:'pollen', opts:['pollen','seeds','soil']}
+  {q:'As bees move from flower to flower, they help plants by spreading ___.', a:'pollen', opts:['pollen','smoke','soil']}
 ];
 const KEX_VOC6 = [
   {q:'A person who bakes and sells bread and cakes:', a:'a baker', opts:['a baker','a butcher','a farmer']},
@@ -165,7 +165,7 @@ const KEX_BONUS6 = [
   {q:'The tallest animal in the world, with a very long neck:', a:'A giraffe', opts:['A giraffe','An elephant','A horse']}
 ];
 const BLUEPRINT_eng6 = [
-  {label:'📖 READING', instr:'წაიკითხე ტექსტი და აირჩიე სწორი პასუხი', pts:10, n:5, pool:KEX_RC6, type:'gr'},
+  {label:'📖 READING', instr:'წაიკითხე და აირჩიე სწორი პასუხი', pts:10, n:5, pool:KEX_RC6, type:'gr'},
   {label:'📚 VOCABULARY', instr:'გამოიცანი სიტყვა აღწერის მიხედვით', pts:30, n:10, pool:KEX_VOC6, type:'gr'},
   {label:'🔎 VOCABULARY', instr:'აირჩიე ზედმეტი სიტყვა', pts:30, n:10, pool:KEX_ODD6, type:'gr'},
   {label:'✏️ GRAMMAR', instr:'აირჩიე სწორი პასუხი', pts:30, n:10, pool:KEX_GR6, type:'gr'},
@@ -274,13 +274,13 @@ const KMX_MINMAX5 = [
 {q:'რომელია უდიდესი სამნიშნა რიცხვი, რომელშიც ციფრების ჯამი 7-ის ტოლია და ყველა ციფრი ერთმანეთისგან განსხვავებულია?', a:'610', opts:['610','700','520']}
 ];
 const KMX_BONUS5 = [
-{q:'ივლისში გიორგის შემოსავალი 200 ლარით გაიზარდა, მაგრამ მისი ყოველდღიური ხარჯიც გაიზარდა 5 ლარით. რამდენი ლარით გაიზრდება ივლისში გიორგის დანაზოგი?', a:'45', opts:['45','155','200']},
+{q:'ივლისში გიორგის შემოსავალი 200 ლარით გაიზარდა, მაგრამ მისი ყოველდღიური ხარჯიც გაიზარდა 5 ლარით. რამდენი ლარით გაიზრდება ივლისში გიორგის დანაზოგი? (ივლისი 31 დღეა)', a:'45', opts:['45','155','200']},
 {q:'უბანში შაქარი 2 ლარი და 50 თეთრი ღირს, ბაზარში კი 2 ლარი. ბაზარში მისვლა-მოსვლა 2 ლარი ჯდება. სულ მცირე რამდენი კილოგრამი შაქრისთვის ღირს ბაზარში წასვლა, რომ მაინც 1 ლარი დავზოგოთ?', a:'6 კგ', opts:['6 კგ','8 კგ','10 კგ']},
 {q:'ნინი სახლიდან 5 საათით გავიდა და ნათურის ჩაქრობა დაავიწყდა. რა თანხა დაიხარჯა ზედმეტად, თუ 1 საათში 2 თეთრის ელექტროენერგია იხარჯება?', a:'10 თეთრი', opts:['10 თეთრი','7 თეთრი','5 თეთრი']},
 {q:'ნათიამ 4 წლის წინ ანაბარი გახსნა. რამდენი წლისაა ის ახლა, თუ მაშინ 15 წლის იყო?', a:'19', opts:['11','17','19']},
 {q:'ხილის წვენი იყიდება უბნებში: ვაკეში, საბურთალოზე, გლდანში, ისანში, დიდუბეში. სულ რამდენ უბანშია შესაძლებელი მისი შეძენა?', a:'5', opts:['4','5','6']},
 {q:'ტელეფონის ნომერი იწყება ციფრებით 555222, შემდეგ 3 ციფრი აკლია. შეიძლება თუ არა ბოლო 3 ციფრი ისე შევარჩიოთ, რომ ნომრის ციფრთა ჯამი 40 იყოს?', a:'კი', opts:['კი','არა','ვერ დავადგენთ']},
-{q:'სექტემბერში ნინოს შემოსავალი 180 ლარით გაიზარდა, ხარჯი კი ყოველდღიურად 4 ლარით. რამდენი ლარით გაიზრდება სექტემბერში ნინოს დანაზოგი?', a:'60', opts:['60','120','180']},
+{q:'სექტემბერში ნინოს შემოსავალი 180 ლარით გაიზარდა, ხარჯი კი ყოველდღიურად 4 ლარით. რამდენი ლარით გაიზრდება სექტემბერში ნინოს დანაზოგი? (სექტემბერი 30 დღეა)', a:'60', opts:['60','120','180']},
 {q:'ლუკას ანაბარი 6 წლის წინ გაუხსნეს. რამდენი წლისაა ის ახლა, თუ მაშინ 11 წლის იყო?', a:'17', opts:['11','17','19']},
 {q:'ტელეფონის ნომერი იწყება ციფრებით 598888, შემდეგ 3 ციფრი აკლია. შეიძლება თუ არა ბოლო 3 ციფრი ისე შევარჩიოთ, რომ ნომრის ციფრთა ჯამი 80 იყოს?', a:'არა', opts:['კი','არა','ვერ დავადგენთ']}
 ];
