@@ -1299,8 +1299,9 @@ function answerExam(btn,sel,cor){
 }
 function examFinish(){
   if(game.examEnded)return; game.examEnded=true; clearInterval(_examTimer); game.roundActive=false;
-  try{ if(window.Analytics) Analytics.event('round_complete',{mode:'kings',band:'mid',retries:game.wrong||0}); }catch(e){}
   const tot=game.qs.length, got=game.shields, pct=tot?Math.round(got/tot*100):0, used=fmtClock(8*60-Math.max(0,game.examLeft));
+  const band=pct>=80?'high':pct>=50?'mid':'low'; // REAL band from score (was hardcoded 'mid' → faked the Kings mastery signal, Dim-8 audit)
+  try{ if(window.Analytics) Analytics.event('round_complete',{mode:'kings',band:band,retries:game.wrong||0}); }catch(e){}
   render(`<div class="screen results">
     <div class="r-owl">${tutorFace(profile,'3.2rem')}</div>
     <div class="r-ring"><i>${pct>=80?'🏆':pct>=50?'⭐':'🌱'}</i></div>
