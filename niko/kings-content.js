@@ -49,7 +49,7 @@ const BLUEPRINT_eng4 = [
   {label:'⭐ BONUS', instr:'დათვალე და აირჩიე სწორი პასუხი', pts:5, n:1, pool:KEX_BN4, type:'gr', bonus:true}
 ];
 
-// ke5b — Kings English g5. Flags: reading self-contained; GR "(none)"=no-article; LIBERTY=3. TR5 instr fixed ქართული→ინგლისური
+// ke5 — Kings English g5. ORIGINAL NikoLearn content (CLAUDE.md §11): own reading/spelling/translation/grammar/count items.
 const KEX_RC5 = [
   {q:'Tom found an old map in the attic. What did Tom find?', a:'a map', opts:['a map','a book','a key']},
   {q:'The map showed a hidden cave by the river. Where was the cave?', a:'by the river', opts:['by the river','on the hill','near the school']},

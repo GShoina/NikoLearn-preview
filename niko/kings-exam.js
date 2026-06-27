@@ -1,9 +1,8 @@
 /* ═══════════════════════════════════════════════════════════
-   NikoLearn — KINGS faithful EXAM (sectioned, mirrors the real kings.ge sample tests)
-   Built from the REAL grade-2 & grade-3 English sample PDFs (kings.ge, fetched 2026-06-24). Each grade
-   runs the real task SEQUENCE with the real section labels, instructions, question counts and POINT
-   weights, and scores out of 100 (+ a 5-pt bonus that only helps if the main score isn't maxed — the
-   real Kings rule). Loads AFTER games.js (reuses gameShell/winStep/shuffle/ri/state).
+   NikoLearn — KINGS-format EXAM (sectioned). ORIGINAL NikoLearn content (CLAUDE.md §11): all questions
+   are our own, authored in the Kings task FORMAT (section labels, sequence, question counts, point
+   weights, which are not copyrightable), scored out of 100 (+ a 5-pt bonus that only helps if the main
+   score isn't maxed). Loads AFTER games.js (reuses gameShell/winStep/shuffle/ri/state).
    VARIETY (owner 2026-06-24): ALPHABET + BONUS are GENERATED (effectively unlimited); the other sections
    draw n items from pools of ~18-22, so a second attempt rarely repeats. Option order is shuffled every time.
    Grades 4-6 (reading comprehension / definition→word / odd-one-out) are parked → docs/ROADMAP.md.
@@ -19,11 +18,11 @@ function kxGenCap(){
   const others=shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').filter(c=>c!==cap)).slice(0,2);
   return {l:low, a:cap, opts:[cap].concat(others)};
 }
-// BONUS — count how many times the word LIBERTY appears (the real Liberty-Bank task), generated.
-const KX_SCR=['LIBETRY','LIBRTEY','LBIERTY','LIBRETY','LIBTREY','LIEBRTY','ILBERTY'];
+// BONUS — count how many times the word NIKO appears (NikoLearn original task), generated.
+const KX_SCR=['NKIO','INKO','NIOK','KNIO','ONIK','IKNO','NOIK'];
 function kxGenBonus(){
   const n=ri(2,4), m=ri(2,3), toks=[];
-  for(let i=0;i<n;i++)toks.push('LIBERTY');
+  for(let i=0;i<n;i++)toks.push('NIKO');
   for(let i=0;i<m;i++)toks.push(kxP1(KX_SCR));
   const seq=shuffle(toks).join('  ');
   const set=[String(n),String(n+1),String(Math.max(1,n-1))].filter((v,i,a)=>a.indexOf(v)===i);
@@ -32,159 +31,159 @@ function kxGenBonus(){
 }
 
 /* ── POOL tasks (drawn n-of-pool each attempt; pools sized for low repetition) ── */
-// VOCABULARY (picture) grade 2 — emoji + "It is a ___." → pick the word.
+// VOCABULARY (picture) grade 2 — emoji + "It is a ___." → pick the word. ORIGINAL NikoLearn content.
 const KEX_PIC2=[
-  {e:'🐮',a:'cow',opts:['cow','cat','horse']},{e:'🐭',a:'mouse',opts:['mouse','pig','chicken']},
-  {e:'🐱',a:'cat',opts:['cat','mouse','car']},{e:'🌳',a:'tree',opts:['tree','plane','book']},
-  {e:'🐦',a:'bird',opts:['frog','bird','dog']},{e:'🍌',a:'banana',opts:['orange','banana','ball']},
-  {e:'🐶',a:'dog',opts:['dog','frog','cat']},{e:'🐷',a:'pig',opts:['pig','cow','hen']},
-  {e:'⭐',a:'star',opts:['star','car','sun']},{e:'🚗',a:'car',opts:['car','cat','cup']},
-  {e:'🍎',a:'apple',opts:['apple','egg','ball']},{e:'🐰',a:'rabbit',opts:['rabbit','mouse','cat']},
-  {e:'🦁',a:'lion',opts:['lion','bear','dog']},{e:'🐟',a:'fish',opts:['fish','bird','frog']},
-  {e:'🏠',a:'house',opts:['house','box','tree']},{e:'☀️',a:'sun',opts:['sun','star','moon']},
-  {e:'🌸',a:'flower',opts:['flower','tree','grass']},{e:'🐝',a:'bee',opts:['bee','fly','bird']},
-  {e:'🍊',a:'orange',opts:['orange','apple','ball']},{e:'🐸',a:'frog',opts:['frog','fish','duck']}
+  {e:'🐘',a:'elephant',opts:['elephant','umbrella','envelope']},{e:'🍇',a:'grapes',opts:['grapes','glass','grass']},
+  {e:'🚌',a:'bus',opts:['bus','box','bag']},{e:'🥕',a:'carrot',opts:['carrot','candle','curtain']},
+  {e:'🦆',a:'duck',opts:['duck','deer','dove']},{e:'🐻',a:'bear',opts:['bear','bird','bee']},
+  {e:'🎈',a:'balloon',opts:['balloon','button','basket']},{e:'🌙',a:'moon',opts:['moon','map','mug']},
+  {e:'🍞',a:'bread',opts:['bread','brush','brick']},{e:'🐍',a:'snake',opts:['snake','swan','spoon']},
+  {e:'🦋',a:'butterfly',opts:['butterfly','bottle','bicycle']},{e:'⚽',a:'ball',opts:['ball','bell','bowl']},
+  {e:'🐑',a:'sheep',opts:['sheep','snail','swan']},{e:'🍋',a:'lemon',opts:['lemon','ladder','lizard']},
+  {e:'🪑',a:'chair',opts:['chair','cherry','cheese']},{e:'🐧',a:'penguin',opts:['penguin','pencil','pigeon']},
+  {e:'🌈',a:'rainbow',opts:['rainbow','ribbon','rabbit']},{e:'🦊',a:'fox',opts:['fox','fan','frog']},
+  {e:'🧦',a:'sock',opts:['sock','soap','spoon']},{e:'🕷️',a:'spider',opts:['spider','sister','sandwich']}
 ];
-// VOCABULARY (picture) grade 3 — jobs, "Who am I? I am a ___."
+// VOCABULARY (picture) grade 3 — jobs, "Who am I? I am a ___." ORIGINAL NikoLearn content.
 const KEX_PIC3=[
-  {e:'👮',a:'policeman',opts:['policeman','singer','nurse']},{e:'👩‍⚕️',a:'doctor',opts:['nurse','doctor','princess']},
-  {e:'👨‍🏫',a:'teacher',opts:['teacher','driver','nurse']},{e:'👨‍🎨',a:'painter',opts:['driver','builder','painter']},
-  {e:'👷',a:'builder',opts:['builder','baker','farmer']},{e:'🧑‍🍳',a:'cook',opts:['cook','clown','pilot']},
-  {e:'👨‍✈️',a:'pilot',opts:['pilot','painter','postman']},{e:'👩‍🌾',a:'farmer',opts:['farmer','fisher','dancer']},
-  {e:'👨‍🚒',a:'firefighter',opts:['firefighter','driver','doctor']},{e:'💃',a:'dancer',opts:['dancer','singer','nurse']},
-  {e:'🧑‍🚀',a:'astronaut',opts:['astronaut','pilot','driver']},{e:'🎤',a:'singer',opts:['singer','dancer','teacher']}
+  {e:'👨‍⚖️',a:'judge',opts:['judge','guard','waiter']},{e:'🧑‍🔬',a:'scientist',opts:['scientist','soldier','sailor']},
+  {e:'🕵️',a:'detective',opts:['detective','dentist','driver']},{e:'🧙',a:'wizard',opts:['wizard','warrior','waiter']},
+  {e:'👨‍🔧',a:'mechanic',opts:['mechanic','musician','magician']},{e:'🧑‍💻',a:'programmer',opts:['programmer','plumber','painter']},
+  {e:'🪖',a:'soldier',opts:['soldier','sailor','singer']},{e:'⚓',a:'sailor',opts:['sailor','soldier','tailor']},
+  {e:'🦷',a:'dentist',opts:['dentist','doctor','driver']},{e:'🚕',a:'driver',opts:['driver','diver','dancer']},
+  {e:'🤹',a:'juggler',opts:['juggler','jeweller','janitor']},{e:'💈',a:'barber',opts:['barber','builder','butcher']}
 ];
-// TRANSLATION grade 2 (single words) — Georgian → pick the English.
+// TRANSLATION grade 2 (single words) — Georgian → pick the English. ORIGINAL NikoLearn content.
 const KEX_TR2=[
-  {ka:'ჩანთა',a:'a bag',opts:['a pen','a book','a bag']},{ka:'ავტობუსი',a:'a bus',opts:['a bus','a car','a cat']},
-  {ka:'გოგონა',a:'a girl',opts:['a girl','a boy','a child']},{ka:'რძე',a:'milk',opts:['water','tea','milk']},
-  {ka:'ვარსკვლავი',a:'a star',opts:['a star','a car','a dog']},{ka:'წიგნი',a:'a book',opts:['a pen','a book','a bag']},
-  {ka:'ძაღლი',a:'a dog',opts:['a cat','a dog','a doll']},{ka:'მაგიდა',a:'a table',opts:['a chair','a room','a table']},
-  {ka:'ყუთი',a:'a box',opts:['a cup','a box','a book']},{ka:'თოჯინა',a:'a doll',opts:['a dog','a doll','a ball']},
-  {ka:'კატა',a:'a cat',opts:['a cat','a dog','a cow']},{ka:'სახლი',a:'a house',opts:['a house','a horse','a mouse']},
-  {ka:'ვაშლი',a:'an apple',opts:['an apple','an egg','an orange']},{ka:'მზე',a:'the sun',opts:['the sun','the moon','a star']},
-  {ka:'ყვავილი',a:'a flower',opts:['a flower','a tree','grass']},{ka:'თევზი',a:'a fish',opts:['a fish','a bird','a frog']},
-  {ka:'წყალი',a:'water',opts:['water','milk','tea']},{ka:'ბავშვი',a:'a child',opts:['a child','a girl','a boy']}
+  {ka:'ვაჟი',a:'a boy',opts:['a boy','a tree','a key']},{ka:'ფანქარი',a:'a pencil',opts:['a pencil','a window','a spoon']},
+  {ka:'ფანჯარა',a:'a window',opts:['a window','a garden','a chair']},{ka:'სკამი',a:'a chair',opts:['a chair','a shoe','a cloud']},
+  {ka:'პური',a:'bread',opts:['bread','cheese','rice']},{ka:'ხელი',a:'a hand',opts:['a hand','a star','a boat']},
+  {ka:'თვალი',a:'an eye',opts:['an eye','an owl','an egg']},{ka:'ფეხი',a:'a foot',opts:['a foot','a fork','a fish']},
+  {ka:'ცხენი',a:'a horse',opts:['a horse','a hat','a hen']},{ka:'ქუდი',a:'a hat',opts:['a hat','a cup','a cat']},
+  {ka:'ბურთი',a:'a ball',opts:['a ball','a bell','a doll']},{ka:'ვარდი',a:'a rose',opts:['a rose','a leaf','a lake']},
+  {ka:'რვეული',a:'a notebook',opts:['a notebook','a teacher','a garden']},{ka:'მთვარე',a:'the moon',opts:['the moon','the rain','the road']},
+  {ka:'კარი',a:'a door',opts:['a door','a duck','a desk']},{ka:'ხე',a:'a tree',opts:['a tree','a road','a lamp']},
+  {ka:'ლომი',a:'a lion',opts:['a lion','a lemon','a leg']},{ka:'ყველი',a:'cheese',opts:['cheese','butter','sugar']}
 ];
-// TRANSLATION grade 3 (phrases).
+// TRANSLATION grade 3 (phrases). ORIGINAL NikoLearn content.
 const KEX_TR3=[
-  {ka:'მსხალი',a:'a pear',opts:['a peach','a carrot','a pear']},{ka:'ვახშამი',a:'supper',opts:['supper','breakfast','lunch']},
-  {ka:'კუდი',a:'a tail',opts:['a tale','a tile','a tail']},{ka:'სასაცილო ბაყაყი',a:'a funny frog',opts:['a funny dog','a funny frog','a happy frog']},
-  {ka:'კარგი ძაღლი',a:'a good dog',opts:['a good dog','a good cat','a bad dog']},{ka:'მწვანე კაბა',a:'a green dress',opts:['a short dress','a green scarf','a green dress']},
-  {ka:'ზარმაცი მოსწავლე',a:'a lazy pupil',opts:['a good pupil','a lazy pupil','a lazy boy']},{ka:'თვე',a:'a month',opts:['a day','a year','a month']},
-  {ka:'აქლემი',a:'a camel',opts:['a lion','a camel','a tiger']},{ka:'ცარიელი ჭიქა',a:'an empty glass',opts:['an empty glass','a full glass','an empty bottle']},
-  {ka:'ახლო მეგობარი',a:'a close friend',opts:['a close friend','a near friend','a closed friend']},{ka:'მძიმე ჩანთა',a:'a heavy bag',opts:['a full bag','a thick bag','a heavy bag']},
-  {ka:'ღრმა ტბა',a:'a deep lake',opts:['a deep lake','a deep sea','a big lake']},{ka:'ხმაურიანი წვეულება',a:'a noisy party',opts:['a noisy party','a quiet party','a happy party']},
-  {ka:'სუფთა იატაკი',a:'a clean floor',opts:['a clean floor','a clean wall','a dirty floor']},{ka:'ყვავილი',a:'a flower',opts:['a tree','a flower','grass']}
+  {ka:'წითელი ვაშლი',a:'a red apple',opts:['a red apple','a ripe apple','a red onion']},{ka:'ცივი ამინდი',a:'cold weather',opts:['cold weather','warm weather','wet weather']},
+  {ka:'პატარა თაგვი',a:'a little mouse',opts:['a little mouse','a little mouth','a little house']},{ka:'ძველი წიგნი',a:'an old book',opts:['an old book','a new book','an old box']},
+  {ka:'თბილი ქურთუკი',a:'a warm coat',opts:['a warm coat','a warm cake','a cold coat']},{ka:'სწრაფი მატარებელი',a:'a fast train',opts:['a fast train','a slow train','a fast tram']},
+  {ka:'მაღალი ხე',a:'a tall tree',opts:['a tall tree','a small tree','a tall wall']},{ka:'ლამაზი ბაღი',a:'a pretty garden',opts:['a pretty garden','a pretty curtain','an ugly garden']},
+  {ka:'ბედნიერი ბავშვი',a:'a happy child',opts:['a happy child','a happy chair','a sad child']},{ka:'მრგვალი მაგიდა',a:'a round table',opts:['a round table','a square table','a round candle']},
+  {ka:'ნაცრისფერი კატა',a:'a grey cat',opts:['a grey cat','a green cat','a grey hat']},{ka:'გრძელი მდინარე',a:'a long river',opts:['a long river','a short river','a long ruler']},
+  {ka:'რბილი ბალიში',a:'a soft pillow',opts:['a soft pillow','a hard pillow','a soft pillar']},{ka:'ჭკვიანი მასწავლებელი',a:'a clever teacher',opts:['a clever teacher','a lazy teacher','a clever doctor']},
+  {ka:'სველი ქოლგა',a:'a wet umbrella',opts:['a wet umbrella','a dry umbrella','a wet uncle']},{ka:'ღია ფანჯარა',a:'an open window',opts:['an open window','a closed window','an open garden']}
 ];
-// SPELLING grade 2 — add one letter (A/B/C). `_` marks the gap. Gaps + distractors curated to stay unambiguous.
+// SPELLING grade 2 — add one letter (A/B/C). `_` marks the gap. ORIGINAL NikoLearn content.
 const KEX_SP2=[
-  {w:'b_y',a:'o',opts:['o','k','y']},{w:'_ar',a:'c',opts:['c','z','m']},{w:'fro_',a:'g',opts:['h','g','i']},
-  {w:'ca_e',a:'k',opts:['i','k','u']},{w:'he_',a:'n',opts:['o','n','z']},{w:'hor_e',a:'s',opts:['e','k','s']},
-  {w:'ba_',a:'g',opts:['v','g','y']},{w:'gam_',a:'e',opts:['u','i','e']},{w:'fi_h',a:'s',opts:['s','t','r']},
-  {w:'st_r',a:'a',opts:['a','o','u']},{w:'tr_e',a:'e',opts:['e','a','i']},{w:'mil_',a:'k',opts:['k','t','p']},
-  {w:'du_k',a:'c',opts:['c','b','t']},{w:'ne_t',a:'s',opts:['s','z','r']},{w:'ki_g',a:'n',opts:['n','m','r']},
-  {w:'la_p',a:'m',opts:['m','n','b']},{w:'shi_',a:'p',opts:['p','d','t']},{w:'do_l',a:'l',opts:['l','r','n']}
+  {w:'su_',a:'n',opts:['n','f','j']},{w:'pe_',a:'n',opts:['n','v','z']},{w:'cu_',a:'p',opts:['p','q','x']},
+  {w:'be_',a:'d',opts:['d','f','j']},{w:'le_',a:'g',opts:['g','v','z']},{w:'bo_',a:'x',opts:['x','f','j']},
+  {w:'ha_',a:'t',opts:['t','f','j']},{w:'ja_',a:'m',opts:['m','v','z']},{w:'fi_e',a:'r',opts:['r','m','z']},
+  {w:'ro_e',a:'s',opts:['s','f','j']},{w:'na_l',a:'i',opts:['i','u','e']},{w:'mo_n',a:'o',opts:['o','i','y']},
+  {w:'ra_n',a:'i',opts:['i','o','y']},{w:'sh_e',a:'o',opts:['o','a','u']},{w:'go_t',a:'a',opts:['a','i','e']},
+  {w:'be_r',a:'a',opts:['a','i','o']},{w:'fl_g',a:'a',opts:['a','i','u']},{w:'sn_ke',a:'a',opts:['a','i','u']}
 ];
-// SPELLING grade 3 (longer words).
+// SPELLING grade 3 (longer words). ORIGINAL NikoLearn content.
 const KEX_SP3=[
-  {w:'chi_ken',a:'c',opts:['s','c','z']},{w:'bab_',a:'y',opts:['y','o','i']},{w:'cha_r',a:'i',opts:['e','i','a']},
-  {w:'h_use',a:'o',opts:['e','a','o']},{w:'le_ter',a:'t',opts:['t','h','l']},{w:'ga_den',a:'r',opts:['c','e','r']},
-  {w:'cit_',a:'y',opts:['y','o','i']},{w:'paren_',a:'t',opts:['t','h','l']},{w:'mushro_m',a:'o',opts:['e','a','o']},
-  {w:'oni_n',a:'o',opts:['u','o','a']},{w:'flo_er',a:'w',opts:['w','v','u']},{w:'wi_dow',a:'n',opts:['n','m','r']},
-  {w:'bas_et',a:'k',opts:['k','c','t']},{w:'pen_il',a:'c',opts:['c','s','z']},{w:'rab_it',a:'b',opts:['b','d','p']},
-  {w:'ora_ge',a:'n',opts:['n','m','g']}
+  {w:'eleph_nt',a:'a',opts:['a','o','u']},{w:'umbrel_a',a:'l',opts:['l','r','n']},{w:'butter_ly',a:'f',opts:['f','v','p']},
+  {w:'kit_hen',a:'c',opts:['c','s','z']},{w:'bro_her',a:'t',opts:['t','d','p']},{w:'morn_ng',a:'i',opts:['i','e','a']},
+  {w:'pota_o',a:'t',opts:['t','d','k']},{w:'pen_uin',a:'g',opts:['g','q','k']},{w:'gra_es',a:'p',opts:['p','b','f']},
+  {w:'sci_sors',a:'s',opts:['s','c','z']},{w:'choco_ate',a:'l',opts:['l','r','n']},{w:'tea_her',a:'c',opts:['c','s','k']},
+  {w:'mou_tain',a:'n',opts:['n','m','r']},{w:'bicy_le',a:'c',opts:['c','s','k']},{w:'sandwi_h',a:'c',opts:['c','s','t']},
+  {w:'birth_ay',a:'d',opts:['d','b','t']}
 ];
-// GRAMMAR grade 3 — fill the blank (A/B/C). `___` marks the gap.
+// GRAMMAR grade 3 — fill the blank (A/B/C). `___` marks the gap. ORIGINAL NikoLearn content.
 const KEX_GR3=[
-  {q:'I ___ happy.',a:'am',opts:['am','is','are']},{q:'___ name is Maria.',a:'Her',opts:['She','Her','Him']},
-  {q:'We ___ a big house.',a:'have',opts:['has','have','haves']},{q:'A cup is ___ the table.',a:'on',opts:['in','from','on']},
-  {q:'He ___ very kind.',a:'is',opts:['is','am','are']},{q:'My sister ___ milk.',a:'loves',opts:['love','loving','loves']},
-  {q:'Stars ___ in the sky.',a:'are',opts:['is','are','am']},{q:'___ apple is red.',a:'This',opts:['Those','These','This']},
-  {q:'They ___ my friends.',a:'are',opts:['is','am','are']},{q:'She ___ a nice cat.',a:'has',opts:['have','has','haves']},
-  {q:'The book is ___ the bag.',a:'in',opts:['in','on','at']},{q:'I have ___ apple.',a:'an',opts:['a','an','the']},
-  {q:'We ___ football on Sunday.',a:'play',opts:['plays','play','playing']},{q:'There ___ two birds.',a:'are',opts:['is','are','am']},
-  {q:'This is ___ pen.',a:'a',opts:['a','an','the']},{q:'He goes ___ school.',a:'to',opts:['to','in','at']},
-  {q:'The cat is ___ the box.',a:'in',opts:['in','from','of']},{q:'My mother ___ tea.',a:'makes',opts:['make','makes','making']},
-  {q:'I can ___ very fast.',a:'run',opts:['run','runs','running']},{q:'My dog ___ big.',a:'is',opts:['are','is','am']},
-  {q:'___ you like tea?',a:'Do',opts:['Do','Are','Is']},{q:'I play ___ my dog.',a:'with',opts:['with','to','of']}
+  {q:'She ___ a doctor.',a:'is',opts:['is','are','am']},{q:'They ___ in the garden.',a:'are',opts:['are','is','am']},
+  {q:'I ___ a new bike.',a:'have',opts:['have','has','having']},{q:'My brother ___ tall.',a:'is',opts:['is','are','be']},
+  {q:'The cat sits ___ the chair.',a:'on',opts:['on','of','to']},{q:'We ___ to school every day.',a:'go',opts:['go','goes','going']},
+  {q:'He ___ his bag at home.',a:'has',opts:['has','have','haves']},{q:'I see ___ owl in the tree.',a:'an',opts:['an','a','and']},
+  {q:'___ children are happy.',a:'These',opts:['These','This','That']},{q:'My friend ___ football well.',a:'plays',opts:['plays','play','playing']},
+  {q:'The birds ___ in the tree.',a:'sing',opts:['sing','sings','singing']},{q:'I am ___ an apple now.',a:'eating',opts:['eating','eat','eats']},
+  {q:'This pencil is ___ the box.',a:'in',opts:['in','at','of']},{q:'Anna ___ a red dress.',a:'wears',opts:['wears','wear','wearing']},
+  {q:'We are ___ friends.',a:'good',opts:['good','goods','well']},{q:'___ she like milk?',a:'Does',opts:['Does','Do','Is']},
+  {q:'A dog has four ___.',a:'legs',opts:['legs','leg','leges']},{q:'I ___ not like cold tea.',a:'do',opts:['do','does','am']},
+  {q:'She has two ___.',a:'boxes',opts:['boxes','box','boxs']},{q:'The sun ___ in the morning.',a:'rises',opts:['rises','rise','rising']},
+  {q:'He can ___ very high.',a:'jump',opts:['jump','jumps','jumping']},{q:'___ is my book.',a:'This',opts:['This','These','Those']}
 ];
 
-/* ── MATH pools (faithful variants of the real grade-2/3 olympiad items). A/B/C, Georgian stems. ── */
+/* ── MATH pools — ORIGINAL NikoLearn content (public-domain archetypes, own numbers/scenarios). A/B/C, Georgian stems. ── */
 // grade 2
 const KMX_PAT2=[
-  {q:'5, 7, 10, 12, 15, 17, ?, 22',a:'20',opts:['19','20','21']},{q:'2, 4, 6, 8, ?',a:'10',opts:['9','10','12']},
-  {q:'1, 3, 5, 7, ?',a:'9',opts:['8','9','11']},{q:'10, 9, 8, 7, ?',a:'6',opts:['6','5','8']},
-  {q:'5, 10, 15, 20, ?',a:'25',opts:['25','22','30']},{q:'3, 6, 9, 12, ?',a:'15',opts:['14','15','18']},
-  {q:'← ↑ → ↓ ← ↑ → ↓ ?',a:'←',opts:['←','↑','↓']}
+  {q:'4, 8, 12, 16, ?',a:'20',opts:['18','20','24']},{q:'11, 13, 15, 17, ?',a:'19',opts:['18','19','21']},
+  {q:'20, 18, 16, 14, ?',a:'12',opts:['12','10','13']},{q:'5, 10, 15, 20, 25, ?',a:'30',opts:['28','30','35']},
+  {q:'10, 20, 30, 40, ?',a:'50',opts:['45','50','60']},{q:'2, 6, 10, 14, ?',a:'18',opts:['16','18','20']},
+  {q:'🔴 🔵 🔴 🔵 🔴 ?',a:'🔵',opts:['🔴','🔵','🟢']}
 ];
 const KMX_LOG2=[
-  {q:'საათი ახლა 7-ს აჩვენებს. რამდენი საათის შემდეგ იქნება ისევ 7?',a:'12 სთ',opts:['6 სთ','12 სთ','24 სთ']},
-  {q:'თაკოს 10 თუთიყუში ჰყავს. სულ მცირე რამდენი გალია უნდა, თუ ერთში 3 ეტევა?',a:'4',opts:['3','4','5']},
-  {q:'სამკუთხედს სამივე წვერო რომ მოვაჭრათ სწორი ხაზით, რამდენი წვერო ექნება?',a:'6',opts:['6','7','3']},
-  {q:'რომელია ლუწი რიცხვი?',a:'8',opts:['7','8','9']},
-  {q:'ნიკას 3 ვაშლი აქვს, ლუკას 2-ით მეტი. რამდენი აქვს ლუკას?',a:'5',opts:['5','1','6']},
-  {q:'კვირაში რამდენი დღეა?',a:'7',opts:['5','7','12']}
+  {q:'რომელია კენტი რიცხვი?',a:'7',opts:['6','7','8']},
+  {q:'ნიკოს 4 ფანქარი აქვს, ანას 1-ით ნაკლები. რამდენი აქვს ანას?',a:'3',opts:['3','5','2']},
+  {q:'წელიწადში რამდენი თვეა?',a:'12',opts:['10','12','7']},
+  {q:'თუ დღეს ხუთშაბათია, ხვალ რა დღე იქნება?',a:'პარასკევი',opts:['ოთხშაბათი','პარასკევი','შაბათი']},
+  {q:'სამ ბავშვს თითო ბურთი აქვს. სულ რამდენი ბურთია?',a:'3',opts:['3','6','1']},
+  {q:'ყუთში 5 წითელი და 2 მწვანე ვაშლია. რომელია მეტი?',a:'წითელი',opts:['წითელი','მწვანე','თანაბრად']}
 ];
 const KMX_CAL2=[
-  {q:'ნიკას სამშ. და ხუთშ. 2-2 გაკვეთილი აქვს, ორშ/ოთხ/პარ: 3-3, შაბ-კვ ისვენებს. სულ რამდენი კვირაში?',a:'13',opts:['5','4','13']},
-  {q:'თოჯინა 6₾, გემი 11₾. რატის 10₾ აქვს. კიდევ რამდენი ₾ სჭირდება ორივესთვის?',a:'7',opts:['17','27','7']},
-  {q:'დემნა 2 წლის შემდეგ იქნება 10, მერაბი 2 წლის წინ იყო 10. რამდენით უფროსია მერაბი?',a:'4',opts:['2','4','6']},
-  {q:'მარიამს 8 კანფეტი ჰქონდა, 3 შეჭამა. რამდენი დარჩა?',a:'5',opts:['5','11','4']},
-  {q:'5 + 7 = ?',a:'12',opts:['12','11','13']},
-  {q:'კალათში 4 წითელი და 5 ლურჯი ბურთია. სულ რამდენი?',a:'9',opts:['9','1','8']}
+  {q:'დათოს 7 ბურთი აქვს, 3 აჩუქა. რამდენი დარჩა?',a:'4',opts:['4','10','3']},
+  {q:'ანას 5 კანფეტი ჰქონდა, დედამ 6 დაამატა. სულ რამდენი?',a:'11',opts:['11','1','12']},
+  {q:'8 + 6 = ?',a:'14',opts:['14','13','15']},
+  {q:'გიორგის 15 თეთრი ჰქონდა, 8 დახარჯა. რამდენი დარჩა?',a:'7',opts:['7','23','6']},
+  {q:'პარკში 6 ჩიტი იჯდა, 4 მოფრინდა. სულ რამდენი?',a:'10',opts:['10','2','9']},
+  {q:'ნინოს 12 ყვავილი აქვს, 5 თეთრია, დანარჩენი წითელი. რამდენი წითელია?',a:'7',opts:['7','17','6']}
 ];
 const KMX_REB2=[
-  {q:'⋈ = 7, ≬ = 4. რას უდრის ⨀, თუ 1 + ⋈ − ≬ − ≬ = ⨀?',a:'0',opts:['0','3','11']},
-  {q:'△ + 5 = 7, ∎ = △ + 3. რას უდრის ∎?',a:'5',opts:['9','7','5']},
-  {q:'★ = 3. რას უდრის ★ + ★ + ★?',a:'9',opts:['6','9','12']},
-  {q:'◆ + 2 = 6. რას უდრის ◆?',a:'4',opts:['4','8','3']},
-  {q:'● = 5, ○ = 2. რას უდრის ● + ○?',a:'7',opts:['7','3','10']},
-  {q:'🔺 = 6. რას უდრის 🔺 − 2?',a:'4',opts:['4','8','3']}
+  {q:'◆ + 3 = 8. რას უდრის ◆?',a:'5',opts:['5','11','4']},
+  {q:'★ = 4. რას უდრის ★ + ★?',a:'8',opts:['8','6','4']},
+  {q:'● = 6, ○ = 2. რას უდრის ● − ○?',a:'4',opts:['4','8','3']},
+  {q:'▲ = 3. რას უდრის ▲ + ▲ + ▲?',a:'9',opts:['6','9','12']},
+  {q:'■ + 5 = 9. რას უდრის ■?',a:'4',opts:['4','14','5']},
+  {q:'♥ = 7, ♦ = 1. რას უდრის ♥ + ♦?',a:'8',opts:['8','6','9']}
 ];
 const KMX_BON2=[
-  {q:'მარიამს მშობლებმა 10₾, ბებიამ 5₾ მისცა. ძმას 4₾ მისცა. რამდენი ₾ დარჩა?',a:'11',opts:['15','11','19']},
-  {q:'ნიკა 3 საათით გავიდა, შუქი დარჩა ჩართული (1 სთ = 1 თეთრი). რამდენი თეთრი დაიხარჯა?',a:'3',opts:['3','2','1']},
-  {q:'ბურთი 8₾ ღირს. ნიკას 5₾ აქვს. კიდევ რამდენი ₾ სჭირდება?',a:'3',opts:['3','13','2']},
-  {q:'ლუკამ 20₾-დან 12₾ დახარჯა. რამდენი ₾ დარჩა?',a:'8',opts:['8','32','12']},
-  {q:'1₾ = 100 თეთრი. რამდენი თეთრია 2₾?',a:'200',opts:['200','20','2']}
+  {q:'ნიკოს 7₾ აქვს, დედამ 5₾ მისცა. სულ რამდენი ₾?',a:'12',opts:['12','2','13']},
+  {q:'ფანქარი 3₾ ღირს. ანას 2₾ აქვს. კიდევ რამდენი ₾ სჭირდება?',a:'1',opts:['1','5','2']},
+  {q:'1₾ = 100 თეთრი. რამდენი თეთრია ნახევარი ლარი?',a:'50',opts:['50','10','100']},
+  {q:'ლუკამ 10₾-დან 6₾ დახარჯა. რამდენი ₾ დარჩა?',a:'4',opts:['4','16','5']},
+  {q:'ბურთი 5₾, თოჯინა 4₾. სულ რამდენი ₾ ღირს ორივე?',a:'9',opts:['9','1','8']}
 ];
 // grade 3
 const KMX_PAT3=[
-  {q:'1, 5, 10, 16, ?',a:'23',opts:['20','23','25']},{q:'2, 4, 8, 16, ?',a:'32',opts:['24','32','30']},
-  {q:'1, 4, 9, 16, ?',a:'25',opts:['20','25','24']},{q:'3, 6, 12, 24, ?',a:'48',opts:['36','48','30']},
-  {q:'1, 2, 4, 7, 11, ?',a:'16',opts:['15','16','14']},{q:'100, 90, 80, 70, ?',a:'60',opts:['60','65','75']}
+  {q:'2, 6, 18, ?',a:'54',opts:['36','54','24']},{q:'2, 5, 9, 14, ?',a:'20',opts:['18','20','19']},
+  {q:'5, 10, 20, 40, ?',a:'80',opts:['60','80','50']},{q:'7, 14, 21, 28, ?',a:'35',opts:['33','35','42']},
+  {q:'90, 81, 72, 63, ?',a:'54',opts:['54','55','52']},{q:'1, 1, 2, 3, 5, 8, ?',a:'13',opts:['11','13','12']}
 ];
 const KMX_CAL3=[
-  {q:'17 ივლისი ხუთშაბათი იყო. რა დღე იყო 15 ივლისი?',a:'სამშაბათი',opts:['შაბათი','ორშაბათი','სამშაბათი']},
-  {q:'რამდენი წლის იქნება ანი 8 წლის შემდეგ, თუ 2 წლის წინ იყო 7?',a:'17',opts:['17','15','9']},
-  {q:'არჩილი 20კგ-ზე მეტს ვერ წევს. საზამთროები: 8,6,5,5,5,3კგ (არ იჭრება). მაქს. რამდენ კგ წაიღებს?',a:'19',opts:['20','19','18']},
-  {q:'24 ÷ 6 = ?',a:'4',opts:['4','6','3']},
-  {q:'6 კალამი 12₾ ღირს. 1 კალამი რამდენი ₾?',a:'2',opts:['2','3','6']},
-  {q:'45 + 38 = ?',a:'83',opts:['83','73','85']}
+  {q:'6 × 4 = ?',a:'24',opts:['24','20','28']},
+  {q:'36 ÷ 4 = ?',a:'9',opts:['9','8','6']},
+  {q:'54 + 29 = ?',a:'83',opts:['83','73','85']},
+  {q:'72 − 38 = ?',a:'34',opts:['34','46','44']},
+  {q:'5 ყუთში თითო 8 ვაშლი. სულ რამდენი ვაშლი?',a:'40',opts:['40','13','35']},
+  {q:'24 კანფეტი 3 ბავშვს თანაბრად გაუნაწილდა. თითო რამდენს მიიღებს?',a:'8',opts:['8','6','9']}
 ];
 const KMX_LOG3=[
-  {q:'ყუთში 8 შავი და 7 თეთრი ბურთი. 1 ამოვიღეთ და თანაბრად დარჩა. რომელი ამოვიღეთ?',a:'შავი',opts:['შავი','თეთრი','ვერ დავადგენთ']},
-  {q:'რომელი თანხის დახურდავება ვერ მოხდება მხოლოდ 10-თეთრიანებად?',a:'65 თეთრი',opts:['70 თეთრი','65 თეთრი','40 თეთრი']},
-  {q:'1 კინდერში 5 სათამაშო. ლუკამ 11-ზე მეტი მოაგროვა. სულ მცირე რამდენი აქვს?',a:'15',opts:['15','17','21']},
-  {q:'5 ჩიტი მავთულზე ზის. 2 გაფრინდა. რამდენი დარჩა?',a:'3',opts:['3','7','2']},
-  {q:'რომელი რიცხვი იყოფა 3-ზე ნაშთის გარეშე?',a:'9',opts:['9','8','10']},
-  {q:'2 მეგობარს 12 კანფეტი თანაბრად უნდა გაიყოს. თითო რამდენს მიიღებს?',a:'6',opts:['6','4','12']}
+  {q:'ნიკო ანაზე 3 წლით უფროსია. ანა 8 წლისაა. რამდენი წლის იქნება ნიკო 2 წელში?',a:'13',opts:['13','11','10']},
+  {q:'რომელი რიცხვი იყოფა 5-ზე ნაშთის გარეშე?',a:'25',opts:['25','22','18']},
+  {q:'ყუთში 4 წითელი და 6 ლურჯი ბურთი. თვალდახუჭული სულ მცირე რამდენი უნდა ამოვიღოთ, რომ აუცილებლად გვქონდეს 1 წითელი?',a:'7',opts:['5','7','4']},
+  {q:'3 მეგობარს 18 წიგნი თანაბრად გაუნაწილდა. თითო რამდენს მიიღებს?',a:'6',opts:['6','9','5']},
+  {q:'რიცხვები 1-დან 10-მდე. რამდენი ლუწი რიცხვია?',a:'5',opts:['5','4','6']},
+  {q:'ხუთ კალათში თითო 2 ვაშლი. 3 ვაშლი შევჭამეთ. რამდენი დარჩა?',a:'7',opts:['7','10','8']}
 ];
 const KMX_REB3=[
-  {q:'გამოიცანი N, თუ 5 + N = 11',a:'6',opts:['8','6','5']},
-  {q:'⊗ = 5, ⊛ = 3. რას უდრის ⊗ + ⊗ + ⊛?',a:'13',opts:['11','13','15']},
-  {q:'△ × 2 = 8. რას უდრის △?',a:'4',opts:['4','6','16']},
-  {q:'★ + ★ = 10. რას უდრის ★?',a:'5',opts:['5','10','2']},
-  {q:'◆ = 9, ○ = 4. რას უდრის ◆ − ○?',a:'5',opts:['5','13','3']},
-  {q:'2 × ● + 1 = 7. რას უდრის ●?',a:'3',opts:['3','4','2']}
+  {q:'◆ × 3 = 12. რას უდრის ◆?',a:'4',opts:['4','9','6']},
+  {q:'★ + ★ + ★ = 21. რას უდრის ★?',a:'7',opts:['7','18','3']},
+  {q:'● = 8, ○ = 3. რას უდრის ● + ○ + ○?',a:'14',opts:['14','11','19']},
+  {q:'▲ × 2 + 4 = 14. რას უდრის ▲?',a:'5',opts:['5','9','7']},
+  {q:'⊙ + ⊙ = 16. რას უდრის ⊙?',a:'8',opts:['8','16','4']},
+  {q:'♥ = 6, ♣ = 2. რას უდრის ♥ × ♣?',a:'12',opts:['12','8','10']}
 ];
 const KMX_BON3=[
-  {q:'მარიამს 10₾ მისცეს, ბებიამ 5₾, ძმას 4₾ მისცა. რამდენი ₾ დარჩა?',a:'11',opts:['15','11','19']},
-  {q:'ბიუ-ბიუ ქალაქებში მუშაობს: თბილისი, რუსთავი, ხაშური, გორი, ზუგდიდი, ქუთაისი, ბათუმი. სულ რამდენი?',a:'7',opts:['5','6','7']},
-  {q:'ირაკლიმ 2 წლის წინ ანაბარი გახსნა 17 წლის ასაკში. რამდენი წლისაა ახლა?',a:'19',opts:['19','15','17']},
-  {q:'ველოსიპედი 80₾ ღირს. ნიკომ 50₾ დააგროვა. კიდევ რამდენი ₾ სჭირდება?',a:'30',opts:['30','130','20']},
-  {q:'შარვალი 45₾ იყო, ფასდაკლება 10₾. ახლა რამდენი ₾ ღირს?',a:'35',opts:['35','55','40']}
+  {q:'წიგნი 25₾ ღირდა, ფასდაკლება 8₾. ახლა რამდენი ₾ ღირს?',a:'17',opts:['17','33','15']},
+  {q:'ნიკომ 15₾ დააგროვა, ველოსიპედი 60₾ ღირს. კიდევ რამდენი ₾ სჭირდება?',a:'45',opts:['45','75','40']},
+  {q:'3 ფანქარი თითო 4₾. სულ რამდენი ₾ ღირს?',a:'12',opts:['12','7','15']},
+  {q:'ანას 50₾ ჰქონდა, წიგნში 22₾ გადაიხადა. რამდენი ₾ დარჩა?',a:'28',opts:['28','72','32']},
+  {q:'მაისური 30₾ იყო, ფასდაკლების შემდეგ 24₾. რამდენი ₾ დაიზოგა?',a:'6',opts:['6','54','4']}
 ];
 
 /* ── exam blueprint: section sequence + point weights, faithful to the real PDFs ── */
@@ -195,14 +194,14 @@ const KINGS_EXAM={
       {label:'🖼️ VOCABULARY',instr:'აირჩიე სწორი პასუხი სურათის მიხედვით', pts:30, n:8, pool:KEX_PIC2, type:'pic', stem:'It is a ___.'},
       {label:'🔁 TRANSLATION',instr:'რომელია სწორი ინგლისური თარგმანი?', pts:30, n:8, pool:KEX_TR2, type:'tr'},
       {label:'✍️ SPELLING',  instr:'დაამატე ასო (A, B ან C) და ააწყვე სიტყვა', pts:30, n:8, pool:KEX_SP2, type:'sp'},
-      {label:'🎁 BONUS',     instr:'რამდენჯერ მეორდება სიტყვა LIBERTY?', pts:5, n:1, gen:kxGenBonus, type:'bonus', bonus:true}
+      {label:'🎁 BONUS',     instr:'რამდენჯერ მეორდება სიტყვა NIKO?', pts:5, n:1, gen:kxGenBonus, type:'bonus', bonus:true}
     ],
     3:[
       {label:'🖼️ VOCABULARY',instr:'აირჩიე სწორი პასუხი სურათის მიხედვით', pts:20, n:5, pool:KEX_PIC3, type:'pic', stem:'Who am I? I am a ___.'},
       {label:'✍️ SPELLING',  instr:'დაამატე ასო და ააწყვე სიტყვა', pts:30, n:8, pool:KEX_SP3, type:'sp'},
       {label:'🔁 TRANSLATION',instr:'რომელია სწორი ინგლისური თარგმანი?', pts:30, n:8, pool:KEX_TR3, type:'tr'},
       {label:'📝 GRAMMAR',    instr:'აირჩიე სწორი ვარიანტი', pts:20, n:8, pool:KEX_GR3, type:'gr'},
-      {label:'🎁 BONUS',     instr:'რამდენჯერ მეორდება სიტყვა LIBERTY?', pts:5, n:1, gen:kxGenBonus, type:'bonus', bonus:true}
+      {label:'🎁 BONUS',     instr:'რამდენჯერ მეორდება სიტყვა NIKO?', pts:5, n:1, gen:kxGenBonus, type:'bonus', bonus:true}
     ],
     4:BLUEPRINT_eng4, 5:BLUEPRINT_eng5, 6:BLUEPRINT_eng6
   },
@@ -273,8 +272,8 @@ function kxNext(){
   const oo=shuffle(opts.slice());
   const optCls=(sec.type==='tr'||sec.type==='pic')?'en':(sec.type==='gr'||sec.type==='sp'||sec.type==='cap'||sec.type==='bonus'?'en kx-opt':'');
   // C-1 fix: escape for BOTH the JS string literal AND the surrounding double-quoted onclick="" attribute.
-  // A literal " in an option/answer (e.g. the g6-math Magti bonus „მარტივი 25" 25 ლარად) used to close the
-  // attribute early and break every button -> tapping any answer threw and dumped the child to the error screen.
+  // A literal double-quote in an option/answer string used to close the onclick="" attribute early and
+  // break every button -> tapping any answer threw and dumped the child to the error screen.
   const ja=s=>String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
   const ht=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   const body=`<div class="prompt">
