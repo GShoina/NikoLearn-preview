@@ -18,7 +18,11 @@
 (function () {
   var LOCAL = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
   var DNT   = (navigator.doNotTrack == '1' || window.doNotTrack == '1' || navigator.msDoNotTrack == '1');
-  var OFF   = LOCAL || DNT;
+  var OWNER = false; try { OWNER = localStorage.getItem('niko_owner') === '1'; } catch (e) {} // owner test devices
+  // testers / QA automation: append ?notrack=1 to the URL → this session is kept OUT of prod stats (data hygiene).
+  var NOTRACK = /[?&]notrack=1/.test(location.search);
+  if (NOTRACK) { try { localStorage.setItem('niko_owner', '1'); } catch (e) {} } // sticky: once flagged, stays excluded on this device
+  var OFF   = LOCAL || DNT || OWNER || NOTRACK;
 
   /* ── PROVIDERS ──────────────────────────────────────────────────────────────
      Add / remove a tool here only. Flip `on` to enable or disable it.
