@@ -1107,8 +1107,8 @@ function genPattern(tier){
     if(Math.random()<0.5){ const d=ri(2,4), s=ri(1,6); full=[s]; let c=s; for(let i=1;i<5;i++){c+=d+(i-1);full.push(c);} blank=4; rule=`სხვაობა იზრდება: +${d}, +${d+1}, +${d+2}…`; }
     else{ const a=ri(1,3), b=a+ri(1,3), s=ri(2,6); full=[s]; let c=s; for(let i=1;i<6;i++){c+=(i%2?a:b);full.push(c);} blank=5; rule=`მონაცვლეობით +${a}, მერე +${b}`; }
   } else {
-    if(Math.random()<0.5){ const sA=ri(9,12), sB=ri(1,3); const A=[0,1,2,3,4].map(i=>sA-2*i), B=[0,1,2,3].map(i=>sB+2*i);
-      full=[]; for(let i=0;i<4;i++){full.push(A[i]);full.push(B[i]);} full.push(A[4]); blank=full.length-1; rule='ორი მიმდევრობა ერთმანეთშია არეული (ცალკე დააკვირდი 1-ლს, 3-ეს, 5-ეს…)'; }
+    if(Math.random()<0.5){ const sA=ri(20,26), sB=ri(1,4); const A=[0,1,2,3,4].map(i=>sA-2*i), B=[0,1,2,3].map(i=>sB+2*i); // non-overlapping: high thread A>=12, low thread B<=10 → the two interleaved sequences are VISIBLY separable (was unsolvable when ranges overlapped)
+      full=[]; for(let i=0;i<4;i++){full.push(A[i]);full.push(B[i]);} full.push(A[4]); blank=full.length-1; rule='ორი მიმდევრობა მონაცვლეობს: დიდი (მცირდება, -2) და პატარა (იზრდება, +2). დააკვირდი 1-ლს, 3-ეს, 5-ეს…'; }
     else{ const s=[1,2,3][ri(0,2)]; full=[0,1,2,3,4].map(i=>s*Math.pow(2,i)); blank=4; rule='ყოველი რიცხვი ორმაგდება (×2)'; }
   }
   const a=full[blank]; return {q:full.map((v,i)=>i===blank?'?':v).join(', '), a, opts:pat3opts(a), rule, tier};
