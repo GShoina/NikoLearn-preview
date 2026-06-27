@@ -329,7 +329,7 @@ function parentDash(){
   // (owner-only); MVP keeps every topic FREE + open so nothing breaks the „free" landing promise (owner 2026-06-23).
   html+=collapsibleGroup('⚙️ ანგარიში',
     `<div class="pset-hint" style="margin:0 2px 4px">ყველა თემა ახლა <b>უფასო და ღიაა</b>.</div>
-     <button class="btn btn-ghost btn-block" onclick="adminView()">ℹ️ ვერსია და ანალიტიკა</button>
+     ${(typeof localStorage!=='undefined'&&localStorage.getItem('niko_owner')==='1')?'<button class="btn btn-ghost btn-block" onclick="adminView()">ℹ️ ვერსია და ანალიტიკა</button>':''}
      <button class="btn btn-ghost btn-block mt" onclick="logout()">🔒 გასვლა (ჩაკეტვა)</button>
      <button class="btn btn-ghost btn-block mt" onclick="if(confirm(tx('წავშალო პროგრესი?'))){localStorage.removeItem('${SK}');state=load();goHome();}">🗑️ პროგრესის გასუფთავება</button>`);
   html+=`</div>`;
@@ -365,6 +365,7 @@ function doRestore(){
   let obj=null;try{obj=JSON.parse(decodeURIComponent(escape(atob(raw))));}catch(e){}
   if(!obj||!Array.isArray(obj.kids)){alert('კოდი არასწორია. გადაამოწმე და სცადე ხელახლა.');return;}
   if(!confirm('ამ მოწყობილობის მონაცემი ჩაანაცვლდება. გავაგრძელო?'))return;
+  obj.kids.forEach(k=>{ if(k&&typeof k.name==='string') k.name=k.name.trim().replace(/[<>&"']/g,'').slice(0,24); }); // S1 fix: names flow into innerHTML; sanitize restored data like createChild does
   state=obj;save();const ov=document.getElementById('niko-xfer');if(ov)ov.remove();
   alert('აღდგენილია ✓');goHome();
 }

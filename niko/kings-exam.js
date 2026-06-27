@@ -295,7 +295,7 @@ function kxFinish(){
   const g=kx.grade, subj=kx.subject;
   render(`<div class="screen kx-result"><div class="kx-card">
     <div class="kx-trophy">👑</div>
-    <div class="kx-title">კინგსის ტესტი · მე-${g} კლასი</div>
+    <div class="kx-title">კინგსის ტესტი · ${['','დამწყები','საშუალო','მაღალი'][(typeof kingsLevel==='function')?kingsLevel():1]||('მე-'+g+' კლასი')}</div>
     <div class="kx-score">${total}<span>/100</span></div>
     ${(bonus&&main<100)?`<div class="kx-bonus">+${bonus} ბონუსი ჩაგერთო 🎁</div>`:''}
     <div class="kx-msg">${msg}</div>
