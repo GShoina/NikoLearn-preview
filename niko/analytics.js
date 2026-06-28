@@ -90,10 +90,25 @@
     }
     return null; // 'home' etc. → not a lesson, not sent
   }
-  function send(ev) {
-    var body = JSON.stringify({ events: [ev] });
+  // ── BATCHING (2026-06-28, fixes KV 429): the old send() POSTed ONE event per request, and the
+  //    Worker does a read-modify-write per key PER REQUEST — so on busy days (400+ events) we blew
+  //    past the Cloudflare free-tier KV daily write cap (~1000/day) and lost data. Now we QUEUE events
+  //    and flush them in a single POST (debounced + on pagehide). The Worker sums deltas per request,
+  //    so a burst of N events collapses to ~one write per unique key instead of N×. $0, no new infra.
+  var _queue = [], _flushTimer = null;
+  function flushQueue() {
+    if (_flushTimer) { try { clearTimeout(_flushTimer); } catch (e) {} _flushTimer = null; }
+    if (!_queue.length) return;
+    var batch = _queue.splice(0, 25); // Worker accepts up to 25 events/request
+    var body = JSON.stringify({ events: batch });
     try { if (navigator.sendBeacon && navigator.sendBeacon(ENDPOINT, body)) return; } catch (e) {}
     try { fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body, keepalive: true, mode: 'no-cors' }); } catch (e) {}
+  }
+  function send(ev) {
+    _queue.push(ev);
+    if (_queue.length >= 20) { flushQueue(); return; }            // near the 25 cap → flush now
+    if (_flushTimer) return;
+    try { _flushTimer = setTimeout(flushQueue, 5000); } catch (e) { flushQueue(); } // collapse a burst into one POST
   }
 
   // ── session activity = privacy-safe ENGAGEMENT proxy (sessions/day, lessons/session, minutes).
@@ -107,8 +122,8 @@
     if (window.Analytics) Analytics.event('session_length', { seconds: secs, lessons: _lessons });
   }
   try {
-    window.addEventListener('pagehide', flushSession);
-    document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') flushSession(); });
+    window.addEventListener('pagehide', function () { flushSession(); flushQueue(); });
+    document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') { flushSession(); flushQueue(); } });
   } catch (e) {}
 
   // ── anonymous TRAFFIC beacon (owner 2026-06-22): one page_view per load with a COARSE referrer
