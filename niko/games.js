@@ -784,14 +784,36 @@ function answerCal(btn,sel,cor){
 
 /* ── counting (Masho, zero-text) ── */
 function startCount(mode){game.mode='count';game.cmode=mode;game.qs=shuffle(COUNTING).slice(0,6);game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextCount();}
+let _countTimer=null;
+// #8 (parent 2026-06-28): "count along" — light each object 1..N in turn and SAY the number, so the
+// child links quantity → numeral → spoken word. Exactly the show-and-say-each-number the parent asked for.
+function countAlong(n){
+  if(_countTimer){clearTimeout(_countTimer);_countTimer=null;}
+  for(let k=0;k<n;k++){const el=document.getElementById('cobj'+k);if(el)el.classList.remove('lit');}
+  let i=0;
+  const step=()=>{
+    if(i>=n){_countTimer=null;return;}
+    const el=document.getElementById('cobj'+i);if(el)el.classList.add('lit');
+    try{digitSay(i+1);}catch(e){}
+    i++;
+    _countTimer=setTimeout(step,820);
+  };
+  step();
+}
 function nextCount(){
   if(game.i>=game.qs.length)return results();
+  if(_countTimer){clearTimeout(_countTimer);_countTimer=null;} // stop any count-along from the previous question
   const q=game.qs[game.i],opts=new Set([q.num]);while(opts.size<4)opts.add(ri(1,10));
   // #7 (parent 2026-06-28): colourful counting — the plain white screen felt flat for kids.
   const CPAL=['#FFE0B2','#C8E6C9','#BBDEFB','#F8BBD0','#D1C4E9','#FFF1A8'];
+  // #8 (parent 2026-06-28): split into individual objects so we can count along, lighting each one
+  // 1..N with the number spoken. The parent asked for exactly this "show + say each number" demo.
+  const glyphs=[...q.emoji];
+  const objHtml=glyphs.map((g,idx)=>`<span class="cobj" id="cobj${idx}">${g}</span>`).join('');
   const prompt=`<div class="prompt count-prompt">
       <div class="count-q">რამდენია?</div>
-      <div class="count-objects count-card">${q.emoji}</div>
+      <div class="count-objects count-card">${objHtml}</div>
+      <button class="speakbtn pulse-tap" onclick="countAlong(${q.num});pulseTap(this)">🔢 დავთვალოთ ერთად</button>
     </div>`;
   gameShell(`${prompt}<div class="options">${shuffle([...opts]).map((n,i)=>`<button class="opt emoji num cnum" style="--cnum:${CPAL[i%CPAL.length]}" onclick="answerCount(this,${n},${q.num})">${n}</button>`).join('')}</div>`);
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;

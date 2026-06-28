@@ -1234,6 +1234,9 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
 .count-card{background:linear-gradient(135deg,#FFF7E6,#EAF7FF);border:2px solid #FFE0B2;border-radius:22px;padding:14px 20px;box-shadow:0 4px 14px rgba(0,0,0,.05)}
 .count-q{font-size:1.55rem;font-weight:800;color:var(--primary-d,#5b3fb0)}
 .opt.cnum:not(.correct):not(.wrong):not(.dim){background:var(--cnum);border-color:color-mix(in oklch,var(--cnum) 60%,#7a6a3a)}
+/* #8 (parent 2026-06-28): count-along — light each object in turn as the number is spoken */
+.count-objects .cobj{display:inline-block;transition:transform .22s ease,filter .22s ease;will-change:transform}
+.count-objects .cobj.lit{transform:scale(1.4);filter:drop-shadow(0 3px 7px rgba(0,0,0,.22))}
 /* visual-first quiz: word with the first letter shown as a slot */
 .alpha-wordgap{display:flex;align-items:center;justify-content:center;gap:2px;font-size:2rem;font-weight:700;margin:6px 0}
 .alpha-wordgap.en{font-family:'Fredoka';font-weight:500}
