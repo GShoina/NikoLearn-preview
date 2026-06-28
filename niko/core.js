@@ -130,8 +130,11 @@ function vCode(p){return voiceLang(p)==='en'?'en-US':'ka-GE';}
 const EN_NUM=['','one','two','three','four','five','six','seven','eight','nine','ten'];
 function numWord(n,p){return voiceLang(p)==='en'?(EN_NUM[n]||String(n)):String(n);} // ka digit → recorded clip
 function retryWord(p){return voiceLang(p)==='en'?'try again':'კიდევ სცადე.';}
-function voiceToggleBtn(){return `<button class="vtgl" onclick="toggleVoice(event)" aria-label="გახმოვანების ენა" title="გახმოვანების ენა">🔊 ${voiceLang(profile)==='en'?'ENG':'ქარ'}</button>`;}
-function toggleVoice(e){if(e)e.stopPropagation();setVoice(profile,voiceLang(profile)==='en'?'ka':'en');document.querySelectorAll('.vtgl').forEach(b=>{b.innerHTML='🔊 '+(voiceLang(profile)==='en'?'ENG':'ქარ');});}
+// U3 fix (2026-06-28): the 🔊 voice-toggle label now follows the INTERFACE language, not raw Georgian.
+// EN interface → "KA"/"EN"; KA interface → "ქარ"/"ინგ". The label still names which VOICE is active.
+function vtglLabel(){const en=window.UILANG==='en',v=voiceLang(profile)==='en';return en?(v?'EN':'KA'):(v?'ინგ':'ქარ');}
+function voiceToggleBtn(){const aria=window.UILANG==='en'?'voice language':'გახმოვანების ენა';return `<button class="vtgl" onclick="toggleVoice(event)" aria-label="${aria}" title="${aria}">🔊 ${vtglLabel()}</button>`;}
+function toggleVoice(e){if(e)e.stopPropagation();setVoice(profile,voiceLang(profile)==='en'?'ka':'en');document.querySelectorAll('.vtgl').forEach(b=>{b.innerHTML='🔊 '+vtglLabel();});}
 // 🌐 INTERFACE language toggle (distinct from 🔊 voice): always-available UI-language switch (owner 2026-06-25)
 function langToggleBtn(){return `<button class="app-lang" onclick="appLang(event)" aria-label="ინტერფეისის ენა / interface language" title="ინტერფეისის ენა / language">🌐 ${window.UILANG==='en'?'ქარ':'EN'}</button>`;}
 function appLang(e){if(e)e.stopPropagation(); try{ if(typeof setUILang==='function') setUILang(window.UILANG==='en'?'ka':'en'); }catch(_){} if(typeof goHome==='function') goHome();}
@@ -168,6 +171,7 @@ function demoNiko(){ // seeded so the prototype shows realistic data
 
 /* ── render helpers ── */
 function render(html,nav){
+  if(window.stopAudio)window.stopAudio(); // kill any in-flight clip/sequence on screen change (no audio bleed)
   $('#app').innerHTML=html;
   if(window.applyLang)applyLang($('#app'));
   $('#app').scrollTop=0;

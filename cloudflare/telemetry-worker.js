@@ -61,7 +61,14 @@ const EVENTS = {
   // profile" / COPPA promise intact. Funnel = page_view (opens) -> first_win (activated) -> round_complete.
   first_win:          { mode: ['alphabet','english','math','counting','kings','reading','movement'] },
 };
-const ALLOWED_ORIGINS = ['https://gshoina.github.io']; // tighten to the live app origin
+// Live app origins. nikolearn.com is the production custom domain (2026-06-25); the github.io
+// origins remain for the preview repo + the pre-domain Pages URL. Any other origin gets ACAO set to
+// the first entry, which (intentionally) blocks the browser from reading the response.
+const ALLOWED_ORIGINS = [
+  'https://nikolearn.com',
+  'https://www.nikolearn.com',
+  'https://gshoina.github.io',
+];
 
 function cors(origin) {
   const ok = ALLOWED_ORIGINS.includes(origin);

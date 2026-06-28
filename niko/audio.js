@@ -17,6 +17,9 @@
     return AUDIO_MANIFEST[k] ? (BASE + AUDIO_MANIFEST[k]) : null;
   }
   function stopClip(){ if(curClip){ try{curClip.pause();}catch(e){} curClip=null; } }
+  // expose a global hard-stop so navigation can kill any in-flight clip/sequence (fixes cross-screen
+  // audio bleed, e.g. a "ყველი" spell-clip continuing onto the next ჩ/ზ screen). Parent-reported 2026-06-28.
+  window.stopAudio = function(){ stopClip(); try{ if('speechSynthesis'in window) speechSynthesis.cancel(); }catch(e){} };
 
   // ── duplicate guard ── ignore an identical utterance fired within the window
   let last = {key:'', t:0};
