@@ -182,6 +182,7 @@ function demoNiko(){ // seeded so the prototype shows realistic data
 /* ── render helpers ── */
 function render(html,nav){
   if(window.stopAudio)window.stopAudio(); // kill any in-flight clip/sequence on screen change (no audio bleed)
+  if(window.speakRecCleanup)window.speakRecCleanup(); // release mic + recording if leaving the speaking screen mid-record (audit privacy fix)
   $('#app').innerHTML=html;
   if(window.applyLang)applyLang($('#app'));
   $('#app').scrollTop=0;

@@ -1288,8 +1288,16 @@ function examUnlocked(){ const s=state[profile]||{}; return (typeof kingsLevel==
 function fmtClock(t){ t=Math.max(0,t|0); const m=Math.floor(t/60),x=t%60; return m+':'+(x<10?'0':'')+x; }
 let _examTimer=null;
 function examRoom(){
-  if(!examUnlocked()){ try{const a=document.querySelector('#garea')||document.querySelector('.screen');}catch(e){}
-    alert('🔒 ჯერ ცოტა ივარჯიშე 🧩 კანონზომიერებასა და 🔢 რებუსში. შემდეგ დონეზე ასვლის მერე გაიხსნება სავარჯიშო გამოცდა.'); return; }
+  if(!examUnlocked()){
+    // audit fix 2026-06-28: was a jarring native alert() on a play-looking tile → friendly in-app screen.
+    render(`<div class="screen" style="justify-content:center;text-align:center;gap:14px;padding:24px">
+      <div style="font-size:54px;line-height:1">🦉</div>
+      <h2 style="margin:0;font-size:1.3rem">ჯერ ცოტა ვივარჯიშოთ</h2>
+      <p style="color:var(--muted);max-width:300px;margin:0 auto">სავარჯიშო გამოცდა გაიხსნება მას შემდეგ, რაც 🧩 კანონზომიერებასა და 🔢 რებუსში შემდეგ დონეზე ახვალ.</p>
+      <button class="btn btn-primary btn-block" style="max-width:320px" onclick="openMenu('kings-math')">🧩 დავიწყოთ ვარჯიში</button>
+      <button class="btn btn-ghost btn-block" style="max-width:320px" onclick="openMenu('kings-math')">უკან</button>
+    </div>`,false);
+    return; }
   game.mode='exam';game.kind='exam';game.shields=0;game.wrong=0;game.i=0;game.missMap=new Map();game.requeues=0;
   game.start=Date.now();game.preLvl=levelIdx(profile);game.subj=game.subj||'kings-math';game.examEnded=false;
   const lv=(typeof kingsLevel==='function')?kingsLevel():1; const s=state[profile], pt=lv, rt=lv, mt=lv; // timed-exam difficulty follows the selected 3-level (consistent with practice; CORE-1)

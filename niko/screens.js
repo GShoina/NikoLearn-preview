@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.294'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.295'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 function goHome(){
   if(typeof clearCeleb==='function')clearCeleb(); if(typeof closeFeedback==='function')closeFeedback(); // CE-2: kill pending celebration timers so they can't re-render the round over home
   // A4: if a round was in progress, count it as abandoned before we leave it
@@ -290,7 +290,7 @@ function screenLimitUp(p){
   </div>`,false);
 }
 function selectProfile(p){
-  profile=p;game.start=Date.now();game.cat=null;game.pcat=null;
+  profile=p;game.start=Date.now();game.cat=null;game.pcat=null;game.subj='';  // reset so the subject grid shows the 🔊 voice toggle (audit fix)
   if(typeof touchDay==='function')touchDay(p);
   if(typeof overLimit==='function'&&overLimit(p))return screenLimitUp(p);
   const s=state[p],lv=levelOf(p),isKid=isYoung(p);
