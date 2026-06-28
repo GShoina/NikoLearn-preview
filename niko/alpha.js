@@ -575,21 +575,34 @@ function traceLearn(idx){
     alphaSay('ka-alpha',it);
   },220);
 }
-// the pen traces the glyph outline (one continuous run over all contours), then the letter fills in.
+// split a path 'd' into its separate contours (each starts at a Move command), so multi-part letters
+// are drawn part-by-part (closer to how a letter is written) instead of one perimeter sweep.
+function _splitContours(d){ return (d.match(/[Mm][^Mm]*/g)||[d]).map(s=>s.trim()).filter(Boolean); }
+// the pen draws the letter contour-by-contour, slowly, with a clear pen, then the letter fills in.
+// (parent 2026-06-28: the old single static outline read as "not moving"; this makes the writing
+//  motion obvious. NOTE: this follows the FONT outline, not true human stroke-order — see #9.)
 function watchStrokes(){
   const svg=document.getElementById('sgsvg'); if(!svg)return;
-  const p=svg.querySelector('#gd'), pen=svg.querySelector('.sg-pen'); if(!p)return;
-  let L; try{L=p.getTotalLength();}catch(_){return;}
-  const dur=2600; let st=null;
-  p.style.transition='none'; p.style.fillOpacity='0'; p.style.strokeDasharray=L; p.style.strokeDashoffset=L; p.getBoundingClientRect();
+  const full=svg.querySelector('#gd'), pen=svg.querySelector('.sg-pen'); if(!full)return;
+  const d=full.getAttribute('d')||''; if(!d) return;
+  const contours=_splitContours(d);
+  full.style.transition='none'; full.style.fillOpacity='0';
+  svg.querySelectorAll('.sg-stroke').forEach(n=>n.remove());
+  const NS='http://www.w3.org/2000/svg';
+  const layers=contours.map(cd=>{ const p=document.createElementNS(NS,'path'); p.setAttribute('d',cd); p.setAttribute('class','sg-stroke'); svg.insertBefore(p,pen||null); return p; });
   if(pen)pen.style.opacity='1';
-  function frame(ts){
-    if(st==null)st=ts; const t=Math.min(1,(ts-st)/dur);
-    p.style.strokeDashoffset=L*(1-t);
-    if(pen){ try{const pt=p.getPointAtLength(t*L); pen.setAttribute('x',pt.x-1); pen.setAttribute('y',pt.y+4);}catch(_){} }
-    if(t<1) requestAnimationFrame(frame); else { if(pen)pen.style.opacity='0'; p.style.transition='fill-opacity .5s ease'; p.style.fillOpacity='1'; }
-  }
-  requestAnimationFrame(frame);
+  let ci=0;
+  const animContour=()=>{
+    if(ci>=layers.length){ if(pen)pen.style.opacity='0'; layers.forEach(l=>l.remove()); full.style.transition='fill-opacity .5s ease'; full.style.fillOpacity='1'; return; }
+    const p=layers[ci]; let L; try{L=p.getTotalLength();}catch(_){L=0;}
+    const dur=Math.max(1100,Math.min(2600,L*10)); let st=null;
+    p.style.transition='none'; p.style.strokeDasharray=L; p.style.strokeDashoffset=L; p.getBoundingClientRect();
+    const frame=ts=>{ if(st==null)st=ts; const t=Math.min(1,(ts-st)/dur); p.style.strokeDashoffset=L*(1-t);
+      if(pen){ try{const pt=p.getPointAtLength(t*L); pen.setAttribute('x',pt.x-1); pen.setAttribute('y',pt.y+4);}catch(_){} }
+      if(t<1) requestAnimationFrame(frame); else { ci++; setTimeout(animContour,300); } };
+    requestAnimationFrame(frame);
+  };
+  animContour();
 }
 function traceSetup(){
   const cv=document.getElementById('tracecv'); if(!cv)return;
