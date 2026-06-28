@@ -1229,6 +1229,11 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
 .count-prompt{display:flex;flex-direction:column;align-items:center;gap:14px;min-height:170px;justify-content:center}
 .count-q{font-size:1.5rem;font-weight:700;color:var(--ink)}
 .count-objects{font-size:2.6rem;line-height:1.4;letter-spacing:.12em;max-width:300px;text-align:center;word-spacing:.1em}
+/* #7 (parent 2026-06-28): colourful counting — plain white felt flat for kids. Card behind the
+   objects + per-tile pastel numbers. State styles (.correct/.wrong/.dim) still win via :not(). */
+.count-card{background:linear-gradient(135deg,#FFF7E6,#EAF7FF);border:2px solid #FFE0B2;border-radius:22px;padding:14px 20px;box-shadow:0 4px 14px rgba(0,0,0,.05)}
+.count-q{font-size:1.55rem;font-weight:800;color:var(--primary-d,#5b3fb0)}
+.opt.cnum:not(.correct):not(.wrong):not(.dim){background:var(--cnum);border-color:color-mix(in oklch,var(--cnum) 60%,#7a6a3a)}
 /* visual-first quiz: word with the first letter shown as a slot */
 .alpha-wordgap{display:flex;align-items:center;justify-content:center;gap:2px;font-size:2rem;font-weight:700;margin:6px 0}
 .alpha-wordgap.en{font-family:'Fredoka';font-weight:500}

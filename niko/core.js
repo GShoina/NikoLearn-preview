@@ -133,7 +133,12 @@ function retryWord(p){return voiceLang(p)==='en'?'try again':'კიდევ �
 // U3 fix (2026-06-28): the 🔊 voice-toggle label now follows the INTERFACE language, not raw Georgian.
 // EN interface → "KA"/"EN"; KA interface → "ქარ"/"ინგ". The label still names which VOICE is active.
 function vtglLabel(){const en=window.UILANG==='en',v=voiceLang(profile)==='en';return en?(v?'EN':'KA'):(v?'ინგ':'ქარ');}
-function voiceToggleBtn(){const aria=window.UILANG==='en'?'voice language':'გახმოვანების ენა';return `<button class="vtgl" onclick="toggleVoice(event)" aria-label="${aria}" title="${aria}">🔊 ${vtglLabel()}</button>`;}
+function voiceToggleBtn(){
+  // #5 (parent-reported 2026-06-28): hide the 🔊 voice toggle in the alphabet sections, where the
+  // voicing language is FIXED by the content (Georgian letters are always spoken Georgian, English
+  // letters always English). Offering "EN" there did nothing and read as a bug.
+  if(window.game && (game.subj==='ka-alpha' || game.subj==='en-alpha')) return '';
+  const aria=window.UILANG==='en'?'voice language':'გახმოვანების ენა';return `<button class="vtgl" onclick="toggleVoice(event)" aria-label="${aria}" title="${aria}">🔊 ${vtglLabel()}</button>`;}
 function toggleVoice(e){if(e)e.stopPropagation();setVoice(profile,voiceLang(profile)==='en'?'ka':'en');document.querySelectorAll('.vtgl').forEach(b=>{b.innerHTML='🔊 '+vtglLabel();});}
 // 🌐 INTERFACE language toggle (distinct from 🔊 voice): always-available UI-language switch (owner 2026-06-25)
 function langToggleBtn(){return `<button class="app-lang" onclick="appLang(event)" aria-label="ინტერფეისის ენა / interface language" title="ინტერფეისის ენა / language">🌐 ${window.UILANG==='en'?'ქარ':'EN'}</button>`;}

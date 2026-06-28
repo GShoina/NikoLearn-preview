@@ -787,11 +787,13 @@ function startCount(mode){game.mode='count';game.cmode=mode;game.qs=shuffle(COUN
 function nextCount(){
   if(game.i>=game.qs.length)return results();
   const q=game.qs[game.i],opts=new Set([q.num]);while(opts.size<4)opts.add(ri(1,10));
+  // #7 (parent 2026-06-28): colourful counting — the plain white screen felt flat for kids.
+  const CPAL=['#FFE0B2','#C8E6C9','#BBDEFB','#F8BBD0','#D1C4E9','#FFF1A8'];
   const prompt=`<div class="prompt count-prompt">
       <div class="count-q">რამდენია?</div>
-      <div class="count-objects">${q.emoji}</div>
+      <div class="count-objects count-card">${q.emoji}</div>
     </div>`;
-  gameShell(`${prompt}<div class="options">${shuffle([...opts]).map(n=>`<button class="opt emoji num" onclick="answerCount(this,${n},${q.num})">${n}</button>`).join('')}</div>`);
+  gameShell(`${prompt}<div class="options">${shuffle([...opts]).map((n,i)=>`<button class="opt emoji num cnum" style="--cnum:${CPAL[i%CPAL.length]}" onclick="answerCount(this,${n},${q.num})">${n}</button>`).join('')}</div>`);
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
   try{speak(voiceLang(profile)==='en'?'how many?':'რამდენია?',vCode(profile));}catch(e){}
 }
