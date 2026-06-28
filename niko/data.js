@@ -349,7 +349,7 @@ const KINGS_ENG = [
   {lv:2,type:'grammar',q:'Your books _____ here.',opts:['are','is','do'],a:'are'},
   {lv:2,type:'grammar',q:'_____ name is Maria.',opts:['She','Her','Him'],a:'Her'},
   {lv:2,type:'grammar',q:'There _____ two cats.',opts:['are','is','am'],a:'are'},
-  {lv:2,type:'grammar',q:'The cat is _____ the box.',opts:['in','on','of'],a:'in'},
+  {lv:2,type:'grammar',q:'Fish live _____ water.',opts:['in','on','of'],a:'in'},
   {lv:2,type:'grammar',q:'_____ you like apples?',opts:['Do','Does','Is'],a:'Do'},
   {lv:3,type:'grammar',q:'She _____ to school every day.',opts:['go','goes','going'],a:'goes'},
   {lv:3,type:'grammar',q:'Look! The dog _____ running.',opts:['is','are','am'],a:'is'},

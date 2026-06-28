@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.292'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.293'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 function goHome(){
   if(typeof clearCeleb==='function')clearCeleb(); if(typeof closeFeedback==='function')closeFeedback(); // CE-2: kill pending celebration timers so they can't re-render the round over home
   // A4: if a round was in progress, count it as abandoned before we leave it
@@ -270,8 +270,9 @@ function createChild(){
       state.guest=blankKid();
     } }catch(e){}
   save();
-  // first-party, aggregate, no-PII: "new registration" with only a coarse age band (never name/age).
-  if(window.Analytics)Analytics.event('profile_created',{age_band:draft.age<=5?'3-5':draft.age<=8?'6-8':'9-12'});
+  // first-party, aggregate, no-PII: a bare "new registration" count. Age is NOT transmitted (honours the
+  // privacy.html promise; audit 2026-06-28 — was sending an age band derived from the child's exact age).
+  if(window.Analytics)Analytics.event('profile_created');
   selectProfile(id);
 }
 function topbarPlain(title,back){

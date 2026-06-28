@@ -69,15 +69,32 @@
         if (mode) { _lessons++; send({ name: 'mode_usage', mode: mode }); }
       },
       event: function (name, data) {
-        // app sends only allow-listed events (profile_created / topic_usage / session_length);
-        // the Worker re-validates against its allow-list and drops anything unexpected.
+        // CLIENT allow-list (fail-closed), mirrors the Worker EVENTS map. 2026-06-28 audit HIGH fix:
+        // an unknown event name, or ANY prop key not in the spec, is DROPPED BEFORE leaving the device.
+        // (Previously this forwarded any name+data verbatim, so child attrs like exam-grade/age-band
+        //  travelled off-device on events the Worker only discarded server-side.) Nothing leaves the
+        // device unless explicitly allow-listed here.
+        var spec = CLIENT_ALLOW[name]; if (!spec) return;
         var ev = { name: name };
-        if (data) for (var k in data) ev[k] = data[k];
+        if (data) for (var i = 0; i < spec.length; i++) { var k = spec[i]; if (data[k] != null) ev[k] = data[k]; }
         send(ev);
       }
     }
   };
 
+  // CLIENT allow-list = exact mirror of the Worker EVENTS map (cloudflare/telemetry-worker.js). event
+  // name → permitted prop keys. Anything not here is dropped on-device before any network send.
+  var CLIENT_ALLOW = {
+    profile_created: ['age_band'], lesson_started: ['mode'], lesson_completed: ['mode','time_to_success_ms'],
+    drop_off: ['screen','mode'], difficulty: ['mode','retries','errors','time_to_success_ms'],
+    interaction_latency: ['ms'], session_length: ['seconds','lessons'], mode_usage: ['mode'],
+    topic_usage: ['topic'], audio_usage: ['used'], device_context: ['deviceType','os','aspect'],
+    parent_open: [], goal_set: ['type'], screenlimit_set: ['minutes'], feedback_open: [],
+    round_complete: ['mode','band','retries'], round_abandon: ['mode','q'], submode_usage: ['mode'],
+    page_view: ['ref','page'], first_win: ['mode']
+    // NOTE: demo_age / kings_exam_start / kings_exam_done / feedback_send are deliberately NOT here →
+    // dropped on-device (they were never in the Worker allow-list; this stops the child grade/age leak).
+  };
   // map the app's screen path → the Worker's mode_usage enum (anything unmapped is NOT sent)
   var ENDPOINT = 'https://nikolearn-t.bivision.workers.dev/v1/t';
   function mapMode(path) {

@@ -4,13 +4,12 @@
 <!-- Microsoft Clarity (heatmaps + session recording), LANDING ONLY (parents/marketing),
      NOT the kids' app, to keep the on-device privacy promise. Skipped on localhost. -->
 <script type="text/javascript">
-if(!/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)){
-  (function(c,l,a,r,i,t,y){
-    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-  })(window, document, "clarity", "script", "x2cnj5t4bj");
-}
+// Clarity loads ONLY after marketing consent (consent gate near end of file calls __loadClarity).
+// 2026-06-28 audit fix: previously it loaded unconditionally = a session recorder running before consent.
+window.__loadClarity=function(){
+  if(window.__clarityLoaded||/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))return; window.__clarityLoaded=1;
+  (function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","x2cnj5t4bj");
+};
 </script>
 <meta charset="UTF-8">
 <!-- Cloudflare Web Analytics (cookieless, no PII, no IP stored) added 2026-06-08. Skipped on localhost. -->
@@ -588,7 +587,7 @@ if(!/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)){
   #adsConsent a{color:#6B63B5;text-decoration:none}
 </style>
 <div id="adsConsent" role="dialog" aria-label="cookie consent">
-  ეს გვერდი იყენებს Meta-ს გასაზომ cookie-ს რეკლამის ეფექტურობისთვის (მხოლოდ აქ, არა ბავშვის აპში).
+  ეს გვერდი იყენებს Meta-სა და Microsoft Clarity-ის გასაზომ cookie-ს რეკლამის ეფექტურობისა და გვერდის გასაუმჯობესებლად (მხოლოდ აქ, არა ბავშვის აპში).
   ბავშვის სასწავლო მონაცემები მაინც მხოლოდ მოწყობილობაზე რჩება. დეტალები: <a href="privacy.html">კონფიდენციალურობა</a>.
   <div class="row">
     <button class="ok" onclick="__adsConsent(true)">თანხმობა</button>
@@ -613,11 +612,11 @@ if(!/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)){
   window.__adsConsent=function(ok){
     try{localStorage.setItem(KEY,ok?'1':'0');}catch(e){}
     var el=document.getElementById('adsConsent'); if(el)el.classList.remove('show');
-    if(ok)loadPixel();
+    if(ok){ loadPixel(); try{__loadClarity();}catch(e){} }
   };
   // show the banner only if the visitor hasn't chosen yet
   try{ if(localStorage.getItem(KEY)===null){ var el=document.getElementById('adsConsent'); if(el)el.classList.add('show'); } }catch(e){}
-  if(consented())loadPixel();
+  if(consented()){ loadPixel(); try{__loadClarity();}catch(e){} }
   // fire the "started the app" conversion on any CTA that opens the app (link still navigates normally)
   document.addEventListener('click',function(e){ var a=e.target.closest&&e.target.closest('a[href*="index.html?app=1"]'); if(a)window.__adsTrackStart(); },true);
 })();

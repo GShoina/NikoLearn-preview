@@ -142,7 +142,7 @@ function voiceToggleBtn(){
   // #5 (parent-reported 2026-06-28): hide the 🔊 voice toggle in the alphabet sections, where the
   // voicing language is FIXED by the content (Georgian letters are always spoken Georgian, English
   // letters always English). Offering "EN" there did nothing and read as a bug.
-  if(window.game && (game.subj==='ka-alpha' || game.subj==='en-alpha')) return '';
+  if(typeof game!=='undefined' && game && (game.subj==='ka-alpha' || game.subj==='en-alpha')) return ''; // `game` is a let-global, not on window (audit fix 2026-06-28)
   const aria=window.UILANG==='en'?'voice language':'გახმოვანების ენა';return `<button class="vtgl" onclick="toggleVoice(event)" aria-label="${aria}" title="${aria}">🔊 ${vtglLabel()}</button>`;}
 function toggleVoice(e){if(e)e.stopPropagation();setVoice(profile,voiceLang(profile)==='en'?'ka':'en');document.querySelectorAll('.vtgl').forEach(b=>{b.innerHTML='🔊 '+vtglLabel();});}
 // 🌐 INTERFACE language toggle (distinct from 🔊 voice): always-available UI-language switch (owner 2026-06-25)
