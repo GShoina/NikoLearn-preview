@@ -1386,6 +1386,8 @@ function results(){
   try{ document.dispatchEvent(new Event('niko:value')); }catch(e){} // UX-3: a completed round IS the value moment → let the install nudge appear now (was dead: nothing dispatched niko:value, so the nudge only ever fired on the 28s fallback)
   const best=s.best[game.mode]||0;if(game.shields>best)s.best[game.mode]=game.shields;
   const _el=game.start?Date.now()-game.start:0;
+  // on-device difficulty instrument (metrics.js): first-attempt success per mode. fire-and-forget, never blocks.
+  try{ if(window.Metrics) Metrics.logRound(game.mode, game.shields||0, (game.missMap&&game.missMap.size)||0, _el, (typeof levelIdx==='function'?levelIdx(profile):0)); }catch(e){}
   s.sessions++;s.lastPlayed=new Date().toISOString();s.totalTime+=_el;
   if(typeof todayStr==='function'){if(s.todayDate!==todayStr()){s.todayMs=0;s.todayDate=todayStr();}s.todayMs=(s.todayMs||0)+_el;} // per-day screen-time
   if((game.mode||'').startsWith('math-')&&!isYoung(profile))rampMath(game.mode,pct);

@@ -283,6 +283,7 @@ function kxAnswer(btn,sel,cor){
     winStep(null,null,()=>{kx.i++;kxNext();});
   } else {
     btn.classList.add('wrong','dim'); document.querySelectorAll('.opt').forEach(b=>{b.style.pointerEvents='none'; if(String(b.textContent).trim()===String(cor))b.classList.add('correct');});
+    kx.wrong=(kx.wrong||0)+1; // metrics: exam has no re-queue, so wrong count = distinct first-attempt misses
     state[profile].streak=0; save();
     setTimeout(()=>{kx.i++;kxNext();}, 950); // exam: mark, show the right one briefly, move on (no re-queue)
   }
@@ -291,6 +292,7 @@ function kxFinish(){
   const main=Math.min(100,Math.round(kx.score)), bonus=Math.round(kx.bonusScore);
   const total=Math.min(100, main+(main<100?bonus:0));   // bonus tops up toward 100, never beyond (real rule)
   try{ if(window.Analytics)Analytics.event('kings_exam_done',{grade:String(kx.grade)}); }catch(e){}
+  try{ if(window.Metrics) Metrics.logRound('kings-'+(kx.subject||''), (kx.qs&&kx.qs.length)||0, kx.wrong||0, kx.start?Date.now()-kx.start:0, (typeof kingsLevel==='function'?kingsLevel():0)); }catch(e){}
   const msg=total>=90?'შესანიშნავია! 🏆':total>=70?'ძალიან კარგი! 🌟':total>=50?'კარგი დასაწყისი. კიდევ ვივარჯიშოთ 💪':'ნუ ღელავ, ერთად გავიმეოროთ 🦉';
   const g=kx.grade, subj=kx.subject;
   render(`<div class="screen kx-result"><div class="kx-card">

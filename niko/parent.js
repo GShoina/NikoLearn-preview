@@ -238,6 +238,8 @@ function parentDash(){
       growth=`<div style="margin-top:8px;font-size:.86rem">📈 <b>${en?'Total progress:':'ჯამური პროგრესი:'}</b> ${tp.done}/${tp.total} ${en?'stages':'ეტაპი'} (${tp.pct}%)`+
         (s.maxDayStreak?` · 🔥 ${en?'best streak:':'საუკეთესო სერია:'} ${s.maxDayStreak} ${en?'days':'დღე'}`:'')+`</div>`;
     }
+    // owner-only on-device difficulty instrument (metrics.js) — hidden from normal parents, shown on owner-flagged devices
+    try{ if(localStorage.getItem('niko_owner')==='1' && window.Metrics) growth += Metrics.renderHTML(); }catch(e){}
     const learnedBody=learnedBits.length
       ?`${en?'Already knows:':'უკვე იცის:'} ${learnedBits.join(' · ')}.`
       :(s.sessions>0?(en?'Still processing, the first learned topics will appear soon.':'ჯერ მუშავდება, მალე გამოჩნდება პირველი ნასწავლი თემები.'):(en?"Hasn't played yet.":'ჯერ არ უთამაშია.'));
