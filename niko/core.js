@@ -70,12 +70,17 @@ function isTiny(p){const a=kidObj(p).age;return a>0&&a<=4;} // pre-arithmetic: c
 function isBig(p){const a=kidObj(p).age;return a>=7;} // 7+ : harder math (division / missing-number / 2-digit) + faster celebration. Owner 2026-06-13: 7-8 yos need age-appropriate challenge.
 /* ── D2 (v2.05): free vs paid scaffold. Default = everything UNLOCKED (free launch); the boundary is a
    previewable demo, never a hard-hide — premium content stays visible, just badged + parent-gated. ── */
+// B2 (2026-06-28): explicit master kill-switch for the sleeping paywall. false = paywall fully OFF,
+// every topic free, NOTHING can lock/strand a real user. Flip to true only when a real paid tier ships.
+const PAYWALL_ENABLED=false;
 function premiumOn(){
-  // MVP: the paywall is OFF for everyone — every topic is free. The ONLY thing that shows locks is the
-  // owner's explicit preview in adminView, stored in sessionStorage (auto-clears on tab close, so it can
-  // NEVER strand a real user; a stale state.premium=false from an older build is now IGNORED). owner 2026-06-24.
-  try{ if(sessionStorage.getItem('niko_pw_preview')==='1') return false; }catch(e){}
-  return true;
+  if(!PAYWALL_ENABLED) {
+    // paywall off → unlocked. Owner can still PREVIEW locks via the admin toggle (sessionStorage,
+    // auto-clears on tab close → can NEVER strand a real user; stale state.premium is IGNORED).
+    try{ if(sessionStorage.getItem('niko_pw_preview')==='1') return false; }catch(e){}
+    return true;
+  }
+  return true; // (future) real paid-tier logic goes here when PAYWALL_ENABLED is turned on
 }
 const PREMIUM_SUBJ=['kings-eng','kings-math']; // example paid tier: Kings / Cambridge / olympiad exam prep
 function isPremiumSubj(subj){return PREMIUM_SUBJ.indexOf(subj)>=0;}
