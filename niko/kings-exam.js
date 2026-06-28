@@ -126,7 +126,7 @@ const KMX_LOG2=[
   {q:'ყუთში 5 წითელი და 2 მწვანე ვაშლია. რომელია მეტი?',a:'წითელი',opts:['წითელი','მწვანე','თანაბრად']}
 ];
 const KMX_CAL2=[
-  {q:'დათოს 7 ბურთი აქვს, 3 აჩუქა. რამდენი დარჩა?',a:'4',opts:['4','10','3']},
+  {q:'დათოს 7 ბურთი ჰქონდა, 3 აჩუქა მეგობარს. რამდენი დარჩა?',a:'4',opts:['4','10','3']},
   {q:'ანას 5 კანფეტი ჰქონდა, დედამ 6 დაამატა. სულ რამდენი?',a:'11',opts:['11','1','12']},
   {q:'8 + 6 = ?',a:'14',opts:['14','13','15']},
   {q:'გიორგის 15 თეთრი ჰქონდა, 8 დახარჯა. რამდენი დარჩა?',a:'7',opts:['7','23','6']},
@@ -253,7 +253,7 @@ function kxNext(){
   if(!kx)return; if(kx.i>=kx.qs.length)return kxFinish();
   const {sec,it}=kx.qs[kx.i]; let stem='', opts=it.opts, correct=it.a, speakEn=false;
   if(sec.type==='cap'){ stem=`<div class="kx-big">${it.l}</div>`; }
-  else if(sec.type==='pic'){ stem=`<div class="p-emoji" style="font-size:3.2rem">${it.e}</div><div class="p-word en" style="font-size:1.12rem">${sec.stem}</div>`; speakEn=true; }
+  else if(sec.type==='pic'){ var pst=sec.stem; if(/^[aeiou]/i.test(it.a||'')) pst=pst.replace(/\ba ___/,'an ___'); stem=`<div class="p-emoji" style="font-size:3.2rem">${it.e}</div><div class="p-word en" style="font-size:1.12rem">${pst}</div>`; speakEn=true; } // a/an by answer initial (audit fix)
   else if(sec.type==='tr'){ stem=`<div class="p-word" style="font-size:1.5rem">${it.ka}</div>`; speakEn=true; }
   else if(sec.type==='sp'){ stem=`<div class="p-word en kx-word">${it.w.replace('_','<u>＿</u>')}</div>`; }
   else if(sec.type==='gr'){ stem=`<div class="p-word en" style="font-size:1.28rem">${it.q.replace('___','<u>＿＿</u>')}</div>`; speakEn=true; }

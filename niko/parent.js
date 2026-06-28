@@ -221,7 +221,7 @@ function parentDash(){
       <div class="scard"><div class="sv" style="color:${acc>=70?'var(--green-d)':'var(--primary-d)'}">${acc}%</div><div class="sl">სიზუსტე</div></div>
     </div>`;
     // dynamic "where is the child getting stuck / what to improve"
-    const opNm={'math-add':'შეკრება','math-sub':'გამოკლება','math-mul':'გამრავლება','math-div':'გაყოფა','math-miss':'გამოტოვებული','math-pat':'პატერნები','compare':'შედარება','skip':'დათვლა 5/10','shapes':'ფიგურები','money':'ფული','clock':'საათი'};
+    const opNm={'math-add':'შეკრება','math-sub':'გამოკლება','math-mul':'გამრავლება','math-div':'გაყოფა','math-miss':'გამოტოვებული','math-pat':'კანონზომიერება','compare':'შედარება','skip':'დათვლა 5/10','shapes':'ფიგურები','money':'ფული','clock':'საათი'};
     const weakMath=Object.entries(s.math||{}).filter(([,v])=>{const t=v.correct+v.wrong;return t>=3&&v.correct/t<0.6;}).map(([k])=>opNm[k]||k);
     const weakAlpha=Object.entries(s.alpha||{}).filter(([,v])=>{const t=v.correct+v.wrong;return t>=3&&v.correct/t<0.7;}).map(([k])=>k==='ka-alpha'?'ქართული ანბანი':'English ანბანი');
     // OWNER ask 2026-06-10: a clear "what the child already learned + how they grew" instrument
@@ -434,7 +434,7 @@ function buildReport(){
     lines.push(`  სიზუსტე: ${acc}% · სესია: ${s.sessions} · დრო: ${mins} წთ · 🔥 რეკორდი: ${s.maxStreak||0}`);
     const weak=Object.entries(s.words).filter(([,v])=>v.wrong>v.correct).map(([k])=>k).slice(0,6);
     if(weak.length)lines.push(`  გასამეორებელი: ${weak.join(', ')}`);
-    const opNm={'math-add':'შეკრება','math-sub':'გამოკლება','math-mul':'გამრავლება','math-div':'გაყოფა','math-miss':'გამოტოვებული','math-pat':'პატერნები','compare':'შედარება','skip':'დათვლა 5/10','shapes':'ფიგურები','money':'ფული','clock':'საათი'};
+    const opNm={'math-add':'შეკრება','math-sub':'გამოკლება','math-mul':'გამრავლება','math-div':'გაყოფა','math-miss':'გამოტოვებული','math-pat':'კანონზომიერება','compare':'შედარება','skip':'დათვლა 5/10','shapes':'ფიგურები','money':'ფული','clock':'საათი'};
     Object.entries(s.math||{}).forEach(([k,v])=>{const a=v.correct+v.wrong?Math.round(v.correct/(v.correct+v.wrong)*100):0;lines.push(`  ${opNm[k]||k}: ${a}%`);});
     lines.push('');
   });
