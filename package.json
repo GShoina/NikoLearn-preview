@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "node qa/qa-check.mjs --gate",
-    "qa": "node qa/qa-check.mjs"
+    "qa": "node qa/qa-check.mjs",
+    "qa:fix": "node qa/qa-check.mjs --fix --gate"
   },
   "repository": {
     "type": "git",

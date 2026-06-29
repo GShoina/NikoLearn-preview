@@ -46,12 +46,21 @@ for (const f of jsFiles) {
 }
 for (const t of spokenNoClip) add('P2', 'audio↔text', `ka spoken with no recorded clip (TTS fallback risk): "${t}"`);
 
-/* ── 3: version sync ── */
+/* ── 3: version sync (auto-fixable: with --fix, sync landing/sw to APP_VERSION, then pass) ── */
+const FIX = process.argv.includes('--fix');
 const ver = (r('niko/screens.js').match(/APP_VERSION='([\d.]+)'/) || [])[1];
-const swVer = (r('sw.js').match(/nikolearn-([\d.]+)/) || [])[1];
-const landVer = (r('landing.html').match(/title="owner">v([\d.]+)/) || [])[1];
-if (!(ver && ver === swVer && ver === landVer))
-  add('P2', 'version', `version drift: screens=${ver} sw=${swVer} landing=${landVer} (run node bump.mjs)`);
+let swVer = (r('sw.js').match(/nikolearn-([\d.]+)/) || [])[1];
+let landVer = (r('landing.html').match(/title="owner">v([\d.]+)/) || [])[1];
+if (ver && (ver !== swVer || ver !== landVer)) {
+  if (FIX) {
+    if (landVer !== ver) writeFileSync(join(ROOT, 'landing.html'), r('landing.html').replace(/(title="owner">v)[\d.]+/, `$1${ver}`));
+    if (swVer !== ver) writeFileSync(join(ROOT, 'sw.js'), r('sw.js').replace(/nikolearn-[\d.]+/, `nikolearn-${ver}`));
+    add('fixed', 'version', `version drift auto-fixed: landing ${landVer}→${ver}, sw ${swVer}→${ver}`);
+    swVer = landVer = ver;
+  } else {
+    add('P2', 'version', `version drift: screens=${ver} sw=${swVer} landing=${landVer} (auto-fixable: npm run qa:fix)`);
+  }
+}
 
 /* ── 4: age-safety ── */
 const owl = r('niko/owl.js');
@@ -75,7 +84,7 @@ for (const f of ['index.html', 'landing.html']) {
 }
 
 /* ── report ── */
-const order = { P1: 0, P2: 1, P3: 2 };
+const order = { P1: 0, P2: 1, P3: 2, fixed: 3 };
 findings.sort((a, b) => order[a.sev] - order[b.sev]);
 const counts = findings.reduce((o, f) => ((o[f.sev] = (o[f.sev] || 0) + 1), o), {});
 const lines = [];
@@ -87,7 +96,7 @@ if (!findings.length) lines.push('✅ all checks passed — no issues found.');
 for (const f of findings) lines.push(`[${f.sev}] ${f.dim}: ${f.msg}`);
 /* ── release gate ── release-blocking = any P1, plus version drift and encoding (deploy-breakers) ── */
 const BLOCK_DIMS = new Set(['version', 'encoding']);
-const blockers = findings.filter(f => f.sev === 'P1' || BLOCK_DIMS.has(f.dim));
+const blockers = findings.filter(f => f.sev !== 'fixed' && (f.sev === 'P1' || BLOCK_DIMS.has(f.dim)));
 lines.push('');
 lines.push(blockers.length
   ? `⛔ RELEASE-BLOCKING: ${blockers.length} (must fix before deploy)`
