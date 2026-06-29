@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NikoLearn v2.00 — ყველა ეკრანი</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+Georgian:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--bg1:#fbeede;--bg2:#f6e6cf;--card:#fffaf2;--ink:#332b3f;--muted:#8a8198;
+    --orange:#ef8a2b;--orange-d:#d9761a;--green:#1f9b54;--green-d:#178045;--line:#ece0cb;
+    --star:#f5b921;--shadow:0 14px 34px rgba(120,80,20,.16);--r:26px;}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{margin:0;font-family:"Noto Sans Georgian","Fredoka",system-ui,sans-serif;color:var(--ink);
+       background:#efe4d0;padding:18px 12px 60px;text-align:center}
+  .top{font-weight:800;font-size:1.2rem;margin:4px 0 4px}
+  .top span{color:var(--orange)}
+  .sub{color:var(--muted);font-size:.9rem;margin-bottom:18px}
+  .lbl{font-weight:700;color:#7a6f63;font-size:.92rem;margin:26px 0 8px;display:flex;align-items:center;
+       justify-content:center;gap:8px}
+  .lbl b{background:var(--orange);color:#fff;border-radius:50%;width:24px;height:24px;display:grid;
+         place-items:center;font-size:.8rem}
+  .phone{width:100%;max-width:360px;margin:0 auto;aspect-ratio:360/740;background:radial-gradient(120% 100% at 50% 0%,var(--bg1),var(--bg2));
+         border:9px solid #2b2330;border-radius:40px;box-shadow:0 18px 40px rgba(60,40,10,.25);
+         overflow:hidden;position:relative}
+  .scr{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+       padding:26px 20px;gap:6px}
+  .wordmark{font-family:"Fredoka",sans-serif;font-weight:700;font-size:1.5rem;color:var(--ink)}
+  .wordmark span{color:var(--orange)}
+  .niko{width:118px;height:118px;object-fit:contain;background:#fff;border-radius:30px;box-shadow:var(--shadow);padding:6px}
+  .niko.sm{width:66px;height:66px;border-radius:18px}
+  .bubble{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:13px 18px;
+          box-shadow:var(--shadow);font-weight:700;font-size:1.04rem;line-height:1.4;max-width:300px}
+  .bubble .s{display:block;font-weight:600;font-size:.85rem;color:var(--muted);margin-top:3px}
+  .choices{display:flex;flex-direction:column;gap:11px;width:100%;max-width:300px;margin-top:16px}
+  .choice{display:flex;align-items:center;gap:13px;background:var(--card);border:2px solid var(--line);
+          border-radius:22px;padding:14px 16px;font-weight:700;font-size:1.08rem;box-shadow:0 6px 14px rgba(120,80,20,.08)}
+  .choice .e{font-size:1.6rem;width:46px;height:46px;display:grid;place-items:center;background:#fff3e2;border-radius:15px}
+  .micro{color:var(--muted);font-weight:600;font-size:.82rem;margin-top:14px;display:flex;align-items:center;gap:6px}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block}
+  .audio{width:84px;height:84px;border-radius:50%;border:none;background:linear-gradient(180deg,var(--orange),var(--orange-d));
+         color:#fff;font-size:2rem;box-shadow:0 12px 24px rgba(220,120,30,.4);margin:6px 0 2px}
+  .q{font-weight:800;font-size:1.3rem;margin:4px 0 2px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;width:100%;max-width:300px;margin-top:12px}
+  .opt{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:14px 8px;
+       display:flex;align-items:center;justify-content:center}
+  .opt.right{border-color:var(--green);box-shadow:0 8px 18px rgba(30,150,80,.22)}
+  .apples{font-size:1.4rem;letter-spacing:2px}
+  .starwrap{width:128px;height:128px;border-radius:50%;background:radial-gradient(circle,#fff,#fff6e4);
+            display:grid;place-items:center;box-shadow:var(--shadow)}
+  .starwrap .x{font-size:3.6rem}
+  .btn{margin-top:18px;border:none;border-radius:18px;padding:13px 26px;font-weight:700;font-size:1rem;
+       background:linear-gradient(180deg,var(--green),var(--green-d));color:#fff;box-shadow:0 8px 18px rgba(30,140,80,.3);font-family:inherit}
+  .ghost{background:none;color:var(--muted);box-shadow:none;font-size:.9rem;margin-top:8px}
+  .try{display:inline-block;margin-top:22px;background:var(--orange);color:#fff;text-decoration:none;
+       font-weight:700;padding:13px 24px;border-radius:18px;box-shadow:var(--shadow)}
+</style>
+</head>
+<body>
+  <div class="top">Niko<span>Learn</span> · v2.00</div>
+  <div class="sub">ყველა ეკრანი — ჩამოსქროლე 👇</div>
+
+  <div class="lbl"><b>1</b> შესვლა</div>
+  <div class="phone"><div class="scr">
+    <div class="wordmark">Niko<span>Learn</span></div>
+    <img class="niko" src="assets/niko-logo.png" alt="ნიკო">
+    <div class="bubble">გამარჯობა! მე ნიკო ვარ<span class="s">რა ვისწავლოთ დღეს?</span></div>
+    <div class="choices">
+      <div class="choice"><span class="e">🔢</span> რიცხვები</div>
+      <div class="choice"><span class="e">🔤</span> ასოები</div>
+      <div class="choice"><span class="e">🌍</span> ენა</div>
+    </div>
+    <div class="micro"><span class="dot"></span> დრო გვაქვს. აქ არ ვჩქარობთ.</div>
+  </div></div>
+
+  <div class="lbl"><b>2</b> „წავედით"</div>
+  <div class="phone"><div class="scr">
+    <img class="niko" src="assets/niko-logo.png" alt="ნიკო">
+    <div class="bubble" style="font-size:1.4rem">ყოჩაღ, წავედით! ✨</div>
+  </div></div>
+
+  <div class="lbl"><b>3</b> პირველი დავალება</div>
+  <div class="phone"><div class="scr">
+    <img class="niko sm" src="assets/niko-logo.png" alt="ნიკო">
+    <button class="audio">🔊</button>
+    <div class="q">სად არის სამი ვაშლი?</div>
+    <div class="micro"><span class="dot"></span> დააჭირე როცა მზად ხარ</div>
+    <div class="grid">
+      <div class="opt"><span class="apples">🍎</span></div>
+      <div class="opt"><span class="apples">🍎🍎🍎🍎</span></div>
+      <div class="opt right"><span class="apples">🍎🍎🍎</span></div>
+      <div class="opt"><span class="apples">🍎🍎</span></div>
+    </div>
+  </div></div>
+
+  <div class="lbl"><b>4</b> პირველი მოგება</div>
+  <div class="phone"><div class="scr">
+    <div class="starwrap"><span class="x">⭐</span></div>
+    <div class="bubble" style="margin-top:18px;font-size:1.3rem">შენ შეძელი! 🎉<span class="s">პირველი ფიქრის ვარსკვლავი</span></div>
+    <button class="btn">კიდევ ვცადოთ</button>
+    <button class="btn ghost">დავისვენოთ</button>
+  </div></div>
+
+  <a class="try" href="index.html">▶ ცოცხლად ცადე (დაჭერით)</a>
+</body>
+</html>

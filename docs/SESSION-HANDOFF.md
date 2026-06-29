@@ -5,6 +5,24 @@
 > Architecture SSOT: `docs/HANDOFF.md`. Full pre-2026-06-28 history (307KB) → `docs/archive/2026-06/SESSION-HANDOFF_20260628_full.md`.
 > This file = current state + open items ONLY (keep < 30KB).
 
+## ▶ 2026-06-29 SESSION (latest)
+
+**v2.00 redesign — IN PROGRESS (owner-driven).** Owner provided v7 design (`~/Downloads/საბავშო აპლიკაციის დიზაინი.zip` → 8 screens "Thinking First": never-rush pedagogy, no timer/hearts, thinking-pause, 3-level Socratic hints, safe mistakes, "you grew" + thinking-star reward, Sunlit/Playground/Calm themes + OKLCH tokens) + `~/Downloads/ნიკო - სწრაფი დაწყება (ერთიანი).html` (6-frame fast first-run). Framing agreed: **v7 = lesson stage, quickstart = entry stage; v0/v2.00 = GRAFT onto live, NOT rebuild.** Owner pushed back on "mockup/validate-first" caution → wants deliberate building, fewer caveats.
+- **Built: v2.00 first interactive flow** at `NikoLand/v2-prototype/` (index.html = tap-through enter→"წავედით"→task "სად არის 3 ვაშლი"→win+star; gallery.html = all screens scroll view). Sunlit visual, polished. **Deployed to PREVIEW** (repo GShoina/NikoLearn-preview, folder /v2): tap = `https://gshoina.github.io/NikoLearn-preview/v2/`, scroll = `/v2/gallery.html`. NOT live.
+- **Logo decision (owner-approved):** use `~/Downloads/Nikolearn Logo orange.png` (polished orange owl) EVERYWHERE, framed as a rounded white app-icon badge (PNG has white bg) + "NikoLearn" wordmark. Copied to v2-prototype/assets/niko-logo.png. **TODO: propagate same logo to LIVE app** (owl-logo.png, favicons, apple-touch, og-image, manifest icons) — needs sized/transparent versions, customer-facing → deploy on owner go.
+- Owner #1 visual gripe: the generic figure icons (cat/dog/fish/apple emoji) → replace with custom Niko-language illustrations (next visual upgrade).
+- **Deploy plan for v2.00:** stays on preview, grows as built; goes live to nikolearn.com only when (1) complete + real content + integrated, (2) owner approves on preview, (3) after 23:59. Rollback = git revert.
+- Owner-facing reports in `output/`: `2026-06-29-v2.00 გადასვლის გეგმა by Niko.html` (red-team + phased plan), `2026-06-29-MVP სამოქმედო გეგმა by Niko.html`.
+- **NEXT build:** thinking-pause screen, Socratic hint, "ჯერ არა", ასოები/ენა subjects, then add to gallery.
+
+**QA gate — DONE (committed local, not pushed; internal tooling).** `qa/qa-check.mjs` now a real release gate: `npm test` = `node qa/qa-check.mjs --gate` (exits non-zero on any P1 / version drift / encoding). Added charset+mojibake + og:title/og:image checks. `npm run qa:fix` (`--fix`) auto-syncs version drift (landing/sw → APP_VERSION) then gates = find→fix→pass (owner wanted this). `npm run qa` = report-only. Synced landing footer 1.262→1.295 (committed local, customer-facing → deploy after 23:59).
+
+**Funnel v0 + telemetry bugs — DIAGNOSED, not yet built.** Root cause of BOTH owner-seen bugs = `round_complete` is emitted with COARSE subject only (`coarseMode()`, games.js:63/1414; worker enum has no submodes): (a) **pattern 105%** = all-kings completions ÷ small pattern starts; (b) **exam 0%** = mock-exam completion relabeled `kings` (examFinish games.js:1336) + Kings-English exam events (`kings_exam_start/done`) deliberately dropped on-device (analytics.js CLIENT_ALLOW, COPPA). Fix (later, small + privacy-safe): record completion by submode anonymously. Funnel v0 to be built as a TAB in `output/NikoLearn-stats-viewer.html` (existing tabs: dash/trend/traffic — do NOT duplicate); `first_win` + `page_view` already collected but never surfaced (half the funnel is free). D1/D7 return + owner-device-filter on app = impossible under current no-cross-session-id privacy model. Steps age-selected/2nd-round/time-to-win need 2-3 new anon events.
+
+**Security/truthfulness (owner: minimal, don't over-index).** Drop the "needs internet first time" line (owner: obvious). Add ONE privacy sentence (KA: „ვაგროვებთ ანონიმურ, შეჯამებულ სტატისტიკას… პიროვნებას არ ვადგენთ. სარეკლამო გვერდი იყენებს Meta-ს პიქსელს…" + EN equiv). landing FB pixel + workers.dev telemetry contradict "nothing sent" → disclose. APK hardening (allowBackup=true, FileProvider ".", RECORD_AUDIO undeclared) = deferred until APK launch. Not yet applied (customer-facing).
+
+---
+
 ## ▶ CURRENT STATE — end of 2026-06-28 session
 **LIVE on nikolearn.com: v1.295** (GShoina/NikoLearn main). **Use bare https://nikolearn.com** (www HTTPS cert still pending — see open items). Goal this session: make the app **FB-paid-traffic ready**. Done.
 
