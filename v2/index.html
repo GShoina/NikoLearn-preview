@@ -23,9 +23,11 @@
           padding:34px 24px calc(28px + env(safe-area-inset-bottom));opacity:0;transform:translateY(14px);
           pointer-events:none;transition:opacity .45s ease,transform .45s ease;justify-content:center;gap:6px}
   .screen.on{opacity:1;transform:none;pointer-events:auto}
-  .niko{width:128px;height:128px;object-fit:contain;filter:drop-shadow(0 10px 18px rgba(150,90,20,.22));
-        animation:float 4.5s ease-in-out infinite}
-  .niko.sm{width:74px;height:74px;animation:none}
+  .niko{width:132px;height:132px;object-fit:contain;background:#fff;border-radius:32px;
+        box-shadow:var(--shadow);padding:6px;animation:float 4.5s ease-in-out infinite}
+  .niko.sm{width:76px;height:76px;border-radius:20px;animation:none}
+  .wordmark{font-family:"Fredoka","Noto Sans Georgian",sans-serif;font-weight:700;font-size:1.7rem;letter-spacing:.5px;color:var(--ink);margin-bottom:2px}
+  .wordmark span{color:var(--orange)}
   @keyframes float{50%{transform:translateY(-9px)}}
   .bubble{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:15px 20px;
           box-shadow:var(--shadow);font-weight:700;font-size:1.18rem;text-align:center;max-width:330px;line-height:1.4}
@@ -79,8 +81,9 @@
 
   <!-- 1. ENTER -->
   <section class="screen on" id="s-enter">
-    <img class="niko" src="assets/niko-orange.png" alt="ნიკო">
-    <div class="bubble">გამარჯობა! მე ნიკო ვარ 🦉<span class="sm">რა ვისწავლოთ დღეს?</span></div>
+    <div class="wordmark">Niko<span>Learn</span></div>
+    <img class="niko" src="assets/niko-logo.png" alt="ნიკო">
+    <div class="bubble">გამარჯობა! მე ნიკო ვარ<span class="sm">რა ვისწავლოთ დღეს?</span></div>
     <div class="choices">
       <button class="choice" data-i="0" onclick="pick(this)"><span class="emoji">🔢</span> რიცხვები</button>
       <button class="choice" data-i="1" onclick="pick(this)"><span class="emoji">🔤</span> ასოები</button>
@@ -91,13 +94,13 @@
 
   <!-- 2. GO transition -->
   <section class="screen" id="s-go">
-    <img class="niko" src="assets/niko-orange.png" alt="ნიკო">
+    <img class="niko" src="assets/niko-logo.png" alt="ნიკო">
     <div class="bubble" style="font-size:1.6rem">ყოჩაღ, წავედით! ✨</div>
   </section>
 
   <!-- 3. TASK -->
   <section class="screen" id="s-task">
-    <img class="niko sm" src="assets/niko-orange.png" alt="ნიკო">
+    <img class="niko sm" src="assets/niko-logo.png" alt="ნიკო">
     <button class="audio" onclick="this.style.transform='scale(.92)';setTimeout(()=>this.style.transform='',150)">🔊</button>
     <div class="q">სად არის სამი ვაშლი?</div>
     <div class="micro" style="margin-top:2px"><span class="dot"></span> დააჭირე როცა მზად ხარ</div>
