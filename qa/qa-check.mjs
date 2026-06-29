@@ -58,6 +58,22 @@ const owl = r('niko/owl.js');
 if (!/isTiny\(profile\)\?MOVE_POOL\.filter\(e=>e\.tiny\)/.test(owl))
   add('P1', 'age-safety', 'movement break missing the isTiny safe-pool filter (3-4 yos could get unsafe moves)');
 
+/* ── 5: encoding / charset — catches mojibake before it ships in visible text or social previews ── */
+for (const f of ['index.html', 'landing.html', 'privacy.html']) {
+  let src; try { src = r(f); } catch { continue; }
+  if (src.includes('�')) add('P1', 'encoding', `${f}: contains � (U+FFFD) replacement char — broken text encoding`);
+  if (!/<meta\s+charset=["']?utf-8/i.test(src)) add('P2', 'encoding', `${f}: missing <meta charset="utf-8"> (Georgian / OG text can mojibake)`);
+}
+
+/* ── 6: social-preview meta — a broken OG card kills click-through on shared links ── */
+for (const f of ['index.html', 'landing.html']) {
+  let src; try { src = r(f); } catch { continue; }
+  for (const tag of ['og:title', 'og:image']) {
+    const m = src.match(new RegExp(`property=["']${tag}["'][^>]*content=["']([^"']*)["']`, 'i'));
+    if (!m || !m[1].trim() || /placeholder/i.test(m[1])) add('P2', 'meta', `${f}: ${tag} missing/empty/placeholder (bad social share preview)`);
+  }
+}
+
 /* ── report ── */
 const order = { P1: 0, P2: 1, P3: 2 };
 findings.sort((a, b) => order[a.sev] - order[b.sev]);
@@ -69,6 +85,21 @@ lines.push(`severity: P1=${counts.P1 || 0} P2=${counts.P2 || 0} P3=${counts.P3 |
 lines.push('');
 if (!findings.length) lines.push('✅ all checks passed — no issues found.');
 for (const f of findings) lines.push(`[${f.sev}] ${f.dim}: ${f.msg}`);
+/* ── release gate ── release-blocking = any P1, plus version drift and encoding (deploy-breakers) ── */
+const BLOCK_DIMS = new Set(['version', 'encoding']);
+const blockers = findings.filter(f => f.sev === 'P1' || BLOCK_DIMS.has(f.dim));
+lines.push('');
+lines.push(blockers.length
+  ? `⛔ RELEASE-BLOCKING: ${blockers.length} (must fix before deploy)`
+  : '✅ no release-blocking issues');
+
 const report = lines.join('\n');
 console.log(report);
 try { writeFileSync(join(ROOT, 'qa/last-report.txt'), report + '\n'); } catch {}
+
+/* --gate: exit non-zero so `npm test` / CI / a deploy script actually STOPS on a blocker. */
+if (process.argv.includes('--gate') && blockers.length) {
+  console.log(`\n⛔ GATE FAILED — refusing release (${blockers.length} blocker(s)). Fix, then re-run.`);
+  process.exit(1);
+}
+if (process.argv.includes('--gate')) console.log('\n✅ GATE PASSED.');
