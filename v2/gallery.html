@@ -15,44 +15,56 @@
   .top{font-weight:800;font-size:1.2rem;margin:4px 0 4px}
   .top span{color:var(--orange)}
   .sub{color:var(--muted);font-size:.9rem;margin-bottom:18px}
-  .lbl{font-weight:700;color:#7a6f63;font-size:.92rem;margin:26px 0 8px;display:flex;align-items:center;
-       justify-content:center;gap:8px}
-  .lbl b{background:var(--orange);color:#fff;border-radius:50%;width:24px;height:24px;display:grid;
-         place-items:center;font-size:.8rem}
+  .lbl{font-weight:700;color:#7a6f63;font-size:.92rem;margin:26px 0 8px;display:flex;align-items:center;justify-content:center;gap:8px}
+  .lbl b{background:var(--orange);color:#fff;border-radius:50%;width:24px;height:24px;display:grid;place-items:center;font-size:.8rem}
   .phone{width:100%;max-width:360px;margin:0 auto;aspect-ratio:360/740;background:radial-gradient(120% 100% at 50% 0%,var(--bg1),var(--bg2));
-         border:9px solid #2b2330;border-radius:40px;box-shadow:0 18px 40px rgba(60,40,10,.25);
-         overflow:hidden;position:relative}
-  .scr{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
-       padding:26px 20px;gap:6px}
+         border:9px solid #2b2330;border-radius:40px;box-shadow:0 18px 40px rgba(60,40,10,.25);overflow:hidden;position:relative}
+  .phone.flex{aspect-ratio:auto;height:auto}
+  .scr{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:26px 20px;gap:6px}
+  .pad{display:flex;flex-direction:column;align-items:center;gap:9px;padding:22px 15px 14px}
   .wordmark{font-family:"Fredoka",sans-serif;font-weight:700;font-size:1.5rem;color:var(--ink)}
   .wordmark span{color:var(--orange)}
   .niko{width:118px;height:118px;object-fit:contain;background:#fff;border-radius:30px;box-shadow:var(--shadow);padding:6px}
   .niko.sm{width:66px;height:66px;border-radius:18px}
-  .bubble{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:13px 18px;
-          box-shadow:var(--shadow);font-weight:700;font-size:1.04rem;line-height:1.4;max-width:300px}
+  .bubble{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:13px 18px;box-shadow:var(--shadow);font-weight:700;font-size:1.04rem;line-height:1.4;max-width:300px}
   .bubble .s{display:block;font-weight:600;font-size:.85rem;color:var(--muted);margin-top:3px}
   .choices{display:flex;flex-direction:column;gap:11px;width:100%;max-width:300px;margin-top:16px}
-  .choice{display:flex;align-items:center;gap:13px;background:var(--card);border:2px solid var(--line);
-          border-radius:22px;padding:14px 16px;font-weight:700;font-size:1.08rem;box-shadow:0 6px 14px rgba(120,80,20,.08)}
+  .choice{display:flex;align-items:center;gap:13px;background:var(--card);border:2px solid var(--line);border-radius:22px;padding:14px 16px;font-weight:700;font-size:1.08rem;box-shadow:0 6px 14px rgba(120,80,20,.08)}
   .choice .e{font-size:1.6rem;width:46px;height:46px;display:grid;place-items:center;background:#fff3e2;border-radius:15px}
   .micro{color:var(--muted);font-weight:600;font-size:.82rem;margin-top:14px;display:flex;align-items:center;gap:6px}
   .dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block}
-  .audio{width:84px;height:84px;border-radius:50%;border:none;background:linear-gradient(180deg,var(--orange),var(--orange-d));
-         color:#fff;font-size:2rem;box-shadow:0 12px 24px rgba(220,120,30,.4);margin:6px 0 2px}
+  .audio{width:84px;height:84px;border-radius:50%;border:none;background:linear-gradient(180deg,var(--orange),var(--orange-d));color:#fff;font-size:2rem;box-shadow:0 12px 24px rgba(220,120,30,.4);margin:6px 0 2px}
   .q{font-weight:800;font-size:1.3rem;margin:4px 0 2px}
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;width:100%;max-width:300px;margin-top:12px}
-  .opt{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:14px 8px;
-       display:flex;align-items:center;justify-content:center}
+  .opt{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:14px 8px;display:flex;align-items:center;justify-content:center}
   .opt.right{border-color:var(--green);box-shadow:0 8px 18px rgba(30,150,80,.22)}
   .apples{font-size:1.4rem;letter-spacing:2px}
-  .starwrap{width:128px;height:128px;border-radius:50%;background:radial-gradient(circle,#fff,#fff6e4);
-            display:grid;place-items:center;box-shadow:var(--shadow)}
+  .starwrap{width:128px;height:128px;border-radius:50%;background:radial-gradient(circle,#fff,#fff6e4);display:grid;place-items:center;box-shadow:var(--shadow)}
   .starwrap .x{font-size:3.6rem}
-  .btn{margin-top:18px;border:none;border-radius:18px;padding:13px 26px;font-weight:700;font-size:1rem;
-       background:linear-gradient(180deg,var(--green),var(--green-d));color:#fff;box-shadow:0 8px 18px rgba(30,140,80,.3);font-family:inherit}
+  .btn{margin-top:18px;border:none;border-radius:18px;padding:13px 26px;font-weight:700;font-size:1rem;background:linear-gradient(180deg,var(--green),var(--green-d));color:#fff;box-shadow:0 8px 18px rgba(30,140,80,.3);font-family:inherit}
   .ghost{background:none;color:var(--muted);box-shadow:none;font-size:.9rem;margin-top:8px}
-  .try{display:inline-block;margin-top:22px;background:var(--orange);color:#fff;text-decoration:none;
-       font-weight:700;padding:13px 24px;border-radius:18px;box-shadow:var(--shadow)}
+  .try{display:inline-block;margin-top:22px;background:var(--orange);color:#fff;text-decoration:none;font-weight:700;padding:13px 24px;border-radius:18px;box-shadow:var(--shadow)}
+  .hl{align-self:flex-start;text-align:left}
+  /* themes + subject pages */
+  .pbar{width:100%;background:#efe2cc;border-radius:20px;height:11px;overflow:hidden}
+  .pbar i{display:block;height:100%;width:16%;background:linear-gradient(90deg,var(--orange),var(--star));border-radius:20px}
+  .sg2{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%}
+  .subj{background:var(--card);border:2px solid var(--line);border-radius:20px;padding:12px 12px 13px;text-align:left;box-shadow:0 6px 14px rgba(120,80,20,.08);position:relative;display:flex;flex-direction:column;gap:2px;min-height:96px;justify-content:flex-end}
+  .subj .si{font-size:1.6rem;margin-bottom:auto}
+  .subj .st{font-weight:800;font-size:.96rem;line-height:1.15}
+  .subj .sd{color:var(--muted);font-size:.72rem}
+  .subj.king{background:linear-gradient(180deg,#fff7e6,#fdeecb);border-color:#f0d79a}
+  .pill{position:absolute;top:9px;right:9px;font-size:.62rem;font-weight:800;border-radius:20px;padding:2px 7px}
+  .pill.exam{background:#f3c64a;color:#7a5800}.pill.cnt{background:#eee3cf;color:#8a7d63}
+  .play{position:absolute;bottom:11px;right:11px;width:22px;height:22px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-size:.6rem}
+  .nav{display:flex;justify-content:space-around;align-items:center;width:100%;margin-top:6px;padding:9px 6px 2px;border-top:1px solid var(--line);font-size:1.25rem;color:#b0a48f}
+  .nav .act{color:var(--orange)}
+  .levels{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+  .lvl{background:#eee3cf;color:#8a7d63;border-radius:20px;padding:4px 9px;font-size:.72rem;font-weight:700;display:flex;align-items:center;gap:5px}
+  .lvl.on{background:var(--orange);color:#fff}
+  .lvl .n{background:rgba(255,255,255,.55);border-radius:50%;width:15px;height:15px;display:grid;place-items:center;font-size:.6rem}
+  .topbar{display:flex;align-items:center;gap:9px;width:100%}
+  .coin{background:#fff3e2;color:var(--orange-d);border-radius:20px;padding:4px 10px;font-weight:800;font-size:.8rem}
 </style>
 </head>
 <body>
@@ -98,6 +110,53 @@
     <div class="bubble" style="margin-top:18px;font-size:1.3rem">შენ შეძელი! 🎉<span class="s">პირველი ფიქრის ვარსკვლავი</span></div>
     <button class="btn">კიდევ ვცადოთ</button>
     <button class="btn ghost">დავისვენოთ</button>
+  </div></div>
+
+  <div class="lbl"><b>5</b> თემების გვერდი (მთავარი)</div>
+  <div class="phone flex"><div class="pad">
+    <div class="topbar">
+      <img src="assets/niko-logo.png" style="width:40px;height:40px;border-radius:12px;background:#fff;padding:3px">
+      <div class="hl" style="flex:1"><div style="font-weight:800;font-size:.9rem">ჯამური პროგრესი</div><div class="pbar"><i></i></div></div>
+      <span style="color:var(--muted);font-size:.8rem;font-weight:700">16%</span>
+    </div>
+    <div class="sg2">
+      <div class="subj king"><span class="pill exam">👑 გამოცდა</span><span class="si">📘</span><span class="st">კინგსი ინგლისური</span><span class="sd">Kings & Cambridge</span></div>
+      <div class="subj king"><span class="pill exam">👑 გამოცდა</span><span class="si">📐</span><span class="st">კინგსი მათემატიკა</span><span class="sd">ოლიმპიადა</span></div>
+      <div class="subj"><span class="pill cnt">13 თემა</span><span class="si">🔤</span><span class="st">ინგლისური</span><span class="sd">სიტყვები · ფრაზები</span><span class="play">▶</span></div>
+      <div class="subj"><span class="pill cnt">8 თემა</span><span class="si">🔢</span><span class="st">მათემატიკა</span><span class="sd">დათვლა 1-100</span><span class="play">▶</span></div>
+      <div class="subj"><span class="pill cnt">4 თემა</span><span class="si">🇬🇪</span><span class="st">ქართული</span><span class="sd">კითხვა · წერა</span><span class="play">▶</span></div>
+      <div class="subj"><span class="pill cnt">4 თემა</span><span class="si">💬</span><span class="st">საუბარი</span><span class="sd">ფიქრი · დიალოგი</span><span class="play">▶</span></div>
+      <div class="subj"><span class="si">🤸</span><span class="st">მოძრაობა</span><span class="sd">პატარა შესვენება</span><span class="play">▶</span></div>
+      <div class="subj"><span class="si">🎨</span><span class="st">ხატვა</span><span class="sd">ფუნჯი · ფერები</span><span class="play">▶</span></div>
+    </div>
+    <div class="nav"><span class="act">🏠</span><span>🌐</span><span>🎨</span><span>AB</span><span>📋</span></div>
+  </div></div>
+
+  <div class="lbl"><b>6</b> საგნის გვერდი (ინგლისური)</div>
+  <div class="phone flex"><div class="pad">
+    <div class="topbar">
+      <span style="font-size:1.3rem">←</span>
+      <div class="hl" style="flex:1"><div style="font-weight:800;font-size:1.05rem">🔤 ინგლისური</div></div>
+      <span class="coin">⭐ 22</span>
+    </div>
+    <div class="hl" style="width:100%;font-weight:700;font-size:.88rem">⏱️ შენი გზა<span style="float:right;color:var(--muted);font-weight:600">0/5</span></div>
+    <div class="levels">
+      <span class="lvl on"><span class="n">▶</span>10 სიტყვა</span>
+      <span class="lvl"><span class="n">2</span>25 სიტყვა</span>
+      <span class="lvl"><span class="n">3</span>ფრაზები</span>
+      <span class="lvl"><span class="n">4</span>50 სიტყვა</span>
+      <span class="lvl"><span class="n">5</span>კინგსი</span>
+    </div>
+    <div style="color:var(--muted);font-size:.78rem">რეკომენდებული: <b style="color:var(--ink)">ფრაზები</b></div>
+    <div class="sg2">
+      <div class="subj"><span class="si">👂</span><span class="st">მოისმინე</span><span class="sd">ქართ → ინგლ</span><span class="play">▶</span></div>
+      <div class="subj"><span class="si">📖</span><span class="st">კითხვა</span><span class="sd">ინგლ → ქართ</span><span class="play">▶</span></div>
+      <div class="subj"><span class="si">🖼️</span><span class="st">სურათი</span><span class="sd">🔊 → ხატულა</span><span class="play">▶</span></div>
+      <div class="subj"><span class="si">🎨</span><span class="st">ფერები</span><span class="sd">რა ფერია?</span><span class="play">▶</span></div>
+      <div class="subj"><span class="si">🧩</span><span class="st">დააწყვილე</span><span class="sd">ქართ ↔ ინგლ</span><span class="play">▶</span></div>
+      <div class="subj"><span class="si">✏️</span><span class="st">დაწერე</span><span class="sd">მართლწერა</span><span class="play">▶</span></div>
+    </div>
+    <div class="nav"><span class="act">🏠</span><span>🌐</span><span>🎨</span><span>AB</span><span>📋</span></div>
   </div></div>
 
   <a class="try" href="index.html">▶ ცოცხლად ცადე (დაჭერით)</a>
