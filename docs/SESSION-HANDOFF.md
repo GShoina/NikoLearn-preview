@@ -5,6 +5,46 @@
 > Architecture SSOT: `docs/HANDOFF.md`. Full pre-2026-06-28 history (307KB) → `docs/archive/2026-06/SESSION-HANDOFF_20260628_full.md`.
 > This file = current state + open items ONLY (keep < 30KB).
 
+## ▶ RESUME HERE (2026-06-30) — top open items
+
+**🔴 OPEN OWNER ACTION — www.nikolearn.com still broken (apex fine + secure; www has no cert).**
+The www TLS cert has been stuck `new` for 24h+; Let's Encrypt is issuing NOTHING (confirmed via
+crt.sh). Remove/re-add — incl. the 00:05 scheduled task `NikoLearn-www-cert-fix` (it RAN, restored
+apex to 200, but did NOT fix www) — did not unstick it. **Leading suspected cause: apex has only 1
+of 4 GitHub A records** (`185.199.108.153`; missing `.109/.110/.111`). **FIX = add the 3 missing A
+records** (Type A, Name @: `185.199.109.153` / `185.199.110.153` / `185.199.111.153`; keep the
+existing `.108` A and `CNAME www→gshoina.github.io`). DNS is at domenebi.ge — I HAVE access (creds
+`NIKO_DOMENEBI_*`, see [[reference_nikolearn_dns_access]]) BUT **domenebi.ge's SPA login is broken in
+the automated playwright browser** (16+ JS errors, login icon/menu/API all unresponsive), so I could
+not reach the DNS panel from my tools. → Owner adds the 3 records in his own browser, OR retry the
+login from a fresh session / non-automated browser. After records added: cert should provision within
+hours → re-check www + enable Enforce-HTTPS. **Use bare `nikolearn.com` everywhere meanwhile.** Do
+NOT flip the CNAME again (worsens the stuck state).
+
+**✅ Funnel v0 — BUILT, real baseline captured.** New `🪜 ფანელი` tab in
+`output/NikoLearn-stats-viewer.html` (owner double-clicks the file → tab; surfaces page_view +
+first_win, which were collected-but-never-shown). **BASELINE: 362 app opens → 32 first wins = ~9%
+activation** (91% leave before their first win = the #1 problem; this VALIDATES the v2.00 first-run
+priority with real data). English activates most (56% of first wins). Traffic: direct 44% / internal
+41% / Facebook 15%. **Gap:** landing.html emits NO telemetry (only the Meta pixel) → landing→app step
+is unmeasurable; one small `page_view{page=landing}` event would add it (and reveal FB-ad→app
+conversion = ad ROI). The pattern-105% / exam-0% bug (round_complete uses a coarse-only mode key) is
+diagnosed; fix pending.
+
+**Product-owner priority (decided this session):** (1) measure first = funnel ✅ done; (2) ship the
+v2.00 first-run to live and measure whether 9% rises; (3) deep pedagogy (thinking-pause / Socratic
+hints) + full redesign LATER, only after the first-run proves an activation lift.
+
+**v2.00 gallery now has 6 screens** (`/v2/gallery.html`): enter → "წავედით" → task → win → **themes
+page** + **subject page** (faithful v7-Sunlit redesign of the owner's two real screenshots; coins/🔥
+reframed as ⭐ thinking-stars). All on PREVIEW only, not live.
+
+**Memory:** owner flagged my memory as overloaded/confused — I wrongly punted the www fix as a
+"Route 53 access" problem when I actually have domenebi.ge access. Saved
+[[reference_nikolearn_dns_access]] to prevent a repeat. **TODO: run the memory-optimization practice.**
+
+---
+
 ## ▶ 2026-06-29 SESSION (latest)
 
 **v2.00 redesign — IN PROGRESS (owner-driven).** Owner provided v7 design (`~/Downloads/საბავშო აპლიკაციის დიზაინი.zip` → 8 screens "Thinking First": never-rush pedagogy, no timer/hearts, thinking-pause, 3-level Socratic hints, safe mistakes, "you grew" + thinking-star reward, Sunlit/Playground/Calm themes + OKLCH tokens) + `~/Downloads/ნიკო - სწრაფი დაწყება (ერთიანი).html` (6-frame fast first-run). Framing agreed: **v7 = lesson stage, quickstart = entry stage; v0/v2.00 = GRAFT onto live, NOT rebuild.** Owner pushed back on "mockup/validate-first" caution → wants deliberate building, fewer caveats.
