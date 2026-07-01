@@ -24,6 +24,8 @@ window.AUDIO_MANIFEST = {
  "დაითვალე ფიგურის გვერდები და კუთხეები. ისინი გეტყვის სახელს.": "csay_006.mp3",
  "დაითვალე მონეტები. დაიწყე დიდიდან და დაუმატე დანარჩენი.": "csay_007.mp3",
  "პატარა ისარი აჩვენებს საათს, დიდი ისარი წუთებს.": "csay_008.mp3",
+ // v1.307 — post-test recommendation: readable "start here" popup gets a listen button (owner 07-02: tiny text).
+ "დაიწყე აქედან": "reco_start.mp3",
  // v1.118 — Georgian reading expansion (edge-tts ka-GE-EkaNeural): new words/syllables/sentences
  "ფე": "krd_000.mp3",
  "ხი": "krd_001.mp3",

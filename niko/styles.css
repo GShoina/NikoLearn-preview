@@ -775,6 +775,18 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
   display:grid;place-items:center;font-size:1.1rem}
 .insight .it{font-size:.88rem;line-height:1.45}
 .insight .it b{color:var(--sky-d)}
+/* v1.307 — post-test recommendation: readable, adaptive, topic prominent + listen (owner 07-02: tiny text) */
+.results .reco{max-width:360px;margin:12px auto;text-align:center;padding:16px 18px;border-radius:18px;
+  background:linear-gradient(135deg,color-mix(in oklch,var(--sky) 14%,var(--card)),var(--card));
+  border:1.5px solid color-mix(in oklch,var(--sky) 30%,var(--line));box-shadow:var(--shadow)}
+.results .reco-spark{font-size:1.7rem;line-height:1;margin-bottom:4px}
+.results .reco-lead{display:flex;align-items:center;justify-content:center;gap:8px;
+  font-size:clamp(.98rem,3.6vw,1.14rem);font-weight:700;color:var(--sky-d)}
+.results .reco-topic{margin:8px 0 6px;font-size:clamp(1.28rem,5.4vw,1.7rem);font-weight:800;color:var(--ink);line-height:1.22}
+.results .reco-sub{font-size:clamp(.92rem,3.3vw,1.04rem);line-height:1.55;color:var(--muted)}
+.results .reco-listen{border:none;background:var(--sky-d,#3b7bd6);color:#fff;width:34px;height:34px;border-radius:50%;
+  font-size:1rem;cursor:pointer;display:inline-grid;place-items:center;flex:0 0 auto;padding:0}
+.results .reco-listen:active{transform:scale(.92)}
 .tagrow{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
 .tag{font-size:.74rem;font-weight:600;padding:5px 10px;border-radius:999px}
 .tag.weak{color:var(--primary-d);background:color-mix(in oklch,var(--primary) 12%,var(--card))}
