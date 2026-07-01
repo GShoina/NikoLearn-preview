@@ -656,7 +656,14 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
 .ai-bubble .ai-name{font-size:1rem;font-weight:800;color:var(--sky-d);letter-spacing:.02em}
 /* owl help text: bigger + higher contrast + airier line spacing so a 5–7 yo (or a parent reading aloud)
    can actually read it. (owner 2026-06-13: the hint text was too small / hard to read.) */
-.ai-bubble .ai-text{font-size:1.2rem;line-height:1.62;color:var(--ink);font-weight:500}
+.ai-bubble .ai-text{font-size:clamp(1.12rem,4.6vw,1.42rem);line-height:1.62;letter-spacing:.1px;color:var(--ink);font-weight:500;text-align:left;max-width:34ch;margin-inline:auto}
+/* ── Readability standard (owner 2026-07-01): tutor/explain text is READ by a child, so it is STRUCTURED
+   (intro line + short bullet lines + conclusion) with air between blocks, never a dense run-on paragraph.
+   Full standard: docs/READABILITY_STANDARD.md. Authors emit .r-lead / .r-item / .r-end spans. */
+.ai-text .r-lead{display:block;font-weight:700;margin-bottom:7px}
+.ai-text .r-item{display:block;position:relative;padding-left:1.2em;margin:5px 0}
+.ai-text .r-item::before{content:'•';position:absolute;left:.15em;color:var(--primary,#6B63B5);font-weight:800}
+.ai-text .r-end{display:block;margin-top:8px}
 .ai-bubble .ai-text b{color:var(--primary-d);font-weight:800}
 .ai-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:13px}
 .ai-chip{border:1.5px solid var(--line);background:var(--card-2);border-radius:999px;padding:9px 15px;
