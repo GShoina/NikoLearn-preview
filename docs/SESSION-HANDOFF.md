@@ -5,7 +5,124 @@
 > Architecture SSOT: `docs/HANDOFF.md`. Full pre-2026-06-28 history (307KB) → `docs/archive/2026-06/SESSION-HANDOFF_20260628_full.md`.
 > This file = current state + open items ONLY (keep < 30KB).
 
+## ▶ RESUME HERE (2026-07-01) — v2.00 = "Thinking First" pedagogy, PLAN LOCKED, BUILD next
+
+**GSH v3 adopted** (owner's Universal Operating System) → `docs/GSH-OS.md`. Active every session.
+
+**v2.00 REFRAMED by owner (2026-07-01):** it is NOT a first-run mockup — it is the "Thinking First"
+PEDAGOGY grafted onto the REAL game engine (games.js/owl.js/styles.css), which auto-satisfies the
+"must be in the real app frame, not half-work" requirement. Owner gave 3 in-game observations; PLAN
+LOCKED (tap-to-continue default, owner did not object). BUILD after the weekly token reset.
+
+**RELEASE STRATEGY DECIDED (owner 2026-07-01): DECOUPLE value-delivery from the v2.00 label.** Ship the
+3 verified improvements incrementally to LIVE as v1.x (each isolated onto a branch off main → merge →
+Pages → live-verify), MEASURE activation on the funnel, and reserve the „v2.00" label for the Sunlit
+DESIGN overhaul launched WITH proof the pedagogy lifts the 9% baseline. v2.00 = A+B+C (function, already
+live+measured) + Sunlit design (visual) = function+design improved, on evidence not hope. Owner: „labels
+don't bother me." NEXT LIVE SHIPS: **A** (pacing) then **B** (Socratic), same C-style isolated deploy.
+
+**PROGRESS 2026-07-01 — A+B ready on `feat/v2-thinking-first`; C already LIVE:**
+✅ **A DONE + verified** — `winStep` (games.js): correct-answer celebration no longer auto-advances
+in 1.4-2.5s; child taps a big „შემდეგი →" pill (new `addNextCue()` + `.fb-next` CSS), 5.2/6.5s safety
+fallback. Headless-render verified at 320px (owl + praise + button render correctly).
+✅ **C SHIPPED LIVE — v1.296** (main `5d3ecaf`, Pages built, live-verified on nikolearn.com @320px:
+4 tiles fit, 0 console errors, APP_VERSION=1.296, `.opt.emoji` clamp rule confirmed live). `.opt/
+.opt.emoji/.options/.yn-opts` clamp()-fluid; desktop unchanged. Shipped C-ONLY (isolated onto a fresh
+branch off main, since A+C were bundled in commit 34a3462) per owner „go c". Rollback anchor: v1.295=a7b329c.
+✅ **DECODE DONE** — 8 designs + 73 SVGs + MANIFEST in `v2-prototype/extracted/`. Tokens: orange
+#FF8A00, ink #2A1C12, success #00C48C, cream #FAF5EC. Fonts Inter+Poppins+Noto Sans Georgian.
+✅ **B DONE + verified** (commit 084ce21) — 2nd-miss flow in `reQueueWrong`/`teachAndConfirm`
+(games.js) reordered: was reveal-then-move-on. Now owl ENCOURAGES („არა უშავს, მოდი ერთად ვნახოთ 💛")
+→ TEACHES the concept (`Tutor.build().explain`, now surfaced for LANGUAGE modes too — math keeps its
+step-by-step dots) → reveals answer + grid + voice → „გაიგე?" gate. Removed premature `revealCorrect`.
+New `.teach-say`/`.teach-lesson` CSS. Headless-verified at 320px (say+lesson+answer+gate all render).
+
+**✅ QA GATE PASSED** (`node qa/qa-check.mjs --gate` = 0 findings, v1.295). **✅ REGRESSION CLEAN** —
+correct→„შემდეგი"→advances; 1st miss = dim+retry (no reveal, no teach); 2nd miss = teach flow. All via
+muted headless Playwright.
+
+▶ **AFTER A+B SHIP LIVE — design integration (Part 2) = earns the „v2.00" label** — graft the v7-Sunlit 8-screen first-run
+(`v2-prototype/extracted/`, tokens orange #FF8A00 etc.) into the REAL app shell, then stage the
+COMPLETE v2 (A+B+C+design) to PREVIEW as ONE link. NOTE: preview repo GShoina/NikoLearn-preview is a
+project-Pages SUBPATH (`/NikoLearn-preview/`) → root-relative asset paths (`/niko/...`, owl-logo.png)
+will break there; needs a base-path fix + load verification before presenting. Do NOT stage a partial
+(A/B/C-only) preview — owner wants ONE complete testable link, not half-work. Then owner go → live.
+**TEST DISCIPLINE (owner 2026-07-01): MUTE audio in every Playwright test** (stub speak/speechSynthesis/
+Audio.play) — owner is in meetings; TTS must never sound during automated tests. Local server: `python
+-m http.server 8137`; SW/HTTP caches sub-scripts → reload with a cache-buster query after each edit.
+- **A. Pacing (games.js `winStep`, ~L153-160).** Today advances at 1400ms(8+)/2500ms(young) after a
+  correct answer = too fast to comprehend. FIX: celebration stays, answer voiced, a big single voiced
+  „შემდეგი →" button lets the CHILD set tempo; auto-advance only on a ~5s fallback; tap-to-skip kept.
+- **B. Socratic wrong-answer tutor (games.js wrong-branch L167-240 + owl.js).** Today 2nd miss =
+  `teachAndConfirm()` reveals the correct answer + „გაიგე?" but does NOT explain/teach/encourage; owl
+  tutor is wired only in spelling mode. FIX (owner's exact order): encourage → TEACH the mistake
+  (per-mode: math=step, listen=replay, vocab=meaning) → THEN reveal correct → „გაიგე?". Owl in ALL modes.
+- **C. Mobile-first (styles.css `.options` L440-446).** Today `.options` = hard 2-col grid, NO media
+  query → listening emoji tiles (2.7rem, min-h 92px) break ≤360px. FIX: adaptive grid (auto-fit /
+  media query) + full mobile-first sweep of every game screen at 320/360/390px (owner: "არსად არ ირღვევა").
+- **Build path:** branch → self-test + §6c visual render 320/360/390px screenshots → PREVIEW repo (real
+  app shell, one link) → owner phone-tests → owner "go" → live. Georgian copy via Gemini + owner (§6f).
+
+**v2.00 DESIGN SOURCE — owner-confirmed self-sufficient (2026-07-01):** file
+`~/Downloads/ნიკო - სწრაფი დაწყება (ერთიანი).html`. Contains 74 inline SVG icons (vectors, exactly
+extractable), ALL CSS/colors/animations inline, NO external images/binaries (nothing missing), only
+1 Google font (embed/self-host). Only quirk: the 8 first-run designs are embedded as escaped JS
+strings — decoding is trivial, not a blocker. Use this file as the v2.00 visual base (v7 Sunlit theme).
+Still confirm by visual comparison which of the 8 designs go in/out during build (owner named 4:
+ჟელე ბარათები+წყლის დოკი / პირველი მოგება·1წუთში / რიცხვების გზა·დაკლაკნილი ბილიკი / საფეხურის ბარათები).
+
+**DECODE REALITY (verified 2026-07-01 via ctx, DID NOT read raw bytes):** the file is a
+**bundler artifact**, ~1.05MB / 176 lines, top-level JS = `chunks=[...]`, `blobUrls={}`,
+`resourceMap={}`, markers `__bundler_thumbnail/__bundler_loading/__bundler_err`. The 74 inline
+`<svg>` icons + the 8 designs live ESCAPED inside `chunks` (3266 `\"`, 1410 `\n`) and are
+reassembled at runtime into blob URLs via resourceMap. No `--css-vars` are visible at top level
+(they're inside the escaped chunks). DECODE APPROACH for build: in the sandbox, walk `chunks`
+→ join → unescape → map via `resourceMap`, emit each design's HTML/CSS/SVG to disk, THEN integrate.
+Confirmed self-contained (1 Google font, no external binaries). **Extracted real first-run flow copy**
+(matches v7 + our plan): privacy line → „ხმა და სურათები" → „გახსნა · ნიკო გხვდება ხმით" →
+„გამარჯობა! მე ნიკო ვარ" → „რა გინდა ვითამაშოთ?" (რიცხვები/ასოები/ინგლისური) → „დავიწყოთ!" →
+task „სად არის სამი" → „დააჭირე და მოუსმინე ხელახლა" (=B listen-teach step, already in design) →
+„ყოჩაღ!" → „შენ შეძელი!" → „პირველი ვარსკვლავი" → „დღევანდელი გმირი" → „კიდევ ერთი!"/„დღეს კმარა".
+Modes seen: „მოისმინე და დათვალე · ხმა → რაოდენობა", „შეხება · ბავშვი ირჩევს", „რჩევა" (built-in hint/tutor).
+
+---
+
 ## ▶ RESUME HERE (2026-06-30) — top open items
+
+**🟠 NEXT SESSION (owner: tomorrow after 12:00, token-conserving today) — BUILD a COMPLETE,
+TESTABLE v2.00.** Owner tried to test v2.00 on preview and correctly objected: (a) the preview frame
+size does NOT match the real live app's frame; (b) `gallery.html` + `/v2/` are isolated mockup
+screens = "half work", not a full testable product. **There is currently NO complete, testable v2.00
+anywhere — only the partial prototype.** Owner re-locked the workflow (matches §7b): TWO phases —
+(1) COMMIT/PREVIEW where he sees the FULL product with its changes and can fully test it, then
+(2) his approval → LIVE. He will NOT review half-built screens again.
+- TASK for tomorrow: build v2.00 to completion AND integrate it into the REAL app shell/frame (correct
+  app viewport/size, not a standalone mockup), deploy to PREVIEW as ONE complete working version on a
+  single link, present for his go/no-go. Only on "go" → live to nikolearn.com.
+- OPEN Q to resolve at build time: owner asked which of the **8 first-run designs** in
+  `~/Downloads/ნიკო - სწრაფი დაწყება (ერთიანი).html` (a gallery of 8 numbered variants 1-8) v2.00
+  actually uses. NOT recorded — handoff only pins v2.00 to the v7 "Sunlit" theme. He named 4 he
+  expects: „ჟელე ბარათები + წყლის დოკი" (home) / „პირველი მოგება · 1 წუთში" / „რიცხვების გზა ·
+  დაკლაკნილი ბილიკი" / „საფეხურის ბარათები · მათემატიკის შიგნით". → confirm by visual comparison
+  during the build and tell him exactly which designs are in / out.
+
+
+**🟡 www.nikolearn.com — DNS FIXED + self-healing watcher installed (2026-06-30).** Owner added the
+3 missing apex A records at domenebi.ge; verified via Google DNS 2026-06-30: apex resolves to ALL 4
+GitHub IPs (`185.199.108/109/110/111.153`) and `www` CNAMEs to gshoina.github.io. DNS is no longer the
+blocker. Cert state is still `new` with the correct SAN `[nikolearn.com, www.nikolearn.com]` — only
+Let's Encrypt issuance remains (automatic now that DNS is complete). apex serves HTTPS 200/secure
+throughout; www still `SEC_E_WRONG_PRINCIPAL` until the cert lands.
+- The in-session poller from last session died with that session. REPLACED with a robust Windows
+  scheduled task **`NikoLearn-www-cert-watch`** (every 30 min) running
+  `C:\Users\gela.shonia\niko-ops\www-cert-watch.sh` (log: `niko-ops/www-cert-watch.log`). It is
+  NON-DESTRUCTIVE: never touches the CNAME; when www serves valid HTTPS it enables Enforce-HTTPS once,
+  confirms it took, then self-disables. Until then it gently nudges a Pages rebuild each run.
+- The old **destructive** `NikoLearn-www-cert-fix` task (CNAME remove/re-add) was DELETED — it
+  conflicted with the "never flip CNAME again" rule (LE rate-limit risk). Do NOT recreate it.
+- Nothing more needed from owner or agent; just let the watcher finish. To check by hand:
+  `gh api repos/GShoina/NikoLearn/pages` → cert.state should go `new`→`approved`; then www loads.
+(Original problem detail, for reference:)
 
 **🔴 OPEN OWNER ACTION — www.nikolearn.com still broken (apex fine + secure; www has no cert).**
 The www TLS cert has been stuck `new` for 24h+; Let's Encrypt is issuing NOTHING (confirmed via

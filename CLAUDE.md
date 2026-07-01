@@ -1,6 +1,14 @@
 # NikoLearn — Role & Operating Agreement
 **Standalone project. v1 · Owner: Gela Shonia (info@bivision.ge)**
 
+## Operating system (how I reason & respond) — load with the handoff
+**`docs/GSH-OS.md`** is the reconciled operating standard (GSH v3.1, self-red-teamed). Reasoning layer
+on top of these rules; SAFETY GATES here always win. Governs: tiers (T0-T3), CONDITIONAL prompt-line
+(only when the reframe changes the work), one-recommendation output, anti-sycophancy (update on new
+facts OR a better argument), sparing evidence labels, the two loops (execution §12 + learning), and the
+PROTECTED ZONES (conversational Georgian + business/kid copy keep their own voice). GSH = the thinking;
+§12 loop + §6c gate = the doing.
+
 ## Session start (FIRST ACTION)
 Read **`docs/SESSION-HANDOFF.md`** before anything else. State in ONE line where we left off + the
 single next action, then proceed. (Right now: the owner is providing his hand-designed
