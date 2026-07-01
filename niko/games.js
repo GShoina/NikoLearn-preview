@@ -5,11 +5,18 @@
 /* ═══════════════ GAME ENGINE ═══════════════ */
 function wordPool(){
   if(game.cat&&WORDS[game.cat])return [...WORDS[game.cat]];
-  let pool=[];catsFor(profile).forEach(c=>pool.push(...WORDS[c]));return pool;
+  // dedupe by .en across categories: a word can live in two topics (e.g. "teacher" in სკოლა AND
+  // პროფესიები), which put it in the "all topics" pool twice → the SAME question could appear twice in one
+  // round (owner-reported 2026-07-01, "not reputational"). One entry per word keeps rounds unique.
+  let pool=[],seen=new Set();
+  catsFor(profile).forEach(c=>(WORDS[c]||[]).forEach(w=>{ if(!seen.has(w.en)){seen.add(w.en);pool.push(w);} }));
+  return pool;
 }
 function phrasePool(){
   if(game.pcat&&PHRASES[game.pcat])return [...PHRASES[game.pcat]];
-  let pool=[];Object.values(PHRASES).forEach(a=>pool.push(...a));return pool;
+  let pool=[],seen=new Set();
+  Object.values(PHRASES).forEach(a=>a.forEach(p=>{ const k=p.en||p.ka||JSON.stringify(p); if(!seen.has(k)){seen.add(k);pool.push(p);} }));
+  return pool;
 }
 /* ── Color Words (owner 2026-06-26): "What colour is it?" — a single UNAMBIGUOUS single-colour
    object (or a colour swatch where no clear object exists), pick the English colour word.
