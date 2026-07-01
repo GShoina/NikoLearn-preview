@@ -19,19 +19,22 @@ LOCKED (tap-to-continue default, owner did not object). BUILD after the weekly t
 Pages → live-verify), MEASURE activation on the funnel, and reserve the „v2.00" label for the Sunlit
 DESIGN overhaul launched WITH proof the pedagogy lifts the 9% baseline. v2.00 = A+B+C (function, already
 live+measured) + Sunlit design (visual) = function+design improved, on evidence not hope. Owner: „labels
-don't bother me." NEXT LIVE SHIPS: **A** (pacing) then **B** (Socratic), same C-style isolated deploy.
+don't bother me." **STATUS: A+B+C ALL SHIPPED LIVE (v1.296 C, v1.297 A+B), all live-verified.** NEXT:
+(1) watch the funnel — does activation rise from 9%? (2) then the Sunlit DESIGN integration = the „v2.00" label.
 
 **PROGRESS 2026-07-01 — A+B ready on `feat/v2-thinking-first`; C already LIVE:**
-✅ **A DONE + verified** — `winStep` (games.js): correct-answer celebration no longer auto-advances
-in 1.4-2.5s; child taps a big „შემდეგი →" pill (new `addNextCue()` + `.fb-next` CSS), 5.2/6.5s safety
-fallback. Headless-render verified at 320px (owl + praise + button render correctly).
+✅ **A SHIPPED LIVE — v1.297** (main `449cb02`, live-verified nikolearn.com @320px: „შემდეგი →" +
+„ზუსტად, მეგობარ! 💛" render, 0 errors). `winStep` (games.js): correct-answer celebration no longer
+auto-advances in 1.4-2.5s; child taps a big „შემდეგი →" pill (`addNextCue()` + `.fb-next` CSS),
+5.2/6.5s safety fallback.
 ✅ **C SHIPPED LIVE — v1.296** (main `5d3ecaf`, Pages built, live-verified on nikolearn.com @320px:
 4 tiles fit, 0 console errors, APP_VERSION=1.296, `.opt.emoji` clamp rule confirmed live). `.opt/
 .opt.emoji/.options/.yn-opts` clamp()-fluid; desktop unchanged. Shipped C-ONLY (isolated onto a fresh
 branch off main, since A+C were bundled in commit 34a3462) per owner „go c". Rollback anchor: v1.295=a7b329c.
 ✅ **DECODE DONE** — 8 designs + 73 SVGs + MANIFEST in `v2-prototype/extracted/`. Tokens: orange
 #FF8A00, ink #2A1C12, success #00C48C, cream #FAF5EC. Fonts Inter+Poppins+Noto Sans Georgian.
-✅ **B DONE + verified** (commit 084ce21) — 2nd-miss flow in `reQueueWrong`/`teachAndConfirm`
+✅ **B SHIPPED LIVE — v1.297** (main `449cb02`, live-verified nikolearn.com @320px: encourage
+„არა უშავს, მოდი ერთად ვნახოთ 💛" + lesson + reveal + „გაიგე?" gate render, 0 errors) — 2nd-miss flow in `reQueueWrong`/`teachAndConfirm`
 (games.js) reordered: was reveal-then-move-on. Now owl ENCOURAGES („არა უშავს, მოდი ერთად ვნახოთ 💛")
 → TEACHES the concept (`Tutor.build().explain`, now surfaced for LANGUAGE modes too — math keeps its
 step-by-step dots) → reveals answer + grid + voice → „გაიგე?" gate. Removed premature `revealCorrect`.
