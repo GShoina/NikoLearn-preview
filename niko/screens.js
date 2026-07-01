@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.298'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.299'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 function goHome(){
   if(typeof clearCeleb==='function')clearCeleb(); if(typeof closeFeedback==='function')closeFeedback(); // CE-2: kill pending celebration timers so they can't re-render the round over home
   // A4: if a round was in progress, count it as abandoned before we leave it
@@ -192,14 +192,14 @@ function finishOnboard(){state.onboarded=true;save();goHome();}
 let draft={name:'',age:6,color:'green'};
 function addChild(){
   draft={name:'',age:6,color:AV_COLORS[(state.kids.length)%AV_COLORS.length],langs:['ka'],tutor:'🦉',by:'parent'};
-  renderAddChild(); // direct to registration; parent/child split removed (was security theater), consent is inline. owner 2026-06-25
+  renderAddChild(true); // direct to registration; parent/child split removed (was security theater), consent is inline. owner 2026-06-25
 }
 function renderInitiator(){
   render(`<div class="screen" style="justify-content:flex-start">
     ${topbarPlain('ახალი პროფილი','goHome()')}
     <div class="init-intro">ვინ ქმნის პროფილს?</div>
     <div class="init-grid">
-      <button class="init-card" onclick="draft.by='parent';renderAddChild()">
+      <button class="init-card" onclick="draft.by='parent';renderAddChild(true)">
         <div class="init-emoji">👨‍👩‍👧</div><div class="init-t">მე მშობელი ვარ</div>
         <div class="init-s">ვქმნი ჩემი შვილის პროფილს</div></button>
       <button class="init-card" onclick="draft.by='child';renderConsent()">
@@ -219,13 +219,13 @@ function renderConsent(){
         <div class="perm-point">${I.privacy}<span class="pp-tx">ყველა მონაცემი <b>ამ მოწყობილობაზე</b> ინახება</span></div>
         <div class="perm-point">${I.check}<span class="pp-tx">რეკლამა: ნული · გარე ბმულების გარეშე</span></div>
       </div>
-      <button class="btn btn-primary btn-block" onclick="renderAddChild()">მე, მშობელი, ვეთანხმები ✓</button>
+      <button class="btn btn-primary btn-block" onclick="renderAddChild(true)">მე, მშობელი, ვეთანხმები ✓</button>
       <button class="btn btn-ghost btn-block mt" onclick="renderInitiator()">უკან</button>
     </div>
   </div>`,false);
 }
 function toggleLang(c){ if(c==='ka')return; const i=draft.langs.indexOf(c); if(i>=0)draft.langs.splice(i,1); else draft.langs.push(c); renderAddChild(); }
-function renderAddChild(){
+function renderAddChild(focusName){
   const init=draft.name?draft.name[0]:'?';
   render(`<div class="screen" style="justify-content:flex-start">
     ${topbarPlain('ახალი ბავშვი','goHome()')}
@@ -239,7 +239,7 @@ function renderAddChild(){
     <div class="age-row" id="age-row">${[3,4,5,6,7,8,9,10,11,12].map(a=>`<button class="age-chip num ${draft.age===a?'on':''}" onclick="draft.age=${a};renderAddChild()">${a}</button>`).join('')}</div>
     <div class="lvl-hint" style="margin:6px 2px">${draft.age<=5?'🧸 პატარებისთვის: ტექსტის გარეშე, ხატულა + ხმა':'🎒 დაიწყებს ინგლისურს, მათემატიკას და Kings-ს'}</div>
     <div class="section-label mt">რა ენებზე საუბრობს ბავშვი?</div>
-    <div class="lang-row">${[['ka','ქართული'],['en','English'],['ru','Русский']].map(([c,n])=>`<button class="lang-chip ${draft.langs.includes(c)?'on':''} ${c==='ka'?'lock':''}" onclick="toggleLang('${c}')">${n}</button>`).join('')}</div>
+    <div class="lang-row">${[['ka','ქართული'],['en','English']].map(([c,n])=>`<button class="lang-chip ${draft.langs.includes(c)?'on':''} ${c==='ka'?'lock':''}" onclick="toggleLang('${c}')">${n}</button>`).join('')}</div><!-- 'ru' removed 2026-07-01: no Russian content/voicing wired yet, so the option was a false promise. Re-add when ru content ships. -->
     <div class="lvl-hint" style="margin:6px 2px">🔊 გახმოვანება და ახსნა ამ ენებზე. ინგლისურს მაინც ისწავლის თამაშით.</div>
     <div class="section-label mt">ფერი</div>
     <div class="color-row">${AV_COLORS.map(c=>`<button class="color-dot a-${c} ${draft.color===c?'on':''}" onclick="draft.color='${c}';renderAddChild()"></button>`).join('')}</div>
@@ -250,7 +250,10 @@ function renderAddChild(){
     <button class="btn btn-primary btn-block mt" onclick="createChild()">შექმენი პროფილი</button>
     <div class="consent-mini">${I.check} შექმნით ადასტურებ, რომ მშობელი ხარ და ეთანხმები</div>
   </div>`,false);
-  const n=$('#kid-name');if(n){n.focus();n.setSelectionRange(n.value.length,n.value.length);}
+  // Focus ONLY on first entry, never on the chip/lang re-renders. On iOS every programmatic focus pops the
+  // keyboard, so re-focusing after each age/color/tutor/lang tap made the keyboard appear on ANY tap
+  // (owner-reported iPhone bug 2026-07-01). Chip onclicks now call renderAddChild() (no arg) = no re-focus.
+  if(focusName){ const n=$('#kid-name'); if(n){n.focus();n.setSelectionRange(n.value.length,n.value.length);} }
 }
 function createChild(){
   const name=(draft.name||'').trim().replace(/[<>&"']/g,'');   // strip HTML-special chars (XSS: name flows into innerHTML)
