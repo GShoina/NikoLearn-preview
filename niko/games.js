@@ -239,7 +239,11 @@ function reQueueWrong(cor,lang,nextFn){
   if(n<2){
     document.querySelectorAll('.opt.wrong').forEach(b=>{b.style.pointerEvents='none';b.classList.add('dim');});
     try{ feedback(false); }catch(e){}
-    setTimeout(()=>{ try{closeFeedback();}catch(e){} },1100);
+    // Teaching beat on the FIRST mistake (owner 2026-07-01: "after a wrong answer the correct one comes too
+    // fast, I have no time to grasp the concept"). The owl now opens a hint (voiced in ka via clip-first) so
+    // the child engages with WHY before retrying. Still NO answer reveal (retry-first, owner 2026-06-13);
+    // the child controls the pace and taps to try again.
+    setTimeout(()=>{ try{closeFeedback();}catch(e){} try{ if(typeof openHint==='function' && !document.getElementById('aiov') && !document.getElementById('teachov')) openHint(); }catch(e){} },850);
     return;
   }
   // 2nd+ miss: lock the options, reveal the correct one, RE-QUEUE the item, then TEACH the child and
