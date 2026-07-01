@@ -21,8 +21,8 @@ it writes `niko_owner=1` immediately and stays excluded forever on that device, 
 
 ## Owner / tester device registry
 Flag every device below with `?notrack=1` (or open the parent space) once:
-- [ ] owner phone (primary tester)
-- [ ] owner laptop
+- [x] owner phone (primary tester) — flagged 2026-07-01
+- [x] owner laptop — flagged 2026-07-01
 - [ ] owner tablet / any other test device
 - [ ] any team tester's device
 
