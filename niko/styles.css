@@ -536,6 +536,13 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
 .fb .fb-ico .owl-face{display:inline-block;animation:bob 2.4s ease-in-out infinite}
 .fb .fb-txt{font-size:1.5rem;font-weight:700;margin-top:6px}
 .fb .fb-sub{color:var(--muted);margin-top:4px}
+/* A (owner 2026-07-01): comprehension pause — a clear „შემდეგი →" the CHILD taps to move on,
+   so the next question never arrives before they have absorbed the win. Big tap target (>=48px). */
+.fb .fb-next{margin-top:18px;min-height:52px;padding:12px 30px;border:none;border-radius:99px;
+  font-family:inherit;font-weight:800;font-size:1.12rem;color:#fff;cursor:pointer;
+  background:var(--primary);box-shadow:0 8px 20px color-mix(in oklch,var(--primary) 40%,transparent);
+  animation:rise .34s .1s both}
+.fb .fb-next:active{transform:scale(.96)}
 
 /* confetti */
 .confetti{position:absolute;inset:0;overflow:hidden;pointer-events:none}
@@ -663,6 +670,11 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
   border:2px solid color-mix(in oklch,var(--primary) 30%,var(--line));padding:24px 22px;max-width:340px;width:100%;
   text-align:center;animation:rise .28s}
 .teach-owl{font-size:2.7rem;line-height:1;margin-bottom:4px;animation:bob 2.4s ease-in-out infinite}
+/* B (owner 2026-07-01): owl encourage line + the taught concept, shown BEFORE the answer is revealed */
+.teach-say{font-size:1.18rem;font-weight:700;color:var(--ink);margin:2px 6px 0;line-height:1.4}
+.teach-lesson{font-size:1.05rem;line-height:1.5;color:#6b5640;background:#fff8ee;
+  border:1.5px solid #ffe2bd;border-radius:14px;padding:11px 14px;margin:12px 4px 4px;animation:fade .3s}
+.teach-eq{transition:opacity .35s}
 .teach-eq .eqline{font-size:2.5rem;font-weight:800;color:var(--ink);letter-spacing:1px;
   display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
 .teach-eq.small .eqline{font-size:1.7rem}

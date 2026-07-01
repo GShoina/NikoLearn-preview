@@ -150,14 +150,28 @@ function nextWord(){
 let _celebTimers=[], _celebGo=null;
 function clearCeleb(){ _celebTimers.forEach(clearTimeout); _celebTimers=[]; }
 function skipCeleb(){ if(_celebGo){ const g=_celebGo; _celebGo=null; clearCeleb(); g(); } }
+// A (owner 2026-07-01): after a correct answer the celebration used to auto-advance in 1.4–2.5s —
+// too fast for a small child to absorb the win before the next question appears. Now the CHILD sets
+// the pace: praise shows, a big „შემდეგი →" button appears, and we auto-advance only on a long safety
+// fallback so an unattended child is never stuck. Tapping anywhere on the overlay still advances.
+function addNextCue(){
+  const ov=document.getElementById('fbov'); if(!ov)return;
+  const card=ov.querySelector('.fb'); if(!card||card.querySelector('.fb-next'))return;
+  const b=document.createElement('button');
+  b.className='fb-next';
+  b.textContent=(window.UILANG==='en')?'Next →':'შემდეგი →';
+  b.onclick=function(ev){ ev.stopPropagation(); try{skipCeleb();}catch(e){} };
+  card.appendChild(b);
+}
 function winStep(say,lang,next){
   if(say){ try{ speak(String(say), lang||'en-US'); }catch(e){} }
   const big=(typeof isBig==='function'&&isBig(profile));
-  const a=big?650:1200, b=big?1400:2500;
+  const a=big?650:1200;                 // when the praise + celebration appears
+  const fallback=big?5200:6500;         // safety auto-advance if the child never taps „შემდეგი"
   clearCeleb();
   _celebGo=()=>{ _celebGo=null; clearCeleb(); closeFeedback(); if(next) next(); };
-  _celebTimers.push(setTimeout(()=>{ try{praise();}catch(e){} feedback(true); }, a));
-  _celebTimers.push(setTimeout(()=>{ if(_celebGo) _celebGo(); }, b));
+  _celebTimers.push(setTimeout(()=>{ try{praise();}catch(e){} feedback(true); addNextCue(); }, a));
+  _celebTimers.push(setTimeout(()=>{ if(_celebGo) _celebGo(); }, fallback));
 }
 function answer(btn,sel,cor){
   if(sel===cor){
@@ -233,7 +247,8 @@ function reQueueWrong(cor,lang,nextFn){
   // was far too fast — a 5–7 yo couldn't absorb what the right answer even was. teachAndConfirm shows the
   // solution slowly, step by step, then a „გაიგე?" gate, so the child controls the pace = real tutoring.)
   document.querySelectorAll('.opt').forEach(b=>{b.classList.add('dim');b.style.pointerEvents='none';});
-  if(lang!==false) revealCorrect(cor,lang||null);
+  // B (owner 2026-07-01): do NOT reveal the answer yet. The owl first encourages + teaches the mistake
+  // inside teachAndConfirm, and only THEN reveals the correct answer (was: reveal-first = "show + move on").
   game.requeues=game.requeues||0;
   if(game.requeues<reqCap()){ game.qs.push(q); game.requeues++; }  // capped so the round always terminates (tighter for beginners)
   const advance=()=>{ game.i++; (nextFn||nextForMode())(); };
@@ -261,22 +276,34 @@ function _teDots(n,cls){let s='';for(let i=0;i<n;i++)s+=`<span class="td ${cls}"
 function teachAndConfirm(cor,lang,advanceFn){
   const q=game.cur||(game.qs&&game.qs[game.i]);
   const m=game.mode||'';
+  const en=(window.UILANG==='en');
   const sol=solveLine(q,cor,m);
+  // B (owner 2026-07-01): owl ENCOURAGES → TEACHES the concept → THEN reveals the answer → „გაიგე?" gate.
+  // Order matters: never reveal-and-move-on. For language modes the lesson comes from Tutor.build().explain
+  // (math keeps its own step-by-step equation, so we skip the redundant text there).
+  const encourage= en?'It is okay. Let us look at it together 💛':'არა უშავს. მოდი ერთად ვნახოთ 💛';
+  let lesson='';
+  if(!m.startsWith('math-')){ try{ const t=Tutor.build({subject:gameSubject(),q,mode:m,profile,aiRole:aiRole()}); lesson=(t&&t.explain)||''; }catch(e){} }
   let ov=document.getElementById('teachov'); if(ov)ov.remove();
   ov=document.createElement('div'); ov.className='overlay teach-ov'; ov.id='teachov';
   ov.innerHTML=`<div class="teach-card">
     <div class="teach-owl">${tutorFace(profile,'2.7rem')}</div>
-    <div class="teach-eq">${sol.html}</div>
-    <div class="teach-q" id="teachQ" style="opacity:0">${window.UILANG==='en'?'Got it?':'გაიგე?'}</div>
+    <div class="teach-say">${encourage}</div>
+    ${lesson?`<div class="teach-lesson">${lesson}</div>`:''}
+    <div class="teach-eq" id="teachEq" style="opacity:0">${sol.html}</div>
+    <div class="teach-q" id="teachQ" style="opacity:0">${en?'Got it?':'გაიგე?'}</div>
     <div class="teach-btns" id="teachBtns" style="opacity:0">
-      <button class="teach-yes" id="teachYes">${window.UILANG==='en'?'✓ Yes':'✓ კი'}</button>
-      <button class="teach-no" id="teachNo">${window.UILANG==='en'?'✗ No':'✗ არა'}</button>
+      <button class="teach-yes" id="teachYes">${en?'✓ Yes':'✓ კი'}</button>
+      <button class="teach-no" id="teachNo">${en?'✗ No':'✗ არა'}</button>
     </div>
   </div>`;
   $('.device').appendChild(ov);
-  // staged "slow frames" reveal: hold the question a beat, pop in the answer (+voice), then the gate.
-  setTimeout(()=>{ const a=ov.querySelector('#teAns'); if(a){a.textContent=sol.answer;a.classList.add('pop');} if(lang&&typeof speak==='function'){try{speak(sol.answer,lang);}catch(e){}} },700);
-  setTimeout(()=>{ const qd=ov.querySelector('#teachQ'),bd=ov.querySelector('#teachBtns'); if(qd)qd.style.opacity='1'; if(bd)bd.style.opacity='1'; },1600);
+  // language modes hold the lesson longer before the reveal so the child actually reads it first.
+  const beat = m.startsWith('math-')?800:1500;
+  setTimeout(()=>{ const eq=ov.querySelector('#teachEq'); if(eq)eq.style.opacity='1'; }, beat);
+  // reveal the answer: pop it in the card, mark the correct option in the grid underneath, and voice it.
+  setTimeout(()=>{ const a=ov.querySelector('#teAns'); if(a){a.textContent=sol.answer;a.classList.add('pop');} if(lang!==false){ try{revealCorrect(cor,lang||null);}catch(e){} } if(lang&&typeof speak==='function'){try{speak(sol.answer,lang);}catch(e){}} }, beat+500);
+  setTimeout(()=>{ const qd=ov.querySelector('#teachQ'),bd=ov.querySelector('#teachBtns'); if(qd)qd.style.opacity='1'; if(bd)bd.style.opacity='1'; }, beat+1400);
   ov.querySelector('#teachYes').onclick=()=>{ ov.remove(); advanceFn(); };
   ov.querySelector('#teachNo').onclick=()=>teachMore(q,cor,m,advanceFn);
 }
