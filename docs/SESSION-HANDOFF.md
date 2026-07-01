@@ -66,9 +66,12 @@ COMPLETE v2 (A+B+C+design) to PREVIEW as ONE link. NOTE: preview repo GShoina/Ni
 project-Pages SUBPATH (`/NikoLearn-preview/`) → root-relative asset paths (`/niko/...`, owl-logo.png)
 will break there; needs a base-path fix + load verification before presenting. Do NOT stage a partial
 (A/B/C-only) preview — owner wants ONE complete testable link, not half-work. Then owner go → live.
-**TEST DISCIPLINE (owner 2026-07-01): MUTE audio in every Playwright test** (stub speak/speechSynthesis/
-Audio.play) — owner is in meetings; TTS must never sound during automated tests. Local server: `python
--m http.server 8137`; SW/HTTP caches sub-scripts → reload with a cache-buster query after each edit.
+**TEST DISCIPLINE (owner 2026-07-01):** (a) **MUTE audio in every Playwright test** (stub speak/
+speechSynthesis/Audio.play) — TTS must never sound during automated tests. (b) **Any live test on
+nikolearn.com MUST use `?notrack=1`** (sets niko_owner=1 → excluded from prod stats) — this session's
+live A/B/C verification ran WITHOUT it and likely added a few `page_view`s to prod (self-pollution;
+disclosed to owner). Prefer the local server for verification; hit live only with notrack. Local server:
+`python -m http.server 8137`; SW/HTTP caches sub-scripts → reload with a cache-buster query after each edit.
 - **A. Pacing (games.js `winStep`, ~L153-160).** Today advances at 1400ms(8+)/2500ms(young) after a
   correct answer = too fast to comprehend. FIX: celebration stays, answer voiced, a big single voiced
   „შემდეგი →" button lets the CHILD set tempo; auto-advance only on a ~5s fallback; tap-to-skip kept.
