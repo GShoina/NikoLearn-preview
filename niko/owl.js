@@ -84,6 +84,9 @@ function openHint(){
   const atExplain=game.hintLevel>=total;
   const text=atExplain?t.explain:t.hints[game.hintLevel];
   game.hintText=text;
+  // fixed voiceable phrase (owl speaks even for DYNAMIC hints e.g. math number-hints): the tutor may supply
+  // t.say (a number-free strategy phrase that has a recorded ka clip). speakHint prefers it over the text.
+  game.hintVoice=t.say||'';
   const subject=gameSubject();
   const showVoice=(subject==='vocab'||subject==='kings-eng')&&knows(profile,'en');
   // step dots instead of "hint 1/3" text (5–7 yo can't read that)
@@ -117,7 +120,10 @@ function speakHint(btn){
   // even one with no native Georgian voice (iOS). This is the root fix for "the owl never speaks Georgian":
   // speakHint used to jump straight to browser TTS, which iOS can't do for ka → silence. Fixed, voiceable
   // hint phrases now carry edge-tts clips, so the tutor actually talks. Falls through to TTS only if no clip.
-  if(typeof playClip==='function'&&playClip(raw))return;
+  const voice=(game.hintVoice||'').replace(/<[^>]+>/g,'').trim();
+  // clip-first: prefer the fixed voiceable phrase (so dynamic math hints still speak in ka), then the
+  // displayed text's own clip, then fall through to TTS / the visual-only fallbacks below.
+  if(typeof playClip==='function'){ if(voice&&playClip(voice))return; if(playClip(raw))return; }
   const code=instrCode(profile);
   // device has a real voice for the instruction language → read the hint
   if(typeof hasVoiceFor==='function'&&hasVoiceFor(code)){speak(raw,code,{rate:isYoung(profile)?0.62:0.78});return;}
