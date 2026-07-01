@@ -16,6 +16,10 @@ function gameSubject(){
   if(m==='shapes')return 'shapes';
   if(m==='money')return 'money';
   if(m==='clock')return 'clock';
+  // reasoning strands (Kings-math): pattern/rebus/model/triangle share the {q,a,opts,rule} shape and are
+  // taught from q.rule. Without this they fell to the 'vocab' default → the owl showed the listening hint
+  // ("მოისმინე ხმა 🔊") + the "ინგლისურის მასწავლებელი" label on a math puzzle (owner 2026-07-01).
+  if(m==='pattern'||m==='rebus'||m==='model'||m==='triangle')return 'pattern';
   return 'vocab';
 }
 function curQ(){var m=game.mode||''; if(m.startsWith('kings-'))return null; /* CM-1: Kings exam runs its own kx state, not game.qs — a stale game.qs[i] here crashed the owl hint */ return m.startsWith('math-')?game.cur:(game.qs?game.qs[game.i]:null);}
@@ -109,6 +113,11 @@ function speakHint(btn){
   if(btn)pulseTap(btn);
   const raw=(game.hintText||'').replace(/<[^>]+>/g,'').trim();
   if(!raw)return;
+  // CLIP-FIRST (INV-3, owner 2026-07-01): a recorded clip for this exact hint phrase plays on ANY device,
+  // even one with no native Georgian voice (iOS). This is the root fix for "the owl never speaks Georgian":
+  // speakHint used to jump straight to browser TTS, which iOS can't do for ka → silence. Fixed, voiceable
+  // hint phrases now carry edge-tts clips, so the tutor actually talks. Falls through to TTS only if no clip.
+  if(typeof playClip==='function'&&playClip(raw))return;
   const code=instrCode(profile);
   // device has a real voice for the instruction language → read the hint
   if(typeof hasVoiceFor==='function'&&hasVoiceFor(code)){speak(raw,code,{rate:isYoung(profile)?0.62:0.78});return;}

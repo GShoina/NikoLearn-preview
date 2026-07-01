@@ -147,6 +147,15 @@
   }
 
   function moneyT(q){return {hints:['დაითვალე მონეტები: ერთმანეთს მიუმატე მათი რიცხვები.','დაიწყე დიდი მონეტიდან და დაუმატე დანარჩენი.'],explain:'მონეტების ჯამი = ფულის რაოდენობა. შეკრიბე ყველა მონეტა.'};}
+  // ── REASONING strands (pattern / rebus / model / triangle) — Kings-math. FIXED, voiceable ka phrases
+  // (each has an edge-tts clip so the owl actually SPEAKS), strategy-only so the answer is never revealed.
+  // The item-specific worked rule (q.rule) stays in the round's own 2nd-miss LEARN reveal, not here.
+  function reasoning(q){
+    return {hints:[
+      'დააკვირდი რიცხვებს და იპოვე წესი. რა იცვლება ყოველ ბიჯზე?',
+      'როცა წესს იპოვი, იგივე წესი გამოტოვებულ ადგილას გამოიყენე.'
+    ], explain:'კანონზომიერებაში ერთი წესი მეორდება. იპოვე ეს წესი და გამოტოვებული რიცხვი თვითონ გამოვა.'};
+  }
   function clockT(q){return {hints:['პატარა ისარი აჩვენებს საათს, დიდი ისარი, წუთებს.','დიდი ისარი 12-ზე = ზუსტი საათი; 6-ზე = ნახევარი (:30).'],explain:'საათის ისარი = საათი, წუთის ისარი = წუთები. იპოვე სად დგას ისრები.'};}
 
   // ── public ──
@@ -185,9 +194,10 @@
         case 'shapes': r=shapesT(ctx.q); break;
         case 'money': r=moneyT(ctx.q); break;
         case 'clock': r=clockT(ctx.q); break;
+        case 'pattern': r=reasoning(ctx.q); break;
         default: r=vocab(ctx.q,ctx.mode,kid);
       }
-      const mathish=(ctx.subject==='math'||ctx.subject==='kings-math'||ctx.subject==='compare'||ctx.subject==='skip'||ctx.subject==='shapes'||ctx.subject==='money'||ctx.subject==='clock');
+      const mathish=(ctx.subject==='math'||ctx.subject==='kings-math'||ctx.subject==='compare'||ctx.subject==='skip'||ctx.subject==='shapes'||ctx.subject==='money'||ctx.subject==='clock'||ctx.subject==='pattern');
       r.name = ctx.aiRole==='coach'
         ? (ctx.subject==='alpha'?'ბუ · ანბანის მასწავლებელი':mathish?'ბუ · მათემატიკის მასწავლებელი':'ბუ · ინგლისურის მასწავლებელი')
         : 'ბუ · შენი მეგობარი';

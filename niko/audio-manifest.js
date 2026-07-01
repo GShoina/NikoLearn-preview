@@ -1,6 +1,11 @@
 // Auto-generated Georgian audio manifest (edge-tts ka-GE-EkaNeural). Load BEFORE niko/audio.js.
 // Key = exact spoken text (lowercased). Value = filename under niko/audio/ (audio.js prepends the dir).
 window.AUDIO_MANIFEST = {
+ // v2.00 — reasoning-strand tutor hints (pattern/rebus/model/triangle). Fixed voiceable ka phrases so the
+ // owl SPEAKS Georgian on any device (owl.js speakHint clip-first). Keys must match tutor.js reasoning() exactly.
+ "დააკვირდი რიცხვებს და იპოვე წესი. რა იცვლება ყოველ ბიჯზე?": "thint_000.mp3",
+ "როცა წესს იპოვი, იგივე წესი გამოტოვებულ ადგილას გამოიყენე.": "thint_001.mp3",
+ "კანონზომიერებაში ერთი წესი მეორდება. იპოვე ეს წესი და გამოტოვებული რიცხვი თვითონ გამოვა.": "thint_002.mp3",
  // v1.118 — Georgian reading expansion (edge-tts ka-GE-EkaNeural): new words/syllables/sentences
  "ფე": "krd_000.mp3",
  "ხი": "krd_001.mp3",
