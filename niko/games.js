@@ -203,7 +203,8 @@ function checkSpell(cor){
     try{speak(cor,'en-US');}catch(x){}
     if(n>=2) setTimeout(maybeOfferHelp,650);
     game.requeues=game.requeues||0; if(game.requeues<reqCap()){game.qs.push(q);game.requeues++;}
-    setTimeout(()=>{game.i++;advance();}, n>=2?1700:1400);
+    // teach-gate instead of a fast auto-advance: the child taps to continue after seeing the correct spelling.
+    { const adv=()=>{game.i++;advance();}; setTimeout(()=>{ try{teachAndConfirm(cor,'en-US',adv);}catch(x){adv();} }, 600); }
   }
 }
 function advance(){
@@ -950,7 +951,8 @@ function answerListenYle(btn,sel,cor,sentence){
   if(typeof maybeOfferHelp==='function'){try{maybeOfferHelp();}catch(e){}}
   game.requeues=game.requeues||0; if(game.requeues<reqCap()){game.qs.push(q);game.requeues++;}
   try{feedback(false);}catch(e){}
-  setTimeout(()=>{try{closeFeedback();}catch(e){} game.i++; nextListenYle();},1700);
+  // teach-gate instead of a fast 1.7s auto-advance (owner 2026-07-01: correct answer flashed by too fast).
+  { const advance=()=>{game.i++;nextListenYle();}; setTimeout(()=>{try{closeFeedback();}catch(e){} teachAndConfirm(cor,null,advance);},500); }
 }
 
 /* ── YLE Reading & Writing: TICK yes/no — owner 2026-06-22 ──
@@ -997,7 +999,7 @@ function answerYesNo(btn,sel,cor){
   if(typeof maybeOfferHelp==='function'){try{maybeOfferHelp();}catch(e){}}
   game.requeues=game.requeues||0; if(game.requeues<reqCap()){game.qs.push(q);game.requeues++;}
   try{feedback(false);}catch(e){}
-  setTimeout(()=>{try{closeFeedback();}catch(e){} game.i++; nextYesNo();},1700);
+  { const advance=()=>{game.i++;nextYesNo();}; setTimeout(()=>{try{closeFeedback();}catch(e){} teachAndConfirm(cor==='yes'?'✅ კი':'❌ არა',null,advance);},500); }
 }
 
 /* ── YLE Reading & Writing: READ A STORY + answer — owner 2026-06-22 ──
@@ -1043,7 +1045,7 @@ function answerStory(btn,sel,cor){
   if(typeof maybeOfferHelp==='function'){try{maybeOfferHelp();}catch(e){}}
   game.requeues=game.requeues||0; if(game.requeues<reqCap()){game.qs.push(q);game.requeues++;}
   try{feedback(false);}catch(e){}
-  setTimeout(()=>{try{closeFeedback();}catch(e){} game.i++; nextStory();},1800);
+  { const advance=()=>{game.i++;nextStory();}; setTimeout(()=>{try{closeFeedback();}catch(e){} teachAndConfirm(cor,'en-US',advance);},500); }
 }
 
 /* ── YLE SPEAKING practice (say-aloud + MODEL self-check + optional record→playback) — owner 2026-06-23 ──
