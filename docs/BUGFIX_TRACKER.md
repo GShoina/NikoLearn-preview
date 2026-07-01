@@ -22,6 +22,13 @@ reaches the owner. LOOP: weakest/highest-value open item → fix at choke-point 
 - [x] adaptive fonts fanned out to ALL cards (question/sub/teach card/equation/count) — v1.304
 - [x] owl speaks ka in ALL subjects (INV-3 fan-out complete: vocab/alpha/kings/count/compare/…) — v1.305
 - [x] fast-reveal modes (spell/listen-yle/yesno/story) now teach-gate, no fast auto-advance — v1.306
+- [x] privacy/consent copy OVER-STATED (owner 07-02): removed Clarity + inert Meta Pixel + cookie banner →
+      site 100% cookieless (kept cookieless CF beacon + first-party aggregate Worker); privacy.html ka+en
+      rewritten to no-ads reality; "სრული privacy"→"სრული კონფიდენციალურობა"; softened "GDPR & KIDS" — v1.307.
+      Live-verified: banner gone, fbq/clarity never load, 0 errors, layout intact.
+- [x] post-test recommendation was tiny (.88rem) + buried "which topic" (owner 07-02): placement results now a
+      readable `.reco` card — prominent adaptive topic (clamp 1.28-1.7rem), readable lead/sub, + listen button
+      (reco_start.mp3, edge-tts ka; playClip-gated) — v1.308. Live-verified: topic 27px, mp3 HTTP 200.
 
 ## Findings (verified, no code change needed)
 - "correct answer marks too fast": on the CURRENT live build a wrong math answer no longer flash-marks the
@@ -29,26 +36,19 @@ reaches the owner. LOOP: weakest/highest-value open item → fix at choke-point 
   This was the OLD behaviour before v1.300/v1.302. Re-test on v1.303; if it persists, name the exact mode.
 
 ## ⏳ OPEN — priority order
-0. [ ] **Privacy/consent copy is OVER-STATED (owner 07-02)** — consent banner claims a "Meta cookie for
-       ad-effectiveness" but Meta Pixel is INERT (placeholder ID) + no ads run → no Meta cookie ever set.
-       Only Clarity sets cookies (landing-only). Fix: banner mentions ONLY Clarity (or drop Clarity → 100%
-       cookieless), "privacy"→"კონფიდენციალურობა" (#7/#9), soften "GDPR & KIDS" badge, privacy.html Meta
-       "not currently active". Full numbered inventory (23 msgs: 1❌/3⚠️/19✅) →
-       `output/2026-07-02-უსაფრთხოების და კონფიდენციალურობის მესიჯების ინვენტარი by Niko.html`.
-       CUSTOMER-FACING → owner picks which strings change before deploy (§6f copy-list).
-1. [ ] **Fast reveal-and-auto-advance modes** (spell / listen-yle / yesno / story) still auto-skip on a
-       timer → route them through the same teach-gate (finishes the "too fast" fix everywhere).
-2. [ ] **Post-test explanation in tiny letters** → readable POPUP (large text + listen where a clip exists).
-3. [ ] **English flow clarity** — "დაიწყე აქედან" should be one tap = one ready session, not a
-       6-mode × N-topic fork. (Customer-facing redesign — build + show before live.)
-4. [ ] **Puzzle/riddle objects too small on phone** (INV-5) — content objects clamp-fluid at 320/360/390.
-5. [ ] **INV-3 tutor speaks ka fan-out** — clip-first live for pattern; extend fixed voiceable phrases to
-       the other hint modes (vocab/math/alpha) so the owl talks everywhere.
-6. [ ] **B3/B4 talk grammar** — text fixed; regen audio (tlk_024 etc.) + full Gemini+native grammar sweep (INV-6).
-7. [ ] **INV-1 teach before test** — math primer / multiplication table.
-8. [ ] **INV-2 answerOutcome resolver** — unify all wrong-answer handlers to one contract (the durable
-       structural fix; items 1 + first-miss-teach are down-payments on it).
-9. [ ] **INV-4 adaptive ladder** for the flat modes (count/compare/skip/shapes/money/clock).
+1. [ ] **English flow clarity** — "დაიწყე აქედან" should be one tap = one ready session, not a
+       6-mode × N-topic fork. (Customer-facing redesign — build + show before live.) v1.308 made the
+       recommendation READABLE; this item is the deeper one-tap-session flow.
+2. [ ] **Readability STRUCTURE fan-out** — apply the lead/item/end structured spans (v1.303) to the other
+       multi-part hints (build-a-ten, kingsMath, etc.), not just units/tens.
+3. [ ] **Puzzle/riddle objects too small on phone** (INV-5) — content objects clamp-fluid at 320/360/390.
+4. [ ] **INV-3 tutor speaks ka fan-out** — clips live for pattern/math/subjects (v1.302/1.305); extend
+       fixed voiceable phrases to the remaining hint modes (alpha/vocab detail) so the owl talks everywhere.
+5. [ ] **B3/B4 talk grammar** — text fixed; regen audio (tlk_024 etc.) + full Gemini+native grammar sweep (INV-6).
+6. [ ] **INV-1 teach before test** — math primer / multiplication table.
+7. [ ] **INV-2 answerOutcome resolver** — unify all wrong-answer handlers to one contract (the durable
+       structural fix; fast-reveal + first-miss-teach are down-payments on it).
+8. [ ] **INV-4 adaptive ladder** for the flat modes (count/compare/skip/shapes/money/clock).
 
 Legend: `[ ]` open · `[~]` partial · `[x]` DONE + live.
 Architecture SSOT: `docs/INTERACTION_CONTRACT.md`. Branch note: hotfixes linear on main; F2 feature branch

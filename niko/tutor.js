@@ -99,7 +99,7 @@
     if(t==='spelling')return {hints:[`წარმოთქვი სიტყვა ნელა, თითო ბგერა.`,`ერთ ვარიანტში ასოა არასწორი, შეადარე ასო-ასო.`],explain:`მართლწერა: დაშალე სიტყვა ბგერებად და თითო ასო შეამოწმე.`};
     if(t==='number')return {hints:[`წაიკითხე რიცხვი: ${q.q}.`,`გაიხსენე რიცხვების სახელები ინგლისურად 1–20.`],explain:`დააკავშირე ციფრი მის ინგლისურ სახელთან.`};
     // grammar
-    return {hints:[`ვის ან რას ეხება წინადადება? (I · he · she · they · it?)`,`ზმნა უნდა მოერგოს ქვემდებარეს: I → am, he/she/it → is, you/they → are.`],explain:`გრამატიკაში ქვემდებარე და ზმნა ერთმანეთს უნდა შეეთანხმოს.`};
+    return {hints:[`ვის ან რას ეხება წინადადება? (I · he · she · they · it?)`,`<span class="r-lead">ზმნა ქვემდებარეს მოერგოს:</span><span class="r-item">I → am</span><span class="r-item">he / she / it → is</span><span class="r-item">you / they → are</span>`],explain:`გრამატიკაში ქვემდებარე და ზმნა ერთმანეთს უნდა შეეთანხმოს.`};
   }
 
   // ── KINGS MATH (q.kind, hintA/hintB/step) ──
@@ -130,7 +130,7 @@
   function compareT(q){
     return {hints:[
       `შეადარე: ${q?q.a:'პირველი'} და ${q?q.b:'მეორე'}, რომელია უფრო დიდი?`,
-      `ნიშნის ღია მხარე დიდი რიცხვისკენ იყურება. „>" = მეტი, „<" = ნაკლები, „=" = ტოლი.`
+      `<span class="r-lead">ნიშნის ღია მხარე დიდი რიცხვისკენ იყურება.</span><span class="r-item">„>" = მეტი</span><span class="r-item">„<" = ნაკლები</span><span class="r-item">„=" = ტოლი</span>`
     ], explain:`დიდი რიცხვი მარცხნივ → „>"; პატარა მარცხნივ → „<"; ერთნაირი → „=".`};
   }
   function skipT(q){
@@ -143,7 +143,7 @@
   function shapesT(q){
     return {hints:[
       `დააკვირდი ფორმას, რამდენი გვერდი და კუთხე აქვს?`,
-      `მრგვალია → წრე. სამი კუთხე → სამკუთხედი. ოთხი თანაბარი გვერდი → კვადრატი.`
+      `<span class="r-lead">დაითვალე გვერდები და კუთხეები:</span><span class="r-item">მრგვალი → წრე</span><span class="r-item">3 კუთხე → სამკუთხედი</span><span class="r-item">4 თანაბარი გვერდი → კვადრატი</span>`
     ], explain:`დაითვალე გვერდები და კუთხეები, ისინი გეტყვის ფიგურის სახელს.`};
   }
 
@@ -157,7 +157,7 @@
       'როცა წესს იპოვი, იგივე წესი გამოტოვებულ ადგილას გამოიყენე.'
     ], explain:'კანონზომიერებაში ერთი წესი მეორდება. იპოვე ეს წესი და გამოტოვებული რიცხვი თვითონ გამოვა.'};
   }
-  function clockT(q){return {hints:['პატარა ისარი აჩვენებს საათს, დიდი ისარი, წუთებს.','დიდი ისარი 12-ზე = ზუსტი საათი; 6-ზე = ნახევარი (:30).'],explain:'საათის ისარი = საათი, წუთის ისარი = წუთები. იპოვე სად დგას ისრები.'};}
+  function clockT(q){return {hints:['პატარა ისარი აჩვენებს საათს, დიდი ისარი, წუთებს.','<span class="r-lead">დიდი ისრის მიხედვით:</span><span class="r-item">12-ზე = ზუსტი საათი</span><span class="r-item">6-ზე = ნახევარი (:30)</span>'],explain:'საათის ისარი = საათი, წუთის ისარი = წუთები. იპოვე სად დგას ისრები.'};}
 
   // Fixed voiceable ka phrase per subject (INV-3: the owl speaks even when the hint TEXT is dynamic and
   // has no clip). math ops set their own `say` inline; this fills the rest. Keys == audio-manifest keys.
