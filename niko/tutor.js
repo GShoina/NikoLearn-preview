@@ -159,6 +159,19 @@
   }
   function clockT(q){return {hints:['პატარა ისარი აჩვენებს საათს, დიდი ისარი, წუთებს.','დიდი ისარი 12-ზე = ზუსტი საათი; 6-ზე = ნახევარი (:30).'],explain:'საათის ისარი = საათი, წუთის ისარი = წუთები. იპოვე სად დგას ისრები.'};}
 
+  // Fixed voiceable ka phrase per subject (INV-3: the owl speaks even when the hint TEXT is dynamic and
+  // has no clip). math ops set their own `say` inline; this fills the rest. Keys == audio-manifest keys.
+  const SUBJECT_SAY={
+    vocab:'დააკვირდი სურათს და მოისმინე. ბგერები გეტყვის სწორ სიტყვას.',
+    alpha:'მოისმინე, როგორ იწყება სიტყვა. პირველი ბგერა გეტყვის სწორ ასოს.',
+    'kings-eng':'დააკვირდი და მოისმინე. იპოვე მთავარი სიტყვა, მერე შეამოწმე ფერი და რიცხვი.',
+    counting:'დაითვალე ნელა, თითო-თითო, ხმამაღლა.',
+    compare:'შეადარე ორი რიცხვი. ნიშნის ღია მხარე დიდი რიცხვისკენ იყურება.',
+    skip:'ყოველ ნაბიჯზე ერთი და იგივე რიცხვი ემატება. იპოვე ეს ნაბიჯი.',
+    shapes:'დაითვალე ფიგურის გვერდები და კუთხეები. ისინი გეტყვის სახელს.',
+    money:'დაითვალე მონეტები. დაიწყე დიდიდან და დაუმატე დანარჩენი.',
+    clock:'პატარა ისარი აჩვენებს საათს, დიდი ისარი წუთებს.'
+  };
   // ── public ──
   window.Tutor = {
     build(ctx){
@@ -198,6 +211,7 @@
         case 'pattern': r=reasoning(ctx.q); break;
         default: r=vocab(ctx.q,ctx.mode,kid);
       }
+      if(r && !r.say && SUBJECT_SAY[ctx.subject]) r.say = SUBJECT_SAY[ctx.subject];
       const mathish=(ctx.subject==='math'||ctx.subject==='kings-math'||ctx.subject==='compare'||ctx.subject==='skip'||ctx.subject==='shapes'||ctx.subject==='money'||ctx.subject==='clock'||ctx.subject==='pattern');
       r.name = ctx.aiRole==='coach'
         ? (ctx.subject==='alpha'?'ბუ · ანბანის მასწავლებელი':mathish?'ბუ · მათემატიკის მასწავლებელი':'ბუ · ინგლისურის მასწავლებელი')
