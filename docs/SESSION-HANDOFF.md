@@ -19,8 +19,24 @@ LOCKED (tap-to-continue default, owner did not object). BUILD after the weekly t
 Pages → live-verify), MEASURE activation on the funnel, and reserve the „v2.00" label for the Sunlit
 DESIGN overhaul launched WITH proof the pedagogy lifts the 9% baseline. v2.00 = A+B+C (function, already
 live+measured) + Sunlit design (visual) = function+design improved, on evidence not hope. Owner: „labels
-don't bother me." **STATUS: A+B+C ALL SHIPPED LIVE (v1.296 C, v1.297 A+B), all live-verified.** NEXT:
-(1) watch the funnel — does activation rise from 9%? (2) then the Sunlit DESIGN integration = the „v2.00" label.
+don't bother me." **STATUS: A+B+C ALL SHIPPED LIVE (v1.296 C, v1.297 A+B), all live-verified.**
+
+**⚠ FUNNEL CORRECTION (2026-07-01, live /v1/stats pulled + cross-checked — owner challenged the number).**
+The „9% activation = 91% leave before first win = #1 problem" framing repeated from the 2026-06-30 block
+is NOT trustworthy — DO NOT use it to justify strategy. Live 16-day data (06-16→07-01): page_view 390 ·
+round_complete 399 · round_abandon 168 · first_win 35 · profile_created 44. `first_win` fires once per
+page-load on the first completed round (by design → naturally << round_complete; 35 is NOT a bug).
+`9% = first_win/page_view` = „share of app-loads that complete ≥1 round" but is UN-READABLE as activation:
+(a) NO session ID (privacy) → can't tell if completions concentrate in few loads or spread; (b) owner/family
+devices NOT confirmed excluded (`docs/DATA_HYGIENE.md` registry still unchecked → possible self-pollution,
+[UNVERIFIED]); (c) landing→app step emits NO telemetry. Real completion rate 399/(399+168)=**70%** (kids who
+START a round usually finish). Verdict: neither „crisis" nor „artifact" is justified — funnel is genuinely
+un-readable, exactly as `docs/REASONING-LESSONS.md` already warned (which I failed to read). **A/B/C stand as
+genuine UX improvements on their own merit; they are NOT validated „activation fixes."** To make the funnel
+readable (before trusting any number): (1) owner flags his test devices via `?notrack=1` (DATA_HYGIENE);
+(2) add landing→app telemetry (`page_view{page=landing}`); (3) a cleaner per-session activation signal.
+
+NEXT: (1) then the Sunlit DESIGN integration = the „v2.00" label.
 
 **PROGRESS 2026-07-01 — A+B ready on `feat/v2-thinking-first`; C already LIVE:**
 ✅ **A SHIPPED LIVE — v1.297** (main `449cb02`, live-verified nikolearn.com @320px: „შემდეგი →" +
