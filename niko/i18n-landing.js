@@ -103,7 +103,7 @@ window.I18N_LANDING = {
   "მშობლის სივრცე PIN-კოდითაა დაცული, ბავშვი ვერ შევა.":"The parent space is protected with a PIN, the child can't get in.",
   "7 წლის · მოსწავლე":"7 yrs · Learner",
   "დღის სერია":"day streak",
-  "GDPR & KIDS, მონაცემები დაცულია.":"GDPR & KIDS, data is protected.",
+  "ბავშვებზე მორგებული, მონაცემები დაცული.":"Built for kids, data protected.",
   "ნიკოლოზი":"Nikolozi",
   "ცხოველებში":"with animals",
   "ძლიერია, თუმცა":"is strong, but",

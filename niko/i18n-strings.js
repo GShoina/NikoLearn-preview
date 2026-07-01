@@ -599,7 +599,7 @@ window.I18N_MAP = {
   "ქართული და English, სწავლა და ქვიზი":"Georgian and English, lessons and quizzes",
   "Cambridge YLE გამოცდისთვის მზადება":"Getting ready for the Cambridge YLE exam",
   "რატომ NikoLearn":"Why NikoLearn",
-  "სრული privacy":"Full privacy",
+  "სრული კონფიდენციალურობა":"Full privacy",
   "ყველა მონაცემი ტელეფონზე რჩება. ონლაინ სინქრონიზაციის გარეშე.":"All data stays on the phone. No online sync.",
   "ნული რეკლამა":"Zero ads",
   "გარე ბმული არ არის. მშობლის დაცული სივრცე.":"No outside links. A protected space for parents.",
@@ -914,7 +914,7 @@ Object.assign(window.I18N_MAP, {
   "ბავშვის სასწავლო მონაცემები რჩება მხოლოდ შენს მოწყობილობაზე.":"Your child's learning data stays only on your device.",
   "დიახ. NikoLearn მუშაობს ოფლაინაც, ხოლო ბავშვის სასწავლო მონაცემები რჩება მხოლოდ თქვენს მოწყობილობაზე.":"Yes. NikoLearn works offline too, and your child's learning data stays only on your device.",
   "Screen-time კონტროლი":"Screen-time control",
-  "GDPR & KIDS, მონაცემები დაცულია.":"GDPR & KIDS, data is protected.",
+  "ბავშვებზე მორგებული, მონაცემები დაცული.":"Built for kids, data protected.",
   "ყოჩაღ, მაშო! რა კარგად გაიმეორე 🌟":"Well done, Masho! Great repeat 🌟",
   "მოსწავლე":"Learner",
   // batch 2 (owner 2026-06-25) — deeper app-screen chrome: cheers, results sub, rule reveal, stats label
