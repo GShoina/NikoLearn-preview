@@ -26,6 +26,11 @@ window.AUDIO_MANIFEST = {
  "პატარა ისარი აჩვენებს საათს, დიდი ისარი წუთებს.": "csay_008.mp3",
  // v1.307 — post-test recommendation: readable "start here" popup gets a listen button (owner 07-02: tiny text).
  "დაიწყე აქედან": "reco_start.mp3",
+ // v1.311 — owl voice for the English-practice modes that were silent (listen-yle/yesno/speak/story) — INV-3 fan-out.
+ "მოუსმინე ყურადღებით. ჯერ დაითვალე რამდენია, მერე იპოვე რა საგანია.": "yle_say.mp3",
+ "დააკვირდი სურათს. თუ წინადადება ემთხვევა, თქვი კი. თუ არა, თქვი არა.": "yesno_say.mp3",
+ "მოუსმინე კითხვას, მერე ხმამაღლა უპასუხე ინგლისურად. მთავარია სცადო.": "speak_say.mp3",
+ "ჯერ წაიკითხე ამბავი, მერე კითხვა. პასუხი თვითონ ტექსტშია.": "story_say.mp3",
  // v1.118 — Georgian reading expansion (edge-tts ka-GE-EkaNeural): new words/syllables/sentences
  "ფე": "krd_000.mp3",
  "ხი": "krd_001.mp3",
