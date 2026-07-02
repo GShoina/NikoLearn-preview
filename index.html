@@ -117,8 +117,28 @@ document.addEventListener('DOMContentLoaded',function(){
 });
 </script>
 
-<!-- PWA: offline + installable (layered on, non-invasive) -->
-<script>if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});</script>
+<!-- PWA: offline + installable + auto-update (layered on, non-invasive) -->
+<script>
+(function(){
+  if(!('serviceWorker' in navigator)) return;
+  // Was a worker already controlling this page at load? (false on a first-ever visit)
+  var hadController = !!navigator.serviceWorker.controller;
+  // When a NEW service worker takes control (after sw.js skipWaiting()+clients.claim()),
+  // reload ONCE so the page actually runs the new code. Without this, a returning user keeps
+  // running the old cached app for a whole session after a deploy. Guarded so a first-ever
+  // install and any repeat activation never trigger a reload loop.
+  var reloaded = false;
+  navigator.serviceWorker.addEventListener('controllerchange', function(){
+    if(reloaded || !hadController) return;
+    reloaded = true;
+    location.reload();
+  });
+  navigator.serviceWorker.register('sw.js').then(function(reg){
+    reg.update();                                          // check for a newer worker on every open
+    setInterval(function(){ reg.update(); }, 30*60*1000);  // and periodically if the app is left open
+  }).catch(function(){});
+})();
+</script>
 <!-- ask the browser to keep on-device progress (best-effort): cuts iOS Safari's ~7-day eviction of an uninstalled site -->
 <script>try{ if(navigator.storage&&navigator.storage.persist) navigator.storage.persist(); }catch(e){}</script>
 

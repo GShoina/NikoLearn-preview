@@ -1,5 +1,5 @@
 // NikoLearn service worker — offline-first app shell (HANDOFF §6 priority 5).
-const CACHE = 'nikolearn-1.319';
+const CACHE = 'nikolearn-1.320';
 const ASSETS = [
   './',
   './index.html',
@@ -75,10 +75,25 @@ self.addEventListener('fetch', e => {
     }).catch(() => r)));
     return;
   }
-  // Offline fallback to the app shell ONLY for page navigations. For a failed asset (JS/CSS/font),
-  // returning index.html's HTML would corrupt it — let those fail cleanly instead.
-  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request).catch(() => {
-    if (e.request.mode === 'navigate') return caches.match('./index.html');
-    return Response.error();
-  })));
+  // Page navigations: network-first with a short timeout, so an online returning user always gets the
+  // freshest shell (paired with the client-side controllerchange reload = fast auto-update), while an
+  // offline/slow user still falls back to the cached shell and the PWA opens normally.
+  if (e.request.mode === 'navigate') {
+    e.respondWith((async () => {
+      try {
+        const net = await Promise.race([
+          fetch(e.request, { cache: 'reload' }),
+          new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 3500))
+        ]);
+        if (net && net.ok) { const copy = net.clone(); caches.open(CACHE).then(c => c.put('./index.html', copy)); }
+        return net;
+      } catch (_) {
+        return (await caches.match(e.request)) || (await caches.match('./index.html'));
+      }
+    })());
+    return;
+  }
+  // Everything else (versioned JS/CSS/fonts): cache-first. For a failed asset, returning index.html's
+  // HTML would corrupt it — let those fail cleanly instead.
+  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request).catch(() => Response.error())));
 });
