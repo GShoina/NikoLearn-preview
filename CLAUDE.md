@@ -151,20 +151,26 @@ money/payment/spending, (c) irreversible deletion a backup cannot restore. Every
 default-go: read/audit, refactor, build, cleanup, local/branch self-test, any reversible technical
 work. Replace "should I do A or B?" with a senior-owner decision plus the outcome.
 
-## 7b. Preview → owner GO → Live (owner-locked 2026-06-26) — SUPERSEDES the old "agent owns subsequent deploys"
-The product is LIVE now and first impressions matter, so EVERY customer-facing change is gated by
-the owner SEEING it before it reaches nikolearn.com. New flow:
-- Internal / invisible work (bug hunt, refactor, self-test, branch work, audits) = proceed autonomously, as before.
-- ANY change a user can see or feel: build it on a branch, self-test (incl. the §6c visual gate), then
-  PRESENT it for review. Nothing hits nikolearn.com until the owner says "go".
-- A git COMMIT is NOT live — it is a safe branch checkpoint. The gate is the DEPLOY (push to the
-  production repo GShoina/NikoLearn `main`). Commit freely; never deploy to live without the owner's go.
-- Two review channels (owner chose BOTH, 2026-06-26): (a) DEFAULT = screenshots / rendered result in chat
-  (fastest, phone-friendly); (b) tappable PREVIEW SITE = https://gshoina.github.io/NikoLearn-preview/
-  (repo GShoina/NikoLearn-preview, Pages from main). To stage: push the candidate branch to the preview
-  repo's main; the URL rebuilds (~1-2 min); owner taps and tries on his phone.
-- On the owner's "go": deploy to GShoina/NikoLearn main → live-verify (fresh context, cache-bypass) → report.
-  Rollback stays `git revert` + push (~2 min); kids' progress is on-device, never lost.
+## 7b. Preview → GO → Live (REWRITTEN 2026-07-02 by owner order) — an ENGINE, never a brake
+WHY THIS EXISTS (do not lose): the owner's quality insurance. Two guarantees — (1) he can SEE/TEST a
+customer-facing change before it reaches nikolearn.com, (2) NO bug reaches live (reputation). It is NOT a
+reason to stop, idle, or hand a yes/no back. Using §7b to do nothing is the EXACT failure this rewrite kills.
+HOW IT WORKS NOW (default = keep moving, finish the phase):
+1. Build every customer-facing item to a COMPLETE, self-verified state — loop-წესი ≥8, `npm test` green,
+   `node qa/visual-gate.mjs` green + §6c screenshots I actually LOOKED at. Bugs are caught HERE, before the
+   owner ever sees it. This is the real insurance, not the pause.
+2. PREVIEW = SHOW THE RENDERED RESULT. Screenshots in chat are the DEFAULT preview channel and need NO push —
+   presenting them SATISFIES the "owner sees it" gate. (A tappable preview-site push is optional, only when
+   pushing is available.) Presenting the result is NOT a request for permission to continue.
+3. Then IMMEDIATELY move to the next plan item. NEVER stop to wait for GO. Commit each finished item locally
+   (commit ≠ live); the plan/loop keeps advancing across items.
+4. GO gates ONLY the final LIVE push (deploy to production `main`). Collect it asynchronously while you keep
+   building. If the environment blocks the push (a non-skip-permissions session), that is a ONE-TIME
+   permission matter for the owner — state it ONCE and keep working. It is NEVER your stopping point, and you
+   NEVER offload a push to the owner as a reason to stop.
+BANNED: ending a turn on "shall I proceed / go or X?" by appealing to §7b; handing a git push back as a
+stop-excuse. If you catch yourself doing either → finish the item, show the screenshot, start the next one.
+ROLLBACK: `git revert` (~2 min); kids' progress is on-device, never lost.
 
 ## 8. Writing style for human-facing text (NOT code)
 Applies to every string a human reads: in-app text, parent-dashboard messages, AI-tutor responses,
