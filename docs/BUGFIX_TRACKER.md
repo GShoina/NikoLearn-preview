@@ -38,6 +38,10 @@ reaches the owner. LOOP: weakest/highest-value open item → fix at choke-point 
 - [x] INV-3 owl-voice fan-out COMPLETE: listen-yle/yesno/speak/story returned from Tutor.build with no r.say
       (owl silent, TTS-fails on iOS) → added fixed ka say phrases + edge-tts clips (yle/yesno/speak/story_say.mp3)
       — v1.311. Live-verified: manifest ok, 4/4 mp3 HTTP 200, playClip true.
+- [x] INV-6 talk grammar + audio drift (owner): built a diff-tool (talk.js q vs manifest key) → found 5 orphans
+      (text fixed in talk.js, audio/key stale). Synced 4 prose cards to talk.js SSOT + regen clips: tlk_000
+      (plural agreement ყოფილიყო→ყოფილიყვნენ), tlk_018 (უყენებდე→უწესებდე), tlk_025 (tense), tlk_026 (reworded)
+      — v1.312. Verified: q→clip resolves, 4/4 mp3 200, old keys gone. tlk_045 poem left (edge). Gemini: NOT RUN (no key).
 
 ## Findings (verified, no code change needed)
 - "correct answer marks too fast": on the CURRENT live build a wrong math answer no longer flash-marks the
@@ -48,8 +52,7 @@ reaches the owner. LOOP: weakest/highest-value open item → fix at choke-point 
 1. [ ] **English flow clarity** — "დაიწყე აქედან" should be one tap = one ready session, not a
        6-mode × N-topic fork. (Customer-facing redesign — build + show before live.) v1.308 made the
        recommendation READABLE; this item is the deeper one-tap-session flow.
-2. [ ] **B3/B4 talk grammar** — text fixed; regen audio (tlk_024 etc.) + full Gemini+native grammar sweep (INV-6).
-3. [ ] **INV-1 teach before test** — math primer / multiplication table.
+2. [ ] **INV-1 teach before test** — math primer / multiplication table.
 4. [ ] **INV-2 answerOutcome resolver** — unify all wrong-answer handlers to one contract (the durable
        structural fix; fast-reveal + first-miss-teach are down-payments on it).
 5. [ ] **INV-4 adaptive ladder** for the flat modes (count/compare/skip/shapes/money/clock).

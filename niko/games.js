@@ -653,7 +653,32 @@ function easyFirstMath(type){
   if(type==='math-div'){const b=2,c=ri(2,5);return{q:`${b*c} ÷ ${b}`,a:c,op:'div',a1:b*c,a2:b};}
   return genMath(type);
 }
-function mathRound(m){game.mode=m;game.leveledMath=null;game.qs=Array.from({length:8},()=>genMath(m));
+// INV-1 teach-before-test (owner 07-02): before the FIRST multiplication round for a profile, teach the
+// principle (× = repeated addition) with a visual + owl voice. Shown once; the child taps "დავიწყოთ" to start.
+function mulPrimer(){
+  const s=state[profile]; const t=3,b=4; // fixed, concrete example that matches the voiced explanation
+  const row=n=>Array.from({length:n},()=>'🍎').join(' ');
+  const groups=Array.from({length:t},()=>`<div class="mp-row">${row(b)}</div>`).join('');
+  render(`<div class="screen results math-primer">
+    <div class="r-ring"><i>✖️</i></div>
+    <h2>გამრავლება მარტივია</h2>
+    <div class="reco" style="max-width:360px">
+      <div class="reco-lead">გამრავლება = ერთი და იგივე რიცხვის რამდენჯერმე შეკრება
+        <button class="reco-listen" aria-label="მოსმენა" onclick="try{playClip('გამრავლება ნიშნავს ერთი და იმავე რიცხვის რამდენჯერმე შეკრებას. დაითვალე ჯგუფებად და ერთად ვისწავლოთ.');}catch(e){}">🔊</button></div>
+      <div class="mp-eq">${t} × ${b}</div>
+      <div class="mp-groups">${groups}</div>
+      <div class="mp-sum">${t} ჯგუფი, თითოში ${b}: ${Array.from({length:t},()=>b).join(' + ')} = <b>${t*b}</b></div>
+    </div>
+    <div class="actions">
+      <button class="btn btn-primary btn-block" onclick="startMulAfterPrimer()">მზად ვარ, დავიწყოთ →</button>
+    </div>
+  </div>`,'home');
+  try{ if(typeof playClip==='function') playClip('გამრავლება ნიშნავს ერთი და იმავე რიცხვის რამდენჯერმე შეკრებას. დაითვალე ჯგუფებად და ერთად ვისწავლოთ.'); }catch(e){}
+}
+function startMulAfterPrimer(){ try{ if(state[profile]){ state[profile].mulPrimerSeen=true; save(); } }catch(e){} mathRound('math-mul'); }
+function mathRound(m){
+  if(m==='math-mul' && state[profile] && !state[profile].mulPrimerSeen){ return mulPrimer(); }
+  game.mode=m;game.leveledMath=null;game.qs=Array.from({length:8},()=>genMath(m));
   if(((state[profile]&&state[profile].sessions)||0)===0)game.qs[0]=easyFirstMath(m); // first-ever: winnable opener
   game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextMath();}
 function nextMath(){

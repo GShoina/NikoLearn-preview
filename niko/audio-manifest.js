@@ -31,6 +31,8 @@ window.AUDIO_MANIFEST = {
  "დააკვირდი სურათს. თუ წინადადება ემთხვევა, თქვი კი. თუ არა, თქვი არა.": "yesno_say.mp3",
  "მოუსმინე კითხვას, მერე ხმამაღლა უპასუხე ინგლისურად. მთავარია სცადო.": "speak_say.mp3",
  "ჯერ წაიკითხე ამბავი, მერე კითხვა. პასუხი თვითონ ტექსტშია.": "story_say.mp3",
+ // v1.313 — multiplication primer (teach-before-test, INV-1): owl explains the principle once before the first mul round.
+ "გამრავლება ნიშნავს ერთი და იმავე რიცხვის რამდენჯერმე შეკრებას. დაითვალე ჯგუფებად და ერთად ვისწავლოთ.": "mulprimer.mp3",
  // v1.118 — Georgian reading expansion (edge-tts ka-GE-EkaNeural): new words/syllables/sentences
  "ფე": "krd_000.mp3",
  "ხი": "krd_001.mp3",

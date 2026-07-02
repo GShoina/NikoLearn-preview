@@ -787,6 +787,12 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
 .results .reco-listen{border:none;background:var(--sky-d,#3b7bd6);color:#fff;width:34px;height:34px;border-radius:50%;
   font-size:1rem;cursor:pointer;display:inline-grid;place-items:center;flex:0 0 auto;padding:0}
 .results .reco-listen:active{transform:scale(.92)}
+/* v1.313 — multiplication primer (INV-1 teach-before-test) */
+.math-primer .mp-eq{font-size:clamp(2rem,9vw,2.6rem);font-weight:800;color:var(--primary-d);margin:10px 0 6px;letter-spacing:2px}
+.math-primer .mp-groups{display:flex;flex-direction:column;gap:6px;align-items:center;margin:6px 0 10px}
+.math-primer .mp-row{font-size:clamp(1.3rem,6vw,1.8rem);letter-spacing:2px;background:color-mix(in oklch,var(--sun) 16%,var(--card));border-radius:12px;padding:4px 12px}
+.math-primer .mp-sum{font-size:clamp(1rem,3.8vw,1.18rem);line-height:1.5;color:var(--ink)}
+.math-primer .mp-sum b{color:var(--green-d,#1a7a3a);font-size:1.15em}
 .tagrow{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
 .tag{font-size:.74rem;font-weight:600;padding:5px 10px;border-radius:999px}
 .tag.weak{color:var(--primary-d);background:color-mix(in oklch,var(--primary) 12%,var(--card))}
