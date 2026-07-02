@@ -35,6 +35,9 @@ reaches the owner. LOOP: weakest/highest-value open item → fix at choke-point 
 - [x] INV-5 puzzle/riddle objects too small on phone (owner 07-02): pattern/math-pat numbers + rebus/model
       strand text + triangle (fluid box + %-positioned labels + clamp fonts) all clamp-fluid & BIGGER on phone
       — v1.310. Verified @390px: pattern 30→35px, rebus 24→26px, triangle val 15→18px, box 90→117px, aligned.
+- [x] INV-3 owl-voice fan-out COMPLETE: listen-yle/yesno/speak/story returned from Tutor.build with no r.say
+      (owl silent, TTS-fails on iOS) → added fixed ka say phrases + edge-tts clips (yle/yesno/speak/story_say.mp3)
+      — v1.311. Live-verified: manifest ok, 4/4 mp3 HTTP 200, playClip true.
 
 ## Findings (verified, no code change needed)
 - "correct answer marks too fast": on the CURRENT live build a wrong math answer no longer flash-marks the
@@ -45,13 +48,11 @@ reaches the owner. LOOP: weakest/highest-value open item → fix at choke-point 
 1. [ ] **English flow clarity** — "დაიწყე აქედან" should be one tap = one ready session, not a
        6-mode × N-topic fork. (Customer-facing redesign — build + show before live.) v1.308 made the
        recommendation READABLE; this item is the deeper one-tap-session flow.
-2. [ ] **INV-3 tutor speaks ka fan-out** — clips live for pattern/math/subjects (v1.302/1.305); extend
-       fixed voiceable phrases to the remaining hint modes (alpha/vocab detail) so the owl talks everywhere.
-3. [ ] **B3/B4 talk grammar** — text fixed; regen audio (tlk_024 etc.) + full Gemini+native grammar sweep (INV-6).
-4. [ ] **INV-1 teach before test** — math primer / multiplication table.
-5. [ ] **INV-2 answerOutcome resolver** — unify all wrong-answer handlers to one contract (the durable
+2. [ ] **B3/B4 talk grammar** — text fixed; regen audio (tlk_024 etc.) + full Gemini+native grammar sweep (INV-6).
+3. [ ] **INV-1 teach before test** — math primer / multiplication table.
+4. [ ] **INV-2 answerOutcome resolver** — unify all wrong-answer handlers to one contract (the durable
        structural fix; fast-reveal + first-miss-teach are down-payments on it).
-6. [ ] **INV-4 adaptive ladder** for the flat modes (count/compare/skip/shapes/money/clock).
+5. [ ] **INV-4 adaptive ladder** for the flat modes (count/compare/skip/shapes/money/clock).
 
 Legend: `[ ]` open · `[~]` partial · `[x]` DONE + live.
 Architecture SSOT: `docs/INTERACTION_CONTRACT.md`. Branch note: hotfixes linear on main; F2 feature branch
