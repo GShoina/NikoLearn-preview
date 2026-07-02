@@ -5,7 +5,42 @@
 > Architecture SSOT: `docs/HANDOFF.md`. Full pre-2026-06-28 history (307KB) → `docs/archive/2026-06/SESSION-HANDOFF_20260628_full.md`.
 > This file = current state + open items ONLY (keep < 30KB).
 
-## ▶ RESUME HERE (2026-07-02 · session 2) — DEEP AUDIT done + v1.316/1.317 SHIPPED LIVE; ⚠ Fable5 co-editing this branch
+## ▶ RESUME HERE (2026-07-02 · session 3) — v1.319 HOME re-skin + v1.320 PWA auto-update SHIPPED LIVE; Pages deploy MIGRATED to GitHub Actions
+
+**LIVE on nikolearn.com: v1.320** (GShoina/NikoLearn main = `f30d795`). Live-verified: screens.js APP_VERSION 1.320,
+sw cache nikolearn-1.320, landing footer v1.320, index.html auto-update code present, HOME re-skin (design-06) renders
+clean on real device width (full-page screenshot looked at: greeting + 🔥streak + 🪙 coins + „გააგრძელე" continue-card +
+jelly subject tiles in category hues + water-dock nav).
+
+**SHIPPED this session (on `deploy/pattern-owl` → pushed to main):**
+- **v1.319 / v2.000 installment-1** (`3d7bc81`): HOME re-skin to design-06, responsive subject tiles (clamp/min-width),
+  unified soft-squircle back button (`backBtn()` in core.js), Georgian ka-alpha samples, first-run coin (star→🪙).
+- **v1.320** (`8ed8f55`): **PWA auto-update.** Returning users kept running old cached app for a whole session after a
+  deploy; sw.js had skipWaiting+clients.claim but the page never reloaded into the new worker. Fix: index.html listens for
+  `controllerchange` → reload ONCE (guarded by `hadController` so first install + repeat activations never loop) +
+  `reg.update()` on every open + every 30 min; sw.js navigations now network-first (3.5s timeout, cache fallback). Benefit
+  kicks in FROM 1.320 onward (existing users on the pre-1.320 cached index lack the listener, so the hop INTO 1.320 is the
+  last slow one; future deploys auto-reach users in seconds).
+
+**⚠️ DEPLOY PIPELINE CHANGED — Pages source is now GitHub Actions, NOT "deploy from branch".** Root cause found this
+session: the legacy per-file CDN sync of ~1732 repo files (mostly 1419 audio clips) hit the 10-min Pages **deploy** step
+timeout — failed 3× in a row (build always ✅ ~42s, deploy step `errored` at 10min; GitHub status showed "operational").
+Migrated to `.github/workflows/deploy-pages.yml` (`d07e473`/`f30d795`): checkout → rsync into `_site` excluding
+dev/build-only dirs (android, v2-prototype, docs, tools, qa, node_modules, .git, .github, scratchpad, output) → 
+`upload-pages-artifact@v3` (single tar) → `deploy-pages@v4`. `gh api -X PUT .../pages -f build_type=workflow` flipped the
+source; CNAME `nikolearn.com` preserved. **KNOWN QUIRK:** GitHub's Pages **publish backend was slow today** — even the
+Actions `deploy-pages` step reported `failure` (it polls max 10min, GitHub caps the `timeout` input at 600000ms so a longer
+value is ignored) BUT the site DID publish (live went to 1.320 despite the red run). So a red "Deploy to GitHub Pages" run
+does NOT necessarily mean the deploy failed — **always verify the live asset version by curl before concluding**. Deploy
+command is unchanged for the author (`git push origin deploy/pattern-owl:main`); the Actions workflow now does the publish.
+
+**NEXT (queued):** v2 installment-2 = re-skin SUBJECT + ROUND screens to design-07/08; first-run made demoable on preview;
+self-host Poppins; Fable microcopy pass. Talk-card clips tlk_051-070 (edge-tts) + integration. Leveled content banks
+integration (owner + Gemini QA). Telemetry cluster (below) still open.
+
+---
+
+## ▶ (prev) 2026-07-02 · session 2 — DEEP AUDIT done + v1.316/1.317 SHIPPED LIVE; ⚠ Fable5 co-editing this branch
 
 **LIVE on nikolearn.com: v1.317** (GShoina/NikoLearn main = `9423301`). Live-verified: APP_VERSION 1.317, sw cache
 1.317, tutor leak-guard present, VIS tokens present. Deploy path unchanged: work on `deploy/pattern-owl` →
