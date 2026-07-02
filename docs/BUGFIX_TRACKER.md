@@ -45,20 +45,35 @@ reaches the owner. LOOP: weakest/highest-value open item → fix at choke-point 
 - [x] INV-1 teach-before-test (owner 07-02): multiplication primer before the first mul round (per profile,
       flag mulPrimerSeen) — teaches × = repeated addition with a visual (3 groups of 4 apples = 12) + owl clip.
       Tap „დავიწყოთ" → real round. — v1.313. Verified @390px: primer renders, listen, start-flow sets flag, 2nd skips.
+- [x] INV-4 adaptive ladder for flat modes (owner 07-02): shared flatTier(mode) 1-3 climbs on a 4-correct
+      mastery streak; bumpFlat in each handler. compare 10→20→100, skip ×5→×10→×2/3/4, clock +half hours at t2,
+      money 2→4 items+more lari — v1.314. Verified: tier climbs+caps, wrong resets, generation scales, renders clean.
+      (count/shapes left un-tiered: young foundational / small fixed pool = little headroom.)
 
 ## Findings (verified, no code change needed)
+- INV-2 answerOutcome resolver — ASSESSED, refactor NOT done (deliberate). Fresh audit of all wrong-answer
+  handlers: behaviour is ALREADY consistent via 3 appropriate primitives — reQueueWrong (9 handlers),
+  teachAndConfirm (listen-yle/yesno/story/spell), rule-reveal on 2nd miss (pattern/reason). exam = no-teach
+  BY DESIGN (assessment), count = retry-till-right BY DESIGN (youngest mode). The original "15 handlers, only
+  9 share the contract" framing was overstated. Forcing all into ONE monolithic answerOutcome is the WRONG
+  abstraction — it would break exam (must not teach) and count (must retry). User-facing value = zero; regression
+  risk across 15 modes = high. Correct architecture (small shared primitives, each handler picks the right one)
+  already exists. Not shipping a risky invisible refactor for elegance. [If owner still wants the consolidation
+  purely for maintainability, it's optional tech-debt, do it in isolation with a full per-mode test pass.]
 - "correct answer marks too fast": on the CURRENT live build a wrong math answer no longer flash-marks the
   correct one (verified via a timed DOM timeline) — it teaches (hint 1st miss, gated teach card 2nd miss).
   This was the OLD behaviour before v1.300/v1.302. Re-test on v1.303; if it persists, name the exact mode.
 
 ## ⏳ OPEN — priority order
-1. [ ] **English flow clarity** — "დაიწყე აქედან" should be one tap = one ready session, not a
-       6-mode × N-topic fork. (Customer-facing redesign — build + show before live.) v1.308 made the
-       recommendation READABLE; this item is the deeper one-tap-session flow.
+1. [~] **English flow clarity — one-tap "დაიწყე აქედან"** — BUILT + verified, PREVIEW ready, awaiting owner GO
+       (§7b customer-facing gate; committed to branch, NOT pushed to live). Results screen: primary button now
+       LAUNCHES the recommended ready session in one tap (startHereGo: real step action, or for English milestone
+       steps → the vocab quiz startGame('quiz')), tappable topic chip, + secondary "ყველა თემა" for free-roam.
+       Verified @390px: english one-tap → quiz session (not menu), math → math-add, renders clean. Screenshots sent.
 2. [ ] **INV-4 adaptive ladder** for the flat modes (count/compare/skip/shapes/money/clock). [reordered
        ahead of INV-2: visible value + lower risk; INV-2's user-facing behaviour already shipped via down-payments].
-3. [ ] **INV-2 answerOutcome resolver** — unify all wrong-answer handlers to one contract (durable structural
-       fix, INVISIBLE to users; fast-reveal + first-miss-teach already shipped the behaviour). Do LAST, full test.
+3. [x] **INV-2 answerOutcome resolver** — ASSESSED (see Findings): behaviour already consistent via 3 correct
+       primitives; monolithic contract = wrong abstraction (would break exam/count). No refactor shipped (senior call).
 
 Legend: `[ ]` open · `[~]` partial · `[x]` DONE + live.
 Architecture SSOT: `docs/INTERACTION_CONTRACT.md`. Branch note: hotfixes linear on main; F2 feature branch
