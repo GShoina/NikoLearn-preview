@@ -100,12 +100,24 @@ D8-F8 submode-in-abandon); wrong-answer-handler routing (D3-F1/PED-6/AITUTOR-04 
 Fable5's tutor.js); PED-3 (count=retry-till-right is BY DESIGN, do NOT consolidate); exam gating PED-7; H5-4
 i18n regex (verify vs live emit-strings first); shapes mastery tier D3-F5; readability rubric into gate D3-F7.
 
-## ⏳ OPEN — priority order
-(no open items)
-2. [ ] **INV-4 adaptive ladder** for the flat modes (count/compare/skip/shapes/money/clock). [reordered
-       ahead of INV-2: visible value + lower risk; INV-2's user-facing behaviour already shipped via down-payments].
-3. [x] **INV-2 answerOutcome resolver** — ASSESSED (see Findings): behaviour already consistent via 3 correct
-       primitives; monolithic contract = wrong abstraction (would break exam/count). No refactor shipped (senior call).
+## ⏳ OPEN — priority order (owner firehose 2026-07-02; plans: docs/FABLE5-ACTION-PLAN.md · LEVELED-CONTENT-ROADMAP.md · ANALYTICS-ABANDONMENT-2026-07-02.md)
+0. [x] 🔴 **Owl answer-leak choke-point + commit** — already done pre-session (v1.316 / commit 6b23c2c): countSeq/
+       mulSeq stop >=1 short, 0 reveals over 674 math count-on combos. Staged, NOT live. (Residual all-modes audit -> #4.)
+0b.[x] **v1.317 accessibility fixes committed** (were uncommitted, interrupted) -> commit a2361f2. Staged, NOT live.
+1. [ ] **Talk cards -> OUR card design** (owner APPROVED the 20). theme/char/emoji/subs/min + grade by age +
+       edge-tts clips tlk_051+ + dedup vs 50-deck -> preview -> GO -> live. **(NEXT ACTION.)**
+2. [ ] **Leveled content integration** (Math 17 + English 17 self-verified; Kings next). Owner+Gemini QA ->
+       wire behind band gates (isYoung/isBig/kingsLevel) -> clips -> preview -> GO. Review HTMLs sent.
+3. [ ] **q0-abandonment fix (DATA-DRIVEN)**: 53% of abandons are on the FIRST question; math 65% / kings 59% worst.
+       Warm-up/primer + gentle first item + inviting first-screen visual, math & kings first.
+4. [ ] **Tutoring = explain the PRINCIPLE** (owner #3): Fable band-aware explanations (x-table, 1-2 unknown
+       equations, place value, fractions) + teach/primer flow. Tier-2 moat. Includes all-modes answer-leak audit.
+5. [ ] **Owl (bu) upgrade** (owner #4): richer/varied/band-aware persona + warm round-entry intro (ties #3/#4).
+6. [ ] **Georgian voice eval** (owner #5, NOT Fable): edge-tts voice/SSML/rate; child intelligibility; options+cost.
+7. [ ] **Letter-tracing (centerline) polish** — parked, verified-good; finish later (owner: needs polish).
+8. [ ] **Design polish + "wow"** (v2) — last, rides on 1-6.
+- ANALYTICS finding: retention ("do they return") NOT measurable by design (no persistent ID = child PII);
+  q0 abandonment is the lever. Full read: docs/ANALYTICS-ABANDONMENT-2026-07-02.md.
 
 Legend: `[ ]` open · `[~]` partial · `[x]` DONE + live.
 Architecture SSOT: `docs/INTERACTION_CONTRACT.md`. Branch note: hotfixes linear on main; F2 feature branch

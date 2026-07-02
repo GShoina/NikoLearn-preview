@@ -5,6 +5,41 @@
 > Architecture SSOT: `docs/HANDOFF.md`. Full pre-2026-06-28 history (307KB) → `docs/archive/2026-06/SESSION-HANDOFF_20260628_full.md`.
 > This file = current state + open items ONLY (keep < 30KB).
 
+## ▶ RESUME HERE (2026-07-02 · session 2) — DEEP AUDIT done + v1.316/1.317 SHIPPED LIVE; ⚠ Fable5 co-editing this branch
+
+**LIVE on nikolearn.com: v1.317** (GShoina/NikoLearn main = `9423301`). Live-verified: APP_VERSION 1.317, sw cache
+1.317, tutor leak-guard present, VIS tokens present. Deploy path unchanged: work on `deploy/pattern-owl` →
+`git push origin deploy/pattern-owl:main`. **NEW deploy guard:** `.git/hooks/pre-push` runs `npm test` and BLOCKS any
+push to `main` if the gate fails (drift class can't ship silently). Hook is local to this clone, NOT git-tracked.
+
+**⚠️ DUAL-AGENT — Fable5 is co-committing to the SAME `deploy/pattern-owl` branch in the SAME working tree.** This
+session it committed my v1.317 batch (`a2361f2`) + its own docs (`9423301`: FABLE5-ACTION-PLAN, LEVELED-CONTENT-ROADMAP,
+fable-leveled-banks, ANALYTICS-ABANDONMENT). Owner has Fable5 fixing the **tutor.js answer-leak** in another window —
+BUT right now the LIVE tutor.js = MY v1.316 fix (`countSeq`/`mulSeq`, 0 leaks / 674 combos). If Fable5 pushes its own
+tutor.js fix it layers on mine → **coordinate: one agent owns tutor.js, sync before push, or non-ff collision.**
+
+**DEEP AUDIT 2026-07-02 (8-dim Quality-Audit standard, 40-agent workflow, method-upgraded per-mode matrix + play-on-phone).**
+Full result JSON: `tasks/w51l1kdx2.output` (parse `.result`). Scoreboard (ship gate FAILED, all <8, weakest-first):
+**D8=3 · D7=4 · D3=5 · D4=5 · D6=5 · D1=6 · D2=6 · D5=7.** 48 confirmed findings (1 CRIT, 1 HIGH, 28 MED, 18 LOW).
+Workflow script: `.claude/.../workflows/scripts/nikolearn-omission-audit-wf_a3d5d2c9-2c3.js` (resumable).
+
+**SHIPPED LIVE this session (all in `BUGFIX_TRACKER.md`):**
+- v1.316 🔴 CRIT owl answer-leak (tutor.js choke-point) + 🟠 HIGH version-drift delivery (sw cache was frozen 1.297
+  while app=1.315 → returning PWA users stuck 18 versions; bump.mjs synced all 3 sites; this deploy delivered the backlog).
+- v1.317 accessibility batch: VIS-2 shield contrast 2.48→5.55, VIS-3 break-screen faint 3.04→4.61, VIS-6 m-sub/
+  section-label mobile font, VIS-1 topbar wrap, H5-3 privacy dates → 2026-07-02.
+
+**NEXT (queued, NOT done — honest split in BUGFIX_TRACKER „OPEN — audit remainder"):**
+- **Telemetry cluster (lifts D8=3, the weakest):** submode-in-round_abandon/complete (fixes pattern-105%/exam-0% class),
+  shared MODE-ENUM SSOT (client↔Worker drift), wire phantom KPIs, exam_result band, hint events. **Needs a Cloudflare
+  Worker redeploy** (`cd cloudflare && CLOUDFLARE_API_TOKEN=$CF_NIKO_API_TOKEN … npx wrangler@4 deploy`) → do as one
+  controlled pass, don't collide with Fable5.
+- **Bucket B = owner FORKS (money/asset/expertise, NOT code-loop-fixable):** CEFR/Common-Core tagging, A/B framework,
+  native-voice recording+loudnorm, font self-hosting, per-unit sign-off ledger.
+- **Do NOT re-surface:** PED-3 (count=retry-till-right BY DESIGN); INV-2 monolithic answerOutcome (wrong abstraction).
+
+---
+
 ## ▶ RESUME HERE (2026-07-02) — bug-fix sprint DONE, all live; v2.00 Sunlit design still the next big rock
 
 **LIVE on nikolearn.com: v1.315** (GShoina/NikoLearn main = commit 304d38b). Deploy mechanism this whole
