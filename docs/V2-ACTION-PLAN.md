@@ -36,6 +36,30 @@ is a separate privacy decision (add a privacy-safe aggregate returning-visitor c
 ## Guardrails (unchanged): §11 original, §8 no em dash, math self-verified, §6f Gemini+native, §6c visual gate,
 ## §7b preview->GO, §12 loop (each criterion >=8). Fable5 only for authored Georgian text, not code/TTS.
 
-## Start now
-Building v2.0 activation first (the measured lever). Fable5 authors the warm owl round-entry intros +
-encouragement lines (band-aware); code generalizes the warm-up/gentle-first-item flow + round-entry redesign.
+## EXISTING v2 design assets — REVIEWED 2026-07-02 (do NOT reinvent, BUILD to these)
+The owner already designed v2. Two branches hold it:
+- `feat/v2-thinking-first` -> `v2-prototype/extracted/` = the owner's hand-designed FIRST-RUN FLOW, 8 screens +
+  MANIFEST + 73 icons + niko assets, extracted from `Downloads/ნიკო - სწრაფი დაწყება (ერთიანი).html`.
+  Screens: 01 OPEN (voice greet + 3 big jelly buttons რიცხვები/ასოები/ენა) · 02 TAP (pick a picture) ·
+  03 "ყოჩაღ, წავედით" ~1s transition · 04 FIRST TASK (voice+pictures, no writing) · 05 FIRST WIN under a
+  minute (green celebrate, star +1, "≈50 წამი" timer, "კიდევ ერთი") · 06 HOME (jelly cards + water-dock nav +
+  streak/stars + continue-card) · 07 SUBJECT winding path · 08 STAGE cards inside a subject. Also has
+  thinking-first UX code: child-paced win button, Socratic wrong-answer, mobile-fluid tiles.
+- `v2-sunlit-f2` = Sunlit visual layer partially implemented: jelly-card .opt tiles, vivid counting cards,
+  pattern-owl clips. (All v2 commits are branch-only / NOT yet live.)
+- Design tokens (MANIFEST): ink #2A1C12, orange brand #FF8A00, green #00C48C, red #E2483D, cream #FAF5EC/#FFF3DF,
+  category hues blue #2E86DE / pink #EC4899. Fonts Inter + Poppins + Noto Sans Georgian.
+RENDERED + verified 2026-07-02 (§6c): design-01/05/06 look polished, coherent, kid-warm, professional.
+
+## KEY INSIGHT (reconciliation)
+The owner's designed first-run flow IS the data-backed activation solution: screens 01->05 take a child from
+open to a FIRST WIN under a minute = exactly the fix for the q0-abandonment (53%). So v2.0 = IMPLEMENT the
+owner's designs, not invent new ones. My Fable5 activation copy (15 greetings + 12 encouragement + 5 warm-up
+lines, Gemini-QA'd) plugs straight into design-01 (greet) + design-04/05 (first task/win). Leveled content
+feeds design-07/08 (path/stage). Sunlit feeds design-06 (home).
+
+## Start now (revised)
+v2.0 = build the owner's first-run activation flow (design 01-05) into the app + Sunlit home (06). HARVEST the
+partial code from the two branches (jelly tiles, child-paced win, Socratic wrong-answer) rather than rewrite.
+Plug in the Gemini-QA'd Fable copy. §6c render-verify each screen, preview -> owner GO -> live. Then v2.1
+(leveled depth + path/stage 07/08 + principle-tutor), v2.2 (voice + wow + talk clips).
