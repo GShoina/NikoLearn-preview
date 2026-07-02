@@ -29,6 +29,9 @@ reaches the owner. LOOP: weakest/highest-value open item → fix at choke-point 
 - [x] post-test recommendation was tiny (.88rem) + buried "which topic" (owner 07-02): placement results now a
       readable `.reco` card — prominent adaptive topic (clamp 1.28-1.7rem), readable lead/sub, + listen button
       (reco_start.mp3, edge-tts ka; playClip-gated) — v1.308. Live-verified: topic 27px, mp3 HTTP 200.
+- [x] readability STRUCTURE fan-out beyond units/tens (owner 07-02): 4 inline-list hints → .r-lead + .r-item
+      bullets (compare >/</=, shapes, clock hands, EN subject-verb) — v1.309. speakHint strips tags, csay clip
+      covers voice (§6-safe). Live-verified: r-item=13, rendered as bullets, 0 errors.
 
 ## Findings (verified, no code change needed)
 - "correct answer marks too fast": on the CURRENT live build a wrong math answer no longer flash-marks the
@@ -39,16 +42,14 @@ reaches the owner. LOOP: weakest/highest-value open item → fix at choke-point 
 1. [ ] **English flow clarity** — "დაიწყე აქედან" should be one tap = one ready session, not a
        6-mode × N-topic fork. (Customer-facing redesign — build + show before live.) v1.308 made the
        recommendation READABLE; this item is the deeper one-tap-session flow.
-2. [ ] **Readability STRUCTURE fan-out** — apply the lead/item/end structured spans (v1.303) to the other
-       multi-part hints (build-a-ten, kingsMath, etc.), not just units/tens.
-3. [ ] **Puzzle/riddle objects too small on phone** (INV-5) — content objects clamp-fluid at 320/360/390.
-4. [ ] **INV-3 tutor speaks ka fan-out** — clips live for pattern/math/subjects (v1.302/1.305); extend
+2. [ ] **Puzzle/riddle objects too small on phone** (INV-5) — content objects clamp-fluid at 320/360/390.
+3. [ ] **INV-3 tutor speaks ka fan-out** — clips live for pattern/math/subjects (v1.302/1.305); extend
        fixed voiceable phrases to the remaining hint modes (alpha/vocab detail) so the owl talks everywhere.
-5. [ ] **B3/B4 talk grammar** — text fixed; regen audio (tlk_024 etc.) + full Gemini+native grammar sweep (INV-6).
-6. [ ] **INV-1 teach before test** — math primer / multiplication table.
-7. [ ] **INV-2 answerOutcome resolver** — unify all wrong-answer handlers to one contract (the durable
+4. [ ] **B3/B4 talk grammar** — text fixed; regen audio (tlk_024 etc.) + full Gemini+native grammar sweep (INV-6).
+5. [ ] **INV-1 teach before test** — math primer / multiplication table.
+6. [ ] **INV-2 answerOutcome resolver** — unify all wrong-answer handlers to one contract (the durable
        structural fix; fast-reveal + first-miss-teach are down-payments on it).
-8. [ ] **INV-4 adaptive ladder** for the flat modes (count/compare/skip/shapes/money/clock).
+7. [ ] **INV-4 adaptive ladder** for the flat modes (count/compare/skip/shapes/money/clock).
 
 Legend: `[ ]` open · `[~]` partial · `[x]` DONE + live.
 Architecture SSOT: `docs/INTERACTION_CONTRACT.md`. Branch note: hotfixes linear on main; F2 feature branch

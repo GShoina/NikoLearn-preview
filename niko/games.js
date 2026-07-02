@@ -661,7 +661,7 @@ function nextMath(){
   const q=game.qs[game.i];game.cur=q;
   const canHarder=mathLvl(game.mode)<((MATH_LV[game.mode]||[{}]).length-1);
   const why=game.i===0&&MATH_WHY[game.mode]?`<div style="background:#fff8ee;border:1px solid #ffe2bd;border-radius:14px;padding:9px 14px;margin-bottom:12px;font-size:.9rem;color:#6b5640;line-height:1.4">🦉 ${whyText(game.mode)}</div>`:'';
-  gameShell(`${why}<div class="prompt"><div class="p-word num" style="font-size:2.4rem;letter-spacing:2px">${q.q}</div>${q.pat?'<div class="p-sub">იპოვე კანონზომიერება</div>':''}</div>
+  gameShell(`${why}<div class="prompt"><div class="p-word num" style="font-size:clamp(2.3rem,10vw,3rem);letter-spacing:2px">${q.q}</div>${q.pat?'<div class="p-sub">იპოვე კანონზომიერება</div>':''}</div>
     <div class="options">${mathOpts(q.a).map(o=>`<button class="opt num" onclick="answerMath(this,${o},${q.a})">${o}</button>`).join('')}</div>
     ${canHarder?`<button class="btn btn-ghost" style="margin-top:16px;font-size:.95rem" onclick="mathHarder()">⏫ ${window.UILANG==='en'?'Make it harder':'გამირთულე'}</button>`:''}`);
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
@@ -1191,7 +1191,7 @@ function nextPattern(){
   const q=game.qs[game.i];game.cur=q;
   const tn=['','დამწყები','საშუალო','რთული'][q.tier]||'';
   gameShell(`<div class="prompt"><div class="section-label">🧩 კანონზომიერება</div>
-      <div class="p-word num" style="font-size:1.9rem;letter-spacing:2px">${q.q}</div>
+      <div class="p-word num" style="font-size:clamp(2rem,9vw,2.6rem);letter-spacing:2px">${q.q}</div>
       <div class="p-sub">იპოვე წესი: რა მოდის ?-ის ნაცვლად</div></div>
     <div class="options">${q.opts.map(o=>`<button class="opt num" onclick="answerPattern(this,${o},${q.a})">${o}</button>`).join('')}</div>`);
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
@@ -1266,15 +1266,17 @@ function genTriangle(tier){ tier=Math.max(1,Math.min(3,tier||1));
   let items, tries=0;
   do { items=build(); } while(++tries<25 && ALT.some(fn=>{ for(let i=0;i<3;i++){ const s=items[i]; if(fn(s.t,s.l,s.r)!==s.c) return false; } return true; }));
   const target=items[3], ans=target.c;
-  const tri=(o,solved)=>`<div style="position:relative;width:90px;height:72px">`
+  // INV-5 (owner 07-02: puzzle objects too small on phone): fluid box (clamp) + %-based label positions so
+  // the numbers stay aligned as the triangle scales, and clamp fonts so the values grow on a real phone.
+  const tri=(o,solved)=>`<div style="position:relative;width:clamp(104px,30vw,128px);height:clamp(83px,24vw,102px)">`
     +`<svg viewBox="0 0 90 72" style="position:absolute;inset:0;width:100%;height:100%"><polygon points="45,5 6,67 84,67" fill="${solved?'rgba(0,166,81,.08)':'rgba(107,99,181,.10)'}" stroke="${solved?'#9ed8b4':'#8e84d6'}" stroke-width="1.6"/></svg>`
-    +`<div style="position:absolute;top:6px;left:50%;transform:translateX(-50%);font-size:.95rem;font-weight:800">${o.t}</div>`
-    +`<div style="position:absolute;top:30px;left:50%;transform:translateX(-50%);font-size:1.15rem;font-weight:900;color:${solved?'#0a7d3f':'var(--primary-d)'}">${solved?o.c:'?'}</div>`
-    +`<div style="position:absolute;bottom:5px;left:12px;font-size:.95rem;font-weight:800">${o.l}</div>`
-    +`<div style="position:absolute;bottom:5px;right:12px;font-size:.95rem;font-weight:800">${o.r}</div>`
+    +`<div style="position:absolute;top:8%;left:50%;transform:translateX(-50%);font-size:clamp(1.05rem,4.6vw,1.35rem);font-weight:800">${o.t}</div>`
+    +`<div style="position:absolute;top:42%;left:50%;transform:translateX(-50%);font-size:clamp(1.25rem,5.4vw,1.6rem);font-weight:900;color:${solved?'#0a7d3f':'var(--primary-d)'}">${solved?o.c:'?'}</div>`
+    +`<div style="position:absolute;bottom:7%;left:13%;font-size:clamp(1.05rem,4.6vw,1.35rem);font-weight:800">${o.l}</div>`
+    +`<div style="position:absolute;bottom:7%;right:13%;font-size:clamp(1.05rem,4.6vw,1.35rem);font-weight:800">${o.r}</div>`
     +`</div>`;
-  const q=`<div style="font-size:.82rem;color:var(--muted);margin:0 0 6px;text-align:center">გამოიცანი წესი 🟩 ამოხსნილი მაგალითებიდან, მერე იპოვე ?</div>`
-    +`<div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;align-items:center;max-width:300px;margin:0 auto">`
+  const q=`<div style="font-size:clamp(.82rem,3.2vw,.95rem);color:var(--muted);margin:0 0 6px;text-align:center">გამოიცანი წესი 🟩 ამოხსნილი მაგალითებიდან, მერე იპოვე ?</div>`
+    +`<div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;max-width:340px;margin:0 auto">`
     + items.slice(0,3).map(o=>tri(o,true)).join('') + tri(target,false) + `</div>`;
   const rule=`წესი: (ზედა + ქვედა-მარცხ.) × ქვედა-მარჯვ. = ცენტრი. ანუ (${target.t} + ${target.l}) × ${target.r} = <b>${ans}</b>`;
   return {q, a:ans, opts:pat3opts(ans), rule, tier};
@@ -1297,7 +1299,7 @@ function nextReason(){
   const q=game.qs[game.i];game.cur=q;
   const tn=['','დამწყები','საშუალო','რთული'][q.tier]||'';
   gameShell(`<div class="prompt"><div class="section-label">${game.rStrand.label}</div>
-      <div class="p-word" style="font-size:1.5rem;line-height:1.55;letter-spacing:1px">${q.q}</div>
+      <div class="p-word" style="font-size:clamp(1.6rem,6.5vw,2rem);line-height:1.55;letter-spacing:1px">${q.q}</div>
       <div class="p-sub">იპოვე პასუხი</div></div>
     <div class="options">${q.opts.map(o=>`<button class="opt num" onclick="answerReason(this,${o},${q.a})">${o}</button>`).join('')}</div>`);
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
