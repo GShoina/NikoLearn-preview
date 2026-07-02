@@ -9,7 +9,9 @@
   "scripts": {
     "test": "node qa/qa-check.mjs --gate",
     "qa": "node qa/qa-check.mjs",
-    "qa:fix": "node qa/qa-check.mjs --fix --gate"
+    "qa:fix": "node qa/qa-check.mjs --fix --gate",
+    "qa:visual": "node qa/visual-gate.mjs",
+    "qa:visual:shots": "node qa/visual-gate.mjs --shots"
   },
   "repository": {
     "type": "git",
@@ -27,5 +29,8 @@
     "@capacitor/android": "^8.4.1",
     "@capacitor/cli": "^8.4.1",
     "@capacitor/core": "^8.4.1"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.61.1"
   }
 }

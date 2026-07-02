@@ -5,7 +5,19 @@
 > Architecture SSOT: `docs/HANDOFF.md`. Full pre-2026-06-28 history (307KB) → `docs/archive/2026-06/SESSION-HANDOFF_20260628_full.md`.
 > This file = current state + open items ONLY (keep < 30KB).
 
-## ▶ RESUME HERE (2026-07-02 · session 3) — v1.319 HOME re-skin + v1.320 PWA auto-update SHIPPED LIVE; Pages deploy MIGRATED to GitHub Actions
+## ▶ RESUME HERE (2026-07-02 · session 4) — ACTION PLAN v2 APPROVED (owner) → `docs/ACTION-PLAN-2026-07-02.md` is SSOT
+
+**Owner rebuilt strategy this session.** Growth model LOCKED = **mass free volume** (schools/teachers + diaspora FB → 3000 active kids/day; monetize 5-10%, NOT 40-50%). Approved plan (baseline+outcome+done+red-team per item) lives in **`docs/ACTION-PLAN-2026-07-02.md`** — read it first. New standing standard: every plan carries definition+baseline+measurable-outcome+done+red-team (see `~/.claude/.../memory/feedback_plan_rigor_standard.md`).
+
+**Live baseline pulled (`/v1/stats`, 17d):** 24.6 page_view/day, 51 profiles, age 6-8=49%; abandon math 65%/kings 59%/english 50%; **q0 = 53% of all abandons** (THE choke point). All numbers DIRECTIONAL (tester-heavy). Tutor teach→retry + writing-completion are NOT instrumented (must add). Retention un-measurable by design (COPPA).
+
+**FAZA 0 (agent builds, §7b gate to live), in order:** 0.1 visual QA gate (Playwright assertion-based 320/360/390 → npm test/pre-push; catch the broken footer `.bottomnav` absolute + `margin-top:-26px`) → 0.2 deploy the WRITTEN-but-unshipped tutor answer-leak fix (v1.316) + owl teaches PRINCIPLE all modes + add `teach_then_retry_result` event → 0.3 Q1 warm-up primer (math/kings/english) → 0.4 alphabet writing: land parked `feat/centerline-writing` + validation/feedback, pilot 8-10 letters first (fix ი/ო), add `writing_complete`. 0.5 purge absurd content. **FAZA 1/2 = distribution (owner confirms ≥1 real teacher adopter BEFORE building class tooling) + depth (CDS≥40) + monetization.**
+
+**IN PROGRESS:** 0.1 started — qa harness read (`ui-audit.js` launch-map reusable; `lighthouse.mjs` finds Playwright Chromium at `~/AppData/Local/ms-playwright`). Next: write the visual-gate script + verify Playwright chromium present (install if missing).
+
+---
+
+## ▶ (prev) RESUME HERE (2026-07-02 · session 3) — v1.319 HOME re-skin + v1.320 PWA auto-update SHIPPED LIVE; Pages deploy MIGRATED to GitHub Actions
 
 **LIVE on nikolearn.com: v1.320** (GShoina/NikoLearn main = `f30d795`). Live-verified: screens.js APP_VERSION 1.320,
 sw cache nikolearn-1.320, landing footer v1.320, index.html auto-update code present, HOME re-skin (design-06) renders
