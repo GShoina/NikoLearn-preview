@@ -8,6 +8,22 @@
   const WARMS=['ერთად შევძლებთ! ','ბრავო, ვცადოთ ერთად. ','არ დანებდე, შენ შეგიძლია. ','კარგი ცდა იყო, ვცადოთ კიდევ. ','მოდი, ერთად ვიფიქროთ. ',''];
   const warm=k=>k?WARMS[Math.floor(Math.random()*WARMS.length)]:'';
 
+  // Guardrail (AITUTOR-01): a count-on preview must NEVER print the answer.
+  // Show at most 2 leading steps and always STOP >=1 step short of the total,
+  // so for small operands (5-2, 6+1, 4x2) the terminal answer is never revealed.
+  function countSeq(start,delta,steps){
+    const show=Math.min(2,steps-1);
+    if(show<=0) return '';               // answer is only 1 step away -> print no numbers
+    const a=[]; for(let i=1;i<=show;i++) a.push(start+delta*i);
+    return a.join(', ')+'…';
+  }
+  function mulSeq(base,times){
+    const show=Math.min(2,times-1);
+    if(show<=0) return '';
+    const a=[]; for(let i=1;i<=show;i++) a.push(base*i);
+    return a.join(', ')+'…';
+  }
+
   // ── MATH (structured q: {op,a1,a2,seq,step,a}) ──
   function math(q,kid){
     const a1=q.a1,a2=q.a2,op=q.op;
@@ -17,21 +33,24 @@
       const h2 = (!kid&&need>0&&need<S)
         ? `ხერხი „ავაშენოთ ათეული": ${B} + ${need} = ${nextTen}. დარჩა ${S-need}. ახლა ${nextTen} + ${S-need} = ?`
         : (kid?`დაითვალე თითებზე 🖐️: ${B}-ს დაუმატე კიდევ ${S}.`:`<span class="r-lead">დაშალე ათეულებად და ერთეულებად:</span><span class="r-item">ათეული = ათ-ათი (10, 20, 30)</span><span class="r-item">ერთეული = თითო (1, 2, 3)</span><span class="r-end">ჯერ ათეულები შეკრიბე, მერე ერთეულები.</span>`);
+      const aseq=countSeq(B,1,S);
       return {say:'შეკრებაში დაიწყე დიდი რიცხვიდან და დაითვალე წინ, თითო-თითო. თუ გინდა, დიდი რიცხვი დაშალე ათეულებად და ერთეულებად.', hints:[
-        `${warm(kid)}დაიწყე დიდი რიცხვიდან, ${B}. ახლა დაითვალე წინ ${S}-ჯერ: ${B+1}, ${B+2}…`,
+        aseq?`${warm(kid)}დაიწყე დიდი რიცხვიდან, ${B}. ახლა დაითვალე წინ ${S}-ჯერ: ${aseq}`:`${warm(kid)}დაიწყე დიდი რიცხვიდან, ${B}. ახლა დაითვალე წინ ${S}-ჯერ, თითო-თითო.`,
         h2
       ], explain:`შეკრება = ორი ჯგუფის გაერთიანება. დიდი რიცხვი ჯერ, პატარა ნაბიჯ-ნაბიჯ დაუმატე. პასუხს თვითონ მიხვდები! 🌟`};
     }
     if(op==='sub'){
+      const sseq=countSeq(a1,-1,a2);
       return {say:'გამოკლებაში დიდი რიცხვიდან დაითვალე უკან. ან იფიქრე, რამდენი უნდა დაუმატო პატარას, რომ დიდი გამოვიდეს.', hints:[
-        `${warm(kid)}${a1}-დან წაიღე ${a2}. დაითვალე უკან: ${a1-1}, ${a1-2}…`,
+        sseq?`${warm(kid)}${a1}-დან წაიღე ${a2}. დაითვალე უკან: ${sseq}`:`${warm(kid)}${a1}-დან წაიღე ${a2}. დაითვალე უკან, თითო ბიჯით.`,
         `ან იფიქრე პირიქით: ${a2}-ს რამდენი უნდა დაუმატო, რომ ${a1} გამოვიდეს?`
       ], explain:`გამოკლება გვეუბნება „რამდენი დარჩა" ან „რა სხვაობაა". უკან დათვალე ან იპოვე სხვაობა.`};
     }
     if(op==='mul'){
+      const mseq=mulSeq(a1,a2);
       return {say:'გამრავლება ერთი რიცხვის რამდენჯერმე შეკრებაა. დაითვალე ჯგუფებად, თითო რიცხვით.', hints:[
         `${warm(kid)}${a1} × ${a2} = ${a1} აღებული ${a2}-ჯერ.`,
-        `დაითვალე ${a1}-ობით: ${a1}, ${a1*2}, ${a1*3}… სულ ${a2} ბიჯი.`
+        mseq?`დაითვალე ${a1}-ობით: ${mseq} სულ ${a2} ბიჯი.`:`დაითვალე ${a1}-ობით, სულ ${a2} ბიჯი.`
       ], explain:`გამრავლება = ერთი რიცხვის რამდენჯერმე შეკრება. ${a1}-ობით დათვლა ყველაზე სწრაფია.`};
     }
     // picture-substitution puzzle: teach the reasoning (substitute known values → find the unknown)
