@@ -49,6 +49,9 @@ reaches the owner. LOOP: weakest/highest-value open item → fix at choke-point 
       mastery streak; bumpFlat in each handler. compare 10→20→100, skip ×5→×10→×2/3/4, clock +half hours at t2,
       money 2→4 items+more lari — v1.314. Verified: tier climbs+caps, wrong resets, generation scales, renders clean.
       (count/shapes left un-tiered: young foundational / small fixed pool = little headroom.)
+- [x] #1 English one-tap „დაიწყე აქედან" (owner GO 07-02 after preview): results primary button launches the
+      recommended session in ONE tap (startHereGo; English milestone → vocab quiz), tappable topic chip, secondary
+      „ყველა თემა" for free-roam — v1.315. Preview-reviewed on desktop, GO'd, live-verified: one-tap=yes, v1.315.
 
 ## Findings (verified, no code change needed)
 - INV-2 answerOutcome resolver — ASSESSED, refactor NOT done (deliberate). Fresh audit of all wrong-answer
@@ -65,11 +68,7 @@ reaches the owner. LOOP: weakest/highest-value open item → fix at choke-point 
   This was the OLD behaviour before v1.300/v1.302. Re-test on v1.303; if it persists, name the exact mode.
 
 ## ⏳ OPEN — priority order
-1. [~] **English flow clarity — one-tap "დაიწყე აქედან"** — BUILT + verified, PREVIEW ready, awaiting owner GO
-       (§7b customer-facing gate; committed to branch, NOT pushed to live). Results screen: primary button now
-       LAUNCHES the recommended ready session in one tap (startHereGo: real step action, or for English milestone
-       steps → the vocab quiz startGame('quiz')), tappable topic chip, + secondary "ყველა თემა" for free-roam.
-       Verified @390px: english one-tap → quiz session (not menu), math → math-add, renders clean. Screenshots sent.
+(no open items)
 2. [ ] **INV-4 adaptive ladder** for the flat modes (count/compare/skip/shapes/money/clock). [reordered
        ahead of INV-2: visible value + lower risk; INV-2's user-facing behaviour already shipped via down-payments].
 3. [x] **INV-2 answerOutcome resolver** — ASSESSED (see Findings): behaviour already consistent via 3 correct
