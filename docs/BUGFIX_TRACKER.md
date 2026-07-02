@@ -82,6 +82,24 @@ Two buckets: (A) shippable BUGS → fixed below; (B) PROGRAM/INVESTMENT gaps (no
       gate fails (the gate already flags APP_VERSION↔CACHE↔footer drift as release-blocking); verified it fires on a
       main-ref push. The drift class can no longer ship silently. (Hook is local to this clone, not git-tracked.)
 
+## ✅ v1.317 — audit safe-batch (accessibility + accuracy), deployed
+- [x] VIS-2 shield-chip contrast: --sun-d (2.48:1, fail) → oklch(0.52 0.14 72) = **5.55:1** on card (headless-measured).
+- [x] VIS-3 movement-break .mv2 --faint 0.640→0.540 (proven main-theme value) = 3.04→**4.61:1**.
+- [x] VIS-6 .m-sub + .section-label .71/.72rem → clamp(0.82rem,3.4vw,0.95rem) (readable on phone; rendered @360px OK).
+- [x] VIS-1 .topbar flex-wrap:wrap (chips no longer overflow narrow screens; computed wrap confirmed).
+- [x] H5-3 privacy.html „ბოლო განახლება"/„Last updated" → 2026-07-02 (matches the v1.307 no-ads rewrite).
+Verified: QA gate 0 findings @1.317, 0 console errors, home render clean @360px.
+
+## ⏳ OPEN — audit remainder (queued, honest categorization)
+**Fable5 owns (parallel session):** tutor.js answer-leak AITUTOR-01/06 + tutor parts of D3-F6/AITUTOR-03/05.
+**Bucket B — investment/asset, NOT code-loop-fixable (owner forks):** CEFR/Common-Core tagging (C2/C1), A/B
+framework (D8-F2), per-item discrimination logging (PED-5), native-voice recording + loudnorm (VOICE-3/4/6, C4),
+font self-hosting (H5-2), per-unit sign-off ledger (C5).
+**Deferred — needs care/coupling:** telemetry events needing Cloudflare Worker redeploy (AITUTOR-02, D8-F4/F6/F7,
+D8-F8 submode-in-abandon); wrong-answer-handler routing (D3-F1/PED-6/AITUTOR-04 — regression risk + overlaps
+Fable5's tutor.js); PED-3 (count=retry-till-right is BY DESIGN, do NOT consolidate); exam gating PED-7; H5-4
+i18n regex (verify vs live emit-strings first); shapes mastery tier D3-F5; readability rubric into gate D3-F7.
+
 ## ⏳ OPEN — priority order
 (no open items)
 2. [ ] **INV-4 adaptive ladder** for the flat modes (count/compare/skip/shapes/money/clock). [reordered
