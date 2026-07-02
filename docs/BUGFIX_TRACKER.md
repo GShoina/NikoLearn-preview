@@ -42,6 +42,9 @@ reaches the owner. LOOP: weakest/highest-value open item → fix at choke-point 
       (text fixed in talk.js, audio/key stale). Synced 4 prose cards to talk.js SSOT + regen clips: tlk_000
       (plural agreement ყოფილიყო→ყოფილიყვნენ), tlk_018 (უყენებდე→უწესებდე), tlk_025 (tense), tlk_026 (reworded)
       — v1.312. Verified: q→clip resolves, 4/4 mp3 200, old keys gone. tlk_045 poem left (edge). Gemini: NOT RUN (no key).
+- [x] INV-1 teach-before-test (owner 07-02): multiplication primer before the first mul round (per profile,
+      flag mulPrimerSeen) — teaches × = repeated addition with a visual (3 groups of 4 apples = 12) + owl clip.
+      Tap „დავიწყოთ" → real round. — v1.313. Verified @390px: primer renders, listen, start-flow sets flag, 2nd skips.
 
 ## Findings (verified, no code change needed)
 - "correct answer marks too fast": on the CURRENT live build a wrong math answer no longer flash-marks the
@@ -52,10 +55,10 @@ reaches the owner. LOOP: weakest/highest-value open item → fix at choke-point 
 1. [ ] **English flow clarity** — "დაიწყე აქედან" should be one tap = one ready session, not a
        6-mode × N-topic fork. (Customer-facing redesign — build + show before live.) v1.308 made the
        recommendation READABLE; this item is the deeper one-tap-session flow.
-2. [ ] **INV-1 teach before test** — math primer / multiplication table.
-4. [ ] **INV-2 answerOutcome resolver** — unify all wrong-answer handlers to one contract (the durable
-       structural fix; fast-reveal + first-miss-teach are down-payments on it).
-5. [ ] **INV-4 adaptive ladder** for the flat modes (count/compare/skip/shapes/money/clock).
+2. [ ] **INV-4 adaptive ladder** for the flat modes (count/compare/skip/shapes/money/clock). [reordered
+       ahead of INV-2: visible value + lower risk; INV-2's user-facing behaviour already shipped via down-payments].
+3. [ ] **INV-2 answerOutcome resolver** — unify all wrong-answer handlers to one contract (durable structural
+       fix, INVISIBLE to users; fast-reveal + first-miss-teach already shipped the behaviour). Do LAST, full test.
 
 Legend: `[ ]` open · `[~]` partial · `[x]` DONE + live.
 Architecture SSOT: `docs/INTERACTION_CONTRACT.md`. Branch note: hotfixes linear on main; F2 feature branch

@@ -708,8 +708,17 @@ function answerMath(btn,sel,cor){
 function mrec(ok){const s=state[profile];if(ok){s.shields++;game.shields++;s.streak++;s.maxStreak=Math.max(s.maxStreak,s.streak);if(!s.math[game.mode])s.math[game.mode]={correct:0,wrong:0};s.math[game.mode].correct++;}else{game.wrong++;s.streak=0;if(!s.math[game.mode])s.math[game.mode]={correct:0,wrong:0};s.math[game.mode].wrong++;}save();}
 
 /* ════════ A: comparison (>/<), skip-counting (5s/10s), shapes ════════ */
+// INV-4 adaptive ladder (owner 07-02): flat modes had ONE fixed difficulty. A per-mode tier (1-3) now climbs
+// on a 4-correct mastery streak (mirrors the pattern strand): round generators read flatTier(mode); the answer
+// handlers call bumpFlat(mode, ok). So the app gets harder as the child masters, instead of staying flat.
+function flatTier(mode){ const s=state[profile]; if(!s)return 1; s.flatTier=s.flatTier||{}; return Math.max(1,Math.min(3,s.flatTier[mode]||1)); }
+function bumpFlat(mode, ok){ const s=state[profile]; if(!s)return; s.flatTier=s.flatTier||{}; s.flatStreak=s.flatStreak||{};
+  const cur=Math.max(1,Math.min(3,s.flatTier[mode]||1));
+  if(ok){ s.flatStreak[mode]=(s.flatStreak[mode]||0)+1; if(s.flatStreak[mode]>=4 && cur<3){ s.flatTier[mode]=cur+1; s.flatStreak[mode]=0; } }
+  else { s.flatStreak[mode]=0; }
+  save(); }
 /* ── comparison: a ? b → pick > < = ── */
-function cmpRound(){game.mode='compare';game.qs=Array.from({length:8},()=>{const a=ri(1,20);let b=ri(1,20);if(Math.random()<0.25)b=a;return{a:a,b:b,ans:a>b?'>':(a<b?'<':'=')};});game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextCmp();}
+function cmpRound(){game.mode='compare';const MX=[10,20,100][flatTier('compare')-1];game.qs=Array.from({length:8},()=>{const a=ri(1,MX);let b=ri(1,MX);if(Math.random()<0.25)b=a;return{a:a,b:b,ans:a>b?'>':(a<b?'<':'=')};});game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextCmp();}
 function nextCmp(){
   if(game.i>=game.qs.length)return results();
   const q=game.qs[game.i];game.cur=q;
@@ -718,21 +727,21 @@ function nextCmp(){
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
 }
 function answerCmp(btn,sel,cor){
-  if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);winStep(null,null,()=>{game.i++;nextCmp();});}
-  else{btn.classList.add('wrong','dim');mrec(false);reQueueWrong(cor,null);}
+  if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);bumpFlat('compare',true);winStep(null,null,()=>{game.i++;nextCmp();});}
+  else{btn.classList.add('wrong','dim');mrec(false);bumpFlat('compare',false);reQueueWrong(cor,null);}
 }
 /* ── skip-counting by 5 or 10 ── */
-function skipRound(){game.mode='skip';const step=Math.random()<0.5?5:10;game.qs=Array.from({length:8},()=>{const s0=step*ri(1,6);const seq=[s0,s0+step,s0+step*2,s0+step*3];return{seq:seq,step:step,a:s0+step*4};});game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextSkip();}
+function skipRound(){game.mode='skip';const T=flatTier('skip');const step=T===1?5:(T===2?10:[2,3,4][ri(0,2)]);game.qs=Array.from({length:8},()=>{const s0=step*ri(1,6);const seq=[s0,s0+step,s0+step*2,s0+step*3];return{seq:seq,step:step,a:s0+step*4};});game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextSkip();}
 function nextSkip(){
   if(game.i>=game.qs.length)return results();
   const q=game.qs[game.i];game.cur=q;
-  gameShell(`<div class="prompt"><div class="p-word num" style="font-size:1.9rem;letter-spacing:1px">${q.seq.join(', ')}, ?</div><div class="p-sub">${q.step===5?'დაითვალე ხუთობით':'დაითვალე ათობით'}</div></div>
+  gameShell(`<div class="prompt"><div class="p-word num" style="font-size:clamp(1.7rem,7.5vw,2.3rem);letter-spacing:1px">${q.seq.join(', ')}, ?</div><div class="p-sub">${q.step===5?'დაითვალე ხუთობით':q.step===10?'დაითვალე ათობით':'დაითვალე '+q.step+'-ობით'}</div></div>
     <div class="options">${mathOpts(q.a).map(o=>`<button class="opt num" onclick="answerSkip(this,${o},${q.a})">${o}</button>`).join('')}</div>`);
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
 }
 function answerSkip(btn,sel,cor){
-  if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);winStep(null,null,()=>{game.i++;nextSkip();});}
-  else{btn.classList.add('wrong','dim');mrec(false);reQueueWrong(cor,null);}
+  if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);bumpFlat('skip',true);winStep(null,null,()=>{game.i++;nextSkip();});}
+  else{btn.classList.add('wrong','dim');mrec(false);bumpFlat('skip',false);reQueueWrong(cor,null);}
 }
 /* ── shapes: see a shape → pick its name (name shown in the UI language) ── */
 function shapeRound(){game.mode='shapes';game.subj='math';game.qs=shuffle(SHAPES).slice(0,Math.min(8,SHAPES.length));game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextShape();}
@@ -758,8 +767,8 @@ const COINS=[5,10,20,50];      // tetri coins
 const BILLS=[1,2,5,10,20];     // lari banknotes (კუპიური) — v1.196
 // v1.196: money mixes tetri-coin rounds and lari-banknote (კუპიური) rounds. Prompt is now bilingual
 // (was ka-only „რამდენი თეთრია?" = EN-leak for an English-deck kid).
-function moneyRound(){game.mode='money';game.qs=Array.from({length:8},()=>{
-    const lari=Math.random()<0.45; const pool=lari?BILLS:COINS; const n=ri(2,3); const items=[]; let total=0;
+function moneyRound(){game.mode='money';const T=flatTier('money');const lariProb=[0.2,0.45,0.6][T-1];game.qs=Array.from({length:8},()=>{
+    const lari=Math.random()<lariProb; const pool=lari?BILLS:COINS; const n=T===1?2:(T===2?3:ri(3,4)); const items=[]; let total=0;
     for(let i=0;i<n;i++){const v=pool[ri(0,pool.length-1)];items.push(v);total+=v;}
     return{items:items,total:total,lari:lari};
   });game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextMoney();}
@@ -775,8 +784,8 @@ function nextMoney(){
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
 }
 function answerMoney(btn,sel,cor){
-  if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);winStep(null,null,()=>{game.i++;nextMoney();});}
-  else{btn.classList.add('wrong','dim');mrec(false);reQueueWrong(cor,null);}
+  if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);bumpFlat('money',true);winStep(null,null,()=>{game.i++;nextMoney();});}
+  else{btn.classList.add('wrong','dim');mrec(false);bumpFlat('money',false);reQueueWrong(cor,null);}
 }
 /* ── clock: read an analog clock (o'clock / half past) ── */
 const CLOCK_OCLOCK=['🕛','🕐','🕑','🕒','🕓','🕔','🕕','🕖','🕗','🕘','🕙','🕚'];
@@ -799,7 +808,7 @@ function clockFace(h,half){
   return `<svg viewBox="0 0 100 100" width="172" height="172" style="width:172px;height:172px;display:block;margin:2px auto" role="img" aria-label="საათი"><circle cx="${cx}" cy="${cy}" r="${R}" fill="#fff" stroke="#e7dcc8" stroke-width="2"/>${ticks}${nums}${hands}<circle cx="${cx}" cy="${cy}" r="2.8" fill="#2b2740"/></svg>`;
 }
 function timeLabel(h,half){return h+':'+(half?'30':'00');}
-function clockRound(){game.mode='clock';game.qs=Array.from({length:8},()=>{return{h:ri(1,12),half:Math.random()<0.5?1:0};});game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextClock();}
+function clockRound(){game.mode='clock';const T=flatTier('clock');game.qs=Array.from({length:8},()=>{return{h:ri(1,12),half:T===1?0:(Math.random()<0.5?1:0)};});game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextClock();}
 function nextClock(){
   if(game.i>=game.qs.length)return results();
   const q=game.qs[game.i];game.cur=q;
@@ -810,8 +819,8 @@ function nextClock(){
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
 }
 function answerClock(btn,sel,cor){
-  if(String(sel)===String(cor)){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);winStep(null,null,()=>{game.i++;nextClock();});}
-  else{btn.classList.add('wrong','dim');mrec(false);reQueueWrong(cor,null);}
+  if(String(sel)===String(cor)){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);bumpFlat('clock',true);winStep(null,null,()=>{game.i++;nextClock();});}
+  else{btn.classList.add('wrong','dim');mrec(false);bumpFlat('clock',false);reQueueWrong(cor,null);}
 }
 
 /* ── calendar (v1.195): weekday order + seasons. MULTILINGUAL: day/season names render in the kid's
