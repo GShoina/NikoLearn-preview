@@ -5,6 +5,49 @@
 > Architecture SSOT: `docs/HANDOFF.md`. Full pre-2026-06-28 history (307KB) → `docs/archive/2026-06/SESSION-HANDOFF_20260628_full.md`.
 > This file = current state + open items ONLY (keep < 30KB).
 
+## ▶ RESUME HERE (2026-07-02) — bug-fix sprint DONE, all live; v2.00 Sunlit design still the next big rock
+
+**LIVE on nikolearn.com: v1.315** (GShoina/NikoLearn main = commit 304d38b). Deploy mechanism this whole
+sprint: isolated hotfix branch **`deploy/pattern-owl`** → `git push origin deploy/pattern-owl:main`. Preview
+repo **synced to the same tip** (`git push preview deploy/pattern-owl:main --force`; remote `preview` =
+GShoina/NikoLearn-preview, Pages URL https://gshoina.github.io/NikoLearn-preview/). Rollback = `git revert`.
+
+**SSOT for this sprint = `docs/BUGFIX_TRACKER.md`** (every owner bug + the systemic class + verification).
+
+**Owner operating directives locked THIS session (obey next time):** (1) run the „loop წესი" autonomously —
+do NOT wait for „go" between items, do NOT ask on reversible work; add each new owner report to
+BUGFIX_TRACKER in priority order and go to the bottom before asking anything. (2) Show the checklist at the
+END of every reply. (3) End on an ACTION, never hand a question back (Stop-hook enforces this). (4) §7b is
+the ONE hard gate: customer-facing changes → build + PREVIEW + owner GO before live (that's how #1 shipped).
+
+**SHIPPED THIS SESSION — 9 releases, each §6c-verified + live-verified (see tracker for detail):**
+v1.307 privacy → 100% cookieless (removed cookie banner + Microsoft Clarity + inert Meta Pixel; privacy.html
+rewritten to no-ads reality) · v1.308 post-test recommendation readable + 🔊 listen · v1.309 readability
+structure fan-out (compare/shapes/clock/EN-grammar hints → bullets) · v1.310 puzzle objects clamp-fluid +
+bigger on phone (pattern/rebus/triangle) · v1.311 owl speaks in listen-yle/yesno/speak/story (were silent) ·
+v1.312 talk grammar+audio drift fixed (built a talk-diff tool; synced 4 cards to talk.js SSOT + regen clips) ·
+v1.313 multiplication primer before first mul round (teach-before-test) · v1.314 adaptive ladder for flat
+modes (compare/skip/money/clock climb on a 4-correct streak) · v1.315 English one-tap „დაიწყე აქედან"
+(results launches the recommended session in one tap; owner-GO'd after desktop preview).
+
+**INV-2 (answerOutcome refactor) — ASSESSED, deliberately NOT done.** Audit found wrong-answer behaviour is
+already consistent via 3 correct primitives (reQueueWrong / teachAndConfirm / rule-reveal); a single
+monolithic contract would be the WRONG abstraction (breaks exam=no-teach + count=retry-till-right). Invisible
++ high regression risk = not worth it. Full reasoning in BUGFIX_TRACKER „Findings". If owner ever wants it
+purely for maintainability → optional tech-debt, isolate + full per-mode test pass.
+
+**OPEN / NEXT:**
+- Owner optional re-test on live v1.315: „correct answer marks too fast" — already fixed in code (v1.300+),
+  worth his eyes to confirm the feel.
+- BUGFIX_TRACKER „⏳ OPEN" = empty (all owner bugs cleared).
+- The BIG next rock is unchanged from below: **v2.00 Sunlit DESIGN** integration (the „v2.00" label) — graft
+  the v7-Sunlit first-run into the real app shell, stage the complete thing to PREVIEW as one link, owner GO
+  → live. Tools/env notes for edge-tts clip-gen, Playwright §6c (mute audio, ?notrack=1, fresh server port
+  per JS edit), and stats are in DEV NOTES at the bottom. edge-tts clip pattern: `tools/_gen_*.py` (write
+  manifest lines to a utf-8 .txt because Windows cp1252 stdout can't print Georgian).
+
+---
+
 ## ▶ RESUME HERE (2026-07-01) — v2.00 = "Thinking First" pedagogy, PLAN LOCKED, BUILD next
 
 **GSH v3 adopted** (owner's Universal Operating System) → `docs/GSH-OS.md`. Active every session.
