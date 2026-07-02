@@ -64,6 +64,14 @@ function pathFor(p,subj){
   if(subj==='math' && isYoung(p)) return PATHS.math.filter(m=>['add','sub','shapes'].indexOf(m.k)>=0);
   return PATHS[subj]||[];
 }
+// one-tap launcher for the recommended step: a real session action if the step has one, else (milestone
+// steps like "10 words" whose go=openMenu) the subject's real first activity so the tap always starts a session.
+function startHereGo(subj, step){
+  const go = step && step.go;
+  if(go && go.indexOf('openMenu')<0) return go;
+  if(subj==='english') return "startGame('quiz')";
+  return go || ("openMenu('"+subj+"')");
+}
 function pathDisplayName(subj){return {english:'ინგლისური',math:'მათემატიკა','ka-alpha':'ქართული'}[subj]||subj;}
 // locative case ("in X") — Georgian drops the final vowel for ი-ending words, so it is pre-declined here
 function pathLocName(subj){return {english:'ინგლისურში',math:'მათემატიკაში','ka-alpha':'ქართულში'}[subj]||(pathDisplayName(subj)+'ში');}
@@ -358,17 +366,23 @@ function diagResult(){
     if(seed>=1) s.mathLevel['math-mul']=Math.max(s.mathLevel['math-mul']||0, seed-1); }
   save();
   const start=path[startIdx]?path[startIdx].label:'';
+  // INV / one-tap flow (owner 07-02): "დაიწყე აქედან" is now a SINGLE tap that launches the recommended
+  // ready session, not a dump into the 6-mode × N-topic menu. Some English path steps are MILESTONES
+  // (10/25/50 words) whose action is openMenu, not a session — for those, launch the subject's real first
+  // activity instead (English → the vocab quiz) so one tap always lands the child IN a session.
+  const startGo=startHereGo(subj, path[startIdx]);
   render(`<div class="screen results" style="--pct:${pct}%">
     <div class="r-ring"><i>🧭</i></div>
     <h2>${voc()}, ${pathLocName(subj)} შენი დონეა: <span style="color:var(--primary-d)">${level}</span></h2>
     <div class="reco">
       <div class="reco-spark">${I.spark}</div>
       <div class="reco-lead">👉 დაიწყე აქედან <button class="reco-listen" aria-label="მოსმენა" onclick="try{playClip('დაიწყე აქედან');}catch(e){}">🔊</button></div>
-      <div class="reco-topic">${start}</div>
-      <div class="reco-sub">შენი გზა ქვემოთ ჩანს, ნაბიჯ-ნაბიჯ.</div>
+      <button class="reco-topic reco-topic-btn" onclick="${startGo}">${start}</button>
+      <div class="reco-sub">ერთ შეხებაზე დაიწყება. მთელი გზა ქვემოთ ჩანს.</div>
     </div>
     <div class="actions">
-      <button class="btn btn-primary btn-block" onclick="openMenu('${subj}')">ვნახოთ ჩემი გზა →</button>
+      <button class="btn btn-primary btn-block" onclick="${startGo}">▶ დაიწყე: ${start}</button>
+      <button class="btn btn-ghost btn-block mt" onclick="openMenu('${subj}')">ყველა თემა →</button>
     </div>
   </div>`,'home');
   try{ if(isYoung(profile)) praise(); }catch(e){}
