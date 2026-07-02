@@ -138,6 +138,13 @@ function retryWord(p){return voiceLang(p)==='en'?'try again':'კიდევ �
 // U3 fix (2026-06-28): the 🔊 voice-toggle label now follows the INTERFACE language, not raw Georgian.
 // EN interface → "KA"/"EN"; KA interface → "ქარ"/"ინგ". The label still names which VOICE is active.
 function vtglLabel(){const en=window.UILANG==='en',v=voiceLang(profile)==='en';return en?(v?'EN':'KA'):(v?'ინგ':'ქარ');}
+/* ── ONE unified back control (owner-locked v1.319): warm soft-squircle, brand-orange chevron,
+   ≥46px tap target. Single source of truth — every back / "<" control routes through here so the
+   button looks & behaves identically on home, subject menus, games, draw, talk, owl, movement.
+   `extra` = optional extra attributes (e.g. absolute positioning) for a specific call site. */
+function backBtn(action,extra){
+  return `<button class="iconbtn back" onclick="${action}" aria-label="უკან"${extra?' '+extra:''}><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>`;
+}
 function voiceToggleBtn(){
   // #5 (parent-reported 2026-06-28): hide the 🔊 voice toggle in the alphabet sections, where the
   // voicing language is FIXED by the content (Georgian letters are always spoken Georgian, English
@@ -188,8 +195,10 @@ function render(html,nav){
   $('#app').scrollTop=0;
   document.body.classList.remove('on-landing');
   const n=$('#bottomnav');
-  if(nav){ n.classList.remove('hidden'); n.classList.toggle('slim', nav==='slim'); setNav(nav==='slim'?'':nav); }
-  else { n.classList.add('hidden'); n.classList.remove('slim'); }
+  // 'dock' (v1.319 home re-skin) = the same global bottom-nav re-skinned as the floating water dock;
+  // behaves like 'home' (home tab active) but adds the .dock look. Only the HOME screen uses it.
+  if(nav){ n.classList.remove('hidden'); n.classList.toggle('slim', nav==='slim'); n.classList.toggle('dock', nav==='dock'); setNav(nav==='slim'?'':(nav==='dock'?'home':nav)); }
+  else { n.classList.add('hidden'); n.classList.remove('slim'); n.classList.remove('dock'); }
   syncAiFab();
 }
 function setNav(active){
@@ -203,7 +212,7 @@ function topbar(title,sub,back){
   // (parent dashboard can still use it) — we only suppress the child-facing pressure cue.
   const showStreak=kidObj(profile).age>=6;
   return `<div class="topbar">
-    ${back?`<button class="iconbtn" onclick="${back}" aria-label="უკან"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>`:''}
+    ${back?backBtn(back):''}
     <div class="who">${title}${sub?`<small>${sub}</small>`:''}</div>
     <div class="chips">
       ${voiceToggleBtn()}

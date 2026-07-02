@@ -194,7 +194,7 @@ function voiceScreen(){
   const tk=_q?(_q.ka||''):'ვაშლი';
   const esc=String(target).replace(/'/g,"\\'");
   render(`<div class="screen voice">
-    <button class="iconbtn" style="position:absolute;top:18px;left:18px" onclick="voiceExit()">&lt;</button>
+    ${backBtn('voiceExit()','style="position:absolute;top:18px;left:18px"')}
     <div class="v-ava">${tutorFace(profile)}</div>
     <div class="v-target">${target}${tk?`<small>${tk}</small>`:''}</div>
     <div class="v-state">მოისმინე და გაიმეორე</div>
@@ -290,7 +290,7 @@ function showBreak(manual){
   const el=document.createElement('div');el.className='breakscreen mv2';el.id='breakscr';
   el.innerHTML=`
     <header class="mv-top">
-      <button class="iconbtn" onclick="closeBreak()" aria-label="უკან">&lt;</button>
+      ${backBtn('closeBreak()')}
       <div class="who">მოძრაობის შესვენება<small>გავიმოძრაოთ ერთად 🙌</small></div>
       <div class="pill"><span class="num" id="mvProg">1</span>/<span id="mvPtot">${_mvList.length}</span></div>
     </header>

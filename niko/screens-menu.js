@@ -146,10 +146,15 @@ function openMenu(subj){
     const comprehend = subj==='ka-alpha' ? `<div class="mode play" style="min-height:120px" onclick="startTextQuiz()">${PLAY_BADGE}<div class="kids-ico">📚</div><div class="m-name">გაგება</div><div class="m-sub">წაიკითხე და უპასუხე</div></div>` : '';
     const build = subj==='ka-alpha' ? `<div class="mode play" style="min-height:120px" onclick="startBuild()">${PLAY_BADGE}<div class="kids-ico">🧩</div><div class="m-name">ააწყვე</div><div class="m-sub">მარცვლებით სიტყვა</div></div>` : '';
     const trace = subj==='ka-alpha' ? `<div class="mode play" style="min-height:120px" onclick="traceLearn(0)">${PLAY_BADGE}<div class="kids-ico">✍️</div><div class="m-name">ამოწერა</div><div class="m-sub">ასოს წერა თითით</div></div>` : '';
+    // Georgian-alphabet tiles must SHOW Georgian letters (ა ბ გ), not the Latin-letter emoji (🔤/🔡).
+    // en-alpha keeps the Latin emoji — that is correct for English. (owner fix v1.319)
+    const isKa = subj==='ka-alpha';
+    const learnIco = isKa ? `<div class="kids-ico ka-samp">ა ბ გ</div>` : `<div class="kids-ico">🔡</div>`;
+    const spellIco = isKa ? `<div class="kids-ico ka-samp">ა ბ გ</div>` : `<div class="kids-ico">🔤</div>`;
     // 🔤 tap-to-spell (no keyboard) — both alphabets
-    const spell = `<div class="mode play" style="min-height:120px" onclick="startShead('${subj}')">${PLAY_BADGE}<div class="kids-ico">🔤</div><div class="m-name">შეადგინე სიტყვა</div><div class="m-sub">ასოებით ააწყვე</div></div>`;
+    const spell = `<div class="mode play" style="min-height:120px" onclick="startShead('${subj}')">${PLAY_BADGE}${spellIco}<div class="m-name">შეადგინე სიტყვა</div><div class="m-sub">ასოებით ააწყვე</div></div>`;
     body=`<div class="mode-grid">
-      <div class="mode play" style="min-height:120px" onclick="alphaLearn('${subj}',0)">${PLAY_BADGE}<div class="kids-ico">🔡</div><div class="m-name">ისწავლე ასოები</div></div>
+      <div class="mode play" style="min-height:120px" onclick="alphaLearn('${subj}',0)">${PLAY_BADGE}${learnIco}<div class="m-name">ისწავლე ასოები</div></div>
       <div class="mode play" style="min-height:120px" onclick="alphaQuiz('${subj}')">${PLAY_BADGE}<div class="kids-ico">🎯</div><div class="m-name">ტესტები</div></div>
       ${spell}
       ${reading}

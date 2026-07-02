@@ -145,12 +145,18 @@ h1,h2,h3{line-height:1.15;letter-spacing:-0.01em}
 
 /* ── TOP BAR ── */
 .topbar{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:18px;min-height:48px}
-.iconbtn{width:46px;height:46px;flex:0 0 auto;border:none;background:var(--card);color:var(--primary-d);
-  border-radius:50%;font-size:1.3rem;cursor:pointer;display:grid;place-items:center;
-  box-shadow:var(--shadow);transition:transform .15s,background .15s}
-.iconbtn:hover{background:color-mix(in oklch,var(--primary) 12%,var(--card))}
-.iconbtn:active{transform:scale(.9)}
+/* ONE unified back / icon control (owner-locked v1.319): warm soft-SQUIRCLE, NOT a hard circle.
+   Cream card face, subtle border + inner highlight, brand-orange (#FF8A00) chevron, ≥46px tap target.
+   Every back/"<" control (topbar, topbarPlain, mv2, games/draw/owl/placement/talk) uses this via backBtn(). */
+.iconbtn{width:46px;height:46px;flex:0 0 auto;border:1.5px solid color-mix(in oklch,var(--line) 82%,transparent);
+  background:var(--card);color:#FF8A00;
+  border-radius:16px;font-size:1.25rem;cursor:pointer;display:grid;place-items:center;
+  box-shadow:0 4px 12px -5px rgba(184,82,42,.24), inset 0 1.5px 0 rgba(255,255,255,.6);
+  transition:transform .15s,background .15s,box-shadow .15s}
+.iconbtn:hover{background:#FFF3DF;box-shadow:0 6px 16px -5px rgba(255,138,0,.32), inset 0 1.5px 0 rgba(255,255,255,.7)}
+.iconbtn:active{transform:scale(.92)}
 .iconbtn svg{display:block}
+.iconbtn.back svg{margin-right:2px} /* optical-center the chevron in the squircle */
 .topbar .who{font-weight:700;font-size:1.05rem;flex:1}
 .topbar .who small{display:block;font-weight:500;color:var(--muted);font-size:.78rem}
 
@@ -324,36 +330,105 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
 .bar > i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--sun),var(--primary));transition:width .6s cubic-bezier(.2,.8,.2,1)}
 .levelcard .lvl-hint{font-size:.76rem;color:var(--muted);margin-top:8px}
 
-/* ── SUBJECT CARDS ── */
-.subj-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;flex:1;align-content:start}
-.subj{position:relative;border:1.5px solid var(--line);border-radius:var(--radius);padding:20px 16px;
-  cursor:pointer;display:flex;flex-direction:column;gap:8px;min-height:150px;justify-content:flex-end;
-  background:var(--card);box-shadow:var(--shadow);overflow:hidden;transition:transform .16s}
+/* ── SUBJECT CARDS — v1.319 JELLY re-skin (design-06) + fully RESPONSIVE 320-430px ──
+   Everything is fluid clamp() so the white icon box and the name never collide or wrap awkwardly at
+   any phone width. Per-subject hue via .hue-* (set on each tile). Warm Sunlit palette (fixed hex). */
+.subj-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(11px,3.2vw,14px);flex:1;align-content:start}
+.subj{position:relative;border:none;border-radius:clamp(20px,5.5vw,26px);min-width:0;
+  padding:clamp(13px,4vw,16px) clamp(12px,3.6vw,15px);
+  cursor:pointer;display:flex;flex-direction:column;gap:clamp(6px,1.7vw,9px);
+  min-height:clamp(120px,34vw,150px);justify-content:flex-end;
+  background:linear-gradient(160deg,#FFEFD6,#FFD9A8);
+  box-shadow:0 10px 22px -8px rgba(255,138,0,.4), inset 0 2px 3px rgba(255,255,255,.8);
+  overflow:hidden;transition:transform .16s}
+.subj::before{content:"";position:absolute;top:0;left:0;right:0;height:48%;pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,255,255,.52),transparent)}
 .subj:active{transform:translateY(2px) scale(.985)}
-/* tap cue (owner 2026-06-13): gentle pulsing ring + a bobbing 👆 so a pre-reader sees the tiles are tappable.
-   staggered so they don't all pulse in unison; off for reduced-motion. */
-@keyframes tapcue{0%,100%{box-shadow:var(--shadow)}50%{box-shadow:0 0 0 3px color-mix(in oklch,var(--primary) 20%,transparent),var(--shadow)}}
-.subj.stack,.subj.play{animation:tapcue 3.4s ease-in-out infinite}
-.subj.stack:nth-child(2n){animation-delay:.6s}
-.subj.stack:nth-child(3n){animation-delay:1.2s}
-.subj .tap-hint{position:absolute;bottom:8px;right:10px;font-size:1.2rem;animation:taphint 2.2s ease-in-out infinite;pointer-events:none;opacity:.9}
+/* white jelly icon box */
+.subj .s-ico{position:relative;z-index:1;width:clamp(44px,13.5vw,54px);height:clamp(44px,13.5vw,54px);
+  border-radius:16px;background:#fff;display:grid;place-items:center;line-height:1;
+  font-size:clamp(1.5rem,6.4vw,2rem);box-shadow:0 5px 12px rgba(255,138,0,.22);
+  animation:sico-bob 3s ease-in-out infinite}
+.subj:nth-child(2n) .s-ico{animation-delay:.4s}
+.subj:nth-child(3n) .s-ico{animation-delay:.8s}
+@keyframes sico-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.subj .s-name{position:relative;z-index:1;font-family:'Fredoka';font-weight:700;line-height:1.12;
+  font-size:clamp(1rem,4.4vw,1.18rem);color:#B8522A;
+  overflow-wrap:break-word;text-wrap:balance;hyphens:none;max-width:100%}
+.subj .s-sub{position:relative;z-index:1;font-size:clamp(.72rem,3vw,.8rem);line-height:1.25;color:#C2764F}
+.subj .s-badge{position:absolute;z-index:2;top:clamp(10px,3vw,13px);right:clamp(10px,3vw,13px);
+  font-size:clamp(.62rem,2.4vw,.72rem);font-weight:800;padding:4px 9px;border-radius:999px;
+  background:#fff;color:#FF8A00;box-shadow:0 2px 6px rgba(255,138,0,.18)}
+.subj .tap-hint{position:absolute;z-index:2;bottom:8px;right:10px;font-size:1.2rem;pointer-events:none;opacity:.85;
+  animation:taphint 2.2s ease-in-out infinite}
 @keyframes taphint{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-@media(prefers-reduced-motion:reduce){.subj.stack,.subj.play{animation:none}.subj .tap-hint{animation:none}}
-.subj .s-ico{font-size:2.4rem;line-height:1}
-.subj .s-name{font-weight:700;font-size:1.12rem}
-.subj .s-sub{font-size:.78rem;color:var(--muted)}
-.subj .s-badge{position:absolute;top:12px;right:12px;font-size:.72rem;font-weight:700;
-  padding:4px 9px;border-radius:999px;background:var(--card-2);color:var(--faint)}
-.subj.crown{border-color:color-mix(in oklch,var(--sun) 60%,var(--line));
-  background:linear-gradient(160deg,var(--card) 55%,color-mix(in oklch,var(--sun) 18%,var(--card)))}
-.subj.crown .s-badge{background:color-mix(in oklch,var(--sun) 22%,var(--card));color:var(--sun-d)}
-.subj.eng{border-color:color-mix(in oklch,var(--sky) 45%,var(--line));
-  background:linear-gradient(160deg,var(--card) 60%,color-mix(in oklch,var(--sky) 13%,var(--card)))}
-.subj.maths{border-color:color-mix(in oklch,var(--purple) 42%,var(--line));
-  background:linear-gradient(160deg,var(--card) 60%,color-mix(in oklch,var(--purple) 12%,var(--card)))}
-.subj.kids{align-items:center;justify-content:center;text-align:center;min-height:130px}
-.subj.kids .s-ico{font-size:3rem}
-.subj.kids .s-name{font-family:'Fredoka';font-size:1.5rem}
+@media(prefers-reduced-motion:reduce){.subj .s-ico,.subj .tap-hint{animation:none}}
+/* per-subject hues */
+.subj.hue-orange{background:linear-gradient(160deg,#FFEFD6,#FFD9A8);box-shadow:0 10px 22px -8px rgba(255,138,0,.42),inset 0 2px 3px rgba(255,255,255,.8)}
+.subj.hue-orange .s-name{color:#B8522A}.subj.hue-orange .s-sub{color:#C2764F}.subj.hue-orange .s-badge{color:#FF8A00}.subj.hue-orange .s-ico{box-shadow:0 5px 12px rgba(255,138,0,.22)}
+.subj.hue-green{background:linear-gradient(160deg,#E3FBF1,#C8F0E0);box-shadow:0 10px 22px -8px rgba(0,196,140,.4),inset 0 2px 3px rgba(255,255,255,.8)}
+.subj.hue-green .s-name{color:#0E7A5E}.subj.hue-green .s-sub{color:#3FAE8C}.subj.hue-green .s-badge{color:#0E9E78}.subj.hue-green .s-ico{box-shadow:0 5px 12px rgba(0,196,140,.2)}
+.subj.hue-blue{background:linear-gradient(160deg,#E6F1FD,#CFE2FB);box-shadow:0 10px 22px -8px rgba(46,134,222,.4),inset 0 2px 3px rgba(255,255,255,.8)}
+.subj.hue-blue .s-name{color:#1F5FA8}.subj.hue-blue .s-sub{color:#5B86C8}.subj.hue-blue .s-badge{color:#2E86DE}.subj.hue-blue .s-ico{box-shadow:0 5px 12px rgba(46,134,222,.2)}
+.subj.hue-pink{background:linear-gradient(160deg,#FDEAF4,#F8D2E6);box-shadow:0 10px 22px -8px rgba(236,72,153,.4),inset 0 2px 3px rgba(255,255,255,.8)}
+.subj.hue-pink .s-name{color:#DB2777}.subj.hue-pink .s-sub{color:#CF7AA8}.subj.hue-pink .s-badge{color:#EC4899}.subj.hue-pink .s-ico{box-shadow:0 5px 12px rgba(236,72,153,.2)}
+.subj.hue-purple{background:linear-gradient(160deg,#F0EBFC,#DDD2F5);box-shadow:0 10px 22px -8px rgba(139,92,246,.38),inset 0 2px 3px rgba(255,255,255,.8)}
+.subj.hue-purple .s-name{color:#6D42C4}.subj.hue-purple .s-sub{color:#9B85D0}.subj.hue-purple .s-badge{color:#8B5CF6}.subj.hue-purple .s-ico{box-shadow:0 5px 12px rgba(139,92,246,.2)}
+.subj.hue-teal{background:linear-gradient(160deg,#E0F7F7,#C4EDEC);box-shadow:0 10px 22px -8px rgba(20,184,166,.38),inset 0 2px 3px rgba(255,255,255,.8)}
+.subj.hue-teal .s-name{color:#0E7A73}.subj.hue-teal .s-sub{color:#45AEA6}.subj.hue-teal .s-badge{color:#14B8A6}.subj.hue-teal .s-ico{box-shadow:0 5px 12px rgba(20,184,166,.2)}
+.subj.hue-gold{background:linear-gradient(160deg,#FFF6D9,#FCE9AE);box-shadow:0 10px 22px -8px rgba(230,168,0,.42),inset 0 2px 3px rgba(255,255,255,.8)}
+.subj.hue-gold .s-name{color:#A6791A}.subj.hue-gold .s-sub{color:#C2A24A}.subj.hue-gold .s-badge{color:#E5A600}.subj.hue-gold .s-ico{box-shadow:0 5px 12px rgba(230,168,0,.22)}
+/* young-kid tiles: centered, bigger glyph/name (still jelly) */
+.subj.kids{align-items:center;justify-content:center;text-align:center;min-height:clamp(118px,32vw,132px)}
+.subj.kids .s-ico{width:clamp(52px,15.5vw,64px);height:clamp(52px,15.5vw,64px);font-size:clamp(1.85rem,7.6vw,2.5rem)}
+.subj.kids .s-name{font-size:clamp(1.15rem,5.4vw,1.45rem)}
+/* Georgian-letter sample used as an icon in the ka-alpha menu tiles (design-06 "აბგ" tile).
+   Scoped to .mode + double class so it beats `.mode .kids-ico{font-size:3rem}`. */
+.mode .kids-ico.ka-samp{font-family:'Noto Serif Georgian','Noto Sans Georgian',serif;font-weight:700;
+  font-size:clamp(1.5rem,7vw,2rem);letter-spacing:.05em;color:#00C48C}
+
+/* ── HOME v1.319 re-skin (design-06: greeting header + continue hero + water dock) ── */
+.home2{gap:0}
+.home-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.home-head .hh-ava{width:52px;height:52px;flex:0 0 auto;border-radius:17px;background:#fff;display:grid;place-items:center;box-shadow:0 6px 14px -6px rgba(184,82,42,.4)}
+.home-head .hh-ava img{width:40px;height:40px;object-fit:contain}
+.home-head .hh-hi{flex:1;min-width:0;line-height:1.15}
+.home-head .hh-hi span{display:block;font-size:.82rem;color:#9C8064;font-weight:600}
+.home-head .hh-hi b{font-family:'Fredoka';font-size:clamp(1.12rem,5.2vw,1.35rem);font-weight:700;color:#2A1C12}
+.home-head .hh-chips{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.hh-chip{display:inline-flex;align-items:center;gap:5px;background:#fff;border-radius:14px;padding:8px 11px;font-family:'Fredoka';font-weight:700;font-size:.95rem;box-shadow:0 4px 10px -6px rgba(42,24,16,.2)}
+.hh-chip.streak{color:#F3801E}.hh-chip.coin{color:#E59800}
+.home-head .vtgl{background:#fff;border:none;border-radius:14px;padding:8px 11px;font-family:'Fredoka';font-weight:700;font-size:.86rem;color:#7A5C3F;box-shadow:0 4px 10px -6px rgba(42,24,16,.2);cursor:pointer}
+.home-cont{position:relative;display:flex;align-items:center;gap:10px;border-radius:28px;padding:18px 20px;margin-bottom:20px;cursor:pointer;overflow:hidden;transition:transform .16s;
+  background:linear-gradient(135deg,#FFB04A,#FF8A00);
+  box-shadow:0 18px 34px -12px rgba(255,138,0,.55), inset 0 2px 3px rgba(255,255,255,.35)}
+.home-cont:active{transform:translateY(2px) scale(.99)}
+.home-cont .hc-owl{font-size:2.6rem;line-height:1;flex:0 0 auto;animation:sico-bob 3.4s ease-in-out infinite}
+.home-cont .hc-body{flex:1;min-width:0}
+.hc-kick{font-size:.78rem;font-weight:700;color:rgba(255,255,255,.94)}
+.hc-name{font-family:'Fredoka';font-size:clamp(1.25rem,6vw,1.4rem);font-weight:700;color:#fff;margin-top:3px}
+.hc-sub{font-size:.8rem;color:rgba(255,255,255,.92);margin-top:1px}
+.hc-bar{display:flex;align-items:center;gap:10px;margin-top:12px}
+.hc-track{flex:1;height:9px;background:rgba(255,255,255,.32);border-radius:100px;overflow:hidden}
+.hc-track i{display:block;height:100%;background:#fff;border-radius:100px;transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.hc-bar span{font-family:'Fredoka';font-size:.8rem;font-weight:700;color:#fff}
+.home-seclabel{font-family:'Fredoka';font-size:1rem;font-weight:700;color:#2A1C12;margin:0 2px 12px}
+@media(prefers-reduced-motion:reduce){.home-cont .hc-owl{animation:none}}
+/* WATER DOCK = the global bottom-nav re-skinned as a floating glass dock, raised HOME tab (only on home2) */
+.bottomnav.dock{left:16px;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));height:64px;
+  padding:0 12px;border:none;border-radius:34px;overflow:visible;
+  background:rgba(255,255,255,.84);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  box-shadow:0 14px 34px -10px rgba(42,24,16,.28), inset 0 1.5px 0 rgba(255,255,255,.95)}
+.bottomnav.dock button{color:#B8A88E;gap:0;padding:6px 12px;min-width:44px}
+.bottomnav.dock button svg{width:24px;height:24px}
+.bottomnav.dock button .navemoji{font-size:20px}
+.bottomnav.dock .navdot{display:none}
+.bottomnav.dock button.on{color:#FF8A00;background:none}
+.bottomnav.dock button[data-nav="home"]{color:#fff;width:58px;height:58px;flex:0 0 auto;margin-top:-26px;border-radius:50%;
+  background:linear-gradient(150deg,#FFB04A,#FF8A00);
+  box-shadow:0 12px 22px -6px rgba(255,138,0,.6), inset 0 2px 4px rgba(255,255,255,.5)}
+.bottomnav.dock button[data-nav="home"] svg{width:26px;height:26px}
+.bottomnav.dock button[data-nav="home"].on{color:#fff}
 
 /* ── MODE GRID ── */
 .mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
@@ -823,7 +898,7 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
   font-family:'Noto Sans Georgian',system-ui,sans-serif}
 .mv2 .num,.mv2 .en{font-family:'Fredoka',sans-serif}
 .mv2 .mv-top{display:flex;align-items:center;gap:12px;padding:14px 16px 4px;flex:0 0 auto}
-.mv2 .iconbtn{width:44px;height:44px;flex:none;border:none;background:var(--card);color:var(--ink);border-radius:13px;font-size:1.25rem;cursor:pointer;display:grid;place-items:center;box-shadow:var(--bshadow)}
+.mv2 .iconbtn{width:46px;height:46px;flex:none;border:1.5px solid color-mix(in oklch,var(--line) 82%,transparent);background:var(--card);color:#FF8A00;border-radius:16px;font-size:1.25rem;cursor:pointer;display:grid;place-items:center;box-shadow:0 4px 12px -5px rgba(184,82,42,.24), inset 0 1.5px 0 rgba(255,255,255,.6)}
 .mv2 .iconbtn:active{transform:scale(.92)}
 .mv2 .who{flex:1;font-weight:700;font-size:1.04rem;line-height:1.15}
 .mv2 .who small{display:block;font-weight:500;color:var(--muted);font-size:.74rem}

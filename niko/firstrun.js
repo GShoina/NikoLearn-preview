@@ -102,8 +102,8 @@ function firstRunWin(subjKey){
     <div class="fr-pop fr-wintitle">ბრავო! შენ შეძელი!</div>
     <div class="fr-winsub">${s.winSub}</div>
     <div class="fr-reward">
-      <span class="fr-reward-ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="#F0A400"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.8 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"></path></svg></span>
-      <span class="fr-reward-t"><b class="fr-pop">პირველი ვარსკვლავი</b><small>დღევანდელი გმირი</small></span>
+      <span class="fr-reward-ic" style="font-size:30px;line-height:1">🪙</span>
+      <span class="fr-reward-t"><b class="fr-pop">პირველი მონეტა</b><small>დღევანდელი გმირი</small></span>
       <span class="fr-pop fr-reward-n">+1</span>
     </div>
     <div class="fr-time"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0E9E78" stroke-width="2.2"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>პირველი მოგებამდე ≈ ${secs} წამი</span></div>

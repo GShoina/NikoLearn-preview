@@ -180,7 +180,7 @@ const TALK = {
 function openTalk(){
   if(window.Analytics)Analytics.screen('talk');
   render(`<div class="screen talk-pick">
-    <button class="iconbtn talk-back" onclick="goHome()" aria-label="უკან">&lt;</button>
+    ${backBtn('goHome()','style="align-self:flex-start"')}
     <div class="talk-hero"><div class="talk-hero-ic">💬</div>
       <h2>საუბარი და ფიქრი</h2>
       <p class="talk-lead">ერთად ისაუბრეთ. სწორი პასუხი არ არსებობს.</p></div>
@@ -253,9 +253,9 @@ function talkCard(){
   const listen=`<button class="btn btn-ghost talk-listen" onclick="talkSpeak()">🔊 ${UILANG==='en'?'Listen':'მოსმენა'}</button>`;
   render(`<div class="screen talk">
     <div class="talk-top">
-      <button class="iconbtn talk-back" onclick="openTalk()" aria-label="უკან">&lt;</button>
+      ${backBtn('openTalk()')}
       <span class="talk-count">${tl.i+1} / ${tl.deck.length}</span>
-      <button class="iconbtn talk-back" onclick="goHome()" aria-label="მთავარი">🏠</button>
+      <button class="iconbtn" onclick="goHome()" aria-label="მთავარი">🏠</button>
     </div>
     <div class="talk-card" style="--tc:${th.color}">
       <div class="talk-theme"><span class="tt-ic">${th.ic}</span><b>${th.label}</b></div>
