@@ -78,7 +78,9 @@ Two buckets: (A) shippable BUGS → fixed below; (B) PROGRAM/INVESTMENT gaps (no
 - [~] 🟠 HIGH 18 versions never reached returning users (D8-F1): sw.js CACHE frozen at nikolearn-1.297 while app=1.315
       (cache-first SW never re-installed). FIX: ran bump.mjs (single-writer) → APP_VERSION + sw CACHE + landing footer
       all synced to 1.316; this deploy delivers the whole v1.298→1.316 backlog to returning/PWA users. QA gate PASSED.
-      HARDENING TODO: make the QA gate block deploy on APP_VERSION↔CACHE↔footer drift so this can never recur silently.
+      HARDENING DONE: installed `.git/hooks/pre-push` — any push to `main` now runs `npm test` and is BLOCKED if the
+      gate fails (the gate already flags APP_VERSION↔CACHE↔footer drift as release-blocking); verified it fires on a
+      main-ref push. The drift class can no longer ship silently. (Hook is local to this clone, not git-tracked.)
 
 ## ⏳ OPEN — priority order
 (no open items)
