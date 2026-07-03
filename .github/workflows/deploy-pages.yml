@@ -59,6 +59,6 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
         with:
-          # Default is 10 min. GitHub's Pages publish backend has been slow today; give it more room
-          # to distinguish "slow but working" from a genuine backend stall.
-          timeout: 1200000
+          # actions/deploy-pages caps `timeout` at 600000ms (10 min); a larger value is silently
+          # clamped and emits a warning. Keep it at the max so the log stays clean.
+          timeout: 600000
