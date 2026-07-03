@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ka">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NikoLearn — ცვლილებები (ამ სესიის) + ლინკები</title>
+<style>
+  :root{--ink:#2b2540;--bg:#f6f3ff;--pri:#6B63B5;--ok:#00A651;--or:#FF8A00;--muted:#6b6480;--line:#e6e2f5}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--ink);padding:18px;max-width:840px;margin:0 auto;line-height:1.5}
+  h1{font-size:21px;margin:0 0 4px}
+  .sub{font-size:13px;color:var(--muted);margin:0 0 14px}
+  .warn{font-size:13px;background:#fff6e6;border:1px solid #ffe0a6;border-radius:12px;padding:11px 13px;margin-bottom:16px;color:#8a5a00;line-height:1.55}
+  .warn b{color:#7a4f00}
+  h2{font-size:15px;margin:18px 0 8px;padding-bottom:5px;border-bottom:2px solid var(--line)}
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:10px}
+  .top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px}
+  .v{font-size:11px;font-weight:800;background:#efeaff;color:var(--pri);border-radius:20px;padding:2px 9px}
+  .sha{font-family:ui-monospace,Consolas,monospace;font-size:11.5px;color:var(--muted)}
+  .what{font-size:14px;margin:2px 0 6px}
+  .files{font-family:ui-monospace,Consolas,monospace;font-size:11.5px;color:#8a8398;margin-bottom:8px}
+  a.go{display:inline-flex;align-items:center;gap:6px;text-decoration:none;background:var(--pri);color:#fff;font-weight:700;font-size:13px;border-radius:10px;padding:7px 13px;margin:2px 6px 2px 0}
+  a.go.o{background:var(--or)}
+  .how{font-size:12px;color:var(--muted);margin-top:2px}
+  .nolink{font-size:12px;color:#8a8398;font-style:italic}
+</style>
+</head>
+<body>
+<h1>🗂️ ცვლილებები — ამ სესია</h1>
+<p class="sub">თითო ბარათი = ერთი commit. „ნახე →" ხსნის ზუსტ ეკრანს (შენს localhost:8099-ზე). SHA = კოდის ვერსია.</p>
+<div class="warn">⚠ <b>25 commit ლოკალურია, 0 ცოცხალზე.</b> GitHub/ლაივ ლინკები მუშაობს მხოლოდ push-ის შემდეგ (ამ სესიაში დაბლოკილია → შენი go/skip-permissions სესია სჭირდება). ქვემოთ ლინკები = <b>შენი გაშვებული preview (localhost:8099)</b>. თუ სერვერი გამორთულია, ჯერ ჩართე.</div>
+
+<h2>🎨 UI / ვიზუალი</h2>
+<div class="card">
+  <div class="top"><span class="v">v1.332</span><span class="sha">c269cd8</span></div>
+  <div class="what">მენიუს ბარათებზე ▶ badge აღარ ფარავს ქვესათაურს (VIS-7). გრძელი ტექსტი („ცხოვრებისეული") ▶-ის უკან იმალებოდა = წაუკითხავი. ✅ 0 overlap ყველა menu+home (text-accurate audit).</div>
+  <div class="files">niko/styles.css:451, :1481</div>
+  <a class="go" href="/index.html?app=1" target="_blank">ნახე →</a>
+  <div class="how">გახსენი ნებისმიერი ბარათი (მაგ. მათემატიკა) → ▶ ახლა ზედა-მარჯვნივ, ქვესათაურები სრულად იკითხება.</div>
+</div>
+<div class="card">
+  <div class="top"><span class="v">v1.331</span><span class="sha">ef9f5af</span></div>
+  <div class="what">water-dock (ქვედა dock) დახვეწილი — შუშის/მცურავი ეფექტი რჩება, ზომა პროპორციული (v1.330 ბრტყელი over-correction იყო).</div>
+  <div class="files">niko/styles.css (.bottomnav.dock)</div>
+  <a class="go" href="/index.html?app=1" target="_blank">ნახე →</a>
+  <div class="how">ქვედა dock მთავარ ეკრანზე.</div>
+</div>
+<div class="card">
+  <div class="top"><span class="v">v1.327</span><span class="sha">7f09112</span></div>
+  <div class="what">footer Home ხატულა პროპორციული + შესვლის მისალმება 3 განზრახ ხაზად + EdTech copy სტანდარტი.</div>
+  <div class="files">niko/screens.js:45, styles.css:427, i18n-strings.js</div>
+  <a class="go" href="/index.html?app=1" target="_blank">ნახე →</a>
+  <div class="how">ქვედა Home ხატულა + პროფილის შესვლის ეკრანი (მისალმება).</div>
+</div>
+
+<h2>🦉 ტუტორი / კონტენტი</h2>
+<div class="card">
+  <div class="top"><span class="v">v1.329</span><span class="sha">07e0d25</span></div>
+  <div class="what">3 უჩუმარი ტუტორი გამართული — ციფრები / ქართ. კითხვა / წინადადება შეცდომაზე ბუ ახლა ასწავლის (1-ლი miss hint → მე-2 teach + „გაიგე?" gate).</div>
+  <div class="files">niko/alpha.js:170, 261, 320</div>
+  <a class="go" href="/index.html?app=1&notrack=1&go=digit" target="_blank">ციფრები →</a>
+  <a class="go" href="/index.html?app=1&notrack=1&go=read" target="_blank">კითხვა →</a>
+  <a class="go" href="/index.html?app=1&notrack=1&go=sent" target="_blank">წინადადება →</a>
+  <div class="how">განზრახ ორჯერ შეცდი → ბუ ხსნის.</div>
+</div>
+<div class="card">
+  <div class="top"><span class="v">v1.326</span><span class="sha">6eb00bb</span></div>
+  <div class="what">სამკუთხედის თავსატეხი — 3 ნიმუში ახლა გარანტ. ერთმანეთისგან განსხვავდება (ორაზროვანი წესი გასწორდა; fuzz 9000 = 0 ორაზროვანი).</div>
+  <div class="files">niko/games.js:1317</div>
+  <a class="go o" href="/index.html?app=1&notrack=1&go=triangle" target="_blank">ნახე →</a>
+</div>
+<div class="card">
+  <div class="top"><span class="v">v1.325</span><span class="sha">1aeba14</span></div>
+  <div class="what">Q1 warm-up — მათემატიკა ყოველ რაუნდს მარტივი კითხვით ხსნის; kings-eng q0 = ყველაზე მარტივი სურათიანი item (q0 = მიტოვების 53%).</div>
+  <div class="files">niko/games.js:684, :919</div>
+  <a class="go o" href="/index.html?app=1&notrack=1&go=math" target="_blank">მათემატიკა →</a>
+  <a class="go o" href="/index.html?app=1&notrack=1&go=kings-eng" target="_blank">kings →</a>
+</div>
+<div class="card">
+  <div class="top"><span class="v">v1.322–1.324</span><span class="sha">e7ace82 · 664779d · a18cfbb</span></div>
+  <div class="what">ანბანისა და დათვლის ტუტორი wire (იყო უჩუმარი) + დათვლის teach „worked-principle"-ზე (nudge-ის ნაცვლად cardinality + one-to-one).</div>
+  <div class="files">niko/alpha.js (answerAlpha), games.js (answerCount)</div>
+  <a class="go" href="/index.html?app=1&notrack=1&go=alpha" target="_blank">ანბანი →</a>
+  <a class="go" href="/index.html?app=1&notrack=1&go=count" target="_blank">დათვლა →</a>
+  <div class="how">ორჯერ შეცდი → ბუ ასწავლის.</div>
+</div>
+
+<h2>🛠️ ხარისხის ინსტრუმენტი</h2>
+<div class="card">
+  <div class="top"><span class="v">v1.321 / 1.328</span><span class="sha">8c2a432 · bcb0c7d</span></div>
+  <div class="what">ვიზუალური QA გეითი (`qa/visual-gate.mjs`, headless 320/360/390, assertion-based) + `validate.html` one-click validation index. footer bug (subject tile dock-ის უკან, tap<44) გასწორდა.</div>
+  <div class="files">qa/visual-gate.mjs, validate.html, .git/hooks/pre-push</div>
+  <a class="go" href="/validate.html" target="_blank">validate.html →</a>
+</div>
+<div class="card" style="border-color:#ffd0a6">
+  <div class="what">⚠ <b>გეითის ღიობი (შენ სწორად დაიჭირე):</b> ვიზუალურმა გეითმა VIS-7 badge-overlap ვერ დაიჭირა — ის text-vs-badge გადაფარვას არ ამოწმებდა. <b>შემდეგი: Range-based badge-overlap შემოწმება გეითში.</b></div>
+  <div class="nolink">ჯერ არ არის commit-ში — მომდევნო ნაბიჯი.</div>
+</div>
+
+<h2>⚙️ პროტოკოლი / docs (აპ-ცვლილება არაა)</h2>
+<div class="card">
+  <div class="top"><span class="sha">51d98d1 · f04a50e · cb33fb1</span></div>
+  <div class="what">GSH-OS v3.2 (prompt-improvement = default ყოველ ამოცანაზე) + v3.1 (Meta-Prompt Architect = GSH alias, ფაილი პატარავდება) + §7b rewrite (Preview→GO = ძრავა, არა მუხრუჭი).</div>
+  <div class="files">docs/GSH-OS.md, CLAUDE.md</div>
+  <div class="nolink">დოკუმენტი — localhost ლინკი არ აქვს; კოდში/ფაილში ნახე.</div>
+</div>
+<div class="card">
+  <div class="what">✍️ <b>0.4 ანბანის წერა:</b> ამ სესიის პილოტი <b>წაიშალა</b> (შენი გადაწყვეტილება) → base-ზე დაბრუნდა. აპში ცვლილება = 0.</div>
+  <div class="nolink">ცვლილება არ არის — ვერსია აღარ ჩანს არსად.</div>
+</div>
+
+<p class="sub" style="margin-top:18px">push-ის შემდეგ ამავე commit-ებს GitHub-ლინკებადაც მოგცემ (github.com/GShoina/NikoLearn/commit/&lt;sha&gt;).</p>
+</body>
+</html>
