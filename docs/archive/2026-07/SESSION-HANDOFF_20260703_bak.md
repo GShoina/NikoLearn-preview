@@ -5,28 +5,6 @@
 > Architecture SSOT: `docs/HANDOFF.md`. Full pre-2026-06-28 history (307KB) → `docs/archive/2026-06/SESSION-HANDOFF_20260628_full.md`.
 > This file = current state + open items ONLY (keep < 30KB).
 
-## ▶ RESUME HERE (2026-07-03 · session 5) — LIVE now **v1.334**; VIS-9 card-readability + VIS-10 menu fixes SHIPPED; deploy pipeline UNBLOCKED
-
-**LIVE on nikolearn.com: v1.334** (GShoina/NikoLearn main = `09631b0`). Live-verified 3 ways: deploy run success, curl (sw.js `nikolearn-1.334` + APP_VERSION 1.334 + HTTPS 200), and headless render of the LIVE domain (cards readable, water-dock clean). This session pushed the whole **1.320→1.334 backlog** live (the FAZA-0 tutor/warm-up/puzzle work had been committed but stuck local since session 4).
-
-**Owner's reported bug (FIXED): jelly-card text "practically unreadable."**
-- **VIS-9** (`niko/styles.css`): the v1.319 jelly re-skin left `.s-name`/`.s-sub` as light hue tints on pale card backgrounds = light-on-light. Measured (canvas→sRGB, sampling the ACTUAL rendered gradient pixel — getComputedStyle returns oklch which breaks naive RGB parsing): subtitles **2.07–2.98** contrast (WCAG AA needs 4.5). Darkened base + all 7 hues to AA (**verified 4.53–6.96** at 320/360/390) + `font-weight:600` + right-padding so the bottom-right tap-hint(👆)/▶ never overlaps the subtitle ink.
-- **VIS-10** (`niko/styles.css` + `niko/screens-menu.js:54-55`): the enhanced gate caught pre-existing menu nits — at 320px the right-column `.mode` tiles overflowed to 349px (clipped, badges off-screen) because grid items default to `min-width:auto` → fixed with `.mode{min-width:0}` + `.m-name` wrap; `.cat-more` + diag-offer buttons were 39-40px → bumped to ≥44px tap targets.
-
-**Visual-gate BLIND SPOT CLOSED** (owner: "gate passed but missed this bug — think systemically"). `qa/visual-gate.mjs` only checked layout (clip/overflow/tap-size), never text contrast or badge-over-text. Added `CONTRAST_PROBE`: screenshots each state, samples the real pixel behind every label (per-line `Range` ink box, skips badge pixels, canvas→sRGB), asserts WCAG AA + flags any badge physically overlapping text; added a `menu` state. Gate now green at 320/360/390 across entry/home/menu/game. **This detector would have caught VIS-9.**
-
-**⚠ DEPLOY PIPELINE — root cause + fix (IMPORTANT for next deploy).** Deploys had failed since 1.320 with `Deployment failed, try again later` (fails in ~22-26s; `gh api .../pages` `status:errored`). Ruled OUT: DNS (4 GitHub IPs + www CNAME ✓), cert (HTTPS actually serves), GitHub incident (Pages globally operational). **ROOT CAUSE: every failed deploy reused the SAME `pages_build_version` = the `f30d795` SHA, which the Pages backend had "poisoned".** **FIX THAT WORKED: push a NEW commit (new SHA `09631b0`) → deployed clean first try.** So: **if deploys stall with "try again later" on an unchanged main tip, push a fresh commit to mint a new build_version.** Also clamped `deploy-pages.yml` timeout `1200000→600000` (1.2M was invalid → clamped + warned). NOTE: `gh api .../pages -q .status` can read stale `errored` even after a successful deploy — **verify by curling the live asset version, not that field.**
-
-**ROLLBACK ANCHORS (pushed to origin):** `save-v1.317` (`a2361f2`, owner-requested) + `live-v1.320` (`f30d795`). Rollback = point main to the tag + `git push origin <tag>^{commit}:main` (or reset+push); backend now healthy so a rollback deploy also works. Deploy command unchanged: `git push origin deploy/pattern-owl:main`.
-
-**`changes.html`** (repo root) updated with VIS-9/10 + per-commit SHA + localhost verify links + cache-clear note (F12→Application→Clear site data to escape the PWA SW cache — owner kept seeing stale versions).
-
-**Owner behavioral (reinforced HARD this session — obey):** STOP over-laboring / "the more you do the more bugs multiply" — smallest contained change, verified; **never end on a question** (decide→execute→report, Stop-hook enforces); **FIX, don't leave objections**; when I mis-hypothesized (contrast "1.07" artifact, btn "timing" artifact) I VERIFIED empirically and corrected rather than shipping the guess. A stroke-order **writing pilot built earlier this session was REJECTED by owner ("სრული კატასტროფა"), reverted, and must NEVER reappear anywhere.**
-
-**NEXT / open (nothing urgent):** owner should Clear site data to see 1.334. FAZA-0 remaining per `docs/ACTION-PLAN-2026-07-02.md`: 0.2 telemetry (`teach_then_retry_result` + `writing_complete` events, needs Cloudflare Worker redeploy), 0.4 alphabet writing (parked). FAZA-1 distribution gated on ≥1 real teacher adopter. Model this session: **Claude Opus 4.8 (1M context)**.
-
----
-
 ## ▶ RESUME HERE (2026-07-02 · session 4) — ACTION PLAN v2 APPROVED (owner) → `docs/ACTION-PLAN-2026-07-02.md` is SSOT
 
 **Owner rebuilt strategy this session.** Growth model LOCKED = **mass free volume** (schools/teachers + diaspora FB → 3000 active kids/day; monetize 5-10%, NOT 40-50%). Approved plan (baseline+outcome+done+red-team per item) lives in **`docs/ACTION-PLAN-2026-07-02.md`** — read it first. New standing standard: every plan carries definition+baseline+measurable-outcome+done+red-team (see `~/.claude/.../memory/feedback_plan_rigor_standard.md`).
