@@ -444,12 +444,12 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
 .mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
 .mode{background:var(--card);border:1.5px solid var(--line);border-radius:var(--radius-sm);
   padding:16px 12px;min-height:104px;cursor:pointer;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;gap:6px;
+  justify-content:center;gap:6px;min-width:0; /* grid item: allow 1fr track to shrink below content (fixes 320px clip) */
   text-align:center;box-shadow:var(--shadow);transition:transform .15s,border-color .15s}
 .mode:active{transform:translateY(2px) scale(.97)}
 .mode:hover{border-color:color-mix(in oklch,var(--primary) 50%,var(--line))}
 .mode .m-ico{font-size:1.9rem;line-height:1}
-.mode .m-name{font-weight:700;font-size:.95rem}
+.mode .m-name{font-weight:700;font-size:.95rem;overflow-wrap:anywhere;min-width:0;max-width:100%}
 .mode .m-sub{font-size:clamp(0.82rem,3.4vw,0.95rem);color:var(--muted);overflow-wrap:anywhere;line-height:1.22} /* VIS-6: was .71rem, too small on phone */
 .mode.wide{grid-column:span 2;flex-direction:row;justify-content:flex-start;text-align:left;gap:13px;padding:16px 18px}
 .mode.wide .m-ico{font-size:2.2rem}
@@ -1332,8 +1332,8 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
 .cat-chip .cx{font-size:.78rem;opacity:.8}
 .cat-chip:active{transform:scale(.96)}
 /* „+N თემა" overflow hint under a capped grid → opens the full picker (owner 2026-06-13) */
-.cat-more{display:block;margin:12px auto 0;padding:9px 18px;border:1.5px dashed var(--line);background:none;
-  border-radius:999px;font-family:inherit;font-weight:700;font-size:.9rem;color:var(--muted);cursor:pointer}
+.cat-more{display:block;margin:12px auto 0;padding:12px 18px;min-height:44px;border:1.5px dashed var(--line);background:none;
+  border-radius:999px;font-family:inherit;font-weight:700;font-size:.9rem;color:var(--muted);cursor:pointer} /* 44px tap target */
 .cat-more:active{transform:scale(.96)}
 .topic-all{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;padding:15px 18px;
   margin-bottom:12px;border:1.5px solid var(--line);background:var(--card);border-radius:var(--radius-sm);

@@ -51,8 +51,8 @@ function openMenu(subj){
       pathHead=`<div class="pathcard diag-offer"><div class="path-top"><b>🧭 ვნახოთ რა იცი ${pathLocName(subj)}</b></div>
         <div class="path-hint">სულ რაღაც ${nq} კითხვა, რომ გითხრა საიდან დაიწყო.</div>
         <div style="display:flex;gap:8px;margin-top:10px">
-          <button class="btn btn-primary" style="flex:1;padding:9px 14px;min-height:0;font-size:.98rem" onclick="startSubjDiag('${profile}','${subj}')">დავიწყოთ →</button>
-          <button class="btn btn-ghost" style="padding:9px 14px;min-height:0;font-size:.98rem" onclick="skipSubjDiag('${profile}','${subj}')">გამოტოვება</button>
+          <button class="btn btn-primary" style="flex:1;padding:11px 14px;min-height:44px;font-size:.98rem" onclick="startSubjDiag('${profile}','${subj}')">დავიწყოთ →</button>
+          <button class="btn btn-ghost" style="padding:11px 14px;min-height:44px;font-size:.98rem" onclick="skipSubjDiag('${profile}','${subj}')">გამოტოვება</button>
         </div></div>`;
     } else {
       pathHead=renderPathStrip(subj);
