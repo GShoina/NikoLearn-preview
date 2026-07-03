@@ -881,6 +881,7 @@ Object.assign(window.I18N_MAP, {
   "ვინ სწავლობს?":"Who's learning?","დაიწყე ახლავე, პროფილის გარეშე":"Start now, no profile",
   "გამოსცადე ახლავე":"Try it now","გამოსცადე ახლავე, პროფილის გარეშე":"Try it now, no profile","სტუმარი":"Guest","ვინ სწავლობს თამაშით?":"Who learns through play?","აირჩიე ასაკი და სწორ გამოწვევებს შემოგთავაზებთ":"Pick an age to match the right challenges","მოგესალმები 👋 ჯერ გამოსცადე, მერე შექმენი პროფილი":"Hi 👋 try it first, then create a profile",
   "შექმენი პროფილი, პროგრესი შეინახება":"Create a profile, progress is saved",
+  "მოგესალმები 👋":"Hi 👋","ჯერ გამოსცადე":"First, try it","მერე შექმენი პროფილი":"Then create a profile",
   "მოგესალმები 👋 ჯერ ისწავლე თამაშით, მერე შექმენი პროფილი":"Hi 👋 first learn through play, then create a profile",
   "ააწყვე სიტყვა":"Build a word","ასოს დამატება":"Add a letter","გრამატიკა":"Grammar","ინგლისური ანბანი":"English alphabet",
   "ხატვა და გაფერადება":"Draw & colour","ხატვა, გაფერადება და გასაფერადებელი შაბლონები":"Draw, colour and templates",

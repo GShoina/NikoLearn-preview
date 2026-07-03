@@ -424,11 +424,16 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
 .bottomnav.dock button .navemoji{font-size:20px}
 .bottomnav.dock .navdot{display:none}
 .bottomnav.dock button.on{color:#FF8A00;background:none}
-.bottomnav.dock button[data-nav="home"]{color:#fff;width:58px;height:58px;flex:0 0 auto;margin-top:-26px;border-radius:50%;
-  background:linear-gradient(150deg,#FFB04A,#FF8A00);
-  box-shadow:0 12px 22px -6px rgba(255,138,0,.6), inset 0 2px 4px rgba(255,255,255,.5)}
-.bottomnav.dock button[data-nav="home"] svg{width:26px;height:26px}
-.bottomnav.dock button[data-nav="home"].on{color:#fff}
+/* Home = a proportionate, equal dock tab (owner 07-03: the raised 58px FAB read as disproportionate + was
+   left-anchored, not centered). EdTech-standard flat equal tabs (Duolingo/Khan Kids); Home just carries the
+   brand-orange as the active/anchor colour, same footprint as its siblings. */
+.bottomnav.dock button[data-nav="home"]{color:#FF8A00}
+.bottomnav.dock button[data-nav="home"] svg{width:25px;height:25px}
+.bottomnav.dock button[data-nav="home"].on{color:#FF8A00}
+/* welcome subtitle: intentional stacked lines so it never wraps mid-instruction on a phone (owner 07-03) */
+.tag-welcome{display:flex;flex-direction:column;align-items:center;gap:2px;line-height:1.35}
+.tag-welcome .tw-hi{font-weight:600}
+.tag-welcome .tw-step{font-size:.92em;opacity:.82}
 
 /* ── MODE GRID ── */
 .mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
