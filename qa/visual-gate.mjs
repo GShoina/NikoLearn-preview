@@ -112,6 +112,63 @@ const PROBE = (minPx) => {
   return out;
 };
 
+// runs INSIDE the page WITH a screenshot of the current viewport (base64) — samples the
+// ACTUAL rendered pixel behind each label (canvas→sRGB, so oklch/gradients are handled) and
+// asserts WCAG AA text contrast, plus flags any absolute badge (▶ / pill / tap-hint) that
+// physically overlaps a text label. This closes the two blind spots PROBE never checked:
+// low-contrast text on the jelly cards, and badge-over-text occlusion (VIS-7/VIS-9).
+const CONTRAST_PROBE = ({ b64 }) => new Promise(async (resolve) => {
+  const img = new Image(); img.src = 'data:image/png;base64,' + b64; await img.decode();
+  const cv = document.createElement('canvas'); cv.width = img.width; cv.height = img.height;
+  const g = cv.getContext('2d'); g.drawImage(img, 0, 0);
+  const dpr = img.width / window.innerWidth; // screenshot is deviceScaleFactor-scaled
+  const px = (x, y) => { const d = g.getImageData(Math.max(0, Math.min(cv.width - 1, Math.round(x * dpr))),
+    Math.max(0, Math.min(cv.height - 1, Math.round(y * dpr))), 1, 1).data; return [d[0], d[1], d[2]]; };
+  const lin = v => { v /= 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); };
+  const lum = ([r, gg, b]) => .2126 * lin(r) + .7152 * lin(gg) + .0722 * lin(b);
+  const ratio = (a, b) => { const l1 = lum(a), l2 = lum(b); return (Math.max(l1, l2) + .05) / (Math.min(l1, l2) + .05); };
+  const toRGB = (() => { const c = document.createElement('canvas'); c.width = c.height = 4; const x = c.getContext('2d', { willReadFrequently: true });
+    return col => { x.clearRect(0, 0, 4, 4); x.fillStyle = '#000'; x.fillRect(0, 0, 4, 4); x.fillStyle = col; x.fillRect(0, 0, 4, 4); const d = x.getImageData(1, 1, 1, 1).data; return [d[0], d[1], d[2]]; }; })();
+  const vw = window.innerWidth, vh = window.innerHeight;
+  const vis = el => { const s = getComputedStyle(el); return !(s.visibility === 'hidden' || s.display === 'none' || +s.opacity === 0); };
+  const TEXT = '.s-name,.s-sub,.m-name,.m-sub,.mode .m-name,.mode .m-sub';
+  const BADGE = '.play-badge,.s-badge,.tap-hint';
+  const badges = [...document.querySelectorAll(BADGE)].filter(vis).map(b => b.getBoundingClientRect()).filter(r => r.width);
+  // PER-LINE ink boxes (Range.getClientRects) — an .s-sub is card-width but its glyphs are
+  // narrower and may wrap; using the union box false-flags the corner tap-hint AND samples bg in
+  // the between-lines gap. Per-line rects fix both: sample bg just past each line's own ink, and
+  // test badge overlap against each line box.
+  const lineRects = t => { try { const rg = document.createRange(); rg.selectNodeContents(t);
+    const rl = [...rg.getClientRects()].filter(r => r.width > 1 && r.height > 1);
+    return rl.length ? rl : [t.getBoundingClientRect()]; } catch { return [t.getBoundingClientRect()]; } };
+  const out = [];
+  for (const t of document.querySelectorAll(TEXT)) {
+    if (!vis(t)) continue;
+    const lines = lineRects(t); const u = t.getBoundingClientRect();
+    if (!u.width || u.top >= vh || u.bottom <= 0) continue;
+    const txt = (t.textContent || '').trim().slice(0, 18); if (!txt) continue;
+    const st = getComputedStyle(t); const fs = parseFloat(st.fontSize); const bold = +st.fontWeight >= 700;
+    const large = fs >= 24 || (bold && fs >= 18.66); const need = large ? 3.0 : 4.5;
+    // worst-case contrast across lines: sample the card bg just past each line's ink, but NEVER
+    // on a badge (a ▶/pill would give a false low ratio vs the text). Try right-of-ink then
+    // left-of-ink; skip any candidate that lands inside a badge rect.
+    const inBadge = (x, y) => badges.some(b => x >= b.left - 1 && x <= b.right + 1 && y >= b.top - 1 && y <= b.bottom + 1);
+    let worst = 99;
+    for (const r of lines) { if (r.top >= vh || r.bottom <= 0) continue;
+      const sy = Math.min(Math.max(r.top + r.height / 2, 2), vh - 2);
+      const cands = [Math.min(r.right + 8, vw - 2), Math.max(r.left - 8, 2)].filter(x => !inBadge(x, sy));
+      for (const sx of cands) worst = Math.min(worst, ratio(toRGB(st.color), px(sx, sy))); }
+    const c = worst === 99 ? 99 : +worst.toFixed(2);
+    const problems = [];
+    if (c < need) problems.push('contrast' + c + '<' + need);
+    for (const b of badges) for (const r of lines) { const ox = Math.min(r.right, b.right) - Math.max(r.left, b.left);
+      const oy = Math.min(r.bottom, b.bottom) - Math.max(r.top, b.top);
+      if (ox > 6 && oy > 6) { problems.push('badge-overlap'); break; } }
+    if (problems.length) out.push({ el: (String(t.className).split(' ')[0]), txt, c, size: Math.round(fs) + 'px', problems: [...new Set(problems)] });
+  }
+  resolve(out);
+});
+
 (async () => {
   const exe = findChrome();
   const server = await serve();
@@ -125,7 +182,8 @@ const PROBE = (minPx) => {
   // home2 = water-dock footer (raised HOME button); game = in-round slim dock.
   const STATES = [
     { name: 'entry', drive: async () => {} },
-    { name: 'home2', drive: async (p) => { await p.evaluate(() => { try { enterApp(); } catch {} }); } },
+    { name: 'home2', drive: async (p) => { await p.evaluate(() => { try { startDemo(7); selectProfile('guest'); } catch {} }); } },
+    { name: 'menu',  drive: async (p) => { await p.evaluate(() => { try { openMenu('math'); } catch {} }); } },
     { name: 'game',  drive: async (p) => { await p.evaluate(() => { try { startDemo(7); } catch {} }); } },
   ];
 
@@ -145,11 +203,15 @@ const PROBE = (minPx) => {
       await st.drive(page).catch(()=>{});
       await page.waitForTimeout(600);
       const r = await page.evaluate(PROBE, 44);
+      const shotBuf = await page.screenshot().catch(() => null);
       if (SHOTS) await page.screenshot({ path: join('output', `vg-${w}-${st.name}.png`), fullPage: false }).catch(()=>{});
-      const bad = r.overflowX || r.offenders.length;
+      let cprobe = [];
+      if (shotBuf) cprobe = await page.evaluate(CONTRAST_PROBE, { b64: shotBuf.toString('base64') }).catch(() => []);
+      const bad = r.overflowX || r.offenders.length || cprobe.length;
       if (bad) fail++;
-      console.log(`\n[${w}px ${st.name}] screen=${r.screen} vh=${r.vh} overflowX=${r.overflowX} offenders=${r.offenders.length}`);
+      console.log(`\n[${w}px ${st.name}] screen=${r.screen} vh=${r.vh} overflowX=${r.overflowX} offenders=${r.offenders.length} text-issues=${cprobe.length}`);
       for (const o of r.offenders) console.log(`   • ${o.el.padEnd(18)} ${o.size.padEnd(9)} ${o.pos.padEnd(30)} ${o.problems.join(',')}`);
+      for (const o of cprobe) console.log(`   ✎ ${o.el.padEnd(10)} "${o.txt}" ${o.size} ${o.problems.join(',')}`);
     }
     await ctx.close();
   }
