@@ -448,7 +448,7 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
 .mode:hover{border-color:color-mix(in oklch,var(--primary) 50%,var(--line))}
 .mode .m-ico{font-size:1.9rem;line-height:1}
 .mode .m-name{font-weight:700;font-size:.95rem}
-.mode .m-sub{font-size:clamp(0.82rem,3.4vw,0.95rem);color:var(--muted)} /* VIS-6: was .71rem, too small on phone */
+.mode .m-sub{font-size:clamp(0.82rem,3.4vw,0.95rem);color:var(--muted);overflow-wrap:anywhere;line-height:1.22} /* VIS-6: was .71rem, too small on phone */
 .mode.wide{grid-column:span 2;flex-direction:row;justify-content:flex-start;text-align:left;gap:13px;padding:16px 18px}
 .mode.wide .m-ico{font-size:2.2rem}
 .mode.feature{grid-column:span 2;flex-direction:row;justify-content:flex-start;text-align:left;gap:14px;padding:18px;
@@ -1478,6 +1478,11 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
   background:color-mix(in oklch,var(--green,#7bb661) 88%,#fff);color:#fff;display:grid;place-items:center;
   font-size:.58rem;padding-left:2px;box-shadow:0 1px 3px rgba(40,30,20,.22);pointer-events:none}
 .subj.kids .play-badge{width:27px;height:27px;font-size:.68rem}
+/* VIS-7 (2026-07-03): long subtitles were hidden behind the bottom-right ▶ badge = unreadable
+   ("ცხოვრებისეული" clipped). Move the badge OUT of the text path on column tiles (top-right, clear of
+   the centred icon); wide/feature row tiles keep it bottom-right but reserve right padding for the text. */
+.mode:not(.wide):not(.feature) .play-badge{top:8px;bottom:auto}
+.mode.wide .m-sub,.mode.feature .m-sub{padding-right:30px}
 /* ── D5 (v2.01): desktop-only hover reveal — a parent browsing on a computer sees "what's inside"
    each card without tapping. Pointer:fine + hover:hover guards it OFF for kids on touch. The
    summary slides up + the card tilts in 3D (the "rotate" feel) using data-sum via ::after. */
