@@ -100,8 +100,13 @@ function answerAlpha(btn,sel,cor){
     alphaRec(true);save();praise();feedback(true);
     setTimeout(()=>{game.i++;closeFeedback();nextAlpha();},1000);
   } else {
-    btn.classList.add('wrong','dim');state[profile].streak=0;game.wrong++;alphaRec(false);save();
-    setTimeout(maybeOfferHelp,350);
+    // Wire the alphabet quiz into the shared owl tutor. It was SILENT on wrong answers (only a passive
+    // help-nudge, no teaching) — the red-team's confirmed gap. Now it behaves like every other mode:
+    // 1st miss = owl hint, 2nd miss = teachAndConfirm (encourage → the alpha lesson from Tutor.build →
+    // reveal the correct letter + „გაიგე?" gate). cor = the letter; lang=null marks the correct option
+    // WITHOUT unreliable Georgian TTS (the word was already voiced via alphaSay); nextAlpha advances/re-queues.
+    btn.classList.add('wrong');state[profile].streak=0;game.wrong++;alphaRec(false);save();
+    reQueueWrong(cor,null,nextAlpha);
   }
 }
 
