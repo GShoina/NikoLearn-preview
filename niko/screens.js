@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.327'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.328'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 function goHome(){
   if(typeof clearCeleb==='function')clearCeleb(); if(typeof closeFeedback==='function')closeFeedback(); // CE-2: kill pending celebration timers so they can't re-render the round over home
   // A4: if a round was in progress, count it as abandoned before we leave it
@@ -133,6 +133,21 @@ function boot(){
   try{sessionStorage.setItem('niko_enter','1');}catch(e){}
   if(!state.authed){ state.authed=true; save(); }
   goHome();
+  try{ deepLinkGo(); }catch(e){}
+}
+/* ?go=<target> deep-link (owner 07-03): jump straight to the screen where a fix is visible, so any
+   change can be validated in ONE click (see validate.html). Uses the guest demo — the already-wired,
+   safe play path — then the confirmed per-mode start fn. No effect on a normal boot (no ?go). */
+function deepLinkGo(){
+  var go; try{ go=new URLSearchParams(location.search).get('go'); }catch(e){}
+  if(!go) return;
+  if(go==='home') return;                 // goHome() already showed the profile chooser (greeting fix)
+  try{ startDemo(7); }catch(e){}          // guest → dock home (footer Home fix is visible here)
+  if(go==='dock'||go==='footer') return;  // stay on the dock home
+  var start={ math:function(){mathRound('math-add');}, 'kings-eng':function(){startKings('eng');},
+    count:function(){startCount('count');}, triangle:function(){reasonRound('triangle');},
+    alpha:function(){alphaQuiz('ka-alpha');} }[go];
+  if(start) setTimeout(function(){ try{ start(); }catch(e){} }, 90);
 }
 /* parent „გასვლა (ჩაკეტვა)": leave the parent space back to the kid profile chooser.
    No password to re-enter; the parent space re-locks via its own PIN/math gate (openGate). */

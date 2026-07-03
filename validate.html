@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ka">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NikoLearn — ვალიდაცია (რა გასწორდა)</title>
+<style>
+  :root{--ink:#2b2540;--bg:#f6f3ff;--pri:#6B63B5;--ok:#00A651;--or:#FF8A00}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--ink);padding:16px;max-width:760px;margin:0 auto}
+  h1{font-size:20px;margin:0 0 2px}
+  .sub{font-size:13px;color:#6b6480;margin:0 0 16px;line-height:1.5}
+  .card{background:#fff;border-radius:16px;box-shadow:0 4px 16px rgba(107,99,181,.10);padding:14px 16px;margin-bottom:12px}
+  .card h2{font-size:15px;margin:0 0 6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .v{font-size:11px;font-weight:700;background:#efeaff;color:var(--pri);border-radius:20px;padding:2px 9px}
+  .ba{font-size:13.5px;line-height:1.55;margin:4px 0 8px}
+  .ba b{color:var(--ok)}
+  .where{font-size:12px;color:#8a8398;font-family:ui-monospace,Consolas,monospace;margin-bottom:10px}
+  .go{display:inline-flex;align-items:center;gap:6px;text-decoration:none;background:var(--pri);color:#fff;font-weight:700;font-size:14px;border-radius:11px;padding:9px 16px}
+  .go.demo{background:var(--or)}
+  .how{font-size:12.5px;color:#6b6480;margin-top:8px;background:#faf8ff;border-radius:9px;padding:7px 10px;line-height:1.5}
+  .note{font-size:12.5px;color:#6b6480;background:#fff6e6;border:1px solid #ffe0a6;border-radius:11px;padding:10px 12px;margin-bottom:16px;line-height:1.5}
+</style>
+</head>
+<body>
+<h1>✅ ვალიდაცია — რა გასწორდა</h1>
+<p class="sub">თითო ბარათი = ერთი ცვლილება. „ნახე →" გხსნის აპს ზუსტად იმ ეკრანზე სადაც ცვლილება ჩანს. ყველა ლოკალურია (ცოცხალზე ჯერ არ გასულა).</p>
+<div class="note">⚠ ეს გვერდი მუშაობს მხოლოდ როცა preview სერვერი გაშვებულია (localhost:8099). თუ ლინკი არ იხსნება — მთხოვე „preview" და ავამუშავებ.</div>
+
+<div class="card">
+  <h2>👋 შესვლის მისალმება <span class="v">v1.327</span></h2>
+  <div class="ba">მდე: ერთი ხაზი, მობილურზე შუა სიტყვაზე წყდებოდა („…გამოსცადე," / „მერე…"). <b>მემდე: 3 განზრახ ხაზი</b> (მისალმება / ნაბიჯი 1 / ნაბიჯი 2).</div>
+  <div class="where">niko/screens.js:45</div>
+  <a class="go" href="index.html?app=1&notrack=1&go=home" target="_blank">ნახე →</a>
+</div>
+
+<div class="card">
+  <h2>🏠 footer Home ღილაკი <span class="v">v1.327</span></h2>
+  <div class="ba">მდე: 58px აწეული ნარინჯისფერი წრე, მარცხნივ, არაპროპორციული. <b>მემდე: პროპორციული ბრტყელი tab</b> (და-ღილაკების ტოლი, Duolingo/Khan-სტანდარტი).</div>
+  <div class="where">niko/styles.css:427</div>
+  <a class="go demo" href="index.html?app=1&notrack=1&go=footer" target="_blank">ნახე → (ქვედა dock)</a>
+</div>
+
+<div class="card">
+  <h2>🔺 სამკუთხედის თავსატეხი <span class="v">v1.326</span></h2>
+  <div class="ba">მდე: 3 ნიმუშს შეეძლო ერთი და იგივე ქვედა-მარჯვ. რიცხვი → წესი ორაზროვანი, სწორად მოაზროვნე ბავშვი არასწორად ინიშნებოდა (fuzz: tier-1-ის 21%). <b>მემდე: ≥2 განსხვავებული ქვედა-მარჯვ. რიცხვი გარანტირებულია</b> (9000 გაშვება = 0 ორაზროვანი).</div>
+  <div class="where">niko/games.js:1317</div>
+  <a class="go" href="index.html?app=1&notrack=1&go=triangle" target="_blank">ნახე →</a>
+  <div class="how">შეხედე 3 ამოხსნილი სამკუთხედის ქვედა-მარჯვენა ციფრებს — აღარ არის სამივე ერთი და იგივე.</div>
+</div>
+
+<div class="card">
+  <h2>➕ მათემატიკის პირველი კითხვა <span class="v">v1.325</span></h2>
+  <div class="ba">მდე: მარტივი პირველი კითხვა მხოლოდ სულ ახალ ბავშვს. <b>მემდე: ყოველი რაუნდი მარტივი კითხვით იხსნება</b>, მე-2-დან დონეზე ადის (q0 = მიტოვების 53%).</div>
+  <div class="where">niko/games.js:684</div>
+  <a class="go" href="index.html?app=1&notrack=1&go=math" target="_blank">ნახე →</a>
+  <div class="how">პირველი კითხვა პატარა რიცხვებია (მაგ. 1+2), შემდეგი კითხვები უფრო რთული.</div>
+</div>
+
+<div class="card">
+  <h2>👑 Kings English პირველი კითხვა <span class="v">v1.325</span></h2>
+  <div class="ba">მდე: პირველი კითხვა შემთხვევითი. <b>მემდე: პირველი = ყველაზე მარტივი სურათიანი item</b>.</div>
+  <div class="where">niko/games.js:919</div>
+  <a class="go" href="index.html?app=1&notrack=1&go=kings-eng" target="_blank">ნახე →</a>
+  <div class="how">პირველი კითხვა სურათი→სიტყვა (მარტივი), დანარჩენი შერეული.</div>
+</div>
+
+<div class="card">
+  <h2>🦉 ანბანის ტუტორი <span class="v">v1.322</span></h2>
+  <div class="ba">მდე: ქართული/ინგლისური ანბანის ქვიზი შეცდომაზე უჩუმარი. <b>მემდე: მე-2 შეცდომაზე ბუ ასწავლის</b> + „გაიგე?" gate.</div>
+  <div class="where">niko/alpha.js:109</div>
+  <a class="go" href="index.html?app=1&notrack=1&go=alpha" target="_blank">ნახე →</a>
+  <div class="how">განზრახ ორჯერ შეცდი (არასწორ ასოს დააჭირე) → ბუ ხსნის.</div>
+</div>
+
+<div class="card">
+  <h2>🔢 დათვლის ტუტორი <span class="v">v1.323</span></h2>
+  <div class="ba">მდე: დათვლა შეცდომაზე უჩუმარი. <b>მემდე: მე-2 შეცდომაზე ბუ ასწავლის</b> (იგივე გზა).</div>
+  <div class="where">niko/games.js:909</div>
+  <a class="go" href="index.html?app=1&notrack=1&go=count" target="_blank">ნახე →</a>
+  <div class="how">ორჯერ შეცდი → ბუ ასწავლის დათვლას.</div>
+</div>
+
+<div class="card">
+  <h2>✍️ ანბანის წერის დემო <span class="v">standalone</span></h2>
+  <div class="ba">ცალკე გვერდი (აპში არ არის). ასოს მოსმის მიმდევრობა + თითით წერა. <b>ჯერ გასაუმჯობესებელია</b> (ერთ-მიმართულებიანი მოსმა — მუშავდება).</div>
+  <div class="where">writing-demo.html</div>
+  <a class="go" href="writing-demo.html" target="_blank">ნახე →</a>
+</div>
+
+<p class="sub" style="margin-top:20px">დარჩა (ჯერ არ გამიკეთებია): red-team backlog — უჩუმარი ტუტორი (answerDigit/Read/Sent), shape ინგლისური ხმით, ხმის კლიპები, copy (პლანეტები, ფიგურის წესი).</p>
+</body>
+</html>
