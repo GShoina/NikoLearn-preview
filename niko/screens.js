@@ -146,7 +146,8 @@ function deepLinkGo(){
   if(go==='dock'||go==='footer') return;  // stay on the dock home
   var start={ math:function(){mathRound('math-add');}, 'kings-eng':function(){startKings('eng');},
     count:function(){startCount('count');}, triangle:function(){reasonRound('triangle');},
-    alpha:function(){alphaQuiz('ka-alpha');} }[go];
+    alpha:function(){alphaQuiz('ka-alpha');}, digit:function(){startDigitQuiz();},
+    read:function(){startReadQuiz();}, sent:function(){startSentQuiz();} }[go];
   if(start) setTimeout(function(){ try{ start(); }catch(e){} }, 90);
 }
 /* parent „გასვლა (ჩაკეტვა)": leave the parent space back to the kid profile chooser.
