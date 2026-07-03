@@ -1309,8 +1309,19 @@ function genTriangle(tier){ tier=Math.max(1,Math.min(3,tier||1));
     while(items.length<4 && g++<80){ const a=gen(),k=a.join(','),c=C(a[0],a[1],a[2]); if(seen.has(k)||seen.has('c'+c))continue; seen.add(k); seen.add('c'+c); items.push({t:a[0],l:a[1],r:a[2],c}); }
     while(items.length<4){ const a=gen(); items.push({t:a[0],l:a[1],r:a[2],c:C(a[0],a[1],a[2])}); }
     return items; }
+  // The 3 examples must DISAMBIGUATE the rule. Empirical fuzz (2026-07-03) caught the biggest failure the old
+  // guard missed: when all 3 examples share one r, "(t+l)×r" is indistinguishable from a CONSTANT multiplier
+  // "(t+l)×r0" — the child infers the constant, the target's different r then marks a correctly-reasoning child
+  // WRONG (~1 in 8 tier-1 puzzles, trap answer often in the options). Fix: force ≥2 distinct r across the
+  // examples (kills the constant-multiplier reading) AND keep the formula guard.
+  const distinctR = its => new Set(its.slice(0,3).map(s=>s.r)).size >= 2;
   let items, tries=0;
-  do { items=build(); } while(++tries<25 && ALT.some(fn=>{ for(let i=0;i<3;i++){ const s=items[i]; if(fn(s.t,s.l,s.r)!==s.c) return false; } return true; }));
+  do { items=build(); } while(++tries<40 && (!distinctR(items) || ALT.some(fn=>{ for(let i=0;i<3;i++){ const s=items[i]; if(fn(s.t,s.l,s.r)!==s.c) return false; } return true; })));
+  if(!distinctR(items)){ // guarantee disambiguation even if the loop exhausted its tries (never ship a constant-r set)
+    const rs = tier===1?[2,3] : tier===2?[2,3,4] : [2,3,4,5];
+    const alt = rs.find(r=>r!==items[0].r) || items[0].r;
+    items[1].r=alt; items[1].c=C(items[1].t,items[1].l,alt);
+  }
   const target=items[3], ans=target.c;
   // INV-5 (owner 07-02: puzzle objects too small on phone): fluid box (clamp) + %-based label positions so
   // the numbers stay aligned as the triangle scales, and clamp fonts so the values grow on a real phone.
