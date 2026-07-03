@@ -168,7 +168,7 @@ function answerDigit(btn,sel,cor){
     sayThenPraise(numWord(cor,profile),vCode(profile),()=>{game.i++;closeFeedback();nextDigit();});   // number first, pause, then praise
   } else {
     btn.classList.add('wrong','dim');state[profile].streak=0;game.wrong++;save();
-    try{speakSeq([{t:numWord(sel,profile),lang:vCode(profile)},{t:retryWord(profile),lang:vCode(profile)}]);}catch(e){}
+    reQueueWrong(cor,null,nextDigit); // red-team 07-03: digits were SILENT on wrong (only spoke the wrong number). Now owl hint (1st miss) → teach + „გაიგე?" gate (2nd), like answerCount/answerAlpha.
   }
 }
 
@@ -259,7 +259,7 @@ function answerRead(btn,sel,cor){
     sayThenPraise(cor,'ka-GE',()=>{game.i++;closeFeedback();nextRead();});
   } else {
     btn.classList.add('wrong','dim');state[profile].streak=0;game.wrong++;save();
-    try{speakSeq([{t:sel,lang:'ka-GE'},{t:'კიდევ სცადე.',lang:'ka-GE'}]);}catch(e){}
+    reQueueWrong(cor,null,nextRead); // red-team 07-03: Georgian reading was SILENT on wrong. Now owl teaches (1st hint → 2nd teach + gate).
   }
 }
 
@@ -318,7 +318,7 @@ function answerSent(btn,sel,cor){
     sayThenPraise((game.cur&&game.cur.s)||'','ka-GE',()=>{game.i++;closeFeedback();nextSent();});   // re-read sentence, pause, praise
   } else {
     btn.classList.add('wrong','dim');state[profile].streak=0;game.wrong++;save();
-    try{speak('კიდევ სცადე.','ka-GE');}catch(e){}
+    reQueueWrong(cor,null,nextSent); // red-team 07-03: sentence-reading was SILENT on wrong. Now owl teaches (1st hint → 2nd teach + gate).
   }
 }
 
