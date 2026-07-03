@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ka">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>NikoLearn — წერის დემო (ვერიფიკაცია)</title>
+<style>
+  :root{--ink:#2b2540;--bg:#f6f3ff;--pri:#6B63B5;--ok:#00A651;--bad:#e5484d;--warn:#f5a524}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{margin:0;font-family:"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--ink);padding:14px}
+  h1{font-size:19px;margin:0 0 4px}
+  .sub{font-size:13px;color:#6b6480;margin:0 0 12px;line-height:1.4}
+  .banner{background:#fff5e6;border:1px solid var(--warn);border-radius:12px;padding:10px 12px;font-size:13px;line-height:1.45;margin-bottom:14px}
+  .banner b{color:#b45309}
+  .wrap{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start}
+  .stage{background:#fff;border-radius:20px;box-shadow:0 6px 24px rgba(107,99,181,.14);padding:14px;flex:0 0 auto}
+  svg.board{display:block;width:300px;height:300px;background:
+     linear-gradient(#eee 1px,transparent 1px) 0 0/100% 33.33%,
+     linear-gradient(90deg,#eee 1px,transparent 1px) 0 0/33.33% 100%,#fff;border-radius:14px;touch-action:none}
+  .ghost{fill:#e7e3f5;font-size:78px;font-family:"BPG","Sylfaen",serif;dominant-baseline:central;text-anchor:middle}
+  .cl{fill:none;stroke:var(--pri);stroke-width:4.2;stroke-linecap:round;stroke-linejoin:round}
+  .clnum{fill:var(--pri);font-size:9px;font-weight:700}
+  .pen{font-size:13px}
+  .userink{fill:none;stroke:var(--ok);stroke-width:5;stroke-linecap:round;stroke-linejoin:round;opacity:.85}
+  .controls{display:flex;flex-direction:column;gap:10px;min-width:230px;flex:1 1 230px}
+  .row{display:flex;gap:8px;flex-wrap:wrap}
+  button{font-family:inherit;font-size:15px;border:0;border-radius:12px;padding:10px 14px;background:var(--pri);color:#fff;font-weight:600;cursor:pointer}
+  button.ghostbtn{background:#efeaff;color:var(--pri)}
+  button:active{transform:translateY(1px)}
+  .letters{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;max-width:360px}
+  .letters button{font-size:20px;padding:8px 0;background:#efeaff;color:var(--ink);border-radius:10px}
+  .letters button.sel{background:var(--pri);color:#fff}
+  .letters button.flag{outline:2px solid var(--bad)}
+  .meta{font-size:13px;color:#6b6480;line-height:1.5}
+  .meta .tag{display:inline-block;padding:1px 8px;border-radius:20px;font-size:11px;font-weight:700;margin-right:4px}
+  .tag.ok{background:#e6f7ee;color:var(--ok)}
+  .tag.bad{background:#fdeaea;color:var(--bad)}
+  .fb{min-height:22px;font-weight:700;font-size:15px}
+  .fb.ok{color:var(--ok)} .fb.bad{color:var(--bad)}
+  code{background:#efeaff;padding:1px 5px;border-radius:5px;font-size:12px}
+</style>
+</head>
+<body>
+<h1>✍️ წერის დემო — ვერიფიკაცია</h1>
+<p class="sub">ეს ცალკე გვერდია (აპში ჯერ არ არის). დანიშნულება: შენ თვითონ ნახო ყოველი ასოს <b>მოსმის მიმდევრობა</b> და გადაწყვიტო რა შედის ცოცხალ აპში.</p>
+
+<div class="banner">
+  <b>გულახდილად:</b> stroke-მონაცემი <b>ავტომატურად</b> არის აღებული ფონტიდან (skeletonization) — <b>არა</b> მასწავლებლის მიერ დადასტურებული. მოსმის რაოდენობა უკვე ამხელს ხარვეზს: <b>რ=5, ლ=4</b> მოსმა (რეალურად 1-2). წითლად მონიშნული ასოები დარწმუნებით <b>გატეხილია</b>. ამიტომ ვერ ვუშვებ ბრმად ცოცხალზე — ჯერ შენ დაადასტურე რომელი გამოდის სწორად.
+</div>
+
+<div class="wrap">
+  <div class="stage">
+    <svg class="board" id="board" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet"></svg>
+  </div>
+  <div class="controls">
+    <div class="row">
+      <button onclick="play()">▶ ვნახოთ როგორ იწერება</button>
+      <button class="ghostbtn" onclick="clearUser()">🧽 გასუფთავება</button>
+    </div>
+    <div class="fb" id="fb"></div>
+    <div class="meta" id="meta"></div>
+    <div class="meta" style="margin-top:4px">
+      <b>ასოს არჩევა:</b>
+      <div class="letters" id="letters"></div>
+    </div>
+    <div class="meta" style="margin-top:6px;font-size:12px">
+      მწვანე ხაზი = შენი თითის კვალი (სცადე დახატვა თითით/მაუსით). <br>
+      ქვემოთ: <span class="tag ok">OK-ჩანს</span> / <span class="tag bad">გატეხილი</span> — ჩემი ავტომ. ეჭვი, შენ დაადასტურე.
+    </div>
+  </div>
+</div>
+
+<script src="niko/stroke-data.js"></script>
+<script>
+const K = window.KA_STROKES || {};
+const LETTERS = Object.keys(K);
+// ავტომ. ეჭვის ლოგიკა: >3 მოსმა ქართულ ასოზე თითქმის ყოველთვის skeleton-artefact-ია
+const suspect = l => (K[l]||[]).length >= 3;
+const board = document.getElementById('board');
+const fb = document.getElementById('fb');
+const metaEl = document.getElementById('meta');
+let cur = 'ა';
+
+// --- letter picker ---
+const picker = document.getElementById('letters');
+LETTERS.forEach(l=>{
+  const b=document.createElement('button');
+  b.textContent=l; b.dataset.l=l;
+  if(suspect(l)) b.classList.add('flag');
+  b.onclick=()=>select(l);
+  picker.appendChild(b);
+});
+
+function select(l){
+  cur=l;
+  [...picker.children].forEach(b=>b.classList.toggle('sel',b.dataset.l===l));
+  render();
+  const n=(K[l]||[]).length;
+  metaEl.innerHTML = `ასო <b style="font-size:20px">${l}</b> — მოსმა: <b>${n}</b> `+
+     (suspect(l)?`<span class="tag bad">გატეხილი (ეჭვი)</span>`:`<span class="tag ok">OK-ჩანს</span>`);
+  fb.textContent=''; fb.className='fb';
+  play();
+}
+
+function render(){
+  const strokes = K[cur]||[];
+  let s = '';
+  strokes.forEach((d,i)=>{ s += `<path class="cl" data-i="${i}" d="${d}" style="visibility:hidden"/>`; });
+  s += `<g id="userlayer"></g><text class="pen" id="pen" style="visibility:hidden">✏️</text>`;
+  board.innerHTML = s;
+}
+
+function play(){
+  render();
+  const paths=[...board.querySelectorAll('.cl')];
+  const pen=board.querySelector('#pen');
+  let i=0;
+  const nextStroke=()=>{
+    if(i>=paths.length){ if(pen) pen.style.visibility='hidden'; return; }
+    const p=paths[i]; const L=p.getTotalLength();
+    p.style.visibility='visible';
+    p.style.strokeDasharray=L; p.style.strokeDashoffset=L;
+    if(pen) pen.style.visibility='visible';
+    const dur=Math.max(650,Math.min(1900,L*13));
+    const t0=performance.now();
+    const step=(t)=>{
+      const k=Math.min(1,(t-t0)/dur);
+      p.style.strokeDashoffset=L*(1-k);
+      const pt=p.getPointAtLength(L*k);
+      if(pen){ pen.setAttribute('x',pt.x-1); pen.setAttribute('y',pt.y+4); }
+      if(k<1) requestAnimationFrame(step);
+      else { i++; setTimeout(nextStroke, 260); }
+    };
+    requestAnimationFrame(step);
+  };
+  nextStroke();
+}
+
+// --- finger trace + naive validation (demonstrates the shippable feedback win) ---
+let drawing=false, pts=[], userPath=null;
+function svgPt(e){
+  const r=board.getBoundingClientRect();
+  const x=((e.touches?e.touches[0].clientX:e.clientX)-r.left)/r.width*100;
+  const y=((e.touches?e.touches[0].clientY:e.clientY)-r.top)/r.height*100;
+  return {x,y};
+}
+function startDraw(e){ drawing=true; pts=[svgPt(e)]; e.preventDefault(); }
+function moveDraw(e){
+  if(!drawing) return;
+  pts.push(svgPt(e));
+  const layer=board.querySelector('#userlayer'); if(!layer) return;
+  const d='M '+pts.map(p=>p.x.toFixed(1)+' '+p.y.toFixed(1)).join(' L ');
+  if(!userPath){ userPath=document.createElementNS('http://www.w3.org/2000/svg','path'); userPath.setAttribute('class','userink'); layer.appendChild(userPath); }
+  userPath.setAttribute('d',d);
+  e.preventDefault();
+}
+function endDraw(){
+  if(!drawing) return; drawing=false;
+  validate();
+}
+// naive coverage check: what fraction of the target centre-line points lie near the user's ink
+function validate(){
+  const paths=[...board.querySelectorAll('.cl')];
+  if(!paths.length || pts.length<4){ return; }
+  let targetPts=[];
+  paths.forEach(p=>{ const L=p.getTotalLength(); for(let s=0;s<=L;s+=L/24){ targetPts.push(p.getPointAtLength(s)); } });
+  const near=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y)<9;
+  let hit=0;
+  targetPts.forEach(tp=>{ if(pts.some(up=>near(up,tp))) hit++; });
+  const cov=hit/targetPts.length;
+  if(cov>=0.6){ fb.textContent='ყოჩაღ! ასო დაწერე 🎉'; fb.className='fb ok'; }
+  else if(cov>=0.35){ fb.textContent='თითქმის! სცადე კიდევ, გაჰყევი ხაზს'; fb.className='fb bad'; }
+  else { fb.textContent='სცადე კიდევ — გაჰყევი მეწამულ ხაზს ✏️'; fb.className='fb bad'; }
+}
+function clearUser(){ userPath=null; pts=[]; const l=board.querySelector('#userlayer'); if(l) l.innerHTML=''; fb.textContent=''; fb.className='fb'; }
+board.addEventListener('mousedown',startDraw); board.addEventListener('mousemove',moveDraw); window.addEventListener('mouseup',endDraw);
+board.addEventListener('touchstart',startDraw,{passive:false}); board.addEventListener('touchmove',moveDraw,{passive:false}); board.addEventListener('touchend',endDraw);
+
+select('ა');
+</script>
+</body>
+</html>
