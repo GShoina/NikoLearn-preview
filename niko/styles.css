@@ -133,7 +133,7 @@ body{
 
 /* ── APP SCROLL AREA ── */
 .app{flex:1;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;
-  padding:clamp(16px,4.5vw,22px);padding-bottom:112px;-webkit-overflow-scrolling:touch}
+  padding:clamp(16px,4.5vw,22px);padding-bottom:80px;-webkit-overflow-scrolling:touch}
 .app::-webkit-scrollbar{width:0}
 .screen{flex:1;display:flex;flex-direction:column;animation:rise .32s cubic-bezier(.2,.8,.25,1)}
 @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
@@ -415,10 +415,14 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
 .home-seclabel{font-family:'Fredoka';font-size:1rem;font-weight:700;color:#2A1C12;margin:0 2px 12px}
 @media(prefers-reduced-motion:reduce){.home-cont .hc-owl{animation:none}}
 /* WATER DOCK = the global bottom-nav re-skinned as a floating glass dock, raised HOME tab (only on home2) */
-.bottomnav.dock{left:16px;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));height:64px;
-  padding:0 12px;border:none;border-radius:34px;overflow:visible;
-  background:rgba(255,255,255,.84);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  box-shadow:0 14px 34px -10px rgba(42,24,16,.28), inset 0 1.5px 0 rgba(255,255,255,.95)}
+/* Owner 07-03: the floating water-dock frame read as monstrously large (64px pill + 16px inset all round
+   + heavy shadow ≈ ~90px bottom zone, overlapping content). Reverted to the v1.190 proportions — a flush,
+   full-width, compact bar (~52px) with a hairline top border — so the chrome recedes and content breathes.
+   Icons/handlers unchanged; Home stays the flat brand-orange tab. */
+.bottomnav.dock{left:0;right:0;bottom:0;height:auto;
+  padding:6px 8px calc(6px + env(safe-area-inset-bottom));border:none;border-top:1px solid var(--line);border-radius:0;overflow:visible;
+  background:color-mix(in oklch,var(--card,#fff) 90%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  box-shadow:0 -1px 8px rgba(42,24,16,.06)}
 .bottomnav.dock button{color:#B8A88E;gap:0;padding:6px 12px;min-width:44px}
 .bottomnav.dock button svg{width:24px;height:24px}
 .bottomnav.dock button .navemoji{font-size:20px}
