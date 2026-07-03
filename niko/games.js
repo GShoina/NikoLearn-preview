@@ -643,9 +643,11 @@ function genMath(type){
   }
 }
 function mathOpts(ans){const set=new Set([ans]);while(set.size<4){const v=ans+ri(1,Math.max(3,Math.ceil(Math.abs(ans)*0.3)+1))*(Math.random()>.5?1:-1);if(v>=0)set.add(v);}return shuffle([...set]);}
-// activation: a brand-new child's VERY FIRST math problem ever is guaranteed easily winnable (small
-// numbers), so the first interaction is a success → confidence to keep going. Only the first-ever round
-// (s.sessions===0); ongoing play is never dumbed down. miss/pat keep their own generator (rare first pick).
+// activation / 0.3 warm-up (owner 07-02, data: q0 = 53% of ALL abandons, math mode-abandon 65%): the FIRST
+// question of EVERY math round is a guaranteed easily-winnable opener (small, type-appropriate numbers), so
+// the child gets an immediate win → momentum past the q0 drop-off. Questions 2-8 stay at the real level and
+// the "harder" button + ramp handle strong kids, so this is a one-question primer, not a dumbed-down round.
+// miss/pat keep their own generator (rare first pick).
 function easyFirstMath(type){
   if(type==='math-add'){const a=ri(1,4),b=ri(1,4);return{q:`${a} + ${b}`,a:a+b,op:'add',a1:a,a2:b};}
   if(type==='math-sub'){const a=ri(3,7),b=ri(1,2);return{q:`${a} − ${b}`,a:a-b,op:'sub',a1:a,a2:b};}
@@ -679,7 +681,7 @@ function startMulAfterPrimer(){ try{ if(state[profile]){ state[profile].mulPrime
 function mathRound(m){
   if(m==='math-mul' && state[profile] && !state[profile].mulPrimerSeen){ return mulPrimer(); }
   game.mode=m;game.leveledMath=null;game.qs=Array.from({length:8},()=>genMath(m));
-  if(((state[profile]&&state[profile].sessions)||0)===0)game.qs[0]=easyFirstMath(m); // first-ever: winnable opener
+  game.qs[0]=easyFirstMath(m); // 0.3 warm-up: every round opens with a guaranteed-winnable question (q0 = 53% of abandons)
   game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextMath();}
 function nextMath(){
   if(game.i>=game.qs.length)return results();
@@ -914,7 +916,12 @@ function byLevel(pool,lvl){const f=pool.filter(x=>!x.lv||x.lv<=lvl);return f.len
 const KENG_TYPE_LV={pic2word:1,number:1,translate:2,spelling:2,grammar:2};
 function startKings(kind){
   game.kind=kind;game.shields=0;game.wrong=0;game.i=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);
-  if(kind==='eng'){const lvl=kingsLevel();const pool=KINGS_ENG.filter(q=>(q.lv||KENG_TYPE_LV[q.type]||1)<=lvl);game.qs=shuffle((pool.length>=6?pool:KINGS_ENG).slice()).slice(0,10);}
+  if(kind==='eng'){const lvl=kingsLevel();const pool=KINGS_ENG.filter(q=>(q.lv||KENG_TYPE_LV[q.type]||1)<=lvl);game.qs=shuffle((pool.length>=6?pool:KINGS_ENG).slice()).slice(0,10);
+    // 0.3 warm-up (kings-eng abandon 59%): open with the easiest item — lowest YLE band, prefer a concrete
+    // picture opener (pic2word/emoji) — so the child gets a confident first win. Only q0 changes; rest stays shuffled.
+    const ez=q=>(q.lv||KENG_TYPE_LV[q.type]||1)*10+((q.type==='pic2word'||q.emoji)?0:3);
+    let ei=0;for(let k=1;k<game.qs.length;k++){if(ez(game.qs[k])<ez(game.qs[ei]))ei=k;}
+    if(ei>0){const t=game.qs[0];game.qs[0]=game.qs[ei];game.qs[ei]=t;}}
   else game.qs=shuffle(KINGS_MATH.slice()).slice(0,8);
   game.mode=kind==='eng'?'kings-eng':'kings-math';
   nextKings();
