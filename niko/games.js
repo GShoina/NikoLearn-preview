@@ -897,9 +897,14 @@ function answerCount(btn,sel,cor){
     const s=state[profile];s.shields++;game.shields++;s.streak++;save();
     // F3/F4: say the NUMBER first, hold a beat, THEN praise + celebrate (never praise before the answer)
     sayThenPraise(numWord(cor,profile),vCode(profile),()=>{game.i++;closeFeedback();nextCount();});}
-  else{btn.classList.add('wrong','dim');state[profile].streak=0;game.wrong++;save();
+  else{btn.classList.add('wrong');state[profile].streak=0;game.wrong++;save();
     // voice the chosen (wrong) number + gentle "try again" (chosen voicing language)
-    try{speakSeq([{t:numWord(sel,profile),lang:vCode(profile)},{t:retryWord(profile),lang:vCode(profile)}]);}catch(e){}}
+    try{speakSeq([{t:numWord(sel,profile),lang:vCode(profile)},{t:retryWord(profile),lang:vCode(profile)}]);}catch(e){}
+    // wire counting into the shared owl tutor. It was SILENT on wrong answers (only the wrong number +
+    // "try again", no teaching). Now like every mode: 1st miss = owl hint ("count slowly, one by one"),
+    // 2nd miss = teachAndConfirm (encourage → counting lesson → reveal the number + „გაიგე?" gate).
+    // lang=null marks the correct option without TTS (the child can tap „დავთვალოთ ერთად" to hear it).
+    reQueueWrong(cor,null,nextCount);}
 }
 
 /* ── Kings = Cambridge YLE level ladder (Starters/Movers/Flyers). byLevel() keeps only items at or
