@@ -28,9 +28,18 @@
 <body>
 <h1>🗂️ ცვლილებები — ამ სესია</h1>
 <p class="sub">თითო ბარათი = ერთი commit. „ნახე →" ხსნის ზუსტ ეკრანს (შენს localhost:8099-ზე). SHA = კოდის ვერსია.</p>
-<div class="warn">⚠ <b>25 commit ლოკალურია, 0 ცოცხალზე.</b> GitHub/ლაივ ლინკები მუშაობს მხოლოდ push-ის შემდეგ (ამ სესიაში დაბლოკილია → შენი go/skip-permissions სესია სჭირდება). ქვემოთ ლინკები = <b>შენი გაშვებული preview (localhost:8099)</b>. თუ სერვერი გამორთულია, ჯერ ჩართე.</div>
+<div class="warn">⚠ <b>26 commit ლოკალურია, 0 ცოცხალზე.</b> GitHub/ლაივ ლინკები მუშაობს მხოლოდ push-ის შემდეგ (ამ სესიაში დაბლოკილია → შენი go/skip-permissions სესია სჭირდება). ქვემოთ ლინკები = <b>შენი გაშვებული preview (localhost:8099)</b>.<br><b>⚠ Cache:</b> localhost-მა შეიძლება ძველი ვერსია გაჩვენოს (PWA service-worker). სუფთად სანახავად: <b>Ctrl+Shift+R</b> (hard reload). footer-ში უნდა ეწეროს <b>v1.333</b>.</div>
 
 <h2>🎨 UI / ვიზუალი</h2>
+<div class="card" style="border-color:#00A651;border-width:2px">
+  <div class="top"><span class="v" style="background:#e3f9ee;color:#0a7a4a">v1.333</span><span class="sha">8e51413</span> <span style="font-size:11px;font-weight:800;color:#0a7a4a">← შენი ბაგი</span></div>
+  <div class="what"><b>ბარათების ტექსტი წაუკითხავი იყო → გასწორდა (VIS-9).</b> ჟელე-რესქინის ღია ფონზე ქვესათაურები ღია ტინტით ეწერა = ღია-ღიაზე. გავზომე ფაქტობრივი რენდერ-პიქსელი (canvas→sRGB): კონტრასტი <b>2.07–2.98</b> (WCAG-ს სჭირდება ≥4.5) → ახლა <b>4.53–6.96</b>, სამივე სიგანეზე (320/360/390). ყველა 7 hue-ს სათაური+ქვესათაური დავამუქე + tap-hint(👆)/▶ ტექსტს აღარ აჭარბებს.</div>
+  <div class="files">niko/styles.css (base + 7 hue .s-name/.s-sub)</div>
+  <a class="go" href="/index.html?app=1" target="_blank">ნახე მთავარი →</a>
+  <div class="how">ყველა საგნის ბარათი — სათაური და ქვესათაური ახლა მუქი და გარკვევით იკითხება. (screenshot ცალკე გამოგიგზავნე.)</div>
+</div>
+
+<h2>🎨 UI / ვიზუალი (ადრე)</h2>
 <div class="card">
   <div class="top"><span class="v">v1.332</span><span class="sha">c269cd8</span></div>
   <div class="what">მენიუს ბარათებზე ▶ badge აღარ ფარავს ქვესათაურს (VIS-7). გრძელი ტექსტი („ცხოვრებისეული") ▶-ის უკან იმალებოდა = წაუკითხავი. ✅ 0 overlap ყველა menu+home (text-accurate audit).</div>
@@ -92,9 +101,15 @@
   <div class="files">qa/visual-gate.mjs, validate.html, .git/hooks/pre-push</div>
   <a class="go" href="/validate.html" target="_blank">validate.html →</a>
 </div>
+<div class="card" style="border-color:#00A651">
+  <div class="top"><span class="v" style="background:#e3f9ee;color:#0a7a4a">v1.333</span><span class="sha">8e51413</span></div>
+  <div class="what">✅ <b>გეითის ღიობი დაიხურა (შენ სწორად დაიჭირე):</b> გეითი მხოლოდ layout-ს ამოწმებდა (clip/overflow/tap-ზომა), <b>ტექსტის კონტრასტს და badge-ტექსტზე გადაფარვას — არა</b>. ამიტომ VIS-9 გამორჩა. დავამატე <code>CONTRAST_PROBE</code>: screenshot-ს იღებს, თითო წარწერის უკან ფაქტობრივ პიქსელს სინჯავს (per-line Range, badge-პიქსელს ტოვებს), WCAG AA-ს ამოწმებს + badge-ის ტექსტზე ფიზიკურ გადაფარვას იჭერს. <b>ეს დეტექტორი თავად VIS-9-ს დაიჭერდა.</b> home/game/entry — სუფთა სამივე სიგანეზე.</div>
+  <div class="files">qa/visual-gate.mjs (CONTRAST_PROBE + menu state)</div>
+  <a class="go" href="/validate.html" target="_blank">validate.html →</a>
+</div>
 <div class="card" style="border-color:#ffd0a6">
-  <div class="what">⚠ <b>გეითის ღიობი (შენ სწორად დაიჭირე):</b> ვიზუალურმა გეითმა VIS-7 badge-overlap ვერ დაიჭირა — ის text-vs-badge გადაფარვას არ ამოწმებდა. <b>შემდეგი: Range-based badge-overlap შემოწმება გეითში.</b></div>
-  <div class="nolink">ჯერ არ არის commit-ში — მომდევნო ნაბიჯი.</div>
+  <div class="what">ℹ <b>ახალმა გეითმა 2 წინარე-არსებული წვრილი menu-საკითხი ამოაგდო</b> (არც შენი ბაგია, არც ამ სესიაში შექმნილი, menu-ს ხელი არ მიხლია): menu-ღილაკები 40px `44px`-ის ნაცვლად + ერთი mode-tile 320px-ზე ოდნავ გადადის. <b>ჩავიწერე — არ ვასწორებ სანამ არ მეტყვი</b> (რომ scope არ გავზარდო).</div>
+  <div class="nolink">ლოგი — მომავალი ნაბიჯი შენი გადაწყვეტით.</div>
 </div>
 
 <h2>⚙️ პროტოკოლი / docs (აპ-ცვლილება არაა)</h2>
