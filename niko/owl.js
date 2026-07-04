@@ -35,7 +35,10 @@ function curQ(){var m=game.mode||''; if(m.startsWith('kings-'))return null; /* C
 function syncAiFab(){
   let fab=$('#aifab');const inGame=$('#gscreen');
   if(inGame){
-    if(!fab){fab=document.createElement('button');fab.id='aifab';fab.className='ai-fab';fab.onclick=openHint;$('.device').appendChild(fab);}
+    if(!fab){fab=document.createElement('button');fab.id='aifab';fab.className='ai-fab';fab.onclick=openHint;
+      fab.setAttribute('aria-label','დახმარება');
+      // dock in the game top bar (never over the play tiles); fall back to .device if the row isn't found
+      const row=$('#gscreen .progress-row'); (row||$('.device')).appendChild(fab);}
     fab.innerHTML=`<span class="ping"></span>${tutorFace(profile)}`;   // brand owl (or the chosen animal)
   } else if(fab) fab.remove();
 }

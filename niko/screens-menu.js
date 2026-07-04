@@ -150,7 +150,9 @@ function openMenu(subj){
     // en-alpha keeps the Latin emoji — that is correct for English. (owner fix v1.319)
     const isKa = subj==='ka-alpha';
     const learnIco = isKa ? `<div class="kids-ico ka-samp">ა ბ გ</div>` : `<div class="kids-ico">🔡</div>`;
-    const spellIco = isKa ? `<div class="kids-ico ka-samp">ა ბ გ</div>` : `<div class="kids-ico">🔤</div>`;
+    // build-a-word tile wears a puzzle glyph, NOT the "ა ბ გ" alphabet sample — that sample belongs to the
+    // "learn the letters" tile above; sharing it made the two tiles look identical (owner fix 2026-07-04).
+    const spellIco = `<div class="kids-ico">🧩</div>`;
     // 🔤 tap-to-spell (no keyboard) — both alphabets
     const spell = `<div class="mode play" style="min-height:120px" onclick="startShead('${subj}')">${PLAY_BADGE}${spellIco}<div class="m-name">შეადგინე სიტყვა</div><div class="m-sub">ასოებით ააწყვე</div></div>`;
     body=`<div class="mode-grid">

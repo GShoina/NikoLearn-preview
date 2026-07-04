@@ -675,20 +675,24 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
 .bottomnav.slim .langtgl-foot{font-size:.66rem;padding:4px 10px}
 
 /* ── AI TUTOR ── */
-/* AI-fab clearance: reserve the floating tutor button's bottom band so pickable rows (letter/syllable
-   banks, option grids) never render UNDER it on any game screen (owner 2026-07-04, class-level fix). */
-#garea{padding-bottom:118px}
-.ai-fab{position:absolute;right:16px;bottom:84px;width:58px;height:58px;border-radius:20px;border:none;
-  cursor:pointer;background:linear-gradient(150deg,var(--sky),var(--purple));color:#fff;font-size:1.7rem;
-  display:grid;place-items:center;box-shadow:var(--shadow-lg);z-index:45;transition:transform .15s}
+/* AI tutor button DOCKED into the game top bar (owner 2026-07-04, class-level fix). WHY: the old floating
+   bottom-right owl (position:absolute on .device) covered the bottom letter/answer tiles on short viewports
+   (iPhone Safari with its toolbars shows ~780px, not the full device height) — a FIXED float always sits over
+   whatever content fills the screen, so no padding/clearance could move screen-filling tiles out from under it
+   (empirically verified: overlap reproduced at effective vh≈740). Docking it inside the progress row puts it in
+   the top chrome band, which tiles never occupy → zero overlap on every subject/mode/screen size, and it stays
+   one thumb-tap away. */
+.ai-fab{flex:0 0 auto;position:relative;width:42px;height:42px;border-radius:14px;border:none;
+  cursor:pointer;background:linear-gradient(150deg,var(--sky),var(--purple));color:#fff;font-size:1.3rem;
+  display:grid;place-items:center;box-shadow:var(--shadow-md);z-index:45;transition:transform .15s;padding:0}
 .ai-fab:active{transform:scale(.92)}
-.ai-fab .ping{position:absolute;inset:0;border-radius:20px;animation:ping 2.6s ease-out infinite;
+.ai-fab .ping{position:absolute;inset:0;border-radius:14px;animation:ping 2.6s ease-out infinite;
   box-shadow:0 0 0 0 color-mix(in oklch,var(--sky) 60%,transparent)}
-@keyframes ping{0%{box-shadow:0 0 0 0 color-mix(in oklch,var(--sky) 55%,transparent)}70%,100%{box-shadow:0 0 0 16px transparent}}
+@keyframes ping{0%{box-shadow:0 0 0 0 color-mix(in oklch,var(--sky) 55%,transparent)}70%,100%{box-shadow:0 0 0 13px transparent}}
 
 /* idle-help nudge (v1.232): soft, dismissible "need help?" the owl offers when a child sits stuck.
-   Sits just above the floating tutor button; never blocks the question; auto-fades if ignored. */
-.idle-hint{position:absolute;right:16px;bottom:150px;z-index:46;animation:rise .3s;max-width:210px}
+   Now points at the docked owl in the top bar; never blocks the question; auto-fades if ignored. */
+.idle-hint{position:absolute;right:12px;top:100px;bottom:auto;z-index:46;animation:rise .3s;max-width:210px}
 .idle-hint-btn{background:var(--card);border:1.5px solid color-mix(in oklch,var(--sky) 38%,var(--line));
   color:var(--ink);font-family:inherit;font-weight:700;font-size:.9rem;padding:11px 15px;border-radius:16px;
   box-shadow:var(--shadow-lg);cursor:pointer;min-height:48px;line-height:1.2}

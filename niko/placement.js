@@ -308,12 +308,27 @@ function plNext(){
   if(!q) return diagResult(); // pool exhausted (fail safe)
   pl.used.push(q); pl.cur=q;
   const opts=shuffle(q.opts.slice());
-  const head=q.emoji?`<div class="p-emoji" style="font-size:3.4rem">${q.emoji}</div>`:'';
   const isNum=q.kind==='num';
   const isEn=(q.kind==='pic'||q.kind==='tr'||q.kind==='spell');
-  const prompt=isNum
-    ? `<div class="p-word num" style="font-size:2.4rem;letter-spacing:2px">${q.q}</div>`
-    : `<div class="p-word" style="font-size:1.3rem">${q.q}</div>`;
+  // WELL-POSEDNESS FIX (owner IMG_1786, 2026-07-04): letter/word recognition items used to print the target
+  // INSIDE the question sentence (`რომელია „ჭ"?`) while ALSO listing it as an option — a garbled stem that
+  // reads like nonsense and a trivial glyph-match. Now the target is a clear flashcard above a plain
+  // "find the same one below" instruction (visual discrimination, well-posed), with an optional listen
+  // button (best-effort ka clip; the task never DEPENDS on Georgian audio, per §6). syl/num/en are unchanged.
+  const isMatch=(q.kind==='letter'||q.kind==='word');
+  let head=q.emoji?`<div class="p-emoji" style="font-size:3.4rem">${q.emoji}</div>`:'';
+  let prompt, sub='რომელია სწორი?';
+  if(isMatch){
+    const big=q.kind==='letter';
+    const esc=String(q.a).replace(/'/g,"\\'");
+    head=`<div class="p-word" style="font-size:${big?'4rem':'2.3rem'};font-weight:800;letter-spacing:1px;line-height:1.12">${q.a}</div>`;
+    prompt=`<button class="ai-listen-big" style="margin:8px auto 0" onclick="try{(typeof playClip==='function'&&playClip('${esc}'))||speak('${esc}','ka-GE',{rate:0.7})}catch(e){}">🔊 მოისმინე</button>`;
+    sub=big?'იპოვე იგივე ასო ქვემოთ':'იპოვე იგივე სიტყვა ქვემოთ';
+  } else {
+    prompt=isNum
+      ? `<div class="p-word num" style="font-size:2.4rem;letter-spacing:2px">${q.q}</div>`
+      : `<div class="p-word" style="font-size:1.3rem">${q.q}</div>`;
+  }
   const optCls=isNum?'opt num':(isEn?'opt en':'opt');
   render(`<div class="screen game" id="gscreen">
     <div class="progress-row">
@@ -322,7 +337,7 @@ function plNext(){
       <span class="q-count">${pl.i+1}/${pl.ask}</span>
     </div>
     <div class="game">
-      <div class="prompt">${head}${prompt}<div class="p-sub">რომელია სწორი?</div></div>
+      <div class="prompt">${head}${prompt}<div class="p-sub">${sub}</div></div>
       <div class="options">${opts.map(o=>`<button class="${optCls}" onclick="plAnswer(this,'${String(o).replace(/'/g,"\\'")}','${String(q.a).replace(/'/g,"\\'")}')">${o}</button>`).join('')}</div>
     </div>
   </div>`,'slim');
