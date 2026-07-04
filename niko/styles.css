@@ -1417,6 +1417,16 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
 .bottomnav.slim button[data-nav="theme"],
 .bottomnav.slim button[data-nav="abc"],
 .bottomnav.slim button[data-nav="math"]{display:none}
+/* VISUAL FIX (owner 2026-07-04, class-level — affects EVERY in-game screen): the single home exit used to
+   sit as a lone icon centered in a full-width bordered bar → read as a distorted/empty "broken footer".
+   Drop the bar chrome and present home as ONE clear centered pill button. The safety intent above (only
+   home during a round, no accidental lang/theme/subject taps) is untouched — only the look changes. */
+.bottomnav.slim{justify-content:center;border-top:none;background:transparent;backdrop-filter:none}
+.bottomnav.slim button[data-nav="home"]{background:var(--card);border:1.5px solid var(--line);
+  border-radius:16px;padding:8px 30px;box-shadow:var(--shadow);color:var(--primary-d)}
+.bottomnav.slim button[data-nav="home"] svg{width:23px;height:23px}
+.bottomnav.slim button[data-nav="home"]::after{content:"მთავარი";font-size:.7rem;font-weight:800;
+  margin-left:2px;letter-spacing:.01em}
 
 /* ── parent dashboard: collapsible per-child cards (names by default, tap to expand) ── */
 .kidcard{border:1px solid var(--line);border-radius:16px;background:var(--card);margin:0 0 12px;overflow:hidden}
