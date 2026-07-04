@@ -51,7 +51,7 @@ function alphaLearn(subj,idx){
         ? `<button class="abtn go" onclick="alphaQuiz('${subj}')">ტესტები 🎯</button>`
         : `<button class="abtn" onclick="alphaLearn('${subj}',${idx+1})">&rarr;</button>`}
     </div>
-  </div>`,false);
+  </div>`,'slim');
   setTimeout(()=>alphaSay(subj,it),220);
 }
 
@@ -138,7 +138,7 @@ function digitLearn(idx){
         ? `<button class="abtn go" onclick="startDigitQuiz()">ტესტები 🎯</button>`
         : `<button class="abtn" onclick="digitLearn(${idx+1})">&rarr;</button>`}
     </div>
-  </div>`,false);
+  </div>`,'slim');
   setTimeout(()=>digitSay(d.num),220);
 }
 function startDigitQuiz(){
@@ -228,7 +228,7 @@ function readLearn(idx){
         ? `<button class="abtn go" onclick="startReadQuiz()">ტესტები 🎯</button>`
         : `<button class="abtn" onclick="readLearn(${idx+1})">&rarr;</button>`}
     </div>
-  </div>`,false);
+  </div>`,'slim');
   setTimeout(()=>readBlend(it),260);
 }
 function startReadQuiz(){
@@ -288,7 +288,7 @@ function sentLearn(idx){
         ? `<button class="abtn go" onclick="startSentQuiz()">ტესტები 🎯</button>`
         : `<button class="abtn" onclick="sentLearn(${idx+1})">&rarr;</button>`}
     </div>
-  </div>`,false);
+  </div>`,'slim');
   setTimeout(()=>sentSay(it.s),260);
 }
 function startSentQuiz(){
@@ -573,7 +573,7 @@ function traceLearn(idx){
       <div class="alpha-dots">${idx+1} / ${n}</div>
       ${last?`<button class="abtn go" onclick="markAlphaDone('trace');openMenu('ka-alpha')">დასასრული ✓</button>`:`<button class="abtn" onclick="traceLearn(${idx+1})">&rarr;</button>`}
     </div>
-  </div>`,false);
+  </div>`,'slim');
   setTimeout(()=>{ traceSetup();
     if(d){ _kaRetry=0; fitGuide(); watchStrokes(); }
     else if(!_kaFont && _kaRetry<10){ _kaRetry++; setTimeout(()=>{ if(game.traceIt&&game.traceIt.idx===idx) traceLearn(idx); },350); } // font still loading: retry shortly
