@@ -1,5 +1,5 @@
 // NikoLearn service worker — offline-first app shell (HANDOFF §6 priority 5).
-const CACHE = 'nikolearn-1.337';
+const CACHE = 'nikolearn-1.338';
 const ASSETS = [
   './',
   './index.html',
@@ -93,7 +93,21 @@ self.addEventListener('fetch', e => {
     })());
     return;
   }
-  // Everything else (versioned JS/CSS/fonts): cache-first. For a failed asset, returning index.html's
-  // HTML would corrupt it — let those fail cleanly instead.
+  // App CODE (JS/CSS): NETWORK-FIRST so an online user ALWAYS gets the current version. This kills the
+  // stale-cache "nothing updated after deploy" reports (owner 2026-07-04): cache-first used to pin old
+  // JS/CSS until a full SW cycle, so a returning user could see an old footer/layout with a fresh version
+  // string. Now online = fresh, offline = cached fallback. Fonts/images stay cache-first (rarely change).
+  if (/\.(?:js|css)(?:\?|$)/.test(e.request.url)) {
+    e.respondWith((async () => {
+      try {
+        const net = await fetch(e.request, { cache: 'reload' });
+        if (net && net.ok) { const copy = net.clone(); caches.open(CACHE).then(c => c.put(e.request, copy)); }
+        return net;
+      } catch (_) { return (await caches.match(e.request)) || Response.error(); }
+    })());
+    return;
+  }
+  // Everything else (fonts/images): cache-first. For a failed asset, returning index.html's HTML would
+  // corrupt it — let those fail cleanly instead.
   e.respondWith(caches.match(e.request).then(r => r || fetch(e.request).catch(() => Response.error())));
 });

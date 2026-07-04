@@ -45,11 +45,11 @@ function alphaLearn(subj,idx){
       </div>
     </div>
     <div class="alpha-nav">
-      <button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="alphaLearn('${subj}',${idx-1})">&lt;</button>
+      <button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="alphaLearn('${subj}',${idx-1})">&larr;</button>
       <div class="alpha-dots">${idx+1} / ${n}</div>
       ${last
         ? `<button class="abtn go" onclick="alphaQuiz('${subj}')">ტესტები 🎯</button>`
-        : `<button class="abtn" onclick="alphaLearn('${subj}',${idx+1})">→</button>`}
+        : `<button class="abtn" onclick="alphaLearn('${subj}',${idx+1})">&rarr;</button>`}
     </div>
   </div>`,false);
   setTimeout(()=>alphaSay(subj,it),220);
@@ -132,11 +132,11 @@ function digitLearn(idx){
       </div>
     </div>
     <div class="alpha-nav">
-      <button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="digitLearn(${idx-1})">&lt;</button>
+      <button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="digitLearn(${idx-1})">&larr;</button>
       <div class="alpha-dots">${idx+1} / ${n}</div>
       ${last
         ? `<button class="abtn go" onclick="startDigitQuiz()">ტესტები 🎯</button>`
-        : `<button class="abtn" onclick="digitLearn(${idx+1})">→</button>`}
+        : `<button class="abtn" onclick="digitLearn(${idx+1})">&rarr;</button>`}
     </div>
   </div>`,false);
   setTimeout(()=>digitSay(d.num),220);
@@ -222,11 +222,11 @@ function readLearn(idx){
       <button class="speakbtn big" onclick="readBlend(game.readIt);pulseTap(this)">${I.speaker} წაიკითხე</button>
     </div>
     <div class="alpha-nav">
-      <button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="readLearn(${idx-1})">&lt;</button>
+      <button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="readLearn(${idx-1})">&larr;</button>
       <div class="alpha-dots">${idx+1} / ${n}</div>
       ${last
         ? `<button class="abtn go" onclick="startReadQuiz()">ტესტები 🎯</button>`
-        : `<button class="abtn" onclick="readLearn(${idx+1})">→</button>`}
+        : `<button class="abtn" onclick="readLearn(${idx+1})">&rarr;</button>`}
     </div>
   </div>`,false);
   setTimeout(()=>readBlend(it),260);
@@ -282,11 +282,11 @@ function sentLearn(idx){
       <button class="speakbtn big" onclick="sentSay('${it.s}');pulseTap(this)">${I.speaker} წაიკითხე</button>
     </div>
     <div class="alpha-nav">
-      <button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="sentLearn(${idx-1})">&lt;</button>
+      <button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="sentLearn(${idx-1})">&larr;</button>
       <div class="alpha-dots">${idx+1} / ${n}</div>
       ${last
         ? `<button class="abtn go" onclick="startSentQuiz()">ტესტები 🎯</button>`
-        : `<button class="abtn" onclick="sentLearn(${idx+1})">→</button>`}
+        : `<button class="abtn" onclick="sentLearn(${idx+1})">&rarr;</button>`}
     </div>
   </div>`,false);
   setTimeout(()=>sentSay(it.s),260);
@@ -569,9 +569,9 @@ function traceLearn(idx){
     </div>
     <div class="finger-hint" style="margin-top:6px">👆 ამოწერე ასო თითით</div>
     <div class="alpha-nav">
-      <button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="traceLearn(${idx-1})">&lt;</button>
+      <button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="traceLearn(${idx-1})">&larr;</button>
       <div class="alpha-dots">${idx+1} / ${n}</div>
-      ${last?`<button class="abtn go" onclick="markAlphaDone('trace');openMenu('ka-alpha')">დასასრული ✓</button>`:`<button class="abtn" onclick="traceLearn(${idx+1})">→</button>`}
+      ${last?`<button class="abtn go" onclick="markAlphaDone('trace');openMenu('ka-alpha')">დასასრული ✓</button>`:`<button class="abtn" onclick="traceLearn(${idx+1})">&rarr;</button>`}
     </div>
   </div>`,false);
   setTimeout(()=>{ traceSetup();
