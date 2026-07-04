@@ -1413,14 +1413,11 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
 /* UX-5: during a round/test, collapse the nav to a single clear exit (🏠). Hides the controls a pre-reader
    taps by accident mid-game: 🌐 lang (flipped the whole UI to English), 🎨 theme, and the AB/calc subject
    jumps (which silently abandon the round). The topbar back arrow still returns to the menu. */
-/* STANDARD footer EVERYWHERE (owner 2026-07-04): the owner prefers the SAME standard menu (home + language)
-   on the in-game screens too, not a collapsed/special variant. So slim now keeps the standard bar chrome
-   (from .bottomnav) AND both buttons; it only trims size a touch for in-game. Earlier `lang` was hidden to
-   avoid an accidental mid-game tap; the owner chose consistency, and the lang control opens a PICKER modal
-   (not an instant flip), so the risk is small. theme/abc/math selectors are dead (not in current nav). */
-.bottomnav.slim button[data-nav="theme"],
-.bottomnav.slim button[data-nav="abc"],
-.bottomnav.slim button[data-nav="math"]{display:none}
+/* STANDARD footer EVERYWHERE (owner 2026-07-04): in-game/round screens show the SAME full 5-tab standard
+   menu (home · language · draw · ABC · list) as the subject menu — no collapsed variant, no hidden tabs.
+   `slim` now ONLY trims the size a touch for in-game (padding/icon rules above); it hides nothing. The
+   owner chose full consistency over the old safety-hide (which left only a lone home icon and read as a
+   broken footer). Trade-off accepted: a subject tab tapped mid-round navigates away and ends the round. */
 
 /* ── parent dashboard: collapsible per-child cards (names by default, tap to expand) ── */
 .kidcard{border:1px solid var(--line);border-radius:16px;background:var(--card);margin:0 0 12px;overflow:hidden}

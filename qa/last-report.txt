@@ -1,7 +1,7 @@
-NikoLearn QA report — version 1.340 — 1 finding(s)
+NikoLearn QA report — version 1.341 — 1 finding(s)
 clips: 1428 manifest / 1419 files on disk · missing: 0
 severity: P1=0 P2=0 P3=0
 
-[fixed] version: version drift auto-fixed: landing 1.339→1.340, sw 1.339→1.340
+[fixed] version: version drift auto-fixed: landing 1.340→1.341, sw 1.340→1.341
 
 ✅ no release-blocking issues
