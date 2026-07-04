@@ -235,3 +235,85 @@ assumptions materially diverge AND a wrong guess wastes real work, (d) customer-
 Even then: present analysis + a RECOMMENDATION + a DEFAULT you'll proceed with if the owner is silent — never an open question.
 This kills the two 2026-06-27 failure modes: over-asking ("go" on clear fixes) and shipping half-baked work a brutal VERIFY would
 have caught. See [[feedback_nikoland_no_yesno_questions]].
+
+## 13. ANTI-STOP MANDATE (MUST — owner-locked 2026-07-04)
+**Default state = CONTINUE. Stopping is the exception, and every stop must NAME its gate.** This is a
+MUST rule: it operationalizes §6b (max autonomy) + §7 (permission discipline) + §12 (loop წესი) and is
+enforced by the Stop-hook. It never overrides the 4 gates below or §5 safety / child-privacy — those still win.
+
+**THE ONLY 4 GATES — a stop is legal ONLY if the very next action IS one of these:**
+1. **LIVE write to production** (customer-facing → nikolearn.com).
+2. **Irreversible deletion** a backup cannot restore.
+3. **Money / payment / spend.**
+4. **Customer-facing content/UI going out.**
+
+**RULES (no exceptions):**
+- If your reason to stop is NOT one of the 4 → it is INVALID. Continue.
+- "I need confirmation to proceed" on read-only / internal / reversible work = **FAILURE**, not caution.
+- Handing back a **technically-discoverable fact** (file contents, metrics, settings, live state) as a
+  question = FAILURE. Discover it in a read-only step, then proceed. Say "I don't know" only for genuinely
+  owner-only facts (intent, priority, money, taste).
+- **In a loop: complete the FULL loop.** Never pause mid-loop for approval unless a listed gate item
+  literally appears inside the loop.
+- **GATE-DECLARATION (the teeth): before ANY stop, write exactly one line —**
+  `Gate item: [1 live-write | 2 irreversible-delete | 3 money | 4 customer-facing]`.
+  If you cannot fill it truthfully, you are NOT allowed to stop → continue.
+- Even at a REAL gate, never hand back an open question. Write one line: `I'm doing X; your call needed
+  only on Y`, give a RECOMMENDATION + a DEFAULT, and proceed on the default if the owner stays silent.
+
+## 14. BUG-CLASS SWEEP (MUST — owner-locked 2026-07-04) — mandatory before any fix closes
+**CORE PRINCIPLE: a bug is never an instance — it is a CLASS until proven otherwise.** Fixing only the
+reported instance while sibling instances survive elsewhere = the fix is REJECTED and the task is NOT closed.
+
+**Harmony with §13 (Anti-Stop) — read this first, no conflict:** the sweep EXTENDS the loop (§12); it never
+licenses a pause. Logging an OPEN item (Step 5) is **not** a stop — you log it and CONTINUE. Owner GO is
+collected async and gates ONLY the live push of a customer-facing fix (§13 gates 1/4). The sweep itself and
+every internal/reversible fix need NO GO. "The task isn't closed until the class is swept" is a keep-going
+mandate, not a stopping one.
+
+**TRIGGER:** every verified finding of severity CRITICAL / HIGH / MEDIUM — whether from an audit reviewer,
+an owner report, or incidental discovery during unrelated work. No exemption below MEDIUM without lead sign-off.
+
+**WHO RUNS IT:** the team-lead (bug classes cross file-ownership, so a scoped reviewer can't). In a solo
+session, the single agent IS the lead and runs the full-repo sweep — the rule is NOT team-only.
+
+**PROCEDURE (all 5, in order, with evidence):**
+1. **NAME THE CLASS** in pattern language, one line — not instance language.
+   - WRONG (instance): "footer missing on Math screen".
+   - RIGHT (class): "shared footer component not imported/rendered consistently across module screens".
+   Can't state it as a pattern → you haven't understood it. Stop and re-diagnose BEFORE fixing.
+2. **DEFINE THE SEARCH SURFACE.** List every module / screen / route / file-family where the class COULD
+   exist. For NikoLearn: ALL subjects/sections it ships (**Math, English, Kings-prep, Georgian-letters/reading,
+   Movement/მოძრაობა, Drawing/ხატვა, Talk/საუბარი**) — enumerate them from the live menu, don't hardcode a
+   short list (a wrong "4 modules" guess is exactly how a section gets skipped) — plus profile,
+   all shared `niko/` components, `games.js`, `screens.js`, `screens-menu.js`, `tutor.js`, `owl.js`,
+   `styles.css`, `sw.js`, `analytics.js`. Deliberately include zones OUTSIDE the finding's origin workstream.
+3. **SWEEP.** Per item, use the right method: grep/read for code-pattern classes; **RUN THE APP** for
+   rendering/behavior classes (§2: static reading never proves a UI class absent). Record the method per item.
+4. **CLASS TABLE (mandatory deliverable):** `| Class | Module/screen | Check method | Instance found? | Fixed this pass? |`
+   Every row filled. "N/A" needs a one-line reason. ABSENCE ≠ CLEAN: a "no instance" row must name the concrete check.
+5. **FIX ALL INSTANCES THIS SESSION.** Any instance not fixable now (needs owner GO for a live push, out of
+   scope, or high risk) is logged as an explicit OPEN item with severity in the report — never silently skipped,
+   and (per the harmony clause) you CONTINUE, you do not stop.
+
+**ROOT-CAUSE ESCALATION:** class found in 2+ modules → the fix MUST address the architecture, not the copies:
+consolidate into ONE shared source (component/function/config) so the class can't recur. Patching N copies in
+place is acceptable only with a stated reason consolidation isn't possible this pass — then consolidation goes
+into the report as a prioritized recommendation.
+
+**FAIL CRITERIA (any one = sweep FAILED):** fix shipped with no class table · class named in instance language ·
+search surface excluded modules outside the originating workstream · UI/behavior class "verified absent" by
+static reading only · a same-class instance later found in a zone the table marked clean without a named check.
+
+**REPORTING:** the class table + any OPEN items are a mandatory section of the final report (§7 / Agent-Team
+Standard §7), placed directly after the findings table.
+
+## 15. EVALS (owner-locked 2026-07-04) — READ-ONLY except Viktor
+The NikoLearn eval lives in the SHARED cross-project space, not in this repo:
+`Documents/NGT 2020-07/AI_Projects/Evals/NikoLearn/nikolearn-eval-v1.md` (canonical PROCESS+BEHAVIOR eval)
++ companion `Evals/AUDIT_QUALITY_EVAL.md` (OUTCOME/recall eval). Scored runs go in `Evals/NikoLearn/results/`.
+- **EVERY eval file under `Evals/` (core-eval-v1, nikolearn-eval-v1, gella-eval-v1, …) and every `results/`
+  folder are READ-ONLY for every agent EXCEPT Viktor.** Any agent other than Viktor modifying an eval file OR
+  writing to a `results/` folder = **rule violation**. (Viktor never self-scores — his own runs are owner-scored.)
+- Eval content changes require explicit owner ("Gela") approval, logged as a NEW version (v2, v3…), never
+  edited in place. Viktor scores adversarially (measure only, never fixes); missing evidence = FAIL.

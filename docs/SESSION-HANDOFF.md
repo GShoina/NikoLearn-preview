@@ -5,6 +5,29 @@
 > Architecture SSOT: `docs/HANDOFF.md`. Full pre-2026-06-28 history (307KB) → `docs/archive/2026-06/SESSION-HANDOFF_20260628_full.md`.
 > This file = current state + open items ONLY (keep < 30KB).
 
+## ▶ RESUME HERE (2026-07-04 · session 6) — audit + eval-system + batch fixes on a branch (NOT committed, NOT live). Live still **v1.334**.
+
+**Model: Opus 4.8 (1M).** Owner ran an intensive manual-QA + process-hardening session. Nothing shipped; a fix batch sits on branch **`fix/audit-2026-07-04`** (off `deploy/pattern-owl`), uncommitted. Owner's model: **collect ALL fixes → ONE commit → headless-verify → preview → GO → live.** Owner also locked: **conserve tokens / persist to disk periodically** (this block is that persistence).
+
+**FIXES ON THE BRANCH (unverified except the font):**
+- `niko/styles.css` `.talk-q` 1.32rem/1.42 → **1.25rem/1.34** (owner: font over-stretched on long talk text) — ✅ headless-verified 320/390.
+- `niko/styles.css` `#garea{padding-bottom:118px}` — AI-fab no longer covers bottom letter tiles (owner screenshot). Class-level.
+- `niko/tutor.js` added `div` branch in `math()` (GAP-1: division was teaching the "+1 sequence rule" — wrong method).
+- **tutor subject/label class-fix** (owner: "ინგლისურის მასწავლებელი" on a Georgian task): `owl.js gameSubject()` now maps read/sent/rtext/build/shead → new **`reading`** subject (+ digit→counting + game.subj safety net); `tutor.js` added `reading()` handler + routing case + `SUBJECT_SAY.reading` + label „ბუ · კითხვის მასწავლებელი"; `i18n-strings.js` EN key "Owl · reading teacher".
+- **Rules hardened:** CLAUDE.md **§13 Anti-Stop (MUST)**, **§14 Bug-Class Sweep (MUST)**, **§15 Evals (read-only except Viktor)**; AGENT_TEAM_STANDARD **§5 class-sweep** + **§8 Run-the-App Visual QA (weekly, mandatory)**.
+
+**AUDIT + GRADE (this session):** ran the 5-dim fleet audit (workflow) → 10 verified bugs (1 HIGH sw.js:88 offline cache clobber; MED exam-bonus 30v5, firstrun audio-bleed, s-badge contrast; 6 LOW). Tutor deep-read → division bug + gameSubject/vocab label + **kings-math can't speak (GAP-3 = likely the "გამახინჯებული ქართული": device voice reads raw digits)** + 8 ka text defects. **Independent grader scored the fleet audit = 5.7/10** (recall 36%; blind to interaction/typography/i18n; visual only via CSS numbers; misses = 100% COVERAGE not depth; combined w/ targeted agents 7.2/10, recall 79%; the CANT-RUN-APP ceiling is why §8 was added). Assessment: `AI_Projects/Evals/NikoLearn/2026-07-04-assessment.html`.
+
+**EVAL SYSTEM (shared, new):** `AI_Projects/Evals/` = cross-project. `Evals/AUDIT_QUALITY_EVAL.md` (AQE = outcome/recall). `Evals/NikoLearn/nikolearn-eval-v1.md` (PROCESS+BEHAVIOR compliance, /19, 9 checks + 10 cases). **Viktor** = sole scorer → `Evals/NikoLearn/results/` (read-only except Viktor, CLAUDE.md §15). Reports (§6e): `output/2026-07-04-სრული აუდიტი…html`, `…აუდიტის შეფასება (Eval)…html`.
+
+**WEEKLY CRON:** Windows task **`NikoLearn-VisualQA-Weekly`** (Mon 05:07) runs `qa/visual-qa-weekly.cmd` (headless `claude -p` §8 crawl). ⚠ **NEEDS one verified dry-run** — headless-claude+Playwright reliability unconfirmed.
+
+**QUEUED (batch, not done):** footer talk consolidation (bespoke `.talk-nav` ≠ shared dock) · **letter/word well-posedness** (`placement.js:206-234` ka-alpha `kind:'letter'` + `kind:'word'` items PRINT the answer in the stem = trivial glyph-match → move letters to audio, words hide target) · **kings-math tutor voice** (GAP-3) · ka tutor B-1…B-8 (`tutor.js`/`owl.js`) · `sw.js:88` HIGH · s-badge contrast · 44px · exam bonus cap→5 · skip-tier monotonic · telemetry allow-list · "Screen-time" anglicism · **menu-i18n class** (`screens-menu.js:153` build-tile `ა ბ გ`→distinct icon = owner's "სიტყვები↔აბგ"; `screens-menu.js:100` `სამკუთხედი` untranslated; Premium separator `·`vs`—` `i18n-strings.js:776`; `screens.js` chrome strings; firstrun island) · **Movement/მოძრაობა section is weak/underdeveloped** (owner 2026-07-04: "like the ამოწერა letter-writing" — audit + strengthen its content; also fold Movement/Drawing/Talk into every class-sweep + visual-QA surface, don't hardcode a "4 modules" list).
+
+**NEXT SINGLE ACTION:** headless-verify the branch batch (build screen in coach mode: fab clears tiles + label = „კითხვის მასწავლებელი"; talk font) → then work the QUEUED list → ONE commit → preview → owner GO → live.
+
+---
+
 ## ▶ RESUME HERE (2026-07-03 · session 5) — LIVE now **v1.334**; VIS-9 card-readability + VIS-10 menu fixes SHIPPED; deploy pipeline UNBLOCKED
 
 **LIVE on nikolearn.com: v1.334** (GShoina/NikoLearn main = `09631b0`). Live-verified 3 ways: deploy run success, curl (sw.js `nikolearn-1.334` + APP_VERSION 1.334 + HTTPS 200), and headless render of the LIVE domain (cards readable, water-dock clean). This session pushed the whole **1.320→1.334 backlog** live (the FAZA-0 tutor/warm-up/puzzle work had been committed but stuck local since session 4).

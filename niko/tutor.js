@@ -53,6 +53,14 @@
         mseq?`დაითვალე ${a1}-ობით: ${mseq} სულ ${a2} ბიჯი.`:`დაითვალე ${a1}-ობით, სულ ${a2} ბიჯი.`
       ], explain:`გამრავლება = ერთი რიცხვის რამდენჯერმე შეკრება. ${a1}-ობით დათვლა ყველაზე სწრაფია.`};
     }
+    // division: teach equal-sharing + inverse-of-multiplication (was missing → fell to the sequence
+    // default and told the child to find a "+1 rule" on 10÷2; audit 2026-07-04 GAP-1).
+    if(op==='div'){
+      return {say:'გაყოფა კითხულობს: რამდენჯერ ეტევა პატარა რიცხვი დიდში. იფიქრე გამრავლებით, პირიქით.', hints:[
+        `${warm(kid)}${a1} თანაბრად დაყავი ${a2} ჯგუფად. რამდენი მოხვდება თითო ჯგუფში?`,
+        `იფიქრე პირიქით: ${a2}-ზე რამდენი უნდა გავამრავლო, რომ ${a1} გამოვიდეს? ${a2} × ? = ${a1}`
+      ], explain:`გაყოფა = თანაბრად დანაწილება, გამრავლების საპირისპირო. იპოვე რამდენჯერ ეტევა ${a2} რიცხვში ${a1}.`};
+    }
     // picture-substitution puzzle: teach the reasoning (substitute known values → find the unknown)
     if(op==='pic'){
       return {say:'ჯერ ის ფასები ნახე, რომლებიც უკვე იცი. მერე ჩაანაცვლე და უცნობი იპოვე.', hints:[
@@ -178,11 +186,20 @@
   }
   function clockT(q){return {hints:['პატარა ისარი აჩვენებს საათს, დიდი ისარი, წუთებს.','<span class="r-lead">დიდი ისრის მიხედვით:</span><span class="r-item">12-ზე = ზუსტი საათი</span><span class="r-item">6-ზე = ნახევარი (:30)</span>'],explain:'საათის ისარი = საათი, წუთის ისარი = წუთები. იპოვე სად დგას ისრები.'};}
 
+  // Georgian reading / word-building (read/sent/rtext/build/shead): subject-appropriate hints that make
+  // NO reference to a q field (these modes' q shapes vary) so it never renders "undefined" (owner 2026-07-04).
+  function reading(){
+    return {hints:[
+      'ნელა წაიკითხე, ასო-ასო. ჯერ თითო ბგერა თქვი, მერე შეაერთე.',
+      'დააკვირდი პირველ ასოს, მერე მთელ სიტყვას. ხმამაღლა თქვი.'
+    ], explain:'კითხვა = ასოებს ბგერებად აქცევ და აერთებ. ნელა დაიწყე, მერე უფრო სწრაფად.'};
+  }
   // Fixed voiceable ka phrase per subject (INV-3: the owl speaks even when the hint TEXT is dynamic and
   // has no clip). math ops set their own `say` inline; this fills the rest. Keys == audio-manifest keys.
   const SUBJECT_SAY={
     vocab:'დააკვირდი სურათს და მოისმინე. ბგერები გეტყვის სწორ სიტყვას.',
     alpha:'მოისმინე, როგორ იწყება სიტყვა. პირველი ბგერა გეტყვის სწორ ასოს.',
+    reading:'ნელა წაიკითხე, ასო-ასო. ჯერ თითო ბგერა თქვი, მერე შეაერთე მთელ სიტყვად.',
     'kings-eng':'დააკვირდი და მოისმინე. იპოვე მთავარი სიტყვა, მერე შეამოწმე ფერი და რიცხვი.',
     counting:'დაითვალე ნელა, თითო-თითო, ხმამაღლა.',
     compare:'შეადარე ორი რიცხვი. ნიშნის ღია მხარე დიდი რიცხვისკენ იყურება.',
@@ -222,6 +239,7 @@
         case 'kings-math': r=kingsMath(ctx.q,kid); break;
         case 'counting': r=counting(kid); break;
         case 'alpha': r=alpha(ctx.q); break;
+        case 'reading': r=reading(); break;
         case 'compare': r=compareT(ctx.q); break;
         case 'skip': r=skipT(ctx.q); break;
         case 'shapes': r=shapesT(ctx.q); break;
@@ -233,7 +251,7 @@
       if(r && !r.say && SUBJECT_SAY[ctx.subject]) r.say = SUBJECT_SAY[ctx.subject];
       const mathish=(ctx.subject==='math'||ctx.subject==='kings-math'||ctx.subject==='compare'||ctx.subject==='skip'||ctx.subject==='shapes'||ctx.subject==='money'||ctx.subject==='clock'||ctx.subject==='pattern');
       r.name = ctx.aiRole==='coach'
-        ? (ctx.subject==='alpha'?'ბუ · ანბანის მასწავლებელი':mathish?'ბუ · მათემატიკის მასწავლებელი':'ბუ · ინგლისურის მასწავლებელი')
+        ? (ctx.subject==='alpha'?'ბუ · ანბანის მასწავლებელი':ctx.subject==='reading'?'ბუ · კითხვის მასწავლებელი':mathish?'ბუ · მათემატიკის მასწავლებელი':'ბუ · ინგლისურის მასწავლებელი')
         : 'ბუ · შენი მეგობარი';
       return r;
     }

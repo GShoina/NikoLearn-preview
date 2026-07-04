@@ -20,6 +20,15 @@ function gameSubject(){
   // taught from q.rule. Without this they fell to the 'vocab' default → the owl showed the listening hint
   // ("მოისმინე ხმა 🔊") + the "ინგლისურის მასწავლებელი" label on a math puzzle (owner 2026-07-01).
   if(m==='pattern'||m==='rebus'||m==='model'||m==='triangle')return 'pattern';
+  // Georgian reading / spell-building modes carry game.subj='ka-alpha' but their game.mode
+  // (read/sent/rtext/build/shead) was UNMAPPED → fell to 'vocab' → the "ინგლისურის მასწავლებელი" label +
+  // an English-vocab first message on a Georgian reading task (owner 2026-07-04, class-level fix). Route
+  // them to a Georgian 'reading' tutor so the label + first message match the subject.
+  if(m==='read'||m==='sent'||m==='rtext'||m==='build'||m==='shead')return 'reading';
+  if(m==='digit')return 'counting';
+  // safety net: any other unmapped mode honours the round's declared subject so the label/message still fit
+  if(game.subj==='ka-alpha'||game.subj==='en-alpha')return 'reading';
+  if(game.subj==='counting')return 'counting';
   return 'vocab';
 }
 function curQ(){var m=game.mode||''; if(m.startsWith('kings-'))return null; /* CM-1: Kings exam runs its own kx state, not game.qs — a stale game.qs[i] here crashed the owl hint */ return m.startsWith('math-')?game.cur:(game.qs?game.qs[game.i]:null);}
