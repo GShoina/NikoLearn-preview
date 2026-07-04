@@ -294,17 +294,24 @@ const MV_MASHO={skin:'#f6d1aa', skin2:'#dcab7e', ink:'#33291f', brow:'#3a2a1c', 
        '<ellipse cx="33" cy="41" rx="5" ry="5.5" fill="#3a2a1c"/><circle cx="24" cy="38" r="5.5" fill="#3a2a1c"/><circle cx="16" cy="35" r="4.3" fill="#3a2a1c"/><path d="M16 35 q-7 -2 -10 2 q5 1.5 10 -2z" fill="#3a2a1c"/><rect x="29.5" y="37" width="3.2" height="8" rx="1.6" fill="#e8b54a"/>'+
        '<ellipse cx="87" cy="41" rx="5" ry="5.5" fill="#3a2a1c"/><circle cx="96" cy="38" r="5.5" fill="#3a2a1c"/><circle cx="104" cy="35" r="4.3" fill="#3a2a1c"/><path d="M104 35 q7 -2 10 2 q-5 1.5 -10 -2z" fill="#3a2a1c"/><rect x="87.3" y="37" width="3.2" height="8" rx="1.6" fill="#e8b54a"/>'};
 let _mvIdx=0,_mvPlaying=true,_mvCount=0,_mvTimer=null;
+// movement SESSION GOAL (owner 2026-07-04): the break used to be a passive player with no arc, no goal and
+// no reward — the weakest section. Now it's a mini mission: finish _mvGoal distinct moves → celebration +
+// coins, so movement earns its place like every other section. Additive: the per-move player is untouched.
+let _mvGoal=3,_mvDone=null,_mvSessionDone=false;const MV_REWARD=3;
 function closeBreak(){clearInterval(_mvTimer);_mvTimer=null;try{speechSynthesis.cancel();}catch(e){}const el=document.getElementById('breakscr');if(el)el.remove();}
 function showBreak(manual){
   if(document.getElementById('breakscr'))return;
   if(window.Analytics)Analytics.screen('movement');
   _mvList=isTiny(profile)?MOVE_POOL.filter(e=>e.tiny):MOVE_POOL;  // 3-4 yos: only the safe, simple moves
+  // set the session goal BEFORE building the header (the header template reads ${_mvGoal} for its denominator)
+  _mvGoal=Math.min(isTiny(profile)?3:5,_mvList.length);_mvDone=new Set();_mvSessionDone=false;
   const el=document.createElement('div');el.className='breakscreen mv2';el.id='breakscr';
   el.innerHTML=`
     <header class="mv-top">
       ${backBtn('closeBreak()')}
       <div class="who">მოძრაობის შესვენება<small>გავიმოძრაოთ ერთად 🙌</small></div>
-      <div class="pill"><span class="num" id="mvProg">1</span>/<span id="mvPtot">${_mvList.length}</span></div>
+      <div class="pill mv-goalpill" id="mvGoalPill">🎯 <b id="mvGoalN">0</b>/${_mvGoal}</div>
+      <span id="mvProg" hidden>1</span><span id="mvPtot" hidden>${_mvList.length}</span>
     </header>
     <div class="scene" id="mvScene" data-move="squat" style="--dur:1.4s">
       <div class="room"></div><div class="cloud a"></div><div class="cloud b"></div><div class="cloud c"></div>
@@ -335,6 +342,23 @@ function showBreak(manual){
   _mvIdx=0;_mvPlaying=true;_mvCount=0;
   mvRender();
 }
+// session complete: a distinct-move goal is reached → reward coins + a warm celebration overlay.
+function mvSessionComplete(){
+  if(_mvSessionDone)return; _mvSessionDone=true;
+  try{const s=state[profile]; if(s){ s.shields=(s.shields||0)+MV_REWARD; if(typeof save==='function')save(); }}catch(e){}
+  const el=document.getElementById('breakscr'); if(!el)return;
+  const ov=document.createElement('div'); ov.className='mv-done-ov'; ov.id='mvDoneOv';
+  ov.innerHTML=`<div class="mv-done-card">
+    <div class="mv-done-em">🎉</div>
+    <div class="mv-done-h">ბრავო! მოძრაობა დაასრულე</div>
+    <div class="mv-done-rew">+${MV_REWARD} 🪙</div>
+    <button class="btn btn-primary btn-block" style="max-width:220px" onclick="(function(){var e=document.getElementById('mvDoneOv');if(e)e.remove();})()">კიდევ ერთი 💪</button>
+    <button class="btn btn-ghost btn-block" style="max-width:220px" onclick="closeBreak()">მზად ვარ ✅</button>
+  </div>`;
+  el.appendChild(ov);
+  try{ if(typeof confettiEl==='function') ov.appendChild(confettiEl()); }catch(e){}
+  try{ praise(); }catch(e){}
+}
 function _mvFmt(s){const m=Math.floor(s/60),x=s%60;return m+':'+String(x).padStart(2,'0');}
 function mvRender(){
   const el=document.getElementById('breakscr');if(!el)return;
@@ -362,6 +386,16 @@ function mvCheer(){
   const el=document.getElementById('breakscr');if(!el)return;
   const t=el.querySelector('#mvToast');if(t){t.classList.add('show');setTimeout(()=>t.classList.remove('show'),900);}
   try{praise();}catch(e){}   // voiced ბრავო/მართალია/შესანიშნავია (recorded clip, never garbled)
+  // session goal: a move counts as DONE the first time its reps complete; hitting the goal fires the reward.
+  if(_mvDone){
+    const id=_mvList[_mvIdx]&&_mvList[_mvIdx].id;
+    if(id&&!_mvDone.has(id)){
+      _mvDone.add(id);
+      const gn=el.querySelector('#mvGoalN'); if(gn)gn.textContent=Math.min(_mvDone.size,_mvGoal);
+      const pill=el.querySelector('#mvGoalPill'); if(pill){pill.classList.add('bump');setTimeout(()=>{const p=document.getElementById('mvGoalPill');if(p)p.classList.remove('bump');},420);}
+      if(_mvDone.size>=_mvGoal) mvSessionComplete();
+    }
+  }
 }
 function mvSelect(i){_mvIdx=(i+_mvList.length)%_mvList.length;mvRender();}
 function mvSetPlay(p){const el=document.getElementById('breakscr');if(!el)return;_mvPlaying=p;el.querySelector('#mvScene').classList.toggle('paused',!p);el.querySelector('#mvPlay').textContent=p?'⏸':'▶';mvRestartTimer();}

@@ -704,6 +704,17 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
   background:color-mix(in oklch,var(--sun) 24%,var(--card));border-radius:13px;padding:5px 14px;animation:pop .34s}
 @media (prefers-reduced-motion:reduce){.fb-streak{animation:none}}
 
+/* movement session goal + completion reward (owner 2026-07-04) — gives the break an arc like other sections */
+.mv-goalpill{background:color-mix(in oklch,var(--primary) 16%,var(--card));color:var(--primary-d);font-weight:800}
+.mv-goalpill.bump{animation:pop .42s}
+.mv-done-ov{position:absolute;inset:0;z-index:60;display:grid;place-items:center;background:rgba(24,18,12,.5);animation:rise .3s;padding:20px}
+.mv-done-card{background:var(--card);border-radius:26px;padding:28px 22px;text-align:center;max-width:320px;
+  box-shadow:var(--shadow-lg);display:flex;flex-direction:column;gap:12px;align-items:center;position:relative;z-index:1}
+.mv-done-em{font-size:3.6rem;animation:pop .5s}
+.mv-done-h{font-size:1.22rem;font-weight:800;color:var(--ink);line-height:1.25}
+.mv-done-rew{font-size:1.55rem;font-weight:900;color:var(--sun-d)}
+@media (prefers-reduced-motion:reduce){.mv-goalpill.bump,.mv-done-em{animation:none}}
+
 /* ── ხატვა / Draw & Color (v1.234) ── */
 .draw-screen{display:flex;flex-direction:column;gap:8px;height:100%;padding:6px 4px}
 .dw-top{display:flex;align-items:center;gap:6px}
