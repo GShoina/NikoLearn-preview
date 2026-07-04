@@ -547,7 +547,7 @@ window.I18N_MAP = {
   "ვის ან რას ეხება წინადადება? (I · he · she · they · it?)":"Who or what is the sentence about? (I · he · she · they · it?)",
   "ზმნა უნდა მოერგოს ქვემდებარეს: I → am, he/she/it → is, you/they → are.":"The verb has to match the subject: I → am, he/she/it → is, you/they → are.",
   "გრამატიკაში ქვემდებარე და ზმნა ერთმანეთს უნდა შეეთანხმოს.":"In grammar the subject and the verb have to agree with each other.",
-  "ამოცანა → მოქმედება → გამოთვლა. აქ ჯგუფები ერთიანდება, ანუ ვკრებავთ.":"Problem → operation → answer. Here the groups come together, so we add.",
+  "ამოცანა → მოქმედება → გამოთვლა. აქ ჯგუფები ერთიანდება, ანუ ვკრებთ.":"Problem → operation → answer. Here the groups come together, so we add.",
   "„დარჩა\" ან „წაიღო\" = გამოკლება. უკან დათვალე.":"\"Left over\" or \"took away\" means subtraction. Count backward.",
   "„თითო X-ით, რამდენიმე ჯგუფი\" = გამრავლება.":"\"So many in each group, several groups\" means multiplication.",
   "თანაბრად დარიგება = გაყოფა. გამრავლების შებრუნებაა.":"Sharing equally means dividing. It's the opposite of multiplying.",
