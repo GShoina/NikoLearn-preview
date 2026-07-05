@@ -1408,6 +1408,12 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
 /* #8 (parent 2026-06-28): count-along — light each object in turn as the number is spoken */
 .count-objects .cobj{display:inline-block;transition:transform .22s ease,filter .22s ease;will-change:transform}
 .count-objects .cobj.lit{transform:scale(1.26);filter:drop-shadow(0 3px 7px rgba(0,0,0,.22))}
+/* young (≤5) visual add: two countable emoji clusters + a plus, so a non-reader counts the objects
+   instead of parsing "3 + 2". Spacing modelled on .count-objects (owner 2026-07-05). */
+.vsum{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:.15em .35em;font-size:clamp(2rem,9vw,2.8rem);line-height:1;max-width:min(400px,94vw);margin:0 auto}
+.vsum-grp{display:inline-flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:.08em .16em;background:linear-gradient(135deg,#FFF7E6,#EAF7FF);border:2px solid #FFE0B2;border-radius:18px;padding:.2em .34em}
+.vsum-grp .ve{display:inline-block}
+.vsum-plus{font-weight:800;opacity:.55;padding:0 .04em}
 /* visual-first quiz: word with the first letter shown as a slot */
 .alpha-wordgap{display:flex;align-items:center;justify-content:center;gap:2px;font-size:2rem;font-weight:700;margin:6px 0}
 .alpha-wordgap.en{font-family:'Fredoka';font-weight:500}

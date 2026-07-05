@@ -624,8 +624,18 @@ function genMath(type){
     if(type==='math-add'){ const a=ri(2,Math.floor(mx*0.5)),b=ri(2,Math.floor(mx*0.5)),c=ri(1,a+b-1); return{q:`${a} + ${b} − ${c}`,a:a+b-c,op:'multi'}; }
     const a=ri(8,mx),b=ri(1,a-2),c=ri(1,a-b); return{q:`${a} − ${b} − ${c}`,a:a-b-c,op:'multi'};
   }
-  if(type==='math-add'){const mx=young?10:(cfg.max||20);const a=ri(1,Math.floor(mx*0.7)),b=ri(1,Math.max(1,mx-a));return{q:`${a} + ${b}`,a:a+b,op:'add',a1:a,a2:b};}
-  if(type==='math-sub'){const mx=young?10:(cfg.max||20);const a=ri(2,mx),b=ri(1,a-1);return{q:`${a} − ${b}`,a:a-b,op:'sub',a1:a,a2:b};}
+  // young (≤5) visual add: two COUNTABLE emoji clusters (sum ≤10) instead of abstract numerals, so a
+  // non-reader can literally count the objects on screen (owner 2026-07-05: young math too thin, wants
+  // more variation + creative tasks). op:'add'+a1/a2 so the existing tutor handles a wrong answer.
+  if(type==='math-add' && young && Math.random()<0.4){
+    const em=['🍎','🍌','🍓','🍊','🐟','⭐','🎈','🌸'][ri(0,7)];
+    const a=ri(1,5),b=ri(1,5);
+    const grp=n=>`<span class="vsum-grp">${Array.from({length:n},()=>`<span class="ve">${em}</span>`).join('')}</span>`;
+    return{q:`${grp(a)}<span class="vsum-plus">+</span>${grp(b)}`,a:a+b,op:'add',a1:a,a2:b,vis:true};
+  }
+  // young cap lifted 10→20 (owner 2026-07-05: "20 უნდა იყოს") so a strong 5yo isn't plateaued at ≤10.
+  if(type==='math-add'){const mx=young?20:(cfg.max||20);const a=ri(1,Math.floor(mx*0.7)),b=ri(1,Math.max(1,mx-a));return{q:`${a} + ${b}`,a:a+b,op:'add',a1:a,a2:b};}
+  if(type==='math-sub'){const mx=young?20:(cfg.max||20);const a=ri(2,mx),b=ri(1,a-1);return{q:`${a} − ${b}`,a:a-b,op:'sub',a1:a,a2:b};}
   if(type==='math-mul'){if(cfg.twod&&!young){const t=ri(11,19),b=ri(2,9);return{q:`${t} × ${b}`,a:t*b,op:'mul',a1:t,a2:b};}const tmax=young?3:(cfg.tmax||5);const t=ri(2,tmax),b=ri(1,10);return{q:`${t} × ${b}`,a:t*b,op:'mul',a1:t,a2:b};}
   // A+ (8-9): integer division — b*c ÷ b = c, always whole
   if(type==='math-div'){const dmax=cfg.dmax||5;const b=ri(2,dmax),c=ri(2,10);return{q:`${b*c} ÷ ${b}`,a:c,op:'div',a1:b*c,a2:b};}
@@ -636,7 +646,12 @@ function genMath(type){
   { let full,step,kind=young?0:ri(0,3);
     // owner live-test 2026-07-05: a 5yo learning digits got „3,6,9,12,?" (step 3, values >10) — too high.
     // For young (≤5) keep sequences gentle: step 1 (mostly) or 2, and every value ≤10 (start bounded by step).
-    if(kind===0){ step=young?(Math.random()<0.7?1:2):[2,3,4,5][ri(0,3)]; const s=ri(1,young?(step===1?4:2):9); full=[0,1,2,3,4].map(i=>s+step*i); }
+    if(kind===0){
+      // young step ∈ {1,2,3} weighted to 1-2 (was 1-2 only, ≤10). start bounded so max value ≤20, blank stays LAST.
+      if(young){ const rr=Math.random(); step=rr<0.5?1:(rr<0.85?2:3); }
+      else step=[2,3,4,5][ri(0,3)];
+      const s=ri(1,young?Math.max(1,20-4*step):9); full=[0,1,2,3,4].map(i=>s+step*i);
+    }
     else if(kind===1){ step=(Math.random()<0.5?5:10); const s=step*ri(1,4); full=[0,1,2,3,4].map(i=>s+step*i); }
     else if(kind===2){ const d=[2,3,5][ri(0,2)]; const start=d*ri(5,8); full=[0,1,2,3,4].map(i=>start-d*i); step=-d; }
     else { const s=[1,2,3,5][ri(0,3)]; full=[0,1,2,3,4].map(i=>s*Math.pow(2,i)); step=null; }
@@ -690,12 +705,18 @@ function mathRound(m){
 function nextMath(){
   if(game.i>=game.qs.length)return results();
   const q=game.qs[game.i];game.cur=q;
-  const canHarder=mathLvl(game.mode)<((MATH_LV[game.mode]||[{}]).length-1);
+  const young=isYoung(profile);
+  // young genMath ignores the level tier, so "harder" is a no-op for them — hide it.
+  const canHarder=!young&&mathLvl(game.mode)<((MATH_LV[game.mode]||[{}]).length-1);
   const why=game.i===0&&MATH_WHY[game.mode]?`<div style="background:#fff8ee;border:1px solid #ffe2bd;border-radius:14px;padding:9px 14px;margin-bottom:12px;font-size:.9rem;color:#6b5640;line-height:1.4">🦉 ${whyText(game.mode)}</div>`:'';
-  gameShell(`${why}<div class="prompt"><div class="p-word num" style="font-size:clamp(2.3rem,10vw,3rem);letter-spacing:2px">${q.q}</div>${q.pat?'<div class="p-sub">იპოვე კანონზომიერება</div>':''}</div>
+  const promptInner=q.vis
+    ? `<div class="vsum">${q.q}</div><div class="p-sub">რამდენია სულ?</div>`
+    : `<div class="p-word num" style="font-size:clamp(2.3rem,10vw,3rem);letter-spacing:2px">${q.q}</div>${q.pat?'<div class="p-sub">იპოვე კანონზომიერება</div>':''}`;
+  gameShell(`${why}<div class="prompt">${promptInner}</div>
     <div class="options">${mathOpts(q.a).map(o=>`<button class="opt num" onclick="answerMath(this,${o},${q.a})">${o}</button>`).join('')}</div>
     ${canHarder?`<button class="btn btn-ghost" style="margin-top:16px;font-size:.95rem" onclick="mathHarder()">⏫ ${window.UILANG==='en'?'Make it harder':'გამირთულე'}</button>`:''}`);
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
+  if(q.vis){try{speak(voiceLang(profile)==='en'?'how many?':'რამდენია?',vCode(profile));}catch(e){}}
 }
 // kid-facing "make it harder": bump this op's level, re-roll the remaining questions harder, keep going.
 function mathHarder(){
