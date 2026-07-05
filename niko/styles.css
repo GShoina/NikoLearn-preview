@@ -487,6 +487,14 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
 @keyframes listenpulse{0%,100%{transform:scale(1);box-shadow:0 0 0 0 color-mix(in oklch,var(--sky) 45%,transparent)}50%{transform:scale(1.06);box-shadow:0 0 0 10px transparent}}
 .pulse-hint{animation:listenpulse 1.1s ease-in-out 3}
 @media(prefers-reduced-motion:reduce){.pulse-hint{animation:none}}
+/* pre-reader "tap this to continue" affordance: a gentle button pulse + an animated finger. Shown to
+   young (<=5) learners who cannot read the label. Owner 2026-07-05 live 5yo test: a 5yo could not tell the
+   „↻ კიდევ ერთი" button was tappable to move on. Shared class (results + movement-done). The global
+   reduced-motion reset near the file end already neutralizes these. */
+.tap-cue{animation:tapPulse 1.35s ease-in-out infinite}
+.tap-finger{display:inline-block;margin-right:.4em;animation:tapWiggle 1.05s ease-in-out infinite;transform-origin:70% 30%}
+@keyframes tapPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes tapWiggle{0%,100%{transform:translateY(0) rotate(0)}30%{transform:translateY(3px) rotate(-9deg)}60%{transform:translateY(-2px) rotate(5deg)}}
 .speakbtn:active{transform:scale(.95)}
 /* speaking self-check: the model answer card revealed after the child says their own answer (2026-06-23) */
 .speak-model{margin:14px auto 2px;max-width:340px;padding:14px 16px;border-radius:16px;

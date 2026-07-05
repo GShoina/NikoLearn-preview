@@ -352,7 +352,7 @@ function mvSessionComplete(){
     <div class="mv-done-em">🎉</div>
     <div class="mv-done-h">ბრავო! მოძრაობა დაასრულე</div>
     <div class="mv-done-rew">+${MV_REWARD} 🪙</div>
-    <button class="btn btn-primary btn-block" style="max-width:220px" onclick="(function(){var e=document.getElementById('mvDoneOv');if(e)e.remove();})()">კიდევ ერთი 💪</button>
+    <button class="btn btn-primary btn-block${(typeof isYoung==='function'&&isYoung(profile))?' tap-cue':''}" style="max-width:220px" onclick="(function(){var e=document.getElementById('mvDoneOv');if(e)e.remove();})()">${(typeof isYoung==='function'&&isYoung(profile))?'<span class="tap-finger" aria-hidden="true">👆</span>':''}კიდევ ერთი 💪</button>
     <button class="btn btn-ghost btn-block" style="max-width:220px" onclick="closeBreak()">მზად ვარ ✅</button>
   </div>`;
   el.appendChild(ov);
