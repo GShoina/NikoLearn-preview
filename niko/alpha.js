@@ -8,6 +8,9 @@ function alphaData(subj){return subj==='ka-alpha'?KA_ALPHA:EN_ALPHA;}
 function alphaIsKa(subj){return subj==='ka-alpha';}
 // each letter holds several example words (x:[[word,emoji],...]); pick one at random for variety
 function alphaItem(entry){const p=entry.x[ri(0,entry.x.length-1)];return {l:entry.l,w:p[0],e:p[1]};}
+// LEARN/TRACE use the curated best example (x[0] = clearest, most kid-known, with a good emoji), never a
+// random one that could land on an obscure word (შ→შუშა, ო→ომარი). Quiz still uses the full random pool.
+function alphaFirst(entry){const p=entry.x[0];return {l:entry.l,w:p[0],e:p[1]};}
 
 /* speak one alphabet item, age- & language-appropriate */
 function alphaSay(subj,it){
@@ -26,7 +29,7 @@ function alphaLearn(subj,idx){
   idx=Math.max(0,Math.min(idx,n-1));
   game.subj=subj;
   const entry=data[idx],last=idx>=n-1,first=idx<=0;
-  const it=alphaItem(entry); game.alphaIt=it;   // random example word, kept so re-taps say the same one
+  const it=alphaFirst(entry); game.alphaIt=it;   // curated best example (x[0]); re-taps say the same one
   render(`<div class="screen">
     ${topbar(MODE_TITLES[subj]||subj,`ისწავლე · ${idx+1}/${n}`,`openMenu('${subj}')`)}
     <div class="alpha-stage">
@@ -551,7 +554,7 @@ function traceLearn(idx){
   ensureOpentype();   // first open: pull opentype.js; the retry loop below re-renders once the font parses
   const data=KA_ALPHA,n=data.length;
   idx=Math.max(0,Math.min(idx,n-1));
-  const entry=data[idx]; const it=alphaItem(entry); game.traceIt={it,idx};
+  const entry=data[idx]; const it=alphaFirst(entry); game.traceIt={it,idx};
   const last=idx>=n-1,first=idx<=0;
   const d=glyphPathD(entry.l);   // null only if the font is not parsed yet
   const guide = d ? `<svg id="sgsvg" class="stroke-guide" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet"><path id="gd" class="gd" d="${d}"/><text class="sg-pen" style="opacity:0" font-size="13">✏️</text></svg>` : '';
