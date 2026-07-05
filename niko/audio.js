@@ -10,13 +10,25 @@
   // Empty for now: drop ka clips here and they instantly take over from TTS.
   window.AUDIO_MANIFEST = window.AUDIO_MANIFEST || {};
   const BASE = 'niko/audio/';
+  // ONE reused <audio> element for every recorded clip. iOS Safari stops playing after ~5 rapidly
+  // CREATED Audio elements (decode cap), which silenced the count-along past 5 (owner 2026-07-05 live
+  // test). Reusing a single element and swapping .src sidesteps that cap entirely.
   let curClip = null;
+  function getPlayer(){ if(!curClip){ curClip = new Audio(); curClip.volume = 0.85; } return curClip; }
+  function playClipUrl(url, onended, onfail){
+    const a = getPlayer();
+    try{ a.pause(); }catch(e){}
+    a.onended = onended || null; a.onerror = onfail || null;
+    try{ a.src = url; a.currentTime = 0; }catch(e){}
+    a.play().catch(()=>{ if(onfail) onfail(); });
+    return a;
+  }
 
   function clipFor(text){
     const k = (text||'').trim().toLowerCase();
     return AUDIO_MANIFEST[k] ? (BASE + AUDIO_MANIFEST[k]) : null;
   }
-  function stopClip(){ if(curClip){ try{curClip.pause();}catch(e){} curClip=null; } }
+  function stopClip(){ if(curClip){ try{curClip.pause();}catch(e){} curClip.onended=null; } }
   // expose a global hard-stop so navigation can kill any in-flight clip/sequence (fixes cross-screen
   // audio bleed, e.g. a "ყველი" spell-clip continuing onto the next ჩ/ზ screen). Parent-reported 2026-06-28.
   window.stopAudio = function(){ stopClip(); try{ if('speechSynthesis'in window) speechSynthesis.cancel(); }catch(e){} };
@@ -34,10 +46,7 @@
     last = {key, t:now};
     // prefer a recorded clip when one exists for this exact text
     const url = clipFor(t);
-    if(url){
-      stopClip();
-      try{ curClip = new Audio(url); curClip.volume=0.85; curClip.play().catch(()=>{}); return; }catch(e){}
-    }
+    if(url){ playClipUrl(url); return; }
     if(_speakOne) _speakOne(t, lang, opts);
   };
 
@@ -58,12 +67,8 @@
       const p = list[i++];
       const url = clipFor(p.t);
       if(url){
-        try{
-          const a = new Audio(url); curClip = a;
-          a.onended = next;
-          a.onerror = ()=> tts(p);
-          a.play().catch(()=> tts(p));
-        }catch(e){ tts(p); }
+        try{ playClipUrl(url, next, ()=> tts(p)); }
+        catch(e){ tts(p); }
       } else { tts(p); }
     };
     const tts = (p)=>{
