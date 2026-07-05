@@ -875,7 +875,7 @@ function countAlong(n){
   // and follow each one. Give each number room: slower, profile-aware cadence (young = more deliberate)
   // so quantity → numeral → spoken word actually lands. (Clarity of the ka number VOICE is a separate
   // open item: digitSay still relies on device ka-TTS; needs recorded ka number clips — logged.)
-  const gap=(typeof isYoung==='function'&&isYoung(profile))?1150:920;
+  const gap=(typeof isYoung==='function'&&isYoung(profile))?1245:995;   // +~8% (owner 2026-07-05): a touch more room between numbers reads clearer to a small child
   let i=0;
   const step=()=>{
     if(i>=n){_countTimer=null;return;}
