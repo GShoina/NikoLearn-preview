@@ -1414,6 +1414,10 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
 .vsum-grp{display:inline-flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:.08em .16em;background:linear-gradient(135deg,#FFF7E6,#EAF7FF);border:2px solid #FFE0B2;border-radius:18px;padding:.2em .34em}
 .vsum-grp .ve{display:inline-block}
 .vsum-plus{font-weight:800;opacity:.55;padding:0 .04em}
+/* NB-17: visual take-away subtraction — the "taken away" emoji are faded + struck, so the child counts
+   only what's LEFT ("რამდენი დარჩა?"). */
+.vsum-grp .ve.vsub-gone{opacity:.28;filter:grayscale(1);position:relative}
+.vsum-grp .ve.vsub-gone::after{content:"";position:absolute;left:8%;right:8%;top:48%;height:.09em;min-height:2px;background:#d0454a;border-radius:2px;transform:rotate(-16deg)}
 /* visual-first quiz: word with the first letter shown as a slot */
 .alpha-wordgap{display:flex;align-items:center;justify-content:center;gap:2px;font-size:2rem;font-weight:700;margin:6px 0}
 .alpha-wordgap.en{font-family:'Fredoka';font-weight:500}

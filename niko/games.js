@@ -635,6 +635,14 @@ function genMath(type){
   }
   // young cap lifted 10→20 (owner 2026-07-05: "20 უნდა იყოს") so a strong 5yo isn't plateaued at ≤10.
   if(type==='math-add'){const mx=young?20:(cfg.max||20);const a=ri(1,Math.floor(mx*0.7)),b=ri(1,Math.max(1,mx-a));return{q:`${a} + ${b}`,a:a+b,op:'add',a1:a,a2:b};}
+  // NB-17: young (≤5) visual TAKE-AWAY sub — a emoji, the last b faded/struck (taken away), count what's LEFT.
+  // The pre-reader-correct form of subtraction (owner 2026-07-06). a≤7 so the remainder is countable on screen.
+  if(type==='math-sub' && young && Math.random()<0.4){
+    const em=['🍎','🍌','🍓','🍊','🐟','⭐','🎈','🌸'][ri(0,7)];
+    const a=ri(2,7),b=ri(1,a-1);
+    const items=Array.from({length:a},(_,i)=>`<span class="ve${i>=a-b?' vsub-gone':''}">${em}</span>`).join('');
+    return{q:`<span class="vsum-grp">${items}</span>`,a:a-b,op:'sub',a1:a,a2:b,vsub:true};
+  }
   if(type==='math-sub'){const mx=young?20:(cfg.max||20);const a=ri(2,mx),b=ri(1,a-1);return{q:`${a} − ${b}`,a:a-b,op:'sub',a1:a,a2:b};}
   if(type==='math-mul'){if(cfg.twod&&!young){const t=ri(11,19),b=ri(2,9);return{q:`${t} × ${b}`,a:t*b,op:'mul',a1:t,a2:b};}const tmax=young?3:(cfg.tmax||5);const t=ri(2,tmax),b=ri(1,10);return{q:`${t} × ${b}`,a:t*b,op:'mul',a1:t,a2:b};}
   // A+ (8-9): integer division — b*c ÷ b = c, always whole
@@ -702,6 +710,29 @@ function mathRound(m){
   game.mode=m;game.leveledMath=null;game.qs=Array.from({length:8},()=>genMath(m));
   game.qs[0]=easyFirstMath(m); // 0.3 warm-up: every round opens with a guaranteed-winnable question (q0 = 53% of abandons)
   game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextMath();}
+// NB-17: dative (-ს) number words 1-20 — the FIRST operand of a spoken subtraction ("ცხრას გამოვაკლოთ სამი").
+// Owner-validated ka 2026-07-06; recorded clips = nb17_dat_NN.mp3 (audio-manifest.js). Nominative before
+// "გამოვაკლოთ" is ungrammatical, so sub voicing uses these; addition keeps nominative numWord.
+const KA_NUM_DAT=['','ერთს','ორს','სამს','ოთხს','ხუთს','ექვსს','შვიდს','რვას','ცხრას','ათს','თერთმეტს','თორმეტს','ცამეტს','თოთხმეტს','თხუთმეტს','თექვსმეტს','ჩვიდმეტს','თვრამეტს','ცხრამეტს','ოცს'];
+// NB-17: speak the young (≤5) math prompt aloud so a NON-READER can hear the problem, not just see numerals.
+// Reuses the recorded number clips + the NB-17 connective clips; ka via playClipSeq (clip-only, no runtime TTS).
+function voiceMathPrompt(q){
+  const en=voiceLang(profile)==='en', code=vCode(profile);
+  try{
+    if(q.vis){ speak(en?'how many?':'რამდენია?',code); return; }
+    if(q.vsub){ speak(en?'how many are left?':'რამდენი დარჩა?',code); return; }
+    if(q.op==='add'){
+      if(en) speakSeq([{t:numWord(q.a1,profile),lang:code},{t:'plus',lang:code},{t:numWord(q.a2,profile),lang:code},{t:'how many?',lang:code}]);
+      else playClipSeq([numWord(q.a1,profile),'და',numWord(q.a2,profile),'რამდენია?']);
+      return;
+    }
+    if(q.op==='sub'){
+      if(en) speakSeq([{t:numWord(q.a1,profile),lang:code},{t:'minus',lang:code},{t:numWord(q.a2,profile),lang:code},{t:'how many?',lang:code}]);
+      else playClipSeq([KA_NUM_DAT[q.a1]||numWord(q.a1,profile),'გამოვაკლოთ',numWord(q.a2,profile),'რამდენია?']);
+      return;
+    }
+  }catch(e){}
+}
 function nextMath(){
   if(game.i>=game.qs.length)return results();
   const q=game.qs[game.i];game.cur=q;
@@ -709,14 +740,15 @@ function nextMath(){
   // young genMath ignores the level tier, so "harder" is a no-op for them — hide it.
   const canHarder=!young&&mathLvl(game.mode)<((MATH_LV[game.mode]||[{}]).length-1);
   const why=game.i===0&&MATH_WHY[game.mode]?`<div style="background:#fff8ee;border:1px solid #ffe2bd;border-radius:14px;padding:9px 14px;margin-bottom:12px;font-size:.9rem;color:#6b5640;line-height:1.4">🦉 ${whyText(game.mode)}</div>`:'';
-  const promptInner=q.vis
-    ? `<div class="vsum">${q.q}</div><div class="p-sub">რამდენია სულ?</div>`
+  const promptInner=(q.vis||q.vsub)
+    ? `<div class="vsum">${q.q}</div><div class="p-sub">${q.vsub?'რამდენი დარჩა?':'რამდენია სულ?'}</div>`
     : `<div class="p-word num" style="font-size:clamp(2.3rem,10vw,3rem);letter-spacing:2px">${q.q}</div>${q.pat?'<div class="p-sub">იპოვე კანონზომიერება</div>':''}`;
   gameShell(`${why}<div class="prompt">${promptInner}</div>
     <div class="options">${mathOpts(q.a).map(o=>`<button class="opt num" onclick="answerMath(this,${o},${q.a})">${o}</button>`).join('')}</div>
     ${canHarder?`<button class="btn btn-ghost" style="margin-top:16px;font-size:.95rem" onclick="mathHarder()">⏫ ${window.UILANG==='en'?'Make it harder':'გამირთულე'}</button>`:''}`);
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
-  if(q.vis){try{speak(voiceLang(profile)==='en'?'how many?':'რამდენია?',vCode(profile));}catch(e){}}
+  // NB-17: voice the prompt for young (visual + abstract add/sub). Reader (≥7) abstract math stays silent (they read).
+  if(q.vis||q.vsub||(young&&(q.op==='add'||q.op==='sub'))){try{voiceMathPrompt(q);}catch(e){}}
 }
 // kid-facing "make it harder": bump this op's level, re-roll the remaining questions harder, keep going.
 function mathHarder(){

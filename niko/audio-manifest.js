@@ -1,6 +1,32 @@
 // Auto-generated Georgian audio manifest (edge-tts ka-GE-EkaNeural). Load BEFORE niko/audio.js.
 // Key = exact spoken text (lowercased). Value = filename under niko/audio/ (audio.js prepends the dir).
 window.AUDIO_MANIFEST = {
+ // NB-17 — young (≤5) abstract add/sub voicing + visual take-away sub (owner-validated ka 2026-07-06).
+ // add: "<a1> და <a2>. რამდენია?" · sub: "<a1-dative> გამოვაკლოთ <a2>. რამდენია?" · visual sub: "რამდენი დარჩა?".
+ // Dative 1-20 = the sub FIRST operand (nominative "ცხრა" is ungrammatical before "გამოვაკლოთ").
+ // ("და" for the add connective reuses the existing clip_029 already in this manifest.)
+ "გამოვაკლოთ": "nb17_minus.mp3",
+ "რამდენი დარჩა?": "nb17_left.mp3",
+ "ერთს": "nb17_dat_01.mp3",
+ "ორს": "nb17_dat_02.mp3",
+ "სამს": "nb17_dat_03.mp3",
+ "ოთხს": "nb17_dat_04.mp3",
+ "ხუთს": "nb17_dat_05.mp3",
+ "ექვსს": "nb17_dat_06.mp3",
+ "შვიდს": "nb17_dat_07.mp3",
+ "რვას": "nb17_dat_08.mp3",
+ "ცხრას": "nb17_dat_09.mp3",
+ "ათს": "nb17_dat_10.mp3",
+ "თერთმეტს": "nb17_dat_11.mp3",
+ "თორმეტს": "nb17_dat_12.mp3",
+ "ცამეტს": "nb17_dat_13.mp3",
+ "თოთხმეტს": "nb17_dat_14.mp3",
+ "თხუთმეტს": "nb17_dat_15.mp3",
+ "თექვსმეტს": "nb17_dat_16.mp3",
+ "ჩვიდმეტს": "nb17_dat_17.mp3",
+ "თვრამეტს": "nb17_dat_18.mp3",
+ "ცხრამეტს": "nb17_dat_19.mp3",
+ "ოცს": "nb17_dat_20.mp3",
  // v2.00 — reasoning-strand tutor hints (pattern/rebus/model/triangle). Fixed voiceable ka phrases so the
  // owl SPEAKS Georgian on any device (owl.js speakHint clip-first). Keys must match tutor.js reasoning() exactly.
  "დააკვირდი რიცხვებს და იპოვე წესი. რა იცვლება ყოველ ბიჯზე?": "thint_000.mp3",
