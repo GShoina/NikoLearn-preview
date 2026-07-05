@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url || steps.deployment_retry.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -55,10 +55,25 @@ jobs:
         with:
           path: _site
 
-      - name: Deploy to GitHub Pages
+      # GitHub Pages' backend intermittently fails a freshly-created deployment at the status check
+      # with "Deployment failed, try again later." (their infra, not our build — the artifact uploaded
+      # fine). It used to need a manual re-push, which spammed the owner with failure emails. Attempt 1
+      # is allowed to fail softly; a short wait + attempt 2 rescues the run so it ends GREEN. Only if
+      # BOTH attempts fail (a real Pages outage) does the run fail and notify.
+      - name: Deploy to GitHub Pages (attempt 1)
         id: deployment
         uses: actions/deploy-pages@v4
+        continue-on-error: true
         with:
-          # actions/deploy-pages caps `timeout` at 600000ms (10 min); a larger value is silently
-          # clamped and emits a warning. Keep it at the max so the log stays clean.
+          timeout: 600000
+
+      - name: Wait before retry
+        if: steps.deployment.outcome == 'failure'
+        run: sleep 25
+
+      - name: Deploy to GitHub Pages (attempt 2, retry transient failure)
+        id: deployment_retry
+        if: steps.deployment.outcome == 'failure'
+        uses: actions/deploy-pages@v4
+        with:
           timeout: 600000
