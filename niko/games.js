@@ -149,6 +149,8 @@ function nextWord(){
   }
   gameShell(area);
   if(game.mode==='reverse')spellOut($('#spellrev'),q.en);
+  // colour: voice the question for pre-readers (same class as shapes/counting, owner 2026-07-05).
+  if(game.mode==='colour'){try{speak(window.UILANG==='en'?'what colour is it?':'რა ფერია?',vCode(profile));}catch(e){}}
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
 }
 // after a correct answer: VOICE the answer first, hold a beat, THEN show the praise screen.
@@ -632,7 +634,9 @@ function genMath(type){
   // pattern: varied types so it isn't always "1,2,3,?" (owner ask 2026-06-13 — more variety + interest).
   // young = simple increasing only; older = increasing(varied step) / skip-5-10 / decreasing / doubling.
   { let full,step,kind=young?0:ri(0,3);
-    if(kind===0){ step=young?ri(1,3):[2,3,4,5][ri(0,3)]; const s=ri(1,young?5:9); full=[0,1,2,3,4].map(i=>s+step*i); }
+    // owner live-test 2026-07-05: a 5yo learning digits got „3,6,9,12,?" (step 3, values >10) — too high.
+    // For young (≤5) keep sequences gentle: step 1 (mostly) or 2, and every value ≤10 (start bounded by step).
+    if(kind===0){ step=young?(Math.random()<0.7?1:2):[2,3,4,5][ri(0,3)]; const s=ri(1,young?(step===1?4:2):9); full=[0,1,2,3,4].map(i=>s+step*i); }
     else if(kind===1){ step=(Math.random()<0.5?5:10); const s=step*ri(1,4); full=[0,1,2,3,4].map(i=>s+step*i); }
     else if(kind===2){ const d=[2,3,5][ri(0,2)]; const start=d*ri(5,8); full=[0,1,2,3,4].map(i=>start-d*i); step=-d; }
     else { const s=[1,2,3,5][ri(0,3)]; full=[0,1,2,3,4].map(i=>s*Math.pow(2,i)); step=null; }
@@ -758,6 +762,8 @@ function nextShape(){
   gameShell(`<div class="prompt"><div class="p-emoji" style="font-size:5rem">${q.e}</div><div class="p-sub">რა ფიგურაა?</div></div>
     <div class="options">${opts.map(o=>`<button class="opt" onclick="speak('${o.en}','en-US');answerShape(this,'${nm(o)}','${cor}')">${nm(o)}</button>`).join('')}</div>`);
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
+  // owner live-test 2026-07-05: voice the question for pre-readers (parity with counting's „რამდენია?").
+  try{speak(useEn?'what shape is it?':'რა ფიგურაა?',vCode(profile));}catch(e){}
 }
 function answerShape(btn,sel,cor){
   if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);winStep(cor,'en-US',()=>{game.i++;nextShape();});}
@@ -865,13 +871,18 @@ let _countTimer=null;
 function countAlong(n){
   if(_countTimer){clearTimeout(_countTimer);_countTimer=null;}
   for(let k=0;k<n;k++){const el=document.getElementById('cobj'+k);if(el)el.classList.remove('lit');}
+  // owner live-test 2026-07-05: count-along rushed the numbers, gap too tight for a small child to hear
+  // and follow each one. Give each number room: slower, profile-aware cadence (young = more deliberate)
+  // so quantity → numeral → spoken word actually lands. (Clarity of the ka number VOICE is a separate
+  // open item: digitSay still relies on device ka-TTS; needs recorded ka number clips — logged.)
+  const gap=(typeof isYoung==='function'&&isYoung(profile))?1150:920;
   let i=0;
   const step=()=>{
     if(i>=n){_countTimer=null;return;}
     const el=document.getElementById('cobj'+i);if(el)el.classList.add('lit');
     try{digitSay(i+1);}catch(e){}
     i++;
-    _countTimer=setTimeout(step,820);
+    _countTimer=setTimeout(step,gap);
   };
   step();
 }
@@ -1212,6 +1223,8 @@ function pat3opts(a){ const s=new Set([a]); let g=0;
   return shuffle([...s]); }
 function genPattern(tier){
   tier=Math.max(1,Math.min(3,tier||1)); let full, blank, rule;
+  // young (≤5): gentle sequence regardless of tier (values ≤10, step 1–2) — same class as genMath (owner 07-05).
+  if(typeof isYoung==='function'&&isYoung(profile)){ const step=(Math.random()<0.7?1:2), s=ri(1,step===1?4:2); full=[0,1,2,3,4].map(i=>s+step*i); blank=4; rule=`ყოველ ჯერზე +${step}`; const a=full[blank]; return {q:full.map((v,i)=>i===blank?'?':v).join(', '), a, opts:pat3opts(a), rule, tier}; }
   if(tier===1){ const step=ri(2,5), s=ri(1,9); full=[0,1,2,3,4].map(i=>s+step*i); blank=4; rule=`ყოველ ჯერზე +${step}`; }
   else if(tier===2){
     if(Math.random()<0.5){ const d=ri(2,4), s=ri(1,6); full=[s]; let c=s; for(let i=1;i<5;i++){c+=d+(i-1);full.push(c);} blank=4; rule=`სხვაობა იზრდება: +${d}, +${d+1}, +${d+2}…`; }
@@ -1486,15 +1499,13 @@ function feedback(ok){
 function closeFeedback(){const e=$('#fbov');if(e)e.remove();}
 // F4 (systemic): voice the ANSWER first, hold a beat so the child hears it, THEN praise + show
 // the celebration. Prevents the "ყოჩაღ flashes before the answer is spoken" ordering bug.
-function sayThenPraise(answerText,lang,after){
-  try{if(answerText!=null&&answerText!=='')speak(String(answerText),lang||'ka-GE');}catch(e){}
-  const big=(typeof isBig==='function'&&isBig(profile));
-  const a=big?650:1100, b=big?700:1100;
-  clearCeleb();
-  _celebGo=()=>{ _celebGo=null; clearCeleb(); if(after) after(); };
-  _celebTimers.push(setTimeout(()=>{ try{praise();}catch(e){} feedback(true); }, a));
-  _celebTimers.push(setTimeout(()=>{ if(_celebGo) _celebGo(); }, a+b));
-}
+// CLASS-FIX (owner live-test 2026-07-05, „serious bug"): sayThenPraise auto-advanced in ~2.2s, which
+// CUT OFF the spoken answer ("სამი, ყოჩაღ") before it finished — irritating for a small child. It also
+// lacked the „შემდეგი →" button. Root cause = it was a parallel, faster celebration path than winStep.
+// Consolidate: delegate to the SAME child-paced winStep (speaks the answer, praise + „შემდეგი" button,
+// auto-advance only on the long 5.2–6.5s safety fallback). Fixes all 6 sayThenPraise modes at once
+// (counting + alpha digit/read/sent/build/shead). Keep the ka-GE default (winStep defaults en-US).
+function sayThenPraise(answerText,lang,after){ return winStep(answerText, lang||'ka-GE', after); }
 function confettiEl(){
   const c=document.createElement('div');c.className='confetti';
   const cols=['var(--primary)','var(--sun)','var(--green)','var(--sky)','var(--purple)'];

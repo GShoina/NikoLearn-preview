@@ -1709,4 +1709,13 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
 .fr-again{position:relative;display:block;width:100%;background:#00C48C;color:#fff;text-align:center;font-size:19px;font-weight:800;padding:17px;border:none;border-radius:22px;box-shadow:0 14px 26px -10px rgba(0,196,140,.55);overflow:hidden;cursor:pointer;margin-bottom:8px}
 .fr-sheen{position:absolute;top:0;left:0;width:45%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);animation:frSheen 4.5s ease-in-out infinite}
 .fr-done{display:block;width:100%;background:none;border:none;text-align:center;font-size:15px;font-weight:700;color:#9C8064;padding:8px;cursor:pointer}
+/* owner live-test 2026-07-05: a pre-reader 5yo could not tell WHICH button = „one more". Make the
+   primary unmistakable WITHOUT reading: an „again" glyph + a bouncing pointing finger + a gentle
+   tap-me pulse. The „enough" button stays visually recessive so the eye goes to the primary. */
+.fr-again-ic{margin-right:7px;font-size:1.05em;vertical-align:-1px}
+.fr-tap{display:inline-block;margin-left:9px;font-size:1.1em;animation:frTap 1.15s ease-in-out infinite;transform-origin:center bottom}
+.fr-again.pulse{animation:frAgainPulse 1.15s ease-in-out infinite}
+@keyframes frAgainPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}
+@keyframes frTap{0%,100%{transform:translateY(0) rotate(0deg)}45%{transform:translateY(-7px) rotate(-8deg)}70%{transform:translateY(0) rotate(0deg)}}
+@media(prefers-reduced-motion:reduce){.fr-again.pulse,.fr-tap{animation:none}}
 @media (prefers-reduced-motion:reduce){.fr-screen *{animation:none !important}}

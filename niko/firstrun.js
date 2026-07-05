@@ -10,18 +10,33 @@
 
 // gentle, guaranteed-easy first task per subject → a sure first win.
 const FR_SUBJ = {
+  // owner live-test 2026-07-05: a single first-run question felt like a formality and assessed nothing.
+  // Now 3 short, all-winnable tasks per subject — still under a minute, but the child DOES a real little
+  // activity before the first win (still activation, not a diagnostic; the placement flow does assessment).
   counting: { key:'counting', label:'რიცხვები', ico:'123', grad:'linear-gradient(155deg,#FFD27A,#FF8A00)',
     ring:'#FFE0A0', shadow:'rgba(255,138,0,.5)', sub:'დათვლა და ფიგურები',
-    q:'დაითვალე ვაშლები. რამდენია?', show:'🍎🍎🍎', opts:['2','3','4'], ans:'3',
-    winSub:'პირველივე ცდაზე დათვალე სამი 🍎' },
+    tasks:[
+      {q:'დაითვალე ვაშლები. რამდენია?', show:'🍎🍎🍎', opts:['2','3','4'], ans:'3'},
+      {q:'ახლა დაითვალე. რამდენია?', show:'🍎🍎🍎🍎🍎', opts:['4','5','6'], ans:'5'},
+      {q:'კიდევ ერთხელ. რამდენია?', show:'🍎🍎', opts:['1','2','3'], ans:'2'}
+    ],
+    winSub:'დათვალე ვაშლები, ერთი-ერთმანეთის მიყოლებით 🍎' },
   'ka-alpha': { key:'ka-alpha', label:'ასოები', ico:'აბგ', grad:'linear-gradient(155deg,#5EE0BC,#00C48C)',
     ring:'#C8F0E2', shadow:'rgba(0,196,140,.45)', sub:'ბგერა და ანბანი',
-    q:'იპოვე ასო „ა".', show:'🔤', opts:['ა','ო','მ'], ans:'ა',
-    winSub:'პირველივე ცდაზე იპოვე ასო „ა"' },
+    tasks:[
+      {q:'იპოვე ასო „ა".', show:'🔤', opts:['ა','ო','მ'], ans:'ა'},
+      {q:'იპოვე ასო „ბ".', show:'🔤', opts:['ბ','დ','გ'], ans:'ბ'},
+      {q:'იპოვე ასო „ო".', show:'🔤', opts:['ო','ა','ე'], ans:'ო'}
+    ],
+    winSub:'იპოვე ასოები „ა", „ბ", „ო"' },
   english: { key:'english', label:'ენა', ico:'<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c2.6 2.8 2.6 15.2 0 18M12 3c-2.6 2.8-2.6 15.2 0 18"></path></svg>',
     grad:'linear-gradient(155deg,#73B4F5,#2E86DE)', ring:'#CFE2FB', shadow:'rgba(46,134,222,.45)', sub:'ინგლისური სიტყვები',
-    q:'რომელია „კატა" ინგლისურად?', show:'🐱', opts:['cat','dog','sun'], ans:'cat',
-    winSub:'პირველივე ცდაზე იპოვე „cat"' }
+    tasks:[
+      {q:'რომელია „კატა" ინგლისურად?', show:'🐱', opts:['cat','dog','sun'], ans:'cat'},
+      {q:'რომელია „ძაღლი" ინგლისურად?', show:'🐶', opts:['dog','cat','sun'], ans:'dog'},
+      {q:'რომელია „მზე" ინგლისურად?', show:'☀️', opts:['sun','dog','cat'], ans:'sun'}
+    ],
+    winSub:'იპოვე „cat", „dog", „sun"' }
 };
 
 function frPlay(name){ try{ var a=new Audio('niko/audio/'+name+'.mp3'); a.play().catch(function(){}); }catch(e){} }
@@ -61,24 +76,32 @@ function frPick(subjKey){
   setTimeout(()=>firstRunTask(subjKey), 950);
 }
 
-// ── screen 04: FIRST TASK (voice + pictures, guaranteed easy, no writing) ──
-function firstRunTask(subjKey){
+// ── screen 04: FIRST TASK (voice + pictures, guaranteed easy, no writing) — now 3 short tasks ──
+function frTasks(s){ return (s&&s.tasks&&s.tasks.length)?s.tasks:[{q:s.q,show:s.show,opts:s.opts,ans:s.ans}]; }
+function firstRunTask(subjKey, idx){
+  idx=idx||0;
   const s=FR_SUBJ[subjKey]; if(!s) return;
-  const opts=(typeof shuffle==='function')?shuffle(s.opts.slice()):s.opts.slice();
+  const tasks=frTasks(s), t=tasks[idx]; if(!t) return firstRunWin(subjKey);
+  const opts=(typeof shuffle==='function')?shuffle(t.opts.slice()):t.opts.slice();
   render(`<div class="screen fr-screen fr-task">
     <div class="fr-niko-wrap sm"><div class="fr-niko"><img src="owl-logo.png" alt="ნიკო"></div></div>
-    <div class="fr-pop fr-taskq">${s.q}</div>
-    <div class="fr-show">${s.show}</div>
+    <div class="fr-pop" style="font-size:.82rem;opacity:.55;font-weight:800;letter-spacing:.5px">${idx+1} / ${tasks.length}</div>
+    <div class="fr-pop fr-taskq">${t.q}</div>
+    <div class="fr-show">${t.show}</div>
     <div class="fr-taskhint">👆 აირჩიე პასუხი</div>
-    <div class="fr-opts">${opts.map(o=>`<button class="fr-opt fr-pop" onclick="frAnswer(this,'${o}','${s.ans}','${subjKey}')">${o}</button>`).join('')}</div>
+    <div class="fr-opts">${opts.map(o=>`<button class="fr-opt fr-pop" onclick="frAnswer(this,'${o}','${t.ans}','${subjKey}',${idx})">${o}</button>`).join('')}</div>
   </div>`,false);
 }
 
-function frAnswer(btn, sel, ans, subjKey){
+function frAnswer(btn, sel, ans, subjKey, idx){
+  idx=idx||0;
+  const s=FR_SUBJ[subjKey], total=frTasks(s).length;
   if(sel===ans){
     document.querySelectorAll('.fr-opt').forEach(b=>{b.disabled=true;b.classList.add('dim');});
     btn.classList.remove('dim'); btn.classList.add('ok');
-    setTimeout(()=>firstRunWin(subjKey), 620);
+    // advance to the next short task, or to the WIN after the last one
+    if(idx+1<total){ setTimeout(()=>firstRunTask(subjKey, idx+1), 640); }
+    else { setTimeout(()=>firstRunWin(subjKey), 620); }
   } else {
     btn.classList.add('bad'); setTimeout(()=>btn.classList.remove('bad','dim'), 500);
     // kind, no punishment: keep trying (the item is trivially easy, so this is rare)
@@ -108,7 +131,7 @@ function firstRunWin(subjKey){
     </div>
     <div class="fr-time"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0E9E78" stroke-width="2.2"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>პირველი მოგებამდე ≈ ${secs} წამი</span></div>
     <div class="fr-winbtns">
-      <button class="fr-pop fr-again" onclick="frMore('${subjKey}')"><span class="fr-sheen"></span>კიდევ ერთი!</button>
+      <button class="fr-pop fr-again pulse" onclick="frMore('${subjKey}')"><span class="fr-sheen"></span><span class="fr-again-ic" aria-hidden="true">🔁</span><span class="fr-again-tx">კიდევ ერთი!</span><span class="fr-tap" aria-hidden="true">👆</span></button>
       <button class="fr-pop fr-done" onclick="frFinish()">დღეს კმარა</button>
     </div>
   </div>`,false);
