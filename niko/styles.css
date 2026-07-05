@@ -549,6 +549,9 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
   box-shadow:var(--shadow);transition:transform .12s,border-color .15s,background .15s}
 .opt.en{font-family:'Fredoka';font-weight:500}
 .opt.emoji{font-size:clamp(2rem,8.5vw,2.7rem);min-height:clamp(66px,13vh,92px)}
+/* pre-reader shapes (owner audit 2026-07-05): hear the name, tap the picture. Big, finger-friendly. */
+.shape-pic{font-size:clamp(2.8rem,13vw,4rem);min-height:clamp(92px,19vh,128px);line-height:1}
+.shape-pics{gap:clamp(10px,3vw,15px)}
 /* YLE yes/no (tick) + story reading — owner 2026-06-22 */
 .yn-opts .opt{font-size:clamp(1.12rem,5vw,1.35rem);min-height:clamp(64px,12vh,84px);font-weight:700}
 .opt.yn-yes{border-color:color-mix(in oklch,var(--green) 45%,var(--line));background:color-mix(in oklch,var(--green) 8%,var(--card))}

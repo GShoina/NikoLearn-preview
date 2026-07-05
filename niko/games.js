@@ -759,14 +759,35 @@ function nextShape(){
   // even if a parent switched the UI to English. (owner bug report 2026-06-13: only English showed)
   const kl=(kidObj(profile)&&kidObj(profile).langs)||['ka'], useEn=kl.indexOf('ka')<0;
   const nm=o=>useEn?o.en:o.ka, cor=useEn?q.en:q.ka;
-  gameShell(`<div class="prompt"><div class="p-emoji" style="font-size:5rem">${q.e}</div><div class="p-sub">რა ფიგურაა?</div></div>
+  // PRE-READER shapes (owner audit 2026-07-05): a 3-5 yo cannot read „კვადრატი/წრე/რომბი", so the old
+  // shape-NAME options were unanswerable. Reverse it: HEAR the shape name (recorded ka clip), tap the matching
+  // PICTURE. Answer compares by .en (language-neutral). Older/reader kids keep the name-picking version.
+  if(typeof isYoung==='function' && isYoung(profile)){
+    const sayName=useEn?q.en:q.ka, sayLang=useEn?'en-US':'ka-GE';
+    gameShell(`<div class="prompt">
+        <div class="p-sub" style="font-size:1.4rem;font-weight:800">${useEn?'find the shape':'რომელი ფიგურაა?'}</div>
+        <button class="speakbtn big pulse-tap" onclick="speak('${sayName}','${sayLang}');pulseTap(this)">${I.speaker} ${useEn?'listen':'მოისმინე'}</button>
+        <div class="finger-hint">👆 ${useEn?'tap the shape':'აირჩიე ფიგურა'}</div>
+      </div>
+      <div class="options shape-pics">${opts.map(o=>`<button class="opt shape-pic" onclick="answerShape(this,'${o.en}','${q.en}')">${o.e}</button>`).join('')}</div>`);
+    $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
+    setTimeout(()=>{try{speak(sayName,sayLang);}catch(e){}},260);
+    return;
+  }
+  gameShell(`<div class="prompt"><div class="p-emoji" style="font-size:5rem">${q.e}</div><div class="p-sub">${useEn?'what shape is it?':'რა ფიგურაა?'}</div></div>
     <div class="options">${opts.map(o=>`<button class="opt" onclick="speak('${o.en}','en-US');answerShape(this,'${nm(o)}','${cor}')">${nm(o)}</button>`).join('')}</div>`);
   $('#gcount').textContent=`${game.i+1}/${game.qs.length}`;
-  // owner live-test 2026-07-05: voice the question for pre-readers (parity with counting's „რამდენია?").
   try{speak(useEn?'what shape is it?':'რა ფიგურაა?',vCode(profile));}catch(e){}
 }
 function answerShape(btn,sel,cor){
-  if(sel===cor){document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);winStep(cor,'en-US',()=>{game.i++;nextShape();});}
+  if(sel===cor){
+    document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');mrec(true);
+    // young picked a picture by .en code → praise in the ka shape name (recorded clip), not English.
+    const young=(typeof isYoung==='function'&&isYoung(profile));
+    const kl=(kidObj(profile)&&kidObj(profile).langs)||['ka'], useEn=kl.indexOf('ka')<0;
+    if(young&&!useEn){const sh=SHAPES.find(s=>s.en===cor);winStep(sh?sh.ka:cor,'ka-GE',()=>{game.i++;nextShape();});}
+    else winStep(cor,'en-US',()=>{game.i++;nextShape();});
+  }
   else{btn.classList.add('wrong','dim');mrec(false);reQueueWrong(cor,null);}
 }
 

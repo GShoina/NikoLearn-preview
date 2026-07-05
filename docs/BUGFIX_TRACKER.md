@@ -1,6 +1,30 @@
 # NikoLearn — Bug + Systemic Fix Tracker (live, owner-tracked)
-**Updated 2026-07-01.** SSOT for every owner-reported bug + the systemic class behind it. New owner
+**Updated 2026-07-05.** SSOT for every owner-reported bug + the systemic class behind it. New owner
 reports get inserted here in priority order; nothing is asked until the list reaches the bottom.
+
+## 🧾 NB INTAKE LEDGER (§14 owner-report intake — append here FIRST, echo "დაფიქსირდა NB-<n>")
+One row per reported case, BEFORE analysis. Closes only with: class-vs-instance verdict + fix/DEFER reason + §6c live-verify.
+| NB | Symptom (1 line) | Source | Status | Class sweep |
+|---|---|---|---|---|
+| NB-1 | footer talk consolidation — bespoke `.talk-nav` ≠ shared dock | session-6 queue | OPEN | shared-dock class, table pending |
+| NB-2 | ka tutor wording B-1…B-8 (`tutor.js`/`owl.js`) | session-6 queue | OPEN | pending |
+| NB-3 | s-badge contrast | 07-02 audit | OPEN | contrast class (VIS-2/3 fixed, badge left) |
+| NB-4 | 44px tap targets | 07-02 audit | OPEN | pending |
+| NB-5 | exam bonus cap→5 | 07-02 audit | OPEN | instance-level |
+| NB-6 | skip-tier monotonic | 07-02 audit | OPEN | pending |
+| NB-7 | telemetry allow-list | 07-02 audit | DEFER — CF Worker coupling | N/A (deferred) |
+| NB-8 | "Screen-time" anglicism | 07-02 audit | OPEN — likely dead key (session-9) | verify key rendered at all |
+| NB-9 | menu-i18n cluster: `screens-menu.js:100` სამკუთხედი, Premium `·`vs`—`, `screens.js` chrome, firstrun island | 07-02 audit | OPEN | untranslated-chrome class |
+| NB-10 | Movement/მოძრაობა section weak — strengthen like ამოწერა; include Movement/Drawing/Talk in every sweep | owner | OPEN | full-menu surface rule (§14.2) |
+| NB-11 | stale EN-translation regexes (`i18n-strings.js:765,771`) → EN-UI untranslated titles | session-9 | DEFER — low value (ka-first) | i18n-regex-drift class |
+| NB-12 | 3 listening modes (`listen`,`k-listen`,`listen-yle`) have NO text fallback if audio fails | session-9 q0 audit | OPEN [TO VALIDATE — inherent to listening?] | audio-dependency class |
+| NB-13 | `ვკრებავთ`→`ვკრებთ` morphology (`tutor.js:135`) | external audit | OPEN — owner native validation | ka-grammar class |
+| NB-14 | ZERO behavioral/unit tests = structural cause of dropped-bug recurrences; scope+implement minimal logic harness (tutor/games), due ≤2026-07-12 | 2026-07-05 architecture session | OPEN | process class — root cause |
+| NB-15 | pre-reader (≤5) shapes quiz showed shape-NAME word options → a non-reader cannot answer | session-10 pre-reader audit #1 | FIXED v1.350 (§6c verified young+reader) | **CLASS: "quiz option format assumes the child can READ the option text — pre-readers can't."** Shapes swept + fixed (audio-in/picture-out). Sibling instances OPEN below: NB-16 (ka-alpha reading suite ungated), NB-17 (math-add unvoiced) |
+| NB-16 | ka-alpha reading suite (კითხვა/წინადადება/გაგება/ააწყვე/შეადგინე) + გაგება offered to young (≤5) pre-readers; word options, some unvoiced | session-10 pre-reader audit #2 | OPEN | same read-the-option class → gate reading suite out of young menus |
+| NB-17 | math-add problem for young not voiced (pre-reader can't read the sum prompt); verify options ≤10 | session-10 pre-reader audit #3 | OPEN | read-the-prompt class → voice problem for young |
+Legend: next id = NB-18. Session close: every OPEN NB → SESSION-HANDOFF carried-open block.
+(Sections below = pre-07-05 history in the legacy `[x]/[ ]` format — kept as record; new intake goes ONLY in this ledger.)
 
 ## GOAL
 Every reported bug fixed at the **choke-point** (shared layer, whole class dies), verified before it
