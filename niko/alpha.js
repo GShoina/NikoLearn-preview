@@ -100,8 +100,11 @@ function answerAlpha(btn,sel,cor){
     document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));
     btn.classList.remove('dim');btn.classList.add('correct');
     const s=state[profile];s.shields++;game.shields++;s.streak++;s.maxStreak=Math.max(s.maxStreak,s.streak);
-    alphaRec(true);save();praise();feedback(true);
-    setTimeout(()=>{game.i++;closeFeedback();nextAlpha();},1000);
+    alphaRec(true);save();
+    // child-paced celebration (winStep): re-say the word, praise, then a „შემდეგი →" tap advances — never a
+    // 1s hard-cut that swallows the praise (owner 5yo live test: the letter test advanced too fast after a win).
+    const q=game.qs[game.i];
+    sayThenPraise(q.w, vCode(profile), ()=>{game.i++;nextAlpha();});
   } else {
     // Wire the alphabet quiz into the shared owl tutor. It was SILENT on wrong answers (only a passive
     // help-nudge, no teaching) — the red-team's confirmed gap. Now it behaves like every other mode:
@@ -362,8 +365,9 @@ function answerText(btn,sel,cor){
   if(String(sel)===String(cor)){
     document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));btn.classList.remove('dim');btn.classList.add('correct');
     const s=state[profile];s.shields++;game.shields++;s.streak++;s.maxStreak=Math.max(s.maxStreak,s.streak);
-    save();try{praise();feedback(true);}catch(e){}
-    setTimeout(()=>{game.i++;closeFeedback();nextText();},1000);
+    save();
+    // child-paced celebration (winStep) instead of a 1s hard-cut (same class as the letter test).
+    winStep('', '', ()=>{game.i++;nextText();});
   } else {
     // v1.201: no free guess-through — dim all, reveal the correct answer, re-queue, then advance.
     document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));
