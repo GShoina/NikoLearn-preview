@@ -898,7 +898,7 @@ function nextCount(){
   const objHtml=glyphs.map((g,idx)=>`<span class="cobj" id="cobj${idx}">${g}</span>`).join('');
   const prompt=`<div class="prompt count-prompt">
       <div class="count-q">რამდენია?</div>
-      <div class="count-objects count-card">${objHtml}</div>
+      <div class="count-objects count-card${glyphs.length>=7?' many':''}">${objHtml}</div>
       <button class="speakbtn pulse-tap" onclick="countAlong(${q.num});pulseTap(this)">🔢 დავთვალოთ ერთად</button>
     </div>`;
   gameShell(`${prompt}<div class="options">${shuffle([...opts]).map((n,i)=>`<button class="opt emoji num cnum" style="--cnum:${CPAL[i%CPAL.length]}" onclick="answerCount(this,${n},${q.num})">${n}</button>`).join('')}</div>`);

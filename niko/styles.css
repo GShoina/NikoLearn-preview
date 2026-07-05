@@ -491,10 +491,15 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
    young (<=5) learners who cannot read the label. Owner 2026-07-05 live 5yo test: a 5yo could not tell the
    „↻ კიდევ ერთი" button was tappable to move on. Shared class (results + movement-done). The global
    reduced-motion reset near the file end already neutralizes these. */
-.tap-cue{animation:tapPulse 1.35s ease-in-out infinite}
-.tap-finger{display:inline-block;margin-right:.4em;animation:tapWiggle 1.05s ease-in-out infinite;transform-origin:70% 30%}
-@keyframes tapPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
-@keyframes tapWiggle{0%,100%{transform:translateY(0) rotate(0)}30%{transform:translateY(3px) rotate(-9deg)}60%{transform:translateY(-2px) rotate(5deg)}}
+.tap-cue{position:relative;animation:tapPulse 1.15s ease-in-out infinite;z-index:0}
+/* an expanding ring pulses out of the button = "I am alive, press me" (reads on saturated primary buttons) */
+.tap-cue::after{content:"";position:absolute;inset:-2px;border-radius:inherit;border:3px solid rgba(255,255,255,.85);opacity:0;pointer-events:none;animation:tapRipple 1.15s ease-out infinite}
+@keyframes tapPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.065)}}
+@keyframes tapRipple{0%{transform:scale(1);opacity:.6}70%{opacity:0}100%{transform:scale(1.14);opacity:0}}
+/* a BIG finger that actually taps down onto the button (down at mid-cycle, in sync with the pulse) so a
+   pre-reader sees the gesture to copy. Owner 2026-07-05: make the cue unmistakable from a 3-5 yo's view. */
+.tap-finger{display:inline-block;font-size:1.55em;margin-right:.3em;vertical-align:-.15em;transform-origin:center;animation:tapPress 1.15s ease-in-out infinite;filter:drop-shadow(0 2px 2px rgba(0,0,0,.2))}
+@keyframes tapPress{0%,100%{transform:translateY(-4px) rotate(-5deg)}44%,56%{transform:translateY(5px) rotate(3deg) scale(.9)}}
 .speakbtn:active{transform:scale(.95)}
 /* speaking self-check: the model answer card revealed after the child says their own answer (2026-06-23) */
 .speak-model{margin:14px auto 2px;max-width:340px;padding:14px 16px;border-radius:16px;
@@ -1379,17 +1384,20 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
 .phrase-opts .opt{font-size:1rem;min-height:54px;text-align:center}
 
 /* counting: clear "how many?" prompt */
-.count-prompt{display:flex;flex-direction:column;align-items:center;gap:14px;min-height:170px;justify-content:center}
+.count-prompt{display:flex;flex-direction:column;align-items:center;gap:clamp(8px,2.2vh,14px);min-height:0;justify-content:center}
 .count-q{font-size:clamp(1.3rem,5.4vw,1.7rem);font-weight:700;color:var(--ink)}
-.count-objects{font-size:2.6rem;line-height:1.4;letter-spacing:.12em;max-width:300px;text-align:center;word-spacing:.1em}
+/* adaptive so the objects + options fit the screen without scrolling, even at 10 objects on a short phone
+   (owner 2026-07-05 live test: count frame too big, needed scroll). Emoji shrink with a smaller cap when many. */
+.count-objects{font-size:clamp(1.5rem,7vw,2.35rem);line-height:1.2;letter-spacing:.1em;max-width:min(320px,88vw);text-align:center;word-spacing:.08em}
+.count-objects.many{font-size:clamp(1.25rem,5.6vw,1.85rem)}
 /* #7 (parent 2026-06-28): colourful counting — plain white felt flat for kids. Card behind the
    objects + per-tile pastel numbers. State styles (.correct/.wrong/.dim) still win via :not(). */
-.count-card{background:linear-gradient(135deg,#FFF7E6,#EAF7FF);border:2px solid #FFE0B2;border-radius:22px;padding:14px 20px;box-shadow:0 4px 14px rgba(0,0,0,.05)}
+.count-card{background:linear-gradient(135deg,#FFF7E6,#EAF7FF);border:2px solid #FFE0B2;border-radius:22px;padding:clamp(8px,1.8vh,14px) clamp(12px,4vw,20px);box-shadow:0 4px 14px rgba(0,0,0,.05)}
 .count-q{font-size:clamp(1.32rem,5.5vw,1.72rem);font-weight:800;color:var(--primary-d,#5b3fb0)}
 .opt.cnum:not(.correct):not(.wrong):not(.dim){background:var(--cnum);border-color:color-mix(in oklch,var(--cnum) 60%,#7a6a3a)}
 /* #8 (parent 2026-06-28): count-along — light each object in turn as the number is spoken */
 .count-objects .cobj{display:inline-block;transition:transform .22s ease,filter .22s ease;will-change:transform}
-.count-objects .cobj.lit{transform:scale(1.4);filter:drop-shadow(0 3px 7px rgba(0,0,0,.22))}
+.count-objects .cobj.lit{transform:scale(1.26);filter:drop-shadow(0 3px 7px rgba(0,0,0,.22))}
 /* visual-first quiz: word with the first letter shown as a slot */
 .alpha-wordgap{display:flex;align-items:center;justify-content:center;gap:2px;font-size:2rem;font-weight:700;margin:6px 0}
 .alpha-wordgap.en{font-family:'Fredoka';font-weight:500}
