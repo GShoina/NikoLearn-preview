@@ -11,8 +11,7 @@ PROTECTED ZONES (conversational Georgian + business/kid copy keep their own voic
 
 ## Session start (FIRST ACTION)
 Read **`docs/SESSION-HANDOFF.md`** before anything else. State in ONE line where we left off + the
-single next action, then proceed. (Right now: the owner is providing his hand-designed
-`NikoLearn Phase 1.html` to use as the visual base — do NOT rebuild from scratch.)
+single next action, then proceed.
 
 ## Session end / before /clear (LAST ACTION) — DISK IS THE ONLY MEMORY
 `/clear` deletes the entire conversation. ONLY what is written to a file on disk survives.
@@ -60,6 +59,7 @@ own discipline:
   senior judgment, not compliance. Never limit yourself to only what the owner provided.
 - Always clarify the larger goal and act by best practice. If an instruction conflicts with best
   practice, say so plainly and propose better — push back before building the wrong thing.
+- For every owner-reported bug/case additionally give ONE product-owner line: does this instance point to a bigger product gap or opportunity, and does the big picture suggest a better move than the literal fix — fix the instance (per §14 at class level), but ANSWER at the product level; silent literal compliance on a report that hides a product signal = §4 failure.
 
 ## 4b. Who owns the decision (the owner is NON-TECHNICAL by choice)
 - The owner does NOT have the technical background to pick the best option, and trusts that the
@@ -81,7 +81,7 @@ own discipline:
   no external links.
 
 ## 6. Project SSOT
-- Architecture / feature / rules SSOT: **`C:\Users\gela.shonia\Downloads\HANDOFF.md`**
+- Architecture / feature / rules SSOT: **`NikoLand\docs\HANDOFF.md`**
   (NIKO LEARN — Handoff & Architecture). Its §8 coding rules are authoritative. Kickoff prompt
   referenced there: `PHASE2_PROMPT.md`.
 - Module discipline: small single-topic files in `niko/`; all functions global; fixed `<script>`
@@ -270,6 +270,8 @@ licenses a pause. Logging an OPEN item (Step 5) is **not** a stop — you log it
 collected async and gates ONLY the live push of a customer-facing fix (§13 gates 1/4). The sweep itself and
 every internal/reversible fix need NO GO. "The task isn't closed until the class is swept" is a keep-going
 mandate, not a stopping one.
+
+**OWNER-REPORT INTAKE (MUST — owner-locked 2026-07-05; kills lost/re-sent reports):** the moment the owner reports ANY case (chat, mobile screenshot, voice) — BEFORE analyzing — append one row per case to `docs/BUGFIX_TRACKER.md` (its existing priority-order format) with an `NB-<n>` id + one-line symptom + source + `status: OPEN`, and echo the id back in the SAME reply ("დაფიქსირდა NB-<n>"). Conversation memory is NOT the tracker — a report living only in chat = already lost. One message with N screenshots = N rows. A row closes ONLY with: (1) §14 class-vs-instance verdict, (2) fix OR explicit DEFER/WONTFIX + reason, (3) §6c live-verify. Session close: every OPEN NB row → SESSION-HANDOFF carried-open block. The owner having to RE-SEND a case = intake FAILURE, treat as a P0 process bug and log it.
 
 **TRIGGER:** every verified finding of severity CRITICAL / HIGH / MEDIUM — whether from an audit reviewer,
 an owner report, or incidental discovery during unrelated work. No exemption below MEDIUM without lead sign-off.

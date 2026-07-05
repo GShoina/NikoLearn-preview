@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ka"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NikoLearn — გარე-აუდიტის fact-check + red-team (2026-06-25)</title>
+<style>
+  :root{--ink:#33281c;--muted:#7a6a58;--card:#fffdf8;--bg:#f5eee1;--line:#e7ddc9;--purple:#6B63B5;--purple-d:#4a4490;--green:#067a3e;--green-l:#00A651;--red:#c8453b;--amber:#b8791a;--sky:#3f7fd6}
+  *{box-sizing:border-box}body{margin:0;font:15px/1.6 -apple-system,'Segoe UI',sans-serif;color:var(--ink);background:var(--bg);padding:24px 14px}
+  .wrap{max-width:900px;margin:0 auto}
+  h1{font-size:1.5rem;margin:0 0 2px}.sub{color:var(--muted);font-size:.92rem;margin:0 0 18px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin:0 0 16px;box-shadow:0 4px 16px rgba(40,30,20,.05)}
+  h2{font-size:1.14rem;color:var(--purple-d);border-bottom:2px solid var(--line);padding-bottom:7px;margin:0 0 12px}
+  h3{font-size:.98rem;margin:14px 0 5px}
+  table{width:100%;border-collapse:collapse;font-size:.88rem;margin:6px 0}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}th{background:#f0e8d8}
+  .v{font-weight:700;white-space:nowrap}
+  .ok{color:var(--green)}.wrong{color:var(--red)}.partly{color:var(--amber)}.conf{color:var(--purple-d)}
+  ul,ol{margin:6px 0;padding-left:20px}li{margin:4px 0}
+  .tag{display:inline-block;font-size:.72rem;font-weight:700;padding:1px 8px;border-radius:999px}
+  .p1{background:#fbecea;color:var(--red)}.p2{background:#fdf3e3;color:var(--amber)}.p3{background:#eef2fb;color:var(--sky)}
+  .who{font-size:.74rem;font-weight:700;padding:1px 7px;border-radius:6px;margin-right:5px}.w-niko{background:#eefaf1;color:var(--green)}.w-owner{background:#fbecea;color:var(--red)}
+  .ex{background:#fbf6ec;border-left:3px solid var(--green-l);padding:8px 12px;border-radius:6px;margin:6px 0;font-size:.9rem}
+  .note{background:#f0eefb;border-left:4px solid var(--purple);padding:8px 12px;border-radius:6px;font-size:.9rem;margin:8px 0}
+  code{background:#f0e8d8;padding:1px 5px;border-radius:4px;font-size:.85em}
+</style></head><body><div class="wrap">
+
+<h1>გარე-AI აუდიტის Fact-check + Red-team + Action plan</h1>
+<p class="sub">2026-06-25 · by Niko · ცოცხალ კოდთან გადამოწმებული (v1.242) · აქცენტი: <b>„ისწავლე და განვითარდი"</b> &gt; „ითამაშე"</p>
+
+<div class="card">
+<h2>მოკლე verdict</h2>
+<p>გარე აუდიტი <b>ღირებულია და ~80% ზუსტი</b> — semantic/a11y ხარვეზებზე მართალია. მაგრამ ერთი მთავარი „P1" მისი <b>false positive-ია</b> (zero-metrics = count-up ანიმაცია, არა ცარიელი პროდუქტი), და რამდენიმე ფაქტი არაზუსტია. ნამდვილი სამოქმედო ბირთვი 4 პუნქტია: <b>(1) app-ის CTA-ები ნამდვილ ღილაკებად, (2) app-ს h1, (3) landing-ის counter-ების default „0"→ნამდვილი რიცხვი, (4) Kings/ფასის ტექსტის სიზუსტე.</b> + შენი აქცენტი: „სწავლა/განვითარება" copy-ში.</p>
+</div>
+
+<div class="card">
+<h2>1. First principles — რაზეა ეს აუდიტი სინამდვილეში</h2>
+<ul>
+<li><b>ორი აუდიტორია, ორი ფსიქოლოგია:</b> მშობელი = <b>ნდობა</b> (უსაფრთხო? ღირს? მუშაობს?) · ბავშვი = <b>friction-ის ნული</b> (გავხსენი → ვსწავლობ დაბნევის გარეშე).</li>
+<li><b>სამი ფესვი, რომელზეც ყველა ჩივილი დაიყვანება:</b> (ა) <b>credibility</b> (ცარიელი/გადაუმოწმებელი claim ნდობას ჭამს), (ბ) <b>semantics/a11y</b> (div≠button, h1 აკლია → screen-reader/კლავიატურა/ტესტი სუსტდება), (გ) <b>conversion friction</b> (გაუგებარი CTA/ფასი აჩერებს).</li>
+<li><b>დასკვნა:</b> აუდიტი ამ 3 ფესვს სწორად ეხება. ჩვენი საქმე = რომელი ჩივილი არის ნამდვილი ფაქტი vs scraper-ის artefact, და რა ღირს გასწორებად.</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>2. Fact-check — თითო claim ცოცხალ კოდთან</h2>
+<table>
+<tr><th>აუდიტის claim</th><th>ვერდიქტი</th><th>მტკიცებულება</th></tr>
+<tr><td>App CTA-ები („სცადე ახლავე"/„შექმენი პროფილი") generic ელემენტებია, არა ღილაკები</td><td class="v conf">✅ დადასტურდა</td><td><code>&lt;div class="pcard demo" onclick=…&gt;</code> — div-ებია, არა <code>&lt;button&gt;/&lt;a&gt;</code>. რეალური a11y ხარვეზი.</td></tr>
+<tr><td>App-ს არ აქვს h1 (h1Count:0)</td><td class="v conf">✅ დადასტურდა</td><td>goHome იყენებს <code>&lt;div class="mark"&gt;</code>-ს, არა <code>&lt;h1&gt;</code>-ს. რეალური ხარვეზი.</td></tr>
+<tr><td>Landing აჩვენებს „0 ასო / 0 ფრაზა / 0 დონე" → პროდუქტი ცარიელი ჩანს</td><td class="v wrong">❌ FALSE POSITIVE</td><td><code>&lt;b data-count="33"&gt;0&lt;/b&gt;</code> — ეს <b>count-up ანიმაციაა</b> (0→33, 0→100+, 0→10+ scroll-ზე). AI-მ ანიმაციამდელი „0" დაიჭირა. <b>თუმცა</b> default „0" რეალური bug-ია თუ JS/ანიმაცია ვერ გაეშვა (+ scraper/SEO „0"-ს ხედავს) → ვასწორებთ.</td></tr>
+<tr><td>owl-logo.png-ს აკლია alt</td><td class="v partly">🟠 ნაწილობრივ</td><td><code>alt=""</code> არის (განზრახ დეკორატიული, ვალიდურია). თუმცა ეს <b>ბრენდის ლოგოა</b> → აზრიანი <code>alt="NikoLearn"</code> სჯობს. claim ტექნიკურად არაზუსტია.</td></tr>
+<tr><td>Landing H1 = „ბავშვი სწავლობს და ვითარდება, თამაშით"</td><td class="v conf">✅ დადასტურდა</td><td>landing.html:163. <b>კარგი ამბავი:</b> H1 უკვე „<b>სწავლობს და ვითარდება</b>"-ით იწყება — შენი აქცენტი უკვე აქ არის.</td></tr>
+<tr><td>CTA-ები მეორდება</td><td class="v conf">✅ დადასტურდა (არა პრობლემა)</td><td>„დაიწყე უფასოდ" ×3 (nav/hero/ბოლო). პრაიმარი CTA-ს გამეორება სტანდარტია, არა ხარვეზი. + ისინი „ითამაშე" კი არა, „დაიწყე"-ა.</td></tr>
+<tr><td>Kings/Cambridge claim დასაბუთება სჭირდება</td><td class="v conf">✅ ვალიდური რისკი</td><td>ჩვენი ადრინდელი verified finding: Kings g2-3 ფორმატ-ერთგულია, მაგრამ <b>არა ოფიციალური პარტნიორობა</b>. ტექსტმა არ უნდა მიანიშნოს პარტნიორობაზე.</td></tr>
+<tr><td>ფასი ბუნდოვანია (FAQ „რა ღირს?" vs „უფასო")</td><td class="v conf">✅ ვალიდური</td><td>landing ბევრჯერ ამბობს „უფასო"; ფასის პოლიტიკა [USER DECISION-pending]. ტექსტი ზუსტი უნდა იყოს.</td></tr>
+<tr><td>Clarity console warning</td><td class="v partly">🟠 მცირე</td><td>Clarity landing-only, localhost-ზე გამოტოვებულია. პროდაქშენზე უვნებელი warning. დაბალი პრიორიტეტი.</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h2>3. Red-team — სად ცდება ან აკლია აუდიტს</h2>
+<ul>
+<li><b>P1 „ცარიელი პროდუქტი" გადააფასა:</b> zero-metrics ანიმაციაა — აუდიტმა scroll/IntersectionObserver არ გაუშვა. severity P1→რეალურად P2 (robustness/SEO).</li>
+<li><b>„მეტი CTA = პრობლემა" — არა:</b> ერთი პრაიმარი CTA-ს გამეორება გვერდის სიგრძეზე best practice-ია, არა friction.</li>
+<li><b>რასაც აუდიტმა გამოტოვა (ჩვენ უკვე გავაკეთეთ):</b> guest→profile save-nudge, profile-creation-ის გამარტივება, gate-ის ბარათების align, parent-gate-ის უკან-ღილაკი — ეს მისი audit-ის შემდგომ შეიცვალა.</li>
+<li><b>რასაც აუდიტმაც და მანამდეც ვერ დაიჭირა:</b> app entry-ზე h1-ის არარსებობა ნიშნავს, რომ screen-reader მომხმარებელი ვერ იგებს „სად ვარ" — ეს უფრო მნიშვნელოვანია ვიდრე landing-ის micro-copy.</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>4. Action plan + დეველოპერის action items</h2>
+<ol>
+<li><span class="tag p1">P1</span> <span class="who w-niko">Niko</span> app entry-ის ბარათები (demo/add/parent) → <b>semantic <code>&lt;button&gt;</code></b> + aria-label. (a11y + კლავიატურა)</li>
+<li><span class="tag p1">P1</span> <span class="who w-niko">Niko</span> app entry-ს დაამატე <b>ერთი <code>&lt;h1&gt;</code></b> (vis. brand „NikoLearn" → h1, ან sr-only h1 „დაიწყე სწავლა").</li>
+<li><span class="tag p2">P2</span> <span class="who w-niko">Niko</span> landing counter-ები: <code>&lt;b data-count="33"&gt;<b>33</b>&lt;/b&gt;</code> — default = ნამდვილი რიცხვი (ანიმაცია enhancement-ად), რომ „0" არასდროს ჩანდეს (SEO + JS-fail-safe).</li>
+<li><span class="tag p2">P2</span> <span class="who w-owner">შენ</span> Kings/Cambridge ტექსტი → „Kings g2-3 <b>ფორმატის ვარჯიში</b>" (არა პარტნიორობა). ფასის ხაზი → ერთიანი ჭეშმარიტი („ამ ეტაპზე უფასო").</li>
+<li><span class="tag p3">P3</span> <span class="who w-niko">Niko</span> owl-logo → ბრენდ-instance-ს <code>alt="NikoLearn"</code>; დეკორატიულებზე <code>alt=""</code>.</li>
+</ol>
+</div>
+
+<div class="card">
+<h2>5. UX copy — აქცენტი „ისწავლე და განვითარდი" (არა „ითამაშე")</h2>
+<div class="note">პრინციპი: <b>მშობელს</b> სწავლა/განვითარება ჰყიდის; <b>ბავშვს</b> friction-ის ნული. „თამაში" = მეთოდი, არა დაპირება. ამიტომ „დაპირება" = სწავლა, „მეთოდი" = თამაში.</div>
+<h3>App entry — demo card</h3>
+<div class="ex"><b>იყო:</b> „სცადე ახლავე / ითამაშე ერთ წუთში, პროფილის გარეშე"<br><b>ახალი:</b> „დაიწყე ახლავე / <b>ისწავლე თამაშით</b> ერთ წუთში, პროფილის გარეშე" — friction ისევ ნული, აქცენტი სწავლაზე.</div>
+<h3>App entry — h1 (sr-only ან visible)</h3>
+<div class="ex">„დაიწყე სწავლა NikoLearn-ში"</div>
+<h3>create-profile</h3>
+<div class="ex">„შექმენი ბავშვის პროფილი — პროგრესი და განვითარება ამ მოწყობილობაზე შეინახება."</div>
+<h3>Hero subcopy (landing)</h3>
+<div class="ex">„NikoLearn ეხმარება ბავშვს <b>ისწავლოს და განვითარდეს</b> ქართულში, ინგლისურსა და მათემატიკაში — მოკლე თამაშებით. ნიკო ბუ უხსნის, უსმენს და ამხნევებს; მშობელი ხედავს პროგრესს მარტივად."</div>
+</div>
+
+<div class="card">
+<h2>6. რა არ შევცვალოთ (უკვე მუშაობს)</h2>
+<ul>
+<li>ქართული-first positioning — ბაზრის გამორჩევა.</li>
+<li>„სცადე/დაიწყე ახლავე, პროფილის გარეშე" — ძლიერი friction-reducer (აქცენტი ვცვალოთ, მექანიკა არა).</li>
+<li>„მონაცემები მოწყობილობაზე რჩება" + „რეკლამის გარეშე" — ძლიერი trust signal.</li>
+<li>H1 „სწავლობს და ვითარდება" — უკვე სწორი აქცენტი.</li>
+<li>guest→save-nudge + გამარტივებული profile-creation (ახლახან გავაკეთეთ).</li>
+</ul>
+</div>
+
+<div class="card" style="background:#f0eefb">
+<h2 style="color:var(--purple-d)">ერთი მკაფიო next step</h2>
+<p>ვასწორებ <b>4 ბირთვს ახლავე</b> (semantic buttons + h1 + counter-default + learn-accent copy) — ეს a11y-ს და credibility-ს ერთ deploy-ში ასწორებს. Kings/ფასის ფინალურ ტექსტს შენ ადასტურებ (იურიდიული/strategy). მერე — onboarding-ის პირველი სასწავლო დავალების მე-2 აუდიტი.</p>
+</div>
+
+</div></body></html>

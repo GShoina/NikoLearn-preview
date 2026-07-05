@@ -1,0 +1,104 @@
+<!doctype html><html lang="ka"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NikoLearn — სრული აუდიტი v1.179 → v1.180</title>
+<style>
+:root{--bg:#faf7f2;--card:#fff;--ink:#2a2622;--muted:#6b6258;--line:#e7e0d6;--green:#1f8a4c;--amber:#b5791f;--red:#c0392b;--violet:#6B63B5}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 -apple-system,Segoe UI,Roboto,sans-serif;padding:18px}
+.wrap{max-width:860px;margin:0 auto}
+h1{font-size:1.5rem;margin:.2em 0}
+h2{font-size:1.15rem;margin:1.4em 0 .5em;border-bottom:2px solid var(--line);padding-bottom:.25em}
+.sub{color:var(--muted);font-size:.92rem;margin-bottom:1.2em}
+.badge{display:inline-block;padding:.15em .6em;border-radius:999px;font-size:.8rem;font-weight:600}
+.b-green{background:#e3f5ea;color:var(--green)}
+.b-amber{background:#fbf0dc;color:var(--amber)}
+.b-red{background:#fbe4e1;color:var(--red)}
+.b-violet{background:#ece9fb;color:var(--violet)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:12px 0}
+.fix{border-left:4px solid var(--green)}
+.queue{border-left:4px solid var(--amber)}
+.rej{border-left:4px solid var(--muted)}
+.fork{border-left:4px solid var(--violet)}
+table{width:100%;border-collapse:collapse;font-size:.9rem;margin:.4em 0}
+td,th{text-align:left;padding:7px 9px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:600}
+code{background:#f1ece4;padding:.05em .35em;border-radius:5px;font-size:.85em}
+.lead{font-size:1.05rem}
+ul{margin:.4em 0;padding-left:1.2em}
+li{margin:.25em 0}
+.foot{color:var(--muted);font-size:.82rem;margin-top:2em;border-top:1px solid var(--line);padding-top:1em}
+</style></head>
+<body><div class="wrap">
+
+<h1>🔍 NikoLearn — სრული აუდიტი</h1>
+<div class="sub">5 აგენტი (read-only) · v1.179-ზე გაშვებული · 2026-06-16 · შესწორებები გავიდა <b>v1.180</b> (live)</div>
+
+<p class="lead">გავუშვი 5 დამოუკიდებელი აუდიტორი — <b>კოდის სისწორე · ხელმისაწვდომობა/UX · ბავშვის უსაფრთხოება · ენა (ka/en) · სიჩქარე</b>. ყველა ნაპოვნი ხელახლა გადავამოწმე ფიქს-ამდე. ვერდიქტი: <span class="badge b-green">აპლიკაცია ჯანმრთელია</span> — არც ერთი კრიტიკული crash ან ბავშვის-ბლოკი არ არის. ნაპოვნი იქნა ერთი წესის დარღვევა, რომელიც <b>მაშინვე გავასწორე და გავუშვი</b>.</p>
+
+<h2>✅ გავასწორე ახლავე (v1.180, ცოცხალია)</h2>
+
+<div class="card fix">
+<b>1. Em-dash გაწმენდა — 10 ადგილი</b> <span class="badge b-red">წესის დარღვევა</span><br>
+შენი დაბლოკილი წესია: ტირე (—) აკრძალულია ადამიანისთვის ჩანს ტექსტში (AI-ს ნიშანია, ანგრევს თბილ ტონს). i18n-აგენტმა 3 იპოვა — მე ხელით გადავსინჯე და <b>კიდევ 7 ვიპოვე</b> სხვა ფაილებში, რომელსაც per-file აგენტი ვერ ხედავს. გასწორდა: AI-რეჟიმის 2 აღწერა, მათემატიკის „კანონზომიერების" ტექსტი, 2 საუბრის ბარათი, „დაუსახე მიზანი" სათაური, „Premium" სათაური, „შენი გზა" სათაური. <br>
+<span style="color:var(--muted);font-size:.88rem">ფაქიზი დეტალი: ეს სტრიქონები ორ ადგილას ცხოვრობს (გამოსახვის წყარო + თარგმანის რუკა + ხმის manifest). ყველა სინქრონულად შევცვალე, თორემ ka-ში დარჩებოდა ან EN/ხმა გაფუჭდებოდა.</span>
+</div>
+
+<div class="card fix">
+<b>2. პროფილის წაშლის ღილაკი — 40px → 44px</b> <span class="badge b-amber">a11y</span><br>
+მშობლის სივრცეში პროფილის წაშლის ღილაკი დანარჩენ აპზე პატარა იყო (40px). ავწიე სტანდარტამდე (44px) — პატარა თითისთვის უფრო ზუსტი მოხვედრა.
+</div>
+
+<div class="card fix">
+<b>3. სტატისტიკის ხარვეზი — 4 მათემატიკის რეჟიმი არ ჩანდა</b> <span class="badge b-amber">შენი მონაცემები</span><br>
+telemetry worker-ის ფილტრს აკლდა 4 რეჟიმი (გაყოფა, გამოტოვებული რიცხვი, ამოცანა, სურათი-მათემატიკა) — ეს რეჟიმები ჩუმად ეცემოდა და შენს სტატისტიკაში არ ჩანდა. გავასწორე + worker გადავაქვეყნე. ბავშვს არ ეხებოდა, მხოლოდ შენს ხედვას.
+</div>
+
+<h2>🔵 შენი გადასაწყვეტი (სტრატეგია, არა ტექნიკა)</h2>
+
+<div class="card fork">
+<b>სრული ინგლისური კონტენტი — მათემატიკის ამოცანები EN-ში ქართულად ჩანს</b> <span class="badge b-violet">აუდიენციის განშტოება</span><br>
+i18n-აგენტმა დაადასტურა (არქიტექტურის დოკის „CONFIRMED BUG"): როცა ენა EN-ზეა, მათემატიკის <b>ამბავ-ამოცანები</b> და teach-პანელი მაინც ქართულად ირენდერება. ეს ნამდვილი ხარვეზია — <b>მაგრამ მისი პრიორიტეტი დამოკიდებულია ერთ კითხვაზე, რომელიც შენ უნდა გადაწყვიტო:</b><br>
+<b>არა-ქართველი (ინგლისურენოვანი) ბავშვები ნამდვილი სამიზნეა?</b>
+<ul>
+<li>თუ <b>მხოლოდ ქართველი ბავშვები</b> → სრული EN არ ღირს (მათთვის ka სწორია). ვტოვებთ.</li>
+<li>თუ <b>საერთაშორისო/დიასპორა</b> → ვაკეთებ. მსუბუქი ნაწილი (~25%) 2-4 დღე, მძიმე გენერირებული კონტენტი (~75%) 3-6 კვირა.</li>
+</ul>
+<span style="color:var(--muted);font-size:.88rem">რეკომენდაცია: მანამ არ შევეხო, სანამ ამ კითხვაზე არ მიპასუხებ. ეს ფული/დროის გადაწყვეტაა, არა ტექნიკური.</span>
+</div>
+
+<h2>🟡 რიგში (გავაკეთებ, ცალკე batch-ად — მეტ მზადებას/ვერიფიკაციას ითხოვს)</h2>
+
+<table>
+<tr><th>რა</th><th>მოგება</th><th>რატომ ცალკე</th></tr>
+<tr><td><code>owl-logo.png</code> 589KB → WebP ~35KB</td><td>−555KB (precache-ის 30%)</td><td>სურათის ხელსაწყო + ვიზუალური შემოწმება სჭირდება, რომ ლოგო მკვეთრი დარჩეს</td></tr>
+<tr><td>17 სკრიპტს <code>defer</code></td><td>~300-600ms boot</td><td>inline boot (ხ.98) რიგზეა დამოკიდებული → სრული Playwright რენდერ-ტესტი სჭირდება, არ ვაჩქარებ /clear-ის წინ</td></tr>
+<tr><td><code>brand-preview/</code> 1.4MB Pages-იდან</td><td>−1.4MB deploy</td><td><code>niko-brand.html</code>-ს უკავშირდება; gitignore + git rm, მცირე გადახლართვა</td></tr>
+<tr><td>icon-512 / og-image შეკუმშვა</td><td>~250KB precache + ~280KB</td><td>PNG ოპტიმიზაცია, batch-ში owl-logo-სთან ერთად</td></tr>
+<tr><td><code>opentype.min.js</code> precache-იდან</td><td>−167KB install</td><td>trade-off: offline trace-ს ერთი online ვიზიტი დასჭირდება — შენი call</td></tr>
+<tr><td>teach-პანელის EN-leak</td><td>EN ხარისხი</td><td>ზემოთ აუდიენციის განშტოებაზეა მიბმული</td></tr>
+</table>
+
+<h2>⬜ გადავამოწმე და უარვყავი (NOT bugs)</h2>
+<div class="card rej">
+<ul>
+<li><b>მათემატიკის adaptive სიძნელე (v1.179)</b> — სწორია. struggling კიდი ასაკის floor-ს ქვემოთ ეცემა (200k fuzz: 0 უარყოფითი, 0 გაფუჭებული დიაპაზონი). 3-რიცხვიანი lvl≥2-ზე გეითდება.</li>
+<li><b>დაბრუნებული შეცდომების ქულა შეიძლება item-ზე მეტი იყოს</b> — დიზაინის trade-off (re-queue), არა ხარვეზი.</li>
+<li><b>no-PIN single-digit gate</b> — განზრახ „toddler-proof, არა საიდუმლო". PIN-ის დაყენების მომენტში იხურება.</li>
+<li><b>SW cache/version sync, worker rate-limit, STATS_KEY 403</b> — ყველა სწორად მუშაობს.</li>
+<li><b>კონტრასტი</b> — `--faint` ტექსტი WCAG AA-ზე მაღლა (9.4:1+) ყველა თემაში.</li>
+</ul>
+</div>
+
+<h2>🛡️ უსაფრთხოების ვერდიქტი</h2>
+<div class="card fix">
+<b><span class="badge b-green">ბირთვი ხელუხლებელია</span></b> — ოთხივე დაპირება დგას: (1) ბავშვის სასწავლო მონაცემი მოწყობილობაზე რჩება, ქსელში არ მიდის; (2) რეკლამა — ნული; (3) ბავშვისთვის გარე ბმული ბავშვის ნაკადში — ნული (ყველა PIN-მიღმაა); (4) ბავშვის PII — არ იგზავნება. v1.179-ის უკუკავშირის არხი მხოლოდ მშობლის ნებაყოფლობით ტექსტს აგზავნის (<code>credentials:'omit'</code>), პატიოსანი თანხმობით, owner-gated წაკითხვით (403 გასაღების გარეშე).<br>
+<span style="color:var(--muted);font-size:.88rem">ერთადერთი ნარჩენი რისკი: no-PIN single-digit gate (ზემოთ). სურვილისამებრ — პირველ შესვლაზე PIN-ის დაყენების შეთავაზება.</span>
+</div>
+
+<div class="foot">
+დისციპლინა: 5 read-only აგენტი · ყველა finding Niko-ს მიერ გადამოწმებული fix-ამდე · კოდს მხოლოდ Niko აკომიტებს.<br>
+v1.180 commit <code>1e12394</code> · worker version <code>179191de</code> · live-verified (sw+APP_VERSION=1.180, 0 console error, .kh-del 44px).<br>
+report by Niko · 2026-06-16
+</div>
+
+</div></body></html>

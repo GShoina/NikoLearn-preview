@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>NikoLearn v2.00 აუდიტი და გეგმა · by Niko · 2026-06-10</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Noto+Sans+Georgian:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--coral:#F2894C;--coral-d:#d96f33;--cream:#FBF3E6;--ink:#3a2e23;--muted:#8a7a68;--card:#fff;--line:#eadfce;--green:#5aa45a;--red:#cf5d4e;--sun:#e8b64c}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Sans Georgian',system-ui,sans-serif;background:var(--cream);color:var(--ink);line-height:1.62;padding:0 0 80px}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+header{background:linear-gradient(135deg,var(--coral),var(--coral-d));color:#fff;padding:34px 0 28px;margin-bottom:26px}
+header .wrap{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.owl{font-size:3rem;background:rgba(255,255,255,.18);border-radius:22px;width:74px;height:74px;display:grid;place-items:center}
+h1{font-family:'Fredoka','Noto Sans Georgian',sans-serif;font-size:1.65rem;line-height:1.25}
+.sub{opacity:.92;font-size:.92rem;margin-top:4px}
+h2{font-family:'Fredoka','Noto Sans Georgian',sans-serif;font-size:1.3rem;color:var(--coral-d);margin:38px 0 12px;padding-bottom:6px;border-bottom:2px solid var(--line)}
+h3{font-size:1.04rem;margin:22px 0 8px}
+p{margin:8px 0}
+.ep0{background:var(--card);border:1.5px solid var(--line);border-left:6px solid var(--coral);border-radius:14px;padding:14px 18px;margin:0 0 8px;font-size:.95rem}
+.card{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:16px 18px;margin:12px 0}
+.done{border-left:6px solid var(--green)}
+.pend{border-left:6px solid var(--sun)}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.88rem;background:var(--card);border-radius:12px;overflow:hidden}
+th{background:#f6ecdd;text-align:left;padding:9px 10px;font-size:.82rem}
+td{padding:9px 10px;border-top:1px solid var(--line);vertical-align:top}
+.sev{display:inline-block;border-radius:8px;padding:1px 8px;font-size:.72rem;font-weight:700;color:#fff;white-space:nowrap}
+.sH{background:var(--red)}.sM{background:var(--sun)}.sC{background:#8a3a2e}
+.tag{display:inline-block;background:#f1e6d2;border-radius:8px;padding:1px 8px;font-size:.72rem;font-weight:600;color:var(--muted)}
+.ok{color:var(--green);font-weight:700}
+.kvp{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:12px 0}
+.kvp .k{background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:12px 14px}
+.k .n{font-family:'Fredoka';font-size:1.5rem;color:var(--coral-d);font-weight:700}
+.k .l{font-size:.8rem;color:var(--muted)}
+ul,ol{margin:8px 0 8px 22px}
+li{margin:4px 0}
+code{background:#f4ead7;border-radius:6px;padding:1px 6px;font-size:.84em}
+.note{font-size:.82rem;color:var(--muted)}
+.phase{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0}
+.phase h3{margin-top:0;color:var(--coral-d)}
+.vbadge{float:right;background:var(--coral);color:#fff;border-radius:10px;padding:2px 10px;font-size:.78rem;font-weight:700}
+.qbox{background:#fdf6e8;border:1.5px solid var(--sun);border-radius:14px;padding:16px 18px;margin:14px 0}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="owl">🦉</div>
+  <div>
+    <h1>NikoLearn · v2.00 აუდიტი და გეგმა</h1>
+    <div class="sub">5-განზომილებიანი აუდიტი + ბენჩმარკი + ეტაპებად ჩაშლილი გეგმა · by Niko · 2026-06-10</div>
+  </div>
+</div></header>
+<div class="wrap">
+<section style="margin:18px 0">
+<div style="background:#fff;border:1.5px solid #eadfce;border-left:6px solid #5aa45a;border-radius:14px;padding:18px 20px">
+<div style="font-family:Fredoka,'Noto Sans Georgian',sans-serif;font-size:1.2rem;color:#d96f33;font-weight:700;margin-bottom:6px">🆕 v2.1 განახლება · 2026-06-11 · D1-D6 შესრულდა და ცოცხალია</div>
+<p style="margin:6px 0">owner-ის challenge-ებზე (placement, free/paid, ბუ, hover, feedback) დაიგეგმა D1-D6 და სრულად აშენდა + დაიდო ცოცხალ საიტზე (gshoina.github.io/NikoLearn), თითო verified deploy-ით (silent ტესტი, ვიზუალური შემოწმება, Gemini ქართული QA, 0 console error).</p>
+<h3 style="font-size:1.02rem;margin:14px 0 6px">✅ რა აშენდა (ცოცხალია)</h3>
+<ul style="margin:6px 0 6px 18px">
+<li><b>v1.99</b> სიმართლე+აუდიო+მდგრადობა: მოგონილი გამოთქმის ქულა მოიხსნა (→ პატიოსანი „გაიმეორე"); რეალური დღის-სერია; ეკრანის დროის ლიმიტი; მშობლის PIN; ka ხმის გეიტი; crash-recovery.</li>
+<li><b>v2.00</b> შესვლის დონის ტესტი + მშობლის პროგრესის პანელი (პირველი ვერსია).</li>
+<li><b>v2.01 (D5)</b> desktop hover: ბარათზე მაუსით ჩანს კონტენტის summary (touch-ზე ბავშვს არ ეხება).</li>
+<li><b>v2.02 (D3)</b> მშობლის feedback ფორმა (სახელი/ტელ/მეილი/აზრი, mailto-თი, privacy-clean).</li>
+<li><b>v2.03 (D1)</b> per-subject დონის ტესტი + skill „გზა" (data-backed milestones) + ჯამური პროგრესი + მშობლის მიზნები.</li>
+<li><b>v2.04 (D4)</b> ბუს კონკრეტული როლი: შეცდომაზე სწორ პასუხს აჩვენებს და ამბობს; „ნიკოს რჩევა მშობელს" (მშობლის თარჯიმანი).</li>
+<li><b>v2.05 (D2)</b> free/paid scaffold: premium ჩანს badge-ით (🔒), არა დამალული; upsell ეკრანი; მშობელ-toggle.</li>
+<li><b>v2.06 (D6)</b> truth-bar: „AI რეპეტიტორი" overclaim მოიხსნა (ბუ rule-based-ია → „რეპეტიტორი ნიკო ბუ").</li>
+</ul>
+<h3 style="font-size:1.02rem;margin:14px 0 6px">🧭 დახვეწილი ხედვა</h3>
+<p style="margin:6px 0">ერთი skill-ძრავა, ორი ლინზა. უფასო = სრული საბაზისო სწავლა (ქართველი ბავშვების engine, word-of-mouth). Premium = სიღრმე (კინგსი / 8-12 ბენდი, მშობლის მიზნები და ანალიტიკა). ბუ = გიდი, ხმა და მშობლის თარჯიმანი, არა „AI მასწავლებელი" (პატიოსანი პოზიცია). პროგრესი ყოველთვის იზომება (per-subject Path + ჯამური), ბავშვს არჩევანის თავისუფლება რჩება.</p>
+<h3 style="font-size:1.02rem;margin:14px 0 6px">▶ წინ — დარჩენილი გეგმა</h3>
+<ul style="margin:6px 0 0 18px">
+<li><b>Phase 2</b> სწავლის ბირთვი: შეცდომა → სწორის ჩვენება → გამეორების ციკლი (ნაწილი v2.04-ში გაკეთდა), სუსტი ერთეულის შეწონილი review (Leitner), „ნასწავლი" მხოლოდ 3 სწორზე ზედიზედ.</li>
+<li><b>Phase 3</b> 8-12 ბენდი: ცალკე skin, გაყოფა / მრავალნიშნა / მარტივი განტოლებები, გეომეტრია (Vekua).</li>
+<li><b>Phase 4</b> King's YLE სიღრმე.</li>
+<li><b>Phase 5</b> შემოქმედებითი სექცია + მონეტების ეკონომიკა (Premium-თან გადაბმა).</li>
+<li><b>Phase 6</b> ბრძნული ციტატები.</li>
+<li><b>Phase 7</b> copy-QA / a11y / hygiene / დიზაინის საბოლოო პოლირება.</li>
+</ul>
+<p style="margin:10px 0 0;font-size:.85rem;color:#8a7a68">ვერსიის ნიშნული 2.06-ზეა; გეგმის სრული v2.00 = 7 ფაზა — Phase 1 + owner-ის ახალი ინსტრუმენტი (D1-D6) დასრულდა. ქვემოთ მოცემული 7-ფაზიანი გეგმა ძალაში რჩება დარჩენილი ფაზებისთვის.</p>
+</div>
+</section>
+
+<div class="ep0"><b>EP0: 8/10 (S)</b>. ეტაპი 0 აშენდა და LIVE-ზეა (v1.98), აუდიტის 5/6 ნაკადი დასრულდა სიღრმისეულად. -2: copy-აუდიტი სესიის ლიმიტმა გააჩერა (გეგმაშია) და გეგმის შეფასებები ჩემი კალიბრაციაა, შენი პრიორიტეტით შეიძლება შეიცვალოს.</div>
+
+<h2>1 · რა გაკეთდა დღეს (ეტაპი 0 — უკვე LIVE)</h2>
+<div class="card done">
+<p><b>v1.98 — ბარათების სიღრმის ენა.</b> წერა-არ-მცოდნე ბავშვი ახლა ტექსტის გარეშე ხედავს, რომელი ბარათი იხსნება და რომელი თამაშს იწყებს:</p>
+<ul>
+<li><b>დასტა-ბარათი:</b> კონტეინერებს უკან „ბარათების დასტის" კიდე უჩანს (folder look). თამაშის ბარათები ბრტყელია, მწვანე ▶ ნიშნით.</li>
+<li><b>გახსნის ანიმაცია:</b> კონტეინერი „იშლება" და შვილი-ბარათები მცირე დაგვიანებით ამოდიან. prefers-reduced-motion დაცულია.</li>
+<li><b>ხმა:</b> კონტეინერზე დაჭერა ამბობს სახელს + „აირჩიე" (9 ახალი ჩაწერილი ka კლიპი, EkaNeural). ახალი <code>playClipSeq()</code> კლიპებს რიგში უკრავს და აღარ კლავენ ერთმანეთს. ხმა მხოლოდ დაჭერაზეა, უკან დაბრუნება ჩუმია.</li>
+<li><b>გადაწყვეტილება:</b> peek-ემოჯი (#4) და breadcrumb (#5) განზრახ არ ჩავამატე: ბარათი გადაიტვირთებოდა, სამეული საკმარისია.</li>
+</ul>
+<p>ვერიფიკაცია: Playwright სამივე ასაკზე (4/5/10), სქრინშოტები ვნახე, ხმის ლოგი სამივე დონეზე გავიდა, 0 კონსოლ-ერორი, კლიპები 200. Deploy: commit <code>fe86bb5</code>.</p>
+</div>
+
+<h2>2 · აუდიტის მთავარი დასკვნები</h2>
+<div class="kvp">
+<div class="k"><div class="n">100+</div><div class="l">ჯამური დასკვნა 5 ნაკადიდან</div></div>
+<div class="k"><div class="n">3</div><div class="l">ნდობის კრიტიკული რღვევა (fake ხმის ქულა, landing-ის ცრუ პირობები, YLE გადაჭარბება)</div></div>
+<div class="k"><div class="n">0</div><div class="l">რეალური 10-12 წლის გამოცდილება დღეს</div></div>
+<div class="k"><div class="n">16</div><div class="l">ლიდერებისგან ასაღები პატერნი</div></div>
+</div>
+
+<h3>2.1 ნდობა და პატიოსნება (ყველაზე მტკივნეული ჯგუფი)</h3>
+<table>
+<tr><th></th><th>დასკვნა</th><th>რატომ მნიშვნელოვანი</th></tr>
+<tr><td><span class="sev sH">HIGH</span></td><td><b>ხმის გამოთქმის ქულა FAKE-ია</b>: მიკროფონი არ ირთვება, ქულა შემთხვევითი რიცხვია (72-96). landing კი ამას მთავარ ფიჩერად ჰყიდის.</td><td>მშობელი ამას 1 წუთში ამოწმებს. მთელი privacy-ნდობა ამაზე დგას.</td></tr>
+<tr><td><span class="sev sH">HIGH</span></td><td><b>landing ჰყიდის არარსებულ ფიჩერებს</b>: დღიური streak (კოდში არ არსებობს), screen-time ლიმიტი (არ არსებობს), მშობლის PIN (გეითი მარტივი მიმატებაა, რომელსაც აპი თვითონ ასწავლის ბავშვს).</td><td>თითოეული ერთი fact-check-ის მანძილზეა მტყუნებამდე.</td></tr>
+<tr><td><span class="sev sH">HIGH</span></td><td><b>„Cambridge YLE" განაცხადი ვერ მყარდება</b>: Kings = 33 სტატიკური კითხვა, YLE ფორმატების (listening, read&amp;write) გარეშე, ლექსიკა Starters სიის ~25%.</td><td>გადამხდელი მშობლის მთავარი value-პირობაა.</td></tr>
+<tr><td><span class="sev sM">MED</span></td><td>შედეგების ეკრანი „გაჯობე გუშინს!" ამბობს all-time რეკორდზე; ბავშვი ამჩნევს უზუსტობას.</td><td>წვრილმანი, მაგრამ ბავშვის ნდობა.</td></tr>
+</table>
+
+<h3>2.2 პედაგოგიკა</h3>
+<table>
+<tr><th></th><th>დასკვნა</th></tr>
+<tr><td><span class="sev sH">HIGH</span></td><td><b>6 და 12 წლის ბავშვი იდენტურ კონტენტს იღებს</b>: ასაკობრივი განშტოება მხოლოდ 3-5/6+-ზეა. 10-12-ისთვის აპი „პატარების" აპად იკითხება პირველ 30 წამში.</td></tr>
+<tr><td><span class="sev sH">HIGH</span></td><td><b>შეცდომა არაფერს ასწავლის</b>: არასწორ პასუხზე დანარჩენი ვარიანტები ტეპადია (brute-force-ით ყოველთვის 🎉-მდე მიდიხარ), კარგი tutor-მინიშნებები კი მხოლოდ დამალულ „coach" რეჟიმშია.</td></tr>
+<tr><td><span class="sev sH">HIGH</span></td><td><b>სუსტი სიტყვების გამეორების ციკლი არ არსებობს</b>: per-word სტატისტიკა იწერება, მაგრამ შერჩევაზე არასდროს მოქმედებს.</td></tr>
+<tr><td><span class="sev sH">HIGH</span></td><td><b>8-12 მათემატიკის ჭერი</b>: მიმატება/გამოკლება 100-მდე, გამრავლება ×9-მდე. გაყოფის რეჟიმი საერთოდ არ არსებობს. ალგებრა, წილადები, გეომეტრია (6 ფიგურის სახელის მეტი), ამოცანების გენერატორი: არცერთი.</td></tr>
+<tr><td><span class="sev sM">MED</span></td><td>116 სიტყვა ინგლისურში: 2-3 კვირაში ამოიწურება; Kings-ის 14 ამოცანა 2 სესიაში დასამახსოვრებელია.</td></tr>
+<tr><td><span class="sev sM">MED</span></td><td>15-წუთიანი შესვენების შეხსენება მხოლოდ ინგლისურის თამაშებშია; მათემატიკაში ბავშვი საათობით ითამაშებს შეუხსენებლად.</td></tr>
+</table>
+
+<h3>2.3 აუდიო</h3>
+<table>
+<tr><th></th><th>დასკვნა</th></tr>
+<tr><td><span class="sev sC">CRIT</span></td><td><b>speakSeq კლიპებს კლავს</b>: მრავალნაწილიან ქართულ თქმაში მხოლოდ ბოლო ისმის; ka კლიპს ზემოდან ინგლისური TTS აწვება (ყოველი სიტყვა-ბარათის ტეპი). ※ v1.98-ში playClipSeq-ით ნავიგაციისთვის უკვე გვერდი ავუარე; ძირი გასასწორებელია.</td></tr>
+<tr><td><span class="sev sC">CRIT</span></td><td><b>„ქართული არასდროს ბრაუზერის ხმით" წესს ცენტრალური დაცვა არ აქვს</b>: კლიპის გარეშე ka ტექსტი რუსულ ან ინგლისურ ხმაზე ვარდება. Kings-ის ხმის ეკრანი ქართულ ფრაზებს ინგლისური ხმით კითხულობს დღესვე (5 ფრაზა).</td></tr>
+<tr><td><span class="sev sH">HIGH</span></td><td>500ms duplicate-guard ჯერ კიდევ ყლაპავს განზრახ ტეპებს („მოისმინე"-ს მყისიერი ტეპი = სიჩუმე).</td></tr>
+<tr><td><span class="sev sM">MED</span></td><td>მანიფესტში 8 დუბლი გასაღები + 8 ობოლი ფაილი; preload მხოლოდ მარცვლების თამაშშია (პირველი ტეპის lag ყველგან); mute/ხმის კონტროლი არსად.</td></tr>
+</table>
+
+<h3>2.4 ტექნიკური / a11y</h3>
+<table>
+<tr><th></th><th>დასკვნა</th></tr>
+<tr><td><span class="sev sH">HIGH</span></td><td>sw.js-ის offline fallback ყველა ჩავარდნილ GET-ს index.html-ით პასუხობს (CSS/JS-საც); <code>save()</code> try/catch-ის გარეშეა (iOS private mode = კრახი თამაშის შუაში); გლობალური error handler არ არსებობს (ერთი throw = გაყინული ეკრანი ბავშვისთვის).</td></tr>
+<tr><td><span class="sev sM">MED</span></td><td>manifest.json-ს icons არ აქვს (Android-ზე ინსტალაცია არ შემოთავაზდება); 15 sync სკრიპტი (261KB) defer-ის გარეშე; pinch-zoom დაბლოკილია (WCAG fail); reduced-motion მხოლოდ 2 წესზეა ~100 ანიმაციიდან.</td></tr>
+<tr><td><span class="sev sM">MED</span></td><td>საჯარო რეპოში დევს: 2 .bak ფაილი, მკვდარი telemetry.js, სესიის ჩანაწერი, და <code>share/</code> სტრატეგიული დოკები (შენი პირადი ლინკი). ბავშვის სახელის sanitize მხოლოდ ჩაწერისას ხდება, render-ისას არა.</td></tr>
+</table>
+
+<h3>2.5 ბენჩმარკი (Khan Kids · Duolingo ABC/Math · Lingokids · Teach Your Monster · DragonBox)</h3>
+<div class="card">
+<p><b>სტრატეგიული გაკვეთილები:</b></p>
+<ul>
+<li><b>ჩვენი პოზიციონირება უკვე „ოქროს სტანდარტს" ემთხვევა</b>: ორივე უფასო ლიდერი (Khan Kids, Duolingo ABC) მუშაობს streak-ების, სიცოცხლეების და რეკლამის გარეშე, კოლექციური ჯილდოებით. ეს გასამყარებელია, არა შესაცვლელი.</li>
+<li><b>Lingokids-ის მთავარი სისუსტე = უგზავნო კონტენტის სიმრავლე</b>. ჩვენი პატარა ზომა უპირატესობაა, თუ ყოველი სესია „შემდეგი ნაბიჯის" შეთავაზებით გაიხსნება.</li>
+<li><b>Teach Your Monster 2026:</b> ნარატიული პროგრესი (ყოველთვის წინ) ≠ ათვისების პროგრესი (მხოლოდ დადასტურებულ ცოდნაზე). „დასრულებული ≠ ნასწავლი" ხაფანგის პირდაპირი წამალი, localStorage-ით იაფად კეთდება.</li>
+<li><b>DragonBox:</b> 8-12 ალგებრა მუშაობს, როცა მათემატიკა თვითონ არის თამაშის მექანიკა (notation fade: ხილი → რიცხვები → x). 1.5 საათში საბაზისო განტოლებები. ჩვენი 8-12 მათემატიკის ფლაგმანი ეს უნდა იყოს.</li>
+<li><b>Duolingo Math:</b> 8-12-ისთვის თავისუფალი ნავიგაცია + Daily Refresh (spaced review) + არანაირი საბავშვო მასკოტ-ტონი.</li>
+</ul>
+</div>
+
+<h2>3 · v2.00 გეგმა — ფაზებად, თითო პუნქტს Output და წარმატების კრიტერიუმი</h2>
+<p class="note">ვერსიები: v1.99-დან v2.00-მდე ინკრემენტებად. ყოველი რელიზი: ვიზუალური ვერიფიკაცია (§6c), ქართული copy → Gemini QA (§6f), მოდულები &lt;300 ხაზი, em dash აკრძალული.</p>
+
+<div class="phase"><span class="vbadge">v1.99</span><h3>ფაზა 1 · სიმართლე და საძირკველი (პირველი, რადგან ყველაფერი ნდობაზე დგას)</h3>
+<table>
+<tr><th>დავალება</th><th>Output</th><th>წარმატება</th></tr>
+<tr><td>Fake ხმის ქულის მოხსნა → პატიოსანი „გაიმეორე ნიკოსთან" რეჟიმი + landing copy-ის შესწორება</td><td>owl.js რეფაქტორი + landing ტექსტი</td><td>აპში არცერთი მოგონილი რიცხვი; landing-ზე მხოლოდ არსებული ფიჩერი</td></tr>
+<tr><td>Landing-ის სიმართლის პასი: დღიური streak ავაშენოთ რეალურად (date-based, იაფია) + screen-time ლიმიტი მშობლისთვის + მშობლის გეითის გამკაცრება; რასაც არ ვაშენებთ, ქრება ტექსტიდან</td><td>games/parent/landing ცვლილებები</td><td>ყველა landing-განაცხადი კოდით მტკიცდება</td></tr>
+<tr><td>აუდიო-ბირთვი: speakSeq ჯაჭვური (ended-ზე), ცენტრალური ka-გეიტი (კლიპის გარეშე ka = სიჩუმე, ru-fallback იშლება), duplicate-guard მხოლოდ ავტო-ხმაზე, Kings-ის ka-ფრაზების en-ხმით კითხვის ფიქსი, მანიფესტის 8 დუბლის წმენდა</td><td>audio.js/core.js/owl.js</td><td>ვერცერთი გზით ქართული ბრაუზერის ხმით არ ისმის; ტეპი ყოველთვის ხმოვანდება</td></tr>
+<tr><td>მდგრადობა: გლობალური error handler (ბავშვური „🔄 თავიდან" ეკრანი), save() try/catch, sw.js fallback მხოლოდ navigation-ზე, playClip-ის რეალური 404-fallback</td><td>core/sw/audio</td><td>ხელოვნური throw/offline ტესტი = აპი ცოცხლობს</td></tr>
+</table></div>
+
+<div class="phase"><span class="vbadge">v2.0x</span><h3>ფაზა 2 · სწავლის ბირთვი (შეცდომა ასწავლის, ცოდნა მტკიცდება)</h3>
+<table>
+<tr><th>დავალება</th><th>Output</th><th>წარმატება</th></tr>
+<tr><td>პასუხის ციკლი: არასწორზე სწორის ჩვენება + ხმა + ბოლოში დაბრუნება (brute-force-ის მოსპობა); მე-2 შეცდომაზე tutor-მინიშნება ავტომატურად</td><td>games.js პასუხის ერთიანი ფლოუ</td><td>ვერცერთი რაუნდი ვერ მთავრდება „გამოცნობით" ცოდნის გარეშე</td></tr>
+<tr><td>„გაიმეორე ↻" რეჟიმი: სუსტი ერთეულების შეწონილი შერჩევა (wrong/(correct+1)) + Daily Refresh ფილა 6+-ისთვის (Leitner ინტერვალები localStorage-ში)</td><td>ახალი review ფილა + sampler</td><td>შემცდარი სიტყვა გარანტირებულად ბრუნდება; მშობელი ხედავს „გამეორებულია"-ს</td></tr>
+<tr><td>ნარატივი ≠ ათვისება: skill „ნასწავლია" მხოლოდ 3 სწორზე ზედიზედ; პროგრესის რუკა ყოველთვის წინ მიდის (TYM პატერნი)</td><td>per-skill {seen,correct,streak}</td><td>„დასრულებული" და „ნასწავლი" ცალ-ცალკე ითვლება</td></tr>
+<tr><td>ასაკზე მორგებული რიტმი: celebration 2.5s → ~0.9s 8+ ასაკზე, tap-to-skip; შესვენების ტაიმერი ყველა თამაშში (დღეს მხოლოდ ინგლისურშია)</td><td>games.js winStep + shared timer</td><td>10 წლის ბავშვის რაუნდი არ „ითრევა"; შესვენება ყველგან ერთნაირად ამოდის</td></tr>
+</table></div>
+
+<div class="phase"><span class="vbadge">v2.1x</span><h3>ფაზა 3 · 8-12 ბენდი — შენი #2 პრიორიტეტი (ალგებრა + გეომეტრია + ვექუას სტილი)</h3>
+<table>
+<tr><th>დავალება</th><th>Output</th><th>წარმატება</th></tr>
+<tr><td>ასაკის მე-3 საფეხური (≥9): საკუთარი გრიდი, მშვიდი/მკვრივი UI, idle-ანიმაციების გარეშე, საბავშვო ტონის გარეშე (Duolingo Math პატერნი)</td><td>isOlder() + ცალკე skin</td><td>10-12 წლის ბავშვი აპს „ჩემს აპად" კითხულობს, არა „პატარების"</td></tr>
+<tr><td>მათემატიკის ვერტიკალი: გაყოფა, მრავალნიშნა მოქმედებები, missing-number განტოლებები (?×6=42) → მარტივი ერთნაბიჯიანი განტოლებები DragonBox-ის notation-fade მიდგომით (ხილი→რიცხვი→x)</td><td>ახალი მათ-რეჟიმები + ramp-ის გაგრძელება</td><td>9-12 ტრეკზე მინ. 4 ახალი დონის თემა, ადაპტური ზრდით</td></tr>
+<tr><td>გეომეტრიის რეალური მოდული: გვერდები/წვეროები, 3D ფიგურები, პერიმეტრი/ფართობი ბადეზე, კუთხეები, სიმეტრია, სახალისო კონტექსტით</td><td>geometry game-mode + data</td><td>გეომეტრია ≠ 6 ფლეშქარდი; მინ. 4 დავალების ტიპი</td></tr>
+<tr><td>ამოცანების გენერატორი ვექუას სტილში: ლოგიკური/არასტანდარტული ამოცანების პარამეტრიზებული შაბლონები ქართულად (სახელები/საგნები/რიცხვები იცვლება), tutor-მინიშნებების კონტრაქტის შენარჩუნებით. ორიგინალური ანალოგები, კოპირების გარეშე</td><td>word-problem engine</td><td>ამოცანები აღარ მეორდება 2 სესიაში; სტილი = ლოგიკა და არა მექანიკური თვლა</td></tr>
+</table></div>
+
+<div class="phase"><span class="vbadge">v2.2x</span><h3>ფაზა 4 · King's-სტილის ინგლისური — შენი #3 (YLE-ს განაცხადი ხდება სიმართლე)</h3>
+<table>
+<tr><th>დავალება</th><th>Output</th><th>წარმატება</th></tr>
+<tr><td>Kings-ის რესტრუქტურა: ყველა კითხვას დონის ტეგი (Starters/Movers/Flyers), დონეების კიბე გახსნით</td><td>data.js ტეგირება + ladder UI</td><td>ბავშვი ხედავს „რომელ საფეხურზე ვარ"-ს</td></tr>
+<tr><td>YLE-ის ნამდვილი ფორმატები: listening comprehension (კლიპებით — ინფრა გვაქვს), read&amp;write gap-fill, picture matching. British Council მეთოდოლოგია = ორიენტირი, კონტენტი ორიგინალური</td><td>2-3 ახალი დავალების ტიპი</td><td>Kings ≠ მხოლოდ multiple-choice; YLE-ის task-format-ების მინ. 3 წარმოდგენილია</td></tr>
+<tr><td>ლექსიკა 116 → ~300+ Starters სიის მიმართულებით (კატეგორიებად, კლიპებით) + გრამატიკის გაღრმავება: past simple, can/must, კითხვის აგება, შედარებითები</td><td>data.js + აუდიო პიპელაინი</td><td>კონტენტი 2-3 კვირაში აღარ ამოიწურება</td></tr>
+</table></div>
+
+<div class="phase"><span class="vbadge">v2.3x</span><h3>ფაზა 5 · კრეატივის სექცია (7+) — შენი #4 + ჯილდოს ეკონომიკა</h3>
+<table>
+<tr><th>დავალება</th><th>Output</th><th>წარმატება</th></tr>
+<tr><td>„ააწყვე/შექმენი" სექცია: 8-10 ნაბიჯ-ნაბიჯ ილუსტრირებული გზამკვლევი სახლის მასალებით (ქაღალდის რობოტი, გამოჭრა/აწყობა, კონსტრუქციები), დასრულების აღნიშვნით</td><td>ახალი სექცია + გზამკვლევები</td><td>მინ. 8 გზამკვლევი; თითო ნაბიჯი წინა ეკრანზე გასაგებია წაკითხვის გარეშე (სურათი-პირველი)</td></tr>
+<tr><td>მონეტების აზრი: ბუს/მასწავლებლის აქსესუარები მონეტებით (TYM პატერნი: საკუთრება და არა წნეხი). ერთიანი ვალუტა (ფარი/მონეტის გაორება იხსნება)</td><td>customization ეკრანი</td><td>მონეტას აქვს დანიშნულება; ბავშვი ირჩევს რაში ხარჯავს</td></tr>
+</table></div>
+
+<div class="phase"><span class="vbadge">v2.4x</span><h3>ფაზა 6 · სიბრძნე და სააზროვნო ფრაზები — შენი #5</h3>
+<table>
+<tr><th>დავალება</th><th>Output</th><th>წარმატება</th></tr>
+<tr><td>ციტატების მოდული: ვეფხისტყაოსანი, ვაჟა-ფშაველა, გალაკტიონი (public domain, ზუსტი ციტატა, წყაროთი) + ინგლისური ანალოგები; ასაკზე მორგებული „რას ნიშნავს" განმარტება; ka კლიპები პიპელაინით</td><td>wisdom მოდული + დღის ციტატის ბარათი</td><td>მინ. 30 ციტატა (15 ka + 15 en); ყოველი გახმოვანებული და განმარტებული</td></tr>
+</table></div>
+
+<div class="phase"><span class="vbadge">v2.00</span><h3>ფაზა 7 · გაპრიალება + v2.00 milestone (დიზაინის overhaul-ის კარიბჭე)</h3>
+<table>
+<tr><th>დავალება</th><th>Output</th><th>წარმატება</th></tr>
+<tr><td>სრული ქართული copy-აუდიტი (შეჩერებულის დასრულება) + Gemini QA + em-dash წმენდა (tweaks.js-ის 2 desc და სხვ.)</td><td>copy-პასი ყველა ფაილზე</td><td>Gemini-ს პასი; 0 em-dash ადამიანის ტექსტში</td></tr>
+<tr><td>a11y ბატჩი: pinch-zoom-ის დაბრუნება, გლობალური reduced-motion, :focus-visible, render()-ის ფოკუს-მართვა + PWA icons (Android ინსტალაცია)</td><td>index/styles/manifest</td><td>WCAG საბაზისო პასი; A2HS მუშაობს</td></tr>
+<tr><td>ტექ-ჰიგიენა: .bak/telemetry.js/სესიის ფაილების წაშლა საჯარო რეპოდან; მოდულების split (&lt;300); სკრიპტებზე defer; ფონტების self-host</td><td>რეპო + load-ციკლი</td><td>წესები სრულდება; first load შესამჩნევად მსუბუქი</td></tr>
+<tr><td>დიზაინის overhaul (landing + აპი) ბრენდის lock-ის მიხედვით (მისია/slogan/ლოგო შენს დასტურს ელოდება ცალკე რეპორტში)</td><td>v2.00 რელიზი</td><td>შენი „დადე live"-გეიტი</td></tr>
+</table></div>
+
+<h2>4 · „არცერთი არ დაიკარგოს" — დაგროვილი იდეების რეესტრი</h2>
+<table>
+<tr><th>იდეა</th><th>სტატუსი</th></tr>
+<tr><td>ბარათების სიღრმის ენა (დასტა/▶/ხმა/გახსნა)</td><td><span class="ok">✓ გაკეთდა v1.98</span></td></tr>
+<tr><td>პროფილის არჩევის გახმოვანება არამკითხველებისთვის (home ეკრანი)</td><td>ფაზა 1-ში (აუდიო-ბირთვთან ერთად; v1.98-ის playClipSeq უკვე საძირკველია)</td></tr>
+<tr><td>Auto-break voicing (8 ჩაწერილი კლიპი უქმად დევს)</td><td>ფაზა 2 (შესვენების ტაიმერთან ერთად)</td></tr>
+<tr><td>Trace „მზადდება" shimmer</td><td>ფაზა 7 (გაპრიალება)</td></tr>
+<tr><td>Celebration skip უფროსებისთვის</td><td>ფაზა 2 (რიტმის პუნქტში)</td></tr>
+<tr><td>მენიუს ბარათების ორმაგი ტეპი (1=მოისმინე, 2=შედი) პატარებისთვის</td><td>განიხილება ფაზა 1-ში: v1.98-ის ხმა ნაწილობრივ ფარავს; თუ საჭიროება დარჩა, დავამატებ</td></tr>
+<tr><td>ფრაზების ka კლიპების ამუშავება (79 კლიპი უქმად დევს)</td><td>ფაზა 4 (ინგლისურის ბლოკში)</td></tr>
+<tr><td>მოგონილი „გუშინ"-ის ფიქსი შედეგების ეკრანზე</td><td>ფაზა 1 (სიმართლის პასი)</td></tr>
+</table>
+
+<h2>5 · შენი გადასაწყვეტი (მხოლოდ ეს 3)</h2>
+<div class="qbox">
+<ol>
+<li><b>გეგმის ✔</b> — თანმიმდევრობა: სიმართლე → სწავლის ბირთვი → 8-12 → King's → კრეატივი → სიბრძნე → გაპრიალება. თუ გინდა სხვა რიგი (მაგ. ჯერ 8-12), მითხარი და გადავაწყობ. <b>შენი ✔-ის შემდეგ ბოლომდე შენი ჩარევის გარეშე ვაშენებ.</b></li>
+<li><b>Landing-ის ცრუ პირობები</b>: ავაშენო პატარა რეალური ვერსიები (დღიური streak + screen-time ლიმიტი: თითო ~1 დღე) თუ ტექსტი მოვხსნა? ჩემი რეკომენდაცია: ავაშენოთ, ორივე იაფია და მშობლის value-ა.</li>
+<li><b>საჯარო რეპოში დევს შენი share/ სტრატეგიული დოკები</b> (პირადი ლინკი obscurity-თ). ტექ-აუდიტმა მონიშნა. დავტოვო (შენი არჩევანი იყო) თუ წავშალო რეპოდან? წაშლა ლინკს გააუქმებს.</li>
+</ol>
+</div>
+
+<p class="note">Copy-აუდიტის ნაკადი (6/6) სესიის ლიმიტმა შეაჩერა; ფაზა 7-შია ჩაშენებული. ამ რეპორტზე Gemini QA არ გაშვებულა (შიდა დოკია, არა customer-facing). ბრენდის lock (მისია/slogan/ლოგო) ცალკე ელოდება: output/2026-06-10-NikoLearn ბრენდი.html.</p>
+<p class="note">by Niko 🦉 · 2026-06-10 · წყაროები: 5 აუდიტ-აგენტის სრული დასკვნები (UX 32, პედაგოგიკა 20, აუდიო 10+, ტექ 30+, ბენჩმარკი 16 პატერნი)</p>
+</div>
+</body>
+</html>

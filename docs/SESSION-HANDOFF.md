@@ -5,7 +5,22 @@
 > Architecture SSOT: `docs/HANDOFF.md`. This file = current state + open items ONLY (keep < 30KB).
 > Full per-session history (sessions 1–7, 2026-06-28…07-04) → `docs/archive/2026-07/SESSION-HANDOFF_20260705_full.md` (git-tracked). Pre-06-28 → `docs/archive/2026-06/SESSION-HANDOFF_20260628_full.md`.
 
-## ▶ RESUME HERE (2026-07-05 · session 10) — OWNER 5yo LIVE-TEST BATCH shipped; **LIVE = v1.349** (deployed + live-verified). Rapid-iteration on real-5yo feedback; ~9 versions in the session, all live-verified on nikolearn.com.
+## ▶ RESUME HERE (2026-07-05 · session 10) — **LIVE = v1.350** (deployed + live-verified). Pre-reader audit fixes in progress. Rapid-iteration on real-5yo feedback; all live-verified on nikolearn.com.
+
+**v1.350 SHIPPED (pre-reader shapes, NB-15):** young (≤5) shapes quiz was word-option = unanswerable by a non-reader. Reversed for young → **audio-in / picture-out**: hear the ka shape-name clip (მოისმინე btn + 👆 hint), tap the matching emoji picture (`.shape-pic`). Reader (7+) keeps name-picking. New ka clips 329-332 (წრე/კვადრატი/სამკუთხედი/რომბი). §6c-verified both branches (headless + screenshots) + live-verified. Files: games.js (nextShape/answerShape young branch), styles.css (.shape-pic/.shape-pics), audio-manifest.js. Regression test kept: `qa/_shapes-young.mjs`.
+
+**▶ NEXT ACTION (owner AGREED = GO, Lane A, NOT yet built): young (3-5) math enrichment.** Owner's words: „20 უნდა იყოს, მეტი ვარიაცია და კრეატიული დავალებები." Context: for young, difficulty is HARD-CAPPED at the easy floor (`genMath`: add/sub `mx=young?10`; patterns ≤10 step 1-2) → `rampMath` never lifts a strong 5yo = plateau/boredom. KEEP age ceiling soft (NOT 1–100 for a 5yo). §14 CLASS = "young difficulty hard-capped across all math modes." Menu fact: young Math tiles = ➕➖ 🧩pattern 🔷shapes only (screens-menu.js:106-134).
+
+**CONCRETE BUILD PLAN (worked out, turnkey — v1.351):**
+1. `genMath` **games.js:627 & 628**: change `young?10` → `young?20` (both math-add & math-sub caps).
+2. `genMath` young pattern **games.js:636-646**: young `step` ∈ {1,2,3} (weighted to 1-2), start `s=ri(1, 20-4*step)` so max value ≤20, blank stays LAST (gentle). Adds range+step variation (was step 1-2, ≤10).
+3. **NEW creative branch** in `genMath`, placed BEFORE line 627: `if(type==='math-add' && young && Math.random()<0.4){` pick a fruit emoji from e.g. `['🍎','🍌','🍓','🍊','🐟','⭐','🎈','🌸']`, `a=ri(1,5),b=ri(1,5)` (sum ≤10, COUNTABLE), build `q` = two emoji clusters + a plus: `<span class="vsum-grp">${emoji×a}</span><span class="vsum-plus">+</span><span class="vsum-grp">${emoji×b}</span>`, `return {q, a:a+b, op:'add', a1:a, a2:b, vis:true};` — op:'add'+a1/a2 so the existing tutor handles a wrong answer with no change.
+4. `nextMath` **games.js:690-699**: add `const young=isYoung(profile)`; if `q.vis` render prompt = `<div class="vsum">${q.q}</div><div class="p-sub">რამდენია სულ?</div>` else the current `.p-word num` block; after render, if `q.vis` voice `speak('რამდენია?','ka-GE')` (clip EXISTS = clip_144, NO new clip/manifest needed). Hide the „harder" button for young: `const canHarder = !young && mathLvl(game.mode)<((MATH_LV[game.mode]||[{}]).length-1)` (young genMath ignores level → button was a no-op).
+5. `styles.css`: add `.vsum` (flex-wrap center, font-size clamp(2rem,9vw,2.8rem), max-width min(400px,94vw)), `.vsum-grp` (inline-flex wrap, soft rounded bg, padding), `.vsum-plus` (bold, opacity .6). Model spacing on existing `.count-objects`.
+6. VERIFY (§6c, reuse `qa/_shapes-young.mjs` harness pattern: `startDemo(5)` + `startGame('math-add')`): assert some q's are `.vsum` emoji groups (countable, sum≤10), abstract q's ≤20, „harder" hidden for young, „რამდენია?" voiced on vis; reader(7) unaffected. Screenshot + LOOK. Then bump 1.350→1.351, `qa/qa-check.mjs --gate`, `git push origin HEAD:main`, live-verify.
+7. Also OPEN (same pre-reader class, separate): NB-16 (gate ka-alpha reading suite out of young), NB-17 (voice ABSTRACT young add — this pass only voices the visual variant).
+
+**LEVELING MECHANICS (explained to owner, from code):** (a) badge დამწყები🐣→ჩემპიონი🏆 = cosmetic, counts mastered items (`correct≥3`) 8/20/40/60 (core.js:245-252); (b) real difficulty = per-topic tier via `rampMath` (games.js:600): round ≥90%→+1 instant, 85-89%→2×, <50%→−1 (add/sub ranges MATH_LV 1–20…1–200, games.js:494); (c) topics are AGE-gated in the menu, NOT unlock-by-achievement. `levelIdx`/`levelOf` core.js:246.
 
 **SESSION-10 SHIPPED (v1.342 → v1.349, each live-verified):**
 - **v1.342** ka tutor grammar (`რას ხედავ?` pic2word + `ვკრებთ` kings-add).
