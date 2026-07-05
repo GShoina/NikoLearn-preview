@@ -871,18 +871,24 @@ let _countTimer=null;
 function countAlong(n){
   if(_countTimer){clearTimeout(_countTimer);_countTimer=null;}
   for(let k=0;k<n;k++){const el=document.getElementById('cobj'+k);if(el)el.classList.remove('lit');}
-  // owner live-test 2026-07-05: count-along rushed the numbers, gap too tight for a small child to hear
-  // and follow each one. Give each number room: slower, profile-aware cadence (young = more deliberate)
-  // so quantity → numeral → spoken word actually lands. (Clarity of the ka number VOICE is a separate
-  // open item: digitSay still relies on device ka-TTS; needs recorded ka number clips — logged.)
-  const gap=(typeof isYoung==='function'&&isYoung(profile))?1245:995;   // +~8% (owner 2026-07-05): a touch more room between numbers reads clearer to a small child
+  // EVENT-DRIVEN cadence (owner 2026-07-05): the number clips are ~1.3-1.6s, but the old fixed gap
+  // (1150-1245ms) fired the next number BEFORE the clip finished, cutting the final syllable — "სამი"
+  // became "სამ". Now we advance only AFTER each number's clip has fully played, then hold a clear pause.
+  // A safety cap still advances if the clip's 'ended' never fires (e.g. audio blocked), so it can't stall.
+  const young=(typeof isYoung==='function'&&isYoung(profile));
+  const pause=young?600:400;    // silence AFTER each number finishes, before the next lights up
+  const cap=young?2400:2100;    // hard ceiling per number if the clip never signals 'ended'
   let i=0;
   const step=()=>{
     if(i>=n){_countTimer=null;return;}
     const el=document.getElementById('cobj'+i);if(el)el.classList.add('lit');
-    try{digitSay(i+1);}catch(e){}
-    i++;
-    _countTimer=setTimeout(step,gap);
+    const cur=i; i++;
+    let moved=false;
+    const advance=()=>{ if(moved)return; moved=true; clearTimeout(safety); _countTimer=setTimeout(step,pause); };
+    let played=false;
+    try{ played=(typeof window.playClipFor==='function') ? window.playClipFor(numWord(cur+1,profile),advance) : false; }catch(e){}
+    if(!played){ try{digitSay(cur+1);}catch(e){} }   // no clip (e.g. en TTS): safety cap paces it
+    const safety=setTimeout(advance,cap);
   };
   step();
 }

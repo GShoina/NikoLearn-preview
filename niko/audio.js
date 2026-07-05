@@ -28,6 +28,15 @@
     const k = (text||'').trim().toLowerCase();
     return AUDIO_MANIFEST[k] ? (BASE + AUDIO_MANIFEST[k]) : null;
   }
+  // play the recorded clip for a piece of text and call onended when it FINISHES (returns false if there
+  // is no clip so the caller can fall back). Lets count-along advance only after each number has fully
+  // played, instead of a fixed gap that cut the final syllable ("სამი" -> "სამ"). Owner 2026-07-05.
+  window.playClipFor = function(text, onended){
+    const url = clipFor(text);
+    if(!url) return false;
+    playClipUrl(url, onended || null);
+    return true;
+  };
   function stopClip(){ if(curClip){ try{curClip.pause();}catch(e){} curClip.onended=null; } }
   // expose a global hard-stop so navigation can kill any in-flight clip/sequence (fixes cross-screen
   // audio bleed, e.g. a "ყველი" spell-clip continuing onto the next ჩ/ზ screen). Parent-reported 2026-06-28.
