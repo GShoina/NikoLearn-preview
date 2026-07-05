@@ -29,12 +29,24 @@
     const a1=q.a1,a2=q.a2,op=q.op;
     if(op==='add'){
       const B=big(a1,a2),S=small(a1,a2),nextTen=Math.ceil(B/10)*10,need=nextTen-B;
-      // units/tens now DEFINED inline (owner 2026-07-01: a child may not know what ერთეული/ათეული are).
-      const h2 = (!kid&&need>0&&need<S)
+      const sum=a1+a2;
+      const hasTens=B>=10;                        // a real two-digit number to split; single-digit sums have NO tens
+      const bridges=sum>10&&B<10&&need>0&&need<S; // small operands whose sum crosses ten -> make-ten actually helps
+      // Strategy #2 is chosen by the NUMBERS, not a profile name. Place-value ("break into tens and units") only
+      // when a two-digit number exists (>=10); make-ten only when the sum crosses ten. A 3-5 yo (kid) OR any
+      // single-digit sum gets the concrete count-on (fingers/objects), because "add the tens first" is meaningless
+      // with no tens (owner 2026-07-05 live 5yo test: place-value shown to a units-only learner).
+      const h2 = (!kid&&bridges)
         ? `ხერხი „ავაშენოთ ათეული": ${B} + ${need} = ${nextTen}. დარჩა ${S-need}. ახლა ${nextTen} + ${S-need} = ?`
-        : (kid?`დაითვალე თითებზე 🖐️: ${B}-ს დაუმატე კიდევ ${S}.`:`<span class="r-lead">დაშალე ათეულებად და ერთეულებად:</span><span class="r-item">ათეული = ათ-ათი (10, 20, 30)</span><span class="r-item">ერთეული = თითო (1, 2, 3)</span><span class="r-end">ჯერ ათეულები შეკრიბე, მერე ერთეულები.</span>`);
+        : (!kid&&hasTens)
+          ? `<span class="r-lead">დაშალე ათეულებად და ერთეულებად:</span><span class="r-item">ათეული = ათ-ათი (10, 20, 30)</span><span class="r-item">ერთეული = თითო (1, 2, 3)</span><span class="r-end">ჯერ ათეულები შეკრიბე, მერე ერთეულები.</span>`
+          : `დაითვალე თითებზე 🖐️: ${B}-ს დაუმატე კიდევ ${S}, თითო-თითო.`;
       const aseq=countSeq(B,1,S);
-      return {say:'შეკრებაში დაიწყე დიდი რიცხვიდან და დაითვალე წინ, თითო-თითო. თუ გინდა, დიდი რიცხვი დაშალე ათეულებად და ერთეულებად.', hints:[
+      // spoken line drops the tens/units clause when there are no tens (single-digit) — else it says something
+      // that does not apply to the problem on screen.
+      const saySmall='შეკრებაში დაიწყე დიდი რიცხვიდან და დაითვალე წინ, თითო-თითო.';
+      const say=hasTens ? saySmall+' თუ გინდა, დიდი რიცხვი დაშალე ათეულებად და ერთეულებად.' : saySmall;
+      return {say, hints:[
         aseq?`${warm(kid)}დაიწყე დიდი რიცხვიდან, ${B}. ახლა დაითვალე წინ ${S}-ჯერ: ${aseq}`:`${warm(kid)}დაიწყე დიდი რიცხვიდან, ${B}. ახლა დაითვალე წინ ${S}-ჯერ, თითო-თითო.`,
         h2
       ], explain:`შეკრება = ორი ჯგუფის გაერთიანება. დიდი რიცხვი ჯერ, პატარა ნაბიჯ-ნაბიჯ დაუმატე. პასუხს თვითონ მიხვდები! 🌟`};
@@ -211,7 +223,10 @@
   // ── public ──
   window.Tutor = {
     build(ctx){
-      const kid=ctx.profile==='masho';
+      // "kid" = the simplest, most concrete tutoring register. Owner 2026-07-05 (live 5yo test): this must key
+      // off the child's AGE, not one hardcoded profile name — every ≤5 yo learner needs the young register, so a
+      // non-"masho" 5 yo was wrongly getting adult place-value tutoring across all modes.
+      const kid=ctx.profile==='masho' || (typeof isYoung==='function' && isYoung(ctx.profile));
       let r;
       if(ctx.mode==='listen-yle'){
         r={hints:['კიდევ ერთხელ მოუსმინე 🔊. რამდენი საგანია და რა საგანია?','ჯერ რიცხვი დაიჭირე, მერე საგანი. მაგ. „two dogs" = ორი ძაღლი.'],explain:'მოუსმინე ბოლომდე, დათვალე საგნები და აირჩიე სურათი, რომელიც ზუსტად ემთხვევა ნათქვამს.',say:'მოუსმინე ყურადღებით. ჯერ დაითვალე რამდენია, მერე იპოვე რა საგანია.'};
