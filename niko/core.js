@@ -135,6 +135,9 @@ function vCode(p){return voiceLang(p)==='en'?'en-US':'ka-GE';}
 const EN_NUM=['','one','two','three','four','five','six','seven','eight','nine','ten'];
 function numWord(n,p){return voiceLang(p)==='en'?(EN_NUM[n]||String(n)):String(n);} // ka digit → recorded clip
 function retryWord(p){return voiceLang(p)==='en'?'try again':'კიდევ სცადე.';}
+// wrap each character of a button label in a span with a staggered delay so the letters do a travelling
+// "wave" (a pre-reader cue that the button is alive/tappable). Spaces are preserved and not animated.
+function waveText(s){let i=0;return [...String(s)].map(ch=>ch===' '?' ':`<span class="wl" style="animation-delay:${(i++*0.06).toFixed(2)}s">${ch}</span>`).join('');}
 // U3 fix (2026-06-28): the 🔊 voice-toggle label now follows the INTERFACE language, not raw Georgian.
 // EN interface → "KA"/"EN"; KA interface → "ქარ"/"ინგ". The label still names which VOICE is active.
 function vtglLabel(){const en=window.UILANG==='en',v=voiceLang(profile)==='en';return en?(v?'EN':'KA'):(v?'ინგ':'ქარ');}

@@ -1548,7 +1548,7 @@ function results(){
   // a pre-reader (<=5) cannot read „↻ კიდევ ერთი", so the replay button pulses + shows an animated finger
   // to say „tap me to keep going" (owner 2026-07-05 live 5yo test). Older kids get the plain button.
   const young=(typeof isYoung==='function'&&isYoung(profile));
-  const replayBtn=cls=>`<button class="btn ${cls} btn-block${young?' tap-cue':''}" onclick="replay()">${young?'<span class="tap-finger" aria-hidden="true">👆</span>':''}↻ კიდევ ერთი</button>`;
+  const replayBtn=cls=>`<button class="btn ${cls} btn-block${young?' tap-cue':''}" onclick="replay()">${young?`<span class="tap-finger" aria-hidden="true">👆</span><span class="tap-label">${waveText('↻ კიდევ ერთი')}</span>`:'↻ კიდევ ერთი'}</button>`;
   render(`<div class="screen results" style="--pct:${pct}%">
     <div class="r-owl">${tutorFace(profile,'3.2rem')}</div>
     <div class="r-ring"><i>${pct>=80?'🏆':pct>=50?'⭐':'🌱'}</i></div>

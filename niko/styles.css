@@ -491,15 +491,19 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
    young (<=5) learners who cannot read the label. Owner 2026-07-05 live 5yo test: a 5yo could not tell the
    „↻ კიდევ ერთი" button was tappable to move on. Shared class (results + movement-done). The global
    reduced-motion reset near the file end already neutralizes these. */
-.tap-cue{position:relative;animation:tapPulse 1.15s ease-in-out infinite;z-index:0}
-/* an expanding ring pulses out of the button = "I am alive, press me" (reads on saturated primary buttons) */
-.tap-cue::after{content:"";position:absolute;inset:-2px;border-radius:inherit;border:3px solid rgba(255,255,255,.85);opacity:0;pointer-events:none;animation:tapRipple 1.15s ease-out infinite}
-@keyframes tapPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.065)}}
-@keyframes tapRipple{0%{transform:scale(1);opacity:.6}70%{opacity:0}100%{transform:scale(1.14);opacity:0}}
-/* a BIG finger that actually taps down onto the button (down at mid-cycle, in sync with the pulse) so a
-   pre-reader sees the gesture to copy. Owner 2026-07-05: make the cue unmistakable from a 3-5 yo's view. */
-.tap-finger{display:inline-block;font-size:1.55em;margin-right:.3em;vertical-align:-.15em;transform-origin:center;animation:tapPress 1.15s ease-in-out infinite;filter:drop-shadow(0 2px 2px rgba(0,0,0,.2))}
-@keyframes tapPress{0%,100%{transform:translateY(-4px) rotate(-5deg)}44%,56%{transform:translateY(5px) rotate(3deg) scale(.9)}}
+/* The button FRAME stays the same size as its sibling buttons (no whole-button scale, owner 2026-07-05).
+   The "press me" energy lives in: bigger label text + a per-letter wave + a moving finger + a soft ripple
+   overlay (the ::after does not affect layout, so the frame still matches the button below it). */
+.tap-cue{position:relative;z-index:0}
+.tap-cue::after{content:"";position:absolute;inset:-2px;border-radius:inherit;border:3px solid rgba(255,255,255,.8);opacity:0;pointer-events:none;animation:tapRipple 1.3s ease-out infinite}
+@keyframes tapRipple{0%{transform:scale(1);opacity:.55}70%{opacity:0}100%{transform:scale(1.12);opacity:0}}
+/* bigger label + the letters wave in sequence */
+.tap-label{font-size:1.16em;font-weight:800;display:inline-block}
+.tap-label .wl{display:inline-block;animation:waveLetter 1.3s ease-in-out infinite}
+@keyframes waveLetter{0%,55%,100%{transform:translateY(0)}28%{transform:translateY(-5px)}}
+/* a big finger that taps DOWN in rhythm so a pre-reader sees the gesture to copy */
+.tap-finger{display:inline-block;font-size:1.5em;margin-right:.32em;vertical-align:-.12em;transform-origin:center;animation:tapPress 1.1s ease-in-out infinite;filter:drop-shadow(0 2px 2px rgba(0,0,0,.2))}
+@keyframes tapPress{0%,100%{transform:translateY(-4px) rotate(-6deg)}46%,54%{transform:translateY(5px) rotate(3deg) scale(.92)}}
 .speakbtn:active{transform:scale(.95)}
 /* speaking self-check: the model answer card revealed after the child says their own answer (2026-06-23) */
 .speak-model{margin:14px auto 2px;max-width:340px;padding:14px 16px;border-radius:16px;
