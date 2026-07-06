@@ -2,6 +2,12 @@
 
 **Owner:** Gela Shonia · **Maintained by:** weekly "Product Owner" routine + ad-hoc.
 
+## 🧭 STRATEGY REFERENCE — Reference Companies vs Competitors (2026-07-06, owner-requested)
+- **SSOT artifact:** `output/2026-07-06-NikoLearn Reference Companies და კონკურენტები by Niko.html` (Georgian, §8-clean).
+- **PO definition to keep:** Reference Company = teacher (borrow ONE skill, not a market rival) · Competitor = rival (same kid/parent attention). Nuance: a brand can be BOTH — Duolingo = habit-loop *reference* but Duolingo ABC = *competitor*; Khan Academy = learning-science *reference* but Khan Academy Kids = *competitor*. Assign role by WHAT we borrow, not the brand.
+- **14 reference companies** (owner's 10 + Sesame Workshop, Toca Boca, Apple, Headspace), each tied to a concrete NikoLearn lever. **Competitors:** ქართული direct = NODI (school-age, "მალე"), Anbani, AR Anbani, Etaloni/Saba, YouTube ანბანი; global benchmark = Khan Academy Kids / Duolingo ABC / Lingokids / ABCmouse / HOMER (all English-first → our moat = Georgian-first + audio-first pre-reader).
+- **Status = HYPOTHESIS, not FINAL.** OPEN: hand-verify the 5 Georgian apps (download + play); operationalize 3 reference lessons this quarter (proposed: Figma parent-share card, Sesame dev-framework, Toca Boca no-fail ≤5). MagicSchool deep-dive parked (session limit, resume after 14:00).
+
 ## 📥 INTEL DROP (Gurafa → NikoLearn, 2026-06-15)
 - **Crawl4AI installed on the machine = $0 local scraper.** Use it to gather/refresh LEARNING CONTENT (e.g. word
   lists, phrases, reading material, competitor content). No API cost. Tool, not a feature.
