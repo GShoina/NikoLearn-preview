@@ -61,7 +61,12 @@ const PATH_SUBJS = ['english','math','ka-alpha'];
 // age-aware path: a young child's math menu only has add/sub/shapes, so their Path shows only those
 // 3 milestones (no გამრავლება/ოლიმპიადა they can't reach → no permanently-stuck steps). (2026-06-11)
 function pathFor(p,subj){
+  if(subj==='math' && isTiny(p)) return PATHS.math.filter(m=>m.k==='shapes'); // ≤4 menu = shapes only
   if(subj==='math' && isYoung(p)) return PATHS.math.filter(m=>['add','sub','shapes'].indexOf(m.k)>=0);
+  // NB-16: the young (≤5) subject grid has NO ინგლისური — an english path would be 5 permanently-
+  // unreachable milestones (capped ჯამური პროგრესი + the resume card routing a pre-reader into a
+  // reading-heavy menu). Empty path = excluded from totalProgress and homeResume.
+  if(subj==='english' && isYoung(p)) return [];
   return PATHS[subj]||[];
 }
 // one-tap launcher for the recommended step: a real session action if the step has one, else (milestone

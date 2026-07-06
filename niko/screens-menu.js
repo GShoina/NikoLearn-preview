@@ -140,10 +140,16 @@ function openMenu(subj){
       <div class="mode play" style="min-height:130px;grid-column:span 2" onclick="startCount('pick')">${PLAY_BADGE}<div class="kids-ico">🍎🍎🍎</div><div class="m-name">დათვალე</div><div class="m-sub">რამდენია? აირჩიე რიცხვი</div></div>
     </div>`;
   } else { /* alphabets, Georgian & English */
+    // NB-16 pre-reader gate (owner 2026-07-06): a ≤5 must never be routed into a mode that ASSUMES reading.
+    // KEEP for young — audio-scaffolded reading ACQUISITION: ისწავლე / ტესტები (letter, voiced), კითხვა +
+    // ააწყვე (every syllable tap plays its clip), ამოწერა (writing). GATE for young — modes that assume the
+    // child already reads: წინადადება (sentence), გაგება (no-audio text comprehension), შეადგინე სიტყვა
+    // (whole-word letter ordering; ka letter tiles are silent by the voice standard).
+    const preReader = isYoung(profile);
     // Georgian also gets READING (syllable→word), the #1 gap + Georgian-first differentiator.
     const reading = subj==='ka-alpha' ? `<div class="mode play" style="min-height:120px" onclick="readLearn(0)">${PLAY_BADGE}<div class="kids-ico">📖</div><div class="m-name">კითხვა</div><div class="m-sub">მარცვალი → სიტყვა</div></div>` : '';
-    const sentence = subj==='ka-alpha' ? `<div class="mode play" style="min-height:120px" onclick="sentLearn(0)">${PLAY_BADGE}<div class="kids-ico">📝</div><div class="m-name">წინადადება</div><div class="m-sub">წაიკითხე და გაიგე</div></div>` : '';
-    const comprehend = subj==='ka-alpha' ? `<div class="mode play" style="min-height:120px" onclick="startTextQuiz()">${PLAY_BADGE}<div class="kids-ico">📚</div><div class="m-name">გაგება</div><div class="m-sub">წაიკითხე და უპასუხე</div></div>` : '';
+    const sentence = (subj==='ka-alpha'&&!preReader) ? `<div class="mode play" style="min-height:120px" onclick="sentLearn(0)">${PLAY_BADGE}<div class="kids-ico">📝</div><div class="m-name">წინადადება</div><div class="m-sub">წაიკითხე და გაიგე</div></div>` : '';
+    const comprehend = (subj==='ka-alpha'&&!preReader) ? `<div class="mode play" style="min-height:120px" onclick="startTextQuiz()">${PLAY_BADGE}<div class="kids-ico">📚</div><div class="m-name">გაგება</div><div class="m-sub">წაიკითხე და უპასუხე</div></div>` : '';
     const build = subj==='ka-alpha' ? `<div class="mode play" style="min-height:120px" onclick="startBuild()">${PLAY_BADGE}<div class="kids-ico">🧩</div><div class="m-name">ააწყვე</div><div class="m-sub">მარცვლებით სიტყვა</div></div>` : '';
     const trace = subj==='ka-alpha' ? `<div class="mode play" style="min-height:120px" onclick="traceLearn(0)">${PLAY_BADGE}<div class="kids-ico">✍️</div><div class="m-name">ამოწერა</div><div class="m-sub">ასოს წერა თითით</div></div>` : '';
     // Georgian-alphabet tiles must SHOW Georgian letters (ა ბ გ), not the Latin-letter emoji (🔤/🔡).
@@ -153,8 +159,8 @@ function openMenu(subj){
     // build-a-word tile wears a puzzle glyph, NOT the "ა ბ გ" alphabet sample — that sample belongs to the
     // "learn the letters" tile above; sharing it made the two tiles look identical (owner fix 2026-07-04).
     const spellIco = `<div class="kids-ico">🧩</div>`;
-    // 🔤 tap-to-spell (no keyboard) — both alphabets
-    const spell = `<div class="mode play" style="min-height:120px" onclick="startShead('${subj}')">${PLAY_BADGE}${spellIco}<div class="m-name">შეადგინე სიტყვა</div><div class="m-sub">ასოებით ააწყვე</div></div>`;
+    // 🔤 tap-to-spell (no keyboard) — both alphabets, readers (6+) only per the NB-16 gate above
+    const spell = preReader ? '' : `<div class="mode play" style="min-height:120px" onclick="startShead('${subj}')">${PLAY_BADGE}${spellIco}<div class="m-name">შეადგინე სიტყვა</div><div class="m-sub">ასოებით ააწყვე</div></div>`;
     body=`<div class="mode-grid">
       <div class="mode play" style="min-height:120px" onclick="alphaLearn('${subj}',0)">${PLAY_BADGE}${learnIco}<div class="m-name">ისწავლე ასოები</div></div>
       <div class="mode play" style="min-height:120px" onclick="alphaQuiz('${subj}')">${PLAY_BADGE}<div class="kids-ico">🎯</div><div class="m-name">ტესტები</div></div>
