@@ -1,25 +1,14 @@
 // NB-16 pre-reader gate harness: a ≤5 profile must never be ROUTED into a mode that assumes reading.
 // Gated for young: წინადადება (sentLearn) · გაგება (startTextQuiz) · შეადგინე სიტყვა (startShead) +
 // the english path/resume routing. Kept for young: learn/quiz/კითხვა/ააწყვე/ამოწერა (audio-scaffolded).
-import { chromium } from 'file:///C:/Users/gela.shonia/AppData/Local/npm-cache/_npx/9833c18b2d85bc59/node_modules/playwright/index.mjs';
-import http from 'node:http';
-import fs from 'node:fs';
-import path from 'node:path';
+import { startStaticServer, launchBrowser, makeChk } from './_harness.mjs';
 
-const ROOT = 'C:/Users/gela.shonia/Documents/NGT 2020-07/AI_Projects/NikoLand';
-const MIME = {'.html':'text/html','.js':'text/javascript','.css':'text/css','.mp3':'audio/mpeg','.json':'application/json','.svg':'image/svg+xml','.png':'image/png','.webmanifest':'application/manifest+json'};
-const srv = http.createServer((req,res)=>{
-  let u = decodeURIComponent(req.url.split('?')[0]); if(u==='/')u='/index.html';
-  fs.readFile(path.join(ROOT,u),(e,d)=>{ if(e){res.writeHead(404);res.end('x');return;} res.writeHead(200,{'content-type':MIME[path.extname(u)]||'application/octet-stream'}); res.end(d); });
-});
-await new Promise(r=>srv.listen(0,r));
-const port = srv.address().port;
-
-const browser = await chromium.launch({ executablePath:'C:/Users/gela.shonia/AppData/Local/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-win64/chrome-headless-shell.exe' });
+const { port, close:closeServer } = await startStaticServer();
+const browser = await launchBrowser();
 const page = await browser.newPage({ viewport:{width:412,height:915} });
 page.on('pageerror', e=>console.log('  [pageerror]', String(e).slice(0,200)));
 
-let FAILS=0; const chk=(name,ok)=>{ console.log(`ASSERT ${name}:`, ok?'PASS':'FAIL'); if(!ok)FAILS++; };
+const { chk, fails } = makeChk();
 
 async function launch(age){
   await page.goto(`http://localhost:${port}/index.html?app=1&notrack=1`, { waitUntil:'networkidle' });
@@ -93,6 +82,7 @@ chk('reader ჯამური პროგრესი counts 14 milestones', r
 await page.screenshot({ path:'C:/Users/gela.shonia/niko-shot/alpha-reader-ka-menu.png', fullPage:true });
 
 await browser.close();
-srv.close();
-console.log(`\n${FAILS===0?'✅ ALL PASS':'❌ '+FAILS+' FAIL(S)'} — screenshots in C:/Users/gela.shonia/niko-shot/`);
-process.exit(FAILS===0?0:1);
+closeServer();
+const F=fails();
+console.log(`\n${F===0?'✅ ALL PASS':'❌ '+F+' FAIL(S)'} — screenshots in C:/Users/gela.shonia/niko-shot/`);
+process.exit(F===0?0:1);

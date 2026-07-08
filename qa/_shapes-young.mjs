@@ -1,20 +1,12 @@
-import { chromium } from 'file:///C:/Users/gela.shonia/AppData/Local/npm-cache/_npx/9833c18b2d85bc59/node_modules/playwright/index.mjs';
-import http from 'node:http';
 import fs from 'node:fs';
-import path from 'node:path';
+import { startStaticServer, launchBrowser, makeChk } from './_harness.mjs';
 
-const ROOT = 'C:/Users/gela.shonia/Documents/NGT 2020-07/AI_Projects/NikoLand';
-const MIME = {'.html':'text/html','.js':'text/javascript','.css':'text/css','.mp3':'audio/mpeg','.json':'application/json','.svg':'image/svg+xml','.png':'image/png','.webmanifest':'application/manifest+json'};
-const srv = http.createServer((req,res)=>{
-  let u = decodeURIComponent(req.url.split('?')[0]); if(u==='/')u='/index.html';
-  fs.readFile(path.join(ROOT,u),(e,d)=>{ if(e){res.writeHead(404);res.end('x');return;} res.writeHead(200,{'content-type':MIME[path.extname(u)]||'application/octet-stream'}); res.end(d); });
-});
-await new Promise(r=>srv.listen(0,r));
-const port = srv.address().port;
-
-const browser = await chromium.launch({ executablePath:'C:/Users/gela.shonia/AppData/Local/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-win64/chrome-headless-shell.exe' });
+const { port, close:closeServer } = await startStaticServer();
+const browser = await launchBrowser();
 const page = await browser.newPage({ viewport:{width:412,height:915} });
 page.on('pageerror', e=>console.log('  [pageerror]', String(e).slice(0,200)));
+
+const { chk, fails } = makeChk();
 
 async function launch(age){
   await page.goto(`http://localhost:${port}/index.html?app=1&notrack=1`, { waitUntil:'networkidle' });
@@ -54,9 +46,9 @@ console.log('opt text (should be EMOJI pictures):', y.optText.join('  '));
 
 const allPic = y.optClasses.length>0 && y.optClasses.every(c=>c.includes('shape-pic'));
 const noWords = y.optText.length>0 && y.optText.every(t=>t.length>0 && !/[ა-ჰ]/.test(t) && !/[a-z]/i.test(t));
-console.log('ASSERT shape-pic on all opts:', allPic?'PASS':'FAIL');
-console.log('ASSERT options are pictures (no words):', noWords?'PASS':'FAIL');
-console.log('ASSERT speaker + finger hint present:', (y.hasSpeak&&y.hasHint)?'PASS':'FAIL');
+chk('shape-pic on all opts', allPic);
+chk('options are pictures (no words)', noWords);
+chk('speaker + finger hint present', (y.hasSpeak&&y.hasHint));
 
 fs.mkdirSync('C:/Users/gela.shonia/niko-shot',{recursive:true});
 await page.screenshot({ path:'C:/Users/gela.shonia/niko-shot/shapes-young.png', fullPage:true });
@@ -69,7 +61,7 @@ if(corIdx>=0){
   await page.evaluate((i)=>{ document.querySelectorAll('.options .opt')[i].click(); }, corIdx);
   await page.waitForTimeout(250);
   const marked = await page.evaluate(()=>!!document.querySelector('.opt.correct'));
-  console.log('ASSERT correct tap marks .correct:', marked?'PASS':'FAIL');
+  chk('correct tap marks .correct', marked);
   await page.waitForTimeout(7000); // celebration + advance to next question
   const advanced = await page.evaluate(()=>{
     const sub=document.querySelector('.prompt .p-sub'); const opts=document.querySelectorAll('.options .opt');
@@ -87,10 +79,12 @@ console.log('opt text:', r.optText.join('  '));
 console.log('opt classes:', r.optClasses.join(' | '));
 const readerWords = r.optText.some(t=>/[ა-ჰ]/.test(t));
 const noPic = r.optClasses.every(c=>!c.includes('shape-pic'));
-console.log('ASSERT reader gets NAME options (ka words):', readerWords?'PASS':'FAIL');
-console.log('ASSERT reader has NO shape-pic:', noPic?'PASS':'FAIL');
+chk('reader gets NAME options (ka words)', readerWords);
+chk('reader has NO shape-pic', noPic);
 await page.screenshot({ path:'C:/Users/gela.shonia/niko-shot/shapes-reader.png', fullPage:true });
 
 await browser.close();
-srv.close();
-console.log('\nscreenshots in C:/Users/gela.shonia/niko-shot/');
+closeServer();
+const F=fails();
+console.log(`\n${F===0?'✅ ALL PASS':'❌ '+F+' FAIL(S)'} — screenshots in C:/Users/gela.shonia/niko-shot/`);
+process.exit(F===0?0:1);

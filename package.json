@@ -11,7 +11,8 @@
     "qa": "node qa/qa-check.mjs",
     "qa:fix": "node qa/qa-check.mjs --fix --gate",
     "qa:visual": "node qa/visual-gate.mjs",
-    "qa:visual:shots": "node qa/visual-gate.mjs --shots"
+    "qa:visual:shots": "node qa/visual-gate.mjs --shots",
+    "qa:behavioral": "node qa/behavioral.mjs"
   },
   "repository": {
     "type": "git",

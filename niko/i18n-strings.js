@@ -6,6 +6,41 @@
    ═══════════════════════════════════════════════════════════ */
 /* ── exact Georgian text → English (matched on trimmed text-node value) ── */
 window.I18N_MAP = {
+  /* ── NB-19 chrome backfill (2026-07-08): UI chrome that stayed Georgian on ka→en (menus, parent
+     dashboard, results, owl help, buttons). TEACHING CONTENT (Georgian words/letters/passages,
+     talk prompts, tutor pedagogy) is DELIBERATELY excluded — translating a Georgian lesson to
+     English destroys the lesson. Guard: qa/i18n-coverage.mjs. ── */
+  "✨ ჯერ არ უთამაშია, დააჭირე და დაიწყეთ":"✨ Not played yet. Tap to start",
+  "✓ მიღწეულია!":"✓ Achieved!",
+  "PIN-კოდის მოხსნა":"Remove PIN",
+  "ℹ️ ვერსია და ანალიტიკა":"ℹ️ Version & analytics",
+  "წავშალო პროგრესი?":"Delete progress?",
+  "✓ დაკოპირდა":"✓ Copied",
+  "30 ინგლისური სიტყვა":"30 English words",
+  "50 ინგლისური სიტყვა":"50 English words",
+  "7 დღე ზედიზედ":"7 days in a row",
+  "ჯამური პროგრესი 50%":"Total progress 50%",
+  "დათვლა და ლოგიკა":"Counting & Logic",
+  "ანბანი · კითხვა":"Alphabet · Reading",
+  "ყოჩაღ! გავიარეთ":"Well done! Completed",
+  "გააგრძელე, სადაც გაჩერდი":"Continue where you left off",
+  "შექმენი პროფილი, პროგრესი შეინახება":"Create a profile, progress is saved",
+  "დაამატე ბავშვი":"Add a child",
+  "პროგრესი შეინახება":"Progress is saved",
+  "მოგესალმები 👋":"Welcome 👋",
+  "ჯერ გამოსცადე":"Try it first",
+  "მერე შექმენი პროფილი":"Then create a profile",
+  "OFF (ყველაფერი ღია)":"OFF (everything open)",
+  "ON (locks ჩანს)":"ON (locks shown)",
+  "ინგლისური Kings-ისა და Cambridge-ისთვის: სიტყვა · თარგმანი · მართლწერა · გრამატიკა · კითხვა":"English for Kings and Cambridge: words · translation · spelling · grammar · reading",
+  "გამარჯობა,":"Hello,",
+  "სტუმარი!":"Guest!",
+  "საგნები":"Subjects",
+  "მოისმინე ხმა 🔊":"Listen to the sound 🔊",
+  "ინგლისურის მასწავლებელი":"English teacher",
+  "დახმარება":"Help",
+  "კიდევ ერთი":"One more",
+  "კიდევ ერთი 💪":"One more 💪",
   /* ── menu + parent + chrome EN (Phase 1, v1.171) — parallel-agent extract + adversarial QA, 2026-06-14 ── */
   "მასწავლებელი 🐾":"Tutor 🐾",
   "ბავშვი აირჩევს, რომელი ცხოველი ასწავლის. შემდეგ შეცვლაც შეიძლება.":"Your child picks which animal teaches them. You can always change it later.",
