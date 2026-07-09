@@ -298,7 +298,7 @@ let _mvIdx=0,_mvPlaying=true,_mvCount=0,_mvTimer=null;
 // no reward — the weakest section. Now it's a mini mission: finish _mvGoal distinct moves → celebration +
 // coins, so movement earns its place like every other section. Additive: the per-move player is untouched.
 let _mvGoal=3,_mvDone=null,_mvSessionDone=false;const MV_REWARD=3;
-function closeBreak(){clearInterval(_mvTimer);_mvTimer=null;try{speechSynthesis.cancel();}catch(e){}const el=document.getElementById('breakscr');if(el)el.remove();}
+function closeBreak(){clearInterval(_mvTimer);_mvTimer=null;try{if(window.stopAudio)stopAudio();else speechSynthesis.cancel();}catch(e){}const el=document.getElementById('breakscr');if(el)el.remove();}
 function showBreak(manual){
   if(document.getElementById('breakscr'))return;
   if(window.Analytics)Analytics.screen('movement');

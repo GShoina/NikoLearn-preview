@@ -159,7 +159,7 @@
     }
     stopClip();
     try{
-      const a = new Audio(url); curClip = a; a.playbackRate = rate || 1; // fresh Audio: never mutate the shared preload element's rate
+      const a = new Audio(url); curClip = a; a.volume = 0.85; a.playbackRate = rate || 1; // fresh Audio: never mutate the shared preload element's rate; 0.85 = softened kid loudness (audit LOW)
       a.onended = done; a.onerror = done;
       a.play().catch(done);
     }catch(e){ done(); }
@@ -181,7 +181,7 @@
       if(i>=urls.length){ curClip=null; return; }
       try{
         const a = new Audio(urls[i++]);
-        curClip = a; a.onended = next; a.play().catch(()=>{});
+        curClip = a; a.volume = 0.85; a.onended = next; a.play().catch(()=>{});
       }catch(e){}
     };
     next();

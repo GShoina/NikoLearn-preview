@@ -95,10 +95,10 @@
 
   function wsRender(){
     _css();
-    const yng=young(), px=_cellPx(), fs=Math.max(15, Math.floor(px*0.42));
+    const px=_cellPx(), fs=Math.max(15, Math.floor(px*0.42));
     const found=_words.filter(w=>w.found).length;
     const clues=_words.map((w,i)=>`<div class="ws-clue${w.found?' done':''}" data-ci="${i}">
-        <span class="em">${w.e}</span>${yng?'':`<span class="lbl">${w.w}</span>`}
+        <span class="em">${w.e}</span><span class="lbl">${w.w}</span>
         <button class="snd" onclick="wsSay(${i})" aria-label="მოისმინე">🔊</button></div>`).join('');
     let cells='';
     for(let r=0;r<_size;r++) for(let c=0;c<_size;c++){
@@ -173,8 +173,8 @@
     try{ praise(); }catch(e){}
   }
 
-  window.wsAgain = function(){ const el=document.getElementById('wsscr'); if(el)el.remove(); _anchor=null; window.wsStart(); };
-  window.closeWs = function(){ const el=document.getElementById('wsscr'); if(el)el.remove(); _anchor=null; };
+  window.wsAgain = function(){ try{if(window.stopAudio)stopAudio();}catch(e){} const el=document.getElementById('wsscr'); if(el)el.remove(); _anchor=null; window.wsStart(); };
+  window.closeWs = function(){ try{if(window.stopAudio)stopAudio();}catch(e){} const el=document.getElementById('wsscr'); if(el)el.remove(); _anchor=null; };
   // expose internals for the QA harness (read-only)
   window.__wsState = ()=>({ size:_size, words:_words.map(w=>({w:w.w,found:w.found,cells:w.cells})), grid:_grid });
 })();

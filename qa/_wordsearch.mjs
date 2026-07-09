@@ -32,11 +32,14 @@ chk('young grid: every word spelled by its cells', spellOK);
 chk('young: >=3 words placed', st.words.length>=3, `got ${st.words.length}`);
 chk('young grid size 6-8', st.size>=6 && st.size<=8, `size ${st.size}`);
 
-// (2) clue chips hide the WORD text for pre-readers (emoji only)
-const youngNoText = await page.evaluate(()=>{
-  const lbls=[...document.querySelectorAll('#wsscr .ws-clue .lbl')]; return lbls.length===0;
+// (2) young clue chips show emoji + word text so a pre-reader can MATCH letter shapes
+// (audit finding #2: hiding the text left the grid unsolvable for a non-reader)
+const youngHasBoth = await page.evaluate(()=>{
+  const lbls=[...document.querySelectorAll('#wsscr .ws-clue .lbl')];
+  const ems=[...document.querySelectorAll('#wsscr .ws-clue .em')];
+  return lbls.length>0 && ems.length>0;
 });
-chk('young: clue chips show emoji only (no word text)', youngNoText);
+chk('young: clue chips show emoji + word text (shape-matching for pre-reader)', youngHasBoth);
 
 await page.screenshot({ path: SHOT_DIR+'/ws_young_grid.png' });
 
