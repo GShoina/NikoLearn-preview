@@ -15,6 +15,29 @@
   // test). Reusing a single element and swapping .src sidesteps that cap entirely.
   let curClip = null;
   function getPlayer(){ if(!curClip){ curClip = new Audio(); curClip.volume = 0.85; } return curClip; }
+  // NB-20 (2026-07-09): first-gesture AUDIO UNLOCK. Desktop Chrome / iOS block HTMLAudio.play()
+  // until a user gesture. The app auto-voices on some screen loads (e.g. a Movement break that
+  // opens on its own, prompts, greetings) where the play() is NOT inside a tap handler → silent.
+  // On the FIRST real gesture we prime the reused element with an existing clip at volume 0 (an
+  // UNMUTED but inaudible play, which counts as unlocking), then restore. All later clips play.
+  let _unlocked = false;
+  function _primeAudio(){
+    if(_unlocked) return; _unlocked = true;
+    try{
+      const a = getPlayer(); const v = a.volume; a.volume = 0;
+      a.src = BASE + 'clip_294.mp3';   // „მოძრაობა" — any valid clip; silent here
+      const p = a.play();
+      if(p && p.then) p.then(()=>{ try{a.pause();a.currentTime=0;}catch(e){} a.volume = v||0.85; })
+                       .catch(()=>{ a.volume = v||0.85; });
+      else a.volume = v||0.85;
+    }catch(e){}
+    document.removeEventListener('pointerdown', _primeAudio, true);
+    document.removeEventListener('touchend', _primeAudio, true);
+    document.removeEventListener('click', _primeAudio, true);
+  }
+  document.addEventListener('pointerdown', _primeAudio, true);
+  document.addEventListener('touchend', _primeAudio, true);
+  document.addEventListener('click', _primeAudio, true);
   function playClipUrl(url, onended, onfail){
     const a = getPlayer();
     try{ a.pause(); }catch(e){}
