@@ -1721,6 +1721,8 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
 .fr-task{gap:2px}
 .fr-taskq{font-size:clamp(20px,5.5vw,24px);font-weight:800;margin-top:14px;text-align:center;line-height:1.25}
 .fr-show{font-size:clamp(3rem,15vw,4.4rem);margin:10px 0 4px;letter-spacing:6px}
+.fr-bigletter{display:inline-block;color:#00A651;font-weight:900;background:#fff;border-radius:20px;padding:6px 22px;box-shadow:0 6px 16px -6px rgba(0,166,81,.5)} /* NB-21: target letter as a big flashcard for pre-readers */
+.fr-replay{border:none;background:#FFF3DF;border-radius:12px;padding:2px 9px;font-size:.9em;cursor:pointer;vertical-align:middle;box-shadow:0 2px 5px rgba(0,0,0,.08)} /* NB-21/22: hear the prompt again */
 .fr-taskhint{font-size:13px;font-weight:600;color:#9C8064;margin-bottom:12px}
 .fr-opts{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;width:100%;max-width:380px}
 .fr-opt{min-width:92px;font-size:26px;font-weight:800;color:#2A1C12;background:#fff;border:3px solid #FFE0A0;border-radius:22px;

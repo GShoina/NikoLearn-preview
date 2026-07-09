@@ -16,25 +16,25 @@ const FR_SUBJ = {
   counting: { key:'counting', label:'რიცხვები', ico:'123', grad:'linear-gradient(155deg,#FFD27A,#FF8A00)',
     ring:'#FFE0A0', shadow:'rgba(255,138,0,.5)', sub:'დათვლა და ფიგურები',
     tasks:[
-      {q:'დაითვალე ვაშლები. რამდენია?', show:'🍎🍎🍎', opts:['2','3','4'], ans:'3'},
-      {q:'ახლა დაითვალე. რამდენია?', show:'🍎🍎🍎🍎🍎', opts:['4','5','6'], ans:'5'},
-      {q:'კიდევ ერთხელ. რამდენია?', show:'🍎🍎', opts:['1','2','3'], ans:'2'}
+      {q:'დაითვალე ვაშლები. რამდენია?', show:'🍎🍎🍎', clip:'fr_tc1', opts:['2','3','4'], ans:'3'},
+      {q:'ახლა დაითვალე. რამდენია?', show:'🍎🍎🍎🍎🍎', clip:'fr_tc2', opts:['4','5','6'], ans:'5'},
+      {q:'კიდევ ერთხელ. რამდენია?', show:'🍎🍎', clip:'fr_tc3', opts:['1','2','3'], ans:'2'}
     ],
     winSub:'დათვალე ვაშლები, ერთი-ერთმანეთის მიყოლებით 🍎' },
   'ka-alpha': { key:'ka-alpha', label:'ასოები', ico:'აბგ', grad:'linear-gradient(155deg,#5EE0BC,#00C48C)',
     ring:'#C8F0E2', shadow:'rgba(0,196,140,.45)', sub:'ბგერა და ანბანი',
     tasks:[
-      {q:'იპოვე ასო „ა".', show:'🔤', opts:['ა','ო','მ'], ans:'ა'},
-      {q:'იპოვე ასო „ბ".', show:'🔤', opts:['ბ','დ','გ'], ans:'ბ'},
-      {q:'იპოვე ასო „ო".', show:'🔤', opts:['ო','ა','ე'], ans:'ო'}
+      {q:'იპოვე ასო „ა".', show:'<span class="fr-bigletter">ა</span>', clip:'fr_ta1', opts:['ა','ო','მ'], ans:'ა'},
+      {q:'იპოვე ასო „ბ".', show:'<span class="fr-bigletter">ბ</span>', clip:'fr_ta2', opts:['ბ','დ','გ'], ans:'ბ'},
+      {q:'იპოვე ასო „ო".', show:'<span class="fr-bigletter">ო</span>', clip:'fr_ta3', opts:['ო','ა','ე'], ans:'ო'}
     ],
     winSub:'იპოვე ასოები „ა", „ბ", „ო"' },
   english: { key:'english', label:'ენა', ico:'<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c2.6 2.8 2.6 15.2 0 18M12 3c-2.6 2.8-2.6 15.2 0 18"></path></svg>',
     grad:'linear-gradient(155deg,#73B4F5,#2E86DE)', ring:'#CFE2FB', shadow:'rgba(46,134,222,.45)', sub:'ინგლისური სიტყვები',
     tasks:[
-      {q:'რომელია „კატა" ინგლისურად?', show:'🐱', opts:['cat','dog','sun'], ans:'cat'},
-      {q:'რომელია „ძაღლი" ინგლისურად?', show:'🐶', opts:['dog','cat','sun'], ans:'dog'},
-      {q:'რომელია „მზე" ინგლისურად?', show:'☀️', opts:['sun','dog','cat'], ans:'sun'}
+      {q:'რომელია „კატა" ინგლისურად?', show:'🐱', clip:'fr_te1', opts:['cat','dog','sun'], ans:'cat'},
+      {q:'რომელია „ძაღლი" ინგლისურად?', show:'🐶', clip:'fr_te2', opts:['dog','cat','sun'], ans:'dog'},
+      {q:'რომელია „მზე" ინგლისურად?', show:'☀️', clip:'fr_te3', opts:['sun','dog','cat'], ans:'sun'}
     ],
     winSub:'იპოვე „cat", „dog", „sun"' }
 };
@@ -86,15 +86,17 @@ function firstRunTask(subjKey, idx){
   render(`<div class="screen fr-screen fr-task">
     <div class="fr-niko-wrap sm"><div class="fr-niko"><img src="owl-logo.png" alt="ნიკო"></div></div>
     <div class="fr-pop" style="font-size:.82rem;opacity:.55;font-weight:800;letter-spacing:.5px">${idx+1} / ${tasks.length}</div>
-    <div class="fr-pop fr-taskq">${t.q}</div>
+    <div class="fr-pop fr-taskq">${t.q}${t.clip?` <button class="fr-replay" onclick="frPlay('${t.clip}')" aria-label="მოისმინე">🔊</button>`:''}</div>
     <div class="fr-show">${t.show}</div>
     <div class="fr-taskhint">👆 აირჩიე პასუხი</div>
     <div class="fr-opts">${opts.map(o=>`<button class="fr-opt fr-pop" onclick="frAnswer(this,'${o}','${t.ans}','${subjKey}',${idx})">${o}</button>`).join('')}</div>
   </div>`,false);
+  if(t.clip) setTimeout(()=>frPlay(t.clip), 250);   // NB-21/22: voice the task prompt so a pre-reader knows what to do
 }
 
 function frAnswer(btn, sel, ans, subjKey, idx){
   idx=idx||0;
+  if(subjKey==='english'){ try{ if(typeof speak==='function') speak(sel,'en-US'); }catch(e){} }  // NB-22: hear the English word on tap
   const s=FR_SUBJ[subjKey], total=frTasks(s).length;
   if(sel===ans){
     document.querySelectorAll('.fr-opt').forEach(b=>{b.disabled=true;b.classList.add('dim');});
