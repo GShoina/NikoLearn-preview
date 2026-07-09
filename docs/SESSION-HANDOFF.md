@@ -7,7 +7,15 @@
 
 ## ▶ RESUME HERE (2026-07-09 · session 15) — **LIVE = v1.354 (unchanged, NOT deployed).** Owner said GO on a top-3 functional-roadmap queue BUT gated live ("სანამ ლაივ გავა უნდა ვნახო ფუნქციონალი და ჩემით გავტესტო") + asked to conserve tokens (periodic compress).
 
-**Owner-picked build queue (CHALLENGED top-3 from roadmap, ღირებულება×სისწრაფე):** (1) NB-10 pre-reader Movement move-name voicing [DONE this session, LIVE-PENDING], (2) SPEC-2 Word-Search engine [NOT STARTED], (3) v2.1 principle-tutor + leveled banks LIVE [NOT STARTED]. I explicitly DEMOTED plan-v2.0 activation-redesign out of top-3 (session-13 falsified the q0-difficulty cause; abandons ≈ adult-preview artifact → its ROI is [HYPOTHESIS], not "proven").
+**Owner-picked build queue (CHALLENGED top-3 from roadmap, ღირებულება×სისწრაფე):** (1) NB-10 pre-reader Movement move-name voicing [DONE, LIVE-PENDING], (2) SPEC-2 Word-Search engine [DONE, LIVE-PENDING], (3) v2.1 principle-tutor + leveled banks LIVE [NOT STARTED — next]. Plus NB-20 audio-unlock (owner "no sound" report) [DONE, LIVE-PENDING]. I explicitly DEMOTED plan-v2.0 activation-redesign out of top-3 (session-13 falsified the q0-difficulty cause; abandons ≈ adult-preview artifact → its ROI is [HYPOTHESIS], not "proven").
+
+**SESSION 15 — item (2) SPEC-2 Word-Search engine COMPLETE (built, 12-assert harness, §6c-verified, NOT deployed):**
+- NEW `niko/wordsearch.js` — self-contained overlay (modelled on the Movement break; mounts into `.device`, id `#wsscr`). Subject-agnostic grid, hidden themed words, tap-first-cell→tap-last-cell selection (matches by cell-SET so reverse selection works), on-find highlight + word audio + coin reward, completion overlay (+5🪙, praise). 4 original ka packs (ცხოველები/საჭმელი/ფერები/ბუნება), every word has an existing clip. §11: our own common-noun selection, nothing copied.
+- **Adaptive:** young ≤6 = 6-8 grid, 4 words, straight lines only, big cells, emoji picture-clue + 🔊 (NO word text = pre-reader). reader ≥7 = 9-11 grid, 6 words, +diagonals, word text shown.
+- Wired: `<script defer src="niko/wordsearch.js">` after owl.js (index.html); home tile „სიტყვების ძებნა" 🔎 added next to Movement in BOTH home variants (screens.js, `onclick="wsStart()"`).
+- QA: NEW `qa/_wordsearch.mjs` — 12 asserts (placement spells each word, ≥3 placed, adaptive size young/reader, pre-reader no-text vs reader text, find-all→reward, cancel-tap no false-positive, no pageerrors) ALL PASS. qa-gate green. §6c 3 screenshots looked at (young grid emoji-clue, completion green+reward, reader 9×9 word-text).
+- Files (LOCAL, branch `deploy/pattern-owl`): niko/wordsearch.js (new), index.html, niko/screens.js, qa/_wordsearch.mjs (new).
+- **How owner tests:** app home → tap „სიტყვების ძებნა" 🔎 → tap a letter then the letter at the other end of a hidden word → it highlights green + says the word.
 
 **SESSION 15 — item (1) NB-10 COMPLETE (built, self-verified, §6c-verified, NOT deployed — awaits owner test):**
 - The Movement move NAME was TEXT-only (`owl.js` mvRender `#mvName.textContent=m.ka`, never voiced) → non-reader ≤5 couldn't HEAR which move to do. FIX: mvRender voices `m.ka` on render via `playClipFor` (owl.js:368, guarded).
@@ -16,7 +24,7 @@
 - Files (reversible, committed LOCAL on branch `deploy/pattern-owl`, NOT live): niko/owl.js, niko/audio-manifest.js, niko/audio/clip_333-341.mp3, qa/_move-voice.mjs, tools/_gen_move2.py, docs/BUGFIX_TRACKER.md.
 - **How owner tests:** local `python -m http.server 8137` → app → open a Movement break → each move now speaks its Georgian name on show.
 
-**▶ NEXT ACTION:** on owner GO-to-live for NB-10 → bump + push (§7b live gate). Meanwhile build item (2) Word-Search engine (subject-agnostic grid, ka/en packs, adaptive young/reader, reuse reward+audio pipeline, §11-original), then item (3). NB-13 still awaits owner's exact შეკრება verb.
+**▶ NEXT ACTION:** build item (3) v2.1 principle-tutor + leveled banks LIVE (tutor explains the PRINCIPLE, not just right/wrong; banks behind band gates). On owner GO-to-live for the LOCAL-committed batch (NB-10 + NB-20 + SPEC-2) → ONE bump + push (§7b live gate) — recommend shipping them together once he confirms sound works + tests Word-Search. NB-13 still awaits owner's exact შეკრება verb.
 
 ## ▶ PRIOR (2026-07-09 · session 14) — **LIVE = v1.354 (unchanged, NO deploy this session).** Q&A + NB-13 context located; owner gated all builds ("build არ დაიწყო ჩემი ბრძანების გარეშე").
 

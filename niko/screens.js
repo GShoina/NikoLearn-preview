@@ -379,6 +379,7 @@ function selectProfile(p){
         : `<div class="subj kids maths stack hue-orange" data-sum="შეკრება და გამოკლება" onclick="openSubj(event,'math')"><span class="s-badge">3 თემა</span><div class="s-ico">➕➖</div><div class="s-name num">➕</div><span class="tap-hint">👆</span></div>`}
       <div class="subj kids talk play hue-purple" data-sum="საუბრის ბარათები მშობელთან ერთად" onclick="openTalk()">${PLAY_BADGE}<span class="s-badge">4 თემა</span><div class="s-ico">💬</div><div class="s-name">საუბარი</div></div>
       <div class="subj kids move play hue-teal" data-sum="მოკლე მოძრაობის შესვენება" onclick="showBreak(true)">${PLAY_BADGE}<div class="s-ico">🤸</div><div class="s-name">მოძრაობა</div></div>
+      <div class="subj kids play hue-blue" data-sum="იპოვე დამალული სიტყვები" onclick="wsStart()">${PLAY_BADGE}<div class="s-ico">🔎</div><div class="s-name">სიტყვების ძებნა</div></div>
       <div class="subj kids draw play hue-pink" data-sum="ხატვა და გაფერადება" onclick="openDraw()">${PLAY_BADGE}<div class="s-ico">🎨</div><div class="s-name">ხატვა</div></div>
     </div>`;
   } else {
@@ -391,6 +392,7 @@ function selectProfile(p){
       <div class="subj stack hue-green" data-sum="ანბანი · კითხვა · წერა · ამოწერა" onclick="openSubj(event,'ka-alpha')"><span class="s-badge">4 თემა</span><div class="s-ico">🇬🇪</div><div class="s-name">ქართული</div><div class="s-sub">კითხვა · წერა · ამოწერა</div><span class="tap-hint">👆</span></div>
       <div class="subj talk play hue-purple" data-sum="საუბრის ბარათები მშობელთან ერთად (ემოციები, ღირებულებები, ფანტაზია)" onclick="openTalk()">${PLAY_BADGE}<span class="s-badge">4 თემა</span><div class="s-ico">💬</div><div class="s-name">საუბარი</div><div class="s-sub">ფიქრი · ღირებულებები</div></div>
       <div class="subj move play hue-teal" data-sum="მოკლე მოძრაობის შესვენება ვარჯიშებით" onclick="showBreak(true)">${PLAY_BADGE}<div class="s-ico">🤸</div><div class="s-name">მოძრაობა</div><div class="s-sub">პატარა შესვენება</div></div>
+      <div class="subj play hue-blue" data-sum="იპოვე დამალული სიტყვები" onclick="wsStart()">${PLAY_BADGE}<div class="s-ico">🔎</div><div class="s-name">სიტყვების ძებნა</div><div class="s-sub">თავსატეხი</div></div>
       <div class="subj draw play hue-pink" data-sum="ხატვა, გაფერადება და გასაფერადებელი შაბლონები" onclick="openDraw()">${PLAY_BADGE}<div class="s-ico">🎨</div><div class="s-name">ხატვა</div><div class="s-sub">ფუნჯი · ფერები · შაბლონები</div></div>
     </div>`;
   }
