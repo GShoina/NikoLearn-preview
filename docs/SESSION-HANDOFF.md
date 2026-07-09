@@ -24,7 +24,11 @@
 - Files (reversible, committed LOCAL on branch `deploy/pattern-owl`, NOT live): niko/owl.js, niko/audio-manifest.js, niko/audio/clip_333-341.mp3, qa/_move-voice.mjs, tools/_gen_move2.py, docs/BUGFIX_TRACKER.md.
 - **How owner tests:** local `python -m http.server 8137` → app → open a Movement break → each move now speaks its Georgian name on show.
 
-**▶ NEXT ACTION:** build item (3) v2.1 principle-tutor + leveled banks LIVE (tutor explains the PRINCIPLE, not just right/wrong; banks behind band gates). On owner GO-to-live for the LOCAL-committed batch (NB-10 + NB-20 + SPEC-2) → ONE bump + push (§7b live gate) — recommend shipping them together once he confirms sound works + tests Word-Search. NB-13 still awaits owner's exact შეკრება verb.
+**SESSION 15 — DEEP AUDIT + DEBUG run (owner-chosen; workflow wf_000ad48c, 27 agents, adversarial verify). Report: `output/2026-07-09-Deep Audit + Debug by Niko.html`.**
+- **AUDIO SILENCE verdict = OWNER-SIDE desktop audio, NOT the app (5-hypothesis consensus).** Decisive: mobile enforces autoplay MORE strictly than desktop yet phone works + desktop fails = inverse of an autoplay signature; every voiced screen follows an onclick (sticky activation); clips serve+decode; incognito rules out cache but NOT OS volume/tab-mute/output-device. NB-20 unlock REFUTED as cause (not deployed; volume always restored). Owner 60-sec checklist in the report. App code = clean.
+- **6 confirmed audit findings; 4 FIXED this session (commit after f0c69fc):** (a) Word-Search young variant now shows word TEXT so a pre-reader can shape-match (was unsolvable text-hidden) — wordsearch.js; (b) audio-bleed on close → closeBreak/closeWs/wsAgain call stopAudio() — owl.js+wordsearch.js; (c) playClipThen/playClipSeq volume 0.85 — audio.js. Harnesses green (wordsearch 12/12, move-voice 4/4, gate clean). **2 OPEN pre-existing = NB-21 (first-run ka-alpha text-only, MED) + NB-22 (first-run english options unvoiced ≤5, LOW).**
+
+**▶ NEXT ACTION:** (1) owner desktop audio ear-check per report checklist (or just test on PHONE — audio works there). (2) build item (3) v2.1 principle-tutor + leveled banks LIVE. (3) On owner GO-to-live → ONE bump + push the LOCAL batch (NB-10 + NB-20 + SPEC-2 + 4 audit fixes) together (§7b). NB-13 still awaits owner's exact შეკრება verb; NB-21/NB-22 first-run pre-reader fixes queued.
 
 ## ▶ PRIOR (2026-07-09 · session 14) — **LIVE = v1.354 (unchanged, NO deploy this session).** Q&A + NB-13 context located; owner gated all builds ("build არ დაიწყო ჩემი ბრძანების გარეშე").
 
