@@ -1470,4 +1470,14 @@ window.AUDIO_MANIFEST = {
  "zebra": "en_0924.mp3",
  "zero": "en_0925.mp3",
  "zoo": "en_0926.mp3",
+ // NB-10 (2026-07-09) — Movement move NAMES voiced on load (owl.js mvRender). edge_tts EkaNeural.
+ "ახტომა მაღლა": "clip_333.mp3",
+ "ხელების აწევა": "clip_334.mp3",
+ "ვარსკვლავური ხტომა": "clip_335.mp3",
+ "გვერდითი მოხრა": "clip_336.mp3",
+ "ტაში მაღლა": "clip_337.mp3",
+ "ადგილზე სირბილი": "clip_338.mp3",
+ "ბოქსი": "clip_339.mp3",
+ "ბაყაყივით ხტომა": "clip_340.mp3",
+ "ფლამინგო": "clip_341.mp3",
 };

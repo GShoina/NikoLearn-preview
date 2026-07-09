@@ -365,6 +365,7 @@ function mvRender(){
   const m=_mvList[_mvIdx],sc=el.querySelector('#mvScene');
   sc.dataset.move=m.id;sc.style.setProperty('--dur',m.dur+'s');
   el.querySelector('#mvName').textContent=m.ka;el.querySelector('#mvEn').textContent=m.en.toUpperCase();
+  try{ if(typeof playClipFor==='function') playClipFor(m.ka); }catch(e){}  // NB-10: voice the move NAME so a pre-reader HEARS which move to do (build-time ka clip)
   el.querySelector('#mvProg').textContent=_mvIdx+1;
   [...el.querySelectorAll('#mvRail .chip')].forEach((c,i)=>c.classList.toggle('on',i===_mvIdx));
   const chip=el.querySelector('#mvRail').children[_mvIdx];if(chip&&chip.scrollIntoView)chip.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});
