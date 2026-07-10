@@ -75,6 +75,7 @@
         //  travelled off-device on events the Worker only discarded server-side.) Nothing leaves the
         // device unless explicitly allow-listed here.
         var spec = CLIENT_ALLOW[name]; if (!spec) return;
+        if (name === 'round_complete') _retMarkPlayed(); // device has ≥1 lifetime finished round → retention "played=y"
         var ev = { name: name };
         if (data) for (var i = 0; i < spec.length; i++) { var k = spec[i]; if (data[k] != null) ev[k] = data[k]; }
         send(ev);
@@ -91,7 +92,9 @@
     topic_usage: ['topic'], audio_usage: ['used'], device_context: ['deviceType','os','aspect'],
     parent_open: [], goal_set: ['type'], screenlimit_set: ['minutes'], feedback_open: [],
     round_complete: ['mode','band','retries'], round_abandon: ['mode','q'], submode_usage: ['mode'],
-    page_view: ['ref','page'], first_win: ['mode']
+    page_view: ['ref','page'], first_win: ['mode'],
+    // 2026-07-10 measurement upgrade (mirrors the Worker): id-free retention band + ladder + PWA funnel
+    retention_ping: ['band','played','ctx'], tier_up: ['mode','tier'], pwa_nudge: [], pwa_installed: []
     // NOTE: demo_age / kings_exam_start / kings_exam_done / feedback_send are deliberately NOT here →
     // dropped on-device (they were never in the Worker allow-list; this stops the child grade/age leak).
   };
@@ -167,6 +170,43 @@
     setTimeout(function () { try { if (window.Analytics) Analytics.event('page_view', { ref: refBucket(), page: pageBucket() }); } catch (e) {} }, 300);
   } catch (e) {}
 
+  // ── RETENTION PING (owner GO 2026-07-10): identity STAYS ON THE DEVICE. We keep first-use +
+  //    last-ping dates in localStorage (`niko_ret`, owned by this file only) and send a coarse
+  //    "days since first use" BAND, max once per LOCAL calendar day, app page only. No id ever
+  //    leaves the device — the server stores daily banded counters it cannot join across days.
+  //    band=legacy → device predates this feature (has nikolearn_p2 but no niko_ret) = one-time
+  //    migration so old users don't show up as a fake "new" spike. `l` (last ping day) is written
+  //    BEFORE the send = double-count guard (PWA controllerchange reloads, multi-tab). Gating
+  //    (localhost/DNT/owner/notrack) still applies — the send goes through Analytics.event → fanout.
+  //    IMPORTANT: this block must run at SCRIPT time (before screens.js boot creates nikolearn_p2
+  //    on a truly-first visit) so the legacy check can't mislabel a brand-new device.
+  var RETKEY = 'niko_ret';
+  function _retLoad() { try { return JSON.parse(localStorage.getItem(RETKEY) || 'null'); } catch (e) { return null; } }
+  function _retSave(r) { try { localStorage.setItem(RETKEY, JSON.stringify(r)); } catch (e) {} }
+  function _retMarkPlayed() { try { var r = _retLoad(); if (r && !r.p) { r.p = 1; _retSave(r); } } catch (e) {} }
+  function _localDay() { var d = new Date(); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+  var _retPing = (function () {
+    try {
+      if (pageBucket() !== 'app') return null;               // retention = app usage, not landing visits
+      var today = _localDay(), r = _retLoad(), legacy = false;
+      if (!r) {
+        legacy = false; try { legacy = localStorage.getItem('nikolearn_p2') !== null; } catch (e) {}
+        r = { f: today, l: '', p: legacy ? 1 : 0 };          // legacy device has played before ≈ y
+      }
+      if (r.l === today) return null;                        // already pinged today
+      var days = Math.round((new Date(today) - new Date(r.f)) / 864e5);
+      var band = legacy ? 'legacy'
+        : days <= 0 ? 'new' : days === 1 ? 'd1' : days <= 7 ? 'd2_7' : days <= 30 ? 'd8_30' : 'd31p';
+      r.l = today; _retSave(r);                              // stamp BEFORE send (double-count guard)
+      var ctx = 'browser';
+      try { if ((window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true) ctx = 'pwa'; } catch (e) {}
+      return { band: band, played: r.p ? 'y' : 'n', ctx: ctx };
+    } catch (e) { return null; }                             // storage unavailable → no once-per-day guarantee → skip
+  })();
+  if (_retPing) {
+    try { setTimeout(function () { try { if (window.Analytics) Analytics.event('retention_ping', _retPing); } catch (e) {} }, 400); } catch (e) {}
+  }
+
   function fanout(method, a, b) {
     if (OFF) return;
     // owner's own device (set in the PIN-gated parent space): skip telemetry so real-user
@@ -190,6 +230,7 @@
     },
     // exposed so a future admin/debug view (or a test) can read the wiring
     _providers: providers,
-    _enabled: !OFF
+    _enabled: !OFF,
+    _ret: _retPing // QA/debug: the retention band computed this load (null = no ping today)
   };
 })();

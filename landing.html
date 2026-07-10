@@ -3,7 +3,9 @@
 <!-- Analytics baseline (owner 2026-07-02): GA4 removed 2026-06-06. Microsoft Clarity + Meta Pixel REMOVED
      2026-07-02 — no ads run, so there is no ad/session cookie to consent to. The site is now 100% cookieless:
      only the cookieless Cloudflare Web Analytics beacon (below) + the first-party aggregate telemetry Worker
-     remain, neither sets a cookie or reads PII/IP. No cookie banner is shown. To re-add Clarity later,
+     remain, neither sets a cookie or reads PII/IP. No cookie banner is shown. 2026-07-10: the Worker
+     additionally receives an id-free banded retention_ping (first-use date stays ON-DEVICE; the server
+     stores daily totals only) — still 100% cookieless, still no identifier. To re-add Clarity later,
      restore its loader plus a consent gate. -->
 <meta charset="UTF-8">
 <!-- Cloudflare Web Analytics (cookieless, no PII, no IP stored) added 2026-06-08. Skipped on localhost. -->
@@ -488,7 +490,7 @@
       <a href="index.html?app=1">აპის გახსნა</a>
       <a href="privacy.html">კონფიდენციალურობა</a>
     </nav>
-    <div class="foot-note">🔒 მონაცემები რჩება მოწყობილობაზე · © 2026 NikoLearn · შექმნილია ქართველი ბავშვებისთვის · <a href="index.html?admin=1" style="color:inherit;text-decoration:none" title="owner">v1.355</a></div>
+    <div class="foot-note">🔒 მონაცემები რჩება მოწყობილობაზე · © 2026 NikoLearn · შექმნილია ქართველი ბავშვებისთვის · <a href="index.html?admin=1" style="color:inherit;text-decoration:none" title="owner">v1.356</a></div>
   </div>
 </footer>
 

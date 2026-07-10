@@ -22,7 +22,11 @@
  *    Anything with free text / unexpected keys is REJECTED (prevents accidental PII).
  *  - We write AGGREGATE counters (KV increments) keyed by date+event+coarse dims — never a
  *    per-child row, never an identity, never a cross-day/cross-session id.
- *  - No cookies set. No persistent identifier. No client salt. No return/retention tracking.
+ *  - No cookies set. No persistent identifier ever reaches the server. No client salt.
+ *  - Return/retention (2026-07-10, owner GO): measured ONLY as an id-free banded counter
+ *    (retention_ping) — the device computes "days since first use" from a date it keeps LOCALLY
+ *    and reports a coarse band at most once per local day. The server stores daily totals it
+ *    cannot join across days or link to any device.
  *
  * Deploy: see cloudflare/DEPLOY.md. Do NOT enable Logpush / observability / retain client IP.
  */
@@ -60,6 +64,16 @@ const EVENTS = {
   // first completed round. Aggregate-only, NO id, NO cross-session link → keeps the "no persistent
   // profile" / COPPA promise intact. Funnel = page_view (opens) -> first_win (activated) -> round_complete.
   first_win:          { mode: ['alphabet','english','math','counting','kings','reading','movement'] },
+  // ── 2026-07-10 measurement upgrade (owner GO) — still aggregate-only, id-free ──
+  // RETENTION without identity: first-use date lives ONLY on the device; it reports a coarse
+  // "days since first use" band max once per local day. band=legacy → device predates this feature.
+  // Cell = date|band|played|ctx|deviceType — too coarse to reconstruct any individual trajectory.
+  retention_ping:     { band: ['new','d1','d2_7','d8_30','d31p','legacy'], played: ['y','n'], ctx: ['browser','pwa'] },
+  // adaptive-ladder level-up (games.js rampMath + bumpFlat boundaries) = learning-progression signal
+  tier_up:            { mode: ['math-add','math-sub','math-mul','math-div','compare','skip','money','clock'], tier: ['t1','t2','t3','t4'] },
+  // PWA funnel: nudge shown → app installed (events pwa-install.js already emits; now allow-listed)
+  pwa_nudge:          {},
+  pwa_installed:      {},
 };
 // Live app origins. nikolearn.com is the production custom domain (2026-06-25); the github.io
 // origins remain for the preview repo + the pre-domain Pages URL. Any other origin gets ACAO set to
@@ -203,11 +217,14 @@ export default {
       const dims = Object.entries(e.props).filter(([, v]) => typeof v === 'string')
         .sort(([a], [b]) => a.localeCompare(b)).map(([k, v]) => `${k}=${v}`).join(',');
       add(`c|${date}|${e.name}|${ua.deviceType}|${dims}`, 1);
-      // numeric measures → running sum + count for averages (e.g. time_to_success_ms)
+      // numeric measures → running sum + count for averages (e.g. time_to_success_ms).
+      // 2026-07-10: deviceType-split, so session seconds/lessons no longer blend desktop (adult
+      // preview) with phone (real kids). Historical keys without the trailing dim coexist —
+      // readers must parse BOTH shapes (s|date|event|prop and s|date|event|prop|deviceType).
       for (const [k, v] of Object.entries(e.props)) {
         if (typeof v === 'number') {
-          add(`s|${date}|${e.name}|${k}`, v);
-          add(`n|${date}|${e.name}|${k}`, 1);
+          add(`s|${date}|${e.name}|${k}|${ua.deviceType}`, v);
+          add(`n|${date}|${e.name}|${k}|${ua.deviceType}`, 1);
         }
       }
     }

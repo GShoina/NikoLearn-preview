@@ -605,9 +605,10 @@ function rampMath(type,pct){
   // still needs two in a row; step back quickly after a weak round so it stays at the real level.
   if(pct>=90 && cur<max){
     s.mathLevel[type]=cur+1; s.mathUp[type]=0; game.leveledMath=(MATH_LV[type][cur+1].label||'');
+    try{Analytics.event('tier_up',{mode:type,tier:'t'+Math.min(cur+1,4)});}catch(e){}
   } else if(pct>=85){
     s.mathUp[type]=(s.mathUp[type]||0)+1;
-    if(s.mathUp[type]>=2 && cur<max){ s.mathLevel[type]=cur+1; s.mathUp[type]=0; game.leveledMath=(MATH_LV[type][cur+1].label||''); }
+    if(s.mathUp[type]>=2 && cur<max){ s.mathLevel[type]=cur+1; s.mathUp[type]=0; game.leveledMath=(MATH_LV[type][cur+1].label||''); try{Analytics.event('tier_up',{mode:type,tier:'t'+Math.min(cur+1,4)});}catch(e){} }
   } else {
     s.mathUp[type]=0;
     if(pct<50 && cur>0){ s.mathLevel[type]=cur-1; }
@@ -773,7 +774,7 @@ function mrec(ok){const s=state[profile];if(ok){s.shields++;game.shields++;s.str
 function flatTier(mode){ const s=state[profile]; if(!s)return 1; s.flatTier=s.flatTier||{}; return Math.max(1,Math.min(3,s.flatTier[mode]||1)); }
 function bumpFlat(mode, ok){ const s=state[profile]; if(!s)return; s.flatTier=s.flatTier||{}; s.flatStreak=s.flatStreak||{};
   const cur=Math.max(1,Math.min(3,s.flatTier[mode]||1));
-  if(ok){ s.flatStreak[mode]=(s.flatStreak[mode]||0)+1; if(s.flatStreak[mode]>=4 && cur<3){ s.flatTier[mode]=cur+1; s.flatStreak[mode]=0; } }
+  if(ok){ s.flatStreak[mode]=(s.flatStreak[mode]||0)+1; if(s.flatStreak[mode]>=4 && cur<3){ s.flatTier[mode]=cur+1; s.flatStreak[mode]=0; try{Analytics.event('tier_up',{mode:mode,tier:'t'+(cur+1)});}catch(e){} } }
   else { s.flatStreak[mode]=0; }
   save(); }
 /* ── comparison: a ? b → pick > < = ── */
