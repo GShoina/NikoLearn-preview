@@ -5,7 +5,16 @@
 > Architecture SSOT: `docs/HANDOFF.md`. This file = current state + open items ONLY (keep < 30KB).
 > Full per-session history (sessions 1–7, 2026-06-28…07-04) → `docs/archive/2026-07/SESSION-HANDOFF_20260705_full.md` (git-tracked). Pre-06-28 → `docs/archive/2026-06/SESSION-HANDOFF_20260628_full.md`.
 
-## ▶ RESUME HERE (2026-07-09 · session 15) — **LIVE = v1.354 (unchanged, NOT deployed).** Owner said GO on a top-3 functional-roadmap queue BUT gated live ("სანამ ლაივ გავა უნდა ვნახო ფუნქციონალი და ჩემით გავტესტო") + asked to conserve tokens (periodic compress).
+## ▶ RESUME HERE (2026-07-10 · session 16) — **LIVE = v1.355 (SHIPPED, owner GO "go B და A", verified on apex).** The whole session-15 batch is LIVE; owner PHONE-TEST pending = the single next signal.
+
+**SESSION 16 (2026-07-10) — both phone-test channels executed on owner GO:**
+- **(B) DEPLOY DONE — v1.355 LIVE.** bump→1.355, qa-gate ✅, commit `3aeb871` (pushed 926ef77..3aeb871 → main), pre-push behavioral gate 3/3 green, Pages deploy SUCCESS first try (run 29075265028, no transient). Live-verified cache-busted on apex [FACT]: APP_VERSION='1.355' · word-search tile `wsStart` in screens.js · wordsearch.js serves (10987b) · NB-10 `playClipFor` voicing in owl.js. Ships: NB-10 move-name voicing · SPEC-2 Word-Search · NB-20 audio unlock · 4 deep-audit fixes · NB-21/22 first-run voicing. Tracker rows updated (NB-10 voicing half / NB-20 / NB-21 / NB-22 = SHIPPED LIVE v1.355).
+- **(A) LAN PREVIEW LIVE.** Server running `python -m http.server 8137 --bind 0.0.0.0` (this session, NOT reboot-persistent). ⚠ **LAN IP CHANGED: phone URL = `http://192.168.2.27:8137/index.html?app=1`** (old 192.168.100.5 stale). Firewall UNBLOCKED: rule `NikoLearn LAN 8137` created via owner-approved UAC elevation, Profile=**Domain** (network NEXT-GT.loc = DomainAuthenticated — NOT Private; first attempt with Private-profile failed, lesson: match `Get-NetConnectionProfile` category), Enabled=True [FACT].
+- **How owner tests (phone, either channel):** home → 🔎 „სიტყვების ძებნა" tile → tap first+last letter of a hidden word (highlights green + says word) · Movement break → each move speaks its name · new-profile first-run → task prompts voiced. Desktop silence = his-machine per deep-audit report checklist.
+
+**▶ NEXT ACTION:** owner phone-tests v1.355 on nikolearn.com (or LAN URL above) → his findings drive the next queue. Awaiting-owner opens: NB-13 შეკრება verb (→ tutor.js:147 + i18n-strings.js:585, both spots) · fractions new-content decision ("წილადების გარდა Go") · Meta Pixel ID · NB-19 full EN-section sweep is the next autonomous candidate on GO. Roadmap item (3) principle-tutor = verified already built, NO rebuild.
+
+## ▶ PRIOR (2026-07-09 · session 15) — batch built + verified locally; SHIPPED LIVE v1.355 in session 16 (above).
 
 **Owner-picked build queue (CHALLENGED top-3 from roadmap, ღირებულება×სისწრაფე):** (1) NB-10 pre-reader Movement move-name voicing [DONE, LIVE-PENDING], (2) SPEC-2 Word-Search engine [DONE, LIVE-PENDING], (3) v2.1 principle-tutor + leveled banks LIVE [NOT STARTED — next]. Plus NB-20 audio-unlock (owner "no sound" report) [DONE, LIVE-PENDING]. I explicitly DEMOTED plan-v2.0 activation-redesign out of top-3 (session-13 falsified the q0-difficulty cause; abandons ≈ adult-preview artifact → its ROI is [HYPOTHESIS], not "proven").
 
@@ -30,13 +39,7 @@
 
 **SESSION 15 cont. (2026-07-10):** item (3) principle-tutor — VERIFY-FIRST: already comprehensively built (`tutor.js` explains the PRINCIPLE for every math op add/sub/mul/div/pic/multi/pattern; `games.js` tier/band-gated leveled content is LIVE). NO rebuild — would duplicate. Fractions = 0 shipped content (new-content decision + §6f), owner said "წილადების გარდა Go". **NB-21 + NB-22 DONE (commit f54acb7):** §14 class fix — firstRunTask never voiced the task prompt (all 3 subjects incl. counting); now 9 edge_tts prompt clips play on render + 🔊 replay; ka-alpha shows the target LETTER flashcard (was 🔤); english options speak on tap. qa/_firstrun.mjs 7/7, §6c verified.
 
-**▶ NEXT ACTION:** batch fully built + verified (8 local commits on `deploy/pattern-owl`): NB-10 · NB-20 · SPEC-2 Word-Search · 4 audit fixes · NB-21/22 · docs. **Nothing shippable-autonomous remains** (fractions = owner new-content decision, he said "წილადების გარდა"; NB-13 = owner შეკრება verb). #1 lever = owner TESTS the batch on his PHONE.
-
-**PHONE-TEST STATE (open owner decision — pick one):**
-- **(A) LAN preview (zero-risk, §7b-compliant):** local server running `http://192.168.100.5:8137/index.html?app=1` (bound 0.0.0.0). Phone must be on same wifi. BLOCKER: Windows Firewall inbound rule for port 8137 FAILED (needs admin) — owner must either run once elevated `New-NetFirewallRule -DisplayName 'NikoLearn LAN 8137' -Direction Inbound -Action Allow -Protocol TCP -LocalPort 8137 -Profile Private` OR click "Allow" on the firewall popup. Server not persistent across reboot.
-- **(B) Deploy to live (clean, needs owner GO):** the batch is fully verified (all harnesses green, §6c, 27-agent deep audit adversarially verified, child-safety 0 violations). On owner "deploy"/"შეიტანე" → `node bump.mjs` → gate → push `deploy/pattern-owl`→main → verify apex. Then he tests on nikolearn.com from any phone. RECOMMENDED given (A)'s firewall friction.
-
-Owner desktop audio-silence = his-machine per deep-audit (report `output/2026-07-09-Deep Audit + Debug by Niko.html` checklist); on a PHONE audio plays regardless.
+**▶ (SUPERSEDED in session 16):** owner said "go B და A" → batch SHIPPED LIVE v1.355 AND LAN preview unblocked (new IP 192.168.2.27, firewall rule created via UAC, Domain profile). Desktop audio-silence = his-machine per deep-audit (report `output/2026-07-09-Deep Audit + Debug by Niko.html` checklist); on a PHONE audio plays regardless.
 
 ## ▶ PRIOR (2026-07-09 · session 14) — **LIVE = v1.354 (unchanged, NO deploy this session).** Q&A + NB-13 context located; owner gated all builds ("build არ დაიწყო ჩემი ბრძანების გარეშე").
 
