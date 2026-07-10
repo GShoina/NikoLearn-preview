@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 import { PW_CHROMIUM } from './_harness.mjs';
 
 const DIR = path.dirname(fileURLToPath(import.meta.url));
-const HARNESSES = ['_alpha-young.mjs', '_math-young.mjs', '_shapes-young.mjs', '_retention.mjs'];
+const HARNESSES = ['_alpha-young.mjs', '_math-young.mjs', '_shapes-young.mjs', '_retention.mjs', '_worlds.mjs'];
 
 // Fresh-machine guard (mirrors qa:visual): if the local chromium is absent, SKIP with exit 2 so a
 // deploy is never blocked by a missing dev dependency. Only a real assert-fail (exit 1) blocks.

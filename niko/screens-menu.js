@@ -16,7 +16,9 @@ function unfoldThen(ev,go){
 function openSubj(ev,subj){
   // FREEMIUM (owner 2026-06-23): a premium subject is NO LONGER hard-walled when premium is off. We OPEN the
   // menu so the parent can SEE every topic and play the free tasters; locked modes inside badge 🔒 → upsell.
-  if(window.playClipSeq)playClipSeq([NAV_SPOKEN[subj],'აირჩიე'].filter(Boolean));
+  // „ბუს ქვეყანა": ≤7 hears the world name (wclip_*), 8+ keeps the classic nav word (nav_*).
+  const spoken=(typeof worldsOn==='function'&&worldsOn(profile)&&typeof worldName==='function'&&worldName(subj))||NAV_SPOKEN[subj];
+  if(window.playClipSeq)playClipSeq([spoken,'აირჩიე'].filter(Boolean));
   unfoldThen(ev,()=>openMenu(subj));
 }
 // D2 (v2.05): premium content stays VISIBLE; tapping it (when premium is off) shows an upsell, never a dead end.
@@ -110,15 +112,15 @@ function openMenu(subj){
     // Build the full age-gated tile list, but show only the first 4 rows (8 cards = one phone screen);
     // the rest live in the „ყველა თემა" picker so the menu never becomes a long scroll (owner 2026-06-13).
     const mtiles=[
-      tiny?'':mode('math-add','➕',kid?'':'შეკრება',kid?'':mathRangeLabel('math-add')),
-      tiny?'':mode('math-sub','➖',kid?'':'გამოკლება',kid?'':mathRangeLabel('math-sub')),
+      tiny?'':mode('math-add','➕',innerName('math','math-add',kid?'':'შეკრება'),kid?'':mathRangeLabel('math-add')),
+      tiny?'':mode('math-sub','➖',innerName('math','math-sub',kid?'':'გამოკლება'),kid?'':mathRangeLabel('math-sub')),
       kid?'':mode('math-mul','✖️','გამრავლება',mathRangeLabel('math-mul')),
       kid?'':mode('math-word','📝','ამოცანები','ცხოვრებისეული'),
       big?mode('math-pic','🧠','თავსატეხი','ფასები · ლოგიკა'):'',
       big?mode('math-div','➗','გაყოფა',mathRangeLabel('math-div')):'',
       big?mode('math-miss','❓','გამოტოვებული',mathRangeLabel('math-miss')):'',
-      tiny?'':mode('math-pat','🧩',kid?'':'კანონზომიერება',''),
-      mode('shapes','🔷','ფიგურები',''),
+      tiny?'':mode('math-pat','🧩',innerName('math','math-pat',kid?'':'კანონზომიერება'),''),
+      mode('shapes','🔷',innerName('math','shapes','ფიგურები'),''),
       kid?'':mode('compare','⚖️','შედარება','&gt; &lt; ='),
       kid?'':mode('skip','🔢','დათვლა','ხუთობით · ათობით'),
       kid?'':mode('money','💰','ფული','₾ · თეთრი'),
@@ -136,7 +138,7 @@ function openMenu(subj){
     // F2: digits come BEFORE counting, learn the numeral 1-9, quiz, THEN count.
     body=`<div class="mode-grid">
       <div class="mode play" style="min-height:120px" onclick="digitLearn(0)">${PLAY_BADGE}<div class="kids-ico">🔢</div><div class="m-name">ისწავლე ციფრები</div><div class="m-sub">1 – 9</div></div>
-      <div class="mode play" style="min-height:120px" onclick="startDigitQuiz()">${PLAY_BADGE}<div class="kids-ico">🎯</div><div class="m-name">ციფრების ტესტი</div></div>
+      <div class="mode play" style="min-height:120px" onclick="window.wSay&&wSay(this);startDigitQuiz()">${PLAY_BADGE}<div class="kids-ico">🎯</div><div class="m-name">${innerName('counting','quiz','ციფრების ტესტი')}</div></div>
       <div class="mode play" style="min-height:130px;grid-column:span 2" onclick="startCount('pick')">${PLAY_BADGE}<div class="kids-ico">🍎🍎🍎</div><div class="m-name">დათვალე</div><div class="m-sub">რამდენია? აირჩიე რიცხვი</div></div>
     </div>`;
   } else { /* alphabets, Georgian & English */
@@ -147,11 +149,11 @@ function openMenu(subj){
     // (whole-word letter ordering; ka letter tiles are silent by the voice standard).
     const preReader = isYoung(profile);
     // Georgian also gets READING (syllable→word), the #1 gap + Georgian-first differentiator.
-    const reading = subj==='ka-alpha' ? `<div class="mode play" style="min-height:120px" onclick="readLearn(0)">${PLAY_BADGE}<div class="kids-ico">📖</div><div class="m-name">კითხვა</div><div class="m-sub">მარცვალი → სიტყვა</div></div>` : '';
+    const reading = subj==='ka-alpha' ? `<div class="mode play" style="min-height:120px" onclick="window.wSay&&wSay(this);readLearn(0)">${PLAY_BADGE}<div class="kids-ico">📖</div><div class="m-name">${innerName('ka-alpha','read','კითხვა')}</div><div class="m-sub">მარცვალი → სიტყვა</div></div>` : '';
     const sentence = (subj==='ka-alpha'&&!preReader) ? `<div class="mode play" style="min-height:120px" onclick="sentLearn(0)">${PLAY_BADGE}<div class="kids-ico">📝</div><div class="m-name">წინადადება</div><div class="m-sub">წაიკითხე და გაიგე</div></div>` : '';
     const comprehend = (subj==='ka-alpha'&&!preReader) ? `<div class="mode play" style="min-height:120px" onclick="startTextQuiz()">${PLAY_BADGE}<div class="kids-ico">📚</div><div class="m-name">გაგება</div><div class="m-sub">წაიკითხე და უპასუხე</div></div>` : '';
     const build = subj==='ka-alpha' ? `<div class="mode play" style="min-height:120px" onclick="startBuild()">${PLAY_BADGE}<div class="kids-ico">🧩</div><div class="m-name">ააწყვე</div><div class="m-sub">მარცვლებით სიტყვა</div></div>` : '';
-    const trace = subj==='ka-alpha' ? `<div class="mode play" style="min-height:120px" onclick="traceLearn(0)">${PLAY_BADGE}<div class="kids-ico">✍️</div><div class="m-name">ამოწერა</div><div class="m-sub">ასოს წერა თითით</div></div>` : '';
+    const trace = subj==='ka-alpha' ? `<div class="mode play" style="min-height:120px" onclick="window.wSay&&wSay(this);traceLearn(0)">${PLAY_BADGE}<div class="kids-ico">✍️</div><div class="m-name">${innerName('ka-alpha','trace','ამოწერა')}</div><div class="m-sub">ასოს წერა თითით</div></div>` : '';
     // Georgian-alphabet tiles must SHOW Georgian letters (ა ბ გ), not the Latin-letter emoji (🔤/🔡).
     // en-alpha keeps the Latin emoji — that is correct for English. (owner fix v1.319)
     const isKa = subj==='ka-alpha';
@@ -162,8 +164,8 @@ function openMenu(subj){
     // 🔤 tap-to-spell (no keyboard) — both alphabets, readers (6+) only per the NB-16 gate above
     const spell = preReader ? '' : `<div class="mode play" style="min-height:120px" onclick="startShead('${subj}')">${PLAY_BADGE}${spellIco}<div class="m-name">შეადგინე სიტყვა</div><div class="m-sub">ასოებით ააწყვე</div></div>`;
     body=`<div class="mode-grid">
-      <div class="mode play" style="min-height:120px" onclick="alphaLearn('${subj}',0)">${PLAY_BADGE}${learnIco}<div class="m-name">ისწავლე ასოები</div></div>
-      <div class="mode play" style="min-height:120px" onclick="alphaQuiz('${subj}')">${PLAY_BADGE}<div class="kids-ico">🎯</div><div class="m-name">ტესტები</div></div>
+      <div class="mode play" style="min-height:120px" onclick="window.wSay&&wSay(this);alphaLearn('${subj}',0)">${PLAY_BADGE}${learnIco}<div class="m-name">${innerName(subj,'learn','ისწავლე ასოები')}</div></div>
+      <div class="mode play" style="min-height:120px" onclick="window.wSay&&wSay(this);alphaQuiz('${subj}')">${PLAY_BADGE}<div class="kids-ico">🎯</div><div class="m-name">${innerName(subj,'quiz','ტესტები')}</div></div>
       ${spell}
       ${reading}
       ${sentence}
@@ -172,14 +174,16 @@ function openMenu(subj){
       ${trace}
     </div>`;
   }
+  const wTitle=(typeof worldsOn==='function'&&worldsOn(profile)&&typeof WORLDS!=='undefined'&&WORLDS[subj])?`${WORLDS[subj].ic} ${WORLDS[subj].nm}`:null;
   render(`<div class="screen">
-    ${topbar(MODE_TITLES[subj]||subj,null,'selectProfile(profile)')}
+    ${topbar(wTitle||MODE_TITLES[subj]||subj,null,'selectProfile(profile)')}
     ${pathHead}
     ${body}
   </div>`,'home');
 }
 function mode(m,ic,name,sub){
-  return `<div class="mode play" onclick="startGame('${m}')">${PLAY_BADGE}<div class="m-ico">${ic}</div><div class="m-name">${name||'&nbsp;'}</div>${sub?`<div class="m-sub">${sub}</div>`:''}</div>`;
+  // wSay = „ბუს ქვეყანა" voicing: reads the rendered name clip on tap (silent no-op for reader labels).
+  return `<div class="mode play" onclick="window.wSay&&wSay(this);startGame('${m}')">${PLAY_BADGE}<div class="m-ico">${ic}</div><div class="m-name">${name||'&nbsp;'}</div>${sub?`<div class="m-sub">${sub}</div>`:''}</div>`;
 }
 // Kings mode tile with freemium gating: free taster → normal playable tile; locked → 🔒 badge + tap = upsell.
 function kmode(subj,m,ic,name,sub){
@@ -212,17 +216,17 @@ function pickTopic(c){game.cat=c||null;if(c&&window.Analytics)Analytics.event('t
 function openMathTopics(){
   const kid=isYoung(profile), tiny=isTiny(profile), big=isBig(profile);
   const T=[
-    {ic:'➕',name:'შეკრება',     go:"startGame('math-add')",  show:!tiny},
-    {ic:'➖',name:'გამოკლება',   go:"startGame('math-sub')",  show:!tiny},
+    {ic:'➕',name:innerName('math','math-add','შეკრება'),     go:"startGame('math-add')",  show:!tiny},
+    {ic:'➖',name:innerName('math','math-sub','გამოკლება'),   go:"startGame('math-sub')",  show:!tiny},
     {ic:'✖️',name:'გამრავლება',  go:"startGame('math-mul')",  show:!kid},
     {ic:'📝',name:'ამოცანები',   go:"startGame('math-word')", show:!kid},
     {ic:'🧠',name:'თავსატეხი',   go:"startGame('math-pic')",  show:big},
     {ic:'➗',name:'გაყოფა',      go:"startGame('math-div')",  show:big},
     {ic:'❓',name:'გამოტოვებული', go:"startGame('math-miss')", show:big},
-    {ic:'🧩',name:'კანონზომიერება',   go:"startGame('math-pat')",  show:!tiny},
+    {ic:'🧩',name:innerName('math','math-pat','კანონზომიერება'),   go:"startGame('math-pat')",  show:!tiny},
     {ic:'⚖️',name:'შედარება',    go:"startGame('compare')",   show:!kid},
     {ic:'🔢',name:'დათვლა',      go:"startGame('skip')",      show:!kid},
-    {ic:'🔷',name:'ფიგურები',    go:"startGame('shapes')",    show:true},
+    {ic:'🔷',name:innerName('math','shapes','ფიგურები'),    go:"startGame('shapes')",    show:true},
     {ic:'💰',name:'ფული',        go:"startGame('money')",     show:!kid},
     {ic:'🕐',name:'საათი',       go:"startGame('clock')",     show:!kid},
     {ic:'📅',name:'კალენდარი',   go:"startGame('cal')",       show:!kid}

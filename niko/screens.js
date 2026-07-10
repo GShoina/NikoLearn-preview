@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.356'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.357'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 function goHome(){
   if(typeof clearCeleb==='function')clearCeleb(); if(typeof closeFeedback==='function')closeFeedback(); // CE-2: kill pending celebration timers so they can't re-render the round over home
   // A4: if a round was in progress, count it as abandoned before we leave it
@@ -364,6 +364,12 @@ function selectProfile(p){
   if(typeof touchDay==='function')touchDay(p);
   if(typeof overLimit==='function'&&overLimit(p))return screenLimitUp(p);
   const s=state[p],lv=levelOf(p),isKid=isYoung(p);
+  // „ბუს ქვეყანა" (concept v2, owner GO 2026-07-10): ≤7 gets the play-country home — owl + one big
+  // „ითამაშე!" + world cards. Same handlers/subject sets as below, only the framing changes; 8+ falls through.
+  if(typeof worldsOn==='function'&&worldsOn(p)){
+    render(`<div class="screen home2 yworld">${homeHeader(p,s)}${worldsHome(p)}</div>`,'dock');
+    return;
+  }
   // persistent total progress (always measured, even with free-roam) — owner ask, v2.03
   const tp=(typeof totalProgress==='function')?totalProgress(p):{pct:0,total:0};
   const totalBar=tp.total?`<div class="pathcard tp-meter"><div class="path-top"><b>📊 ჯამური პროგრესი</b><span class="path-pct">${tp.pct}%</span></div><div class="bar"><i style="width:${tp.pct}%"></i></div></div>`:'';
