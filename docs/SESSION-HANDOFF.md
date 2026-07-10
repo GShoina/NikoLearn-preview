@@ -30,7 +30,13 @@
 
 **SESSION 15 cont. (2026-07-10):** item (3) principle-tutor — VERIFY-FIRST: already comprehensively built (`tutor.js` explains the PRINCIPLE for every math op add/sub/mul/div/pic/multi/pattern; `games.js` tier/band-gated leveled content is LIVE). NO rebuild — would duplicate. Fractions = 0 shipped content (new-content decision + §6f), owner said "წილადების გარდა Go". **NB-21 + NB-22 DONE (commit f54acb7):** §14 class fix — firstRunTask never voiced the task prompt (all 3 subjects incl. counting); now 9 edge_tts prompt clips play on render + 🔊 replay; ka-alpha shows the target LETTER flashcard (was 🔤); english options speak on tap. qa/_firstrun.mjs 7/7, §6c verified.
 
-**▶ NEXT ACTION:** batch fully built + verified (7 local commits on `deploy/pattern-owl`): NB-10 · NB-20 · SPEC-2 Word-Search · 4 audit fixes · NB-21/22. **Nothing shippable-autonomous remains** (fractions = owner new-content decision; NB-13 = owner შეკრება verb). #1 lever = owner tests the batch on his PHONE (nikolearn.com) → on GO, ONE bump + push the whole batch (§7b live gate). Owner desktop audio-silence = his-machine per deep-audit (report checklist).
+**▶ NEXT ACTION:** batch fully built + verified (8 local commits on `deploy/pattern-owl`): NB-10 · NB-20 · SPEC-2 Word-Search · 4 audit fixes · NB-21/22 · docs. **Nothing shippable-autonomous remains** (fractions = owner new-content decision, he said "წილადების გარდა"; NB-13 = owner შეკრება verb). #1 lever = owner TESTS the batch on his PHONE.
+
+**PHONE-TEST STATE (open owner decision — pick one):**
+- **(A) LAN preview (zero-risk, §7b-compliant):** local server running `http://192.168.100.5:8137/index.html?app=1` (bound 0.0.0.0). Phone must be on same wifi. BLOCKER: Windows Firewall inbound rule for port 8137 FAILED (needs admin) — owner must either run once elevated `New-NetFirewallRule -DisplayName 'NikoLearn LAN 8137' -Direction Inbound -Action Allow -Protocol TCP -LocalPort 8137 -Profile Private` OR click "Allow" on the firewall popup. Server not persistent across reboot.
+- **(B) Deploy to live (clean, needs owner GO):** the batch is fully verified (all harnesses green, §6c, 27-agent deep audit adversarially verified, child-safety 0 violations). On owner "deploy"/"შეიტანე" → `node bump.mjs` → gate → push `deploy/pattern-owl`→main → verify apex. Then he tests on nikolearn.com from any phone. RECOMMENDED given (A)'s firewall friction.
+
+Owner desktop audio-silence = his-machine per deep-audit (report `output/2026-07-09-Deep Audit + Debug by Niko.html` checklist); on a PHONE audio plays regardless.
 
 ## ▶ PRIOR (2026-07-09 · session 14) — **LIVE = v1.354 (unchanged, NO deploy this session).** Q&A + NB-13 context located; owner gated all builds ("build არ დაიწყო ჩემი ბრძანების გარეშე").
 
