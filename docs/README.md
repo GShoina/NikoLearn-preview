@@ -7,7 +7,8 @@ Rule of thumb: **if a doc is not listed here, treat it as unclassified and ask t
 ## The SSOT chain (read in this order at session start — per Constitution/CLAUDE.md)
 | Axis | SSOT file | Notes |
 |---|---|---|
-| Rules / operating agreement | `../CLAUDE.md` (repo root) | §8 no-em-dash, §11 originality, §12 loop, §13 anti-stop, §14 class-sweep |
+| Rules / operating agreement | `../CLAUDE.md` (repo root) | §8 no-em-dash, §11 originality, §12 loop, §13 anti-stop, §14 class-sweep, §15b policy ptr, §16 CKO |
+| Autonomy / decision policy | `AUTONOMOUS_DECISION_POLICY.md` | owner-authored verbatim 2026-07-12; stricter gates supersede prior practice (worker deploys, installs, deletions now need GO) |
 | Reasoning standard | `GSH-OS.md` + `REASONING-LESSONS.md` | load with handoff; lessons L1-L9 before tradeoff decisions |
 | Live state / resume pointer | `SESSION-HANDOFF.md` | keep < 30KB (currently over — trim candidate); archives in `archive/` |
 | Architecture | `HANDOFF.md` | factual layer refreshed 2026-07-12; §8 coding rules owner-locked |

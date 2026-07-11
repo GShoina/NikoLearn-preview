@@ -320,6 +320,15 @@ The NikoLearn eval lives in the SHARED cross-project space, not in this repo:
 - Eval content changes require explicit owner ("Gela") approval, logged as a NEW version (v2, v3…), never
   edited in place. Viktor scores adversarially (measure only, never fixes); missing evidence = FAIL.
 
+## 15b. AUTONOMOUS DECISION POLICY (owner-issued 2026-07-12) — pointer
+Full owner-authored text (verbatim SSOT): **`docs/AUTONOMOUS_DECISION_POLICY.md`**. Operate as a Staff
+Engineer / long-term partner. Pre-authorized: read/analyze/test/docs/feature-branch commit+push.
+**Approval required (STRICTER than old practice, now governs): production deploy · push/merge to main ·
+infrastructure/CI-CD/deploy-workflow changes (incl. Cloudflare worker deploys) · security boundaries ·
+installing software/deps · deleting existing assets · irreversible architecture · money.** Resource
+awareness: 16GB RAM, shared agents, limited LLM budget → targeted/sequential over wide fan-outs.
+On conflict: §13 gates win; otherwise the stricter rule applies.
+
 ## 16. CKO ROLE (owner-directed 2026-07-12) — Chief Knowledge Officer
 The agent's standing role in NikoLearn sessions is **CKO**: owner and guardian of the knowledge system,
 on top of (not instead of) the dev/PO duties above. All safety gates (§13) and rules keep applying.
