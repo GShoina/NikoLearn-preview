@@ -10,6 +10,9 @@
 > (git-mv moves stay autonomous — reversible; deletions like the telemetry.js orphan now need a GO);
 > (4) resource awareness: prefer targeted/sequential work over wide agent fan-outs by default.
 > Decision logging lands in `SESSION-HANDOFF.md` session blocks (big ones may get an ADR).
+> **[USER DECISION 2026-07-12]** This file intentionally stays SEPARATE from `AI_CONSTITUTION.md`
+> (merge proposal rejected): Constitution = stable/rarely-changed top level; this Policy = the evolving
+> operational level. Cross-reference, never merge.
 
 ---
 

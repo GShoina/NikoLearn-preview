@@ -6,6 +6,10 @@
 > matches Constitution §6 — on any conflict the Constitution wins. `CLAUDE.md` = the project rules
 > implementation layer (its §13 gates coincide with §6; §5 child-safety/privacy remains absolute).
 > Per §11: this file may never be silently modified/reinterpreted; amendments = owner-approved only.
+> **[USER DECISION 2026-07-12] Amendment Proposal #1 (merge the Operational Policy into this file) =
+> REJECTED.** The two levels are INTENTIONAL: Constitution stays small/stable/rarely-changed; Operational
+> Policies evolve frequently; separation improves maintainability, governance, versioning. Keep both,
+> cross-reference only. Do NOT re-propose merging.
 > Everything below this line is the owner's verbatim text.
 
 ---
