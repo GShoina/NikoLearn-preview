@@ -1,6 +1,8 @@
 /**
  * NikoLearn — privacy-minimized telemetry, aggregated before storage (Cloudflare Worker, free tier).
- * Routes: POST /v1/t (collect) · GET /v1/stats?k=SECRET (owner-only read, returns aggregate JSON).
+ * Routes: POST /v1/t (collect) · GET /v1/stats?k=SECRET (owner-only read, returns aggregate JSON;
+ *   optional &prefix= day-slice) · GET /v1/backfill?k=SECRET (owner-only one-time NB-23 metadata
+ *   migration, chunked by cursor).
  *   · POST /v1/feedback (a parent VOLUNTARILY sends a contact message — SEPARATE consented channel,
  *     stores the parent's own words + optional contact so we can reply) · GET /v1/feedback?k=SECRET
  *     (owner-only read of those messages). This channel is NOT telemetry: the PII-free aggregate
@@ -150,14 +152,53 @@ export default {
       if (!env.STATS_KEY || url.searchParams.get('k') !== env.STATS_KEY) {
         return new Response('forbidden', { status: 403, headers: { 'Access-Control-Allow-Origin': '*' } });
       }
+      // NB-23 fix (2026-07-12): the old reader did one KV get() PER key; the keyspace grew past the
+      // Workers 1,000-subrequest cap (~1,300 keys) → uncaught "Too many subrequests" = HTTP 500/1101.
+      // Now counters carry their value in KV METADATA (written by the collect path below), so the
+      // reader consumes list() pages only (~2 subrequests total). Keys written before the fix have no
+      // metadata yet → capped get() fallback (≤800) keeps us under the cap until /v1/backfill migrates
+      // them; un-fallen-back keys return null (visible, not silently missing). Optional ?prefix= lets
+      // tools read day-slices (e.g. prefix=c|2026-07-12) cheaply.
       const out = {};
-      let cursor;
+      const prefix = url.searchParams.get('prefix') || undefined;
+      let cursor, fallbackGets = 0;
       do {
-        const list = await env.NIKO_T.list({ cursor });
-        for (const k of list.keys) if (!k.name.startsWith('fb|')) out[k.name] = await env.NIKO_T.get(k.name); // fb| = feedback rows, not telemetry
+        const list = await env.NIKO_T.list({ cursor, prefix });
+        for (const k of list.keys) {
+          if (k.name.startsWith('fb|')) continue; // fb| = feedback rows, not telemetry
+          if (k.metadata && k.metadata.v !== undefined) out[k.name] = String(k.metadata.v);
+          else if (fallbackGets < 800) { fallbackGets++; out[k.name] = await env.NIKO_T.get(k.name); }
+          else out[k.name] = null; // pre-fix key beyond the safe budget — run /v1/backfill to migrate
+        }
         cursor = list.list_complete ? null : list.cursor;
       } while (cursor);
       return new Response(JSON.stringify(out, null, 2), { status: 200, headers: sh });
+    }
+
+    // ── OWNER-ONLY MIGRATION: GET /v1/backfill?k=SECRET[&cursor=…] — copies each pre-fix counter's
+    // value into KV metadata (same value, nothing new collected; privacy surface unchanged). Processes
+    // ≤300 keys per call (1 list + ≤300 get + ≤300 put ≈ 601 subrequests, safely under the cap);
+    // call repeatedly with the returned cursor until done:true. Idempotent — migrated keys are skipped.
+    // History keys are backfilled WITHOUT a TTL (launch-period data stays for cohort comparisons);
+    // only keys written by the collect path after 2026-07-12 carry the 180-day TTL.
+    if (request.method === 'GET' && url.pathname === '/v1/backfill') {
+      const sh = { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'Access-Control-Allow-Origin': '*' };
+      if (!env.STATS_KEY || url.searchParams.get('k') !== env.STATS_KEY) {
+        return new Response('forbidden', { status: 403, headers: { 'Access-Control-Allow-Origin': '*' } });
+      }
+      const startCursor = url.searchParams.get('cursor') || undefined;
+      const list = await env.NIKO_T.list({ cursor: startCursor, limit: 300 });
+      let migrated = 0, skipped = 0;
+      for (const k of list.keys) {
+        if (k.name.startsWith('fb|')) { skipped++; continue; }
+        if (k.metadata && k.metadata.v !== undefined) { skipped++; continue; }
+        const cur = await env.NIKO_T.get(k.name);
+        const v = parseInt(cur || '0', 10) || 0;
+        await env.NIKO_T.put(k.name, String(v), { metadata: { v } });
+        migrated++;
+      }
+      const done = list.list_complete;
+      return new Response(JSON.stringify({ done, migrated, skipped, cursor: done ? null : list.cursor }), { status: 200, headers: sh });
     }
 
     // ── READ side: GET /v1/feedback?k=SECRET → the parent feedback messages (owner-only, same gate).
@@ -233,9 +274,17 @@ export default {
       const form = ua.deviceType === 'desktop' ? 'desktop' : 'mobile';
       add(`dev|${date}|${ua.os}|${form}`, 1);
     }
+    // NB-23 (2026-07-12): value is ALSO written to KV metadata so /v1/stats can read via list() alone
+    // (metadata = the same counter number, nothing extra). New telemetry keys get a 180-day TTL —
+    // a date-bucketed counter stops being written once its day passes, so it expires 180d later and
+    // the keyspace reaches a steady state instead of growing forever. fb| rows are untouched (no TTL).
+    const TTL_S = 180 * 24 * 3600;
     const ops = [];
     for (const [key, delta] of deltas) {
-      ops.push(env.NIKO_T.get(key).then(cur => env.NIKO_T.put(key, String((parseInt(cur || '0', 10) || 0) + delta))));
+      ops.push(env.NIKO_T.get(key).then(cur => {
+        const v = (parseInt(cur || '0', 10) || 0) + delta;
+        return env.NIKO_T.put(key, String(v), { metadata: { v }, expirationTtl: TTL_S });
+      }));
     }
     await Promise.allSettled(ops);
     // 204: no body, nothing that could echo identity back
