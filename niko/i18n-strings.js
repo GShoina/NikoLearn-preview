@@ -757,7 +757,46 @@ window.I18N_MAP = {
   "ℹ️ მფლობელი":"ℹ️ Owner",
   "📱 ეს ჩემი მოწყობილობაა":"📱 This is my device",
   "ჩართულზე ამ მოწყობილობის გამოყენება სტატისტიკაში არ ითვლება.":"When on, this device's use isn't counted in the stats.",
-  "ℹ️ ვერსია და ანალიტიკა":"ℹ️ Version and analytics"
+  "ℹ️ ვერსია და ანალიტიკა":"ℹ️ Version and analytics",
+
+  /* ── NB-19 tail (2026-07-11): v1.357 „ბუს ქვეყანა" chrome + parent deep-screen leftovers found
+     by the extended qa/_i18n-en-sweep.mjs. World/inner names are NAVIGATION chrome on the EN UI;
+     voicing stays Georgian (recorded clips = the teaching language). Kids' proper names, the
+     ქართული autonym and the «წაშლა» confirm word deliberately stay Georgian. ── */
+  "ბუს ქვეყანა":"Owl's Land",
+  "ითამაშე!":"Play!",
+  "ბუ თვითონ მიგიყვანს შემდეგ თავგადასავალთან":"The owl will guide you to your next adventure",
+  "რიცხვების სამეფო":"Numbers Kingdom",
+  "ასოების ქალაქი":"Letters City",
+  "ინგლისურის კუნძული":"English Island",
+  "დათვლის ჯუნგლები":"Counting Jungle",
+  "ფიგურების ქვეყანა":"Land of Shapes",
+  "საუბრის ბუდე":"Talking Nest",
+  "მოძრაობის მოედანი":"Movement Playground",
+  "სიტყვების ძებნა":"Word Search",
+  "ხატვის სტუდია":"Drawing Studio",
+  "კინგსი ინგლისური":"Kings English",
+  "კინგსი მათემატიკა":"Kings Math",
+  "ციფრების გამოცანა":"Number Riddles",
+  "ასოების სახლები":"Letter Houses",
+  "გამოცანების კოშკი":"Riddle Tower",
+  "ზღაპრების ხე":"Fairy-tale Tree",
+  "ჯადოსნური კალამი":"Magic Pen",
+  "ABC ნაპირი":"ABC Beach",
+  "განძის ძიება":"Treasure Hunt",
+  "შეკრების ბილიკი":"Addition Trail",
+  "გამოკლების მდინარე":"Subtraction River",
+  "იპოვე წესი":"Find the Rule",
+  "იპოვე დამალული სიტყვები":"Find the hidden words",
+  "დათვლა 5/10":"Count by 5/10",
+  "სამკუთხედი":"Triangle",
+  "შეიყვანე":"Enter",
+  "წასაშლელად:":"to delete:",
+  "ჩაწერე":"Type",
+  "ქვემოთ:":"below:",
+  "⚠️ გთხოვთ, ნუ მიუთითებთ ბავშვის ჯანმრთელობის შესახებ ინფორმაციას.":"⚠️ Please don't include information about your child's health.",
+  "ჩართულზე ამ მოწყობილობის გამოყენება ნამდვილ-მომხმარებლის სტატისტიკაში არ ითვლება (მხოლოდ შენთვის).":"When on, this device's use isn't counted in real-user stats (visible only to you).",
+  "მხოლოდ შენთვის: ნახე როგორ გამოიყურება მომავალი ფასიანი გეგმა (Kings locks). MVP-ში მომხმარებელი ამას ვერ ხედავს. ყველაფერი უფასოა.":"Only for you: preview how the future paid plan will look (Kings locks). Users don't see this in the MVP. Everything is free."
 };
 
 /* ── shared ka→en word-category lookup (tutor hints embed the bare category name) ── */
@@ -804,6 +843,10 @@ window.I18N_PATTERNS = [
   [/^სულ რაღაც\s*(\d+)\s*კითხვა, რომ გითხრა საიდან დაიწყო\.$/, function(m){return 'Just '+m[1]+' questions to tell you where to start.';}],
   // parent goal-modal title: "🎯 დაუსახე მიზანი — <name>"
   [/^🎯\s*დაუსახე მიზანი\s*—\s*(.+)$/, function(m){return '🎯 Set a goal for '+m[1];}],
+  // NB-19 2026-07-11: comma variant (§8 removed the em dash from the source; old pattern missed it)
+  [/^🎯\s*დაუსახე მიზანი,\s*(.+)$/, function(m){return '🎯 Set a goal for '+m[1];}],
+  // delete-modal consent sentence (name embedded, node ends before the <b>parental consent</b> split)
+  [/^ეს სამუდამოდ წაშლის\s*(.+?)-ს და მთელ პროგრესს\. დასადასტურებლად საჭიროა$/, function(m){return 'This will permanently erase '+m[1]+' and all their progress. To confirm, we need';}],
   // parent delete-modal header: "<name>: პროფილის წაშლა" (no-space variant the old pattern missed)
   [/^(.+?):\s*პროფილის წაშლა$/, function(m){return m[1]+': delete profile';}],
   [/^🗑️\s*პროფილის წაშლა$/, function(){return '🗑️ Delete profile';}],
@@ -905,6 +948,12 @@ window.I18N_PATTERNS = [
   [new RegExp("^(.+?)მ (\\d+) 🪙 მოაგროვა \\((\\d+)%\\)!$"), m=>`${m[1]} collected ${m[2]} 🪙 (${m[3]}%)!`],
   // pattern-game rule reveal "🦉 წესი: <rule>" (single node, games.js); rule body is lesson content, stays KA
   [new RegExp("^🦉 წესი: (.+)$","s"), m=>`🦉 Rule: ${m[1]}`],
+  /* -- NB-19 2026-07-11: GENERIC prefix retry, MUST STAY LAST (specific patterns win first).
+     Class fix: "<emoji/number prefix> <known Georgian chrome>" nodes (menu topbars „🌿 დათვლის
+     ჯუნგლები", ykick „🦉 ბუს ქვეყანა", …) — strips the non-Georgian prefix and retries the tables.
+     No recursion: the captured tail starts with a Georgian char, so it can't re-match this rule.
+     A failed retry returns the string unchanged = node stays Georgian (safe fallback). -- */
+  [new RegExp("^([^Ⴀ-ჿ]{1,6})\\s+([Ⴀ-ჿ].+)$"), m=>m[1]+' '+(window.t_en?window.t_en(m[2]):m[2])],
 ];
 
 /* ── Tier-1 app chrome EN coverage, batch 1 (owner 2026-06-25) — STATIC UI strings only;

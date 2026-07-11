@@ -58,6 +58,9 @@
     });
     ['placeholder','aria-label','title','data-sum'].forEach(function(attr){
       root.querySelectorAll('['+attr+']').forEach(function(el){
+        /* NB-19 2026-07-11: attributes honour data-noi18n like text nodes do (the delete-confirm
+           input's placeholder is the literal word the parent must TYPE — translating it broke the match) */
+        try{ if(el.closest&&el.closest('[data-noi18n]'))return; }catch(e){}
         var v=el.getAttribute(attr); if(!v||!v.trim())return;
         var en=toEn(v);
         if(en!==v){ if(el.getAttribute('data-ka-'+attr)==null)el.setAttribute('data-ka-'+attr,v); el.setAttribute(attr,en); }

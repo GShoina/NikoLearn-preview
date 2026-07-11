@@ -374,8 +374,8 @@ function mvRender(){
 function mvUpdateCount(){
   const el=document.getElementById('breakscr');if(!el)return;
   const m=_mvList[_mvIdx];
-  if(m.type==='hold'){el.querySelector('#mvNow').textContent=_mvFmt(Math.max(0,m.reps-_mvCount));el.querySelector('#mvTot').textContent='';el.querySelector('#mvLbl').textContent='დაიჭირე';}
-  else{el.querySelector('#mvNow').textContent=_mvCount;el.querySelector('#mvTot').textContent='/'+m.reps;el.querySelector('#mvLbl').textContent='გამეორება';}
+  if(m.type==='hold'){el.querySelector('#mvNow').textContent=_mvFmt(Math.max(0,m.reps-_mvCount));el.querySelector('#mvTot').textContent='';el.querySelector('#mvLbl').textContent=tx('დაიჭირე');}
+  else{el.querySelector('#mvNow').textContent=_mvCount;el.querySelector('#mvTot').textContent='/'+m.reps;el.querySelector('#mvLbl').textContent=tx('გამეორება');}
   el.querySelector('#mvBar').style.width=(_mvCount/m.reps*100)+'%';
 }
 function mvRestartTimer(){

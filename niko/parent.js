@@ -141,7 +141,7 @@ function sendFeedback(){
   const name=g('fb-name'),phone=g('fb-phone'),email=g('fb-email'),msg=g('fb-msg');
   if(!msg&&!phone&&!email){toast('დაწერე აზრი ან დატოვე საკონტაქტო');return;}
   const row={name,phone,email,msg};
-  const btn=$('#fbform .btn-primary'); if(btn){btn.disabled=true;btn.textContent='იგზავნება…';}
+  const btn=$('#fbform .btn-primary'); if(btn){btn.disabled=true;btn.textContent=tx('იგზავნება…');}
   let done=false;
   const succeed=()=>{ if(done)return; done=true; try{if(window.Analytics)Analytics.event('feedback_send');}catch(e){} const f=$('#fbform');if(f)f.remove(); fbConfirm(); flushFeedbackQueue(); };
   // failure/timeout → persist on-device + retry on next boot (no loss), and still confirm to the parent.
@@ -352,7 +352,7 @@ function backupCode(){
     <div class="ai-text" style="font-weight:700;margin-bottom:6px">📦 სარეზერვო კოდი</div>
     <div class="pset-hint" style="margin-bottom:8px">დააკოპირე და შეინახე: გაუგზავნე საკუთარ თავს მესიჯად ან ფოსტით. ახალ მოწყობილობაზე ჩასვი „აღდგენაში".</div>
     <textarea readonly id="niko-bk" style="width:100%;height:80px;font-size:.78rem;border-radius:8px;border:1px solid var(--line);padding:8px;resize:none">${code}</textarea>
-    <button class="btn btn-primary btn-block mt" onclick="var t=document.getElementById('niko-bk');t.select();try{document.execCommand('copy');}catch(e){}try{navigator.clipboard&&navigator.clipboard.writeText(t.value);}catch(e){}this.textContent='✓ დაკოპირდა';">📋 კოპირება</button>`);
+    <button class="btn btn-primary btn-block mt" onclick="var t=document.getElementById('niko-bk');t.select();try{document.execCommand('copy');}catch(e){}try{navigator.clipboard&&navigator.clipboard.writeText(t.value);}catch(e){}this.textContent=tx('✓ დაკოპირდა');">📋 კოპირება</button>`);
 }
 function restoreCode(){
   _xferOverlay(`<button class="ai-close" onclick="document.getElementById('niko-xfer').remove()" aria-label="დახურვა">✕</button>
@@ -395,7 +395,7 @@ function confirmDelete(id){
     <h3>${nameOf(id)}: პროფილის წაშლა</h3>
     <p>ეს სამუდამოდ წაშლის ${nameOf(id)}-ს და მთელ პროგრესს. დასადასტურებლად საჭიროა <b>მშობლის თანხმობა</b>.</p>
     <div class="del-instr">${needPin?'შეიყვანე <b>მშობლის PIN-კოდი</b> წასაშლელად:':'ჩაწერე <b>«'+word+'»</b> ქვემოთ:'}</div>
-    <input class="login-in del-in" id="delin" autocomplete="off" ${needPin?'inputmode="numeric" type="password" maxlength="4" placeholder="••••"':'autocapitalize="characters" placeholder="'+word+'"'}>
+    <input class="login-in del-in" id="delin" data-noi18n autocomplete="off" ${needPin?'inputmode="numeric" type="password" maxlength="4" placeholder="••••"':'autocapitalize="characters" placeholder="'+word+'"'}>
     <button class="btn btn-block del-go" id="delgo" disabled onclick="doDeleteKid('${id}')">წაშლა</button>
     <button class="btn btn-ghost btn-block mt" onclick="document.getElementById('delmodal').remove()">გაუქმება</button>
   </div>`;
