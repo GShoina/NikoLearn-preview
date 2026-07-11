@@ -7,8 +7,9 @@ Rule of thumb: **if a doc is not listed here, treat it as unclassified and ask t
 ## The SSOT chain (read in this order at session start — per Constitution/CLAUDE.md)
 | Axis | SSOT file | Notes |
 |---|---|---|
-| Rules / operating agreement | `../CLAUDE.md` (repo root) | §8 no-em-dash, §11 originality, §12 loop, §13 anti-stop, §14 class-sweep, §15b policy ptr, §16 CKO |
-| Autonomy / decision policy | `AUTONOMOUS_DECISION_POLICY.md` | owner-authored verbatim 2026-07-12; stricter gates supersede prior practice (worker deploys, installs, deletions now need GO) |
+| **HIGHEST operating policy** | `AI_CONSTITUTION.md` | owner-issued verbatim 2026-07-12; wins on any conflict; amendments = owner-only (its §11) |
+| Rules / operating agreement | `../CLAUDE.md` (repo root) | §8 no-em-dash, §11 originality, §12 loop, §13 anti-stop, §14 class-sweep, §15a/§15b policy ptrs, §16 CKO |
+| Autonomy / decision policy (detail) | `AUTONOMOUS_DECISION_POLICY.md` | owner-authored verbatim 2026-07-12; operational detail under the Constitution (§6 gate lists match); stricter-than-prior-practice gates noted in its header |
 | Reasoning standard | `GSH-OS.md` + `REASONING-LESSONS.md` | load with handoff; lessons L1-L9 before tradeoff decisions |
 | Live state / resume pointer | `SESSION-HANDOFF.md` | keep < 30KB (currently over — trim candidate); archives in `archive/` |
 | Architecture | `HANDOFF.md` | factual layer refreshed 2026-07-12; §8 coding rules owner-locked |
@@ -44,6 +45,9 @@ Rule of thumb: **if a doc is not listed here, treat it as unclassified and ask t
 ## Strategy identity layer (outside docs/ — now wired into this map)
 `../NikoLearn_Strategy_drafts/`: `NikoLearn_Strategy_v1.5.docx` („FINAL" label is historical — superseded), `NikoLearn Strategy v1.6.docx`, `NikoLearn_Strategy_Constitution_v1.8.docx`, **`_v1.9.docx` (newest)**.
 ⚠ KNOWN CONTRADICTION (open owner fork): drafts' triad = *curious/confident/creative* + NSM "Curious Days per Month" vs locked `MISSION-SLOGAN.md` triad = *confident/creative/independent*. Also GE-vs-diaspora spearhead + ambition level = re-opened 2026-06-09 (see `OWNER_GRILLDOWN_BRIEF.md` header + `PRODUCT_IDEAS.md` strategic-exploration block). Do NOT treat any one draft as decided.
+
+## External-audit intake (`../auditbyagents/`, git-UNTRACKED)
+Adversarial audits by OTHER AI agents (Codex full set: scope/architecture/UX/risks/recommendations/next-steps + screenshots + probe scripts; Antigravity: setup status, audit pending). **Intake rule (lesson from s9 external-audit pass): fact-check every finding against LIVE code before acting — 3 of 4 top P1s in the last external batch were already fixed; verify-first prevented wrong re-fixes.** Findings that survive verification → `BUGFIX_TRACKER.md` NB rows.
 
 ## Archive (history — do not act on)
 `archive/2026-06/`, `archive/2026-07/` (incl. `outdated-audit-reports/`). Moved there 2026-07-12 by CKO sweep:

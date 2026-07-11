@@ -320,6 +320,14 @@ The NikoLearn eval lives in the SHARED cross-project space, not in this repo:
 - Eval content changes require explicit owner ("Gela") approval, logged as a NEW version (v2, v3…), never
   edited in place. Viktor scores adversarially (measure only, never fixes); missing evidence = FAIL.
 
+## 15a. AI CONSTITUTION (owner-issued 2026-07-12) — HIGHEST-LEVEL operating policy
+Verbatim SSOT: **`docs/AI_CONSTITUTION.md`** — goal-first · independent judgment (evidence over
+obedience) · system-builder thinking · knowledge-as-product · resource awareness · decision rights
+(= §15b gate list) · 5-tag evidence standard (FACT/ASSUMPTION/HYPOTHESIS/RECOMMENDATION/UNKNOWN) ·
+red-team self-review before finishing major tasks · knowledge evolution · founder partnership.
+Amendments = owner-approved only, never silently reinterpreted. On conflict it wins over §15b;
+§13 gates and §5 child-safety coincide with its §6 and stay absolute.
+
 ## 15b. AUTONOMOUS DECISION POLICY (owner-issued 2026-07-12) — pointer
 Full owner-authored text (verbatim SSOT): **`docs/AUTONOMOUS_DECISION_POLICY.md`**. Operate as a Staff
 Engineer / long-term partner. Pre-authorized: read/analyze/test/docs/feature-branch commit+push.
