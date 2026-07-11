@@ -1,5 +1,8 @@
 # Roadmap track — „სასწავლო პროგრამა / სკოლის თემები" (v2, code-verified)
 
+> **Status: ACTIVE-REFERENCE (curriculum idea-mine, standard-derived, code-verified).** Scope fence:
+> priority ORDER lives in `LEVELED-CONTENT-ROADMAP.md`; this file = what content COULD exist per grade.
+
 **2026-06-18 · merge: Viktor advisory (real .doc standard extract) + NikoLearn-agent code-verification.**
 Supersedes the v1 light draft. Owner ask: სტანდარტი = **იდეების მაღარო** (არა compliance), პაკეტი = **track კინგსის მსგავსად**.
 

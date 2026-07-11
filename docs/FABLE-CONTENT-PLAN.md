@@ -1,5 +1,8 @@
 # Fable content pipeline — action plan (2026-07-02)
 
+> **Status: ACTIVE (Fable-usage policy: where authored-Georgian content uses Fable + the QA chain).**
+> Sibling value-ranked snapshot `FABLE5-ACTION-PLAN.md` archived → `archive/2026-07/` (CKO 2026-07-12).
+
 Owner approved trialling Fable 5 for NikoLearn content authoring after live bake-offs (talk cards + math +
 English samples all high quality; math arithmetic self-verified, English level-appropriate, natural Georgian).
 

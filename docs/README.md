@@ -30,15 +30,17 @@ Rule of thumb: **if a doc is not listed here, treat it as unclassified and ask t
 | Voice QUALITY (how to judge audio) | `VOICE_QUALITY_STANDARD.md` | + runnable `tools/voice-eval.mjs`; verdict 2026-07-11: EkaNeural passes |
 | Quality bar / audits | `QUALITY_AUDIT_STANDARD.md` + `AGENT_TEAM_STANDARD.md` | team minimum owner-locked 2026-06-26 |
 | Data / stats hygiene | `DATA_HYGIENE.md` | probe-subtraction notes also in SESSION-HANDOFF data notes |
+| **Data flows (what leaves the device)** | `DATA_FLOW_INVENTORY.md` | NEW 2026-07-12, code-verified; drives privacy copy (NB-25); update in SAME release as any new flow |
 | Security / IP rules | `SECURITY_RULES.md` | + CLAUDE.md §11 originality |
 | i18n architecture | `I18N_ARCHITECTURE.md` | EN = overlay over rendered ka (NB-19 class context) |
 | Design system v2 | `V2000-DESIGN-SYSTEM.md` | + `DESIGN_BRIEF_PROMPT_v2.md` (AI-designer master prompt, tool) |
 
 ## Working / reference material (ACTIVE)
-- `ROADMAP.md` — ⚠ misnamed: it is the **parked-ideas register** (re-surface triggers), not a forward roadmap.
-- `LEVELED-CONTENT-ROADMAP.md`, `roadmap-study-program.md` — content roadmaps (fold-into-one candidate).
+- `ROADMAP.md` — **KEEP-as-is decision (CKO 2026-07-12):** despite the name it is the parked-ideas register; its own H1 says so, and 4 stable references (incl. code comments kings-exam.js/parent.js) outweigh a rename.
+- `LEVELED-CONTENT-ROADMAP.md` (priority ORDER) + `roadmap-study-program.md` (curriculum idea-mine) — scope-fenced 2026-07-12, intentionally separate axes.
+- `FABLE-CONTENT-PLAN.md` — ACTIVE Fable-usage policy (its dated sibling `FABLE5-ACTION-PLAN.md` archived 2026-07-12).
 - `MATH_IDEAS_LIBRARY.md`, `CURRICULUM_MAP.html` (coverage map; biggest gap = Georgian reading ladder), `PARENT-GUIDE.md`, `SKILLS-TO-USE.md`, `COMPETITOR_garnamatac.md` (+ root `competitor-profiles/nodi.md`).
-- Drafts awaiting owner §6f validation: `fable-leveled-banks-2026-07-02.md`, `fable-talk-cards-2026-07-02.md`, `fable-owl-activation-copy-2026-07-02.md`, `fantasy-batch1-draft.md`, `FABLE-CONTENT-PLAN.md`, `FABLE5-ACTION-PLAN.md`.
+- Drafts awaiting owner §6f validation: `fable-leveled-banks-2026-07-02.md`, `fable-talk-cards-2026-07-02.md`, `fable-owl-activation-copy-2026-07-02.md`, `fantasy-batch1-draft.md`.
 - `PLACEMENT_LAYER_B.staging.js` — staged content pools; REFERENCED from live `niko/placement.js:19` comment (pre-merge record) → keep.
 - `CHANGELOG.md` — ⚠ DEPRECATED as a live log (stale since 2026-06-10, app ~30 versions ahead); per-session changes live in SESSION-HANDOFF + root `changes.html`; `tools/changelog-html.mjs` still reads it.
 

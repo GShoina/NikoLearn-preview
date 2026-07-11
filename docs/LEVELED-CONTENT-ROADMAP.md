@@ -1,5 +1,8 @@
 # NikoLearn — leveled content + tutor roadmap (owner-prioritized 2026-07-02)
 
+> **Status: ACTIVE (owner-set content priority ORDER).** Scope fence: THIS file = priority order;
+> curriculum idea-mine = `roadmap-study-program.md`; plan SSOT = `V2-ACTION-PLAN.md`; map = `docs/README.md`.
+
 Owner set the priority order this session (supersedes the letter-shapes item, which is parked):
 1. **Content creation BY LEVEL** (English, Math, Kings) — using Fable5.
 2. **Strengthen the tutor's role** — using Fable5.
