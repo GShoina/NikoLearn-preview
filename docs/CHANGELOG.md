@@ -1,5 +1,9 @@
 # NikoLearn — Changelog
 
+> **Status: DEPRECATED as the live log (CKO 2026-07-12).** Last real entry ≈ 2026-06-10; the app is ~30+
+> versions ahead. Per-release changes = `SESSION-HANDOFF.md` session blocks + root `changes.html`. Kept
+> for pre-06-10 history and because `tools/changelog-html.mjs` reads it. Doc map: `docs/README.md`.
+
 Human-readable log. Full audit trail = git history (`git log`, 70+ commits).
 
 ## v2.00 — 2026-06-10 (placement diagnostic + parent progress instrument — owner ask)

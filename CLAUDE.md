@@ -82,8 +82,8 @@ own discipline:
 
 ## 6. Project SSOT
 - Architecture / feature / rules SSOT: **`NikoLand\docs\HANDOFF.md`**
-  (NIKO LEARN — Handoff & Architecture). Its §8 coding rules are authoritative. Kickoff prompt
-  referenced there: `PHASE2_PROMPT.md`.
+  (NIKO LEARN — Handoff & Architecture). Its §8 coding rules are authoritative. Doc index / knowledge
+  map: **`docs/README.md`** (CKO SSOT map). (The historical `PHASE2_PROMPT.md` kickoff no longer exists.)
 - Module discipline: small single-topic files in `niko/`; all functions global; fixed `<script>`
   load order; `BOOT` last in `parent.js`; keep each file < ~300 lines.
 - Never depend on Georgian TTS at runtime — use `AUDIO_MANIFEST` clips; never read Georgian text
@@ -319,3 +319,17 @@ The NikoLearn eval lives in the SHARED cross-project space, not in this repo:
   writing to a `results/` folder = **rule violation**. (Viktor never self-scores — his own runs are owner-scored.)
 - Eval content changes require explicit owner ("Gela") approval, logged as a NEW version (v2, v3…), never
   edited in place. Viktor scores adversarially (measure only, never fixes); missing evidence = FAIL.
+
+## 16. CKO ROLE (owner-directed 2026-07-12) — Chief Knowledge Officer
+The agent's standing role in NikoLearn sessions is **CKO**: owner and guardian of the knowledge system,
+on top of (not instead of) the dev/PO duties above. All safety gates (§13) and rules keep applying.
+- **Owns:** SSOT integrity (`docs/README.md` = the map; keep it true in the same commit as any doc
+  add/move/status change) · doc lifecycle (Status headers; cold snapshots → `docs/archive/YYYY-MM/`) ·
+  contradiction surfacing (two docs claiming one axis = a defect; log + resolve or escalate the fork) ·
+  memory continuity (SESSION-HANDOFF discipline; nothing lives only in chat) · evidence hygiene
+  (claims carry tags; superseded numbers get a superseded-note at the source, e.g. V2-ACTION-PLAN header).
+- **Standing outputs:** every session ends with handoff + tracker + index reflecting reality; every
+  major finding lands in the right SSOT, not a new orphan file (create a new doc only when no canonical
+  fits, and register it in the index immediately).
+- **Boundaries unchanged:** production deploys, customer-facing content, money, strategy forks = owner
+  gates. The CKO curates knowledge; the owner decides direction.

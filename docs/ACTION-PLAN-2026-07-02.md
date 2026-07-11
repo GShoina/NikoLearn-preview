@@ -1,5 +1,9 @@
 # NikoLearn — სამოქმედო გეგმა v2 (მფლობლის მიერ დამტკიცებული 2026-07-02)
 
+> **Status (owner decision 2026-07-05, header added by CKO 2026-07-12): FAZA-0 sprint scope ONLY —
+> NO LONGER the plan SSOT.** Active plan SSOT = `V2-ACTION-PLAN.md`; live state = `SESSION-HANDOFF.md`.
+> Consult this file only for unfinished FAZA-0 items.
+
 > SSOT ამ სპრინტისთვის. baseline რიცხვები ცოცხალი `/v1/stats` pull-იდან (17 დღე, 2026-06-16→07-02).
 > სტანდარტი: თითო item = განმარტება + baseline + გაზომვადი outcome + done-კრიტერიუმი + red-team.
 > (იხ. `~/.claude/.../memory/feedback_plan_rigor_standard.md`.)

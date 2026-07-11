@@ -1,5 +1,11 @@
 # NikoLearn v2 — business-anchored action plan (owner "build v2", 2026-07-02)
 
+> **Status: ACTIVE plan SSOT (owner decision 2026-07-05; header by CKO 2026-07-12).** Two facts below are
+> SUPERSEDED by later evidence: (1) "retention is not measurable by design" — banded id-free retention_ping
+> is LIVE since v1.356 (2026-07-10); (2) the "53% q0 abandon" activation read is contaminated by
+> adult-preview traffic (owner theory validated s13, 2026-07-08 — desktop abandon 90% = adults peeking).
+> Read those two numbers via SESSION-HANDOFF s13/s16 context.
+
 ## Reframe (meta prompt architect + skeptical board member)
 The owner's 6 areas (design, visual, tutor, levels, owl, Georgian voice) are INPUTS, not the goal. At this
 stage the only DATA-BACKED business bottleneck is ACTIVATION: 53% of round abandons happen on question 0

@@ -1,5 +1,9 @@
 # NIKO LEARN — Handoff & Architecture
 
+> **Status: CANONICAL (architecture SSOT) · factual layer refreshed 2026-07-12 by CKO** (entry point,
+> file map, network posture, audio state were stale since ~2026-06-12; §8 coding rules are owner-locked
+> and UNCHANGED). Doc index: `docs/README.md`. Live state: `docs/SESSION-HANDOFF.md`.
+
 > **For the Owner (ქართულად, მოკლედ):** ეს დოკუმენტი Claude Code-ისთვისაა. ხსნის როგორ არის
 > აპლიკაცია აწყობილი, რა ფუნქციები აქვს, რა არის ნამდვილი „ბაგი" (კოდით გასწორებადი) და რა
 > საჭიროებს რესურსს/გადაწყვეტილებას (ქართული ხმა, backend). ბოლოში — პრიორიტეტული გეგმა და წესები.
@@ -8,13 +12,17 @@
 
 ## 1. What this is
 
-NIKO LEARN — an offline, privacy-first learning app for young Georgian children (ages ~5–8).
-Subjects: Georgian alphabet, English (vocabulary by theme, ~100 everyday phrases, Cambridge YLE "Kings"
-prep), counting, and math. A single-page app, **vanilla JS + HTML + CSS — no build step, no framework,
-no runtime backend.** All progress lives in `localStorage` on the device. Zero ads, zero external links,
-zero network calls.
+NIKO LEARN — an offline-capable, privacy-first learning PWA for Georgian children (ages 3–12, tiers
+tiny ≤4 / young ≤5 / 6-7 worlds / reader 8+). Subjects: Georgian alphabet+reading, English (vocab,
+phrases, Kings/YLE prep), counting, math, movement, drawing, talk-and-think, word-search. A single-page
+app, **vanilla JS + HTML + CSS — no build step, no framework, no runtime backend for app logic.** All
+learning progress lives in `localStorage` on the device. Zero ads, zero external links in the kids' app.
+Network surface (all non-PII): aggregate-only telemetry to a Cloudflare Worker (`niko/analytics.js` →
+`cloudflare/telemetry-worker.js`, allow-listed both ends), CF Web Analytics beacon, Google Fonts.
 
-Entry point: **`NikoLearn Phase 1.html`** (project root). Everything else lives in `niko/`.
+Entry point: **`index.html`** (app; `landing.html` = public front door; `boot()` in `niko/screens.js`
+routes first-time visitors to landing, returning/authed → app). Everything else lives in `niko/`.
+Live: **https://nikolearn.com** (GitHub Pages, push to `main` deploys via `.github/workflows/`).
 
 There are two roles in this project: **the Brain** (planning/decisions, in a separate chat) and **the
 Hands** (Claude Code, executes on the repo). The Owner is not a technical gate — see §8 rules.
@@ -28,22 +36,35 @@ modules** so any future edit only needs to read/touch one small file (token-effi
 change). **All functions are global** (plain `<script src>`, no modules, no bundler). Load order is fixed
 in the HTML and matters:
 
-| # | File | Responsibility | ~lines |
-|---|------|----------------|--------|
-| 1 | `niko/data.js` | Content: `WORDS` (13 themed categories), `PHRASES` (~100, 7 groups), `KA_ALPHA`/`EN_ALPHA`, `COUNTING`, `KINGS_ENG`, `KINGS_MATH`, `AGE_CATS` | — |
-| 2 | `niko/tutor.js` | "ბუ" (owl) hint engine — algorithmic, item-specific hint text per subject | ~115 |
-| 3 | `niko/core.js` | Icons, `state`, load/save, render helpers, levels, languages, **TTS (`speak`/`speakSeq`/`sayWord`)**, `pulseTap`, `spellOut` (typewriter) | ~175 |
-| 4 | `niko/audio.js` | **Audio layer**: recorded-clip manifest, TTS fallback, duplicate-guard, `hasVoiceFor`. Wraps `speakOne`. Must load AFTER core | ~60 |
-| 5 | `niko/screens.js` | Home, login/auth, onboarding (parent/child flow + consent), profile create + delete icon, subject menu, **category pickers (`openTopics`/`openPhraseCats`)** | ~280 |
-| 6 | `niko/games.js` | Game engine: vocab (quiz/reverse/listen/spell), match, **phrases**, math (graded), counting, Kings, scoring, feedback, results | ~310 |
-| 7 | `niko/owl.js` | Owl hint UI (redesigned), `speakHint`, voice/pronunciation mode, break screen | ~140 |
-| 8 | `niko/alpha.js` | Alphabet module (Georgian ა–ჰ & English A–Z): learn (flip + sound) + visual-first quiz | ~135 |
-| 9 | `niko/parent.js` | Parent gate (math lock), dashboard, engagement card, report export, **delete-with-consent**, BOOT | ~190 |
-| 10 | `niko/tweaks.js` | In-design Tweaks panel (host edit-mode protocol) — visual theme + AI role | ~100 |
-| — | `niko/styles.css` | All styles. Font: **FiraGO** (Georgian+Latin), Fredoka for numerals. Three themes via `[data-theme]`: sunlit / playground / calm | ~640 |
+Current module map (2026-07-12, load order = the `<script defer>` order in `index.html`; sizes are logic
+lines, content tables marked ⌗):
 
-**Rules for adding code:** keep each file < ~300 lines and on one topic. If a file grows past that, split it.
-`BOOT` (`state=load();boot();`) lives at the very end of `parent.js` — keep it last.
+| File | Responsibility | ~lines |
+|------|----------------|--------|
+| `niko/i18n.js` + `i18n-strings.js`⌗ + `i18n-landing.js`⌗ | EN overlay: ka is source of truth; `toEn` DOM-walks rendered Georgian via I18N_MAP/PATTERNS (see `docs/I18N_ARCHITECTURE.md`) | 7K+111K⌗ |
+| `niko/data.js`⌗ | WORDS (13 cats) · PHRASES · KA/EN_ALPHA · COUNTING · AGE_CATS | ⌗ |
+| `niko/kings-content.js`⌗ + `kings-exam.js` | Kings/YLE original question banks + exam room engine | ⌗+350 |
+| `niko/core.js` | state/load/save, levels (`LEVELS`/`levelOf`), TTS wrapper `speak` (ka-gate: never EN voice on ka text), helpers | 312 |
+| `niko/audio.js` + `audio-manifest.js`⌗ | Clip layer: ~1487 recorded ka mp3s (edge-tts EkaNeural), single reused `Audio` element (iOS decode-cap), first-gesture unlock, `stopAudio` on screen change | ~300+⌗ |
+| `niko/metrics.js` · `analytics.js` | mastery bands · telemetry sender (CLIENT_ALLOW fail-closed mirror of worker EVENTS; `niko_owner`/DNT excluded) | 5K·15K |
+| `niko/placement.js` | per-subject placement + `pathFor` learning paths (age-gated) | 434 |
+| `niko/screens.js` | boot/routing, home variants (incl. ≤7 worlds home), profile create/delete+consent, APP_VERSION (canonical) | 413 |
+| `niko/screens-menu.js` | subject menus, inner play-labels, nav voicing | 23K |
+| `niko/worlds.js` | **THE central worlds map** (WORLDS/WORLD_INNER labels + wSay voicing; renames = 1-line edits here) | 6K |
+| `niko/games.js` | ⚠ monolith: round engine + ~40 submodes (genX/nextX/answerX), MATH_LV+rampMath/bumpFlat adaptive tiers, reQueueWrong (can't guess through), results/telemetry | **1706** |
+| `niko/alpha.js` | ka/en alphabet learn+quiz (visual-first) | 634 |
+| `niko/tutor.js` | owl tutor engine — algorithmic, NEVER reveals the answer, strategy chosen by the numbers (count-on/make-ten/place-value) | 274 |
+| `niko/owl.js` | owl hint UI, voice mode, Movement break (voiced move names) | 404 |
+| `niko/talk.js`⌗ | „საუბარი და ფიქრი" card decks (ka+en parallel, voiced) | ⌗ |
+| `niko/draw.js` · `stroke-data.js`⌗ · `opentype.min.js` (vendored) | drawing + letter tracing | — |
+| `niko/wordsearch.js` · `firstrun.js` · `pwa-install.js` · `parent.js` · `tweaks.js` | word-search overlay · first-run voiced activation · PWA nudge · parent gate/dashboard/feedback + **BOOT (keep last)** · tweaks | 488 (parent) |
+| `niko/telemetry.js` | ⚠ ORPHAN (superseded by analytics.js, referenced nowhere) — delete candidate | 84 |
+| `niko/styles.css` | all styles, mobile-first clamp() | 144K |
+
+**Rules for adding code:** keep each NEW file < ~300 lines and on one topic. (Legacy offenders exist —
+`games.js` 1706 is the known monolith; do not grow it further, split when touched substantially.)
+`BOOT` lives at the very end of `parent.js` — keep it last. QA gates: `npm test` (static) + pre-push
+hook (visual + 6 behavioral Playwright harnesses in `qa/`). Version bumps ONLY via `bump.mjs`.
 
 ---
 
@@ -126,6 +147,11 @@ Responsive home (clamped type). Three themes via Tweaks.
 
 ## 5. ⚠️ Bug vs. needs-a-resource (read this before "fixing")
 
+> **2026-07-12 status:** §5a is RESOLVED in production — ~1487 Georgian clips are generated (edge-tts
+> `ka-GE-EkaNeural`, build-time via `tools/_gen_*.py`) and wired through `AUDIO_MANIFEST`; the runtime
+> ka-TTS ban stands. Voice-quality SSOT: `docs/VOICE_QUALITY_STANDARD.md` (verdict: EkaNeural passes,
+> do NOT re-voice). The section below is kept as the original diagnosis record.
+
 ### 5a. "მოისმინე / listen doesn't work" (Georgian) is NOT a code bug
 Verified at runtime: the device exposes **5 voices, all `en-US`, zero Georgian** (`speechSynthesis.getVoices()`).
 iOS never ships a Georgian voice. So **English speech works; Georgian is silent** — not because of code, but
@@ -158,7 +184,7 @@ numbers above 20, etc. Everything in §4 is this kind of work.
 | 2 | **Backend** — *only if* class-sharing + central feedback are wanted: one shareable link for ~20 kids, a teacher dashboard of "where each child gets stuck", credential storage, and **real copy-protection** (logic on server). Same backend could also serve live cloud-TTS instead of bundling. **GitHub credentials live with the Claude Code agent**, so it creates/pushes the repo and stands up the backend. | architecture |
 | 3 | **Content depth** — current word/phrase/question pools are prototype-sized; a real curriculum is needed for sustained use (Owner's lesson plan) | Owner curriculum + code |
 | 4 | **Copy protection** — client code is inherently copyable; bundle+minify+obfuscate raises the bar but is not a guarantee. **True protection = move logic to the backend (#2)**. So "protect my idea/scripts" and "central class feedback" are the *same* architecture decision. | build step + backend |
-| 5 | **PWA / installable** — offline install, home-screen icon, splash | code |
+| 5 | ~~**PWA / installable**~~ ✅ SHIPPED (manifest + sw.js network-first + install nudge `pwa-install.js`) | done |
 
 **Fragile fact that governs the architecture:** if content/logic stays client-side, it can be copied — full
 stop. The only real protection (and the only way to get a central "where are they stuck" dashboard for the
@@ -202,5 +228,6 @@ Open `index.html` in a browser (or visit the live link). No login password (remo
 opens straight to the profile chooser. Parent space is behind a PIN / math gate.
 To reset: parent space → "პროგრესის გასუფთავება", or clear the localStorage key `nikolearn_p2`.
 
-See **`PHASE2_PROMPT.md`** for the ready-to-paste kickoff prompt that walks Claude Code through
-read-only diagnose → GitHub repo → Georgian audio → backlog, on the safety ladder above.
+(A `PHASE2_PROMPT.md` kickoff prompt was referenced here historically; the file no longer exists —
+session start now follows `CLAUDE.md` → `docs/SESSION-HANDOFF.md`. Deploy runbook: SESSION-HANDOFF
+"DEPLOY PROCESS" block; worker runbook: `cloudflare/DEPLOY.md`.)
