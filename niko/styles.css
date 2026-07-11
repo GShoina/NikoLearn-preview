@@ -1769,10 +1769,14 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
 .bigplay:active{transform:scale(.97)}
 @keyframes ypulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
 .yheap{font-size:.72rem;color:var(--muted,#6a5740);text-align:center}
-.subj.wld{color:#fff;text-align:center;padding:14px 8px 12px;border-radius:20px;position:relative;
+/* balance the icon+name as one group centred between top and bottom of the card (owner 2026-07-11:
+   base .subj is justify-content:flex-end, which jammed the world content low — 70px empty above vs
+   12px below; center it + scale icon/text up, all mobile-first clamp(min,vw,max)). */
+.subj.wld{color:#fff;text-align:center;padding:clamp(11px,3.2vw,15px) 8px;border-radius:20px;position:relative;
+  justify-content:center;gap:clamp(5px,1.6vw,8px);
   box-shadow:inset 0 -5px 0 rgba(0,0,0,.13),0 5px 14px rgba(60,45,15,.16)}
-.subj.wld .w-ico{font-size:2rem;line-height:1.15;filter:drop-shadow(0 3px 4px rgba(0,0,0,.18))}
-.subj.wld .w-nm{font-weight:800;font-size:.8rem;margin-top:4px;text-shadow:0 1px 2px rgba(0,0,0,.22);line-height:1.25}
+.subj.wld .w-ico{font-size:clamp(2.2rem,9vw,2.9rem);line-height:1.1;filter:drop-shadow(0 3px 4px rgba(0,0,0,.18))}
+.subj.wld .w-nm{font-weight:800;font-size:clamp(.9rem,3.9vw,1.05rem);margin-top:0;text-shadow:0 1px 2px rgba(0,0,0,.22);line-height:1.22}
 .subj.wld .w-spk{position:absolute;top:7px;right:9px;font-size:.72rem;opacity:.85}
 .whue-gold{background:linear-gradient(#f2c14e,#e8b23a)}
 .whue-purple{background:linear-gradient(#bb95e8,#a97fd6)}

@@ -36,6 +36,16 @@ const txt = (page) => page.evaluate(() => document.body.innerText);
   for (const nm of ['რიცხვების სამეფო', 'ასოების ქალაქი', 'ინგლისურის კუნძული', 'დათვლის ჯუნგლები', 'საუბრის ბუდე', 'მოძრაობის მოედანი', 'სიტყვების ძებნა', 'ხატვის სტუდია'])
     chk(`age5: world "${nm}"`, t.includes(nm));
   chk('age5: NO Kings on home', !t.includes('კინგსი'));
+  // owner 2026-07-11: world-card icon+name must sit BALANCED (equal space top/bottom), not jammed low,
+  // and be legibly sized. Guards the base-.subj justify-content:flex-end from silently re-leaking in.
+  const bal = await page.evaluate(() => {
+    const c = document.querySelector('.subj.wld'); const ic = c.querySelector('.w-ico'); const nm = c.querySelector('.w-nm');
+    const cr = c.getBoundingClientRect(), ir = ic.getBoundingClientRect(), nr = nm.getBoundingClientRect();
+    return { top: ir.top - cr.top, bot: cr.bottom - nr.bottom, ico: parseFloat(getComputedStyle(ic).fontSize), nmF: parseFloat(getComputedStyle(nm).fontSize) };
+  });
+  chk(`age5: card content vertically balanced (top ${Math.round(bal.top)} ≈ bot ${Math.round(bal.bot)})`, Math.abs(bal.top - bal.bot) <= 14);
+  chk(`age5: icon legible (${Math.round(bal.ico)}px ≥ 33)`, bal.ico >= 33);
+  chk(`age5: name legible (${Math.round(bal.nmF)}px ≥ 14)`, bal.nmF >= 14);
   await page.screenshot({ path: `${SHOT_DIR}/worlds_age5_home.png` });
   // tap რიცხვების სამეფო → counting menu with play-label + world topbar
   await page.locator('.subj.wld', { hasText: 'რიცხვების სამეფო' }).click();
