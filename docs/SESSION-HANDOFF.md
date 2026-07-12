@@ -15,17 +15,17 @@
 
 **▶ s18 cont.9 — OWNER PIVOT (2026-07-12): "no more governance/doc expansion — maximize PRODUCT progress."** UAOP onboarding-protocol task = PARKED (premise verified true: no AGENTS.md/GEMINI.md exists, external agents don't load the Constitution — resume only on owner ask). **30-DAY PRODUCT PLAN delivered (chat, 07-12), essence:** Top-10 by I×C/E: ①distribution sprint 20-30 warm families, target ≥30 new real phone devices ②3-5 real-child observations ③v1.359 phone-test+name tweaks ④Play/TWA $25 ⑤NB-25 privacy fix (= Play prerequisite) ⑥CX-01 guided-guest test ⑦Georgian reading ladder phase-1 (biggest content gap + core differentiation) ⑧Talk&Think batch-2 ⑨Monday metrics ritual + spearhead DECISION-RULE ⑩NB-24 allowlist. Critical path: wk1 = ③→⑤+⑩ one deploy→④ submit→②×2→①wave1→07-18 W1 read; wk2 = Play live→wave2→⑥→⑦ authoring; wk3-4 = ⑦ ship→08-08 retention readout→spearhead rule fires. NOT-list: games.js refactor, CSP/a11y, i18n backfill, C&A, fractions, v2 polish, governance docs, MagicSchool. My autonomous starts: ① materials, ② checklist, ⑦ phase-1 content drafts.
 
-## ▶ FOUNDER DECISION QUEUE (ranked by blocked value · CKO maintains, keep ≤10 · one line each)
-1. **NB-24 allowlist publish GO** [infra+deploy] — closes live public exposure of internal files AND unblocks strategy-drafts backup (currently zero-backup).
-2. **NB-25 privacy-copy fix GO** [customer-facing] — EN privacy page is currently FALSE on a kids' app; copy prepared from `DATA_FLOW_INVENTORY.md` on GO.
-3. **Worker hardening pass GO** [infra, ONE deploy] — NB-26 secret-in-URL + NB-27 fb TTL/deletion + NB-28 atomicity/origin.
-4. **v1.359 phone-test** (≤7 პროფილით: ბუ + „ითამაშე!" + ხმოვანი სამყაროები) — validates the whole ≤7 redesign; world-name tweaks = 1-line worlds.js edits after.
-5. **Strategy forks + decision-rule:** mission triad („დამოუკიდებელი" vs "curious") · GE-vs-diaspora spearhead · ambition level. Missing piece = a RULE + deadline (e.g. "if W1 real-child retention ≥X on 07-18 → …"); data lands ~07-18.
-6. **Play/TWA $25** [money] — distribution lever; my recommendation = GO.
-7. **GSC TXT record** (2 min) — search visibility.
-8. **NB-13 „შეკრება" verb** — your final word (1 min, then I apply to tutor.js:147 + i18n-strings.js:585).
-9. **საუბრის ბუდე new-mode Y/N** (voice-engine choice already settled by the standard).
-10. **CX-01 guest→guided-first-win A/B Y/N** — product hypothesis (Codex), unvalidated; needs your read before any build.
+**▶ s18 cont.10 — OWNER RECALIBRATION (2026-07-12-b, persisted as Policy Amendment):** decision boundary widened — feature-branch implementation/experiments/previews/PRs/copy/prototypes = AUTONOMOUS; escalate ONLY on: strategic direction · production deploy · money · public-facing irreversible · Constitution-protected infra. FDQ target ≤3. **Execution hierarchy: Founder → CKO (Fable: spec/risks/plan/acceptance) → Opus = Execution Lead (code/UX/content/test/preview) → Codex (independent review).** CKO delegates implementation, keeps final acceptance.
+
+## ▶ FOUNDER DECISION QUEUE (≤3 items · CKO maintains)
+1. **DEPLOY-DAY GO** — one approval ships the prepared bundle: NB-24 allowlist + NB-25 privacy copy (built+previewed on feature branch), then worker-hardening pass (NB-26/27/28). [production deploy + Constitution-infra gate]
+2. **Play Console $25** — TWA distribution lever; recommendation GO. [money]
+3. **Spearhead decision-RULE ratification** — e.g. „თუ 08-08-ზე W1 real-child return ≥N% → GE-warm spearhead რჩება; <N% → diaspora-ტესტი"; I draft the rule + N, you ratify. [strategic direction]
+*(Owner TASKS, not decisions: v1.359 phone-test · 3-5 child-watches · distribution wave-1 · GSC TXT · NB-13 verb word · 2-3 diaspora-coordinator calls.)*
+
+## ▶ AUTONOMOUS EXECUTION QUEUE (no approval needed; Opus-delegated builds on feature branches)
+- **IN FLIGHT: NB-24 allowlist + NB-25 privacy-copy bundle** → Opus executor on `fix/nb24-25-trust-bundle` (spec below in s18 cont.10 note; preview → FDQ #1).
+- NEXT: CX-01 guided-guest prototype+preview · worker-hardening build (deploy gated) · distribution materials + child-watch checklist · reading-ladder phase-1 content drafts (§6f chain) · Talk&Think batch-2 drafts · weekly-report Monday ritual.
 
 ## ▶ PRIOR (2026-07-11 · session 17) — **LIVE = v1.359** (worlds cards balanced+scaled, apex-verified; on top of v1.358 NB-19 EN-chrome tail; see SESSION 17 block).
 **▶ ACTIVE NEXT (owner directive this session) — BOTH experiments DONE + texts drafted, awaiting owner ear+decision:**
