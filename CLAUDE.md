@@ -128,6 +128,14 @@ value (a fix or a feature a child/parent will actually feel), make the improveme
 quality high (see §6c visual-verification gate). A version that doesn't make the app meaningfully
 better shouldn't ship on its own. This is a motivation + quality bar, held alongside the autonomy rule.
 
+## 6e-2. Owner-reading format + disk hygiene (owner-set 2026-07-12)
+- **EVERYTHING the owner is meant to READ = an HTML file in `output/`** (clickable), never raw .md or
+  long chat markdown; .md stays for internal/agent memory only. Always give the exact file path.
+- **Disk hygiene (16GB RAM machine, keep it clean):** at every session close-out, delete this session's
+  own temp artifacts (Playwright snapshots/logs, probe files); screenshots worth keeping → `output/`.
+  Deleting PROJECT assets (backups/, www/, output/ content) still needs an owner GO — propose a dated
+  deletion list with sizes instead.
+
 ## 6e. Report output convention (owner-locked 2026-06-05)
 Every owner-facing report is HTML and is dropped into `NikoLand/output/`, named
 `YYYY-MM-DD-<report title> by Niko.html` (e.g. `2026-06-05-სასწავლო რუკა by Niko.html`).
