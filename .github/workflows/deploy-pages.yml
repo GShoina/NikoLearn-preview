@@ -29,21 +29,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Assemble published site (drop dev/build-only folders, keep CNAME)
+      - name: Assemble published site (explicit ALLOWLIST, keep CNAME)
         run: |
+          # ALLOWLIST publish (NB-24): copy ONLY the files/dirs that make up the public site.
+          # Flipped from the old rsync denylist so a newly-added tracked file (internal docs,
+          # cloudflare/, competitor-profiles/, CLAUDE.md, etc.) can NEVER reach nikolearn.com by
+          # default. It publishes only if explicitly named here. cp fails loudly if a required
+          # core file is ever removed, which is safer than silently shipping a broken site.
           mkdir -p _site
-          rsync -a ./ _site/ \
-            --exclude '.git' \
-            --exclude '.github' \
-            --exclude 'node_modules' \
-            --exclude 'android' \
-            --exclude 'v2-prototype' \
-            --exclude 'docs' \
-            --exclude 'tools' \
-            --exclude 'qa' \
-            --exclude 'scratchpad' \
-            --exclude 'output' \
-            --exclude '_site'
+          for f in \
+            index.html landing.html privacy.html \
+            sw.js manifest.json \
+            CNAME robots.txt \
+            favicon.svg favicon-32.png favicon-180.png apple-touch-180.png \
+            icon-192.png icon-512.png icon-maskable-512.png \
+            og-image.png og-image.svg owl-logo.png; do
+            cp "$f" _site/
+          done
+          for d in niko assets movement share; do
+            cp -r "$d" _site/
+          done
           echo "Published file count: $(find _site -type f | wc -l)"
           test -f _site/CNAME && echo "CNAME present: $(cat _site/CNAME)" || echo "WARNING: no CNAME"
 
