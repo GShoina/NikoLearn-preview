@@ -32,7 +32,10 @@
 - ✅ NB-25 privacy-copy: Opus v2 (`38956a0`) ACCEPTED (Gemini KA-QA PASS, §6c v1+v2 screenshots seen, merged `1279a0c`) → sits at READY FOR FOUNDER APPROVAL in FDQ #1.
 - ✅ Distribution pack + child-watch checklist DRAFTED → `output/2026-07-12-დისტრიბუციის პაკეტი და დაკვირვების ჩექლისთი by Niko.html` (A1-A3 share texts = DRAFT pending owner §6f; checklist = owner tool, ready).
 - NEXT: CX-01 guided-guest prototype · worker-hardening build (NB-26/27/28, deploy gated) · reading-ladder phase-1 content drafts · Talk&Think batch-2 drafts · spearhead decision-rule draft (before 07-18 W1 read).
-- NEXT: CX-01 guided-guest prototype+preview · worker-hardening build (deploy gated) · distribution materials + child-watch checklist · reading-ladder phase-1 content drafts (§6f chain) · Talk&Think batch-2 drafts · weekly-report Monday ritual.
+- ✅ NB-33 SECURITY: leaked STATS_KEY rotated (old→403/new→200) + redacted + **enforced pre-commit secret-scan guard** (`tools/hooks/pre-commit-secretscan.sh` → `.git/hooks/pre-commit`, self-tested blocks; SECURITY_RULES.md Rule 3). New STATS_KEY in `~/.claude/.bivision-creds.env`; owner's viewer updated; any old `?k=` bookmark now dead.
+- ✅ NotebookLM auth VALID (44 cookies); NEW notebook **„NikoLearn Strategy & Audit" `d3c4511e-c061-4880-bde5-2758eaba1ceb`** = onboarding report + coverage matrix + Codex Phase-2 (3 sources; HTML→md converted, NotebookLM rejects HTML). Owner can gen audio-overview/Q&A there. NOTE: NotebookLM never auto-ingests; sources must be added via CLI (auth-valid).
+- 🔄 IN FLIGHT: strat-synth agent reading 8 NEW strategy .docx (07-12: Strategic Intelligence v2, EdTech-ecosystem RE, Georgia innovation policy, Growth Roadmap) → synthesis pending (forks/monetization/contradictions). Files untracked = 0 backup, allowlist-publish-safe → track on owner word.
+- NEXT: CX-01 guided-guest prototype · worker-hardening build (deploy gated) · reading-ladder phase-1 · Talk&Think batch-2 · weekly-report Monday ritual.
 
 ## ▶ PRIOR (2026-07-11 · session 17) — **LIVE = v1.359** (worlds cards balanced+scaled, apex-verified; on top of v1.358 NB-19 EN-chrome tail; see SESSION 17 block).
 **▶ ACTIVE NEXT (owner directive this session) — BOTH experiments DONE + texts drafted, awaiting owner ear+decision:**
