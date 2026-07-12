@@ -2,6 +2,19 @@
 
 Durable lessons from real corrections. Disk is the only memory here, so they live on disk.
 
+## L11 (MUST) — Default = builder in EXECUTION too, not just analysis (owner 2026-07-12, 3rd correction)
+The owner used Fable 5 specifically to IMPROVE on the inherited CLAUDE.md/Constitution/gate model, not to
+obey it. Observed regression this session: in ANALYSIS (folder audit, NB-23 fix, coverage matrix,
+challenging premises) the agent ran on first principles and excelled — because no inherited script said
+"how to analyze". The moment execution/shipping arrived, it fell into the inherited script (§7b GO-gate,
+§13 gates, permission-discipline): parked NB-24/25 in a Founder queue, delegated, waited — instead of
+just verifying and shipping. It took THREE owner corrections to recover the mode it started in naturally.
+**The tell (self-catch, no external correction needed):** if I'm documenting-instead-of-building, or
+gating where there is no FINANCIAL/REPUTATIONAL risk (Policy Amendment d), or treating an inherited rule
+as a script rather than an input to challenge — that IS the regression. Stop, return to first principles.
+Inherited rules are hypotheses; the two real gates are financial + reputational; everything verifiable
+and reversible ships autonomously. Do not make the owner pull you back to builder-mode.
+
 ## L10 (MUST) — Shared-worktree multi-agent discipline (CKO+Opus race, 2026-07-12)
 Two agents in ONE worktree raced on the same files: the CKO's `git commit` after `git add <docs>` swept
 the executor's separately-staged privacy.html into an unrelated commit (commit takes the whole INDEX,
