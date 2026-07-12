@@ -9,6 +9,7 @@ Rule of thumb: **if a doc is not listed here, treat it as unclassified and ask t
 |---|---|---|
 | **HIGHEST operating policy** | `AI_CONSTITUTION.md` | owner-issued verbatim 2026-07-12; wins on any conflict; amendments = owner-only (its §11) |
 | Rules / operating agreement | `../CLAUDE.md` (repo root) | §8 no-em-dash, §11 originality, §12 loop, §13 anti-stop, §14 class-sweep, §15a/§15b policy ptrs, §16 CKO |
+| **Execution standard (all impl. agents)** | `EXECUTION_CONTRACT.md` | owner-commissioned 2026-07-12; Evidence-Bound Completion; cited in every delegation brief, enforced at CKO acceptance |
 | Autonomy / decision policy (detail) | `AUTONOMOUS_DECISION_POLICY.md` | owner-authored verbatim 2026-07-12; operational detail under the Constitution (§6 gate lists match); stricter-than-prior-practice gates noted in its header. **Two-level split is a locked owner decision (merge rejected 2026-07-12) — cross-reference, never merge** |
 | Reasoning standard | `GSH-OS.md` + `REASONING-LESSONS.md` | load with handoff; lessons L1-L9 before tradeoff decisions |
 | Live state / resume pointer | `SESSION-HANDOFF.md` | keep < 30KB (currently over — trim candidate); archives in `archive/` |
