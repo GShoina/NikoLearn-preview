@@ -1,6 +1,9 @@
 # NikoLearn — Security & IP Rules (governing)
 
-Private (repo is private; also excluded from the public Pages site via `_config.yml`).
+> **Status refreshed 2026-07-12 (CKO).** Repo is PRIVATE (verified). Public site = explicit ALLOWLIST
+> publish (NB-24; the old `_config.yml`/denylist note is obsolete — internal files can no longer auto-ship).
+> Standard = OWASP-aligned secret hygiene; enforced by a pre-commit secret-scan guard (Rule 3).
+
 The weekly Security routine enforces these; new development must follow them.
 
 ## Rule 1 — No secrets in the live (client) JS
@@ -31,6 +34,18 @@ build **new premium lessons/audio/AI features backend-gated from day one** — d
 ship them in the public JS. The backend that enforces "paid" (auth + entitlement)
 is the same mechanism that keeps premium content out of a cloner's reach. See
 `PRODUCT_IDEAS.md` roadmap (backend = auth + payment + entitlement + content-behind-auth).
+
+## Rule 3 — No secrets in ANY tracked file (code, docs, handoffs) — NB-33 class
+Credentials live ONLY in `~/.claude/.bivision-creds.env` (gitignored). NEVER paste a live key/token into a
+handoff, tracker, doc, or code comment (a private repo is not a safe place for a live secret — history +
+clones + any future exposure). **This is a distinct class from Rule 1** (Rule 1 = client JS; Rule 3 = ALL
+tracked text). Incident 2026-07-12: the live STATS_KEY sat in two tracked archive handoffs + git history →
+ROTATED (only true remediation for an exposed secret; redaction alone leaves it in history) + redacted.
+- **On any exposed secret: ROTATE first** (wrangler secret put / provider console), update the creds env +
+  any gitignored viewer, verify old→403/new→200. History-purge is unnecessary once the key is dead.
+- **GUARD (enforced):** `tools/hooks/pre-commit-secretscan.sh` installed as `.git/hooks/pre-commit` blocks
+  committing a credential-shaped literal (nk_/AIza/sk-/PRIVATE KEY/token=). Local per clone → each clone
+  runs `cp tools/hooks/pre-commit-secretscan.sh .git/hooks/pre-commit`. Bypass only via `--no-verify` (redact instead).
 
 ## Reporting
 Security routine emails findings to NikoLearn@outlook.com (no public log).
