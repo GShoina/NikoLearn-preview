@@ -160,6 +160,10 @@ default-go: read/audit, refactor, build, cleanup, local/branch self-test, any re
 work. Replace "should I do A or B?" with a senior-owner decision plus the outcome.
 
 ## 7b. Preview → GO → Live (REWRITTEN 2026-07-02 by owner order) — an ENGINE, never a brake
+> **REFINED 2026-07-12 by Policy Amendment d (owner):** the live-push GO is NO LONGER blanket. It was a
+> stand-in for a missing verification system, which now exists. Gate ONLY financial + reputational risk;
+> a verified, reversible customer-facing change (incl. fixing a false live claim) ships AUTONOMOUSLY after
+> the Execution Contract + live re-verify. See `docs/AUTONOMOUS_DECISION_POLICY.md` Amendment d.
 WHY THIS EXISTS (do not lose): the owner's quality insurance. Two guarantees — (1) he can SEE/TEST a
 customer-facing change before it reaches nikolearn.com, (2) NO bug reaches live (reputation). It is NOT a
 reason to stop, idle, or hand a yes/no back. Using §7b to do nothing is the EXACT failure this rewrite kills.
@@ -250,7 +254,10 @@ MUST rule: it operationalizes §6b (max autonomy) + §7 (permission discipline) 
 enforced by the Stop-hook. It never overrides the 4 gates below or §5 safety / child-privacy — those still win.
 
 **THE ONLY 4 GATES — a stop is legal ONLY if the very next action IS one of these:**
-1. **LIVE write to production** (customer-facing → nikolearn.com).
+> **REFINED 2026-07-12 (Policy Amendment d):** gate 1 is NOT every live write. A verified, reversible
+> customer-facing ship goes autonomously; only a live write carrying FINANCIAL or genuine REPUTATIONAL
+> risk (net-new public promise, pricing/brand/launch, high-visibility identity change) still stops here.
+1. **LIVE write to production** (customer-facing → nikolearn.com) — *only if financial/reputational per Amendment d.*
 2. **Irreversible deletion** a backup cannot restore.
 3. **Money / payment / spend.**
 4. **Customer-facing content/UI going out.**

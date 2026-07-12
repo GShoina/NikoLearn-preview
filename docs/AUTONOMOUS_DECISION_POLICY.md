@@ -166,3 +166,35 @@ benchmarking against recognized standards, root cause analysis, and a remediatio
 (Operationally: this generalizes CLAUDE.md §14's class-sweep from bugs to ALL systemic issues, and
 adds a benchmarking step — compare against recognized industry standards/patterns before proposing.
 The Founder sees the finished investigation + proposal, never a request for permission to look.)
+
+---
+
+## Owner Amendment 2026-07-12-d — RISK-CLASSIFIED DEPLOY (retires the blanket live-push gate)
+
+**Owner's ruling (verbatim intent):** rules exist to gate FINANCIAL and REPUTATIONAL risk. The old
+"Preview → GO → Live" / "any live write to production = Founder gate" (CLAUDE.md §7b, §13-gate-1) was a
+WORKAROUND for a missing verification system — its real purpose was to stop unverified/buggy ships. That
+system now exists (Execution Contract + §6c visual gate + §14 class-sweep + QA/behavioral harnesses +
+Gemini KA-QA + live re-verify). So the human GO is no longer the gate; **the verification system is the
+gate.** Fix the system, be independent.
+
+**THE TWO REAL GATES (only these escalate):**
+1. **FINANCIAL** — money, spend, pricing/payment display, anything that commits or charges.
+2. **REPUTATIONAL** — a NARROW set the verification system cannot self-judge: net-NEW public promises
+   or legal/privacy commitments that ADD obligations · pricing/brand/launch announcements · first-run or
+   home-screen identity changes on a high-visibility surface · anything targeting real people publicly ·
+   irreversible-in-perception moves. When unsure whether a change is reputational, show a preview and ask.
+
+**AUTONOMOUS (verify → ship, no GO), even though customer-facing:** bug fixes · copy CORRECTIONS
+(including fixing a FALSE live claim — leaving the defect live is the greater risk) · content that passed
+the full pipeline · UX/a11y/perf fixes · reversible changes. A change that REDUCES financial/reputational
+risk is never gated by "customer-facing".
+
+**Mandatory before any autonomous production ship:** the Execution Contract is satisfied (evidence
+artifacts + §6c screenshot looked at + §14 swept + QA green + Gemini KA-QA for Georgian copy), and I
+live-verify the cache-busted URL after deploy and self-revert (`git revert`) if it regresses. Kids'
+progress is on-device, so rollback loses nothing. If verification cannot establish safety, it is
+NEEDS MORE EVIDENCE, not a ship.
+
+This refines CLAUDE.md §7b and §13-gate-1 and the Constitution §6 "production deployment" line through
+the financial/reputational lens (owner-directed; Constitution text itself unchanged, §11 respected).
