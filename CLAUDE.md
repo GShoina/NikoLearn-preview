@@ -135,6 +135,11 @@ better shouldn't ship on its own. This is a motivation + quality bar, held along
   own temp artifacts (Playwright snapshots/logs, probe files); screenshots worth keeping → `output/`.
   Deleting PROJECT assets (backups/, www/, output/ content) still needs an owner GO — propose a dated
   deletion list with sizes instead.
+- **AUTO-COMPRESS (owner-set 2026-07-12): periodically + automatically, WITHOUT being asked, flush
+  session state to `docs/SESSION-HANDOFF.md` and keep it lean (compress).** Do it at every milestone
+  (a fix shipped, a decision made, an agent result folded in) and whenever the handoff nears ~28KB
+  (archive cold detail → `docs/archive/`, per L10/trim method). Disk is the only memory; never let
+  state live only in chat. This is a standing background discipline, not a task to be prompted for.
 
 ## 6e. Report output convention (owner-locked 2026-06-05)
 Every owner-facing report is HTML and is dropped into `NikoLand/output/`, named
