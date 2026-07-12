@@ -10,7 +10,7 @@
 **Model: Opus 4.8 (1M).** Investigation-only session (no deploy). Owner comms = **Georgian only**. Owner escalated the rigor bar mid-session: **red-team every claim + Gemini cross-check + surface nothing below 95% confidence** — treat this as standing for telemetry/analysis work.
 
 **TELEMETRY ACCESS (was broken, now solved — CRITICAL for next session):**
-- **Real STATS_KEY = `nk_QcZqZ48bv3EqAVmuVe5No1s-`** (hardcoded in the gitignored `output/NikoLearn-stats-viewer.html:80`). Read stats: `curl -G "https://nikolearn-t.bivision.workers.dev/v1/stats" --data-urlencode "k=nk_QcZqZ48bv3EqAVmuVe5No1s-"` (KV list is slow — use `--max-time 100`).
+- **Real STATS_KEY = `nk_<ROTATED 2026-07-12 — live key only in ~/.claude/.bivision-creds.env>`** (hardcoded in the gitignored `output/NikoLearn-stats-viewer.html:80`). Read stats: `curl -G "https://nikolearn-t.bivision.workers.dev/v1/stats" --data-urlencode "k=nk_<ROTATED 2026-07-12 — live key only in ~/.claude/.bivision-creds.env>"` (KV list is slow — use `--max-time 100`).
 - **`.env` creds are DEAD, do NOT use:** `STATS_KEY=c6f4…92b0` is STALE (→403); `CLOUDFLARE_API_TOKEN` is INVALID. (I wasted cycles trusting `.env` first — the viewer HTML holds the live key.)
 - **Gemini CLI now works:** `GEMINI_API_KEY` stored in `NikoLand/.env` (owner-provided 2026-07-04). Default model `gemini-3.5-flash` free quota is TINY (~5-20/day, exhausts fast); **`gemini-2.5-flash-lite` had remaining quota** when others 429'd. Usage: `export GEMINI_API_KEY=$(grep ^GEMINI_API_KEY= .env|cut -d= -f2); cat prompt.txt | gemini -m gemini-2.5-flash-lite`.
 
