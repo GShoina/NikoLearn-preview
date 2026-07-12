@@ -39,6 +39,7 @@ jobs:
           mkdir -p _site
           for f in \
             index.html landing.html privacy.html \
+            changes.html validate.html \
             sw.js manifest.json \
             CNAME robots.txt \
             favicon.svg favicon-32.png favicon-180.png apple-touch-180.png \
