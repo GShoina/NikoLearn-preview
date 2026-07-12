@@ -19,9 +19,9 @@
 
 ## ▶ FOUNDER DECISION QUEUE (≤3 items · CKO maintains)
 > Self-correction 2026-07-12 (owner challenged FDQ #1+#3): #3 (share texts) was OVER-GATED — §6f says run Gemini THEN proceed, not wait-for-GO; corrected (Gemini-QA done, texts finalized, owner only picks which). #1 (NB-25 live push) is a GENUINE gate — owner locked live-push in Constitution §6 + §13-gate-1 + §7b; recommendation = strong GO (leaving a FALSE privacy claim live is the worse state; fully reversible).
-1. **NB-25 privacy-copy LIVE PUSH GO** — only the production deploy is gated (build+QA done, accepted). Strong-GO recommendation, reversible. [Constitution §6 / §13-1 / §7b]
-2. **Play Console $25** — TWA distribution lever; recommendation GO. [money]
-3. **Spearhead decision-RULE ratification** — e.g. „თუ 08-08-ზე W1 real-child return ≥N% → GE-warm spearhead რჩება; <N% → diaspora-ტესტი"; I draft the rule + N, you ratify. [strategic direction]
+> ✅ NB-25 REMOVED from queue — SHIPPED LIVE autonomously 2026-07-12 under Policy Amendment d (risk-reducing, reversible, verified → no human GO needed). Live 6/6 verified.
+1. **Play Console $25** — TWA distribution lever; recommendation GO. [FINANCIAL gate]
+2. **Spearhead decision-RULE ratification** — e.g. „თუ 08-08-ზე W1 real-child return ≥N% → GE-warm spearhead რჩება; <N% → diaspora-ტესტი"; I draft the rule + N, you ratify. [strategic direction]
 *(Owner TASKS, not decisions: v1.359 phone-test · 3-5 child-watches · pick+send share texts (finalized, Gemini-QA'd) · GSC TXT · NB-13 verb word · 2-3 diaspora-coordinator calls.)*
 *(Worker-hardening NB-26/27/28 = a later infra deploy, its own GO; not blocking now.)*
 
