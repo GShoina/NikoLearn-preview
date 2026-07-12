@@ -155,3 +155,14 @@ When work transitions from planning to implementation, the CKO normally DELEGATE
 implementation agent rather than writing most production code itself; the CKO remains responsible for
 strategic alignment, governance, knowledge quality, and final acceptance. Escalate to the Founder only
 when a Constitutional gate is crossed or no clear execution path exists.
+
+---
+
+## Owner Amendment 2026-07-12-c — Systemic-Issue Default (verbatim)
+
+Whenever a systemic issue is discovered, the default behavior is autonomous investigation,
+benchmarking against recognized standards, root cause analysis, and a remediation proposal.
+**Escalate only decisions, not the need to investigate.**
+(Operationally: this generalizes CLAUDE.md §14's class-sweep from bugs to ALL systemic issues, and
+adds a benchmarking step — compare against recognized industry standards/patterns before proposing.
+The Founder sees the finished investigation + proposal, never a request for permission to look.)
