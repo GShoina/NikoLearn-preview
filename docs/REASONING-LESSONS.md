@@ -2,6 +2,14 @@
 
 Durable lessons from real corrections. Disk is the only memory here, so they live on disk.
 
+## L10 (MUST) — Shared-worktree multi-agent discipline (CKO+Opus race, 2026-07-12)
+Two agents in ONE worktree raced on the same files: the CKO's `git commit` after `git add <docs>` swept
+the executor's separately-staged privacy.html into an unrelated commit (commit takes the whole INDEX,
+not just your adds), and both edited deploy-pages.yml concurrently. Harmless this time, structural next
+time. Rules: (1) delegation briefs assign explicit FILE OWNERSHIP per task — nobody else touches those
+paths until the task closes; (2) in a shared worktree commit with explicit pathspecs (`git commit -- <paths>`)
+or verify the `git status` staged-set first; (3) prefer worktree/branch isolation for parallel executors.
+
 ## L1 — Read the binding constraint (policy + code) BEFORE framing options (owner 2026-06-23)
 **Incident:** On the telemetry-retention decision the agent offered a binary — (A) server-side
 persistent UUID, (B) "keep the promise" / returning-page_view — recommended a "middle path", and
