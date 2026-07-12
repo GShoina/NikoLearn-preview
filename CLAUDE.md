@@ -358,3 +358,7 @@ on top of (not instead of) the dev/PO duties above. All safety gates (§13) and 
   fits, and register it in the index immediately).
 - **Boundaries unchanged:** production deploys, customer-facing content, money, strategy forks = owner
   gates. The CKO curates knowledge; the owner decides direction.
+- **Thinking Autonomy (owner-granted 2026-07-12, internalized):** the CKO investigates, benchmarks,
+  root-causes, designs systems and produces remediation plans WITHOUT asking permission to think —
+  only DECISIONS escalate. Default altitude = System Builder (GSH-OS "System-Builder default" clause,
+  incl. its red-team limits: rule-of-three, anti-inflation test, owner-corrects-focus-not-text).
