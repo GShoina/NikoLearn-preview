@@ -1,0 +1,125 @@
+{
+  "schema_version": "0",
+  "subject": "math-fractions",
+  "version": "0.1.0",
+  "provenance": {
+    "author": "NikoLearn (Niko agent)",
+    "created": "2026-07-14",
+    "license": "NikoLearn proprietary content",
+    "source": "Original Georgian authoring. Skill progression follows the public-domain pedagogical archetype of fraction learning (equal parts -> unit fraction -> part of whole -> number line -> equivalence -> comparison -> operations); no third-party text copied or translated (CLAUDE.md 11)."
+  },
+  "nodes": [
+    {
+      "id": "equal-parts",
+      "title_ka": "მთელის თანაბარ ნაწილებად დაყოფა",
+      "desc_ka": "მთელი იყოფა თანაბარ ნაწილებად. სანამ წილადს ვასწავლით, ბავშვმა უნდა დაინახოს რომ ნაწილები ტოლი უნდა იყოს.",
+      "skill_type": "CONCEPTUAL",
+      "item_format": "explain",
+      "grade_band": "g2-3",
+      "standard": { "status": "unmapped", "code": null }
+    },
+    {
+      "id": "unit-fraction",
+      "title_ka": "ერთეული წილადი (1/n)",
+      "desc_ka": "თანაბარ ნაწილებად დაყოფილი მთელის ერთი ნაწილი. 1/2, 1/3, 1/4.",
+      "skill_type": "CONCEPTUAL",
+      "item_format": "explain",
+      "grade_band": "g2-3",
+      "standard": { "status": "unmapped", "code": null }
+    },
+    {
+      "id": "fraction-of-whole",
+      "title_ka": "წილადი როგორც მთელის ნაწილი (a/b)",
+      "desc_ka": "a/b ნიშნავს b ერთეული წილადიდან a ცალს.",
+      "skill_type": "CONCEPTUAL",
+      "item_format": "explain",
+      "grade_band": "g3",
+      "standard": { "status": "unmapped", "code": null }
+    },
+    {
+      "id": "fraction-on-number-line",
+      "title_ka": "წილადი რიცხვით ღერძზე",
+      "desc_ka": "წილადს რიცხვით ღერძზე ვდებთ 0-სა და 1-ს შორის. აქ წილადი რიცხვად აღიქმება, არა მხოლოდ სურათად.",
+      "skill_type": "REPRESENTATIONAL",
+      "item_format": "represent",
+      "grade_band": "g3",
+      "standard": { "status": "unmapped", "code": null }
+    },
+    {
+      "id": "equivalent-fractions",
+      "title_ka": "ტოლფასი წილადები",
+      "desc_ka": "ერთი და იგივე რაოდენობა სხვადასხვა წილადით (1/2 = 2/4 = 3/6).",
+      "skill_type": "CONCEPTUAL",
+      "item_format": "explain",
+      "grade_band": "g3-4",
+      "standard": { "status": "unmapped", "code": null }
+    },
+    {
+      "id": "compare-same-denominator",
+      "title_ka": "წილადების შედარება (ერთი მნიშვნელი)",
+      "desc_ka": "ერთი მნიშვნელისას დიდია ის, რომელსაც მეტი მრიცხველი აქვს.",
+      "skill_type": "PROCEDURAL",
+      "item_format": "practice",
+      "grade_band": "g3-4",
+      "standard": { "status": "unmapped", "code": null }
+    },
+    {
+      "id": "compare-different-denominator",
+      "title_ka": "წილადების შედარება (სხვადასხვა მნიშვნელი)",
+      "desc_ka": "სხვადასხვა მნიშვნელს ჯერ საერთო მნიშვნელზე დაჰყავს, მერე ვადარებთ.",
+      "skill_type": "PROCEDURAL",
+      "item_format": "practice",
+      "grade_band": "g4",
+      "standard": { "status": "unmapped", "code": null }
+    },
+    {
+      "id": "add-same-denominator",
+      "title_ka": "წილადების შეკრება (ერთი მნიშვნელი)",
+      "desc_ka": "ერთი მნიშვნელისას მრიცხველებს ვკრებთ, მნიშვნელი უცვლელი რჩება.",
+      "skill_type": "PROCEDURAL",
+      "item_format": "practice",
+      "grade_band": "g4",
+      "standard": { "status": "unmapped", "code": null }
+    },
+    {
+      "id": "simplify-fraction",
+      "title_ka": "წილადის შეკვეცა",
+      "desc_ka": "მრიცხველსა და მნიშვნელს საერთო გამყოფზე ვყოფთ, სანამ უმცირეს სახეს არ მიიღებს.",
+      "skill_type": "PROCEDURAL",
+      "item_format": "practice",
+      "grade_band": "g4",
+      "standard": { "status": "unmapped", "code": null }
+    },
+    {
+      "id": "mixed-number",
+      "title_ka": "შერეული რიცხვი",
+      "desc_ka": "მთელისა და წილადის ერთად ჩაწერა (1 1/2), როცა მრიცხველი მნიშვნელზე დიდია.",
+      "skill_type": "PROCEDURAL",
+      "item_format": "practice",
+      "grade_band": "g4",
+      "standard": { "status": "unmapped", "code": null }
+    },
+    {
+      "id": "fractions-reflect",
+      "title_ka": "სად შემიძლია წილადი დავინახო ცხოვრებაში",
+      "desc_ka": "ბავშვი თვითონ ასახელებს სად ხვდება წილადი (ნახევარი ვაშლი, მეოთხედი საათი). რეფლექსია, არა ვარჯიში.",
+      "skill_type": "METACOGNITIVE",
+      "item_format": "reflect",
+      "grade_band": "g3-4",
+      "standard": { "status": "beyond_standard", "code": null }
+    }
+  ],
+  "edges": [
+    { "from": "equal-parts", "to": "unit-fraction", "reason_ka": "ერთეული წილადის გასაგებად ჯერ უნდა ესმოდეს, რომ მთელი თანაბარ ნაწილებად იყოფა.", "strength": "hard" },
+    { "from": "unit-fraction", "to": "fraction-of-whole", "reason_ka": "a/b არის a ცალი ერთეული წილადი, ამიტომ ჯერ 1/n უნდა ჰქონდეს გააზრებული.", "strength": "hard" },
+    { "from": "fraction-of-whole", "to": "fraction-on-number-line", "reason_ka": "ღერძზე დასადებად წილადის რაოდენობრივი მნიშვნელობა უნდა ესმოდეს.", "strength": "medium" },
+    { "from": "fraction-of-whole", "to": "equivalent-fractions", "reason_ka": "ტოლფასობის დასანახად ჯერ უნდა ესმოდეს, რას ნიშნავს a/b როგორც რაოდენობა.", "strength": "medium" },
+    { "from": "fraction-of-whole", "to": "compare-same-denominator", "reason_ka": "ერთი მნიშვნელის შესადარებლად საკმარისია a/b-ს გაგება.", "strength": "medium" },
+    { "from": "fraction-of-whole", "to": "add-same-denominator", "reason_ka": "შეკრება იგივე ლოგიკას ეყრდნობა: რამდენი ერთეული ნაწილია სულ.", "strength": "medium" },
+    { "from": "equivalent-fractions", "to": "compare-different-denominator", "reason_ka": "სხვადასხვა მნიშვნელის შესადარებლად ჯერ ტოლფასზე დაყვანა სჭირდება.", "strength": "hard" },
+    { "from": "compare-same-denominator", "to": "compare-different-denominator", "reason_ka": "ჯერ მარტივი შემთხვევა (ერთი მნიშვნელი), მერე რთული (სხვადასხვა).", "strength": "hard" },
+    { "from": "equivalent-fractions", "to": "simplify-fraction", "reason_ka": "შეკვეცა ტოლფასობის უკუპროცესია: დიდი სახიდან უმცირესზე.", "strength": "hard" },
+    { "from": "fraction-of-whole", "to": "mixed-number", "reason_ka": "შერეული რიცხვი a/b-ს გაფართოებაა, როცა a>b.", "strength": "medium" },
+    { "from": "unit-fraction", "to": "fractions-reflect", "reason_ka": "ცხოვრებაში წილადის ამოსაცნობად საკმარისია ერთეული წილადის გაგება.", "strength": "soft" }
+  ]
+}

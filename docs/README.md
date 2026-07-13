@@ -30,6 +30,8 @@ Rule of thumb: **if a doc is not listed here, treat it as unclassified and ask t
 | Voice RECIPE (how to generate TTS) | `VOICE_STANDARD.md` | 2026-06-12 |
 | Voice QUALITY (how to judge audio) | `VOICE_QUALITY_STANDARD.md` | + runnable `tools/voice-eval.mjs`; verdict 2026-07-11: EkaNeural passes |
 | Quality bar / audits | `QUALITY_AUDIT_STANDARD.md` + `AGENT_TEAM_STANDARD.md` | team minimum owner-locked 2026-06-26 |
+| Owner-report STRUCTURE (exec) | `REPORT_STANDARD.md` | NEW 2026-07-13, owner-issued; decision-first, importance-ordered; sits on §6e/§6f/§8; ref impl = Marble integration v2 |
+| Georgian-copy checklist (INTERNAL) | `GEMINI_KA_LESSONS.md` | NEW 2026-07-14, owner decision; internalized recurring Gemini KA corrections → self-apply on INTERNAL reports (no live Gemini call). Customer-facing copy still uses full §6f (Gemini THEN owner). |
 | Data / stats hygiene | `DATA_HYGIENE.md` | probe-subtraction notes also in SESSION-HANDOFF data notes |
 | **Data flows (what leaves the device)** | `DATA_FLOW_INVENTORY.md` | NEW 2026-07-12, code-verified; drives privacy copy (NB-25); update in SAME release as any new flow |
 | Security / IP rules | `SECURITY_RULES.md` | + CLAUDE.md §11 originality |
@@ -37,6 +39,7 @@ Rule of thumb: **if a doc is not listed here, treat it as unclassified and ask t
 | Design system v2 | `V2000-DESIGN-SYSTEM.md` | + `DESIGN_BRIEF_PROMPT_v2.md` (AI-designer master prompt, tool) |
 
 ## Working / reference material (ACTIVE)
+- **`../content/graph/`** — NEW 2026-07-14: content-as-DATA layer (v0 proof). Versioned, schema-validated skill graphs replacing hardcoded `PATHS`/`SUBJ_DIAG` in code. Files: `skill-graph.schema.json` (contract) · `math-fractions.v0.json` (first real content, 11-node ka Fractions ladder) · `validate.mjs` (0-dep validator: schema + acyclicity + reason/strength + skill_type→item_format; `--selftest` proves it discriminates) · `README.md`. Embodies Marble learnings #1/#2/#4/#5/#6/#7. Runtime-routing + probabilistic mastery (#3) deliberately DEFERRED. Owner report: `output/2026-07-14-Marble learnings გეგმა-შესრულება by Niko.html`.
 - `ROADMAP.md` — **KEEP-as-is decision (CKO 2026-07-12):** despite the name it is the parked-ideas register; its own H1 says so, and 4 stable references (incl. code comments kings-exam.js/parent.js) outweigh a rename.
 - `LEVELED-CONTENT-ROADMAP.md` (priority ORDER) + `roadmap-study-program.md` (curriculum idea-mine) — scope-fenced 2026-07-12, intentionally separate axes.
 - `FABLE-CONTENT-PLAN.md` — ACTIVE Fable-usage policy (its dated sibling `FABLE5-ACTION-PLAN.md` archived 2026-07-12).

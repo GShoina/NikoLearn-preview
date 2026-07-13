@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nikolearn.com/schema/skill-graph.v0.json",
+  "title": "NikoLearn Skill Graph",
+  "description": "Versioned, schema-validated skill graph. Content lives here as DATA, not scattered in code. Every node carries a skill-type (drives item format); every prerequisite edge carries a human reason + strength (drives scaffolding and what we tell a child on failure). Inspired by the STRUCTURE of open skill-graphs (prereq DAG idea, not copyrightable); all text is original NikoLearn authoring (CLAUDE.md 11).",
+  "type": "object",
+  "required": ["schema_version", "subject", "version", "provenance", "nodes", "edges"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "type": "string", "const": "0" },
+    "subject": { "type": "string" },
+    "version": { "type": "string", "description": "content version, bumped on every authored change" },
+    "provenance": {
+      "type": "object",
+      "required": ["author", "created", "license", "source"],
+      "additionalProperties": true,
+      "properties": {
+        "author": { "type": "string" },
+        "created": { "type": "string" },
+        "license": { "type": "string" },
+        "source": { "type": "string", "description": "how it was authored; MUST NOT be a copy of third-party text" }
+      }
+    },
+    "nodes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "title_ka", "skill_type", "grade_band", "standard"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "title_ka": { "type": "string", "minLength": 1 },
+          "desc_ka": { "type": "string" },
+          "skill_type": {
+            "type": "string",
+            "enum": ["CONCEPTUAL", "PROCEDURAL", "METACOGNITIVE", "LANGUAGE", "REPRESENTATIONAL"],
+            "description": "CONCEPTUAL needs explanation, PROCEDURAL needs practice, METACOGNITIVE needs reflection. Drives item_format."
+          },
+          "item_format": {
+            "type": "string",
+            "enum": ["explain", "practice", "reflect", "read", "represent"],
+            "description": "if present, must match the skill_type rule (see validate.mjs)"
+          },
+          "grade_band": { "type": "string" },
+          "standard": {
+            "type": "object",
+            "required": ["status"],
+            "additionalProperties": false,
+            "properties": {
+              "status": { "type": "string", "enum": ["mapped", "unmapped", "beyond_standard"] },
+              "code": { "type": ["string", "null"], "description": "national-curriculum code when mapped; null otherwise. NEVER invent a code." }
+            }
+          }
+        }
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["from", "to", "reason_ka", "strength"],
+        "additionalProperties": false,
+        "properties": {
+          "from": { "type": "string" },
+          "to": { "type": "string" },
+          "reason_ka": { "type": "string", "minLength": 1, "description": "WHY from is a prerequisite of to. The most underrated asset: it tells us how to scaffold and what to say on failure." },
+          "strength": { "type": "string", "enum": ["soft", "medium", "hard"] }
+        }
+      }
+    }
+  }
+}

@@ -319,7 +319,13 @@ async function driveCombo(browser, url, width, lang, age) {
   const tiles = await page.evaluate(() => [...document.querySelectorAll('.subj')].map((el, i) => ({
     i, name: ((el.querySelector('.s-name,.w-nm') || {}).textContent || 'tile' + i).trim(),
     onclick: (el.getAttribute('onclick') || '').slice(0, 120) })));
-  const goHome = async () => { await page.evaluate(l => { try { if (l === 'en' && window.UILANG !== 'en') setUILang('en'); selectProfile('guest'); } catch (e) {} }, lang); await page.waitForTimeout(450); };
+  // goHome MUST first tear down any APPENDED overlay (Movement #breakscr, Word Search #wsscr). selectProfile()
+  // only re-renders the home SCREEN underneath — it does NOT remove these body-level overlays, so before this fix
+  // the Movement overlay stayed on top after goHome and every later tile-click landed on it: Movement looked like a
+  // nav-trap and Word Search + Drawing (the tiles after Movement) got ZERO real coverage in all 18 combos (2026-07-13
+  // run3, NB-36). App is fine (closeBreak/closeWs work); this was a harness-coverage bug. Draw uses render() so the
+  // home re-render replaces it — no overlay to clear there.
+  const goHome = async () => { await page.evaluate(l => { try { if (window.closeBreak) closeBreak(); } catch (e) {} try { if (window.closeWs) closeWs(); } catch (e) {} try { const b = document.getElementById('breakscr'); if (b) b.remove(); const w = document.getElementById('wsscr'); if (w) w.remove(); } catch (e) {} try { if (l === 'en' && window.UILANG !== 'en') setUILang('en'); selectProfile('guest'); } catch (e) {} }, lang); await page.waitForTimeout(450); };
   for (const t of tiles) {
     const m = t.onclick.match(/openSubj\(event,'([^']+)'\)/);
     const subj = m ? m[1] : null;

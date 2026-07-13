@@ -465,7 +465,7 @@ function matchRound(){
   const en=shuffle(pool.map(w=>({t:w.en,l:'en',w:w.en})));
   const col=arr=>arr.map(c=>`<div class="mtile ${c.l==='en'?'en':''}" data-w="${c.w}" data-l="${c.l}" onclick="matchTap(this)">${c.t}</div>`).join('');
   gameShell(`<div class="match-cols">
-    <div class="match-col"><div class="match-head">🇬🇪 ქართული</div>${col(ka)}</div>
+    <div class="match-col" data-noi18n><div class="match-head">🇬🇪 ქართული</div>${col(ka)}</div>
     <div class="match-col"><div class="match-head en">🇬🇧 ინგლისური</div>${col(en)}</div>
   </div>`);
   $('#gcount').textContent=`0/${pool.length}`;
@@ -615,7 +615,7 @@ function rampMath(type,pct){
   }
   save();
 }
-function genMath(type){
+function genMathRaw(type){
   const young=isYoung(profile);
   const cfg=(MATH_LV[type]||[])[mathLvl(type)]||{};
   // 7+ step-up (from the owner's worksheets): occasional 3-term expression e.g. "9 + 9 − 8" / "15 − 5 − 3"
@@ -670,6 +670,16 @@ function genMath(type){
     return {q:shown,a:full[blank],pat:true,op:'pat',seq:full.slice(),step,blank};
   }
 }
+// NB-39 (2026-07-14): reject an item whose ANSWER is a number already visible in the prompt
+// ("6 − 3 = ?"→3, "5 × 1 = ?"→5, "? + 5 = 10"→5, "9 ÷ 3 = ?"→3) — a child "solves" it by reading, not
+// reasoning. The visual-QA probe found ~7 across sub/mul/div/miss. Guard at the ONE generator every math
+// path funnels through (mathRound, requeue, easyFirst fallback) so the whole class is fixed at the root.
+function answerIsShown(it){
+  if(!it||typeof it.a!=='number')return false;
+  const nums=(String(it.q||'').replace(/<[^>]*>/g,' ').match(/\d+/g)||[]).map(Number);
+  return nums.includes(it.a);
+}
+function genMath(type){ let it; for(let k=0;k<12;k++){ it=genMathRaw(type); if(!answerIsShown(it))return it; } return it; }
 function mathOpts(ans){const set=new Set([ans]);while(set.size<4){const v=ans+ri(1,Math.max(3,Math.ceil(Math.abs(ans)*0.3)+1))*(Math.random()>.5?1:-1);if(v>=0)set.add(v);}return shuffle([...set]);}
 // activation / 0.3 warm-up (owner 07-02, data: q0 = 53% of ALL abandons, math mode-abandon 65%): the FIRST
 // question of EVERY math round is a guaranteed easily-winnable opener (small, type-appropriate numbers), so
@@ -709,7 +719,7 @@ function startMulAfterPrimer(){ try{ if(state[profile]){ state[profile].mulPrime
 function mathRound(m){
   if(m==='math-mul' && state[profile] && !state[profile].mulPrimerSeen){ return mulPrimer(); }
   game.mode=m;game.leveledMath=null;game.qs=Array.from({length:8},()=>genMath(m));
-  game.qs[0]=easyFirstMath(m); // 0.3 warm-up: every round opens with a guaranteed-winnable question (q0 = 53% of abandons)
+  game.qs[0]=easyFirstMath(m); for(let _k=0;_k<8&&answerIsShown(game.qs[0]);_k++)game.qs[0]=easyFirstMath(m); // 0.3 warm-up: every round opens with a guaranteed-winnable question (q0 = 53% of abandons)
   game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextMath();}
 // NB-17: dative (-ს) number words 1-20 — the FIRST operand of a spoken subtraction ("ცხრას გამოვაკლოთ სამი").
 // Owner-validated ka 2026-07-06; recorded clips = nb17_dat_NN.mp3 (audio-manifest.js). Nominative before
@@ -1364,12 +1374,21 @@ function answerPattern(btn,sel,cor){
    entry. Pattern stays its own (already shipped) special case. ── */
 function genRebus(tier){
   tier=Math.max(1,Math.min(3,tier||1));
-  if(tier===1){ const S=shuffle(['🔵','🟢','⭐','🔺','🟪']).slice(0,2); const v0=ri(2,8), v1=ri(2,8); const a=v0+v1;
-    return {q:`${S[0]} = ${v0},  ${S[1]} = ${v1}<br>${S[0]} + ${S[1]} = ?`, a, opts:pat3opts(a), rule:`${S[0]}=${v0}, ${S[1]}=${v1} → ${v0}+${v1}=<b>${a}</b>`, tier}; }
-  if(tier===2){ const X=['N','A','□','⭐'][ri(0,3)]; const x=ri(2,9), b=ri(2,9); const res=x+b;
-    return {q:`${X} + ${b} = ${res}<br>${X} = ?`, a:x, opts:pat3opts(x), rule:`${X} = ${res} − ${b} = <b>${x}</b>`, tier}; }
-  const a0=ri(1,5), s=ri(2,6), sEq=s+a0, c=ri(2,5), a=s+c;
-  return {q:`△ + ${a0} = ${sEq}<br>⬛ = △ + ${c}<br>⬛ = ?`, a, opts:pat3opts(a), rule:`△ = ${sEq}−${a0} = ${s};  ⬛ = ${s}+${c} = <b>${a}</b>`, tier};
+  // NB-39 sweep (2026-07-14): reuse the ONE answerIsShown predicate as a reroll guard so a rebus answer is
+  // never a number already printed in the prompt (tier-2 "N + 5 = 10 → 5", tier-3 △-chain collisions). tier-1
+  // can't collide (a=v0+v1 > both operands) so it returns first pass; tiers 2/3 reroll the ~1/8 unlucky draw.
+  // Same class, same guard as genMath — no second definition of "answer is shown".
+  let it;
+  for(let k=0;k<20;k++){
+    if(tier===1){ const S=shuffle(['🔵','🟢','⭐','🔺','🟪']).slice(0,2); const v0=ri(2,8), v1=ri(2,8); const a=v0+v1;
+      it={q:`${S[0]} = ${v0},  ${S[1]} = ${v1}<br>${S[0]} + ${S[1]} = ?`, a, opts:pat3opts(a), rule:`${S[0]}=${v0}, ${S[1]}=${v1} → ${v0}+${v1}=<b>${a}</b>`, tier}; }
+    else if(tier===2){ const X=['N','A','□','⭐'][ri(0,3)]; const x=ri(2,9), b=ri(2,9); const res=x+b;
+      it={q:`${X} + ${b} = ${res}<br>${X} = ?`, a:x, opts:pat3opts(x), rule:`${X} = ${res} − ${b} = <b>${x}</b>`, tier}; }
+    else { const a0=ri(1,5), s=ri(2,6), sEq=s+a0, c=ri(2,5), a=s+c;
+      it={q:`△ + ${a0} = ${sEq}<br>⬛ = △ + ${c}<br>⬛ = ?`, a, opts:pat3opts(a), rule:`△ = ${sEq}−${a0} = ${s};  ⬛ = ${s}+${c} = <b>${a}</b>`, tier}; }
+    if(!answerIsShown(it))return it;
+  }
+  return it;
 }
 /* Kings MATH "გამოიანგარიშე" strand: multi-step real-world word problems (Gemini KA-QA'd 2026-06-23,
    math self-verified). Curated by capacity tier; genModel picks one; learn-mode shows the steps. */
@@ -1377,7 +1396,7 @@ const MODEL_POOL=[
   {lv:1,q:'ნიკას აქვს 6 ვაშლი. დედამ კიდევ 5 მისცა. მერე 3 შეჭამა. რამდენი დარჩა?', a:8, opts:[8,11,14], rule:'6+5=11, მერე 11−3=<b>8</b>'},
   {lv:1,q:'მაღაზიაში 4 ბურთი იყო. კიდევ 7 მოიტანეს. ახლა რამდენია?', a:11, opts:[11,3,10], rule:'4+7=<b>11</b>'},
   {lv:1,q:'3 კალათაში, თითოეულში 2 ვაშლია. ჯამში რამდენი ვაშლია?', a:6, opts:[6,5,8], rule:'3×2=<b>6</b>'},
-  {lv:1,q:'ლუკას აქვს 8 კანფეტი. დას მისცა 3, ძმას 2. რამდენი დარჩა?', a:3, opts:[3,5,6], rule:'8−3−2=<b>3</b>'},
+  {lv:1,q:'ლუკას აქვს 9 კანფეტი. დას მისცა 3, ძმას 2. რამდენი დარჩა?', a:4, opts:[4,5,6], rule:'9−3−2=<b>4</b>'}, // NB-39: was 8→3 (answer equalled a shown operand); now 9→4, answer not printed in the prompt.
   {lv:2,q:'10 ბავშვი ეზოში თამაშობდა. 4 წავიდა, მერე 3 მოვიდა. ახლა რამდენია?', a:9, opts:[9,7,11], rule:'10−4=6, 6+3=<b>9</b>'},
   {lv:2,q:'მარის ჰქონდა 15 ლარი. იყიდა წიგნი 6-ად და კალამი 4-ად. რამდენი დარჩა?', a:5, opts:[5,9,11], rule:'15−6−4=<b>5</b>'},
   {lv:2,q:'ერთ ყუთში 6 კვერცხია. რამდენი კვერცხია 3 ყუთში?', a:18, opts:[18,9,12], rule:'6×3=<b>18</b>'},

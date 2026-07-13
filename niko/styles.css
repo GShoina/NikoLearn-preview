@@ -679,7 +679,7 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
   border-top:1px solid var(--line);z-index:40}
 .bottomnav button{background:none;border:none;cursor:pointer;color:var(--faint);font-family:inherit;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:6px 14px;
-  min-height:44px;border-radius:13px;font-size:.62rem;font-weight:700;transition:color .15s,background .15s}
+  min-width:44px;min-height:44px;border-radius:13px;font-size:.62rem;font-weight:700;transition:color .15s,background .15s}
 .bottomnav button svg{width:23px;height:23px}
 .bottomnav button.on{color:var(--primary)}
 .bottomnav button.on .navdot{opacity:1}
@@ -702,7 +702,7 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
    (empirically verified: overlap reproduced at effective vh≈740). Docking it inside the progress row puts it in
    the top chrome band, which tiles never occupy → zero overlap on every subject/mode/screen size, and it stays
    one thumb-tap away. */
-.ai-fab{flex:0 0 auto;position:relative;width:42px;height:42px;border-radius:14px;border:none;
+.ai-fab{flex:0 0 auto;position:relative;width:44px;height:44px;border-radius:14px;border:none;
   cursor:pointer;background:linear-gradient(150deg,var(--sky),var(--purple));color:#fff;font-size:1.3rem;
   display:grid;place-items:center;box-shadow:var(--shadow-md);z-index:45;transition:transform .15s;padding:0}
 .ai-fab:active{transform:scale(.92)}
@@ -737,8 +737,8 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
 
 /* ── ხატვა / Draw & Color (v1.234) ── */
 .draw-screen{display:flex;flex-direction:column;gap:8px;height:100%;padding:6px 4px}
-.dw-top{display:flex;align-items:center;gap:6px}
-.dw-tools{display:flex;gap:5px;flex:1;justify-content:center}
+.dw-top{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.dw-tools{display:flex;gap:5px;flex:1;justify-content:center;flex-wrap:wrap;min-width:0}
 .dw-tool{width:44px;height:44px;border:1.5px solid var(--line);background:var(--card);border-radius:12px;font-size:1.25rem;cursor:pointer;padding:0;display:grid;place-items:center}
 .dw-tool:active{transform:scale(.94)}
 .dw-tool.on{border-color:var(--primary);background:color-mix(in oklch,var(--primary) 14%,var(--card))}
@@ -948,7 +948,7 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
 .mv2 .mv-top{display:flex;align-items:center;gap:12px;padding:14px 16px 4px;flex:0 0 auto}
 .mv2 .iconbtn{width:46px;height:46px;flex:none;border:1.5px solid color-mix(in oklch,var(--line) 82%,transparent);background:var(--card);color:#FF8A00;border-radius:16px;font-size:1.25rem;cursor:pointer;display:grid;place-items:center;box-shadow:0 4px 12px -5px rgba(184,82,42,.24), inset 0 1.5px 0 rgba(255,255,255,.6)}
 .mv2 .iconbtn:active{transform:scale(.92)}
-.mv2 .who{flex:1;font-weight:700;font-size:1.04rem;line-height:1.15}
+.mv2 .who{flex:1;min-width:0;font-weight:700;font-size:1.04rem;line-height:1.15}
 .mv2 .who small{display:block;font-weight:500;color:var(--muted);font-size:.74rem}
 .mv2 .pill{display:inline-flex;align-items:center;gap:6px;background:var(--card);border-radius:999px;padding:8px 13px;font-weight:700;font-size:.9rem;box-shadow:var(--bshadow)}
 .mv2 .pill .num{color:var(--primary-d)}
@@ -1776,7 +1776,13 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
   justify-content:center;gap:clamp(5px,1.6vw,8px);
   box-shadow:inset 0 -5px 0 rgba(0,0,0,.13),0 5px 14px rgba(60,45,15,.16)}
 .subj.wld .w-ico{font-size:clamp(2.2rem,9vw,2.9rem);line-height:1.1;filter:drop-shadow(0 3px 4px rgba(0,0,0,.18))}
-.subj.wld .w-nm{font-weight:800;font-size:clamp(.9rem,3.9vw,1.05rem);margin-top:0;text-shadow:0 1px 2px rgba(0,0,0,.22);line-height:1.22}
+/* NB-40 (2026-07-14): white world-name on the pastel chips failed contrast (measured 1.86-2.96, FAIL) — a
+   bottom scrim did not reach the label band (it sits at 54-83% of the chip), so give the NAME its own dark
+   rounded name-tag plate. Layout-independent (moves with the label regardless of icon-clamp), keeps the
+   playful white-on-colour look, measures ~6:1 on every hue (verified in-browser via pixel sampling). */
+.subj.wld .w-nm{font-weight:800;font-size:clamp(.9rem,3.9vw,1.05rem);margin-top:0;line-height:1.22;
+  width:fit-content;max-width:100%;margin-left:auto;margin-right:auto;padding:2px 9px;border-radius:11px;
+  background:rgba(22,15,5,.55);text-shadow:0 1px 2px rgba(0,0,0,.5)}
 .subj.wld .w-spk{position:absolute;top:7px;right:9px;font-size:.72rem;opacity:.85}
 .whue-gold{background:linear-gradient(#f2c14e,#e8b23a)}
 .whue-purple{background:linear-gradient(#bb95e8,#a97fd6)}
