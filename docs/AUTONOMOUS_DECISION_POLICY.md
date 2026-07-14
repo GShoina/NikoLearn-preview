@@ -199,20 +199,22 @@ NEEDS MORE EVIDENCE, not a ship.
 This refines CLAUDE.md §7b and §13-gate-1 and the Constitution §6 "production deployment" line through
 the financial/reputational lens (owner-directed; Constitution text itself unchanged, §11 respected).
 
-## Owner Amendment 2026-07-14-e — BUG-FIX SHIPS ARE FULLY AUTONOMOUS (reinforces d) + hardened LIVE-GO standard
+## 2026-07-14-e — LIVE-PUSH PROCEDURE (engineering standard implementing d; NOT a new policy)
 
-**Owner's ruling (verbatim intent, 2026-07-14):** "მინდა რომ მომავალში [bug-fix live push] ჩემზე არ იყოს
-დამოკიდებული. თუ ბაგი აღმოაჩინე, გამოასწორე, დაავალიდირე და მითხარი მზადაო. მინდა შენი reasoning-ის
-მჯეროდეს. ჩემი GO ხომ არაფერს წყვეტს ამ ეტაპზე — ვერ ვხსნი, ვერ ვტესტავ. ესე იგი GO არის stop რომელიც
-წმინდად რეპუტაციულია. თუ საჭიროა, სტანდარტი გაამკაცრე შემოწმების და ლაივზე გასვლის. ოღონდ მინდა რომ ეს
-ქეისები ავტონომიურად ხდებოდეს." Translation of the OPERATIVE point: for a bug fix he cannot personally
-open or test, his GO adds **zero verification value** — it is a rubber stamp, so asking for it is a
-bottleneck, not a safety control. The real safety = the verification system. **Do NOT ask for GO on a
-verified, reversible bug fix.** Verify → validate → tell him it's DONE (not "ready, may I?").
+**Framing (owner clarified 2026-07-14):** this is NOT an owner policy change — policy d already made
+verified reversible bug-fix ships autonomous. The owner's actual ask is ENGINEERING: **make the live-push
+PROCEDURE strong and repeatable** so that when his only role would be a rubber-stamp "go", his reasoning-
+proxy is the procedure, not his click. In his words: "როცა ჩემი ჩართულობის ღირებულება მხოლოდ go, მინდა
+შენი სწორი რიზონინგი მოქმედებდეს მაღალი გადამოწმებისა და ვალიდაციის ეფექტური პროცედურებით." So: don't ask
+for GO on a verified reversible bug fix; run it through the procedure below and report DONE.
 
-**What still escalates (unchanged from d):** ONLY financial + the narrow reputational set (net-new public
-promise / pricing / brand / launch / high-visibility identity). A verified reversible bug/UX/a11y/perf fix
-is NEVER one of these.
+**Executable form:** `tools/live-push.mjs` encodes this procedure as ONE repeatable command (gates → bump →
+merge → deploy → live-verify), so no step is ever skipped by hand. The checklist below is that script's
+contract; the script is the enforcement.
+
+**Escalation is unchanged from d:** ONLY financial + the narrow reputational set (net-new public promise /
+pricing / brand / launch / high-visibility identity). A verified reversible bug/UX/a11y/perf fix is NEVER
+one of these.
 
 **CKO self-correction logged:** on 2026-07-14 I finished the Word-Search 4-fix batch (verified, reversible)
 and asked the owner for a live-push GO. Under Amendment d that was already wrong — a regression to the
