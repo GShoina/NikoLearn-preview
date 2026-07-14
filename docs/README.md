@@ -45,6 +45,7 @@ Rule of thumb: **if a doc is not listed here, treat it as unclassified and ask t
 - `FABLE-CONTENT-PLAN.md` — ACTIVE Fable-usage policy (its dated sibling `FABLE5-ACTION-PLAN.md` archived 2026-07-12).
 - `MATH_IDEAS_LIBRARY.md`, `CURRICULUM_MAP.html` (coverage map; biggest gap = Georgian reading ladder), `PARENT-GUIDE.md`, `SKILLS-TO-USE.md`, `COMPETITOR_garnamatac.md` (+ root `competitor-profiles/nodi.md`).
 - Drafts awaiting owner §6f validation: `fable-leveled-banks-2026-07-02.md`, `fable-talk-cards-2026-07-02.md`, `fable-owl-activation-copy-2026-07-02.md`, `fantasy-batch1-draft.md`.
+- `BTU-COLLAB-NOTE-DRAFT.md` — DRAFT outreach note to BTU (Georgian university publishing the ka-AI dataset). Assessed 2026-07-14: their CC BY-NC dataset is NOT a data-source for NikoLearn (wordform list ≠ copy-editor + adult register + license), but BTU = local collaboration/validation ally. **Send = owner-authority gate.** Full assessment: `output/2026-07-14-BTU ქართული AI-დატასეტის შეფასება by Niko.html`.
 - `PLACEMENT_LAYER_B.staging.js` — staged content pools; REFERENCED from live `niko/placement.js:19` comment (pre-merge record) → keep.
 - `CHANGELOG.md` — ⚠ DEPRECATED as a live log (stale since 2026-06-10, app ~30 versions ahead); per-session changes live in SESSION-HANDOFF + root `changes.html`; `tools/changelog-html.mjs` still reads it.
 
