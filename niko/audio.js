@@ -18,18 +18,33 @@
   // NB-20 (2026-07-09): first-gesture AUDIO UNLOCK. Desktop Chrome / iOS block HTMLAudio.play()
   // until a user gesture. The app auto-voices on some screen loads (e.g. a Movement break that
   // opens on its own, prompts, greetings) where the play() is NOT inside a tap handler → silent.
-  // On the FIRST real gesture we prime the reused element with an existing clip at volume 0 (an
-  // UNMUTED but inaudible play, which counts as unlocking), then restore. All later clips play.
+  // On the FIRST real gesture we play a genuinely SILENT asset to unlock, then restore state.
+  // NB-49 (2026-07-15): the old unlock played a REAL voice clip ("მოძრაობა" = clip_294) at
+  // a.volume=0. iOS Safari IGNORES programmatic .volume (read-only there), so on a phone the very
+  // first tap on the profile chooser played „მოძრაობა" ALOUD. Fix = unlock with an all-zero-PCM
+  // silent WAV (+ muted) so it is inaudible on EVERY platform, not only where volume is honoured.
+  const SILENT_SRC = (function(){
+    try{
+      const sr=8000, n=160, dl=n*2, b=new Uint8Array(44+dl), dv=new DataView(b.buffer);
+      const ws=(o,s)=>{ for(let i=0;i<s.length;i++) b[o+i]=s.charCodeAt(i); };
+      ws(0,'RIFF'); dv.setUint32(4,36+dl,true); ws(8,'WAVE'); ws(12,'fmt ');
+      dv.setUint32(16,16,true); dv.setUint16(20,1,true); dv.setUint16(22,1,true);
+      dv.setUint32(24,sr,true); dv.setUint32(28,sr*2,true); dv.setUint16(32,2,true); dv.setUint16(34,16,true);
+      ws(36,'data'); dv.setUint32(40,dl,true);
+      let bin=''; for(let i=0;i<b.length;i++) bin+=String.fromCharCode(b[i]);
+      return 'data:audio/wav;base64,'+btoa(bin);
+    }catch(e){ return ''; }
+  })();
   let _unlocked = false;
   function _primeAudio(){
     if(_unlocked) return; _unlocked = true;
     try{
-      const a = getPlayer(); const v = a.volume; a.volume = 0;
-      a.src = BASE + 'clip_294.mp3';   // „მოძრაობა" — any valid clip; silent here
+      const a = getPlayer(); const v = a.volume, m = a.muted;
+      a.muted = true; a.volume = 0; if(SILENT_SRC) a.src = SILENT_SRC;
+      const restore = ()=>{ try{a.pause();a.currentTime=0;}catch(e){} a.muted = m; a.volume = v||0.85; };
       const p = a.play();
-      if(p && p.then) p.then(()=>{ try{a.pause();a.currentTime=0;}catch(e){} a.volume = v||0.85; })
-                       .catch(()=>{ a.volume = v||0.85; });
-      else a.volume = v||0.85;
+      if(p && p.then) p.then(restore).catch(restore);
+      else restore();
     }catch(e){}
     document.removeEventListener('pointerdown', _primeAudio, true);
     document.removeEventListener('touchend', _primeAudio, true);

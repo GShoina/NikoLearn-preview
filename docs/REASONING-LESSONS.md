@@ -2,6 +2,25 @@
 
 Durable lessons from real corrections. Disk is the only memory here, so they live on disk.
 
+## L13 (MUST) — VALUE-GATE a feature/bug BEFORE investing effort, don't just execute the literal task (owner 2026-07-14)
+Incident: a bug report ("the 🎨 theme picker doesn't visibly work", NB-48) was taken literally and executed
+well: chrome-only fix shipped, option-B branch, A/B report, adversarial red-team, refinement, many verify
+cycles. Real cost. The owner then asked the question that should have come FIRST: "what business value did
+this have, and shouldn't we have evaluated that up front?" He is right. A theme picker in a kids' learning
+app moves none of the real needles (does the kid learn / stay / does the parent trust+pay); as a "fun color
+switch" its value is ~zero and, as this same session proved, it can be NET-NEGATIVE (a blue field on the
+parent trust surface undercuts the warm brand). The one honest steelman (a deliberate CALM / low-sensory
+accessibility mode) is a different, validatable feature, not what NB-48 was.
+Rule: before touching ANY feature/fix beyond a trivial one, run a 2-minute VALUE-GATE and state it in one
+line: (a) which goal does this serve (learning / retention / trust / conversion), (b) rough value if it
+works [HYPOTHESIS], (c) effort, (d) cheaper alternative including KILL/HIDE the feature. If value is
+unclear or low, the first recommendation is often "don't build it / remove it", not "how to build it".
+This is the §4 product-owner line applied to MYSELF: executing a literal instruction well is a §4 failure
+if I never challenged whether it deserved the effort. §6d ("every version must EARN its number") is the
+same bar — the value test is BEFORE the work, not after. Cheapest token is the one never spent. See
+[[feedback-owner-hesitation-is-content-trust]] and the system-vision directive (build future value, not
+tidy structure).
+
 ## L12 (MUST) — Pick the model by the STEP's nature, not the phase; handoff synthesis stays top-tier (owner 2026-07-14)
 Owner asked whether a cheaper model is fine for routine work / during a handoff, and (twice) whether I
 challenge a "use Sonnet" instruction. Framework: model = f(judgment-required, cheap-verifiability,
