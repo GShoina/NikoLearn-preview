@@ -2,8 +2,17 @@
    NIKO LEARN — Word-Search engine (SPEC-2). Subject-agnostic grid; hidden themed words.
    Self-contained overlay screen (modelled on the Movement break): mounts into `.device`,
    closes by removing #wsscr. Audio-first (pre-readers get emoji clue + 🔊 word audio; no
-   reading required). Adaptive: young ≤6 = small grid, straight lines only, big cells;
-   reader ≥7 = bigger grid + diagonals. Reuses AUDIO_MANIFEST clips + the coin reward.
+   reading required).
+   Adaptive by AGE **and** CAPACITY (NB-45): a persistent per-profile skill (wsSkill) is
+   hard-banded by age (young 0-1, reader 1-3) and scaled within the band by mastery — it
+   ramps up after hint-free wins and eases back when the child leans on hints. Skill maps to
+   grid size, word count and direction set (straight → +down-diagonal → +up-diagonal).
+   SOLVABILITY IS GUARANTEED (NB-44): _build grows the grid and retries until EVERY clue word
+   is placed; clues only ever render placed words, so every shown word is findable+selectable.
+   TUTOR (NB-43): Niko 🦉 appears after a struggle window and offers a graduated hint
+   (pulse the first letter + play the word → flash the whole path). Hint use feeds the skill.
+   FOOTER (NB-42): a self-contained bottom dock (Home / Hint / New) so the screen isn't a dead-end.
+   Reuses AUDIO_MANIFEST clips + the coin reward.
    §11: all word lists are our own selection of common nouns (not copied from any source).
    Load AFTER owl.js (needs isYoung/isBig/isTiny/backBtn/praise/playClipFor/state/save).
    ═══════════════════════════════════════════════════════════ */
@@ -21,15 +30,42 @@
     { id:'nature', title:'ბუნება', hue:'hue-blue',
       words:[{w:'მზე',e:'☀️'},{w:'მთვარე',e:'🌙'},{w:'ხე',e:'🌳'},{w:'ყვავილი',e:'🌸'}] },
   ];
+  // Skill levels (NB-45): index = wsSkill. words=target count, dirs=allowed directions,
+  // grow=extra grid room over the longest word (bigger = more filler = harder to spot).
+  const LEVELS = [
+    { words:3, dirs:[[0,1],[1,0]],                 grow:1 }, // 0  youngest / brand-new: straight only
+    { words:4, dirs:[[0,1],[1,0]],                 grow:2 }, // 1  straight only, a touch bigger
+    { words:4, dirs:[[0,1],[1,0],[1,1]],           grow:2 }, // 2  + down-diagonal
+    { words:6, dirs:[[0,1],[1,0],[1,1],[-1,1]],    grow:3 }, // 3  both diagonals, more words
+  ];
   let _grid=[], _words=[], _size=7, _anchor=null, _packIdx=0;
+  let _hintsUsed=0, _struggleT=null, _owlT=null, _completeT=null, _skill=0;
 
   const rnd = n => Math.floor(Math.random()*n);
   const young = () => (typeof isYoung==='function' && isYoung(profile)) || (typeof isTiny==='function' && isTiny(profile));
   const cellKey = cells => cells.map(c=>c[0]+','+c[1]).sort().join(';');
 
+  // ── difficulty resolution: age is a hard band, mastery scales within it (NB-45) ──
+  function _resolveSkill(){
+    const yng=young();
+    let s = 0; try{ const st=state[profile]; if(st && typeof st.wsSkill==='number') s=st.wsSkill; else s = yng?0:2; }catch(e){ s = yng?0:2; }
+    const lo = yng?0:1, hi = yng?1:3;                 // young never gets diagonals-heavy; reader never trivially easy
+    return Math.max(lo, Math.min(hi, s|0));
+  }
+  function _bumpSkill(hintsUsed){
+    try{
+      const st=state[profile]; if(!st) return;
+      const yng=young(); const lo=yng?0:1, hi=yng?1:3;
+      let s = (typeof st.wsSkill==='number') ? st.wsSkill : (yng?0:2);
+      if(hintsUsed===0) s++; else if(hintsUsed>=3) s--;     // earned it clean → up; leaned on hints → ease back
+      st.wsSkill = Math.max(lo, Math.min(hi, s));
+      if(typeof save==='function') save();
+    }catch(e){}
+  }
+
   function _place(word, dirs){
     const L=[...word];
-    for(let t=0;t<250;t++){
+    for(let t=0;t<300;t++){
       const d=dirs[rnd(dirs.length)], r0=rnd(_size), c0=rnd(_size);
       const r1=r0+d[0]*(L.length-1), c1=c0+d[1]*(L.length-1);
       if(r1<0||r1>=_size||c1<0||c1>=_size) continue;
@@ -42,21 +78,42 @@
     return null;
   }
 
+  // Try to place EVERY word at the current _size; returns the placed set (or null if any failed).
+  function _tryLayout(pick, dirs){
+    _grid = Array.from({length:_size},()=>Array(_size).fill(''));
+    const placed=[];
+    for(const it of pick){ const cells=_place(it.w, dirs); if(!cells) return null; placed.push({w:it.w, e:it.e, cells, key:cellKey(cells), found:false, hint:0}); }
+    return placed;
+  }
+
   function _build(pack){
     const yng=young();
-    const nWords = yng?4:6;
-    const chosen = pack.words.slice().sort((a,b)=> a.w.length-b.w.length); // shorter first helps young
-    const pick = (yng ? chosen.slice(0,5) : chosen).slice(0, nWords);
+    _skill = _resolveSkill();
+    const cfg = LEVELS[_skill];
+    _hintsUsed = 0;
+    const chosen = pack.words.slice().sort((a,b)=> a.w.length-b.w.length); // shorter first
+    // young keeps to the 5 shortest; take the target count for this skill
+    let pick = (yng ? chosen.slice(0,5) : chosen).slice(0, cfg.words);
     const longest = Math.max.apply(null, pick.map(x=>x.w.length));
-    _size = yng ? Math.min(8, Math.max(6, longest+1)) : Math.min(11, Math.max(9, longest+1));
-    const dirs = yng ? [[0,1],[1,0]] : [[0,1],[1,0],[1,1],[-1,1]];
-    // up to 4 whole-build retries so a bad random layout can't ship < 3 words
-    for(let attempt=0; attempt<4; attempt++){
-      _grid = Array.from({length:_size},()=>Array(_size).fill(''));
-      _words=[];
-      for(const it of pick){ const cells=_place(it.w, dirs); if(cells) _words.push({w:it.w, e:it.e, cells, key:cellKey(cells), found:false}); }
-      if(_words.length>=Math.min(3,pick.length)) break;
+    const minSize = yng?6:9, maxSize = yng?9:12;
+    // NB-44: start roomy, then GROW+retry until every clue word places — solvability is guaranteed.
+    let out=null;
+    for(let size=Math.max(minSize, Math.min(maxSize, longest+cfg.grow)); size<=maxSize && !out; size++){
+      _size=size;
+      for(let attempt=0; attempt<8 && !out; attempt++) out=_tryLayout(pick, cfg.dirs);
     }
+    if(!out){
+      // Extreme fallback (never expected for our short packs): drop to straight-only, biggest grid,
+      // and keep only words that place — so a clue is NEVER shown for a word that isn't in the grid.
+      _size=maxSize;
+      for(let attempt=0; attempt<12 && !out; attempt++){
+        _grid = Array.from({length:_size},()=>Array(_size).fill(''));
+        const placed=[]; for(const it of pick){ const c=_place(it.w,[[0,1],[1,0]]); if(c) placed.push({w:it.w,e:it.e,cells:c,key:cellKey(c),found:false,hint:0}); }
+        if(placed.length>=Math.max(3, pick.length-1)) out=placed;
+      }
+      out = out || [];
+    }
+    _words = out;
     for(let r=0;r<_size;r++) for(let c=0;c<_size;c++) if(!_grid[r][c]) _grid[r][c]=KA[rnd(KA.length)];
   }
 
@@ -64,7 +121,7 @@
     if(document.getElementById('ws-css')) return;
     const s=document.createElement('style'); s.id='ws-css';
     s.textContent=`
-    #wsscr{position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;background:linear-gradient(180deg,#FFF6E9,#FDEBD2);overflow:auto;padding-bottom:16px}
+    #wsscr{position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;background:linear-gradient(180deg,#FFF6E9,#FDEBD2);overflow:auto;padding-bottom:84px}
     #wsscr .ws-top{display:flex;align-items:center;gap:10px;padding:12px 14px}
     #wsscr .ws-who{font-weight:800;font-size:1.15rem;color:#2A1C12;line-height:1.05}
     #wsscr .ws-who small{display:block;font-weight:600;font-size:.72rem;color:#8a7a63}
@@ -81,8 +138,23 @@
     #wsscr .ws-cell.sel{background:#FFD98A;transform:scale(.96)}
     #wsscr .ws-cell.found{background:#8FE3B8;color:#0d5c39}
     #wsscr .ws-cell.miss{animation:wsShake .35s}
+    #wsscr .ws-cell.hint{animation:wsHintGlow 1.1s ease-in-out 3}
     @keyframes wsShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
-    #wsscr .ws-done{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35)}
+    @keyframes wsHintGlow{0%,100%{box-shadow:0 2px 5px rgba(0,0,0,.07)}50%{box-shadow:0 0 0 4px #FFC24D, 0 0 14px 4px #FFB020;background:#FFF2D6}}
+    /* Niko owl helper bubble (NB-43) */
+    #wsscr .ws-owl{position:fixed;left:12px;right:12px;bottom:76px;z-index:62;display:none;align-items:center;gap:10px;background:#fff;border:2px solid #FFD98A;border-radius:18px;padding:10px 14px;box-shadow:0 8px 22px rgba(0,0,0,.16)}
+    #wsscr .ws-owl.show{display:flex;animation:wsOwlIn .25s ease-out}
+    #wsscr .ws-owl .ow-face{font-size:1.9rem;line-height:1}
+    #wsscr .ws-owl .ow-txt{font-weight:700;color:#2A1C12;font-size:.92rem;line-height:1.15}
+    @keyframes wsOwlIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    /* Footer dock (NB-42) */
+    #wsscr .ws-dock{position:fixed;left:10px;right:10px;bottom:calc(8px + env(safe-area-inset-bottom));z-index:61;height:58px;display:flex;justify-content:space-around;align-items:center;background:#fff;border-radius:20px;box-shadow:0 6px 20px rgba(0,0,0,.14)}
+    #wsscr .ws-dock button{background:none;border:none;cursor:pointer;font-family:inherit;color:#8a7a63;font-weight:700;font-size:.7rem;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:56px;min-height:48px;padding:6px 10px;border-radius:14px}
+    #wsscr .ws-dock button .di{font-size:1.4rem;line-height:1}
+    #wsscr .ws-dock button:active{transform:scale(.94)}
+    #wsscr .ws-dock button.pulse{color:#E8830C;animation:wsPulse 1s ease-in-out infinite}
+    @keyframes wsPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+    #wsscr .ws-done{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35);z-index:63}
     #wsscr .ws-done-card{background:#fff;border-radius:22px;padding:26px 22px;text-align:center;max-width:300px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
     #wsscr .ws-done-em{font-size:3rem}
     #wsscr .ws-done-h{font-weight:800;font-size:1.2rem;color:#2A1C12;margin:6px 0 4px}
@@ -113,11 +185,51 @@
         <div class="ws-pill" id="wsPill">${found}/${_words.length}</div>
       </header>
       <div class="ws-clues">${clues}</div>
-      <div class="ws-gridwrap"><div class="ws-grid" id="wsGrid" style="grid-template-columns:repeat(${_size},${px}px)">${cells}</div></div>`;
+      <div class="ws-gridwrap"><div class="ws-grid" id="wsGrid" style="grid-template-columns:repeat(${_size},${px}px)">${cells}</div></div>
+      <div class="ws-owl" id="wsOwl"><span class="ow-face">🦉</span><span class="ow-txt" id="wsOwlTxt"></span></div>
+      <nav class="ws-dock">
+        <button onclick="closeWs()" aria-label="მთავარი"><span class="di">🏠</span>მთავარი</button>
+        <button id="wsHintBtn" onclick="wsHint()" aria-label="მინიშნება"><span class="di">💡</span>მინიშნება</button>
+        <button onclick="wsAgain()" aria-label="ახალი"><span class="di">🔄</span>ახალი</button>
+      </nav>`;
     el.innerHTML=html;
     // re-apply found highlighting
     _words.forEach(w=>{ if(w.found) w.cells.forEach(([r,c])=>{ const b=document.getElementById('wsC_'+r+','+c); if(b)b.classList.add('found'); }); });
+    _armStruggle();
   }
+
+  // ── Tutor / hint scaffolding (NB-43) ──
+  function _clearTimers(){ if(_struggleT){clearTimeout(_struggleT);_struggleT=null;} if(_owlT){clearTimeout(_owlT);_owlT=null;} if(_completeT){clearTimeout(_completeT);_completeT=null;} }
+  function _armStruggle(){
+    _clearTimers();
+    if(_words.every(w=>w.found)) return;
+    const delay = (typeof window.__wsStruggleMs==='number') ? window.__wsStruggleMs : (young()?18000:22000);
+    _struggleT = setTimeout(()=>_owlOffer(), delay);
+  }
+  function _owlOffer(){
+    const owl=document.getElementById('wsOwl'), txt=document.getElementById('wsOwlTxt'), btn=document.getElementById('wsHintBtn');
+    if(!owl||!txt) return;
+    txt.textContent = 'გინდა დაგეხმარო? დააჭირე 💡-ს და ერთ სიტყვას გაჩვენებ.';
+    owl.classList.add('show'); if(btn) btn.classList.add('pulse');
+    if(_owlT) clearTimeout(_owlT);
+    _owlT = setTimeout(()=>{ owl.classList.remove('show'); }, 6000);
+  }
+  window.wsHint = function(){
+    const btn=document.getElementById('wsHintBtn'); if(btn) btn.classList.remove('pulse');
+    const owl=document.getElementById('wsOwl'); if(owl) owl.classList.remove('show');
+    const w=_words.find(x=>!x.found); if(!w){ return; }
+    _hintsUsed++; w.hint=(w.hint||0)+1;
+    if(w.hint>=2){
+      // second nudge on this word: flash the whole path briefly
+      w.cells.forEach(([r,c])=>{ const b=document.getElementById('wsC_'+r+','+c); if(b){ b.classList.add('hint'); setTimeout(()=>b.classList.remove('hint'),3400); } });
+    } else {
+      // first nudge: pulse the FIRST letter + say the word
+      const [r,c]=w.cells[0]; const b=document.getElementById('wsC_'+r+','+c);
+      if(b){ b.classList.add('hint'); setTimeout(()=>b.classList.remove('hint'),3400); }
+    }
+    if(typeof playClipFor==='function') try{ playClipFor(w.w); }catch(e){}
+    _armStruggle();
+  };
 
   window.wsStart = function(packId){
     if(document.getElementById('wsscr')) return;
@@ -134,7 +246,9 @@
 
   window.wsTap = function(r,c){
     const b=document.getElementById('wsC_'+r+','+c); if(!b) return;
-    if(b.classList.contains('found')) return;
+    // NB-44 edge: a found (green) cell can still be an ENDPOINT of another crossing word — never
+    // block it, or two words sharing a cell make the second one unselectable. Selection only uses
+    // the two tapped endpoints, so participating found cells stay correct.
     if(!_anchor){ _anchor=[r,c]; b.classList.add('sel'); return; }
     const [ar,ac]=_anchor; const prev=document.getElementById('wsC_'+ar+','+ac); if(prev)prev.classList.remove('sel');
     if(ar===r && ac===c){ _anchor=null; return; }               // tapped same cell = cancel
@@ -148,17 +262,19 @@
     const hit=_words.find(w=>!w.found && w.key===k);
     if(hit){
       hit.found=true;
-      hit.cells.forEach(([rr,cc])=>{ const cb=document.getElementById('wsC_'+rr+','+cc); if(cb){cb.classList.remove('sel');cb.classList.add('found');} });
+      hit.cells.forEach(([rr,cc])=>{ const cb=document.getElementById('wsC_'+rr+','+cc); if(cb){cb.classList.remove('sel');cb.classList.remove('hint');cb.classList.add('found');} });
       if(typeof playClipFor==='function') playClipFor(hit.w);
       const ci=_words.indexOf(hit); const chip=document.querySelector('.ws-clue[data-ci="'+ci+'"]'); if(chip)chip.classList.add('done');
       const pill=document.getElementById('wsPill'); if(pill)pill.textContent=_words.filter(w=>w.found).length+'/'+_words.length;
-      if(_words.every(w=>w.found)) setTimeout(wsComplete,500);
+      if(_words.every(w=>w.found)){ _clearTimers(); _completeT=setTimeout(wsComplete,500); } else { _armStruggle(); }
     } else {
       sel.forEach(([rr,cc])=>{ const cb=document.getElementById('wsC_'+rr+','+cc); if(cb){cb.classList.add('miss');setTimeout(()=>cb.classList.remove('miss'),350);} });
     }
   };
 
   function wsComplete(){
+    _clearTimers();
+    _bumpSkill(_hintsUsed);                                       // capacity ramp (NB-45)
     try{ const s=state[profile]; if(s){ s.shields=(s.shields||0)+REWARD; if(typeof save==='function')save(); } }catch(e){}
     const el=document.getElementById('wsscr'); if(!el) return;
     const ov=document.createElement('div'); ov.className='ws-done';
@@ -173,8 +289,10 @@
     try{ praise(); }catch(e){}
   }
 
-  window.wsAgain = function(){ try{if(window.stopAudio)stopAudio();}catch(e){} const el=document.getElementById('wsscr'); if(el)el.remove(); _anchor=null; window.wsStart(); };
-  window.closeWs = function(){ try{if(window.stopAudio)stopAudio();}catch(e){} const el=document.getElementById('wsscr'); if(el)el.remove(); _anchor=null; };
+  window.wsAgain = function(){ _clearTimers(); try{if(window.stopAudio)stopAudio();}catch(e){} const el=document.getElementById('wsscr'); if(el)el.remove(); _anchor=null; window.wsStart(); };
+  window.closeWs = function(){ _clearTimers(); try{if(window.stopAudio)stopAudio();}catch(e){} const el=document.getElementById('wsscr'); if(el)el.remove(); _anchor=null; };
   // expose internals for the QA harness (read-only)
-  window.__wsState = ()=>({ size:_size, words:_words.map(w=>({w:w.w,found:w.found,cells:w.cells})), grid:_grid });
+  window.__wsState = ()=>({ size:_size, skill:_skill, hintsUsed:_hintsUsed, words:_words.map(w=>({w:w.w,found:w.found,cells:w.cells})), grid:_grid });
+  window.__wsHintCount = ()=>_hintsUsed;
+  window.__wsForceStruggle = ()=>_owlOffer();   // QA seam: exercise the owl-offer logic directly
 })();
