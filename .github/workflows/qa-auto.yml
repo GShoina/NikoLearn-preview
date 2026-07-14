@@ -1,0 +1,98 @@
+# qa-auto — NB-46 closed-loop QA (owner-GO'd 2026-07-14)
+# Replaces the old weekly emailed QA routine, which was inert: it ran in a cloud sandbox that
+# BLOCKED outbound fetch (0 of its checks ever ran) and pointed at the DEAD gshoina.github.io
+# origin, and it was report-only (no fix loop). This runs on a GitHub Actions runner (full
+# outbound internet) against the LIVE nikolearn.com, and closes the loop the owner asked for
+# ("გადაამოწმე და გაასწორე ჩემი ჩართვის გარეშე" = verify + fix without my involvement):
+#   verify → SOURCE check (qa/qa-check.mjs) + LIVE check (qa/live-check.mjs)
+#   triage → tools/qa-triage.mjs fingerprints + dedupes findings, auto-logs each as an NB row
+#            in docs/BUGFIX_TRACKER.md (a persistent finding is logged ONCE, never weekly spam)
+#   fix    → deterministic version-drift → npm run qa:fix; then ONE PR carries the tracker rows
+#            + any auto-fix for the owner/agent to review. Merge to main re-deploys + the next
+#            live check confirms the fix.
+# A healthy week is SILENT (green check, no PR, no email). A finding opens a PR (GitHub emails
+# the owner as repo owner) — that is the digest delivery, dedup-gated so it can't spam.
+# §13: the live merge to main stays a human/agent gate on the kids app — this loop captures &
+# proposes; it never auto-merges to production.
+
+name: qa-auto
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'      # every Monday 06:00 UTC
+  workflow_dispatch: {}       # manual / on-demand run (used for self-test)
+
+permissions:
+  contents: write            # commit tracker rows + version-sync fix onto a branch
+  pull-requests: write       # open / comment the QA PR
+
+concurrency:
+  group: qa-auto
+  cancel-in-progress: false
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Resolve repo HEAD APP_VERSION
+        id: ver
+        run: |
+          VER=$(node -e "const s=require('fs').readFileSync('niko/screens.js','utf8');const m=s.match(/APP_VERSION=.([0-9.]+)/);console.log(m?m[1]:'')")
+          echo "version=$VER" >> "$GITHUB_OUTPUT"
+          echo "repo HEAD APP_VERSION = $VER"
+
+      - name: Source QA check (writes qa/last-report.txt)
+        run: node qa/qa-check.mjs || true
+
+      - name: Live QA check vs nikolearn.com (writes qa/live-report.json)
+        run: node qa/live-check.mjs --expect-version "${{ steps.ver.outputs.version }}" || true
+
+      - name: Triage — auto-log NB rows + draft digest
+        run: node tools/qa-triage.mjs --date "$(date -u +%F)"
+
+      - name: Publish digest to the run summary
+        run: cat qa/triage-digest.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Open QA PR when new findings were logged
+        run: |
+          set -e
+          PR_NEEDED=$(node -e "console.log(require('./qa/triage-out.json').prNeeded)")
+          if [ "$PR_NEEDED" != "true" ]; then
+            echo "✓ No new findings — live healthy / source clean. No PR."
+            exit 0
+          fi
+          # One rolling QA PR: if an open qa-auto PR already exists, comment on it instead of
+          # opening a duplicate (the pending PR already captures the current open findings).
+          EXISTING=$(gh pr list --state open --search "head:qa-auto/" --json number --jq '.[0].number' 2>/dev/null || echo "")
+          if [ -n "$EXISTING" ]; then
+            echo "Open qa-auto PR #$EXISTING exists — commenting, not duplicating."
+            gh pr comment "$EXISTING" --body-file qa/triage-digest.md || true
+            exit 0
+          fi
+          DATE=$(date -u +%F)
+          BRANCH="qa-auto/$DATE"
+          NEW=$(node -e "console.log(require('./qa/triage-out.json').newRows)")
+          AUTO=$(node -e "console.log(require('./qa/triage-out.json').autoFixable)")
+          git config user.name  "nikolearn-qa-bot"
+          git config user.email "qa-bot@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          # deterministic fix: sync version drift (landing.html + sw.js) when triage flagged it
+          if [ "$AUTO" = "true" ]; then npm run qa:fix || true; fi
+          git add docs/BUGFIX_TRACKER.md qa/last-report.txt landing.html sw.js niko/screens.js || true
+          git commit -m "qa-auto $DATE: log $NEW NB row(s) + deterministic fixes [skip ci]" || {
+            echo "nothing to commit"; exit 0;
+          }
+          git push -u origin "$BRANCH"
+          gh pr create --base main --head "$BRANCH" \
+            --title "🦉 QA auto-run $DATE — $NEW new finding(s)" \
+            --body-file qa/triage-digest.md

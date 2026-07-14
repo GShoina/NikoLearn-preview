@@ -24,6 +24,13 @@ backups/
 # Test / tooling artifacts
 .playwright-mcp/
 
+# QA auto-loop (NB-46) generated run outputs — regenerated every run, never committed.
+# (qa/last-report.txt IS tracked on purpose: the committed source-QA snapshot.)
+qa/live-report.json
+qa/triage-digest.md
+qa/triage-out.json
+qa/_i18n_uncovered.txt
+
 # Owner-facing HTML deliverables — keep LOCAL, do not publish on the public Pages site
 output/
 
