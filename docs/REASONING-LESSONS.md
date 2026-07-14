@@ -2,6 +2,20 @@
 
 Durable lessons from real corrections. Disk is the only memory here, so they live on disk.
 
+## L12 (MUST) — Pick the model by the STEP's nature, not the phase; handoff synthesis stays top-tier (owner 2026-07-14)
+Owner asked whether a cheaper model is fine for routine work / during a handoff, and (twice) whether I
+challenge a "use Sonnet" instruction. Framework: model = f(judgment-required, cheap-verifiability,
+blast-radius). Drop to a cheaper model on steps that are LOW-judgment, CHEAPLY-VERIFIABLE, or LOW-blast:
+mechanical scaffolding, file moves, archive copies, byte-copying known state, boilerplate. Keep the
+top-tier model on steps that are HIGH-judgment + LOW-verifiability + HIGH-blast — design/taste calls and
+especially **handoff SYNTHESIS** (what state matters, the single next action, what is safe to compress).
+Handoff is the worst place to economize: its errors are SILENT and DELAYED (they surface a session later
+when the context is gone — the 2026-07-14 crash-recovery is the live cost), and you cannot cheaply verify
+a handoff is complete. So a handoff is MIXED: mechanical parts can go cheap, the synthesis stays top-tier.
+When told "use the cheaper model", do not silently comply on a load-bearing step — state the tradeoff
+(tokens saved vs the judgment slice at risk) + a confidence, then let the owner choose. Applied this
+session: NB-48 revive was pulled back from a Sonnet delegation to Opus-direct on exactly this reasoning.
+
 ## L11 (MUST) — Default = builder in EXECUTION too, not just analysis (owner 2026-07-12, 3rd correction)
 The owner used Fable 5 specifically to IMPROVE on the inherited CLAUDE.md/Constitution/gate model, not to
 obey it. Observed regression this session: in ANALYSIS (folder audit, NB-23 fix, coverage matrix,
