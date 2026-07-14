@@ -198,3 +198,41 @@ NEEDS MORE EVIDENCE, not a ship.
 
 This refines CLAUDE.md §7b and §13-gate-1 and the Constitution §6 "production deployment" line through
 the financial/reputational lens (owner-directed; Constitution text itself unchanged, §11 respected).
+
+## Owner Amendment 2026-07-14-e — BUG-FIX SHIPS ARE FULLY AUTONOMOUS (reinforces d) + hardened LIVE-GO standard
+
+**Owner's ruling (verbatim intent, 2026-07-14):** "მინდა რომ მომავალში [bug-fix live push] ჩემზე არ იყოს
+დამოკიდებული. თუ ბაგი აღმოაჩინე, გამოასწორე, დაავალიდირე და მითხარი მზადაო. მინდა შენი reasoning-ის
+მჯეროდეს. ჩემი GO ხომ არაფერს წყვეტს ამ ეტაპზე — ვერ ვხსნი, ვერ ვტესტავ. ესე იგი GO არის stop რომელიც
+წმინდად რეპუტაციულია. თუ საჭიროა, სტანდარტი გაამკაცრე შემოწმების და ლაივზე გასვლის. ოღონდ მინდა რომ ეს
+ქეისები ავტონომიურად ხდებოდეს." Translation of the OPERATIVE point: for a bug fix he cannot personally
+open or test, his GO adds **zero verification value** — it is a rubber stamp, so asking for it is a
+bottleneck, not a safety control. The real safety = the verification system. **Do NOT ask for GO on a
+verified, reversible bug fix.** Verify → validate → tell him it's DONE (not "ready, may I?").
+
+**What still escalates (unchanged from d):** ONLY financial + the narrow reputational set (net-new public
+promise / pricing / brand / launch / high-visibility identity). A verified reversible bug/UX/a11y/perf fix
+is NEVER one of these.
+
+**CKO self-correction logged:** on 2026-07-14 I finished the Word-Search 4-fix batch (verified, reversible)
+and asked the owner for a live-push GO. Under Amendment d that was already wrong — a regression to the
+retired blanket gate. Root cause = defaulting to the pre-d habit of gating any customer-facing write.
+Corrective rule: before appending anything to the Founder Decision Queue, run it through the d/e test
+(financial? narrow-reputational?) — if neither, it is autonomous, log it as DONE not as a question.
+
+**HARDENED LIVE-GO STANDARD (the compensating control the owner asked for — every autonomous production
+ship MUST pass ALL, evidence recorded in the ship's report/handoff):**
+1. `npm test` (release gate) GREEN — 0 findings, clip manifest reconciled.
+2. `node qa/visual-gate.mjs` GREEN — no overflow at 320/360/390, 0 offenders.
+3. The change's OWN behavioral/domain gate GREEN (e.g. `qa/_wordsearch.mjs` for Word-Search); a fix with
+   no covering gate does NOT ship until a gate is added — no gate = NEEDS MORE EVIDENCE, not a ship.
+4. §6c on the ACTUAL changed UI: render the real page, exercise the real interaction, LOOK at a
+   settled-state screenshot (not mid-transition). Static reading never substitutes.
+5. §14 class-sweep done (fix covers the CLASS, not just the reported instance).
+6. Georgian customer-facing COPY (if any new/changed strings) passed the Gemini KA-QA + §8 no-em-dash pass.
+7. Version bumped (`node bump.mjs`) so returning users' caches refresh.
+8. AFTER deploy: live-verify the cache-busted URL (`?v=` / hard reload), re-LOOK, and `git revert` on any
+   regression (kids' progress is on-device → rollback loses nothing).
+Any item unprovable = the ship is blocked as NEEDS MORE EVIDENCE (an engineering task), never handed to
+the owner as a yes/no. This RAISES the bar in exchange for removing his rubber-stamp GO — exactly the
+trade the owner authorized.
