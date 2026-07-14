@@ -21,10 +21,18 @@ const arg = (name, def) => { const i = process.argv.indexOf(name); return i >= 0
 const ORIGIN = arg('--origin', 'https://nikolearn.com').replace(/\/+$/, '');
 const EXPECT = arg('--expect-version', '');
 const GATE = process.argv.includes('--gate');
+// propagation-window false-positive mitigation (red-teamed 2026-07-14): a fresh deploy can
+// still be propagating when we check → retry a few times, and if the live version still lags
+// but repo HEAD was committed < grace ago, treat it as lag (silent) not a real stale deploy.
+const RETRIES = parseInt(arg('--retries', '4'), 10);           // extra re-fetches on a version mismatch
+const RETRY_WAIT_MS = parseInt(arg('--retry-wait-ms', '30000'), 10); // wait between retries
+const GRACE_MIN = parseFloat(arg('--deploy-grace-min', '15')); // HEAD younger than this → assume propagating
+const HEAD_EPOCH = parseInt(arg('--head-epoch', '0'), 10) || 0; // repo HEAD commit time (unix sec), from CI
 
 const findings = [];
 const add = (sev, dim, msg) => findings.push({ sev, dim, msg });
 const bust = () => `?v=${Date.now()}`;
+const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
 async function grab(path) {
   const url = `${ORIGIN}/${path}${bust()}`;
@@ -63,9 +71,28 @@ const landVer = (got['landing.html']?.text.match(/title="owner">v([\d.]+)/) || [
 if (screensVer && swCache && landVer && (screensVer !== swCache || screensVer !== landVer))
   add('P2', 'version', `live deploy version drift: screens=${screensVer} sw=${swCache} landing=${landVer}`);
 
-// ── 4. Stale/failed-deploy detection (live vs repo main HEAD) ───────────────
-if (EXPECT && screensVer && screensVer !== EXPECT)
-  add('P1', 'deploy', `live is STALE: live APP_VERSION=${screensVer} but repo main HEAD=${EXPECT} (deploy failed, reverted, or still propagating)`);
+// ── 4. Stale/failed-deploy detection (live vs repo main HEAD) — retry + grace guarded ──
+// Distinguishes a REAL stale/failed deploy from a deploy that is merely still propagating,
+// so a run shortly after a push does not open a spurious PR.
+let liveVer = screensVer;
+if (EXPECT && liveVer && liveVer !== EXPECT) {
+  for (let i = 0; i < RETRIES && liveVer !== EXPECT; i++) {
+    await sleep(RETRY_WAIT_MS);
+    const r = await grab('niko/screens.js');
+    liveVer = (r.text.match(/APP_VERSION=.([0-9.]+)/) || [])[1] || liveVer;
+  }
+  if (liveVer === EXPECT) {
+    console.log(`  ✓ live version converged to ${EXPECT} after retry (was mid-propagation) — no finding.`);
+  } else {
+    const ageMin = HEAD_EPOCH ? (Date.now() / 1000 - HEAD_EPOCH) / 60 : Infinity;
+    if (ageMin < GRACE_MIN) {
+      console.log(`  ⏳ live=${liveVer} expected=${EXPECT}, but HEAD committed ${ageMin.toFixed(1)}m ago (< ${GRACE_MIN}m grace) → propagation lag, NOT flagging (next run confirms).`);
+    } else {
+      const age = Number.isFinite(ageMin) ? `${ageMin.toFixed(0)}m` : 'unknown';
+      add('P1', 'deploy', `live is STALE: live APP_VERSION=${liveVer} but repo main HEAD=${EXPECT} — HEAD committed ${age} ago, still not live after ${RETRIES} retr${RETRIES === 1 ? 'y' : 'ies'} (deploy failed or reverted)`);
+    }
+  }
+}
 
 // ── 5. manifest.json must parse ─────────────────────────────────────────────
 if (got['manifest.json']?.ok) {
@@ -73,10 +100,10 @@ if (got['manifest.json']?.ok) {
 }
 
 // ── report ──────────────────────────────────────────────────────────────────
-const report = { origin: ORIGIN, when: new Date().toISOString(), liveVersion: screensVer || null, expected: EXPECT || null, findings };
+const report = { origin: ORIGIN, when: new Date().toISOString(), liveVersion: liveVer || null, expected: EXPECT || null, findings };
 writeFileSync(join(ROOT, 'qa', 'live-report.json'), JSON.stringify(report, null, 2));
 const P1 = findings.filter(f => f.sev === 'P1').length, P2 = findings.filter(f => f.sev === 'P2').length;
-console.log(`LIVE-CHECK ${ORIGIN}  liveVersion=${screensVer || '?'}${EXPECT ? ` expected=${EXPECT}` : ''}  → P1=${P1} P2=${P2}`);
+console.log(`LIVE-CHECK ${ORIGIN}  liveVersion=${liveVer || '?'}${EXPECT ? ` expected=${EXPECT}` : ''}  → P1=${P1} P2=${P2}`);
 for (const f of findings) console.log(`  [${f.sev}] ${f.dim}: ${f.msg}`);
 if (!findings.length) console.log('  ✓ live site healthy');
 if (GATE && findings.length) process.exit(1);

@@ -44,18 +44,22 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Resolve repo HEAD APP_VERSION
+      - name: Resolve repo HEAD APP_VERSION + commit time
         id: ver
         run: |
           VER=$(node -e "const s=require('fs').readFileSync('niko/screens.js','utf8');const m=s.match(/APP_VERSION=.([0-9.]+)/);console.log(m?m[1]:'')")
-          echo "version=$VER" >> "$GITHUB_OUTPUT"
-          echo "repo HEAD APP_VERSION = $VER"
+          EPOCH=$(git log -1 --format=%ct HEAD)
+          echo "version=$VER"       >> "$GITHUB_OUTPUT"
+          echo "head_epoch=$EPOCH"  >> "$GITHUB_OUTPUT"
+          echo "repo HEAD APP_VERSION = $VER  (committed epoch $EPOCH)"
 
       - name: Source QA check (writes qa/last-report.txt)
         run: node qa/qa-check.mjs || true
 
       - name: Live QA check vs nikolearn.com (writes qa/live-report.json)
-        run: node qa/live-check.mjs --expect-version "${{ steps.ver.outputs.version }}" || true
+        # --head-epoch + --deploy-grace-min guard against propagation-window false positives:
+        # a run shortly after a deploy will not flag "stale" while Pages is still propagating.
+        run: node qa/live-check.mjs --expect-version "${{ steps.ver.outputs.version }}" --head-epoch "${{ steps.ver.outputs.head_epoch }}" --deploy-grace-min 15 || true
 
       - name: Triage — auto-log NB rows + draft digest
         run: node tools/qa-triage.mjs --date "$(date -u +%F)"
