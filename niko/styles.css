@@ -1776,13 +1776,14 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
   justify-content:center;gap:clamp(5px,1.6vw,8px);
   box-shadow:inset 0 -5px 0 rgba(0,0,0,.13),0 5px 14px rgba(60,45,15,.16)}
 .subj.wld .w-ico{font-size:clamp(2.2rem,9vw,2.9rem);line-height:1.1;filter:drop-shadow(0 3px 4px rgba(0,0,0,.18))}
-/* NB-40 (2026-07-14): white world-name on the pastel chips failed contrast (measured 1.86-2.96, FAIL) — a
-   bottom scrim did not reach the label band (it sits at 54-83% of the chip), so give the NAME its own dark
-   rounded name-tag plate. Layout-independent (moves with the label regardless of icon-clamp), keeps the
-   playful white-on-colour look, measures ~6:1 on every hue (verified in-browser via pixel sampling). */
+/* NB-40 -> NB-47 (2026-07-14): NB-40 gave the white world-name a dark name-tag plate to pass contrast on the
+   saturated chips (white-on-tile measured 1.79-2.77, FAIL). The owner disliked the resulting "dark frame" on
+   every card. NB-47 design-challenge result: drop the plate, switch to DARK warm-ink -- measured 5.92-9.13 on
+   all 8 hues (WCAG calc over each gradient mid + in-browser before/after screenshots), so it BEATS the plate's
+   contrast while removing the frame, and unifies with the subject-card .s-name dark-ink pattern. */
 .subj.wld .w-nm{font-weight:800;font-size:clamp(.9rem,3.9vw,1.05rem);margin-top:0;line-height:1.22;
-  width:fit-content;max-width:100%;margin-left:auto;margin-right:auto;padding:2px 9px;border-radius:11px;
-  background:rgba(22,15,5,.55);text-shadow:0 1px 2px rgba(0,0,0,.5)}
+  width:fit-content;max-width:100%;margin-left:auto;margin-right:auto;padding:1px 4px;
+  color:#241708;text-shadow:0 1px 1px rgba(255,255,255,.55)}
 .subj.wld .w-spk{position:absolute;top:7px;right:9px;font-size:.72rem;opacity:.85}
 .whue-gold{background:linear-gradient(#f2c14e,#e8b23a)}
 .whue-purple{background:linear-gradient(#bb95e8,#a97fd6)}
