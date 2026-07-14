@@ -37,6 +37,9 @@
   --shadow:    0 1px 2px oklch(0.40 0.04 55 / .06), 0 8px 22px oklch(0.45 0.05 55 / .10);
   --shadow-lg: 0 2px 6px oklch(0.40 0.04 55 / .08), 0 20px 44px oklch(0.45 0.05 55 / .16);
   --press:     0 4px 0;
+  --dock-bg:     rgba(255,255,255,.82);  /* NB-48: dock glass — theme-anchored; sunlit = today's exact value */
+  --dock-idle:   #B8A88E;                /* dock inactive icon */
+  --dock-active: #FF8A00;                /* dock active/home accent (brand orange) */
 }
 
 /* ---- THEME B: Playground (bright, punchy, energetic) ---- */
@@ -64,6 +67,9 @@
   --shadow:    0 2px 3px oklch(0.40 0.06 250 / .07), 0 10px 26px oklch(0.45 0.08 250 / .13);
   --shadow-lg: 0 3px 8px oklch(0.40 0.06 250 / .10), 0 24px 50px oklch(0.45 0.10 250 / .20);
   --press:     0 5px 0;
+  --dock-bg:     rgba(248,251,255,.84);  /* NB-48: cool-tinted glass */
+  --dock-idle:   #AAB1C6;                /* cool grey idle icon */
+  --dock-active: var(--primary);         /* punchy coral-red accent (theme primary) */
 }
 
 /* ---- THEME C: Calm (soft, premium, not babyish) ---- */
@@ -91,6 +97,9 @@
   --shadow:    0 1px 2px oklch(0.40 0.02 255 / .05), 0 6px 18px oklch(0.45 0.03 255 / .08);
   --shadow-lg: 0 2px 5px oklch(0.40 0.02 255 / .07), 0 16px 38px oklch(0.45 0.03 255 / .13);
   --press:     0 3px 0;
+  --dock-bg:     rgba(250,252,254,.82);  /* NB-48: soft cool glass */
+  --dock-idle:   #ABB2C0;                /* soft cool grey idle icon */
+  --dock-active: var(--primary);         /* calm blue accent (theme primary) */
 }
 
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -422,19 +431,19 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
    tighter 20px radius, lighter shadow → the effect stays, the chrome no longer dominates the kid content. */
 .bottomnav.dock{left:10px;right:10px;bottom:calc(8px + env(safe-area-inset-bottom));height:54px;
   padding:0 8px;border:none;border-radius:20px;overflow:visible;
-  background:rgba(255,255,255,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  background:var(--dock-bg);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
   box-shadow:0 6px 16px -8px rgba(42,24,16,.20), inset 0 1px 0 rgba(255,255,255,.9)}
-.bottomnav.dock button{color:#B8A88E;gap:0;padding:6px 12px;min-width:44px}
+.bottomnav.dock button{color:var(--dock-idle);gap:0;padding:6px 12px;min-width:44px}
 .bottomnav.dock button svg{width:24px;height:24px}
 .bottomnav.dock button .navemoji{font-size:20px}
 .bottomnav.dock .navdot{display:none}
-.bottomnav.dock button.on{color:#FF8A00;background:none}
+.bottomnav.dock button.on{color:var(--dock-active);background:none}
 /* Home = a proportionate, equal dock tab (owner 07-03: the raised 58px FAB read as disproportionate + was
    left-anchored, not centered). EdTech-standard flat equal tabs (Duolingo/Khan Kids); Home just carries the
    brand-orange as the active/anchor colour, same footprint as its siblings. */
-.bottomnav.dock button[data-nav="home"]{color:#FF8A00}
+.bottomnav.dock button[data-nav="home"]{color:var(--dock-active)}
 .bottomnav.dock button[data-nav="home"] svg{width:25px;height:25px}
-.bottomnav.dock button[data-nav="home"].on{color:#FF8A00}
+.bottomnav.dock button[data-nav="home"].on{color:var(--dock-active)}
 /* welcome subtitle: intentional stacked lines so it never wraps mid-instruction on a phone (owner 07-03) */
 .tag-welcome{display:flex;flex-direction:column;align-items:center;gap:2px;line-height:1.35}
 .tag-welcome .tw-hi{font-weight:600}
