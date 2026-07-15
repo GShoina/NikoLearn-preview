@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.363'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.364'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 function goHome(){
   if(typeof clearCeleb==='function')clearCeleb(); if(typeof closeFeedback==='function')closeFeedback(); // CE-2: kill pending celebration timers so they can't re-render the round over home
   // A4: if a round was in progress, count it as abandoned before we leave it
@@ -258,7 +258,7 @@ function renderAddChild(focusName){
     <div class="lang-row">${[['ka','ქართული'],['en','English']].map(([c,n])=>`<button class="lang-chip ${draft.langs.includes(c)?'on':''} ${c==='ka'?'lock':''}" onclick="toggleLang('${c}')">${n}</button>`).join('')}</div><!-- 'ru' removed 2026-07-01: no Russian content/voicing wired yet, so the option was a false promise. Re-add when ru content ships. -->
     <div class="lvl-hint" style="margin:6px 2px">🔊 გახმოვანება და ახსნა ამ ენებზე. ინგლისურს მაინც ისწავლის თამაშით.</div>
     <div class="section-label mt">ფერი</div>
-    <div class="color-row">${AV_COLORS.map(c=>`<button class="color-dot a-${c} ${draft.color===c?'on':''}" onclick="draft.color='${c}';renderAddChild()"></button>`).join('')}</div>
+    <div class="color-row">${AV_COLORS.map(c=>`<button class="color-dot a-${c} ${draft.color===c?'on':''}" aria-label="ფერი: ${({sky:'ცისფერი',primary:'ლურჯი',green:'მწვანე',sun:'ყვითელი',purple:'იისფერი'})[c]||c}" aria-pressed="${draft.color===c?'true':'false'}" onclick="draft.color='${c}';renderAddChild()"></button>`).join('')}</div>
     <div class="section-label mt">მასწავლებელი 🐾</div>
     <div class="tutor-grid">${TUTOR_ANIMALS.map(a=>`<button class="tutor-pick ${(draft.tutor||'🦉')===a?'on':''}" onclick="draft.tutor='${a}';renderAddChild()">${a}</button>`).join('')}</div>
     <div class="lvl-hint" style="margin:6px 2px">ბავშვი აირჩევს, რომელი ცხოველი ასწავლის. შემდეგ შეცვლაც შეიძლება.</div>
@@ -359,6 +359,9 @@ function homeContinueCard(p){
     </div>
   </div>`;
 }
+// a11y (NB-29): keyboard+role contract for subject tiles — same as worldCard, so the 8+/worlds-off
+// grid activates on Enter/Space and announces a name to assistive tech, matching the ≤7 worlds home.
+function kt(action,label){return `onclick="${action}" role="button" tabindex="0" aria-label="${label}" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();${action}}"`;}
 function selectProfile(p){
   profile=p;game.start=Date.now();game.cat=null;game.pcat=null;game.subj='';  // reset so the subject grid shows the 🔊 voice toggle (audit fix)
   if(typeof touchDay==='function')touchDay(p);
@@ -377,29 +380,29 @@ function selectProfile(p){
   if(isKid){
     const tiny=isTiny(profile);
     subjects=`<div class="subj-grid">
-      <div class="subj kids stack hue-orange" data-sum="ციფრები 1-9 და დათვლა ხატულებით" onclick="openSubj(event,'counting')"><span class="s-badge">1–9</span><div class="s-ico">🔢</div><div class="s-name num">1 2 3</div><span class="tap-hint">👆</span></div>
-      <div class="subj kids stack hue-green" data-sum="ქართული ასოები ხმითა და სურათით" onclick="openSubj(event,'ka-alpha')"><span class="s-badge">33 ასო</span><div class="s-ico">🇬🇪</div><div class="s-name">ა ბ გ</div><span class="tap-hint">👆</span></div>
-      <div class="subj kids eng stack hue-blue" data-sum="English ABC ხმითა და სურათით" onclick="openSubj(event,'en-alpha')"><span class="s-badge">26 ასო</span><div class="s-ico">🇬🇧</div><div class="s-name en">A B C</div><span class="tap-hint">👆</span></div>
+      <div class="subj kids stack hue-orange" data-sum="ციფრები 1-9 და დათვლა ხატულებით" ${kt("openSubj(event,'counting')","დათვლა, ციფრები 1-9")}><span class="s-badge">1–9</span><div class="s-ico">🔢</div><div class="s-name num">1 2 3</div><span class="tap-hint">👆</span></div>
+      <div class="subj kids stack hue-green" data-sum="ქართული ასოები ხმითა და სურათით" ${kt("openSubj(event,'ka-alpha')","ქართული ანბანი")}><span class="s-badge">33 ასო</span><div class="s-ico">🇬🇪</div><div class="s-name">ა ბ გ</div><span class="tap-hint">👆</span></div>
+      <div class="subj kids eng stack hue-blue" data-sum="English ABC ხმითა და სურათით" ${kt("openSubj(event,'en-alpha')","ინგლისური ანბანი")}><span class="s-badge">26 ასო</span><div class="s-ico">🇬🇧</div><div class="s-name en">A B C</div><span class="tap-hint">👆</span></div>
       ${tiny
-        ? `<div class="subj kids play hue-purple" data-sum="ფიგურების ცნობა" onclick="startGame('shapes')">${PLAY_BADGE}<div class="s-ico">🔷</div><div class="s-name">ფიგურები</div></div>`
-        : `<div class="subj kids maths stack hue-orange" data-sum="შეკრება და გამოკლება" onclick="openSubj(event,'math')"><span class="s-badge">3 თემა</span><div class="s-ico">➕➖</div><div class="s-name num">➕</div><span class="tap-hint">👆</span></div>`}
-      <div class="subj kids talk play hue-purple" data-sum="საუბრის ბარათები მშობელთან ერთად" onclick="openTalk()">${PLAY_BADGE}<span class="s-badge">4 თემა</span><div class="s-ico">💬</div><div class="s-name">საუბარი</div></div>
-      <div class="subj kids move play hue-teal" data-sum="მოკლე მოძრაობის შესვენება" onclick="showBreak(true)">${PLAY_BADGE}<div class="s-ico">🤸</div><div class="s-name">მოძრაობა</div></div>
-      <div class="subj kids play hue-blue" data-sum="იპოვე დამალული სიტყვები" onclick="wsStart()">${PLAY_BADGE}<div class="s-ico">🔎</div><div class="s-name">სიტყვების ძებნა</div></div>
-      <div class="subj kids draw play hue-pink" data-sum="ხატვა და გაფერადება" onclick="openDraw()">${PLAY_BADGE}<div class="s-ico">🎨</div><div class="s-name">ხატვა</div></div>
+        ? `<div class="subj kids play hue-purple" data-sum="ფიგურების ცნობა" ${kt("startGame('shapes')","ფიგურები")}>${PLAY_BADGE}<div class="s-ico">🔷</div><div class="s-name">ფიგურები</div></div>`
+        : `<div class="subj kids maths stack hue-orange" data-sum="შეკრება და გამოკლება" ${kt("openSubj(event,'math')","მათემატიკა, შეკრება და გამოკლება")}><span class="s-badge">3 თემა</span><div class="s-ico">➕➖</div><div class="s-name num">➕</div><span class="tap-hint">👆</span></div>`}
+      <div class="subj kids talk play hue-purple" data-sum="საუბრის ბარათები მშობელთან ერთად" ${kt("openTalk()","საუბარი მშობელთან")}>${PLAY_BADGE}<span class="s-badge">4 თემა</span><div class="s-ico">💬</div><div class="s-name">საუბარი</div></div>
+      <div class="subj kids move play hue-teal" data-sum="მოკლე მოძრაობის შესვენება" ${kt("showBreak(true)","მოძრაობის შესვენება")}>${PLAY_BADGE}<div class="s-ico">🤸</div><div class="s-name">მოძრაობა</div></div>
+      <div class="subj kids play hue-blue" data-sum="იპოვე დამალული სიტყვები" ${kt("wsStart()","სიტყვების ძებნა")}>${PLAY_BADGE}<div class="s-ico">🔎</div><div class="s-name">სიტყვების ძებნა</div></div>
+      <div class="subj kids draw play hue-pink" data-sum="ხატვა და გაფერადება" ${kt("openDraw()","ხატვა")}>${PLAY_BADGE}<div class="s-ico">🎨</div><div class="s-name">ხატვა</div></div>
     </div>`;
   } else {
     const wc=Object.values(s.words).filter(w=>w.correct>=3).length;
     subjects=`<div class="subj-grid">
-      <div class="subj crown stack hue-gold" data-sum="ინგლისური Kings-ისა და Cambridge-ისთვის: სიტყვა · თარგმანი · მართლწერა · გრამატიკა · კითხვა" onclick="openSubj(event,'kings-eng')"><span class="s-badge">${premiumOn()?'👑 გამოცდა':'🔒 Premium'}</span><div class="s-ico">👑</div><div class="s-name">კინგსი ინგლისური</div><div class="s-sub">Kings & Cambridge</div></div>
-      <div class="subj crown maths stack hue-gold" data-sum="ოლიმპიადა: ამოცანები და ლოგიკა" onclick="openSubj(event,'kings-math')"><span class="s-badge">${premiumOn()?'👑 გამოცდა':'🔒 Premium'}</span><div class="s-ico">📐</div><div class="s-name">კინგსი მათემატიკა</div><div class="s-sub">ოლიმპიადა</div></div>
-      <div class="subj eng stack hue-blue" data-sum="13 თემა · 180+ სიტყვა · ფრაზები" onclick="openSubj(event,'english')"><span class="s-badge">13 თემა</span><div class="s-ico">🔤</div><div class="s-name">ინგლისური</div><div class="s-sub">სიტყვები · ფრაზები</div><span class="tap-hint">👆</span></div>
-      <div class="subj maths stack hue-orange" data-sum="შეკრება, გამოკლება, გამრავლება, ფიგურები, ფული, საათი" onclick="openSubj(event,'math')"><span class="s-badge">8 თემა</span><div class="s-ico">🧮</div><div class="s-name">მათემატიკა</div><div class="s-sub">დონეებით 1–100</div><span class="tap-hint">👆</span></div>
-      <div class="subj stack hue-green" data-sum="ანბანი · კითხვა · წერა · ამოწერა" onclick="openSubj(event,'ka-alpha')"><span class="s-badge">4 თემა</span><div class="s-ico">🇬🇪</div><div class="s-name">ქართული</div><div class="s-sub">კითხვა · წერა · ამოწერა</div><span class="tap-hint">👆</span></div>
-      <div class="subj talk play hue-purple" data-sum="საუბრის ბარათები მშობელთან ერთად (ემოციები, ღირებულებები, ფანტაზია)" onclick="openTalk()">${PLAY_BADGE}<span class="s-badge">4 თემა</span><div class="s-ico">💬</div><div class="s-name">საუბარი</div><div class="s-sub">ფიქრი · ღირებულებები</div></div>
-      <div class="subj move play hue-teal" data-sum="მოკლე მოძრაობის შესვენება ვარჯიშებით" onclick="showBreak(true)">${PLAY_BADGE}<div class="s-ico">🤸</div><div class="s-name">მოძრაობა</div><div class="s-sub">პატარა შესვენება</div></div>
-      <div class="subj play hue-blue" data-sum="იპოვე დამალული სიტყვები" onclick="wsStart()">${PLAY_BADGE}<div class="s-ico">🔎</div><div class="s-name">სიტყვების ძებნა</div><div class="s-sub">თავსატეხი</div></div>
-      <div class="subj draw play hue-pink" data-sum="ხატვა, გაფერადება და გასაფერადებელი შაბლონები" onclick="openDraw()">${PLAY_BADGE}<div class="s-ico">🎨</div><div class="s-name">ხატვა</div><div class="s-sub">ფუნჯი · ფერები · შაბლონები</div></div>
+      <div class="subj crown stack hue-gold" data-sum="ინგლისური Kings-ისა და Cambridge-ისთვის: სიტყვა · თარგმანი · მართლწერა · გრამატიკა · კითხვა" ${kt("openSubj(event,'kings-eng')","კინგსი ინგლისური")}><span class="s-badge">${premiumOn()?'👑 გამოცდა':'🔒 Premium'}</span><div class="s-ico">👑</div><div class="s-name">კინგსი ინგლისური</div><div class="s-sub">Kings & Cambridge</div></div>
+      <div class="subj crown maths stack hue-gold" data-sum="ოლიმპიადა: ამოცანები და ლოგიკა" ${kt("openSubj(event,'kings-math')","კინგსი მათემატიკა")}><span class="s-badge">${premiumOn()?'👑 გამოცდა':'🔒 Premium'}</span><div class="s-ico">📐</div><div class="s-name">კინგსი მათემატიკა</div><div class="s-sub">ოლიმპიადა</div></div>
+      <div class="subj eng stack hue-blue" data-sum="13 თემა · 180+ სიტყვა · ფრაზები" ${kt("openSubj(event,'english')","ინგლისური")}><span class="s-badge">13 თემა</span><div class="s-ico">🔤</div><div class="s-name">ინგლისური</div><div class="s-sub">სიტყვები · ფრაზები</div><span class="tap-hint">👆</span></div>
+      <div class="subj maths stack hue-orange" data-sum="შეკრება, გამოკლება, გამრავლება, ფიგურები, ფული, საათი" ${kt("openSubj(event,'math')","მათემატიკა")}><span class="s-badge">8 თემა</span><div class="s-ico">🧮</div><div class="s-name">მათემატიკა</div><div class="s-sub">დონეებით 1–100</div><span class="tap-hint">👆</span></div>
+      <div class="subj stack hue-green" data-sum="ანბანი · კითხვა · წერა · ამოწერა" ${kt("openSubj(event,'ka-alpha')","ქართული")}><span class="s-badge">4 თემა</span><div class="s-ico">🇬🇪</div><div class="s-name">ქართული</div><div class="s-sub">კითხვა · წერა · ამოწერა</div><span class="tap-hint">👆</span></div>
+      <div class="subj talk play hue-purple" data-sum="საუბრის ბარათები მშობელთან ერთად (ემოციები, ღირებულებები, ფანტაზია)" ${kt("openTalk()","საუბარი")}>${PLAY_BADGE}<span class="s-badge">4 თემა</span><div class="s-ico">💬</div><div class="s-name">საუბარი</div><div class="s-sub">ფიქრი · ღირებულებები</div></div>
+      <div class="subj move play hue-teal" data-sum="მოკლე მოძრაობის შესვენება ვარჯიშებით" ${kt("showBreak(true)","მოძრაობა")}>${PLAY_BADGE}<div class="s-ico">🤸</div><div class="s-name">მოძრაობა</div><div class="s-sub">პატარა შესვენება</div></div>
+      <div class="subj play hue-blue" data-sum="იპოვე დამალული სიტყვები" ${kt("wsStart()","სიტყვების ძებნა")}>${PLAY_BADGE}<div class="s-ico">🔎</div><div class="s-name">სიტყვების ძებნა</div><div class="s-sub">თავსატეხი</div></div>
+      <div class="subj draw play hue-pink" data-sum="ხატვა, გაფერადება და გასაფერადებელი შაბლონები" ${kt("openDraw()","ხატვა")}>${PLAY_BADGE}<div class="s-ico">🎨</div><div class="s-name">ხატვა</div><div class="s-sub">ფუნჯი · ფერები · შაბლონები</div></div>
     </div>`;
   }
   render(`<div class="screen home2">

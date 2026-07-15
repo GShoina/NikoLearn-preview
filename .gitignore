@@ -41,6 +41,12 @@ output/
 .wrangler/
 cloudflare/.wrangler/
 
+# Internal strategy drafts & agent audits — keep LOCAL, NEVER publish on the public Pages site
+01_NikoLearn_Strategy_drafts/
+NikoLearn_Strategy_drafts/
+auditbyagents/
+*.docx
+
 # design artifacts — keep local, do NOT deploy to Pages
 brand-preview/
 niko-brand.html
