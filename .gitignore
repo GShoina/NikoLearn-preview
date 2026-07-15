@@ -42,8 +42,11 @@ output/
 cloudflare/.wrangler/
 
 # Internal strategy drafts & agent audits — keep LOCAL, NEVER publish on the public Pages site
+# (belt-and-suspenders: the Pages deploy already uses an explicit allowlist in deploy-pages.yml,
+#  so these can never reach nikolearn.com even if tracked — this just keeps them out of git too).
 01_NikoLearn_Strategy_drafts/
 NikoLearn_Strategy_drafts/
+05_auditbyagents/
 auditbyagents/
 *.docx
 

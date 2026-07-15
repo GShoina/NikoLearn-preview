@@ -505,7 +505,7 @@
 }
 
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{scroll-behavior:smooth;scroll-snap-type:y proximity;scroll-padding-top:74px}
+html{scroll-behavior:smooth;scroll-snap-type:y proximity;scroll-padding-top:74px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{
   font-family:'Noto Sans Georgian','FiraGO',system-ui,sans-serif;
   background:var(--bg);

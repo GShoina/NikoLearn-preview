@@ -105,6 +105,9 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 svg{width:18px;height:18px;flex:none;vertical-align:middle}
 html,body{height:100%}
+/* Pin text at the author-defined default: stops iOS/Android from auto-inflating or
+   shrinking font sizes (text-inflation / orientation resize), so type stays STABLE. */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{
   font-family:'FiraGO','Noto Sans Georgian',system-ui,sans-serif;
   background:
