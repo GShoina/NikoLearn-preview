@@ -2,20 +2,17 @@
 
 > Startup SSOT. Hard cap: 2 KB. Semantic state only; machine state is `.recovery/current.md`.
 
-**UPDATED:** 2026-07-16 · git object-store repair  
+**UPDATED:** 2026-07-16 · git object-store repair ✅ DONE  
 **LIVE:** `v1.365` (`8ec2916`) · **untouched, 100% safe** · branch work is **NOT live**  
-**BRANCH:** `recover/s21-nb32-nb3-nb8` · **36 ahead of main**, history damaged, TIP clean
+**CURRENT BRANCH:** `recover/clean-2026-07-16` (`373d3eb`) · **1 clean commit ahead of main, pushable**
 
-## NOW — git repair (crash of Jul 15 16:22, NB-64 family)
+## NOW — git repair ✅ COMPLETE (crash of Jul 15 16:22, NB-64 family)
 
-8 zero-byte objects from one interrupted write. **Proven safe:** main=origin/main=`8ec2916` (LIVE); branch TIP tree 100% materializable; working tree intact. **Lost (permanent, harmless):** 5 orphaned intermediate-history objects (unreachable from tip, never on origin); 3 of 8 regenerated from the working tree. **Only breakage:** full-history walk / a normal `git push` of the 36-commit branch. Content + deploy unaffected.
+8 zero-byte objects from one interrupted write. **Repaired by rebuilding a clean branch off main:** `recover/clean-2026-07-16` (`373d3eb`), tree **byte-identical** to the old corrupt tip (`git diff` = empty), all 6924 objects present, fully pushable. Old `recover/s21-nb32-nb3-nb8` (`efa83c3`) kept — the 5 permanently-lost intermediate objects reference only it now. Live never touched. Nothing deleted (old branch + 3 backups retained).
 
-## NEXT — rebuild a clean branch (reversible, no gate; PUSH stays owner-gated)
+## NEXT — answer the owner: "ბოლო ვერსია Live-ზე რა უნდ აიყოს"
 
-1. `git checkout -b recover/clean-2026-07-16 main`
-2. Materialize the intact tip tree onto it (`git read-tree recover/s21-nb32-nb3-nb8^{tree}` → checkout-index) = exact latest version from clean objects only, no corrupt object read.
-3. One squash commit; body carries the 36 recovered NB-commit subjects (provenance — ჩანაცვლება ≠ წაშლა).
-4. `git fsck` → clean. Old branch + 3 backups kept until owner confirms.
+Repo blocker is cleared. Remaining gates to go live (ALL owner-side): (1) **PI-87** — owner previews the new version first; (2) **audit #29** — drop `changes.html`+`validate.html` from `deploy-pages.yml` allowlist (§15b CI/CD gate) before live; (3) **NB-65/PI-89 TYPE gate** — the branch bundles frozen colour/text changes that must not ship until he answers. Recommend: preview first, then stage the DEFECT fixes live, hold the frozen slice.
 
 ## OWNER HOLD
 

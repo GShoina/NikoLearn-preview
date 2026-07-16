@@ -8,7 +8,10 @@
 
 ## ▶ RESUME HERE (2026-07-16 · session 23) — ✅ LIVE = nikolearn.com **v1.365** (`8ec2916`, untouched) · branch **`recover/s21-nb32-nb3-nb8`** = **36 commits AHEAD**, NOT merged, NOT live · **git object-store damaged (repair planned, not yet run).**
 
-### 🔧 GIT CORRUPTION — state + recovery plan (s23, before any repair action)
+### 🔧 GIT CORRUPTION — ✅ REPAIRED (s23)
+**RESULT:** clean branch `recover/clean-2026-07-16` (`373d3eb`) built off main, 1 commit, tree **byte-identical** to the old tip (`git diff recover/clean-2026-07-16 recover/s21-nb32-nb3-nb8` = empty), 6924 objects all present = fully pushable. Old branch `recover/s21-nb32-nb3-nb8` (`efa83c3`) + 3 backups kept; the 5 lost objects reference only the old branch. `main`/live never touched. **To ship: use `recover/clean-2026-07-16`, not the old branch.** Cleanup (delete old branch + backups + gc to purge the 5 dead objects) waits for owner confirmation that the clean branch is the one to ship. Original plan + provenance below (kept as the record).
+
+#### original plan + evidence (s23, before the repair ran)
 **Cause:** 8 zero-byte object files, ALL timestamped Jul 15 16:22 = one interrupted write (a crash mid-`git`). This is the exact NB-64 failure the crash-recovery hardening targets — it fired for real.
 **Discovered by:** `qa/ship-scope.mjs` choking on `object file …/34f1496… is empty` while computing what actually ships live. Not a tool bug; the tool exposed the corruption.
 **Proven SAFE (evidence):** `main`=`origin/main`=`8ec2916` both readable (LIVE v1.365 untouched) · branch **TIP tree 100% materializable** (`git rev-list --objects HEAD^{tree}` clean — every object of the latest version present) · working tree intact (`git status` normal, 67 files vs main).
