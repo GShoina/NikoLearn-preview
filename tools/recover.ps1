@@ -39,13 +39,13 @@ if ((Test-Path -LiteralPath $patch) -and (Get-Item -LiteralPath $patch).Length -
 
 $untracked = Join-Path $snapshot 'untracked'
 if (Test-Path -LiteralPath $untracked) {
-    $prefix = ([IO.Path]::GetFullPath($untracked)).TrimEnd('\\','/') + [IO.Path]::DirectorySeparatorChar
+    $prefix = ([IO.Path]::GetFullPath($untracked)).TrimEnd('\','/') + [IO.Path]::DirectorySeparatorChar
     foreach ($file in Get-ChildItem -LiteralPath $untracked -File -Recurse) {
         $full = [IO.Path]::GetFullPath($file.FullName)
         if (-not $full.StartsWith($prefix, [StringComparison]::OrdinalIgnoreCase)) { continue }
         $rel = $full.Substring($prefix.Length)
         $dest = [IO.Path]::GetFullPath((Join-Path $Root $rel))
-        $rootPrefix = $Root.TrimEnd('\\','/') + [IO.Path]::DirectorySeparatorChar
+        $rootPrefix = $Root.TrimEnd('\','/') + [IO.Path]::DirectorySeparatorChar
         if (-not $dest.StartsWith($rootPrefix, [StringComparison]::OrdinalIgnoreCase)) { continue }
         if ((Test-Path -LiteralPath $dest) -and -not $Force) { throw "Refusing to overwrite existing untracked file: $rel" }
         New-Item -ItemType Directory -Path (Split-Path -Parent $dest) -Force | Out-Null

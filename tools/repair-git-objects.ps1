@@ -16,7 +16,7 @@ New-Item -ItemType Directory -Path $backup -Force | Out-Null
 Copy-Item -LiteralPath (Join-Path $Root '.git') -Destination (Join-Path $backup '.git') -Recurse -Force
 
 $objects = [IO.Path]::GetFullPath((Join-Path $Root '.git\objects'))
-$objectsPrefix = $objects.TrimEnd('\\','/') + [IO.Path]::DirectorySeparatorChar
+$objectsPrefix = $objects.TrimEnd('\','/') + [IO.Path]::DirectorySeparatorChar
 $quarantine = Join-Path $backup 'zero-object-quarantine'
 New-Item -ItemType Directory -Path $quarantine -Force | Out-Null
 $zero = @(Get-ChildItem -LiteralPath $objects -File -Recurse | Where-Object { $_.Length -eq 0 -and $_.Directory.Name -match '^[0-9a-f]{2}$' -and $_.Name -match '^[0-9a-f]{38}$' })

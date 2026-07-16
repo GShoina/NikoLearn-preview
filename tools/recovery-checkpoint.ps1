@@ -18,11 +18,18 @@ function Write-AtomicUtf8([string]$Path, [string]$Text) {
         New-Item -ItemType Directory -Path $dir -Force | Out-Null
     }
     $tmp = "$Path.$([Guid]::NewGuid().ToString('N')).tmp"
-    [IO.File]::WriteAllText($tmp, $Text, $utf8NoBom)
-    if (Test-Path -LiteralPath $Path) {
-        [IO.File]::Replace($tmp, $Path, $null)
-    } else {
-        [IO.File]::Move($tmp, $Path)
+    try {
+        [IO.File]::WriteAllText($tmp, $Text, $utf8NoBom)
+        if (Test-Path -LiteralPath $Path) {
+            # $null coerces to '' for a [string] .NET param; File.Replace then rejects '' as
+            # "path is not of a legal form". [NullString]::Value passes a real .NET null (no backup).
+            [IO.File]::Replace($tmp, $Path, [NullString]::Value)
+        } else {
+            [IO.File]::Move($tmp, $Path)
+        }
+    } finally {
+        # Never leave a half-written temp behind if the swap throws (crash-recovery aid must not litter).
+        if (Test-Path -LiteralPath $tmp) { Remove-Item -LiteralPath $tmp -Force -ErrorAction SilentlyContinue }
     }
 }
 
@@ -35,7 +42,18 @@ function Get-Sha256([string]$Text) {
 }
 
 function Invoke-Git([string[]]$GitArgs) {
-    $result = @(& git -C $script:Root @GitArgs 2>$null)
+    # $ErrorActionPreference is 'Stop' script-wide (crash-safety). But a native command that writes
+    # to stderr — git's benign "warning: LF will be replaced by CRLF", detached-HEAD advice, etc. —
+    # becomes a TERMINATING error under 'Stop' even with 2>$null (a PS 5.1 native-stderr gotcha).
+    # That silently aborted the whole checkpoint on any git warning. Localize the preference so git's
+    # stderr can never kill the writer; real failures are still caught via $LastGitExit at each call.
+    $prev = $ErrorActionPreference
+    $ErrorActionPreference = 'Continue'
+    try {
+        $result = @(& git -C $script:Root @GitArgs 2>$null)
+    } finally {
+        $ErrorActionPreference = $prev
+    }
     $script:LastGitExit = $LASTEXITCODE
     return $result
 }
@@ -58,7 +76,16 @@ try {
         try { $previous = Get-Content -LiteralPath $currentJsonPath -Raw -Encoding UTF8 | ConvertFrom-Json } catch {}
     }
 
-    if ($FromHook -and -not $HookJson) { $HookJson = [Console]::In.ReadToEnd() }
+    if ($FromHook -and -not $HookJson) {
+        # Hook JSON arrives as UTF-8 on stdin, but [Console]::In decodes with the Windows OEM codepage
+        # (CP850/437) — a Georgian owner message (E1 83 ..) becomes ß-â-.. and is then re-written as
+        # UTF-8, double-mangled beyond recovery. Read the raw stream as UTF-8 so non-ASCII survives.
+        try {
+            $reader = New-Object System.IO.StreamReader([Console]::OpenStandardInput(), [System.Text.Encoding]::UTF8)
+            $HookJson = $reader.ReadToEnd()
+            $reader.Dispose()
+        } catch { $HookJson = '' }
+    }
     $hook = $null
     if ($HookJson) { try { $hook = $HookJson | ConvertFrom-Json } catch {} }
 
@@ -97,7 +124,12 @@ try {
     $patchOk = if ($previous -and $null -ne $previous.patch_ok) { [bool]$previous.patch_ok } else { $true }
     $needsSnapshot = $status.Count -gt 0 -and (-not $previous -or [string]$previous.fingerprint -ne $fingerprint)
 
+    # The untracked-file snapshot is a NICE-TO-HAVE; the core deliverable is current.md/current.json
+    # ("where am I, how do I resume"). NB-64: a recovery aid must never break the session it protects,
+    # so a snapshot failure degrades to a note in state and MUST NOT abort the core checkpoint below.
+    $snapshotError = ''
     if ($needsSnapshot) {
+      try {
         $stamp = (Get-Date).ToString('yyyyMMdd-HHmmss-fff')
         $snapshotPath = Join-Path $snapshotRoot "$stamp-$($fingerprint.Substring(0,8))"
         New-Item -ItemType Directory -Path $snapshotPath -Force | Out-Null
@@ -118,7 +150,7 @@ try {
             }
             try {
                 $src = [IO.Path]::GetFullPath((Join-Path $Root $rel))
-                $rootPrefix = $Root.TrimEnd('\\','/') + [IO.Path]::DirectorySeparatorChar
+                $rootPrefix = $Root.TrimEnd('\','/') + [IO.Path]::DirectorySeparatorChar
                 if (-not $src.StartsWith($rootPrefix, [StringComparison]::OrdinalIgnoreCase)) { continue }
                 if (-not (Test-Path -LiteralPath $src -PathType Leaf)) { continue }
                 $file = Get-Item -LiteralPath $src
@@ -126,7 +158,7 @@ try {
                     $skipped.Add([pscustomobject]@{ path = $rel; reason = 'snapshot size cap' }); continue
                 }
                 $dest = [IO.Path]::GetFullPath((Join-Path (Join-Path $snapshotPath 'untracked') $rel))
-                $destPrefix = ([IO.Path]::GetFullPath((Join-Path $snapshotPath 'untracked'))).TrimEnd('\\','/') + [IO.Path]::DirectorySeparatorChar
+                $destPrefix = ([IO.Path]::GetFullPath((Join-Path $snapshotPath 'untracked'))).TrimEnd('\','/') + [IO.Path]::DirectorySeparatorChar
                 if (-not $dest.StartsWith($destPrefix, [StringComparison]::OrdinalIgnoreCase)) { continue }
                 New-Item -ItemType Directory -Path (Split-Path -Parent $dest) -Force | Out-Null
                 Copy-Item -LiteralPath $src -Destination $dest -Force
@@ -134,17 +166,22 @@ try {
                 $copied.Add([pscustomobject]@{ path = $rel; bytes = $file.Length })
             } catch { $skipped.Add([pscustomobject]@{ path = $rel; reason = $_.Exception.Message }) }
         }
-        $manifest = [ordered]@{ copied = @($copied); skipped = @($skipped); total_bytes = $totalBytes }
+        $manifest = [ordered]@{ copied = $copied.ToArray(); skipped = $skipped.ToArray(); total_bytes = $totalBytes }
         Write-AtomicUtf8 (Join-Path $snapshotPath 'untracked-manifest.json') ($manifest | ConvertTo-Json -Depth 5)
 
         $old = @(Get-ChildItem -LiteralPath $snapshotRoot -Directory | Sort-Object Name -Descending | Select-Object -Skip ([Math]::Max(1,$Retention)))
-        $safePrefix = ([IO.Path]::GetFullPath($snapshotRoot)).TrimEnd('\\','/') + [IO.Path]::DirectorySeparatorChar
+        $safePrefix = ([IO.Path]::GetFullPath($snapshotRoot)).TrimEnd('\','/') + [IO.Path]::DirectorySeparatorChar
         foreach ($dir in $old) {
             $resolved = [IO.Path]::GetFullPath($dir.FullName)
             if ($resolved.StartsWith($safePrefix, [StringComparison]::OrdinalIgnoreCase)) {
                 Remove-Item -LiteralPath $resolved -Recurse -Force
             }
         }
+      } catch {
+        # Snapshot failed: keep the core checkpoint alive, record why, don't rethrow.
+        $snapshotError = $_.Exception.Message
+        if (-not $snapshotPath) { $snapshotPath = '' }
+      }
     }
 
     $health = if ($previous -and $previous.git_health) { [string]$previous.git_health } else { 'not-checked' }
@@ -176,6 +213,7 @@ try {
         dirty_files = @($status | Select-Object -First 30)
         fingerprint = $fingerprint
         snapshot_path = $snapshotPath
+        snapshot_error = $snapshotError
         patch_ok = $patchOk
         git_health = $health
         git_health_checked_at = $healthAt

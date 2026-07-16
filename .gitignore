@@ -46,6 +46,14 @@ output/
 # record stays docs/SESSION-HANDOFF.md — the pulse's job is to make that file's ABSENCE loud.
 docs/.session-pulse.md
 
+# Recovery checkpoint (NB-64, re-architected 2026-07-16) — continuous machine state written by
+# tools/recovery-checkpoint.ps1 on EVERY prompt/tool/stop/compact/session-end event. Same reasoning as
+# the pulse above: it is a machine-local INDEX (session id, transcript path, git state, last owner
+# message, error log), regenerated constantly, worthless once the machine dies. Tracking it would dirty
+# the tree every turn AND risk sweeping the transcript path / owner message into a commit. Durable record
+# stays docs/SESSION-HANDOFF.md + docs/RESUME.md.
+.recovery/
+
 # wrangler local cache (tooling, not for repo)
 .wrangler/
 cloudflare/.wrangler/
