@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="ka">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NikoLearn — AI კონსტიტუცია და ორკესტრაცია (ექსპერიმენტი)</title>
+<style>
+  :root{
+    --bg:#fbf7f1; --panel:#ffffff; --ink:#26211b; --soft:#6b6055; --line:#eadfce;
+    --accent:#f2894c; --accent2:#ff7a00; --good:#2f9e6f; --bad:#d1533b; --warn:#c8891b;
+    --chip:#fdeede; --code:#f4efe6; --shadow:0 1px 2px rgba(60,40,20,.06),0 8px 24px rgba(60,40,20,.06);
+  }
+  @media (prefers-color-scheme:dark){
+    :root{ --bg:#17140f; --panel:#201b14; --ink:#f2ead d; --ink:#f3ecdf; --soft:#b6a892; --line:#332a1f;
+      --accent:#ff9a5a; --accent2:#ffb070; --good:#57c99a; --bad:#f0836b; --warn:#e7b24e;
+      --chip:#2a2013; --code:#1b1710; --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);}
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.62 "Segoe UI",system-ui,-apple-system,"Noto Sans Georgian",Roboto,Arial,sans-serif;}
+  .wrap{max-width:940px;margin:0 auto;padding:32px 22px 90px}
+  header.hero{padding:34px 30px;border-radius:20px;color:#fff;
+    background:linear-gradient(135deg,#ff8a3d 0%,#f2894c 45%,#e8632e 100%);box-shadow:var(--shadow)}
+  .hero .kick{font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;opacity:.92;font-weight:700}
+  .hero h1{margin:.32em 0 .28em;font-size:30px;line-height:1.18;font-weight:800}
+  .hero p{margin:0;font-size:16.5px;opacity:.97;max-width:70ch}
+  .hero .meta{margin-top:16px;font-size:12.5px;opacity:.9;display:flex;gap:16px;flex-wrap:wrap}
+  h2{font-size:22px;margin:44px 0 6px;letter-spacing:-.01em;font-weight:800}
+  h2 .n{color:var(--accent2);font-variant-numeric:tabular-nums;margin-right:.4em}
+  h3{font-size:16.5px;margin:22px 0 6px;font-weight:700}
+  .lead{color:var(--soft);margin:.2em 0 1em;font-size:15px}
+  p{margin:.55em 0}
+  a{color:var(--accent2)}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 22px;margin:14px 0;box-shadow:var(--shadow)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:720px){.grid2{grid-template-columns:1fr}}
+  .chip{display:inline-block;background:var(--chip);color:var(--accent2);border:1px solid var(--line);
+    border-radius:999px;padding:2px 10px;font-size:12px;font-weight:700;margin:0 4px 4px 0}
+  .tag{font-size:11px;font-weight:800;letter-spacing:.04em;padding:1px 7px;border-radius:6px;vertical-align:middle}
+  .t-fact{background:rgba(47,158,111,.14);color:var(--good)}
+  .t-hyp{background:rgba(200,137,27,.16);color:var(--warn)}
+  .t-assm{background:rgba(242,137,76,.16);color:var(--accent2)}
+  .t-unk{background:rgba(209,83,59,.14);color:var(--bad)}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--soft);font-weight:700}
+  tr:last-child td{border-bottom:0}
+  .win{color:var(--good);font-weight:800}
+  .lose{color:var(--bad);font-weight:700}
+  .callout{border-left:4px solid var(--accent);background:var(--chip);border-radius:0 12px 12px 0;padding:14px 18px;margin:16px 0}
+  .callout.warn{border-color:var(--warn);background:rgba(200,137,27,.08)}
+  .callout.good{border-color:var(--good);background:rgba(47,158,111,.08)}
+  code,.mono{font-family:"Cascadia Code",ui-monospace,SFMono-Regular,Consolas,monospace;font-size:13px}
+  .pipe{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0}
+  .pipe .step{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:13px;font-weight:700}
+  .pipe .arw{color:var(--accent2);font-weight:800}
+  .gate{display:flex;gap:12px;padding:12px 0;border-bottom:1px dashed var(--line)}
+  .gate:last-child{border-bottom:0}
+  .gate .id{font-weight:800;color:var(--accent2);min-width:44px;font-family:"Cascadia Code",monospace}
+  ol,ul{margin:.5em 0 .6em;padding-left:1.25em}
+  li{margin:.28em 0}
+  .foot{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);color:var(--soft);font-size:12.5px}
+  .toc{columns:2;column-gap:26px;font-size:14px}
+  @media(max-width:640px){.toc{columns:1}}
+  .toc a{display:block;padding:3px 0;text-decoration:none;color:var(--ink)}
+  .toc a:hover{color:var(--accent2)}
+  .big{font-size:17px;font-weight:700}
+  .kpi{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
+  .kpi div{flex:1;min-width:150px;background:var(--code);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+  .kpi b{display:block;font-size:20px;color:var(--accent2)}
+  .kpi span{font-size:12.5px;color:var(--soft)}
+  @media print{body{background:#fff}.panel,header.hero{box-shadow:none}.hero{color:#111;background:none;border:2px solid #f2894c}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <div class="kick">ექსპერიმენტი · System-Builder L4/5 · read-only</div>
+  <h1>NikoLearn — AI ოპერაციული კონსტიტუცია და ორკესტრაციის სისტემა</h1>
+  <p>დამოუკიდებელი, კრიტიკული დიზაინი: არა არსებული სტრუქტურის მოწესრიგება, არამედ იმ სისტემის აგება, რომელიც დაბალი ღირებულების სამუშაოს წინასწარ აჩერებს და ღირებულებებით მუშაობს. არაფერი შეცვლილა პროექტში — ეს მხოლოდ ხედვა და შედეგია.</p>
+  <div class="meta">
+    <span>📅 2026-07-15</span><span>👤 Gela Shonia</span><span>🦉 Niko (standalone)</span><span>🧪 proposal, not applied</span>
+  </div>
+</header>
+
+<div class="panel" style="margin-top:22px">
+  <strong>რას წაიკითხავ (navigation)</strong>
+  <nav class="toc" style="margin-top:8px">
+    <a href="#verdict">1 · აღმასრულებელი ვერდიქტი</a>
+    <a href="#arch">2 · არჩეული არქიტექტურა</a>
+    <a href="#alts">3 · რატომ წააგო ალტერნატივებმა</a>
+    <a href="#const">4 · კონსტიტუცია (production-ready)</a>
+    <a href="#runtime">5 · Runtime — მუშაობის მოდელი</a>
+    <a href="#routing">6 · Agent / model routing</a>
+    <a href="#gates">7 · ღირებულების და ვერიფიკაციის gate-ები</a>
+    <a href="#learn">8 · უწყვეტი სწავლის მარყუჟი</a>
+    <a href="#intel">9 · ბაზრის ინტელექტის მარყუჟი</a>
+    <a href="#token">10 · Token / budget პოლიტიკა</a>
+    <a href="#report">11 · Founder-reporting ფორმატი</a>
+    <a href="#steps">12 · პირველი ნაბიჯები</a>
+    <a href="#assume">13 · დაშვებები და უცნობები</a>
+    <a href="#road">14 · Roadmap: top-3 ფიჩერი + token ხარჯი</a>
+  </nav>
+</div>
+
+<!-- 1 -->
+<h2 id="verdict"><span class="n">1</span>აღმასრულებელი ვერდიქტი</h2>
+<p class="lead">ერთი წინადადებით: შენი შფოთვა („ყველა აგენტი რომ წავშალო, არაფერი შეიცვლებოდა") სწორია და ეს არის დიაგნოზი, არა ბაგი.</p>
+<div class="callout">
+<p class="big">გამარჯვებული დიზაინი: <span style="color:var(--accent2)">„თხელი კონსტიტუცია + აღსრულებადი Runtime + ერთჯერადი Capabilities".</span></p>
+<p>სისტემა ნამდვილია მხოლოდ მაშინ, თუ მისი წაშლა შედეგს ცვლის. <b>ღირებულებები და წესების გვერდები ამ ტესტს ვერ აგდებენ</b> — ისინი რჩევაა, რომელსაც აგენტმა შეიძლება არ დაუჯეროს. <b>Gate-ები კი აგდებენ</b>: წაშალე „ჩუმი unlock"-ის შემოწმება და iOS-ზე ხმა ისევ გაჟონავს. ამიტომ დიზაინის მთავარი პრინციპია: <b>ყოველი მნიშვნელოვანი წესი ჩააგდე აღსრულებად gate-ში ან load-bearing არტეფაქტში; რაც ვერ აღსრულდება, ის ღირებულებაა და ღირებულებები ცოტაა და დასამახსოვრებელი, არა გამრავლებული.</b></p>
+</div>
+<p>ეს პირდაპირ პასუხობს შენს შიშს: შენ <b>გინდა</b> რომ „org chart"-ის უმეტესობა წასაშლელი იყოს (ის თეატრია). რაც <b>არ</b> უნდა იყოს წასაშლელი, არის მცირე ნაკრები gate-ებისა და მეხსიერება. სისტემა = კოდი + მონაცემი (რაც აღასრულებს), არა პროზა (რომელსაც აგენტი კითხულობს და შეიძლება უგულებელყოს).</p>
+<div class="kpi">
+  <div><b>1</b><span>აქტიური ოპერატორი (არა org chart) — როლები = რეჟიმები, არა იდენტობები</span></div>
+  <div><b>6</b><span>load-bearing gate — მთელი წესების გროვის ნაცვლად</span></div>
+  <div><b>3</b><span>მეხსიერების store: Decisions · Lessons · Handoff</span></div>
+  <div><b>4</b><span>escalation gate — დანარჩენი ავტონომიურია</span></div>
+</div>
+
+<!-- 2 -->
+<h2 id="arch"><span class="n">2</span>არჩეული არქიტექტურა</h2>
+<p class="lead">სამი ფენა. ერთადერთი „მძიმე" ფენა შუაშია (Runtime); ზედა თხელია, ქვედა — ერთჯერადი.</p>
+<div class="grid2">
+  <div class="panel">
+    <span class="chip">ფენა 1 · სტაბილური</span>
+    <h3>Constitution (თხელი, ~1 გვერდი)</h3>
+    <p>„რატომ" და non-negotiable-ები. ღირებულებები + <b>gate-ების დახურული სია</b>. იშვიათად იცვლება, მხოლოდ owner-ის amendment-ით. აქ არ წერია არაფერი, რაც Runtime-ს შეუძლია აღასრულოს.</p>
+  </div>
+  <div class="panel">
+    <span class="chip">ფენა 3 · ერთჯერადი</span>
+    <h3>Capabilities (რეჟიმები / workers)</h3>
+    <p>არა იდენტობები — <b>რეჟიმები</b>: build · challenge · verify · research · curate · copy-QA. ერთი მოდელი შედის რეჟიმში; ნამდვილად პარალელური სამუშაო ქმნის task-scoped worker-ს, რომელიც სამუშაოს ბოლოს კვდება.</p>
+  </div>
+</div>
+<div class="panel">
+  <span class="chip" style="background:var(--accent);color:#fff;border-color:var(--accent)">ფენა 2 · მანქანა (load-bearing)</span>
+  <h3>Runtime — აღსრულებადი „definition of done"</h3>
+  <p>ერთი pipeline, რომელსაც ყოველი სამუშაო ერთეული გადის. აღსრულებულია <b>სკრიპტებით და hook-ებით, არა აგენტის კეთილი ნებით</b>. <code>live-push.mjs</code> + <code>qa/</code> gate-ები უკვე არსებობს — ეს ფენა ძირითადად მათ <b>ერთ დასახელებულ Runtime-ში აკონსოლიდირებს</b> და კონსტიტუციას თხელს ხდის.</p>
+</div>
+
+<!-- 3 -->
+<h2 id="alts"><span class="n">3</span>რატომ წააგო ალტერნატივებმა</h2>
+<p class="lead">ოთხი კონკურენტი დიზაინი, თითოეული red-team-ით. ტესტი ერთია: „წაშლა შედეგს ცვლის?"</p>
+<table>
+  <thead><tr><th>ვარიანტი</th><th>იდეა</th><th>Red-team — რატომ ვერ ჯდება</th><th>ვერდიქტი</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><b>A · Rulebook</b><br><span class="tag t-assm">status quo</span></td>
+      <td>დიდი დანომრილი კონსტიტუცია + მრავალი დოკი; ერთი აგენტი ყოველ სესიაზე კითხულობს/ინტერპრეტირებს.</td>
+      <td>წესები <b>სარეკომენდაციოა, არა აღსრულებადი</b> — ზუსტად შენი „თეატრის" შიში. უსაზღვროდ იზრდება, token-ძვირია ჩასატვირთი, ინტერპრეტაცია დრიფტავს. ვერიფიკაცია დამოკიდებულია იმაზე, აგენტმა გაიხსენა თუ არა.</td>
+      <td class="lose">წააგო</td>
+    </tr>
+    <tr>
+      <td><b>B · Org chart</b><br><span class="tag t-assm">Bivision-style</span></td>
+      <td>დასახელებული აგენტები ფიქსირებული როლებით: Dev, PO, QA, Researcher, CKO, Red-teamer (hub-and-spoke).</td>
+      <td>solo პროდუქტისთვის ეს ძირითადად <b>cosplay-ია</b>: ფიქსირებული როლები ანაწევრებს კონტექსტს, ამრავლებს token-ს (თითო აგენტი თავიდან იტვირთება), ქმნის კოორდინაციის ხარჯს, საზღვრები კი თვითნებურია — ერთ მოდელს ყველა როლი შეუძლია. დასახელება ≠ შესაძლებლობა.</td>
+      <td class="lose">წააგო</td>
+    </tr>
+    <tr>
+      <td><b>C · Capability + gates</b><br><span class="tag t-fact">გამარჯვებული</span></td>
+      <td>არა აგენტ-იდენტობები, არამედ შესაძლებლობა-ფუნქციები. თხელი კონსტიტუცია + აღსრულებადი gate-ები. მოდელი task-ის სირთულით, არა სახელით.</td>
+      <td>რისკი: ბიუროკრატია + აგების ხარჯი. <b>მიტიგაცია:</b> კონსტიტუცია რჩება პატარა; gate-ები ცოტაა და თითო „იმსახურებს" ადგილს (gate რომელიც არასდროს ისვრის = წაშალე). აგების ხარჯი მცირეა — ბევრი უკვე არსებობს.</td>
+      <td class="win">✔ გაიმარჯვა</td>
+    </tr>
+    <tr>
+      <td><b>D · Minimal</b><br><span class="tag t-assm">ultra-lean</span></td>
+      <td>ერთი გვერდი charter + ერთი ship-gate; არა role/CKO/intel; ენდე მოდელს.</td>
+      <td>ბავშვის პროდუქტისთვის <b>ძალიან ცოტა რელსია</b> (ერთი არასწორი გახმოვანებული სიტყვა trust-ზე უკვე ზიანია). კარგავს ინსტიტუციურ მეხსიერებას და ინტელექტს დროში; სისტემურ სწავლას ვერ აკეთებს. adaptability იშლება.</td>
+      <td class="lose">წააგო</td>
+    </tr>
+  </tbody>
+</table>
+<div class="callout good"><b>რატომ იმარჯვებს C:</b> ის ერთადერთია, სადაც წესების <b>წაშლა შედეგს ცვლის</b> (load-bearing). D-სგან სესხულობს „თხელის" დისციპლინას, B-სგან — „workers მხოლოდ როცა ნამდვილად პარალელურია". ანუ: <b>დააკონცენტრირე load-bearing მასა, წაშალე თეატრი.</b></div>
+
+<!-- 4 -->
+<h2 id="const"><span class="n">4</span>კონსტიტუცია (production-ready)</h2>
+<p class="lead">განზრახ მოკლე. რაც gate-ს შეუძლია აღასრულოს, აქ არ წერია — ის Runtime-შია.</p>
+<div class="panel">
+  <p><b>პრეამბულა.</b> ერთი ოპერატორი, ერთი პროდუქტი, ცენტრში ერთი ბავშვი. ეს კონსტიტუცია მოკლეა. აქ მხოლოდ ის წერია, რაც უნდა იყოს <b>ჭეშმარიტი task-ის მიუხედავად</b>.</p>
+  <p><b>მუხ. 1 — მიზანი.</b> ააგე და ზარდე privacy-first პროდუქტი ბავშვებისთვის, <b>მინიმალური founder-დროით</b> და მაქსიმალური ხარისხით, გადაწყვეტილების სისწორით, სისწრაფით, ადაპტურობით.</p>
+  <p><b>მუხ. 2 — რეალურობის პრინციპი.</b> წესი, რომელიც შედეგს არ ცვლის, თეატრია. ყოველი წესი ან (ა) აღსრულებულია Runtime gate-ით, ან (ბ) არის ღირებულება მსჯელობისთვის. ტესტი ყოველი ახალი წესისთვის: <i>„წაშლა თუ არაფერს ცვლის — არ ემატება."</i></p>
+  <p><b>მუხ. 3 — აბსოლუტები</b> (არასდროს იცვლება სისწრაფეზე):</p>
+  <ul>
+    <li><b>3.1 ბავშვის უსაფრთხოება/კონფიდენციალობა:</b> PII არ ტოვებს მოწყობილობას; არა რეკლამა; არა გარე ბმული ბავშვის აპში; არაფერი, რასაც ბავშვი ხედავს ან ისმენს, არ არის მცდარი, სახიფათო ან off-brand. <b>ერთადერთი gate რომელიც არასდროს override-დება ავტომატურად.</b></li>
+    <li><b>3.2 ორიგინალურობა:</b> ყველა კონტენტი NikoLearn-ის ავტორობისაა; არასდროს კოპირებული/მსუბუქად გადაკეთებული მესამე მხარის ტესტიდან.</li>
+    <li><b>3.3 შექცევადობის მიდრეკილება:</b> ამჯობინე შექცევადი ნაბიჯი; ნებისმიერ risky ან live ცვლილებამდე არსებობს backup.</li>
+  </ul>
+  <p><b>მუხ. 4 — მტკიცებულება მორჩილებაზე მაღლა.</b> ოპერატორი მიჰყვება founder-ის <b>მიმართულებას</b>, მაგრამ ეჭვქვეშ აყენებს მის <b>მსჯელობას</b>. ყოველ მნიშვნელოვან მტკიცებას აქვს ტეგი: <span class="tag t-fact">FACT</span> <span class="tag t-assm">ASSUMPTION</span> <span class="tag t-hyp">HYPOTHESIS</span> <span class="tag t-assm">RECOMMENDATION</span> <span class="tag t-unk">UNKNOWN</span>. ბიზნეს-მეტრიკა (ფასი, retention, PMF, გადახდის სურვილი) = HYPOTHESIS სანამ რეალური გამოყენება/გადახდა არ დაამტკიცებს. აღტაცება სიგნალია, არა ვალიდაცია.</p>
+  <p><b>მუხ. 5 — ავტონომია default-ად.</b> უსაფრთხოება არის <b>პროცესი, არა founder-ის ხელმოწერა</b>. ოპერატორი დამოუკიდებლად ასრულებს ყოველ შექცევად/შიდა/ვერიფიცირებულ-და-შექცევად customer-facing სამუშაოს და აბრუნებს <b>შედეგს</b>. ჩერდება მხოლოდ 4 gate-ზე: (1) ფული, (2) შეუქცევადი წაშლა, (3) ახალი საჯარო დაპირება / ფასი / ბრენდი / launch / მაღალი ხილვადობის იდენტობა, (4) ნამდვილი პროდუქტ-მიმართულების fork. gate-ზეც კი მოაქვს <b>რეკომენდაცია + default</b>, არა ღია კითხვა.</p>
+  <p><b>მუხ. 6 — ღირებულება ძალისხმევამდე.</b> build არ იწყება სანამ არ გაივლის Value Gate-ს: <i>„იგრძნობს თუ არა ამას ბავშვი ან მშობელი და ეს არის თუ არა ყველაზე ღირებული, რაც ახლა შეგვიძლია?"</i> დაბალი ღირებულების სამუშაო ჩერდება <b>intake-ზე, არა ძალისხმევის შემდეგ</b>. ეს არის შენი დაზღვევა.</p>
+  <p><b>მუხ. 7 — სისტემა სწავლობს, არა მხოლოდ output-ი.</b> ყოველი შესწორება/blocker/გამოტოვება უნდა ცვლიდეს <b>gate-ს, example-bank-ს ან config-ს</b>. გაკვეთილი, რომელიც ვერცერთს ცვლის, ლოგდება მაგრამ სუსტად ინიშნება. კლასის პრევენციის გარეშე ინსტანციის გასწორება = არასრული fix.</p>
+  <p><b>მუხ. 8 — მეხსიერება = დისკი.</b> load-bearing არაფერი ცხოვრობს მხოლოდ საუბარში. გადაწყვეტილება, გაკვეთილი, resume-pointer იწერება მაშინვე, queryable ფორმით.</p>
+  <p><b>მუხ. 9 — შესწორება.</b> იცვლება მხოლოდ founder-ის ცხადი დასტურით, ვერსიით, არასდროს ჩუმად. კონფლიქტზე: მუხ. 3 იმარჯვებს; სხვაგან — მკაცრი წესი.</p>
+</div>
+
+<!-- 5 -->
+<h2 id="runtime"><span class="n">5</span>Runtime — მუშაობის მოდელი</h2>
+<p class="lead">ერთი pipeline, რომელსაც ყველა სამუშაო გადის. აღსრულებული, არა სარეკომენდაციო.</p>
+<div class="panel">
+  <div class="pipe">
+    <span class="step">Intake</span><span class="arw">→</span>
+    <span class="step">Classify<br><small>tier + Value Gate</small></span><span class="arw">→</span>
+    <span class="step">Plan</span><span class="arw">→</span>
+    <span class="step">Build</span><span class="arw">→</span>
+    <span class="step">Self-verify<br><small>loop წესი ≥8</small></span><span class="arw">→</span>
+    <span class="step">Gate battery</span><span class="arw">→</span>
+    <span class="step">Ship?</span><span class="arw">→</span>
+    <span class="step">Record</span><span class="arw">→</span>
+    <span class="step">Report</span>
+  </div>
+  <ul>
+    <li><b>Intake:</b> ყოველი owner-report ან იდეა → ერთი row (NB-<i>n</i>) tracker-ში, echo იმავე პასუხში (უკვე §14).</li>
+    <li><b>Classify:</b> სირთულის/რისკის tier (T0-T3) + <b>Value Gate</b> — აქ ჩერდება დაბალი ღირებულების სამუშაო, build-მდე.</li>
+    <li><b>Self-verify:</b> loop წესი — თითო კრიტერიუმი 1-10, ყველა ≥8 სანამ „done".</li>
+    <li><b>Gate battery:</b> ავტომატური (<code>npm test</code>, <code>visual-gate</code>, class-sweep) + დამოუკიდებელი (red-team T-high-ზე, copy-QA ქართულზე).</li>
+    <li><b>Ship?:</b> ავტონომიური თუ არცერთი კონსტიტუციური gate არ ეხება (Amendment d).</li>
+    <li><b>Record → Report:</b> decision/lesson/tracker + founder digest. Seed უკვე არსებობს: <code>tools/live-push.mjs</code>.</li>
+  </ul>
+</div>
+<div class="callout warn"><b>მთავარი განსხვავება status quo-სგან:</b> დღეს ეს ნაბიჯები პროზაშია (§6c, §12, §13, §14) და აგენტმა უნდა გაიხსენოს. Runtime-ის აზრი — გადაიტანო ისინი <b>კოდში/hook-ში</b>, სადაც გამოტოვება შეუძლებელია.</div>
+
+<!-- 6 -->
+<h2 id="routing"><span class="n">6</span>Agent / model routing — capability × tier</h2>
+<p class="lead">მოდელი task-ის სირთულით, არა სახელით. მოდელების სია = config-ის მნიშვნელობა, არა არქიტექტურა.</p>
+<table>
+  <thead><tr><th>Tier</th><th>რა სამუშაო</th><th>მოდელი (მაგალითი, config)</th><th>წესი</th></tr></thead>
+  <tbody>
+    <tr><td><b>T-low</b></td><td>მექანიკური, შექცევადი, იაფი: bulk content, format, refactor</td><td>ყველაზე პატარა შესაფერისი (Haiku-კლასი)</td><td>არასდროს Opus format-პასზე</td></tr>
+    <tr><td><b>T-mid</b></td><td>სტანდარტული feature/fix, საჭიროებს განსჯას</td><td>საშუალო (Sonnet-კლასი)</td><td>default-ი უმეტეს სამუშაოზე</td></tr>
+    <tr><td><b>T-high</b></td><td>არქიტექტურა, safety-critical, ბუნდოვანი, ბავშვის taste</td><td>ტოპ (Opus-კლასი)</td><td>+ სავალდებულო red-team</td></tr>
+    <tr><td><b>Independence</b></td><td>red-team/verify high-stakes სამუშაოზე</td><td><b>განსხვავებული</b> მოდელი (Codex / Gemini)</td><td>ავტორი არ აფასებს საკუთარ თავს</td></tr>
+  </tbody>
+</table>
+<p><b>რეჟიმები (არა იდენტობები):</b> <span class="chip">build</span><span class="chip">challenge / red-team</span><span class="chip">verify</span><span class="chip">research</span><span class="chip">curate / memory</span><span class="chip">copy-QA</span>. Registry (tier → საუკეთესო ხელმისაწვდომი მოდელი) ცალკე config-ია და ახლდება როცა მოდელები იცვლება — ამიტომ არის დიზაინი <b>model-agnostic</b>.</p>
+
+<!-- 7 -->
+<h2 id="gates"><span class="n">7</span>ღირებულების და ვერიფიკაციის gate-ები</h2>
+<p class="lead">სისტემის load-bearing გული. მცირე დახურული ნაკრები. თითოს აქვს „რას იჭერს" + „წაშალე თუ N თვე არ ისვრის".</p>
+<div class="panel">
+  <div class="gate"><span class="id">G0</span><div><b>ბავშვის უსაფრთხოება / privacy</b> — PII off-device, რეკლამა, გარე ბმული, მცდარი/სახიფათო რამ ბავშვისთვის. <span class="tag t-fact">HARD stop</span> არასდროს ავტო-override.</div></div>
+  <div class="gate"><span class="id">G1</span><div><b>Definition-of-done</b> (§6c) — rendered + interacted + asserted + screenshot ნანახი. სადაც შესაძლებელია — მანქანურად შემოწმებული.</div></div>
+  <div class="gate"><span class="id">G2</span><div><b>Class-sweep</b> (§14) — არცერთი fix არ იგზავნება როგორც მარტოხელა ინსტანცია; კლასის ცხრილი სავალდებულოა.</div></div>
+  <div class="gate"><span class="id">G3</span><div><b>Red-team pass</b> — დამოუკიდებელი მცდელობა გატეხოს, ship-მდე, T-high სამუშაოზე.</div></div>
+  <div class="gate"><span class="id">G4</span><div><b>Value Gate</b> <span class="tag t-assm">ახალი</span> — build-მდე: „იგრძნობს ბავშვი/მშობელი და უმაღლესი ღირებულებაა ახლა?" <b>შენი ცენტრალური მოთხოვნა.</b></div></div>
+  <div class="gate"><span class="id">G5</span><div><b>Copy-QA</b> (§6f) — ქართული human-facing copy cross-model (Gemini) + human (owner) გავლით.</div></div>
+  <div class="gate"><span class="id">Ship</span><div><b>ავტონომია</b> — მხოლოდ 4 რამ აჩერებს (ფული, შეუქცევადი წაშლა, ახალი საჯარო დაპირება/ბრენდი, direction-fork). დანარჩენი ავტონომიურად იგზავნება (Amendment d).</div></div>
+</div>
+<div class="callout"><b>meta-წესი (anti-theater):</b> ყოველი gate ინსტრუმენტირებულია — ვზომავთ <b>fire-rate</b>-ს. gate რომელიც არასდროს ისვრის არის ან სრულყოფილი პრევენცია ან თეატრი; ინსტრუმენტი გვეუბნება რომელი.</div>
+
+<!-- 8 -->
+<h2 id="learn"><span class="n">8</span>უწყვეტი სწავლის მარყუჟი (სისტემური, არა output-დონის)</h2>
+<p class="lead">განსხვავება: output-სწავლა = „გაასწორე ეს ბაგი". სისტემურ-სწავლა = „გახადე ეს კლასი გაუგზავნელი".</p>
+<div class="panel">
+  <div class="pipe">
+    <span class="step">Correction / miss</span><span class="arw">→</span>
+    <span class="step">კითხვა: „ავტომატურად დაიჭერდა?"</span><span class="arw">→</span>
+    <span class="step">ცვლის: gate | example-bank | config</span><span class="arw">→</span>
+    <span class="step">ვერცერთს ცვლის → ლოგდება „სუსტად"</span>
+  </div>
+  <p>ეს არის <code>REASONING-LESSONS.md</code>-ის განახლება: გაკვეთილი ცოცხალია მხოლოდ თუ მან <b>რაღაც აღსრულებადი შეცვალა</b>. „კარგი წასაკითხი" გაკვეთილი, რომელიც არაფერს ცვლის, არის სწორედ ის თეატრი, რაზეც შენ წუხხარ.</p>
+</div>
+
+<!-- 9 -->
+<h2 id="intel"><span class="n">9</span>ბაზრის / კონკურენტის / ტექნოლოგიის ინტელექტის მარყუჟი</h2>
+<div class="panel">
+  <p>დაგეგმილი (მაგ. კვირაში ერთხელ) <b>ერთჯერადი research worker</b> → წერს <b>ერთ append-only brief-ში</b> (არა გაფანტულ დოკებში): კონკურენტის სვლები, პარტნიორის/ბაზრის სიგნალები, ახალი მოდელები/შესაძლებლობები (რომ routing-ის registry განახლდეს).</p>
+  <ul>
+    <li><b>Abundance frame</b> (§6b): კონკურენტი ამტკიცებს ბაზარს — კითხვა „სად არის დამატებითი შესაძლებლობა / თანამშრომლობა", არა საფრთხე.</li>
+    <li>founder იღებს <b>მოკლე digest-ს</b>, არა ნედლ dump-ს.</li>
+    <li>brief კვებავს <b>Value Gate-ს (G4)</b> და <b>model registry-ს</b> — ანუ ინტელექტი უშუალოდ მართავს პრიორიტეტსა და routing-ს.</li>
+  </ul>
+</div>
+
+<!-- 10 -->
+<h2 id="token"><span class="n">10</span>Token / budget პოლიტიკა</h2>
+<div class="panel">
+  <ul>
+    <li><b>ყველაზე იაფი token = ჩაუტვირთავი token.</b> ყოველ სესიაზე იტვირთება მხოლოდ თხელი კონსტიტუცია; დანარჩენი on-demand (targeted Grep/Read-offset, არა bulk-read).</li>
+    <li>მძიმე/ფართო კითხვა → ერთჯერად worker-ში ან <code>ctx_*</code> sandbox-ში; ნედლი ბაიტი <b>არ შემოდის</b> მთავარ კონტექსტში, ბრუნდება მხოლოდ დასკვნა.</li>
+    <li>მოდელის tier = task-ის tier (არა Opus format-პასზე).</li>
+    <li>disk = მეხსიერება → compaction-ის შემდეგ არ ხდება re-read.</li>
+    <li><b>იზომება, არ იგულისხმება:</b> baseline <code>ctx-stats</code>-ით + gate fire-rate. სისტემა საკუთარ პრეტენზიებს ამტკიცებს.</li>
+  </ul>
+</div>
+
+<!-- 11 -->
+<h2 id="report"><span class="n">11</span>Founder-reporting ფორმატი</h2>
+<div class="grid2">
+  <div class="panel">
+    <h3>ყოველ task-ზე</h3>
+    <p><code>EP0: X/10</code> score line → შედეგი → status → artifact path → ★ Insight (ერთი portable დასკვნა). owner-reading = HTML <code>output/</code>-ში.</p>
+  </div>
+  <div class="panel">
+    <h3>ყოველ კვირას (ერთი ეკრანი)</h3>
+    <p>State of the product: <b>გაიგზავნა</b> · <b>რა ღირებულება</b> · <b>შემდეგი</b> · <b>ინტელექტი</b> · <b>token spend</b> · <b>გადაწყვეტილება საჭიროა</b>. founder ხედავს <b>შედეგებს და forks-ს, არა პროცესს.</b></p>
+  </div>
+</div>
+<p class="lead">„მინიმალური founder-ჩართულობა" ოპერაციულად = founder-ს ეხება მხოლოდ 4 gate და კვირის ერთი ეკრანი. ყველა დანარჩენი შედეგად ბრუნდება.</p>
+
+<!-- 12 -->
+<h2 id="steps"><span class="n">12</span>პირველი იმპლემენტაციის ნაბიჯები</h2>
+<p class="lead">იაფი, შექცევადი, ძირითადად კონსოლიდაცია — არა ახალი infra.</p>
+<ol>
+  <li><b>დაწერე თხელი კონსტიტუცია</b> (1 გვ.): ღირებულებები + gate-ების დახურული სია. დანომრილი წესები მიუთითებს მასზე. <i>(მაშინვე ამცირებს token-ჩატვირთვას.)</i></li>
+  <li><b>დაასახელე Runtime</b>: ერთი doc/script = definition-of-done pipeline; გააფართოვე <code>live-push.mjs</code> gate battery — ჩართე Value Gate (G4) intake-ზე + class-sweep/red-team ცხად სტადიებად.</li>
+  <li><b>3 მეხსიერების store</b> (Decisions · Lessons · Handoff) გახადე queryable SSOT; დაარეგისტრირე README-ში; მოკალი orphan დოკები (CKO პასი).</li>
+  <li><b>Model registry → config ფაილი</b> (tier → მოდელი), routing model-agnostic და განახლებადი.</li>
+  <li><b>REASONING-LESSONS → დახურული მარყუჟი</b>: თითო გაკვეთილი ასახელებს რომელ gate-ს/config-ს ცვლის.</li>
+  <li><b>დაგეგმე კვირის intel worker</b> → ერთი brief + founder digest.</li>
+  <li><b>ინსტრუმენტი:</b> <code>ctx-stats</code> baseline + gate fire-rate — რომ სისტემის პრეტენზიები იზომებოდეს.</li>
+</ol>
+
+<!-- 13 -->
+<h2 id="assume"><span class="n">13</span>დაშვებები, უცნობები, ვალიდაცია</h2>
+<table>
+  <thead><tr><th>ტიპი</th><th>განაცხადი</th><th>როგორ ვამოწმებთ</th></tr></thead>
+  <tbody>
+    <tr><td><span class="tag t-assm">ASSUMPTION</span></td><td>solo founder, ერთი აქტიური ოპერატორი, დაბალი პარალელიზმი → მუდმივი multi-agent org ნაადრევია.</td><td>თუ სამუშაოს მოცულობა ერთი კონტექსტის გამტარიანობას გადააჭარბებს — გადავხედავთ.</td></tr>
+    <tr><td><span class="tag t-assm">ASSUMPTION</span></td><td>აღსრულებადი gate &gt; პროზა compliance-ისთვის.</td><td>gate fire-rate-ის ინსტრუმენტაცია.</td></tr>
+    <tr><td><span class="tag t-unk">UNKNOWN</span></td><td>რეალური token budget / ჭერი.</td><td><code>ctx-stats</code> baseline რამდენიმე სესიაზე.</td></tr>
+    <tr><td><span class="tag t-unk">UNKNOWN</span></td><td>Value Gate (G4) ყველაზე რთულია გასაობიექტურებლად — „ღირებულება" pre-revenue პროდუქტზე = HYPOTHESIS.</td><td>რეალურ (privacy-safe/aggregate) ბავშვ/მშობლის usage-ზე ვალიდაცია.</td></tr>
+    <tr><td><span class="tag t-hyp">HYPOTHESIS</span></td><td>tier → model რუკა.</td><td>ამ repo-ს task-ებზე გაზომვამდე config-ის ვარაუდია.</td></tr>
+    <tr><td><span class="tag t-hyp">HYPOTHESIS</span></td><td>ბიზნეს-მეტრიკა (retention, PMF, გადახდის სურვილი).</td><td>სისტემამ არ უნდა აურიოს founder-აღტაცება ვალიდაციაში.</td></tr>
+  </tbody>
+</table>
+
+<!-- 14 -->
+<h2 id="road"><span class="n">14</span>Roadmap — შემდეგი top-3 ღირებულების ფიჩერი + token ხარჯი</h2>
+<p class="lead">დაფუძნებული რეალურ SSOT-ზე (<code>PRODUCT_IDEAS.md</code> / <code>ROADMAP.md</code>). ორი გაზომილი პრობლემა: <b>activation</b> (round abandon ≈67% <span class="tag t-fact">FACT</span>) და <b>reach/distribution</b>. პიკები ამ ორ ბერკეტს ხვდება, მესამე ღირებულებას ამრავლებს.</p>
+
+<div class="panel">
+  <span class="chip" style="background:var(--accent);color:#fff;border-color:var(--accent)">#1 · activation ბერკეტი</span>
+  <h3>Child-home reframe ≤7 — ერთი დიდი „ითამაშე" CTA (owl-quest)</h3>
+  <p>ბავშვი ≤7 საერთოდ არ ირჩევს საგანს; ერთი quest-CTA + სამყაროებად შეფუთული გზა; საგნები რჩება parent dashboard + landing-ზე (მყიდველი = მშობელი, დამბრუნებელი = ბავშვი). <b>რატომ #1:</b> ხვდება ერთადერთ გაზომილ #1 პრობლემას (abandon), თანხვდება parent-feedback-სა და adult-preview-data-ს — არა აღტაცებას.</p>
+  <p><span class="tag t-hyp">token</span> <b>Medium: ~400k-800k</b> — reframe არსებული home-ის + routing + რამდენიმე nav-clip + §6c ვიზუალ-ვერიფიკაცია ასაკებზე + ქართული copy gate + owner GO მარყუჟი. მაღალი ბოლო, რადგან ეს ყველაზე-ნანახი, ბავშვ-facing taste ზედაპირია (iteration).</p>
+</div>
+
+<div class="panel">
+  <span class="chip" style="background:var(--good);color:#fff;border-color:var(--good)">#2 · reach ბერკეტი</span>
+  <h3>TWA → Google Play (არა rewrite)</h3>
+  <p>PWABuilder/Bubblewrap → Trusted Web Activity იმავე კოდზე; assetlinks.json + Lighthouse ≥80 + Play Console ($25 ერთჯერადი). ხსნის „აპი არ არის" ბარიერს, Play-ძიების distribution-ს, Safari storage-erosion-ს. <b>რატომ მაღალი:</b> distribution ამრავლებს ყველაფერს; SSOT-ის რეკომენდაცია „ჯერ (2)".</p>
+  <p><span class="tag t-hyp">token</span> <b>Low-Medium: ~150k-350k</b> (external-step-heavy: Lighthouse fixes, assetlinks, manifest, ტესტი). <b>Gate:</b> $25 owner-money + Play Console-ის manual ნაბიჯები. <b>ყველაზე იაფი token, ყველაზე მაღალი ბერკეტი</b> — მაგრამ money + owner-account gate-ის მიღმაა.</p>
+</div>
+
+<div class="panel">
+  <span class="chip" style="background:var(--accent2);color:#fff;border-color:var(--accent2)">#3 · depth/retention, ამრავლებადი</span>
+  <h3>Word-Search engine (5 reusable engine-იდან პირველი)</h3>
+  <p>Generic subject-agnostic engine (grid, placement, tap-select, adaptive ასაკი, audio hookup, star/reward pipeline) + content packs. <b>რატომ system-builder პიკი:</b> ეს არ არის one-off — ეს <b>engine</b> (ააგე ერთხელ, დაასახლე ბევრი საგნით). ~22 worksheet იკუმშება ~5 engine-ში. კვებავს challenges/reward-ს.</p>
+  <p><span class="tag t-hyp">token</span> <b>Medium-Large: ~600k-1.2M</b> პირველი engine (engine + პირველი 2-3 content pack) + §6c + copy gate. <b>შემდეგი engine/pack გაცილებით იაფი (~100k-250k)</b> — ეს არის engines-not-one-offs-ის მთელი აზრი: პირველი ძვირია, მერე compound.</p>
+</div>
+
+<div class="callout warn"><b>#4 (gated):</b> Shareable achievement card (proud kid → parent posts → new families) აკავშირებს gamification-ს reach-თან, მაგრამ საჭიროებს owner-ის ცნობიერ privacy-გადაწყვეტას (parent-initiated share, on-device card, აპი არასდროს პოსტავს). virality = <span class="tag t-hyp">HYPOTHESIS</span> — cheap-ვალიდაცია სრულ build-მდე. არ ავწიოთ #1-3-ის წინ სანამ privacy fork არ გადაწყდა.</div>
+
+<div class="panel">
+  <h3>Token-ხარჯის მოდელი (გამჭვირვალობა)</h3>
+  <p class="lead">ესენი <span class="tag t-assm">ASSUMPTION</span> დაგეგმვის შეფასებებია, გასავალიდირებელი <code>ctx-stats</code>-ით — ზუსტად ის reflexive ტესტი, რომელსაც ეს სისტემა ითხოვს.</p>
+  <table>
+    <thead><tr><th>ზომა</th><th>რა</th><th>~ loops</th><th>~ tokens</th></tr></thead>
+    <tbody>
+      <tr><td><b>S</b></td><td>config / content pass</td><td>3-6</td><td>60k-200k</td></tr>
+      <tr><td><b>M</b></td><td>ახალი UI / reframe / engine-პირველი</td><td>10-25</td><td>300k-900k</td></tr>
+      <tr><td><b>L</b></td><td>engine + content packs + სრული ვერიფიკაცია</td><td>25+</td><td>600k-1.2M+</td></tr>
+      <tr><td><b>Infra</b></td><td>external-step-heavy (TWA)</td><td>—</td><td>150k-400k + $25</td></tr>
+    </tbody>
+  </table>
+  <p><b>რეკომენდებული რიგი:</b> #2 (იაფი, distribution ბერკეტი, money-gate owner-თან) → #1 პარალელურად preview-ად → #3 როცა #1 activation-ს დაამტკიცებს. ★ ჯერ დაასახლე distribution და activation, მერე depth — depth-ს არ აქვს ვისთვის იმუშაოს სანამ ბავშვები არ ბრუნდებიან.</p>
+</div>
+
+<div class="foot">
+  <p><b>★ Insight.</b> სისტემა ნამდვილია მხოლოდ იმ ნაწილით, რომლის წაშლაც შედეგს ცვლის. შენი „ყველა აგენტი რომ წავშალო, არაფერი შეიცვლებოდა" არ არის შენი პროცესის მარცხი — ის არის სწორი დიაგნოზი: დღევანდელი მასა პროზაშია (რჩევა), არა gate-ებში (აღსრულება). გამოსავალი არ არის მეტი წესი ან მეტი აგენტი — არამედ load-bearing მასის კონცენტრაცია მცირე gate-ებში + მეხსიერებაში, და დანარჩენის განზრახ წაშლადად დატოვება.</p>
+  <p>ექსპერიმენტი · read-only · პროექტში არაფერი შეცვლილა · 2026-07-15 · Niko (standalone). ეს ფაილი = ხედვა + შედეგი; იმპლემენტაცია ცალკე owner-GO-ს საჭიროებს.</p>
+</div>
+
+</div>
+</body>
+</html>

@@ -6,13 +6,17 @@
 let gate={a:0,b:0,ans:0,buf:''};
 // dispatcher: a real 4-digit PIN if the parent set one, otherwise the kid-proof arithmetic gate.
 function openGate(){ if(state.parentPin) return openPinGate(); openGateMath(); }
-// hard=true → PIN-recovery path: a 2-digit × 1-digit problem (3-digit answer) that is ABOVE the app's own
-// teaching ceiling, so a 6–9 yo can't use „forgot PIN" as a trivial bypass (owner 2026-06-14). Normal entry
-// (no PIN set) keeps the easy single-digit addition = kid-proof for toddlers but not a real secret.
+// BOTH paths use a 2-digit × 1-digit problem (3-digit answer) that is ABOVE the app's own teaching
+// ceiling, so a 6–9 yo cannot solve it (ceiling rationale: owner 2026-06-14).
+// `hard` now selects the RECOVERY COPY only, no longer the difficulty (NB-53).
+// It used to also pick the difficulty, and the normal no-PIN entry got an easy single-digit SUM —
+// the exact operation this app TEACHES its 4-12 year olds. Two consequences, both bad: the door was
+// open to the very children it locks out, and the „forgot PIN" back door was HARDER than the front
+// door. Landing copy promises this space is protected and the child can't get in; with a solvable
+// sum that promise was false (NB-27 promise-integrity class).
 function openGateMath(hard){
   let q;
-  if(hard){ gate.a=ri(11,19); gate.b=ri(6,9); gate.ans=gate.a*gate.b; q=`${gate.a} × ${gate.b}`; }
-  else    { gate.a=ri(3,9);   gate.b=ri(2,8); gate.ans=gate.a+gate.b; q=`${gate.a} + ${gate.b}`; }
+  gate.a=ri(11,19); gate.b=ri(6,9); gate.ans=gate.a*gate.b; q=`${gate.a} × ${gate.b}`;
   gate.buf='';
   const el=document.createElement('div');el.className='gate';el.id='gate';
   el.innerHTML=`<div class="gate-card">
@@ -197,7 +201,17 @@ function parentDash(){
   try{if(window.Analytics)Analytics.event('parent_open');}catch(e){}
   profile=profile||'niko';
   let html=`<div class="screen parent">${topbarPlain('მშობლის სივრცე','goHome()')}`;
-  html+=`<div class="privacy-card" style="margin-bottom:16px">${I.privacy}<div class="pt"><b>ყველაფერი ამ მოწყობილობაზე რჩება.</b> პროგრესი ინახება მხოლოდ აქ. რეკლამა: ნული. გარე ბმულები: ნული.</div></div>`;
+  // NB-32/NB-30: progress lives only in localStorage, so a blocked/full store loses it silently.
+  // save() knows when a write did not stick; surface that here instead of failing quietly.
+  if(!saveStatus()) html+=`<div class="save-warn" role="alert">
+    <div class="sw-h">⚠️ ${tx('პროგრესი ამ მოწყობილობაზე ვერ ინახება')}</div>
+    <div class="sw-b">${tx('ბრაუზერმა შენახვა დაბლოკა. ეს ხდება პრივატულ რეჟიმში ან როცა ადგილი ამოიწურა. თამაში მუშაობს, მაგრამ დღევანდელი შედეგი დახურვისას დაიკარგება.')}</div>
+  </div>`;
+  // The "saved only here" half of this promise is false while save() is failing, and it would sit
+  // directly under the banner contradicting it. Privacy still holds (nothing leaves the device);
+  // only the persistence claim drops.
+  const savedClaim = saveStatus() ? ' პროგრესი ინახება მხოლოდ აქ.' : '';
+  html+=`<div class="privacy-card" style="margin-bottom:16px">${I.privacy}<div class="pt"><b>ყველაფერი ამ მოწყობილობაზე რჩება.</b>${savedClaim} რეკლამა: ნული. გარე ბმულები: ნული.</div></div>`;
   [...state.kids.map(k=>k.id),'guest'].forEach(p=>{
     const s=state[p];if(!s)return;
     const zeroData=(s.sessions===0&&s.shields===0); if(zeroData&&p==='guest')return; // UX-1: still show a REAL child even at zero data (was: parent saw no card right after creating a profile = "child gone")

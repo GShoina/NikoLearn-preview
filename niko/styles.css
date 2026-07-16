@@ -372,26 +372,26 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
 .subj:not(.kids) .s-sub{padding-right:30px}
 .subj .s-badge{position:absolute;z-index:2;top:clamp(10px,3vw,13px);right:clamp(10px,3vw,13px);
   font-size:clamp(.62rem,2.4vw,.72rem);font-weight:800;padding:4px 9px;border-radius:999px;
-  background:#fff;color:#FF8A00;box-shadow:0 2px 6px rgba(255,138,0,.18)}
+  background:#fff;color:#8F3A16;box-shadow:0 2px 6px rgba(255,138,0,.18)}
 .subj .tap-hint{position:absolute;z-index:2;bottom:8px;right:10px;font-size:1.2rem;pointer-events:none;opacity:.85;
   animation:taphint 2.2s ease-in-out infinite}
 @keyframes taphint{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
 @media(prefers-reduced-motion:reduce){.subj .s-ico,.subj .tap-hint{animation:none}}
 /* per-subject hues */
 .subj.hue-orange{background:linear-gradient(160deg,#FFEFD6,#FFD9A8);box-shadow:0 10px 22px -8px rgba(255,138,0,.42),inset 0 2px 3px rgba(255,255,255,.8)}
-.subj.hue-orange .s-name{color:#8F3A16}.subj.hue-orange .s-sub{color:#9C4A1E}.subj.hue-orange .s-badge{color:#FF8A00}.subj.hue-orange .s-ico{box-shadow:0 5px 12px rgba(255,138,0,.22)}
+.subj.hue-orange .s-name{color:#8F3A16}.subj.hue-orange .s-sub{color:#9C4A1E}.subj.hue-orange .s-badge{color:#8F3A16}.subj.hue-orange .s-ico{box-shadow:0 5px 12px rgba(255,138,0,.22)}
 .subj.hue-green{background:linear-gradient(160deg,#E3FBF1,#C8F0E0);box-shadow:0 10px 22px -8px rgba(0,196,140,.4),inset 0 2px 3px rgba(255,255,255,.8)}
-.subj.hue-green .s-name{color:#0A6B4F}.subj.hue-green .s-sub{color:#0C7256}.subj.hue-green .s-badge{color:#0E9E78}.subj.hue-green .s-ico{box-shadow:0 5px 12px rgba(0,196,140,.2)}
+.subj.hue-green .s-name{color:#0A6B4F}.subj.hue-green .s-sub{color:#0C7256}.subj.hue-green .s-badge{color:#0A6B4F}.subj.hue-green .s-ico{box-shadow:0 5px 12px rgba(0,196,140,.2)}
 .subj.hue-blue{background:linear-gradient(160deg,#E6F1FD,#CFE2FB);box-shadow:0 10px 22px -8px rgba(46,134,222,.4),inset 0 2px 3px rgba(255,255,255,.8)}
-.subj.hue-blue .s-name{color:#184C86}.subj.hue-blue .s-sub{color:#1C5591}.subj.hue-blue .s-badge{color:#2E86DE}.subj.hue-blue .s-ico{box-shadow:0 5px 12px rgba(46,134,222,.2)}
+.subj.hue-blue .s-name{color:#184C86}.subj.hue-blue .s-sub{color:#1C5591}.subj.hue-blue .s-badge{color:#184C86}.subj.hue-blue .s-ico{box-shadow:0 5px 12px rgba(46,134,222,.2)}
 .subj.hue-pink{background:linear-gradient(160deg,#FDEAF4,#F8D2E6);box-shadow:0 10px 22px -8px rgba(236,72,153,.4),inset 0 2px 3px rgba(255,255,255,.8)}
-.subj.hue-pink .s-name{color:#B01E63}.subj.hue-pink .s-sub{color:#B8296C}.subj.hue-pink .s-badge{color:#EC4899}.subj.hue-pink .s-ico{box-shadow:0 5px 12px rgba(236,72,153,.2)}
+.subj.hue-pink .s-name{color:#B01E63}.subj.hue-pink .s-sub{color:#B8296C}.subj.hue-pink .s-badge{color:#B01E63}.subj.hue-pink .s-ico{box-shadow:0 5px 12px rgba(236,72,153,.2)}
 .subj.hue-purple{background:linear-gradient(160deg,#F0EBFC,#DDD2F5);box-shadow:0 10px 22px -8px rgba(139,92,246,.38),inset 0 2px 3px rgba(255,255,255,.8)}
-.subj.hue-purple .s-name{color:#5B32A8}.subj.hue-purple .s-sub{color:#6438B4}.subj.hue-purple .s-badge{color:#8B5CF6}.subj.hue-purple .s-ico{box-shadow:0 5px 12px rgba(139,92,246,.2)}
+.subj.hue-purple .s-name{color:#5B32A8}.subj.hue-purple .s-sub{color:#6438B4}.subj.hue-purple .s-badge{color:#5B32A8}.subj.hue-purple .s-ico{box-shadow:0 5px 12px rgba(139,92,246,.2)}
 .subj.hue-teal{background:linear-gradient(160deg,#E0F7F7,#C4EDEC);box-shadow:0 10px 22px -8px rgba(20,184,166,.38),inset 0 2px 3px rgba(255,255,255,.8)}
-.subj.hue-teal .s-name{color:#0B6A64}.subj.hue-teal .s-sub{color:#0D726B}.subj.hue-teal .s-badge{color:#14B8A6}.subj.hue-teal .s-ico{box-shadow:0 5px 12px rgba(20,184,166,.2)}
+.subj.hue-teal .s-name{color:#0B6A64}.subj.hue-teal .s-sub{color:#0D726B}.subj.hue-teal .s-badge{color:#0B6A64}.subj.hue-teal .s-ico{box-shadow:0 5px 12px rgba(20,184,166,.2)}
 .subj.hue-gold{background:linear-gradient(160deg,#FFF6D9,#FCE9AE);box-shadow:0 10px 22px -8px rgba(230,168,0,.42),inset 0 2px 3px rgba(255,255,255,.8)}
-.subj.hue-gold .s-name{color:#7E5B0E}.subj.hue-gold .s-sub{color:#856110}.subj.hue-gold .s-badge{color:#E5A600}.subj.hue-gold .s-ico{box-shadow:0 5px 12px rgba(230,168,0,.22)}
+.subj.hue-gold .s-name{color:#7E5B0E}.subj.hue-gold .s-sub{color:#856110}.subj.hue-gold .s-badge{color:#7E5B0E}.subj.hue-gold .s-ico{box-shadow:0 5px 12px rgba(230,168,0,.22)}
 /* young-kid tiles: centered, bigger glyph/name (still jelly) */
 .subj.kids{align-items:center;justify-content:center;text-align:center;min-height:clamp(118px,32vw,132px)}
 .subj.kids .s-ico{width:clamp(52px,15.5vw,64px);height:clamp(52px,15.5vw,64px);font-size:clamp(1.85rem,7.6vw,2.5rem)}
@@ -940,6 +940,11 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
 .privacy-card svg{width:26px;height:26px;flex:0 0 auto;color:var(--green-d)}
 .privacy-card .pt{font-size:.84rem;line-height:1.45}
 .privacy-card .pt b{color:var(--green-d)}
+/* NB-32/NB-30: shown only when save() reports a write did not stick (blocked/full storage). */
+.save-warn{background:color-mix(in oklch,var(--red) 8%,var(--card));border:1px solid color-mix(in oklch,var(--red) 30%,var(--line));
+  border-radius:var(--radius-sm);padding:14px 15px;margin-bottom:14px}
+.save-warn .sw-h{font-weight:800;color:#8F2318;font-size:.94rem;margin-bottom:5px}
+.save-warn .sw-b{font-size:.84rem;line-height:1.45}
 
 /* ── BREAK ── */
 /* ══ MOVEMENT BREAK v2 — rigged-SVG kids in the Georgian kit (ported from owner's reference) ══

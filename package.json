@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "node qa/qa-check.mjs --gate",
+    "test": "node qa/qa-check.mjs --gate && node qa/session-pulse.test.mjs",
     "qa": "node qa/qa-check.mjs",
     "qa:fix": "node qa/qa-check.mjs --fix --gate",
     "qa:visual": "node qa/visual-gate.mjs",

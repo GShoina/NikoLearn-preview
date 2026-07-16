@@ -2,6 +2,176 @@
 
 **Owner:** Gela Shonia · **Maintained by:** weekly "Product Owner" routine + ad-hoc.
 
+---
+
+# ▶ PI INTAKE LEDGER (owner-set 2026-07-15) — the answer to „როდის რა იდეა მოგეცი"
+
+> **Why this exists.** The owner asked on 2026-07-15: *„შემიძლია დამიდასტურო რომ მხოლოდ ჩემს მიერ მოწოდებული
+> bug აღირიცხება და არა იდეების რომელსაც ვტვირთავ და გიზიარებ?"* — **Confirmed: he was right.** A bug got a
+> MUST-rule intake (`CLAUDE.md` §14: an `NB-<n>` row BEFORE analysis + the id echoed back in the same reply).
+> An idea got only „persist as you go … when it is **settled**" (`CLAUDE.md` §Session-end) — no id, no status,
+> no closure, no carried-open list, and the word „settled" meant a raw idea never even triggered the rule.
+> A bug had a system; an idea had a habit. **Proof:** the Marble arc produced a ranked 32-idea backlog and the
+> roadmap carried 2 of them; this very file had **zero** Marble mentions and a „Last updated" of 2026-06-16.
+>
+> **This ledger is the fix.** It mirrors `BUGFIX_TRACKER.md` exactly, for ideas.
+> The prose sections below stay as the idea MINE (reasoning, specs, history). **A mine is not a ledger.**
+>
+> **How big the hole actually was (measured 2026-07-15, after the owner refused to accept the first answer).**
+> The ledger opened with 32 rows and I told him nothing had been lost, citing a transcript sweep. He answered
+> *„ხო მაგრამ ურიცხვი იდეა მომიწოდებია, სხვადასხვა ფორმატში, ივლისში"* and he was right. The first sweep had
+> scoped itself to the `NikoLand` project key and saw **9 files / 132 messages / 108,719 chars**. The real corpus
+> is **101 transcripts / 1,282 owner messages / 1,179,212 chars** — **9% coverage**, because 92 of 101 NikoLand
+> transcripts live under other project keys (the key derives from the session cwd). A full 6-way sweep then found
+> **49 ideas that existed nowhere on disk**. Final count: **81**. The ledger had been **40% complete** while
+> claiming to be the list. See `REASONING-LESSONS.md` **L14**: a completeness claim must state its search surface,
+> its coverage, and what the method structurally cannot see.
+>
+> **What this ledger still cannot prove, and never will.** (a) Transcripts start **2026-06-15**; ideas from
+> 06-04→06-14 survive only because they were written down that day. (b) **14 of the 42 days** in the span have no
+> transcript at all. (c) Exactly **1** message in 1,282 carries an image — so ideas given by screenshot or voice
+> are **not recoverable from transcripts at any coverage**. PI-51/52/53 are known only because their photos were
+> described in the surrounding text. This is precisely why the intake rule is a MUST going forward: recovery is
+> a one-off archaeology with a hard floor, intake is the only thing that scales.
+>
+> **The owner had already told us, a month earlier.** 2026-06-27: *„მე მინდოდა შენ მოგემზადებინა დემო
+> ჩაწერისათვის მასალა და ინფრასტრუქტურა, ვისაუბრეთ მაგრამ **დაიკარგა თემა**"* (now PI-60). He named the failure
+> on the day it happened and it stayed lost for 18 more days. That is not a hypothesis about a gap. It is a
+> logged recurrence.
+
+**Rules (identical in spirit to §14 bug intake):**
+1. The moment the owner gives an idea — chat, voice, screenshot, „აი რა მომივიდა თავში" — **before analyzing
+   it**, append a row here with a `PI-<n>` id + one line + his own words, and **echo the id back in the same
+   reply** („დაფიქსირდა PI-<n>").
+2. A row **never** disappears. It changes STATUS: `OPEN` → `SPEC` → `SHIPPED` / `PARKED` / `DROPPED`.
+   Dropped/parked keeps a reason + a revive trigger, same as the roadmap's rule 2.
+3. The owner having to re-tell an idea = intake FAILURE = a P0 process bug, exactly as with a re-sent bug.
+4. Sequencing does NOT live here — it lives in `docs/PRODUCT_ROADMAP.md`. This file answers *what was given
+   and when*; the roadmap answers *what we are doing about it*.
+
+**Source key:** 👤 = the owner's own idea · 👪 = a real parent · 🔍 = audit/agent-derived · 🏁 = competitor scan.
+
+| ID | Given | Src | Idea (one line) | Owner's own words | Status | Detail lives in |
+|---|---|:--:|---|---|---|---|
+| PI-1 | 2026-06-04 | 👤 | Child picks the tutor ANIMAL (not only the owl); also kills the Duolingo-owl association | — | **PARKED** (O1; never built) | §Owner ideas → O1 |
+| PI-2 | 2026-06-04 | 👤 | Movement / exercise breaks (squats, plank, jumps), not step-tracking | — | ✅ **SHIPPED** v1.52 | §Owner ideas → O2 |
+| PI-3 | 2026-06-04 | 👤 | Bedtime stories & poems read in the PARENT'S recorded voice (flagship, on-device audio) | — | **OPEN** (flagship, never built) | §Owner ideas → O3 |
+| PI-4 | 2026-06-04 | 👤 | Drawing / coloring: finger-paint + themed pages + print | — | ✅ **SHIPPED** (ხატვა) | §Owner ideas → O4 |
+| PI-5 | 2026-06-05 | 👤 | Drive tiers by DEVELOPMENT (cognition/reading/abstraction), not school grade | — | **SPEC** (principle, partly honored) | §O5 |
+| PI-6 | 2026-06-05 | 👤 | Age-flipped motivation: <8 no-fail + soft tracking · 9-12 visible progress („X done · Y left") | „sports clothes + seeing how many left" | **SPEC** (streak chip ≥6 honors it) | §O6 |
+| PI-7 | 2026-06-05 | 👤 | Monetization: one-time unlock, Paddle, Supabase, PWA-first, repo private, NO native yet | — | **LOCKED direction, not built** | §CONFIRMED PRODUCT DIRECTION |
+| PI-8 | 2026-06-06 | 👤 | NikoLearn = a real venture, not a hobby; find a partner if needed | — | **LOCKED** | §Owner intent |
+| PI-9 | 2026-06-08 | 👤 | Spearhead = diaspora · subscription · freeze features · venture-scale heritage platform · retention is a MUST | — | **LOCKED**, then re-opened 06-09 | §LOCKED 2026-06-08 |
+| PI-10 | 2026-06-08 | 👤 | Government grant „ჩემი ქართული სკოლა" | „political-influence tool, not a clean grant" | ⛔ **DROPPED — never re-surface** | roadmap §DROPPED |
+| PI-11 | 2026-06-09 | 👤 | Correction: BOTH audiences, one skill-engine, two lenses (target-language swap) | — | **OPEN** (never locked) | §STRATEGIC EXPLORATION |
+| PI-12 | 2026-06-10 | 👤 | Lock mission + slogan + logo | „მისიის გამოკლება + slogan დაკეტვა + ლოგო" | **AWAITING OWNER LOCK** | §BRAND CANDIDATES |
+| PI-13 | 2026-06-15 | 👤 | Expand „საუბარი და ფიქრი" — validated by real use | „ძალიან მოსწონს და ვხალისობთ" | ✅ **PARTLY SHIPPED** (27→33 cards); more batches welcome | §OWNER-LOVED |
+| PI-14 | 2026-06-16 | 👤 | სასაცილო ლექსები / funny poems, ka+en original, 7+ | „DON'T FORGET" | ✅ **SHIPPED** v1.188/189 | §Funny poems |
+| PI-15 | 2026-06-16 | 👤 | Marketing/launch: PWA link first, no store, optional lead capture, GE-free/diaspora-paid by channel | green-lit w/ 3 caveats | **SPEC** (Phase 2) | §MARKETING/LAUNCH |
+| PI-16 | 2026-06-16 | 👤 | Challenge: „pre-launch traffic is mostly Niko's testing" is wrong — check the real data | — | ✅ **DELIVERED** → activation, not reach, is the bottleneck (67% abandon) | §STRATEGY 06-16 |
+| PI-17 | 2026-06-17 | 👤 | ფანტაზიის კუთხე — a divergent-thinking, no-right-answer space | — | ✅ **SHIPPED** as Variant A (added inside საუბარი) | §ფანტაზიის კუთხე |
+| PI-18 | 2026-06-17 | 👤 | Don't restructure — keep what works, just ADD themes (owner overrode the umbrella idea) | rated A 9.5 > B 8.5 | ✅ **FINAL, honored** | §FINAL DECISION |
+| PI-19 | 2026-06-17 | 👤 | Poems should be VOICED after all (overrode his own „no audio" rule) + colour differentiation | „გახმოვანებით უკეთესი იყო" | ✅ **SHIPPED** v1.189 | §SHIPPED v1.189 |
+| PI-20 | 2026-06-23 | 👤 | Kings paywall OFF in MVP — penetration > restriction | owner red-team | ✅ **HONORED** (scaffolding parked) | `ROADMAP.md` |
+| PI-21 | 2026-07-06 | 👤 | Formalize Reference Companies vs Competitors | owner-requested | ✅ **DELIVERED** (report) | §STRATEGY REFERENCE |
+| PI-22 | 2026-07-08 | 👤 | Challenges & Achievements (his #1 of 22 references) | — | **SPEC, explicitly NOT a priority** (owner decision same day) | §SPEC 1 |
+| PI-23 | 2026-07-08 | 👤 | Word-Search engine (his #2) — generic, subject-agnostic | — | **SPEC, not built** | §SPEC 2 |
+| PI-24 | 2026-07-08 | 👤 | UX challenge: the C&A mockup is too overloaded for a 5-6yo | — | ✅ **ACCEPTED** → split kid/parent surfaces | §REFINEMENT |
+| PI-25 | 2026-07-08 | 👤 | REFRAME: C&A is for 5-12 who take PRIDE → a shareable card = a distribution loop, not retention | „the BIG one" | **SPEC** — 3 unresolved challenges (privacy fork, virality unproven, brag-worthiness) | §REFRAME 2 |
+| PI-26 | 2026-07-13 | 👤 | Turn the Marble learnings into concrete execution | owner-ask | ✅ **PARTLY BUILT** (`content/graph/` v0 = learnings #1/2/4/5/6/7); **30 of 32 ideas had no roadmap row until 07-15** | roadmap §Marble arc |
+| PI-27 | 2026-07-15 | 👤 | ჩანაცვლება ≠ წაშლა: superseded = new + old together; and the PO must always keep a roadmap incl. dropped tasks | — | ✅ **SHIPPED** → `PRODUCT_ROADMAP.md` + `CLAUDE.md` §16 | roadmap |
+| PI-28 | 2026-07-15 | 👤 | Only bugs are tracked, not the ideas I give you — confirm it | „მხოლოდ … bug აღირიცხება და არა იდეების" | ✅ **CONFIRMED + FIXED** → this ledger | this section |
+| PI-29 | 2026-07-10 | 👪 | Child-home reframe ≤7: a child should not pick a SUBJECT; one big „play" CTA + worlds | „მაგას რომ ხედავს, არ შედის" | ✅ **SHIPPED** v1.357 („ბუს ქვეყანა") | §PARENT FEEDBACK #1 |
+| PI-30 | 2026-07-10 | 👪 | „If there is no app, nobody can get in" → TWA wrap to Play Store | „თუ აპლიკაცია არ არის, მოუხერხებელია" | **OPEN — $25 owner money-gate** | §PARENT FEEDBACK #1 |
+| PI-31 | 2026-06-15 | 🔍 | Curation-as-authority: vetted resource lists for parents = trust moat | Gurafa intel | **OPEN, unscored** | §INTEL DROP |
+| PI-32 | 2026-06-04 | 🏁 | 12 competitor-derived ideas (C1-C12): drag-letter-voices-sound, word-highlight read-aloud, no-fail 3-5 mode, on-device parent dashboard, … | scan #1 | **Mostly Proposed**; C9 partly done | §Competitor analysis log |
+
+### PI-33 … PI-81 — recovered by the full-corpus sweep, 2026-07-15
+
+Every row below existed **nowhere on disk** until today. All 👤 = the owner's own words, quoted verbatim
+including his typos (his voice-to-text is not corrected — the point of this column is that it is *his*).
+Status `OPEN` here means exactly one thing: **given, never actioned, never even written down.**
+
+| ID | Given | Src | Idea (one line) | Owner's own words | Status | Detail lives in |
+|---|---|:--:|---|---|---|---|
+| PI-33 | 2026-06-16 | 👤 | Launch promo: first 100 users free instead of 180₾, or refer-2-friends → 50% off | „პირველი 100 მომხმარეველი 0 ლარი ნაცვლად 180 ლარისა ან შენი 2 რეფერალი 50% ფასდაკლება" | **OPEN** | sweep 2026-07-15 |
+| PI-34 | 2026-06-16 | 👤 | Integrate Bank of Georgia's payment service (alongside/instead of Paddle) | „საქართველოს ბანკის გადახდის სერვისი არ არის დასაინტეგრირები?" | **OPEN** — money-adjacent | sweep |
+| PI-35 | 2026-06-17 | 👤 | GITA grant / accelerator, up to 200k₾ non-dilutive | „A2 GITA გრანტი — შევიდეთ აქსელერატორში?" | **OPEN** — distinct from the dropped PI-10 | sweep |
+| PI-36 | 2026-06-17 | 👤 | Seasonal pricing: keep the 180₾/yr anchor, add a cheaper summer „school-readiness" pack (NODI-inspired) | „წლიური 180₾ ღუზა + საზაფხულო „სკოლისთვის მზადება"?" | **OPEN** | sweep |
+| PI-37 | 2026-06-17 | 👤 | Two-owl „Variant B": a daily AI-generated weird fantasy scenario („your cat is now a math teacher") | variant-B spec | **OPEN** — concrete mechanic for PI-17 | sweep |
+| PI-38 | 2026-06-17 | 👤 | Fantasy-story interactive closers: „what would you add?" / „draw this scene" / „say it in a funny voice" | „🤔 შენ რას დაამატებდი? / 🎨 დახატე ეს სცენა / 🎭 გაიმეორე სასაცილო ხმით" | **OPEN** — fuses PI-4 + PI-17 | sweep |
+| PI-39 | 2026-06-17 | 👤 | **Georgian reading-bridge depth = the #1 strategic gap** | „ქართ. კითხვის ხიდის სიღრმე (#1 სტრატ. gap)" | **OPEN** — roadmap NEXT #7 | sweep · roadmap |
+| PI-40 | 2026-06-17 | 👤 | A separate „school curriculum" track mirroring what the child studies at school (Kings-style) | „რასაც სკოლაში სწავლობს ეგ შეიძლება როუდმეფში ცალკე მიმართულებად როგორც კინგში 'სასწავლო პროგრამა'" | **OPEN** — in tension with PI-5 (levels ≠ grades) | sweep |
+| PI-41 | 2026-06-17 | 👤 | Benchmark the roadmap against the official Ministry of Education primary standard (math · Georgian lang/lit · Georgian-as-L2) | „mes.gov.ge … არსებული დაწყებითი საფეხურის სტანდარტი … გაანალიზე და მითხრა როუდმეპში რას ჩადებდი" | **OPEN** | sweep |
+| PI-42 | 2026-06-17 | 👤 | „GDPR & KIDS" badge = an overclaim (reads as a certification we don't hold) → state the fact instead | „badge რომელიც სერტიფიკაცია არ არის → overclaim-რისკი. სჯობს ფაქტი: „მონაცემები მოწყობილობაზე, GDPR-პრინციპებით"" | **OPEN** — same class as NB-25 | sweep |
+| PI-43 | 2026-06-17 | 👤 | Roadmap bundle: Georgian-genres corner (reuse the Talk engine) · new math symmetry/data track · Georgian-as-L2 track for diaspora + minorities | „მე იდეებს ვაყალიბებ არ მძინავს შენც იმოქმედე" | **OPEN** | sweep |
+| PI-44 | 2026-06-17 | 👤 | Some „heardis" panel also on the privacy page | „კონფიდენციალობის გვერდზე მინდა რომ ასევე იყოს NikoLearn-ის heardis პანელი" | **OPEN — needs owner clarification** (term unreadable) | sweep |
+| PI-45 | 2026-06-19 | 👤 | **GTM target:** launch GE + US + a big EU diaspora within 2 months → 500 paying kids / $5,000+ per month within 1-3 months, on ~1 owner-hour a day | „500 ბავში … აგენერირებდეს 5000+ დოლარს თვეში … ჩემი ჩარევა იყოს მხოლოდ დღეს 1 საათი" | **OPEN** — the only quantified goal he ever set | sweep |
+| PI-46 | 2026-06-19 | 👤 | **Self-challenge:** kill the „templatable to ES/FR/RU" venture narrative as scope-fantasy; the one real moat is Georgian depth | „„templatable platform" venture-ნარატივია, რომელიც ერთადერთ რეალურ უპირატესობას (ქართული სიღრმე) ანზავებს ენებზე სადაც ნული გაქვს. **აქ კვდება focus.**" | **OPEN** — he red-teamed his own strategy | sweep |
+| PI-47 | 2026-06-19 | 👤 | Build telemetry architecture properly once and for all, so insights are always extractable | „ერთხელ და სამუდამოდ ისეთი არქიტექტურა შექმენი რომ ტელემეტრია გამართული იყოს" | **OPEN** — cf. NB-35 / NB-7 | sweep |
+| PI-48 | 2026-06-19 | 👤 | Red-Team + Pre-Mortem on the strategy as a **standing periodic ritual**, not a one-off | „მინდა red team და Pre-Mortem დაიმახსოვრე და საჭიროა პერიოდულად გავუშვათ" | **OPEN** — asked to be remembered, then wasn't | sweep |
+| PI-49 | 2026-06-19 | 👤 | Consolidate every scattered strategy doc into one place | „მინდა ყველაფერს მოიყაროს თავი" | ✅ **effectively SHIPPED** 07-15 (roadmap + this ledger) | roadmap |
+| PI-50 | 2026-06-25 | 👤 | Voice **variety** (a choice of voices, not one fixed TTS) + the language switcher permanently visible | „მუდმივად იყოს ინტერფეისში ენის არჩევანი! და მეორე ხმის არჩევანი განსხვავებული იყოს" | **OPEN** | sweep |
+| PI-51 | 2026-06-25 | 👤📷 | **ABC-colouring game:** letter + word + a colourable picture (A = apple) | concept photo | **OPEN** — given as a PHOTO | sweep |
+| PI-52 | 2026-06-25 | 👤📷 | **„Color Words":** a coloured object + 3 colour-word multiple-choice answers | concept photo | **OPEN** — given as a PHOTO | sweep |
+| PI-53 | 2026-06-25 | 👤📷 | **Number-pattern puzzle** („Math triangle" — find the missing number by the rule) | concept photo IMG_1686 | **OPEN** — given as a PHOTO | sweep |
+| PI-54 | 2026-06-26 | 👤 | **The Facebook/Instagram in-app browser is an install TRAP** → detect it and show an „open in Safari/Chrome" escape overlay | PWA spec | **OPEN** — much sharper than PI-30 | sweep |
+| PI-55 | 2026-06-26 | 👪 | A friend's real complaint: getting from Facebook to the site is awkward | „ერთმა ახლობელმა თქვა FB-დან საიტზე გადასვლა მოუხერხებელია" | **OPEN** — the signal under PI-54 | sweep |
+| PI-56 | 2026-06-27 | 👤 | Benchmark continuously against the top-5 US/EU learning apps; formalize the target standard | ask | **OPEN** | sweep |
+| PI-57 | 2026-06-27 | 👤 | An 8-dimension content-quality rubric (substance · illustration · legibility · logic · „human way" · voice · owl-as-tutor · improvement potential) | ask | **OPEN** — narrower than AGENT_TEAM_STANDARD | sweep |
+| PI-58 | 2026-06-27 | 👤 | Parent-feedback **incentive** program (feedback response is ~zero; wants 2-5 creative incentives) | ask | **OPEN** | sweep |
+| PI-59 | 2026-06-27 | 👤 | **Khan Academy partnership** — become an official partner and Georgianize their free English content | ask, „deep, multi-source-verified, challenged analysis" | **OPEN** — the biggest unexplored partnership | sweep |
+| PI-60 | 2026-06-27 | 👤 | Prepare the material + infrastructure for a real Georgian **voice-actor demo recording** | „ვისაუბრეთ მაგრამ **დაიკარგა თემა**" | **OPEN** — he flagged the loss himself, 18 days ago | sweep |
+| PI-61 | 2026-06-28 · re-given 2026-07-03 | 👤 | Georgian letters must be written in **one real continuous handwriting stroke** (true order/direction), not by tracing a font outline. Re-given 07-03 as a full JSON spec (stroke count, order, direction, start/end, lift, timing, common mistakes) | „აიღე ქართული არსებული ანბანი და გაუშვი loop იმდენჯერ სანამ ერთი ხელის მოსმით არ გამოწერ (კონტურებს არა) ყოველ ასოს" | **OPEN — he had to re-tell it once already** | sweep |
+| PI-62 | 2026-06-28 | 👤 | At 5-10k families, replace generic TTS with a permanent **Owl Voice Pack** (~300-400 recorded phrases) as a brand asset; later split learning / story / celebration voices | „მინდა სამივე ხმა აღმიწერო" | **OPEN** — scale-gated | sweep |
+| PI-63 | 2026-06-29 | 👤 | Instead of a static subject grid, **Niko Bu interviews the child** conversationally to find the right game/goal | „ერთი უნივერსალური შეიძლება იყოს ნიკო ბუ რომელთანაც ეგრევე შევა იტერაციაში და დააზუსტებს რა უნდა" | **OPEN** — the conversational sibling of PI-29 | sweep |
+| PI-64 | 2026-07-01 | 👤 | **★ On a wrong answer the tutor must EXPLAIN what went wrong, teach and encourage — and only then show the correct answer.** Today it reveals the answer and auto-advances. | „ნაცვლად იმისა რომ გააქტიურდეს ტუტორი და აუხსნას რა შეეშალა, ასწავლოს, გაამხნევოს და მერე აჩვენოს სწორი ალტერნატივა" | **OPEN — the owl's entire purpose** | sweep · roadmap |
+| PI-65 | 2026-07-01 | 👤 | Trigger a short opt-in feedback questionnaire when 1 week has passed since registration | „ხომ არ სჯობია შევამოწმოთ თუ გასულია 1 კვირა რეგისტრაციიდან და მერე … კითხვარის popup ამოუვიდეს" | **OPEN** — the cheap half of PI-58 | sweep |
+| PI-66 | 2026-07-01 | 👤 | Prioritize Kings-math depth for older kids over inventing new Cambridge-track content | „მირჩევნია მაღალი ასაკის ბავშვებისთვის კინგსი, მათემატიკის … შეიქმნას ვიდრე ახალი Cambridge იდეები" | **OPEN** — a content-priority call | sweep |
+| PI-67 | 2026-07-01 | 👤 | Animate the numbers/rabbit/shapes themselves in a wave-like motion to hold a young child's attention (not just colour the frame) | „მხოლოდ ციფრებს და არა ციფრების ჩარჩოს გავაფერადებდი და ავამოძრავებდი … ტალღასავით" | **OPEN** | sweep |
+| PI-68 | 2026-07-01 | 👤 | Slow the reveal: the correct answer appears so fast the child cannot process it | „ისე სწრაფად ინიშნება სწორი პასუხი რომ ვერც ხვდები რა ხდება" | **OPEN** — sibling of PI-64 | sweep |
+| PI-69 | 2026-07-05 | 👤 | **For 8-10 year olds there is no value strong enough to bring them back** — not English, not Math, not Kings. A content-depth gap. He explicitly asked to be challenged on it. | „ამ ასაკისთვის value აკლია. **დამაჩელენჯე**" | **OPEN — the challenge was never answered** | sweep |
+| PI-70 | 2026-07-05 | 👤 | A moving pointer + a text-ripple effect to lead the child's eye while reading | „პოინტერი გახადე მოძრავი, ტექსტს ტალღის ეფექტიც რომ დაამატო" | **OPEN** | sweep |
+| PI-71 | 2026-07-05 | 👤 | A test should never be a single question — set a minimum of 3 | „ხომ არ სჯობია 3 კითხვა მაინც იყოს? გაანალიზე და გადაწყვიტე ოპტიმალურად." | **OPEN** — he even delegated the decision | sweep |
+| PI-72 | 2026-07-05 | 👤 | Image-heavy screens (5+) need breathing room left/right so pictures can render bigger | „მეტი ამოსუნთქვის მარჯვნივ და მარცხნივ ხომ არ იქნებოდა" | **OPEN** — minor | sweep |
+| PI-73 | 2026-07-08 | 👤 | **Analytics must separate WHO abandoned: the parent (at signup) or the child (in play).** FB traffic may never reach a child at all. | „არ სვამ კითხვას ვინ მიატოვა თამაში ბავშმა თუ მშობელმა" | **OPEN — the 67% abandonment number cannot be read without it** | sweep |
+| PI-74 | 2026-07-11 | 👤 | Try NotebookLM to improve Georgian voice narration quality | „ქართული გახმოვანების გაუმჯობესებაში რომ სცადო შეგიძლია?" | **OPEN** | sweep |
+| PI-75 | 2026-07-11 | 👤 | Build a rubric to grade voice/audio output quality **autonomously**, without the owner having to listen | „You should make that kind of standard as a product owner and just on your behalf from the best reasoning" | **OPEN** — sibling of PI-57 | sweep |
+| PI-76 | 2026-07-13 | 👤 | **Item format by content TYPE — escape „everything is a quiz":** concepts need explanation, procedures need practice, metacognition needs reflection | „ტიპ-მიხედვით item-ფორმატი (§6) = გავიდეთ „ყველაფერი ქვიზია"-დან" | **OPEN** — sharper than the PI-26 bucket | sweep |
+| PI-77 | 2026-07-14 | 👤 | **FORK: during the MVP trial, extracting real usage insight outranks strict privacy standards; the privacy emphasis comes later.** | „არ მინდა რომ გადაჭარბებული შეფასებები და სტანდარტებით განსაჯო MVP პროდუქტის privacy … მერე შეგვიძლია აქცენტის გაკეთება privacy-ზე" | **OPEN — in direct tension with §5 „all data on-device, privacy absolute". NOT silently reconciled. Owner decision.** | sweep |
+| PI-78 | 2026-07-14 | 👤 | Remove the shipped 🎨 theme picker entirely; lock brand orange as the identity | „ნარინჯისფერი რაც მომწონს და რაც ბრენდის ფერია მაქსიმალურად შევინარჩუნოთ … გინდა საერთოდ მოშორება" | **OPEN** — stronger than NB-48's dropped option B; extends PI-12 | sweep |
+| PI-79 | 2026-07-14 | 👤 | A systemic value-gate so a low-value feature can never be built again — value BEFORE the work | „მინდა სისტემის შექმნამ მსგავსი გამოწვევისგან მომავალში დამაზღვიოს და ღირებულებების მიხედვით ოპერირებდე" | ✅ **SHIPPED** → `REASONING-LESSONS.md` L13 | L13 |
+| PI-80 | 2026-07-14 | 👤 | Critique of our own AI_CONSTITUTION: Value Gate is right but **not measurable**; market-intel too narrow; Verification over-generalized | „Value Gate კარგია, მაგრამ გაზომვადობა სუსტია" | **OPEN** — CKO doc-rework | sweep |
+| PI-81 | 2026-07-14 | 👤 | Use the BTU open Georgian-language AI dataset and make it globally usable for Georgian | „მინდა გააანალიზო და გლობალურად გამოსაყენებელი გახადო ქართული ენისთვის" | **SPEC** → `docs/BTU-COLLAB-NOTE-DRAFT.md` | draft note |
+| PI-82 | 2026-07-15 | 👤 | **A partner + trend intelligence capability we would actually USE** — a place to see what the tendencies and trends are, and act on them | „სადმე არის პარნიორების კვლევა სადაც ვნახავდით რა ტენდეციაბი რა ტრენდებია და გამოყენებდით" | **OPEN** — what exists today is 9 external AI-generated .docx, single-source, contradicting the locked strategy on 7 axes; assessed and shelved, never a live capability. Absorbs PI-56 (benchmark top-5) + PI-59 (Khan) as instances. | `docs/README.md` §EXTERNAL AI-RESEARCH |
+| PI-83 | 2026-07-15 | 👤 | **URGENT: design and build a real PO into the structure** — one that thinks about strategy, product development and the future, AND owns research on partners, current-date trends, UX/UI, visuals and practices, with output that is **measurable in concrete indicators and has its impact assessed** | „სასრაფოდ შეცვალე დაგეგმე და შექმენი სისტემა და სტრუტურაში მინდა იყოს სრული PO რომელიც ფიქრობს სტრატეიზა, პრდიუქტის განივთრებაზე და მომავალზე. ასევე, პასუსხისმგებელი იქნება პარტნიორების და current Date-ით ტრენდების, UX & UI, ვიზაულების, პრაქტიების და ა. კვლევაზე, რომლის output ინქება გაზმაოვადი კონკრეტული მაჩვენებებით და იმფაქტიც შეფასებული" | **OPEN — the structural fix he already diagnosed once.** Superset of PI-82 · answers the 06-27 finding he made himself („PO-ს როლი საერთოდ დაიკარგა") · measured evidence: **77 of 83 ideas are 👤 his, exactly 1 came from the PO role.** The „measurable + impact-assessed" clause is the teeth — it is what makes this different from PI-48/PI-56/PI-57/PI-75, which were all asked for and all quietly died. | needs a spec doc |
+| PI-84 | 2026-07-15 | 👤 (photo IMG_1945, Niko's school worksheet) | **„დასვი კითხვა და ამოხსენი" — the child POSES the question, then solves it.** The word problem is given as a SITUATION only (18 + 17 bottles in stock, 12 + 8 sold), with NO question attached; the child formulates the question, then answers it. Niko's own solve on the sheet: `35 − 20 = 15`. Owner liked the format and flagged the hard half himself: it only works with real tutoring. | „ესეც დაამატე მათემატიკის როუდმეპში მომეწონა ოღონდ სწორი ტუტორინგი უნდა" | **OPEN** — math roadmap. Format is new to us: every math item we ship today HANDS the child the question, so the whole engine grades a choice, not a formulation. „სწორი ტუტორინგი" is the gate, not a detail — an open response needs open-response tutoring. Related: PI-76 (item format by content type), PI-26. | roadmap NEXT |
+| PI-85 | 2026-07-15 | 👤 | **CHANGE THE SUCCESS METRIC: stop counting ideas, count SHIPPED drops that measurably strengthened the product** (competitiveness, features). Said in anger and he is right: he brings ideas, is told they are great, and they are then forgotten and lost. | „ანუ რა გამოდის მე ვეძებ მომაქვს იდეები რომელზეც მეუბნები რომ ძალიან მაგარია და მერე ივიწყებ და იკარგება? შეფასების კრიტერიუმი ის კი არ უნდა იყოს რამდენი იდეა მოიტანე 90 დღეში, არამედ რამდენი დროფი გააკეთე რომელმაც გააძლიერა პროდუქტი, კონკურენტუნარიანობა და ფიჩერი და აშ." | **OPEN — rewrites PI-83's spec before it is built.** Evidence he is right, measured today: Marble's 32-idea backlog → **0 reached a child**; `content/graph/` is built, unread by the app, and not even on the deploy allowlist; PI ledger = 86 rows, exactly 1 from the PO role. A ledger that logs ideas is what we built; he is saying a ledger is not the product. **The PI/NB ledgers must therefore carry a SHIPPED column that only a live drop can tick.** | must gate PI-83 |
+| PI-86 | 2026-07-15 | 👤 (photos IMG_1946 + IMG_1947, Grade-1 textbook) | **The spec for what „სწორი ტუტორინგი" actually means** — he stopped describing it and demonstrated it. Reverse-engineer a textbook exercise like its author: learning objective · cognitive skill · prerequisites · why the author chose THIS design · ideal reasoning vs typical mistakes vs hints vs scaffolding · a reusable teaching model · 5 easier / 5 equal / 5 harder items · 6 assessment formats · an interactive tutor script that **never reveals the answer** · a teacher guide · and a structured JSON. | „Always prioritize educational value over producing the answer. Think like the author of the textbook, an experienced Grade 1 teacher, and an instructional designer." | **OPEN — this is the authoring+tutoring standard, not a one-off request.** It is the executable half of PI-84 and of Marble #5 (`reason_ka` authored, never read). Source exercises: IMG_1946 = missing-number triangle (part-part-whole, 19=15+4) · IMG_1947 = 3! orderings (systematic counting). | specs PI-84 |
+| PI-87 | 2026-07-15 | 👤 | **Stop sending me statistics, give me a way to CONFIRM the work myself: a branch preview on GitHub I can open and test, THEN you commit.** Asked on hearing for the first time that 12 finished commits were sitting unmerged. | „სტატისტიკის მოწოდებას მირჩევნია შექმნა მოდელი რომლითაც სწრაფად დავადასტურებ 12 ანუ მანახებ გამატესტინებ. ბრენჩებს რატომ არ იყენებ GitHub რომ ვნახო ახალი ვერსია მერე დააკომიტო?" | **OPEN → in flight same turn.** He is right and the failure is worse than he knows: the preview site **already exists** (`NikoLearn-preview` repo → `gshoina.github.io/NikoLearn-preview/`) and has been **broken since 2026-07-02** (Pages status `errored`; still on the legacy branch-build that times out on 1400+ audio clips — the exact bug `deploy-pages.yml` was rewritten to fix, fixed in prod, never in preview). Instead of repairing it I fell back on §7b's screenshot escape hatch for 13 days. **This is the „workaround instead of system" pattern in miniature, and §7b's own wording enabled it.** Also answers PI-85: without a preview he cannot tick a SHIPPED column, so his metric was uncheckable by construction. | fixes the §7b preview channel |
+| PI-88 | 2026-07-15 | 👤 | **When you show me something and wait for my validation, show A (as is) vs B (what you are changing). That is what I confirm.** Given minutes after the PI-87 preview bench went live, i.e. the moment he was handed a thing to validate, he named what validation actually requires. | „დაიმახსოვრე როცა მინახებ და ჩემგან ელოდები ვალიდაციას it is highly recomended to create comparison A (as is) vs B (რას ცვლი) რომ davadasturo" | **OPEN → applied same turn to the PI-87 report.** The direct completion of PI-87: preview gave him the NEW build, but a single build answers „does it work", not „what did you change" — to see B alone he would have to remember A. Confirming a change requires the DELTA, and I was making him reconstruct it from memory. Widest instance: my reports lead with what I did (B) and leave A implicit, which is also self-serving — B always looks good with nothing beside it. **Same class as PI-85** (I reported activity; he wanted shipped value) and as the §7b screenshot habit: I optimize for showing work, he needs to make a decision. **A/B is now the default shape of any validation request**, not an extra: no A/B = not ready to show. Cheap for a text/copy change, real work for a UI change (two renders, same seed, side by side); do it anyway — a validation he cannot perform is not validation. | applies to §7b preview + §6e reports; gates every future „can you confirm?" |
+| PI-89 | 2026-07-16 | 👤 | **Lock the brand: does a NikoLearn brandbook exist so the colour palette is SETTLED — because „bug" now covers so much that colours and text are being rewritten under it, and everything could drift.** Two things in one breath: a request to freeze the identity, and a warning that the agent's change-authority has outgrown its evidence. | „უკვე იმდენი bug-ად წოდებული ცვლილებები შეიტანე რომ ვეღარ ვარჩევ ბაგი რა არის, არა ბაგი რა არის? პროდუქტის ფერების და ტექსტის გადაწერას ისე ახდენ, უკვე რეალური საფრთხეა მნიშვნელოვნად შეიცვალოს ყველაფერი. nikolearn ბრენდბუქი არსებობს რომ ჩამოყალიბებულად იყოს ფერების პალიტრა?" | **OPEN — and the answer to his literal question is YES, which makes his worry sharper, not softer.** Measured: `niko/styles.css` holds **81 tokens across 3 named themes** (`:root`=sunlit · `playground` · `calm`) — a real, structured palette, not drift. Design docs exist too: `V2000-DESIGN-SYSTEM.md`, `DESIGN_TONE_READABILITY_STANDARDS.md`, `READABILITY_STANDARD.md`, `niko-brand.html`. **So the palette IS established — the gap is AUTHORITY, not artefact.** No doc says the palette is FROZEN or who may change it, and `V2000-DESIGN-SYSTEM.md` already assigns the lanes: **DESIGN SSOT = the owner's own prototype · implementation = a coding model · Fable5 = „Georgian copy, NOT UI/CSS."** I was operating outside a boundary his own design system had already drawn, and no mechanism noticed. Twin of [[NB-65]] (no TYPE gate on intake): a settled palette + an unbounded change-licence = drift with a changelog. **The missing artefact is not a palette, it is a one-page BRANDBOOK that names the frozen tokens + who may unfreeze them, plus a test that fails when a token changes without his sign-off.** Recommendation: freeze the 81 tokens now, brandbook next session (Lane B, his call on the values). | pairs with NB-65 |
+| PI-90 | 2026-07-16 | 👤 | **Write v3 of the AI Constitution: given v2, yesterday's sessions and the product-owner fuck-ups, what would you do BETTER and DIFFERENTLY.** Not „polish v2" — he asked what I would change, which is an invitation to disagree with my own document. | „...არის კონსტიტუცია, გუშინდელი საუბრები პროდუქოუნერის ფაკაპები და ა.შ. გათვალისწინებით v3 რომ დაგეწერა რას გააკეთებდი უკეთესად და განსხვავებულად" (ref: `01_NikoLearn_Strategy_drafts/2026-07-15-NikoLearn AI კონსტიტუცია v2 by Niko.html`) | **OPEN — Lane B (§9: think, build nothing).** Answer written to `output/2026-07-16-AI კონსტიტუცია v3 — რას გავაკეთებდი სხვანაირად by Niko.html`. **Thesis: v2 sorted the rules into the right LAYERS; it never asked whether anything ENFORCES them.** v2's own §12 states the test („a lesson that does not change the next input is journaling") and then v2 fails it in 15 of its 16 sections — §16's whole implementation ladder produces prose, and its footer admits it: „კოდში/live-ზე არაფერი შეცვლილა." Measured this week, one class in six costumes: [[NB-64]] (§6e-2 asked a killed model to flush) · [[NB-65]] (§14 said „log every case", never defined what a case IS → a label became a licence) · [[NB-66]] (§10 never said the deliverable lands on DISK → 8 verdicts lost twice) · the V2000 lane crossing (the boundary was written; nothing tripped) · audit #27 (agent read the CSS correctly, predicted no overflow; the render found 8) · 5 of 21 audit findings read code correctly and mis-located the harm. **Every one = a true statement nothing forced to meet reality.** v3 changes: (1) every article names its ENFORCER [hook/test/CI/gate/none] — „none" = ASPIRATION not law, and the count of „none" is the doc's own health score (v2 today ≈ 1 of 11) · (2) **KILL the Conductor** — I built it on his #2 and now argue against it: agents failed on the wire, not on orchestration; a role that makes roles multiplies the existing defect · (3) PO's first job is the **TYPE gate before the value gate** (scoring a mislabeled item = a confident category error) · (4) §9's matrix becomes machine-readable and hook-enforced, modelled on `qa/ship-scope.mjs` — the only guard that has ever actually caught me · (5) prediction→outcome moves from 4th to 1st (the only falsifiable thing in v2) · (6) v3 must be SMALLER than v2. | supersedes nothing; v2 stays (ჩანაცვლება ≠ წაშლა) |
+
+### What the owner should actually look at
+
+**He asked to be challenged and never got an answer:** **PI-69** (8-10yo have no reason to return — „დამაჩელენჯე")
+· **PI-46** (he killed his own venture narrative; nobody picked it up) · **PI-48** (asked for Red-Team/Pre-Mortem
+to be a standing ritual — „დაიმახსოვრე" — and it was not remembered).
+
+**Given twice, because we lost it the first time:** **PI-60** (voice-actor demo — „დაიკარგა თემა", 06-27) ·
+**PI-61** (Georgian stroke order — given 06-28, re-given 07-03 with a full spec).
+
+**The sharpest product hole in the whole ledger:** **PI-64** — the tutor does not teach when the child is wrong.
+He named it 07-01. Marble's audit found the same hole independently (learning #5: `reason_ka` is authored,
+`tutor.js` never reads it). **Two independent paths found it; neither reached a plan.** It is now roadmap NOW.
+
+**Blocked on him, still:** PI-3 (parent-voice stories — his flagship, 06-04, never built) · PI-12 (brand lock) ·
+PI-30 (Play Store, $25) · PI-11 (the audience fork was never closed) · **PI-77 (the privacy-vs-insight fork —
+this one contradicts a standing rule and only he can settle it)**.
+
+---
+
 ## 📣 PARENT FEEDBACK #1 → 2 CANDIDATE MOVES (2026-07-10; **move (1) SHIPPED LIVE v1.357 as „ბუს ქვეყანა"** — concept v2 owner-approved, unified build same day; names = 1-line edits in niko/worlds.js; move (2) TWA/Play = OPEN, $25 owner money-gate)
 **Source: 1 parent (n=1, [HYPOTHESIS] but converges with adult-preview/abandon data + pre-reader-pass findings):** (a) "მათემატიკა/ქართული/ინგლისური შენთვის კარგია, ჩემი შვილი მაგას რომ ხედავს, არ შედის" (b) "თუ აპლიკაცია არ არის, მოუხერხებელია, ვერავინ შევა".
 - **(1) Child-home reframe ≤7 (reader/pre-reader ჭრილი, არა მხოლოდ ასაკი):** reference-ფაქტები — KA Kids home = პერსონაჟები + ერთი დიდი play-ღილაკი, path თვითონ ურევს საგნებს; საგნის არჩევა = Library კუთხე (მშობლის ხელსაწყო). Duolingo ABC = შენობები/გზა, გაკვეთილი = თამაშად აწყობილი, საგნის მენიუ არ არსებობს. ანუ საკითხი tile-ების გადარქმევაზე მეტია: **≤7-სთვის ბავშვი საგანს საერთოდ არ უნდა ირჩევდეს** — ერთი დიდი „ითამაშე" CTA (owl-quest) + სამყაროებად შეფუთული გზა; საგნები რჩება parent dashboard-ზე + landing-ზე (მყიდველი = მშობელი, დამბრუნებელი = ბავშვი). 8+/Kings საგნობრივი რჩება (owner-ის ხაზი სწორია). Owner-ის ძველი „თამაში ბევრგან ნუ იქნება" სწორი იყო მშობლის ზედაპირზე, არასწორი ბავშვის ≤7 ზედაპირზე — ორივე ერთდროულად მართალია, ზედაპირები გავყოთ. **Ready-to-measure:** retention_ping/activation (07-10) before/after-ს გაზომავს. NEXT on GO: 1-დღიანი კონცეპტი (naming + child-home HTML preview) → owner GO → build.
@@ -174,7 +344,10 @@ before done (§6c). Bilingual via ka/en parallel decks (NOT i18n), runtime Engli
 - CAVEAT 3: all monetization stays HYPOTHESIS until Phase 0 proves retention on the now-clean KV baseline. Don't over-build
   marketing mechanics before kids-come-back is proven.
 
-**Last updated:** 2026-06-16 (funny-poems topic + Talk&Think→33 + marketing/launch strategy green-lit; prior: 2026-06-15 Talk&Think parked; 2026-06-06 grilldown)
+**Last updated:** 2026-07-15 (PI INTAKE LEDGER added at the top of this file — see it for the full dated
+list of every idea and its status). ⚠️ This line had read „2026-06-16" for a month while the file kept
+growing: proof that a prose backlog does not know when it is stale. The ledger does.
+*(prior: 2026-06-16 funny-poems + Talk&Think→33 + marketing/launch green-lit; 2026-06-15 Talk&Think parked; 2026-06-06 grilldown)*
 
 This is the single source of truth for product ideas. Every idea is logged, scored,
 and given a roadmap decision. The weekly Product Owner routine appends competitor

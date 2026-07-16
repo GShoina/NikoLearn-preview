@@ -2,6 +2,37 @@
 
 Durable lessons from real corrections. Disk is the only memory here, so they live on disk.
 
+## L15 (MUST) — A protocol line is NOT a gate until you check what the change actually DOES (owner 2026-07-15)
+Owner: „იგონებ gateებს და მიზეზიებს? … რომელი პროტოკოლი გავალებს რომ ამ საკითხე არ შეიძლია სწორი რეზონინგით გადაწყვიტო?" He was right, and the answer was: none.
+I declared `Gate item: [1 live-write]` over an 18-commit branch because §15b lists „push/merge to main" as approval-required. I applied that line to the BRANCH as a unit and never asked what each commit DOES. Computed after he pushed back: **13 of the 18 touch zero deployed files** (`docs/`, `.github/`, `qa/` are not in deploy-pages.yml's allowlist), so merging them leaves nikolearn.com byte-identical. They were never gated by anything. And the 5 that DO touch shipped files are not gated by protocol either: §13 Amendment d ships a verified, reversible change with no financial/reputational risk autonomously. The ONLY thing holding those 5 is the owner's own PI-87 sentence („ვნახო ახალი ვერსია მერე დააკომიტო") — his gate, legitimately, not mine.
+- **The mechanism to watch for:** quoting a rule is cheaper than reasoning about the change, and it LOOKS like discipline. §13's gate-declaration was built to FORCE honesty; I used it as cover. A gate I cannot justify by naming the concrete effect on a child is an invented gate, and inventing one costs the owner attention he explicitly does not want to spend.
+- **It compounded in the same turn:** my hand-written „4 child-facing commits" table was also wrong (5 — I missed `robots.txt` via NB-52). Same class as the gate error: **asserting a CATEGORY from memory instead of COMPUTING it from the real criterion.** Same class as the NB-55 awk/octal bug and the analytics.js-only sed: I keep measuring the surface I remember instead of the surface that exists.
+- **RULE (mechanical, no judgement needed):** a NikoLearn change can reach a child **iff it touches a path in deploy-pages.yml's allowlist** (`index.html landing.html privacy.html changes.html validate.html sw.js manifest.json CNAME robots.txt` + icons + dirs `niko assets movement share`). Compute it with `git show --name-only`; never label it by reading the commit title. No allowlist path touched → no gate, whatever the subject line says.
+- **The gates are about EFFECT, not about the git verb.** „merge to main" is not a gate. „a child sees something different" is. Before ANY stop, name the artifact a user would see. If you cannot name it, you are not allowed to stop (§13).
+- Pairs with L4 (pull the data before claiming a number) and L14 (state your search surface): the same discipline, applied to my own process claims rather than to the product.
+
+## L14 (MUST) — A COMPLETENESS claim must state its search surface and its coverage, or it is not a claim (owner 2026-07-15)
+Incident: asked for the full list of his product ideas, I ran a transcript sweep, got "0 ideas found across
+9 session files", and reported to the owner that **nothing had been lost** and the list was **complete**. He
+did not believe it: „ბევრი იდეა მომიწოდებია, სხვადასხვა ფორმატში, ივლისში". He was right. The real corpus is
+**101 transcripts / 1,282 owner messages / 1.18M chars**; the sweep had seen 9 files / 132 messages / 108,719
+chars = **9% coverage**. The conclusion was not merely thin, it was **backwards**: a 9% sample returning zero
+hits is weak evidence of *presence*, and no evidence at all of *absence*.
+Root cause (the reusable part): **the search surface was defined by the CONTAINER, not by the CONTENT.** The
+sweep looked under the `NikoLand` project key, but 92 of 101 NikoLand transcripts live under other project
+keys, because the key derives from the session's cwd. Same class as the `.gitignore` incident (a folder
+rename silently orphaned the pattern that named the old path): **a rule scoped to a name stops matching when
+the name is not where the thing actually is.** Whenever scoping a search by path/key/prefix, first prove the
+scope contains the population — count what the scope catches vs what a content-level probe catches. If those
+two numbers disagree, the scope is the bug.
+Rule: never say "complete / nothing lost / verified / exhaustive" without, in the same breath: (a) the search
+surface, (b) the coverage as a number, (c) what the method structurally CANNOT see. Here (c) was load-bearing
+and was missing: transcripts only go back to 2026-06-15, 14 of the 42 days in the span have no transcript at
+all, and exactly **1** message in the entire corpus carries an image, so ideas the owner gave by screenshot or
+voice are **not recoverable from transcripts at any coverage**. A method's blind spot belongs in the claim, not
+in a footnote after the owner challenges it. Absence != clean is already §14's rule for bug sweeps; this is the
+same rule for evidence sweeps. See [[L10]] and §14 FAIL CRITERIA ("verified absent by static reading only").
+
 ## L13 (MUST) — VALUE-GATE a feature/bug BEFORE investing effort, don't just execute the literal task (owner 2026-07-14)
 Incident: a bug report ("the 🎨 theme picker doesn't visibly work", NB-48) was taken literally and executed
 well: chrome-only fix shipped, option-B branch, A/B report, adversarial red-team, refinement, many verify

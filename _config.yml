@@ -1,3 +1,11 @@
+# ⚠ DEAD CONTROL — this file does NOTHING (verified 2026-07-15, NB-52).
+# `.github/workflows/deploy-pages.yml` assembles _site with an explicit cp ALLOWLIST and uploads it
+# via upload-pages-artifact. Jekyll is NEVER invoked, so this `exclude:` list never runs. Kept only
+# so a future reader doesn't re-add it believing it protects anything. The allowlist is the real
+# (and stricter) control. Do not cite this file as a security mechanism — robots.txt used to, and
+# that false citation is what produced the s20 „exposure = VERIFIED NON-ISSUE" claim that was wrong.
+# Note: `backups` below is also stale — that folder is `00_backups/` since the s21 rename (NB-51 class).
+#
 # GitHub Pages (Jekyll) config.
 # Keep internal/owner-only files OUT of the public Pages site.
 # (The repo is private, so source is already hidden on GitHub; this also stops

@@ -39,7 +39,7 @@ function goHome(){
       <div class="pmeta">ისწავლე თამაშით ერთ წუთში, პროფილის გარეშე 👇</div></div>
     </button>`:'';
   render(`<div class="screen home">
-    <div class="brand brand-btn" onclick="landing()" title="მთავარი გვერდი">
+    <div class="brand brand-btn" ${kt("landing()","NikoLearn, მთავარი გვერდი")} title="მთავარი გვერდი">
       <div class="sun-badge" style="background:none;box-shadow:none;padding:0"><img src="owl-logo.png" alt="" style="width:100%;height:100%;object-fit:contain"></div>
       <h1 class="mark" style="margin:0">NikoLearn</h1>
       <div class="tag${isNew?' tag-welcome':''}">${isNew?'<span class="tw-hi">მოგესალმები 👋</span><span class="tw-step">ჯერ გამოსცადე</span><span class="tw-step">მერე შექმენი პროფილი</span>':'ვინ სწავლობს?'}</div>

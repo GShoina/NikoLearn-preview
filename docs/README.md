@@ -14,11 +14,14 @@ Rule of thumb: **if a doc is not listed here, treat it as unclassified and ask t
 | Reasoning standard | `GSH-OS.md` + `REASONING-LESSONS.md` | load with handoff; lessons L1-L9 before tradeoff decisions |
 | Live state / resume pointer | `SESSION-HANDOFF.md` | keep < 30KB (currently over — trim candidate); archives in `archive/` |
 | Architecture | `HANDOFF.md` | factual layer refreshed 2026-07-12; §8 coding rules owner-locked |
-| Product / strategy backlog | `PRODUCT_IDEAS.md` | living; contains the strategy chronology 06-05→06-09 (re-opened forks) |
+| **Owner IDEA intake ledger (SSOT)** | `PRODUCT_IDEAS.md` §PI INTAKE LEDGER | NEW 2026-07-15, owner-triggered („only my bugs get tracked, not my ideas" — confirmed true). The idea twin of `BUGFIX_TRACKER.md`: `PI-<n>` row + owner's own words + status, logged BEFORE analysis, id echoed back. Rule = `CLAUDE.md` §16 |
+| Product / strategy backlog (the idea MINE) | `PRODUCT_IDEAS.md` (prose below the ledger) | living; contains the strategy chronology 06-05→06-09 (re-opened forks). A mine, not a ledger — the index above is the ledger |
 | Owner strategic intent (verbatim) | `OWNER_GRILLDOWN_BRIEF.md` | never compress; both audiences, skill-based, Version A/B demand |
 | Mission slogan | `MISSION-SLOGAN.md` | locked triad: თავდაჯერებული/შემოქმედებითი/დამოუკიდებელი |
 | Bugs / systemic fixes | `BUGFIX_TRACKER.md` | NB intake ledger on top; next id in Legend |
-| Active plan | `V2-ACTION-PLAN.md` | per owner decision 2026-07-05; `ACTION-PLAN-2026-07-02.md` = FAZA-0 scope only |
+| **UX/UI audit 2026-07-15 verdicts (SSOT)** | **`AUDIT-2026-07-15-VERDICTS.md`** | NEW 2026-07-15. Per-finding verdict for all 29 Codex UX/UI adversarial findings + coverage ledger + runtime debt. The audit is static-source-only, so each finding is a HYPOTHESIS until a row here says otherwise with a named check method. **Disproved findings STAY with their disproof** (ჩანაცვლება ≠ წაშლა) — deleting one means the same suspicion is re-verified from zero next time. Survivors → NB rows in `BUGFIX_TRACKER.md`. |
+| **Roadmap: what we do next + what fell out** | **`PRODUCT_ROADMAP.md`** | **PO SSOT (owner-set 2026-07-15).** NOW/NEXT/LATER + a permanent DROPPED ledger. Two rules it enforces: superseded = new+old together (never deletion) · nothing falls out silently. Maintained every session; supersedes nothing — it INDEXES the plan cluster below. |
+| Active plan (business reasoning) | `V2-ACTION-PLAN.md` | per owner decision 2026-07-05; `ACTION-PLAN-2026-07-02.md` = FAZA-0 scope only. Sequencing now lives in `PRODUCT_ROADMAP.md` |
 
 ## Standards (one canonical per axis — scope fences)
 | Axis | Canonical | Companions |

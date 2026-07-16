@@ -87,10 +87,18 @@ self.addEventListener('fetch', e => {
           fetch(e.request, { cache: 'reload' }),
           new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 3500))
         ]);
-        if (net && net.ok) { const copy = net.clone(); caches.open(CACHE).then(c => c.put('./index.html', copy)); }
+        // Cache each document under its OWN url. This used to write EVERY successful navigation
+        // to the literal key './index.html', so any other document overwrote the app shell —
+        // and niko/screens.js:132 sends users to landing.html deliberately, making the poison
+        // the normal path rather than an edge case. './index.html' is now written only by the
+        // precache (ASSETS), which cannot be anything but the shell.
+        if (net && net.ok) { const copy = net.clone(); caches.open(CACHE).then(c => c.put(e.request, copy)); }
         return net;
       } catch (_) {
-        return (await caches.match(e.request)) || (await caches.match('./index.html'));
+        // ignoreSearch: the PWA launches at start_url 'index.html?app=1&src=pwa' (manifest.json:5).
+        // An exact match against a key stored without a query ALWAYS missed, so every offline
+        // launch fell through to the fallback below — i.e. straight onto the poisoned key.
+        return (await caches.match(e.request, { ignoreSearch: true })) || (await caches.match('./index.html'));
       }
     })());
     return;

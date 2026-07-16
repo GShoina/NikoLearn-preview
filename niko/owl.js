@@ -112,7 +112,7 @@ function openHint(){
   if(!ov){ov=document.createElement('div');ov.className='overlay';ov.id='aiov';ov.style.alignItems='flex-end';ov.style.padding='0 16px 96px';ov.onclick=closeHint;$('.device').appendChild(ov);}
   ov.innerHTML=`<div class="ai-bubble" onclick="event.stopPropagation()">
     <button class="ai-close" onclick="closeHint()" aria-label="დახურვა">✕</button>
-    <div class="ai-top"><div class="ai-ava alive" onclick="event.stopPropagation();pickTutor()" title="შეცვალე მასწავლებელი">${tutorFace(profile)}</div><div class="ai-name">${(typeof tutorName==='function'?t.name.replace(/^ბუ/,tutorName(profile)):t.name)}</div></div>
+    <div class="ai-top"><div class="ai-ava alive" ${kt("event.stopPropagation();pickTutor()","შეცვალე მასწავლებელი")} title="შეცვალე მასწავლებელი">${tutorFace(profile)}</div><div class="ai-name">${(typeof tutorName==='function'?t.name.replace(/^ბუ/,tutorName(profile)):t.name)}</div></div>
     <div class="ai-text">${text}</div>
     <div class="hint-dots">${dots}</div>
     <button class="ai-listen-big" onclick="speakHint(this)">${I.speaker} მოისმინე</button>

@@ -1,0 +1,188 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marble — Deep Adversarial Audit</title>
+<style>
+  :root{--bg:#f6f7fb;--card:#fff;--ink:#1a1c22;--mut:#5a6072;--line:#e3e6ef;
+    --pri:#3b6ef5;--pri-d:#2450d8;--good:#1f9d6b;--warn:#d98a1f;--bad:#e0533f;--chip:#eef2fe;}
+  @media (prefers-color-scheme:dark){:root{--bg:#0f1117;--card:#171a23;--ink:#e8eaf0;--mut:#9aa2b8;--line:#252a37;
+    --pri:#6f9bff;--pri-d:#8fb0ff;--good:#3ecb93;--warn:#e6a94a;--bad:#f2745f;--chip:#1c2437;}}
+  :root[data-theme="dark"]{--bg:#0f1117;--card:#171a23;--ink:#e8eaf0;--mut:#9aa2b8;--line:#252a37;
+    --pri:#6f9bff;--pri-d:#8fb0ff;--good:#3ecb93;--warn:#e6a94a;--bad:#f2745f;--chip:#1c2437;}
+  :root[data-theme="light"]{--bg:#f6f7fb;--card:#fff;--ink:#1a1c22;--mut:#5a6072;--line:#e3e6ef;
+    --pri:#3b6ef5;--pri-d:#2450d8;--good:#1f9d6b;--warn:#d98a1f;--bad:#e0533f;--chip:#eef2fe;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.62 -apple-system,"Segoe UI",Roboto,"Noto Sans Georgian",sans-serif;-webkit-text-size-adjust:100%}
+  .wrap{max-width:880px;margin:0 auto;padding:22px 16px 90px}
+  h1{font-size:1.5rem;line-height:1.25;margin:.2em 0 .1em}
+  h2{font-size:1.16rem;margin:1.9em 0 .5em;padding-top:.55em;border-top:1px solid var(--line)}
+  h3{font-size:1rem;margin:1.1em 0 .3em;color:var(--pri-d)}
+  p{margin:.5em 0}
+  .sub{color:var(--mut);font-size:.9rem}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 18px;margin:13px 0}
+  .hero{border-left:4px solid var(--pri)}
+  .win{border-left:4px solid var(--good)}
+  .bad{border-left:4px solid var(--bad)}
+  .tag{font-size:.7rem;font-weight:700;padding:1px 7px;border-radius:6px;vertical-align:middle;white-space:nowrap}
+  .t-fact{background:rgba(31,157,107,.15);color:var(--good)}
+  .t-hyp{background:rgba(217,138,31,.15);color:var(--warn)}
+  .t-val{background:rgba(224,83,63,.13);color:var(--bad)}
+  table{width:100%;border-collapse:collapse;font-size:.88rem;margin:.4em 0}
+  .scroll{overflow-x:auto}
+  th,td{text-align:left;padding:6px 9px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--mut);font-weight:600;font-size:.8rem}
+  .g{color:var(--good);font-weight:700}.y{color:var(--warn);font-weight:700}.r{color:var(--bad);font-weight:700}
+  ul,ol{margin:.4em 0;padding-left:1.2em}li{margin:.32em 0}
+  code{background:var(--chip);padding:1px 5px;border-radius:5px;font-size:.84em;font-family:ui-monospace,Consolas,monospace}
+  .num{font-size:1.5rem;font-weight:800;color:var(--pri-d);line-height:1}
+  .grid{display:flex;gap:10px;flex-wrap:wrap;margin:.6em 0}
+  .grid .b{flex:1 1 150px;background:var(--chip);border-radius:10px;padding:11px 13px}
+  .foot{color:var(--mut);font-size:.82rem;margin-top:2.2em;border-top:1px solid var(--line);padding-top:1em}
+  .lead{font-weight:700;color:var(--pri-d)}
+</style>
+
+<div class="wrap">
+
+<h1>Marble Skill Taxonomy — ღრმა ადვერსარიული აუდიტი</h1>
+<p class="sub">withmarbleapp/os-taxonomy v1 (generated 2026-07-08) · 1590 თემა · 3221 კავშირი · 183 კლასტერი · აუდიტი 2026-07-13 · Niko</p>
+
+<div class="card hero">
+<p style="margin-top:0"><b>რას ვხედავთ:</b> ეს არ არის უბრალოდ „სასწავლო სია". ეს არის <b>ინჟინრულად აწყობილი, სტანდარტ-მიბმული, ახსნილი ცოდნის გრაფი</b>, რომლის გვერდითაც Marble-მა <b>განზრახ არ გამოაქვეყნა</b> ყველაზე ღირებული ნაწილი: მისი ძრავა და ბავშვის მოდელები. ქვემოთ ყველა რიცხვი <span class="tag t-fact">FACT</span> sandbox-ში დათვლილია (raw მონაცემი კონტექსტში არ შემოსულა); ინტერპრეტაცია ცალკე <span class="tag t-hyp">HYPOTHESIS</span>-ად აქვს ნიშანი.</p>
+<div class="grid">
+  <div class="b"><div class="num">51%</div><div class="sub">თემა სტანდარტზე მიბმული (818/1590)</div></div>
+  <div class="b"><div class="num">100%</div><div class="sub">კავშირი ახსნილი (reason+strength)</div></div>
+  <div class="b"><div class="num">0</div><div class="sub">ციკლი / ობოლი / გატეხილი კავშირი</div></div>
+  <div class="b"><div class="num">5</div><div class="sub">უნარის ტიპი (concept/proc/meta/lang/repr)</div></div>
+</div>
+</div>
+
+<h2>1 · როგორ არის მონაცემი-პროდუქტი ინჟინრულად აწყობილი <span class="tag t-fact">FACT</span></h2>
+<p>ღია რეპო არის <b>სუფთა data-product</b>, არა აპლიკაცია:</p>
+<ul>
+  <li><b>ვერსირება + ვალიდაცია:</b> <code>package.json</code>-ს აქვს ერთადერთი სკრიპტი: <code>validate</code>. თითო ფაილს JSON Schema იცავს (<code>topics.schema.json</code> და სხვ., required-ველებით). <b>ნულ გარე dependency.</b> ანუ მთელი პროდუქტი = ვალიდირებული JSON + სქემა.</li>
+  <li><b>პროვენანსი + მთლიანობა:</b> <code>manifest.json</code> ინახავს <code>taxonomyVersion</code>-ს, <code>generatedAt</code>-ს და <b>sha256-ს თითო ფაილზე</b>. მონაცემი გენერირებულია (არა ხელით რედაქტირებული), დათარიღებული, ჩექსუმ-დაცული.</li>
+  <li><b>codesOnlySources</b>: <code>["c3-social-studies","ib-pyp-pspe","ngss-k5","ngss-ms"]</code> — სტანდარტები, სადაც მხოლოდ <i>კოდები</i> ინახება, არა დაცული ტექსტი (ლიცენზია-ფრთხილი დიზაინი).</li>
+</ul>
+<p class="lead">NikoLearn-ის გაკვეთილი: ჩვენი კონტენტიც უნდა იყოს ვერსირებული + სქემა-ვალიდირებული data (და არა კოდში გაფანტული), რომ ხარისხი ავტომატურად შემოწმდეს.</p>
+
+<h2>2 · როგორ არის <i>აპლიკაცია</i> აწყობილი — იმით, რაც <u>არ</u> გამოაქვეყნეს <span class="tag t-hyp">HYPOTHESIS</span></h2>
+<p>ყველაზე დიდი ინსაიდი მალულ ველშია. <code>manifest.excluded</code> პირდაპირ ასახელებს, რაც სისტემას აქვს მაგრამ ღიად არ დადო:</p>
+<div class="card"><code>excluded = ["embeddings", "child mastery beliefs (PII)", "teaching research", "visualizations"]</code></div>
+<p>ეს <b>FACT</b> (manifest ასე წერს). აქედან გამომდინარე <b>HYPOTHESIS</b> Marble-ის აპის არქიტექტურაზე:</p>
+<ul>
+  <li><b>embeddings</b> = ვექტორული წარმოდგენა თითო უნარზე → სემანტიკური ძებნა/მსგავსება, AI-ტუტორის „მიხვედრა" რომელ უნარზეა საუბარი.</li>
+  <li><b>„child mastery beliefs (PII)"</b> = <b>თითო ბავშვის დაუფლების-რწმენის მოდელი</b> (ალბათური knowledge-tracing). ესაა ადაპტიური ძრავის მდგომარეობა: სისტემა თითო ბავშვზე ინახავს „რამდენად სავარაუდოდ ფლობს X-ს".</li>
+  <li><b>centrality</b> (ღიაშია, თითო თემაზე, მაგ. 0.027) = წინასწარ დათვლილი გრაფ-ცენტრალობა → აპი პრიორიტეტს აძლევს მაღალ-ცენტრალურ უნარებს.</li>
+</ul>
+<p class="lead">ანუ Marble-ის აპი = ცოდნის გრაფი + embeddings + თითო-ბავშვის ალბათური mastery-მოდელი + centrality. მათ <b>რუკა გამოაქვეყნეს, ძრავა და ბავშვის მოდელები დაიტოვეს.</b> NikoLearn-ს უკვე აქვს ამის <i>უხეში</i> ვერსია (სიზუსტე≥0.8, streak, Leitner box). Marble-ის „mastery belief" = სწორედ ამის დახვეწილი, ალბათური ვერსია. ესაა ჩვენი ძრავის განვითარების რუკა.</p>
+<div class="card win"><b>დამოუკიდებელი დადასტურება <span class="tag t-fact">FACT</span>:</b> ეს ჰიპოთეზა (excluded-ველებიდან გამოტანილი) web-კვლევამ დაადასტურა ცალკე მტკიცებულებით. Marble-ის FAQ: „keeps a live map of what your child knows across a real curriculum and works just past their edge" (= ZPD/mastery მოდელი). CEO: „the first generative learning world", „real-time adaptive". მათი მეორე ღია რეპო <code>korabench</code> = „AI Child Safety" ბენჩმარკი (= აპი LLM-ს იყენებს). README „What's not here" პირდაპირ ადასტურებს, რომ embeddings + თითო-ბავშვის მონაცემი დაიტოვეს. ორი დამოუკიდებელი მეთოდი (მონაცემ-აუდიტი + web) ერთ დასკვნაზე გავიდა.</div>
+
+<h2>3 · რა სტანდარტებს იყენებს <span class="tag t-fact">FACT</span></h2>
+<p><b>818/1590 თემა (51%) მიბმულია სტანდარტზე</b>, სულ 1859 მიმართვა. ჩარჩოების განაწილება:</p>
+<div class="scroll"><table>
+<tr><th>ჩარჩო</th><th>მიმართვა</th><th>რა არის</th></tr>
+<tr><td><code>uk-nc-2013</code></td><td class="g">895</td><td>UK National Curriculum 2013 — <b>დომინანტი</b></td></tr>
+<tr><td><code>ccss-ela</code></td><td>528</td><td>US Common Core — ინგლისური/წიგნიერება</td></tr>
+<tr><td><code>ccss-math</code></td><td>223</td><td>US Common Core — მათემატიკა</td></tr>
+<tr><td><code>ngss-k5 / ngss-ms</code></td><td>143</td><td>Next Gen Science Standards (საბუნებისმეტყველო)</td></tr>
+<tr><td><code>ib-pyp-pspe</code></td><td>70</td><td>IB Primary Years (personal/social)</td></tr>
+</table></div>
+<p><b>ორი კრიტიკული დაკვირვება:</b></p>
+<ol>
+  <li><b>ეს ბრიტანულ-ამერიკული ღერძია.</b> ქართული ეროვნული სასწავლო გეგმა <b>არ არის</b>. მათემატიკა/საბუნებისმეტყველო უნივერსალურია და გადმოდის; ქართული ენა/წიგნიერება — არა.</li>
+  <li><b>49% (772 თემა) არცერთ სტანდარტზეა მიბმული.</b> ესენი Marble-ის <i>საკუთარი</i> ავტორული უნარებია (META, Life Skills, Learning-to-Learn, წვრილი ქვე-უნარები). ანუ: <b>სტანდარტ-align სადაც სტანდარტი არსებობს, ექსპერტ-ავტორული მის მიღმა.</b></li>
+</ol>
+
+<h2>4 · როგორ არის copy სტანდარტზე მიბმული <span class="tag t-fact">FACT</span> + <span class="tag t-hyp">HYPOTHESIS</span></h2>
+<p>თითო თემას აქვს <code>standards</code> ველი კოდ-მიმართვებით, მაგ:</p>
+<div class="card"><code>standards: ["ccss-ela:L.K.1f", "uk-nc-2013:Eng.App2.Y1.Sent.1"]</code></div>
+<p>მექანიზმი (მტკიცებულებით + ინტერპრეტაცია):</p>
+<ul>
+  <li><b>მიბმა ხდება <u>კოდით</u>, არა ტექსტით.</b> Marble ინახავს სტანდარტის <i>კოდს</i>, არა მის დაცულ ფორმულირებას. copy (description / evidence / assessmentPrompt) დაწერილია <i>ისე, რომ ეს კოდი დააკმაყოფილოს</i>, მაგრამ თავად ტექსტი Marble-ის ავტორულია.</li>
+  <li><b>evidence = სტანდარტის „თარგმანი" დაკვირვებად ქცევად.</b> სტანდარტი ამბობს აბსტრაქტულად „უნდა შეეძლოს X"; evidence-ი ამას აქცევს კონკრეტულ, დაკვირვებად მოქმედებად („აჟღერე /sh/-/o/-/p/ → shop"). saშ. 2.97 evidence თითო თემაზე.</li>
+  <li><b>assessmentPrompt = სტანდარტის მშობლისთვის თარგმანი.</b> 100% ({{name}}-ით) აქცევს სტანდარტს „შეუძლია თუ არა შენს ბავშვს?" კითხვად.</li>
+</ul>
+<p class="lead">ეს არის ზუსტად ის ლიცენზია-სუფთა შაბლონი, რომელიც NikoLearn-მა უნდა გაიმეოროს (§11): მიბი სტანდარტის <i>უნარს</i> კოდით, დაწერე <i>შენი</i> copy, არასდროს დააკოპირო სტანდარტის ტექსტი. Marble ამას სისტემურად აკეთებს.</p>
+
+<h2>5 · გრაფის ხარისხი — ადვერსარიულად <span class="tag t-fact">FACT</span></h2>
+<div class="card win"><b>ძლიერი:</b> სუფთა DAG — <b>0 ციკლი, 0 ობოლი კვანძი, 0 გატეხილი კავშირი</b>. <b>3221/3221 კავშირს (100%) აქვს <code>reason</code> ტექსტი + <code>strength</code></b> (მაგ. „hard", reason: „Must understand vibrations make sound before finding volume patterns"). out-degree median=1, max=15 (რამდენიმე hub-კვანძი ხსნის 15 შემდეგს). centrality წინასწარ დათვლილი. ესაა <b>ახსნილი, აწონილი გრაფი</b>, არა შიშველი ტოპოლოგია.</div>
+<div class="card bad"><b>სუსტი (არ არის უცდომელი):</b> <b>56 ასაკ-ინვერსიული კავშირი (~1.7%)</b> — წინაპირობა უფრო გვიან „იწყება" ვიდრე დამოკიდებული (მაგ. Spotting Patterns a7 → Different Accounts a6). კონცენტრირებულია <b>რბილ საგნებში</b> (History, PSD), არა მათემატიკაში. + <b>23 დუბლი სახელი</b> (მაგ. „addition and subtraction word problems"×3), <b>35 თემა 0 evidence-ით</b>, 772 სტანდარტის გარეშე.</div>
+<p class="lead">გაკვეთილი: მათემატიკის ქვე-გრაფი სუფთაა და გამოსაყენებელი, მაგრამ <b>გრაფი ღვთის სიტყვა არაა</b> — ავტორობამდე თითო math-რგოლი უნდა გადავამოწმოთ (განსაკუთრებით ასაკის თანმიმდევრობა).</p>
+
+<h2>6 · კონტენტის ტიპოლოგია — გაკვეთილი item-ფორმატებზე <span class="tag t-fact">FACT</span></h2>
+<p>Marble თითო უნარს <i>სახეობით</i> ანიშნავს:</p>
+<div class="scroll"><table>
+<tr><th>ტიპი</th><th>რაოდ.</th><th>რას გულისხმობს (და როგორ უნდა ისწავლებოდეს)</th></tr>
+<tr><td class="lead">CONCEPTUAL</td><td>810</td><td>ცნების გაგება → ახსნა + მაგალითი, არა მხოლოდ ვარჯიში</td></tr>
+<tr><td class="lead">PROCEDURAL</td><td>512</td><td>პროცედურა/ოსტატობა → გამეორება, drill (NikoLearn-ის ქვიზი აქ ზის)</td></tr>
+<tr><td class="lead">META</td><td>144</td><td>მეტაკოგნიცია → რეფლექსია, არა სწორი/არასწორი</td></tr>
+<tr><td class="lead">LANGUAGE</td><td>75</td><td>ენობრივი → მოსმენა/წარმოთქმა</td></tr>
+<tr><td class="lead">REPRESENTATIONAL</td><td>49</td><td>წარმოდგენა/მოდელი → ვიზუალი, დიაგრამა</td></tr>
+</table></div>
+<p class="lead">NikoLearn დღეს <b>ყველაფერს ერთ ფორმატად (ქვიზ-item) ეპყრობა.</b> Marble-ის ტიპოლოგია ამბობს: ცნებას ახსნა სჭირდება, პროცედურას ვარჯიში, მეტაკოგნიციას რეფლექსია. ეს item-დიზაინის რუკაა.</p>
+
+<h2>7 · საგნების ფორმა <span class="tag t-fact">FACT</span></h2>
+<p>Science=547 (ყველაზე დიდი, მათემატიკაზეც მეტი) · Mathematics=503 · English=286 · History=90 · Personal &amp; Social=88 · Life Skills=37 · Computing=21 · Learning to Learn=18. <b>საბუნებისმეტყველო = უზარმაზარი greenfield</b> თუ NikoLearn ოდესმე გაფართოვდება (მაგრამ ის ანგლოფონურ NGSS-ზეა და ქართული საბუნებისმეტყველოს გეგმას არ ერგება პირდაპირ).</p>
+
+<h2>8 · რა შეიძლება ვისწავლოთ — რანჟირებული <span class="tag t-hyp">HYPOTHESIS</span></h2>
+<ol>
+  <li><b>ახსნილი კავშირები (reason+strength) = ყველაზე დაუფასებელი აქტივი.</b> არა უბრალოდ „A მანამდე B", არამედ „A მანამდე B <i>იმიტომ რომ ...</i>, strength=hard". ეს პირდაპირ გვეუბნება <i>როგორ</i> ავაშენოთ scaffolding და რას ვუთხრათ ბავშვს ჩავარდნისას.</li>
+  <li><b>კოდით-მიბმის შაბლონი</b> (§4) = ლიცენზია-სუფთა გზა სტანდარტთან alignment-ისა, ჩვენი §11-ის სისტემური ვერსია.</li>
+  <li><b>mastery-belief მოდელი</b> = ჩვენი accuracy/streak/Leitner ძრავის შემდეგი საფეხური (ალბათური, არა ზღურბლური).</li>
+  <li><b>data-პროდუქტის დისციპლინა</b> (ვერსია + JSON Schema + sha256 + provenance) = როგორ ვმართოთ ჩვენი <i>საკუთარი</i> კონტენტი ხარისხის ავტო-შემოწმებით.</li>
+  <li><b>ტიპ-მიხედვით item-ფორმატი</b> (§6) = გავიდეთ „ყველაფერი ქვიზია"-დან.</li>
+  <li><b>evidence-ის სტილი</b> (აბსტრაქტული სტანდარტი → დაკვირვებადი ქცევა) = ჩვენი ქვიზ-item-ის სამიზნის დაწერის მეთოდი.</li>
+  <li><b>beyond-standard 49%</b> = ნებართვა (და მოდელი) ავტორობდე სტანდარტის მიღმა, სადაც ქართული გეგმა ჩუმია.</li>
+</ol>
+
+<h2>9 · რა <u>არ</u> უნდა დავაკოპიროთ — ადვერსარიულად <span class="tag t-hyp">HYPOTHESIS</span></h2>
+<ul>
+  <li><b>ანგლოფონური სტანდარტ-ღერძი</b> (UK-NC / CCSS). ქართული ენა/წიგნიერება მათ გრაფზე არ აიგება. ეს ჩვენი იდენტობის ბირთვია და ხელით უნდა დარჩეს.</li>
+  <li><b>1590-კვანძიანი მასშტაბი</b> = მათი ამბიცია, არა ჩვენი. მისი „სისრულედ" მიღება ცარიელ, ღრუ პროდუქტს გვაძლევს.</li>
+  <li><b>Science greenfield-ის დევნა</b> ახლა = ფოკუსის დაკარგვა.</li>
+  <li><b>რბილ-საგნების გრაფის ნაწილი</b> (სადაც 1.7% ასაკ-ინვერსია ზის) = ნაკლებად სანდო; მხოლოდ math/number ბირთვს ვენდოთ.</li>
+  <li><b>„ადაპტიურობის აღება" ილუზია</b> — მათ ძრავა და ბავშვის მოდელები <i>არ</i> გამოაქვეყნეს. გრაფის აღება ≠ მათი აპის აღება. ძრავას ჩვენ თვითონ ვაშენებთ (და ნაწილი უკვე გვაქვს).</li>
+</ul>
+
+<h2>10 · პროდუქტი, კომპანია, ბიზნეს-მოდელი <span class="tag t-fact">FACT</span> + <span class="tag t-val">unverified</span></h2>
+<p>წყარო: withmarble.com/faq, LinkedIn (Lionel Mora), GitHub org (2 რეპო). იურიდიული პირი: <b>Generative Spark, Inc.</b> (სხვა „Marble"-ები ამ აუდიტში არ ერევა).</p>
+<h3>რა არის პროდუქტი</h3>
+<ul>
+  <li><b>„interactive learning world for kids 6-12", „100 kids' apps in one game".</b> ხატვა, საშინაო, ენები, ისტორიები, ქვიზები, „characters who talk back". <b>გენერაციული AI, ხმით-ინტერაქტიული</b> („the first generative learning world"; „listens in the moment... the way a voice assistant does").</li>
+  <li><b>ადაპტიური, გრაფ-მართული</b>: „live map of what your child knows... works just past their edge" (ZPD/mastery). ეს ზუსტად ჩვენი §2-ის დასკვნაა.</li>
+  <li><b>სტატუსი: private beta</b> (waitlist, დღეში რამდენიმე ასეული ოჯახი). პლატფორმა (iOS/Android/web) <b>საჯაროდ არ არის დაფიქსირებული</b>. ყოფილი სახელი „Pebble" → „Marble" (~2026 დასაწყისი). taxonomy გახსნა 2026-07-08, ვირუსული (რამდენიმე დღეში ~2874 GitHub star).</li>
+</ul>
+<h3>როგორ არის აგებული (საჯარო სიგნალები)</h3>
+<ul>
+  <li><b>მხოლოდ taxonomy DATA-ა ღია; აპი დახურულია.</b> org-ს ზუსტად 2 რეპო აქვს: <code>os-taxonomy</code> (ODbL-1.0) + <code>korabench</code> („AI Child Safety" ბენჩმარკი, Apache-2.0) — ანუ აპი LLM-ს იყენებს და მათ საკუთარი ბავშვ-უსაფრთხოების eval ააგეს.</li>
+  <li>CEO ადრეულ ვერსიებს „vibe-coded interactive"-ს ეძახის = LLM-გენერირებული რეალურ-დროული კონტენტი. <b>ინჟინრული ბლოგი / არქიტექტურის დოკი არ არსებობს.</b></li>
+</ul>
+<h3>სტანდარტების ავტორობა — მალული <span class="tag t-val">TO VALIDATE</span></h3>
+<p><b>ყველაზე მნიშვნელოვანი ადვერსარიული აღმოჩენა:</b> რეპოს <b>არ აქვს METHODOLOGY / CONTRIBUTING / AUTHORS ფაილი</b> (GitHub contents API-ით დადასტურებული). 1590 თემა + 3221 კავშირი გამოქვეყნებულია <b>ნულოვანი ავტორობის/ვალიდაციის დოკუმენტაციით</b>. ერთადერთი ავტორობის მტკიცება მარკეტინგულია საიტზე: „developed in collaboration with... Stanford Graduate School of Education, MIT, DeepMind" — <b>დაუდასტურებელი</b>. ვინც გრაფზე აშენებს, იღებს <i>აუდიტ-გაუვლელ</i> პედაგოგიკას.</p>
+<h3>ბიზნეს-მოდელი</h3>
+<ul>
+  <li>B2C (მშობლები). ახლა უფასო private beta; <b>ფასი გამოუცხადებელი</b>. სკოლების/B2B შეთავაზება ვერ მოიძებნა.</li>
+  <li>CEO: <b>Lionel Mora</b> (განმეორებადი დამფუძნებელი, ex-Google). დაფინანსება <span class="tag t-val">self-reported, დაუდასტურებელი</span>: „$25M — True Ventures, Tencent, Heartcore... 50K waitlist" (LinkedIn-ზე, პრესით არ დადასტურდა). გუნდის ზომა უცნობია.</li>
+</ul>
+<h3>რატომ გახსნეს taxonomy ღიად</h3>
+<p>განაცხადებული: „education progress"-ისთვის (მისია + კრედიბილობა + ეკოსისტემა). ლიცენზია <b>ODbL = share-alike</b>: „derivative database" (გრაფის გაუმჯობესება ღია უნდა დარჩეს) გამიჯნულია „produced work"-ისგან (მასზე დახურული პროდუქტი ააშენე). <span class="tag t-hyp">HYPOTHESIS</span>: ღია მონაცემი = იაფი დისტრიბუცია + სტანდარტ-დაწესება („ის" curriculum graph) + კრედიბილობა, ხოლო <b>moat (ადაპტიური აპი + თითო-ბავშვის მონაცემი) დახურული რჩება.</b></p>
+<div class="card win"><h3 style="margin-top:0">თანამშრომლობა / abundance კუთხე NikoLearn-ისთვის</h3>
+<ul>
+  <li><b>პირდაპირი გამოყენება უკვე დადასტურებული შაბლონია:</b> მესამე მხარეები ატრიბუციით აშენებენ (superparents.app, dair.ai „Atlas of Learning"). ქართულ აპს ლეგიტიმურად იგივე შეუძლია.</li>
+  <li><b>ლიცენზია ხელს გვიწყობს:</b> ODbL გვაძლევს დახურული კომერციული პროდუქტის აშენებას; მხოლოდ <i>taxonomy-ს გაუმჯობესებას</i> ვუბრუნებთ + ატრიბუცია („Marble Skill Taxonomy (v1) © Generative Spark, Inc.").</li>
+  <li><b>ყველაზე ღირებული სვლა:</b> 3221-კავშირიანი გრაფი ავიღოთ თანმიმდევრობის/mastery-ს ჩონჩხად, მერე <b>ქართული ეროვნული სასწავლო გეგმის mapping + ქართული თარგმანები დავუბრუნოთ ODbL-derivative-ად</b> — ვავსებთ მათ არა-ანგლოფონურ ხვრელს და ვიღებთ ეკოსისტემურ ხილვადობას (repo-ს ღია issues + wiki აქვს = თანამშრომლობის კარი).</li>
+  <li><b>abundance წაკითხვა:</b> Marble ამტკიცებს „structured graph + adaptive learning" playbook-ს და <b>უფასოდ გვაძლევს ურთულეს ასაშენ აქტივს (გრაფს)</b>, პატარა ლოკალიზებულ გუნდს ~1590 თემის taxonomy-შრომას ამოაცლის და გვაჯიბრებს იქ, სადაც გლობალური გენერაციული აპი ყველაზე სუსტია: ლოკალიზაცია, კულტურა, უსაფრთხო/შემოსაზღვრული კონტენტი.</li>
+</ul></div>
+<div class="card bad"><b>რა <u>არ</u> გავიმეოროთ (მათივე აღიარებული რისკები):</b> სრულად ღია-დაბოლოებული გენერაციული/ხმოვანი მოდელი 6 წლის ბავშვისთვის = ჰალუცინაცია + უსაფრთხოება + compute-cost + რეგულაცია (თავად korabench-ი ამიტომ ააგეს). ავიღოთ <b>სტრუქტურული taxonomy + mastery-graph იდეა</b>, მაგრამ კონტენტი <b>ავტორული და შემოსაზღვრული</b> დავიტოვოთ, არა უსასრულო-გენერაციული. + ძალიან ახალგაზრდა, დამფუძნებელ-კონცენტრირებული, ერთ-ფლაგმანიანი კომპანია = შესრულების/სიცოცხლისუნარიანობის რისკი.</div>
+
+<h2>დახურვა</h2>
+<div class="scroll"><table>
+<tr><th>ბუკეტი</th><th>შინაარსი</th></tr>
+<tr><td class="g">KNOW <span class="tag t-fact">FACT</span></td><td>ღია რეპო = ვალიდირებული data-product (ვერსია+schema+sha256, 0 dep). აპი = graph+embeddings+per-child mastery+generative — <b>ორი დამოუკიდებელი მეთოდით დადასტურდა</b> (excluded-ველი + Marble-ის FAQ/korabench). 51% თემა სტანდარტ-მიბმული კოდით (UK-NC დომინანტი, CCSS, NGSS, IB), ლიცენზია-სუფთად. 100% კავშირი ახსნილი+აწონილი. სუფთა DAG, მაგრამ 1.7% ასაკ-ინვერსია რბილ საგნებში. 5 უნარ-ტიპი. ODbL გვაძლევს დახურული პროდუქტის აშენებას ატრიბუციით.</td></tr>
+<tr><td class="y">ASSUME</td><td>math-ქვე-გრაფი სუფთაა და გამოსაყენებელი (ასაკ-ინვერსია რბილ საგნებშია). ტიპ-მიხედვით item-ფორმატი გააუმჯობესებს სწავლას. ODbL-derivative-ად ქართული mapping-ის დაბრუნება ეკოსისტემურ ხილვადობას მოგვცემს.</td></tr>
+<tr><td>AGREED</td><td>ჯერ არაფერი ახალი: ეს აუდიტია, არა გადაწყვეტილება. (Math-ჯერ backbone გადაწყვეტილება ცალკე დიზაინ-დოკშია, შენს GO-ს ელოდება.)</td></tr>
+<tr><td class="r">VALIDATE <span class="tag t-val">TO VALIDATE</span></td><td>$25M დაფინანსება + ინვესტორები + გუნდის ზომა + პლატფორმა (iOS/Android/web) — დაუდასტურებელი. Marble-ის taxonomy-ს <b>ავტორობა/ვალიდაცია გაუმჟღავნებელია</b> (Stanford/MIT/DeepMind = მარკეტინგი, არა დოკუმენტირებული review). ODbL share-alike-ის ზუსტი საზღვარი ჩვენს კონტენტამდე. რბილ-საგნების ასაკ-ინვერსიები ბაგია თუ ლეგიტიმური გადაფარვა.</td></tr>
+</table></div>
+
+<p class="foot">Niko · 2026-07-13 · წყარო: <code>withmarbleapp/os-taxonomy</code> data/*.json + schema/*.json + manifest + package.json (ჩამოტვირთული, sandbox-ში დამუშავებული, raw bytes კონტექსტში არ შემოსულა). ყველა რიცხვი კოდით დათვლილი. პროდუქტ-ინტელი (§10): withmarble.com/faq · github.com/withmarbleapp · linkedin.com/in/lionelmora (web-კვლევა, ინტეგრირებული).</p>
+
+</div>

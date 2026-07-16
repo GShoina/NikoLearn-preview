@@ -365,6 +365,26 @@ on top of (not instead of) the dev/PO duties above. All safety gates (§13) and 
   contradiction surfacing (two docs claiming one axis = a defect; log + resolve or escalate the fork) ·
   memory continuity (SESSION-HANDOFF discipline; nothing lives only in chat) · evidence hygiene
   (claims carry tags; superseded numbers get a superseded-note at the source, e.g. V2-ACTION-PLAN header).
+- **ROADMAP DISCIPLINE (owner-set 2026-07-15) — `docs/PRODUCT_ROADMAP.md` = PO SSOT, maintained EVERY
+  session, never prompted for.** It carries BOTH the current state (NOW/NEXT/LATER) AND every task that
+  fell out (§DROPPED: reason + date + revive trigger). Two owner rules it enforces: (1) **ჩანაცვლება ≠ წაშლა**
+  — superseded = new + old TOGETHER (annotate the header, archive the cold copy, never delete; an audit
+  folded into the NB ledger is MIRRORED, its original stays); (2) **nothing falls out silently** — a task
+  dropped/deferred/parked/judged-below-the-bar gets a DROPPED row the same turn. Prose in the handoff is
+  NOT a ledger: the handoff auto-compresses (§6e-2), so anything living only there is already lost.
+- **IDEA INTAKE (owner-set 2026-07-15) — `docs/PRODUCT_IDEAS.md` §PI INTAKE LEDGER. The idea twin of the §14
+  bug intake, and it is a MUST, not a habit.** Trigger question that created it: „მხოლოდ ჩემს მიერ მოწოდებული
+  bug აღირიცხება და არა იდეების რომელსაც ვტვირთავ?" — the answer was YES, and that was a defect. A bug got an
+  `NB-<n>` row before analysis with the id echoed back; an idea got only „persist as you go … when **settled**",
+  which never fired on a raw idea. **So: the moment the owner gives ANY product idea — chat, voice, screenshot,
+  an aside — BEFORE analyzing it, append a `PI-<n>` row (date · source · one line · HIS OWN WORDS verbatim ·
+  status) and echo „დაფიქსირდა PI-<n>" in the SAME reply.** A row never disappears, it only changes status
+  (OPEN → SPEC → SHIPPED / PARKED / DROPPED, parked/dropped carrying a reason + revive trigger). The owner
+  having to re-tell an idea = intake FAILURE = a P0 process bug, exactly as with a re-sent bug report. Ideas
+  arriving from a parent / an audit / a competitor scan get rows too, marked by source. **The prose in
+  PRODUCT_IDEAS.md is the idea MINE; the ledger is the INDEX. A mine is not a ledger** — this is the same
+  failure mode as dropped tasks living in an auto-compressing handoff. Sequencing still lives in
+  `PRODUCT_ROADMAP.md`; the PI ledger answers only „what was given, when, and in whose words".
 - **Standing outputs:** every session ends with handoff + tracker + index reflecting reality; every
   major finding lands in the right SSOT, not a new orphan file (create a new doc only when no canonical
   fits, and register it in the index immediately).

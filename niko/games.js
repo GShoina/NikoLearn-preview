@@ -463,7 +463,10 @@ function matchRound(){
   game.pairs=pool;game.done=0;game.sel=null;
   const ka=shuffle(pool.map(w=>({t:w.ka,l:'ka',w:w.en})));
   const en=shuffle(pool.map(w=>({t:w.en,l:'en',w:w.en})));
-  const col=arr=>arr.map(c=>`<div class="mtile ${c.l==='en'?'en':''}" data-w="${c.w}" data-l="${c.l}" onclick="matchTap(this)">${c.t}</div>`).join('');
+  // Unlike the tap-to-hear prompts elsewhere, a match tile has NO button inside it — the tile IS the only
+  // way to play. Without kt() the whole matching game was mouse-only (NB-54). The language goes in the label
+  // because colour is what tells a sighted child which column a tile belongs to.
+  const col=arr=>arr.map(c=>`<div class="mtile ${c.l==='en'?'en':''}" data-w="${c.w}" data-l="${c.l}" ${kt("matchTap(this)",`${c.t}, ${c.l==='en'?'ინგლისური':'ქართული'}`)}>${c.t}</div>`).join('');
   gameShell(`<div class="match-cols">
     <div class="match-col" data-noi18n><div class="match-head">🇬🇪 ქართული</div>${col(ka)}</div>
     <div class="match-col"><div class="match-head en">🇬🇧 ინგლისური</div>${col(en)}</div>

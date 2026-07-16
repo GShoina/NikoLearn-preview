@@ -21,6 +21,10 @@ concurrency:
 
 jobs:
   deploy:
+    # HARD GUARD (PI-87). This file also exists in the NikoLearn-preview repo, because preview is a
+    # branch mirror of this one. Without the guard, a push to preview/main would run the PRODUCTION
+    # build there — copying CNAME and claiming nikolearn.com from a preview build.
+    if: github.repository == 'GShoina/NikoLearn'
     runs-on: ubuntu-latest
     environment:
       name: github-pages

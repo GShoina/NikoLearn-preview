@@ -1,4 +1,12 @@
 User-agent: *
 Allow: /
+Disallow: /share/
 
-# Internal/owner files are kept off the published site via _config.yml (Jekyll exclude).
+# What actually keeps internal/owner files off the published site: the explicit ALLOWLIST in
+# .github/workflows/deploy-pages.yml (NB-24). It copies only the named files/dirs into _site.
+# NOT _config.yml — that Jekyll exclude list never executes, because this workflow uploads a
+# pre-assembled _site artifact and Jekyll is never invoked (NB-52).
+#
+# /share/ IS on that allowlist by design (owner's private mobile link for strategy docs,
+# commit b34da67). The Disallow above stops honest crawlers from fetching it; the 48-bit
+# random path is what keeps it unlisted. noindex alone only stops indexing, not fetching.

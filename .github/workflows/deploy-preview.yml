@@ -1,0 +1,148 @@
+name: Deploy PREVIEW site
+
+# The owner's test bench (PI-87). He asked to stop being sent statistics and be given the running
+# app on a URL he can open on his phone, test, and only then approve a merge to production.
+#
+# The preview site is a SECOND repo (GShoina/NikoLearn-preview) published at
+#   https://gshoina.github.io/NikoLearn-preview/
+# We push a working branch to its `main`, this workflow builds it, and the owner gets a real,
+# tappable build of exactly the code that is waiting to be merged.
+#
+# WHY THIS FILE EXISTS AT ALL: the preview repo was on GitHub's legacy "deploy from a branch"
+# build, which times out syncing our 1400+ audio clips file-by-file. That is the same failure
+# deploy-pages.yml was rewritten to fix for production on 2026-07-02. Production got the fix;
+# preview did not, so preview has been dead (Pages status `errored`) ever since, and the §7b
+# screenshot channel was used as a workaround instead. This makes preview an artifact deploy too.
+#
+# It lives in the MAIN repo so there is ONE source of truth for how the site is assembled. Both
+# repos therefore carry both workflow files, and each is guarded by `github.repository` so it can
+# only ever fire in the repo it belongs to.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-preview
+  cancel-in-progress: true   # unlike production: a superseded preview is worthless, never wait for it
+
+jobs:
+  deploy:
+    # HARD GUARD. Without this, pushing this file to production would publish a CNAME-less,
+    # noindex'd build over nikolearn.com.
+    if: github.repository == 'GShoina/NikoLearn-preview'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Assemble preview site (production allowlist, minus the two things that must never ship here)
+        run: |
+          # Same ALLOWLIST as deploy-pages.yml (NB-24) so preview tests what production would serve.
+          # Kept deliberately in sync by hand: if a file is added to the published site, add it in
+          # BOTH files, or the owner tests a build that differs from the one he approves.
+          mkdir -p _site
+          for f in \
+            index.html landing.html privacy.html \
+            changes.html validate.html \
+            sw.js manifest.json \
+            robots.txt \
+            favicon.svg favicon-32.png favicon-180.png apple-touch-180.png \
+            icon-192.png icon-512.png icon-maskable-512.png \
+            og-image.png og-image.svg owl-logo.png; do
+            cp "$f" _site/
+          done
+          for d in niko assets movement share; do
+            cp -r "$d" _site/
+          done
+
+          # (1) NO CNAME. Production's allowlist copies it; ours must not. A CNAME file here would
+          #     make this repo claim nikolearn.com and fight production for the domain.
+          test ! -f _site/CNAME || { echo "FATAL: CNAME reached the preview build"; exit 1; }
+
+          # (2) NOINDEX. The preview repo is public, so without this Google can index a second,
+          #     stale copy of a children's app and outrank the real one. robots.txt stops honest
+          #     crawlers from fetching; the meta tag is what actually prevents indexing.
+          printf 'User-agent: *\nDisallow: /\n' > _site/robots.txt
+          for h in _site/index.html _site/landing.html _site/privacy.html _site/changes.html _site/validate.html; do
+            sed -i 's|<head>|<head>\n<meta name="robots" content="noindex,nofollow">|' "$h"
+          done
+
+          # (3) BUILD IDENTITY. Three separate ways this build was indistinguishable from production
+          #     — one class: the owner cannot confirm what he is holding, so his confirmation is
+          #     worthless and the whole bench (PI-87) is theatre. Each stamp is asserted, because a
+          #     sed that silently matches nothing would restore the exact lie it was added to kill.
+          SHA="$(git rev-parse --short HEAD)"
+
+          #     (a) The footer version is the OWNER'S deploy-landed signal (he reads it to confirm a
+          #         deploy landed). Branch work does not bump the version, so an unstamped preview
+          #         shows the same v1.365 as nikolearn.com: the one bench built for him to confirm a
+          #         change could not tell him WHICH build he was testing.
+          sed -i "s|APP_VERSION='\([0-9.]*\)'|APP_VERSION='\1-preview-${SHA}'|" _site/niko/screens.js
+          grep -q "APP_VERSION='[0-9.]*-preview-${SHA}'" _site/niko/screens.js \
+            || { echo "FATAL: APP_VERSION stamp did not apply — preview would be indistinguishable from live"; exit 1; }
+          sed -i "s|\(title=\"owner\">v[0-9.]*\)|\1-preview-${SHA}|" _site/landing.html
+
+          #     (b) The service worker is cache-first and keyed on the version. With the version
+          #         unchanged across branch pushes, a SECOND preview build would be served from the
+          #         FIRST one's cache: he would test old code while we told him it was new. Keying
+          #         the cache on the commit makes a stale preview structurally impossible.
+          sed -i "s|nikolearn-\([0-9.]*\)|nikolearn-preview-\1-${SHA}|" _site/sw.js
+          grep -q "nikolearn-preview-[0-9.]*-${SHA}" _site/sw.js \
+            || { echo "FATAL: sw cache-name stamp did not apply — a stale preview could be served from cache"; exit 1; }
+
+          #     (c) BACKENDS. The build talks to the PRODUCTION Worker, so merely TESTING the preview
+          #         would write to production. Two callers, both real:
+          #           niko/analytics.js  → /v1/t         every tap moves the real numbers and burns
+          #                                              the KV daily write budget the batching guards.
+          #           niko/parent.js     → /v1/feedback  writes `fb|` rows carrying PARENT CONTACT
+          #                                              DATA — the same rows NB-27 flags as having no
+          #                                              TTL and no deletion route. Test data would be
+          #                                              indistinguishable from a real parent's message.
+          #         Rewrite the HOST, not the paths: a per-path sed only neutralizes the callers we
+          #         happened to remember, and /v1/feedback is the one we forgot. Whatever the app adds
+          #         next is covered for free, and the assert below is what proves it.
+          #         Failure is safe by design: analytics is no-cors inside try/catch (a 404 is silent),
+          #         feedback catches !ok and re-queues on-device (parent.js:138) — nothing crashes.
+          grep -rlZ 'nikolearn-t\.bivision\.workers\.dev' _site/ \
+            | xargs -0 -r sed -i 's|https://nikolearn-t\.bivision\.workers\.dev|https://gshoina.github.io/NikoLearn-preview/__backend-disabled|g'
+          if grep -rq 'nikolearn-t\.bivision\.workers\.dev' _site/; then
+            echo "FATAL: a production backend URL survived in the preview build"; exit 1
+          fi
+
+          # Subpath safety: the preview is served from /NikoLearn-preview/, not from a domain root.
+          # Verified 2026-07-15 that every asset reference is relative ('niko/...', './niko/...'),
+          # so no <base> rewrite is needed. This asserts it stays that way instead of trusting it:
+          # an absolute '/niko/...' would silently 404 on preview and the owner would test a
+          # blank page while we told him the build was green.
+          if grep -rnE '(src|href)="/(niko|assets|movement)/' _site/*.html; then
+            echo "FATAL: absolute asset path found — it cannot resolve under /NikoLearn-preview/"; exit 1
+          fi
+
+          echo "Preview file count: $(find _site -type f | wc -l)"
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          timeout: 600000
+
+      - name: Preview URL
+        run: echo "PREVIEW → ${{ steps.deployment.outputs.page_url }}"

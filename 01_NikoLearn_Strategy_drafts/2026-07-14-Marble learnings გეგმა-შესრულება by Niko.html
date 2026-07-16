@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="ka">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marble learnings → NikoLearn: გეგმა და პირველი შესრულება</title>
+<style>
+  :root{
+    --bg:#f6f7fb; --card:#fff; --ink:#1a1c22; --mut:#5a6072; --line:#e3e6ef;
+    --pri:#3b6ef5; --pri-d:#2450d8; --good:#1f9d6b; --warn:#d98a1f; --bad:#e0533f;
+    --chip:#eef2fe;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{--bg:#0f1117;--card:#171a23;--ink:#e8eaf0;--mut:#9aa2b8;--line:#252a37;
+      --pri:#6f9bff;--pri-d:#8fb0ff;--good:#3ecb93;--warn:#e6a94a;--bad:#f2745f;--chip:#1c2437;}
+  }
+  :root[data-theme="dark"]{--bg:#0f1117;--card:#171a23;--ink:#e8eaf0;--mut:#9aa2b8;--line:#252a37;
+      --pri:#6f9bff;--pri-d:#8fb0ff;--good:#3ecb93;--warn:#e6a94a;--bad:#f2745f;--chip:#1c2437;}
+  :root[data-theme="light"]{--bg:#f6f7fb;--card:#fff;--ink:#1a1c22;--mut:#5a6072;--line:#e3e6ef;
+      --pri:#3b6ef5;--pri-d:#2450d8;--good:#1f9d6b;--warn:#d98a1f;--bad:#e0533f;--chip:#eef2fe;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.6 -apple-system,"Segoe UI",Roboto,"Noto Sans Georgian",sans-serif;
+    -webkit-text-size-adjust:100%}
+  .wrap{max-width:860px;margin:0 auto;padding:22px 16px 80px}
+  h1{font-size:1.5rem;line-height:1.25;margin:.2em 0 .1em}
+  h2{font-size:1.18rem;margin:1.8em 0 .5em;padding-top:.5em;border-top:1px solid var(--line)}
+  h3{font-size:1.02rem;margin:1.2em 0 .3em;color:var(--pri-d)}
+  p{margin:.5em 0}
+  .sub{color:var(--mut);font-size:.9rem}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0}
+  .verdict{border-left:4px solid var(--pri)}
+  .k{display:inline-block;background:var(--chip);border-radius:999px;padding:2px 10px;font-size:.8rem;color:var(--pri-d);margin:2px 4px 2px 0;white-space:nowrap}
+  .tag{font-size:.72rem;font-weight:700;padding:1px 7px;border-radius:6px;vertical-align:middle}
+  .t-fact{background:rgba(31,157,107,.15);color:var(--good)}
+  .t-hyp{background:rgba(217,138,31,.15);color:var(--warn)}
+  .t-val{background:rgba(224,83,63,.13);color:var(--bad)}
+  table{width:100%;border-collapse:collapse;font-size:.9rem;margin:.4em 0}
+  .scroll{overflow-x:auto}
+  th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--mut);font-weight:600;font-size:.82rem}
+  .have{color:var(--good);font-weight:700}.part{color:var(--warn);font-weight:700}.gap{color:var(--bad);font-weight:700}
+  ul,ol{margin:.4em 0 .4em 0;padding-left:1.25em}
+  li{margin:.3em 0}
+  .big{font-size:1.05rem}
+  .ins{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-bottom:1px dashed var(--line)}
+  .ins:last-child{border-bottom:0}
+  .ins .n{flex:0 0 auto;width:30px;height:30px;border-radius:50%;background:var(--pri);color:#fff;
+    font-weight:700;display:flex;align-items:center;justify-content:center;font-size:.95rem}
+  .ins .b{flex:1 1 auto}
+  .axis{display:flex;gap:10px;flex-wrap:wrap;margin:.5em 0}
+  .axis .col{flex:1 1 220px;background:var(--chip);border-radius:10px;padding:10px 12px}
+  .axis b{color:var(--pri-d)}
+  .kill{border-left:3px solid var(--bad);padding-left:12px;margin:.9em 0}
+  .kill .fix{color:var(--good)}
+  .rec{border-left:4px solid var(--good)}
+  .step{border-left:4px solid var(--warn)}
+  .mono{font-family:ui-monospace,"Cascadia Code",Consolas,monospace;font-size:.84rem}
+  .rung{display:flex;gap:8px;align-items:baseline;padding:3px 0;border-bottom:1px dashed var(--line)}
+  .rung .d{color:var(--mut);font-size:.75rem;min-width:74px}
+  .foot{color:var(--mut);font-size:.82rem;margin-top:2em;border-top:1px solid var(--line);padding-top:1em}
+  code{background:var(--chip);padding:1px 5px;border-radius:5px;font-size:.85em}
+  .legend{font-size:.8rem;color:var(--mut);margin:.3em 0 0}
+  .done{color:var(--good);font-weight:700}.next{color:var(--warn);font-weight:700}.defer{color:var(--mut);font-weight:700}
+  pre{background:var(--chip);border-radius:10px;padding:12px 14px;overflow-x:auto;font-size:.82rem;line-height:1.45;margin:.6em 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Marble learnings → NikoLearn: გეგმა და პირველი შესრულება</h1>
+<p class="sub">2026-07-14 · Niko · პასუხი შენს 4 კითხვაზე, გადაწყვეტილება-პირველ ფორმატში (REPORT_STANDARD)</p>
+<p class="legend">ტეგები: <span class="tag t-fact">FACT</span> დადასტურებული ·
+<span class="tag t-hyp">HYPOTHESIS</span> სამუშაო ვარაუდი ·
+<span class="tag t-val">TO VALIDATE</span> დასადასტურებელი ·
+სტატუსი: <span class="done">DONE</span> ახლა შესრულდა · <span class="next">NEXT</span> რიგში · <span class="defer">DEFER</span> გადავდე (ძრავის ცვლილება)</p>
+
+<div class="card verdict">
+<p class="big"><b>ვერდიქტი.</b> შენი მთავარი კითხვა იყო: „თითო learning-ს კონკრეტული გადაჭრა ხომ აქვს გეგმაში, არა მხოლოდ მსჯელობა?" პასუხი: <b>დიახ, და ერთი მათგანი უკვე შესრულებულია ამ სესიაში.</b></p>
+<p>ჩემი ობიექტური მსჯელობით (შენი Q4) ყველაზე ღირებული, ყველაზე სანდო და სრულად შექცევადი ნაბიჯი იყო ერთი: <b>კონტენტი გადავიყვანე კოდიდან ვერსიონირებულ, სქემით ვალიდირებულ მონაცემებში</b>. ავაშენე პირველი რეალური მაგალითი (წილადების კიბე), სქემა და ვალიდატორი. ეს ერთი ნაბიჯი ცოცხლად ამტკიცებს 6 learning-ს (#1, #2, #4, #5, #6, #7). ცოცხალ კოდს არ შეხებია, გადაწყვეტილების ფორკს არ საჭიროებს.</p>
+<p class="sub">ფაილები: <code>content/graph/math-fractions.v0.json</code> · <code>skill-graph.schema.json</code> · <code>validate.mjs</code> · <code>README.md</code></p>
+</div>
+
+<h2>1. რა შევასრულე ახლა (და როგორ ვამტკიცებ)</h2>
+<p>„კონტენტი data-ში, არა კოდში". შენ ეს კითხე როგორ გადავწყვიტე. მე ეს არ მითქვამს, არამედ <b>გავაკეთე</b>. აი მტკიცებულება, რეალურად გაშვებული ვალიდატორის ლოგი:</p>
+<pre>=== math-fractions.v0.json ===
+nodes: 11  edges: 11  roots: [equal-parts]  leaves: [...6...]
+standard-mapped: 0%  (unmapped = გულწრფელი TO-VALIDATE backlog, არა შეცდომა)
+RESULT: PASS
+
+=== SELFTEST (ვალიდატორმა უნდა დაიჭიროს ხელოვნურად შეტანილი დეფექტები) ===
+  caught  cycle · unknown "to" node · bad skill_type · item_format
+  caught  reason_ka missing · duplicate edge · bad strength
+SELFTEST: PASS (ვალიდატორი მართლა არჩევს კარგსა და ცუდს)</pre>
+<p>ეს <span class="tag t-fact">FACT</span> ორ რამეს ამტკიცებს: (1) წილადების კონტენტი სუფთაა (11 კვანძი, ერთი ფესვი, უციკლო გრაფი); (2) ვალიდატორი ნამდვილად აღმოაჩენს ხარვეზს (7-დან 7 ხელოვნური შეცდომა დაიჭირა). ე.ი. ხარისხი ავტომატურად მოწმდება, თვალით არა.</p>
+<p class="sub"><b>ბონუსი:</b> ჩვენი ვალიდატორი Marble-ისაზე მეტს ამოწმებს. მათი <code>validate.mjs</code> უციკლობას არ იცავს ექსპორტებს შორის; ჩვენი იცავს (Kahn topo-sort). ეს ჩვენი data-ს უპირატესობაა, არა ნაკლი.</p>
+
+<h2>2. თითო learning → კონკრეტული გადაჭრა (შენი Q1 + Q2 ერთად)</h2>
+<p>შენი 7 რანჟირებული learning და Q1-ის ქვე-კითხვები ერთსა და იმავე ცხრილში, თითოზე რეალური გადაწყვეტა და სტატუსი:</p>
+<div class="scroll">
+<table>
+<tr><th>Learning</th><th>კონკრეტული გადაჭრა NikoLearn-ში</th><th>სად</th><th>სტატუსი</th></tr>
+<tr>
+  <td><b>#1 ახსნილი კავშირები</b> (reason+strength)</td>
+  <td>თითო წინაპირობის წიბოს ვამაგრებ <code>reason_ka</code>-ს + <code>strength</code>-ს. ვალიდატორი მოითხოვს. ესაა scaffolding-ის საფუძველი: ზუსტად ის ტექსტი, ჩავარდნისას ბავშვს რომ უნდა ვუთხრათ.</td>
+  <td>math-fractions.v0.json (11/11 წიბო)</td>
+  <td><span class="done">DONE</span> data · <span class="next">NEXT</span> tutor.js-ში ჩართვა</td>
+</tr>
+<tr>
+  <td><b>#4 data-პროდუქტის დისციპლინა</b> (version + Schema + provenance)</td>
+  <td><code>schema_version</code> + <code>version</code> + <code>provenance{author,created,license,source}</code> + JSON Schema ფაილი + 0-დამოკიდებულებიანი ვალიდატორი. სქემა-ვალიდაცია ავტომატურია.</td>
+  <td>content/graph/ (4 ფაილი)</td>
+  <td><span class="done">DONE</span></td>
+</tr>
+<tr>
+  <td><b>#5/#6 ტიპ-მიხედვით item-ფორმატი</b> (ცნება→ახსნა, პროცედურა→ვარჯიში, მეტა→რეფლექსია)</td>
+  <td>თითო კვანძს აქვს <code>skill_type</code> → <code>item_format</code>. ვალიდატორი ამოწმებს შესაბამისობას. ესაა გასვლა „ყველაფერი ქვიზია"-დან.</td>
+  <td>11 კვანძი (CONCEPTUAL/PROCEDURAL/META/REPRESENTATIONAL)</td>
+  <td><span class="done">DONE</span> data · <span class="next">NEXT</span> render</td>
+</tr>
+<tr>
+  <td><b>#7 beyond-standard</b> (49%)</td>
+  <td>ცალკე ველი <code>standard.status: "beyond_standard"</code>: ცხადი ნებართვა, ორიგინალი კონტენტი შევქმნა იქ, სადაც ქართული გეგმა ჩუმია (რეფლექსიის კვანძი უკვე ასეთია).</td>
+  <td>schema + reflect კვანძი</td>
+  <td><span class="done">DONE</span> მექანიზმი</td>
+</tr>
+<tr>
+  <td><b>#2 კოდით-მიბმა სტანდარტთან</b> (§4, ლიცენზიის მოთხოვნებთან შესაბამისობა)</td>
+  <td>სქემას აქვს <code>standard{status,code}</code>. კონტენტი ჯერ გულწრფელად მიუბმელია (<code>unmapped</code>): ქართული ეროვნული სასწ. გეგმის კოდებს <b>არ ვიგონებ</b>. ცალკე ავტორული ეტაპი მიაბამს რეალურ კოდებს → <code>mapped</code>, ვალიდატორი დათვლის დაფარვის %-ს.</td>
+  <td>schema (მექანიზმი მზადაა)</td>
+  <td><span class="next">NEXT</span> <span class="tag t-val">TO VALIDATE</span> (სჭირდება რეალური გეგმის დოკუმენტი)</td>
+</tr>
+<tr>
+  <td><b>#3 ალბათური mastery-belief</b> (accuracy/streak/Leitner-ის შემდეგი საფეხური)</td>
+  <td>დღეს ძრავა ზღურბლურია (სიზუსტე≥0.8 + streak + Leitner). შემდეგი საფეხური = თითო უნარზე ალბათური შეფასება <code>plPick/plNext</code>-ში. <b>ეს ცოცხალ სასწავლო ლოგიკას ეხება, ამიტომ რისკიანია.</b></td>
+  <td>niko/placement.js (მომავალი)</td>
+  <td><span class="defer">DEFER</span>: ჯერ data-ფენა და backbone დამტკიცდეს <span class="tag t-hyp">HYPOTHESIS</span></td>
+</tr>
+</table>
+</div>
+<p class="sub">Q1-ის მე-4 ქვე-კითხვა („item-დიზაინის რუკა") = learning #5/#6, უკვე DONE data-ში. Q1-ის მე-2 („ძრავის რუკა ალბათურისკენ") = learning #3, შეგნებულად DEFER.</p>
+
+<h2>3. სანამ ღრმა ანალიზში შემიყვანდი, რა დავიტოვე და ვაკეთებ (შენი Q3)</h2>
+<p>მნიშვნელოვანია: ამ Marble-ის ღრმა ანალიზმა ჩემი <b>პირველადი</b> რეკომენდაცია არ გადააფარა. ის მხოლოდ <b>დაადასტურა</b>. პირველადი რეკომენდაცია იყო:</p>
+<div class="axis">
+  <div class="col"><b>დაიწყე პატარით</b><br>Fractions ladder ჯერ, არა მთელი გრაფი.<br><span class="done">→ ეს დღეს შესრულდა (v0)</span></div>
+  <div class="col"><b>Math-first</b><br>მხოლოდ მათემატიკა გადადის სუფთად (მათი English = L1, არა EFL).<br><span class="done">→ დაცული</span></div>
+  <div class="col"><b>design-time backbone ჯერ</b><br>რუკა ჯერ ავტორობის ხელსაწყოა, არა ცოცხალი როუტერი.<br><span class="done">→ დაცული</span></div>
+  <div class="col"><b>ქართული ხელით</b> + <b>runtime routing გადადე</b><br>ცოცხალი გრაფ-როუტინგი ჯერ არა.<br><span class="defer">→ DEFER, განზრახ</span></div>
+</div>
+<p>ე.ი. Q3-ის პასუხი: არაფერი დამიკარგავს. პირველადი გეგმა („პატარით დაიწყე, წილადები, design-time, ძრავა გადადე") <b>უცვლელია</b>, და ეს სესია მისი პირველი რეალური ნაბიჯია. მეორე პირველადი პუნქტი, <b>ქართული კითხვის კიბე</b> (ჩვენი უდიდესი კონტენტ-ხარვეზი), რიგშია იმავე data-ფენაზე <span class="next">NEXT</span>.</p>
+
+<h2>4. რას ვურჩევ ახლა (შენი Q4: ჩემი გადაწყვეტილება)</h2>
+<div class="card rec">
+<p><b>გადავწყვიტე და შევასრულე:</b> data-ფენის v0 (წილადები). ესაა ის ერთი ნაბიჯი, რომელშიც სრულად დარწმუნებული ვარ რომ ღირებულია და რისკის გარეშეა.</p>
+<p><b>შემდეგი ორი ნაბიჯი (ვიწყებ ავტონომიურად, GO არ სჭირდება: შექცევადი, ცოცხალს არ ეხება):</b></p>
+</div>
+<div class="card step">
+<p><b>NEXT-1.</b> ქართული კითხვის კიბის (reading-ladder) იგივე data-ფენა v0: ჩვენი უდიდესი კონტენტ-ხარვეზი. იგივე სქემა, ორიგინალი ქართული კვანძები, ვალიდაცია.</p>
+<p><b>NEXT-2.</b> item-ავტორობის მოკლე ჩეკლისტი (learning #6): „აბსტრაქტული სტანდარტი → დაკვირვებადი ქცევა": როგორ დავწეროთ თითო კვანძის სამიზნე. ერთი გვერდი, ვალიდაცია-მზა.</p>
+</div>
+<div class="card kill">
+<p><b>რას არ ვაკეთებ ახლა (და რატომ):</b> ალბათური mastery-ძრავა (#3) და ცოცხალი გრაფ-როუტინგი. <span class="fix">ესენი ცოცხალ სასწავლო ლოგიკას ცვლის. ჯერ backbone უნდა დაიმტკიცოს, თორემ რისკი აჭარბებს სარგებელს.</span> ეს შენი სტრატეგიული GO-ს საკითხია, არა ტექნიკური.</p>
+</div>
+
+<h2>5. შენი კითხვების გამართული ვერსია (ეს ხომ ითხოვე)</h2>
+<p>მომავალში ამ ტიპის დავალება ასე რომ ჩამოაყალიბო, პასუხი უფრო მიზანში მოხვდება:</p>
+<ol>
+<li><b>„თითო learning-ზე მაჩვენე კონკრეტული გადაჭრა როდმეპში (გეგმა + სტატუსი), არა ზოგადი მსჯელობა."</b></li>
+<li><b>„დამირანჟირე learning-ები ღირებულებით და თითოზე თქვი DONE / NEXT / DEFER + სად."</b></li>
+<li><b>„სანამ ღრმა ანალიზში შეხვიდოდი, პირველადი რეკომენდაციებიდან რა დაიტოვე და აკეთებ ახლა?"</b></li>
+<li><b>„რაშიც დარწმუნებული ხარ რომ ღირებულს მოიტანს, გადაწყვიტე შენ და შეასრულე (plan → do → execute)."</b></li>
+</ol>
+<p class="sub">ოთხივე ერთ პრინციპზე დგას: <b>გადაწყვეტილება და შესრულება, არა მსჯელობა</b>. სწორედ ამ ფორმატში გიპასუხე.</p>
+
+<div class="foot">
+<p><b>KNOW:</b> data-ფენა მუშაობს (PASS + SELFTEST PASS) · პირველადი გეგმა უცვლელი და ნაწილობრივ შესრულებული.<br>
+<b>ASSUME <span class="tag t-hyp">HYPOTHESIS</span>:</b> ალბათური ძრავა ღირს, მაგრამ backbone-ის შემდეგ.<br>
+<b>TO VALIDATE <span class="tag t-val">TO VALIDATE</span>:</b> ქართული ეროვნული გეგმის რეალური კოდები (მიბმისთვის) · ცოცხალი როუტინგის ღირებულება.<br>
+<b>შენი გადაწყვეტა სჭირდება მხოლოდ:</b> #3 ალბათური ძრავა და ცოცხალი graph-routing: ესენი სტრატეგიული/რისკის ფორკია. დანარჩენს ავტონომიურად ვაგრძელებ.</p>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marble გრაფის ინტეგრაცია — დიზაინ-გააზრება და გეგმა</title>
+<style>
+  :root{
+    --bg:#f6f7fb; --card:#fff; --ink:#1a1c22; --mut:#5a6072; --line:#e3e6ef;
+    --pri:#3b6ef5; --pri-d:#2450d8; --good:#1f9d6b; --warn:#d98a1f; --bad:#e0533f;
+    --chip:#eef2fe;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{--bg:#0f1117;--card:#171a23;--ink:#e8eaf0;--mut:#9aa2b8;--line:#252a37;
+      --pri:#6f9bff;--pri-d:#8fb0ff;--good:#3ecb93;--warn:#e6a94a;--bad:#f2745f;--chip:#1c2437;}
+  }
+  :root[data-theme="dark"]{--bg:#0f1117;--card:#171a23;--ink:#e8eaf0;--mut:#9aa2b8;--line:#252a37;
+      --pri:#6f9bff;--pri-d:#8fb0ff;--good:#3ecb93;--warn:#e6a94a;--bad:#f2745f;--chip:#1c2437;}
+  :root[data-theme="light"]{--bg:#f6f7fb;--card:#fff;--ink:#1a1c22;--mut:#5a6072;--line:#e3e6ef;
+      --pri:#3b6ef5;--pri-d:#2450d8;--good:#1f9d6b;--warn:#d98a1f;--bad:#e0533f;--chip:#eef2fe;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.6 -apple-system,"Segoe UI",Roboto,"Noto Sans Georgian",sans-serif;
+    -webkit-text-size-adjust:100%}
+  .wrap{max-width:860px;margin:0 auto;padding:22px 16px 80px}
+  h1{font-size:1.5rem;line-height:1.25;margin:.2em 0 .1em}
+  h2{font-size:1.18rem;margin:1.8em 0 .5em;padding-top:.5em;border-top:1px solid var(--line)}
+  h3{font-size:1.02rem;margin:1.2em 0 .3em;color:var(--pri-d)}
+  p{margin:.5em 0}
+  .sub{color:var(--mut);font-size:.9rem}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0}
+  .verdict{border-left:4px solid var(--pri)}
+  .k{display:inline-block;background:var(--chip);border-radius:999px;padding:2px 10px;font-size:.8rem;color:var(--pri-d);margin:2px 4px 2px 0;white-space:nowrap}
+  .tag{font-size:.72rem;font-weight:700;padding:1px 7px;border-radius:6px;vertical-align:middle}
+  .t-fact{background:rgba(31,157,107,.15);color:var(--good)}
+  .t-hyp{background:rgba(217,138,31,.15);color:var(--warn)}
+  .t-val{background:rgba(224,83,63,.13);color:var(--bad)}
+  table{width:100%;border-collapse:collapse;font-size:.9rem;margin:.4em 0}
+  .scroll{overflow-x:auto}
+  th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--mut);font-weight:600;font-size:.82rem}
+  .have{color:var(--good);font-weight:700}.part{color:var(--warn);font-weight:700}.gap{color:var(--bad);font-weight:700}
+  ul,ol{margin:.4em 0 .4em 0;padding-left:1.25em}
+  li{margin:.3em 0}
+  .big{font-size:1.05rem}
+  .axis{display:flex;gap:10px;flex-wrap:wrap;margin:.5em 0}
+  .axis .col{flex:1 1 220px;background:var(--chip);border-radius:10px;padding:10px 12px}
+  .axis b{color:var(--pri-d)}
+  .kill{border-left:3px solid var(--bad);padding-left:12px;margin:.9em 0}
+  .kill .fix{color:var(--good)}
+  .rec{border-left:4px solid var(--good)}
+  .mono{font-family:ui-monospace,"Cascadia Code",Consolas,monospace;font-size:.84rem}
+  .rung{display:flex;gap:8px;align-items:baseline;padding:3px 0;border-bottom:1px dashed var(--line)}
+  .rung .d{color:var(--mut);font-size:.75rem;min-width:74px}
+  .foot{color:var(--mut);font-size:.82rem;margin-top:2em;border-top:1px solid var(--line);padding-top:1em}
+  code{background:var(--chip);padding:1px 5px;border-radius:5px;font-size:.85em}
+</style>
+
+<div class="wrap">
+
+<h1>Marble გრაფის ინტეგრაცია NikoLearn-ში</h1>
+<p class="sub">დიზაინ-გააზრება · first-principles დაშლა · red team · გეგმა · 2026-07-13 · Niko</p>
+
+<div class="card verdict">
+  <p class="big" style="margin-top:0"><b>მთავარი შესწორება:</b> „დიდი სვლა vs პატარა" არასწორი კითხვა იყო. სამი დამოუკიდებელი ღერძი ერთ „ზომის" ღერძად ჩავკეცე. ნამდვილი აღმოჩენა კი ეს არის: <b>NikoLearn-ს უკვე აქვს ადაპტიური ძრავა</b> (დიაგნოსტიკა, mastery-გაზომვა, spaced-repetition, დონეები). რაც აკლია — <b>რუკაა, რომელზეც ეს ძრავა უნდა იმუშაოს.</b> Marble ზუსტად ეს რუკაა. ესე იგი საკითხი არ არის „ავაშენოთ თუ არა ადაპტიურობა" (უკვე გვაქვს): საკითხია მხოლოდ <b>რა მონაცემით ვკვებავთ არსებულ ძრავას.</b></p>
+  <p class="sub" style="margin-bottom:0">ნდობა: სტრუქტურული დიაგნოზი <b>~92%</b> (კოდზე + მონაცემზე დაფუძნებული) · სტრატეგიული რეკომენდაცია <b>~80%</b> · კონკურენტული უპირატესობის სიმტკიცე <b>~60%</b> (ბაზრით არ არის ვალიდირებული — ყველაზე სუსტი რგოლი).</p>
+</div>
+
+<h2>0 · რატომ იყო ჩემი პერსპექტივა არასწორი</h2>
+<p>„მთელ გრაფზე ავაწყოთ (დიდი) თუ მხოლოდ ხვრელების ასავსებად (პატარა)" — ეს ერთი ღერძია: <i>ძალისხმევის ზომა</i>. მაგრამ გადაწყვეტილება სამ დამოუკიდებელ ღერძზე დგას, და ესენი ერთმანეთს არ უდრიან:</p>
+<div class="axis">
+  <div class="col"><b>ROLE</b> — გრაფი <i>ძრავაა</i>, <i>მონაცემია</i>, თუ <i>საავტორო საცნობარია</i>? (runtime engine vs data-feed vs design-time reference)</div>
+  <div class="col"><b>SUBSET</b> — რომელ საგანზე? (მათემატიკა ვარგისია, ქართული წიგნიერება — არა)</div>
+  <div class="col"><b>TIMELINE</b> — ახლა თუ მოგვიანებით? (design-time ახლა vs runtime routing მერე)</div>
+</div>
+<p>„ზომის" ღერძმა სამივე ეს არჩევანი დამალა. და კიდევ ერთი მცდარი წანამძღვარი მქონდა: თითქოს „ადაპტიურობას ნულიდან ვაშენებთ". <b>არა — ძრავა უკვე დგას</b> (იხ. §1). ამიტომ სწორი კითხვა პატარაცაა და დიდიც არაა: <b>„არსებულ ძრავას ჩავანაცვლოთ სათამაშო რუკა ნამდვილი რუკით."</b></p>
+
+<h2>1 · First principles — რა არის NikoLearn (ატომებად)</h2>
+<p>წავიკითხე რეალური კოდი (<code class="mono">niko/placement.js</code>, <code class="mono">games.js</code>). ფაქტები <span class="tag t-fact">FACT</span> კოდიდან:</p>
+<ul>
+  <li><b>ძრავა არსებობს და კარგია.</b> საგნობრივი დიაგნოსტიკა <i>ნამდვილად ადაპტიურია</i> (სწორ პასუხზე სირთულე იწევს, არასწორზე ეცემა, guessing-correction option-count-aware). Mastery რეალური მონაცემით იზომება: სიზუსტე ≥0.8, streak≥3, Leitner box (spaced repetition). დონეები დიაგნოსტიკიდან ითესება.</li>
+  <li><b>რუკა კი სათამაშოა.</b> <code class="mono">PATHS</code> = ხელით დაწერილი ~13 „მაისურის ქვა" სულ 3 საგანზე: „10 სიტყვა → 25 → ფრაზები → 50 → Kings", „შეკრება → გამოკლება → ფიგურები → გამრავლება → ოლიმპიადა". ეს <b>წრფივი სიაა, გრაფი არა</b> — <b>ნულ prerequisite-კავშირი</b> ქვეყნებს შორის.</li>
+  <li><b>„კვანძები" პროქსია, უნარი არა.</b> „50 სიტყვა" = მოცულობა, არა კონკრეტული უნარი კონკრეტულ რიგში. „გამრავლება" ერთი ბლოკია, არა 57-კვანძიანი კიბე.</li>
+</ul>
+<p class="big"><b>დასკვნა:</b> NikoLearn-ს აქვს <b>ძრავა ~100× უფრო უხეშ რუკაზე</b>, ვიდრე უნდა. ეს არის ატომური ხვრელი — და ეს არ არის „ცოტა კონტენტი აკლია", ეს <i>სტრუქტურის</i> ხვრელია.</p>
+
+<h2>2 · First principles — რა არის Marble გრაფი (ატომებად)</h2>
+<p>ფაქტები <span class="tag t-fact">FACT</span> ჩამოტვირთული open-data-დან (1590 თემა, 3221 კავშირი, ODbL სტრუქტურა / CC BY-SA ტექსტი):</p>
+<ol>
+  <li><b>Prerequisite DAG</b> — 3221 „ეს-მანამდე-ის" კავშირი 1590 კვანძს შორის. <i>ესაა ძვირი, ექსპერტის ნახელავი არტეფაქტი</i> — რასაც წლების instructional-design შრომა სჭირდება. მთავარი ღირებულება.</li>
+  <li><b>Mastery-სპეც თითო კვანძზე</b> — საშ. <b>3.0 „evidence" კრიტერიუმი</b> თითო თემაზე (დაკვირვებადი: „აჟღერე /sh/-/o/-/p/ → shop"). ეს განსაზღვრავს <i>რა არის სამიზნე</i> — ანუ რა უნდა ამოწმებდეს ჩვენი item.</li>
+  <li><b>დიაგნოსტიკის/მშობლის ლექსიკა</b> — <b>1590/1590 თემას აქვს assessmentPrompt</b> ({{name}}-ით, „შეუძლია თუ არა შენს ბავშვს X?"). მშობლის-დაფის მზა რეგისტრი.</li>
+</ol>
+<p>Marble <b>რუკაა + სამიზნე-სპეცია. ის არც ძრავაა და არც კონტენტი.</b> სწორედ ის ნახევარი, რომელიც NikoLearn-ს აკლია.</p>
+
+<h2>3 · მორგება — რატომ გამოდგება (მტკიცებულებით)</h2>
+<p>ორი დამოუკიდებელი ნახევარი, რომლებიც ერთმანეთს ავსებენ: <b>NikoLearn = ძრავა სათამაშო რუკით · Marble = ნამდვილი რუკა ძრავის გარეშე.</b> გრაფი ახალ სისტემას არ ითხოვს — ის <i>ანახლებს მონაცემს</i>, რომელსაც არსებული ძრავა უკვე კითხულობს (<code class="mono">PATHS</code> → გრაფ-წარმოებული spine; პროქსი-ქვები → ნამდვილი უნარები evidence-სამიზნით).</p>
+
+<h3>3.1 · Math coverage — სად ვართ ძლიერი, სად ცარიელი <span class="tag t-fact">FACT</span></h3>
+<p class="sub">503 მათემატიკის კვანძი, 12 დომენი. „ვფარავთ" = <code class="mono">games.js</code> რეჟიმები + placement paths.</p>
+<div class="scroll"><table>
+<tr><th>დომენი</th><th>კვანძი</th><th>NikoLearn</th></tr>
+<tr><td>Addition &amp; Subtraction</td><td>52</td><td class="have">✅ გვაქვს</td></tr>
+<tr><td>Multiplication &amp; Division</td><td>57</td><td class="have">✅ გვაქვს</td></tr>
+<tr><td>Counting &amp; Cardinality</td><td>14</td><td class="have">✅ გვაქვს</td></tr>
+<tr><td>Geometry</td><td>69</td><td class="part">⚠︎ ნაწილობრივ (ფიგურები ზედაპირულად)</td></tr>
+<tr><td>Number Representation &amp; Place Value</td><td>52</td><td class="part">⚠︎ თხელი — <b>და ყველაზე მაღალ-leverage</b></td></tr>
+<tr><td>Mathematical Thinking</td><td>48</td><td class="part">⚠︎ ნაწილობრივ</td></tr>
+<tr><td>Measurement</td><td>68</td><td class="gap">✕ ხვრელი</td></tr>
+<tr><td>Fractions</td><td>67</td><td class="gap">✕ ხვრელი</td></tr>
+<tr><td>Algebra</td><td>25</td><td class="gap">✕ ხვრელი</td></tr>
+<tr><td>Data &amp; Statistics</td><td>18</td><td class="gap">✕ ხვრელი</td></tr>
+<tr><td>Ratio &amp; Proportion</td><td>18</td><td class="gap">✕ ხვრელი</td></tr>
+<tr><td>Probability</td><td>15</td><td class="gap">✕ ხვრელი</td></tr>
+</table></div>
+<p>NikoLearn ძლიერია ~123/503 კვანძზე (არითმეტიკის ოთხი მოქმედება) და თითქმის არ არსებობს ~211 კვანძზე. გრაფი ამ ხვრელს <b>ზუსტსა და prereq-დალაგებულს</b> ხდის — დღეს ჩვენ საკუთარი სასწავლო გეგმის ჩამოთვლაც კი არ შეგვიძლია.</p>
+
+<h3>3.2 · ყველაზე მაღალ-leverage ხვრელი = Place Value <span class="tag t-fact">FACT</span></h3>
+<p>გრაფის out-degree-ით (რამდენი რამ არის დამოკიდებული კვანძზე), top-10 ყველაზე „მზიდი" მათემატიკის კვანძიდან <b>სამი Place Value-ია</b> და სწორედ იქ ვართ თხელი:</p>
+<ul>
+  <li><span class="mono">„სამნიშნა რიცხვის სამი ციფრი" (age 7)</span> — <b>14 დამოკიდებული</b></li>
+  <li><span class="mono">„ორნიშნა რიცხვის ორი ციფრი" (age 6)</span> — <b>12 დამოკიდებული</b></li>
+  <li><span class="mono">„თითო ციფრის თანრიგი" (age 8)</span> — <b>9 დამოკიდებული</b></li>
+</ul>
+<p>ესე იგი მონაცემი ამბობს: <b>Place Value-ს შევსება ერთი ნაბიჯით ხსნის ყველაზე მეტ შემდეგ უნარს.</b> ეს უფრო ბასრი დასაწყისია, ვიდრე „წილადები".</p>
+
+<h3>3.3 · ხიდი — რატომ „ერგება" გრაფი ჩვენს არსებულ კონტენტს <span class="tag t-fact">FACT</span></h3>
+<p>წილადების კიბის (67 კვანძი) შესასვლელი:</p>
+<div class="card" style="margin:.5em 0">
+  <div class="rung"><span class="d">a5 · d0</span><b>What Is a Half?</b> (ნახევრის გაგება)</div>
+  <div class="rung"><span class="d">← დამოკიდებულია</span><span><b>„Division as equal sharing" (age 4)</b> — თანაბრად გაყოფა, <b>რომელსაც NikoLearn უკვე ასწავლის</b> (<code class="mono">math-div</code>)</span></div>
+</div>
+<p>გრაფმა იცის, რომ „ნახევარი" ეყრდნობა უნარს, რომელიც <b>უკვე გვაქვს</b>. დღეს NikoLearn-ის 13-ქვიანი რუკა ამას ვერ იცის და ვერასდროს გადაამისამართებს ბავშვს იქ. აი ეს არის „ერგება"-ს კონკრეტული მტკიცება — არა ლამაზი ისტორია, არამედ რეალური კავშირი გრაფში.</p>
+
+<h2>4 · Red team — რატომ შეიძლება <i>არ</i> გამოდგეს (5 დარტყმა)</h2>
+<p class="sub">არა იმისთვის, რომ იდეა მოვკლა — იმისთვის, რომ ფორმა გამოვასწორო. თითო დარტყმას მოსდევს პასუხი, რომელიც გეგმას ცვლის.</p>
+
+<div class="kill"><b>1. ანგლოფონური სასწავლო გეგმის შეუთავსებლობა.</b> გრაფი CCSS/NGSS/UK-NC-ზეა აგებული. <b>ქართული ანბანი/წიგნიერება ნულ დახმარებას იღებს</b> — 40+ ინგლისური ფონემა ქართულ ბგერებზე არ იტვირთება. საფრთხე: გრაფი პროდუქტს უნივერსალურ საგნებზე (მათი, საბუნებისმეტყველო) ხრის და ქართულ-first იდენტობიდან ცდის.
+<div class="fix">→ პასუხი: გრაფი მხოლოდ იქ, სადაც ვალიდურია (მათი → საბუნებისმეტყველო). <b>ქართული წიგნიერება რჩება ხელით ნაწერი და ხელშეუხები.</b></div></div>
+
+<div class="kill"><b>2. მასშტაბის აფეთქება / სიცარიელის განცდა.</b> 1590 კვანძი NikoLearn-ის საავტორო შესაძლებლობას ბევრად აღემატება. თუ გრაფი ხერხემალი გახდება, „სისრულე" უცებ 1590-ის მიმართ იზომება, 95% ცარიელი — აპი შეიძლება ღრუდ აღიქმებოდეს, დამფუძნებელი კი უსასრულო კონტენტ-სარბენ ბილიკზე მოხვდეს.
+<div class="fix">→ პასუხი: გრაფს <b>ეტაპობრივად ვუვლით</b> (20-40 core-კვანძი, არა 1590). Spine არის შიდა კომპასი, არა საჯარო „პროგრეს-ბარი".</div></div>
+
+<div class="kill"><b>3. ლიცენზიის გადახლართვა.</b> ODbL share-alike: თუ Marble-ის ბაზას <i>წარმოებულ ბაზად</i> გადავაკეთებთ (ქართული კვანძები, ასაკის გადაწყობა), ის შეიძლება გასაჯაროებას მოითხოვდეს. <span class="tag t-val">TO VALIDATE</span>
+<div class="fix">→ პასუხი: ჩვენ <b>მათ ბაზას არ ვაშიპავთ</b>. ვქმნით <b>ჩვენს</b> უნარ-სიას (ჩვენი სახელები, ჩვენი ასაკები), გრაფით <i>შთაგონებულს</i> — ზუსტად §11-ის ლოგიკა. ODbL-ის ზუსტი წაკითხვა ცალკე დასავალიდირებელია, სანამ რამე შიდა არტეფაქტს „წარმოებულ ბაზად" ჩავთვლით.</div></div>
+
+<div class="kill"><b>4. სიღრმის ჭიშკარი.</b> გრაფი აუცილებელია, მაგრამ არასაკმარისი. კარგი ადაპტიურობა ითხოვს <i>ბევრ item-ს თითო კვანძზე</i>. თუ 1590-კვანძიან ხერხემალს თხელ item-პულებზე დავამაგრებთ — ჩონჩხი კუნთის გარეშე, ბავშვი კვანძს ხვდება, 2 item-ია, დასრულდა, „ადაპტიური" დაპირება ყალბდება.
+<div class="fix">→ პასუხი: ამიტომ <b>ჯერ design-time</b> (რიგი + სამიზნე), runtime-routing მხოლოდ მას შემდეგ, რაც ~50-100 core-კვანძს რეალური item-სიღრმე ექნება.</div></div>
+
+<div class="kill"><b>5. ნაადრევი ოპტიმიზაცია N≈1-ისთვის.</b> ადაპტიურობის ჯილდო მომხმარებელთა მრავალფეროვნებით იზრდება. ერთი ბავშვისთვის ხელით აწყობილი წრფივი გზა შეიძლება <i>უკეთესიც</i> იყოს. runtime-ძრავის აშენება ახლა — შეიძლება იმ პრობლემის მოგვარებაა, რომელიც პროდუქტს ჯერ არ აქვს.
+<div class="fix">→ პასუხი: ეს ეხება <b>runtime</b> ძრავას (გადავდოთ — მართალია). მაგრამ <b>design-time backbone ღირს ახლავე, N=1-ზეც</b>: დამფუძნებელი <i>ისედაც</i> ავტორობს კონტენტს ყოველდღე — გრაფი ამ ავტორობას ხდის სწორად დალაგებულს, ხვრელ-ცნობიერს და სამიზნე-განსაზღვრულს. ეს ღირებულება ერთ ბავშვზეც მუშაობს.</div></div>
+
+<p class="big">Red team-ის ვერდიქტი: <b>იდეა არ კვდება — ფორმას იცვლის.</b> ხუთივე დარტყმა ერთსა და იმავე გადაწყვეტისკენ მიდის: გრაფი კონკრეტულ <i>როლში</i>, კონკრეტულ <i>ქვესიმრავლეზე</i>, კონკრეტულ <i>დროზე</i> — და არა „მთელი გრაფი runtime-ად".</p>
+
+<h2>5 · რეკომენდაცია — სამ ღერძზე დაშლილი <span class="tag t-hyp">HYPOTHESIS</span></h2>
+<div class="card rec">
+  <p style="margin-top:0"><b>ROLE:</b> გრაფი = <b>design-time საავტორო ხერხემალი + მონაცემ-განახლება არსებული <code class="mono">PATHS</code> ძრავისთვის</b>. არა ახალი მძიმე runtime-ძრავა (ძრავა უკვე დგას; უბრალოდ უკეთეს მონაცემს ვაწვდით).</p>
+  <p><b>SUBSET:</b> <b>ჯერ მათემატიკა</b> (უნივერსალური, ჩვენი ყველაზე დიდი ხვრელი, გრაფი სრულად ვალიდურია) → საბუნებისმეტყველო მოგვიანებით (547 კვანძი, greenfield). <b>ქართული წიგნიერება რჩება ხელით ნაწერი</b> — გრაფი იქ არ ვრცელდება, იდენტობა დაცულია.</p>
+  <p style="margin-bottom:0"><b>TIMELINE:</b> <b>ახლა</b> = გრაფი შემოვიტანოთ შიდა მათემატიკის ხერხემლად, 5 ხელით-გამოცნობილი მათემატიკის ქვა ჩავანაცვლოთ გრაფ-წარმოებული უნარ-spine-ით (დავიწყოთ ~20-40 core-კვანძით, არა 1590), ორიგინალი ქართული item-ები დავწეროთ თითო კვანძის evidence-სამიზნეზე. <b>მერე</b> = როცა სიღრმე იქნება, ჩავრთოთ „ჩავარდნა → prerequisite" გადამისამართება (იაფია, რადგან კავშირები უკვე შემოტანილია და ძრავა უკვე არსებობს).</p>
+</div>
+<p><b>რატომ ეს default:</b> ~80% ღირებულებას იჭერს ~10% ხარჯსა და რისკზე — არ არის ლიცენზიის ექსპოზიცია დაშიპულ პროდუქტში, არ არის მასშტაბის აფეთქება, არ არის ანგლოფონური ხრა, არ არის ნაადრევი runtime-ძრავა.</p>
+<p><b>პირველი ბიჯი (ხვრელის თანმიმდევრობა):</b> Place Value (მაღალი leverage) → Fractions (ყველაზე სუფთა, თვითკმარი საპილოტე კიბე). ორივე ბავშვისთვის ხილული, რეალური ღირებულებაა.</p>
+
+<h2>6 · კონკურენტული უპირატესობა — გულწრფელად <span class="tag t-hyp">HYPOTHESIS</span></h2>
+<ul>
+  <li><b>გრაფი <u>თავისთავად</u> არ არის moat</b> — ღიაა (ODbL), ნებისმიერ კონკურენტს შეუძლია აიღოს. ვისაც ეს ავიწყდება, ის თავს იტყუებს.</li>
+  <li><b>ნამდვილი, გამძლე უპირატესობა = კომბინაცია, რომლის კოპირებაც ძვირია:</b> (ქართულ-native კონტენტი, ავტორობილი მკაცრ, სტანდარტ-align ხერხემალზე) + (on-device პრივატულობა) + (დამფუძნებლის გემოვნება/ზრუნვა). <b>Marble ხარაჩოა, რომელიც ბოლოს ეხსნება; ქართული შენობა რჩება.</b></li>
+  <li><b>ბერკეტი:</b> გრაფი გვაძლევს ხერხემალს <i>უფასოდ</i>, ამიტომ ჩვენს მწირ რესურსს (დამფუძნებლის დრო) ვხარჯავთ იმაზე, რაც <i>ნამდვილად</i> გამძლეა (ქართული პედაგოგიკა), და არა კომოდიტის (სტრუქტურის) ხელახლა გამოგონებაზე — რასაც დღეს <i>ცუდად</i> ვაკეთებთ 13 გამოცნობილი ქვით.</li>
+  <li><b>კატეგორიის განაცხადი:</b> სანდო გზა „პირველი ქართულენოვანი, knowledge-graph-ზე დაფუძნებული სასწავლო აპისკენ" — first-mover ლეგიტიმაცია ლოკალურ ბაზარზე, ნდობის სიგნალი მშობლისთვის/სკოლისთვის („მიჰყვება რეალურ, სტანდარტ-align რუკას"). მიღწევადია <i>ახლა</i>, რადგან ძრავა უკვე ჩვენია.</li>
+</ul>
+<p class="sub">სად შეიძლება ვცდები: moat-ის სიმტკიცე ბაზრით არ არის დამტკიცებული. „ქართველი მშობელი ამას დააფასებს/გადაიხდის" = <b>ჰიპოთეზა</b>, არა ფაქტი — მხოლოდ რეალური გამოყენება/გადახდა დაამტკიცებს.</p>
+
+<h2>7 · შესრულება — პირველი ბიჯი უკვე გადადგმულია</h2>
+<p>„მერე გადადი შესრულებაზე"-ს პასუხად: გრაფი უკვე ჩამოვტვირთე და <b>მათემატიკის core prereq-spine v0</b> ამოვიღე (sandbox-ში, reversible, live-write არ არის). ეს არის ის შიდა საავტორო ხერხემალი, რომელიც ჩაანაცვლებს 5 გამოცნობილ მათემატიკის ქვას:</p>
+<h3>Fractions spine v0 — prereq-depth დალაგებული (67-დან პირველი რგოლები)</h3>
+<div class="card" style="margin:.5em 0">
+  <div class="rung"><span class="d">a5 · d0</span>What Is a Half? · Fraction Notation</div>
+  <div class="rung"><span class="d">a5 · d1</span>Finding halves and quarters</div>
+  <div class="rung"><span class="d">a6 · d2</span>Halves &amp; Quarters of Shapes · Fractions of amounts</div>
+  <div class="rung"><span class="d">a7 · d3</span>Understanding fractions · Unit fractions · Tenths</div>
+  <div class="rung"><span class="d">a7 · d4</span>Fractions on a number line · Splitting shapes into equal parts</div>
+  <div class="rung"><span class="d">a7 · d5</span>Comparing fractions · Equivalent fractions · Simple Fraction Sums</div>
+</div>
+<p class="sub">თითო რგოლს გრაფში მიბმული აქვს ~3 evidence-კრიტერიუმი (item-ის სამიზნე) + assessmentPrompt (მშობლის-check-ის შაბლონი). ჩვენ ვწერთ <b>ორიგინალ ქართულ</b> item-ებს ამ სამიზნეებზე — §11-ის ზუსტ ლოგიკაზე (უნარი/ფორმატი/სირთულე = შთაგონება; კონტენტი = ჩვენი).</p>
+<p><b>შემდეგი (შენი GO-ს შემდეგ):</b> Place-Value + Fractions-ის პირველი 3 ასაკობრივი რგოლის ორიგინალი ქართული item-ების დაწერა (Gemini KA-QA §6f → შენი ვალიდაცია), არსებული <code class="mono">PATHS.math</code>-ის გაფართოება ამ spine-ით. ეს design-time/შიდაა — code-ცვლილება customer-facing არ ხდება, სანამ item-ები არ გაივლის loop-წესს ≥8 და შენს preview-ს.</p>
+
+<h2>8 · დახურვა — KNOW / ASSUME / AGREED / VALIDATE</h2>
+<div class="scroll"><table>
+<tr><th>ბუკეტი</th><th>შინაარსი</th></tr>
+<tr><td class="have">KNOW <span class="tag t-fact">FACT</span></td><td>NikoLearn-ს აქვს ადაპტიური ძრავა + სათამაშო 13-ქვიანი რუკა (კოდი). Marble = 1590-კვანძიანი prereq-რუკა + evidence-სამიზნე + assessmentPrompt (მონაცემი). Math: ვძლიერ ~123/503, ცარიელი ~211. Place Value = ყველაზე მაღალი leverage. წილადები არსებულ „equal sharing"-ს ეყრდნობა, რომელიც გვაქვს.</td></tr>
+<tr><td class="part">ASSUME</td><td>~20-40 core-კვანძი საკმარისია საპილოტედ. design-time backbone ღირს N=1-ზეც. „ჯერ მათი, ქართული ხელით" ინარჩუნებს იდენტობას.</td></tr>
+<tr><td>AGREED</td><td>ჯერ არაფერი — ეს შენი გადასაწყვეტია. (მე default-ს გირჩევ, არ ვასრულებ პროდუქტ-რეორიენტაციას შენი GO-ს გარეშე.)</td></tr>
+<tr><td class="gap">VALIDATE <span class="tag t-val">TO VALIDATE</span></td><td>ODbL share-alike-ის ზუსტი საზღვარი, თუ შიდა spine „წარმოებულ ბაზად" ჩაითვლება. moat-ის სიმტკიცე (გადაიხდის თუ არა ქართველი მშობელი). item-სიღრმის ბარიერი runtime-routing-ამდე.</td></tr>
+</table></div>
+
+<p class="foot">Niko · 2026-07-13 · წყარო: <code class="mono">niko/placement.js</code> + <code class="mono">games.js</code> (კოდი) · <code class="mono">withmarbleapp/os-taxonomy</code> topics.json/dependencies.json (open-data, ჩამოტვირთული და sandbox-ში დამუშავებული). ეს დოკუმენტი <b>ასწორებს</b> 2026-07-13 „Marble Curriculum პროდუქტ-შეფასების" რეკომენდაციის ნაწილს (big-vs-small ჩარჩო).</p>
+
+</div>

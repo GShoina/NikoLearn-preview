@@ -1,7 +1,7 @@
-NikoLearn QA report — version 1.365 — 1 finding(s)
+NikoLearn QA report — version 1.365 — 0 finding(s)
 clips: 1485 manifest / 1486 files on disk · missing: 0
 severity: P1=0 P2=0 P3=0
 
-[fixed] version: version drift auto-fixed: landing 1.364→1.365, sw 1.365→1.365
+✅ all checks passed — no issues found.
 
 ✅ no release-blocking issues

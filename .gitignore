@@ -18,8 +18,10 @@ desktop.ini
 *creds*
 
 # Local backups
+# Patterns here are prefix-tolerant on purpose: top-level folders carry sort prefixes
+# (backups/ -> 00_backups/), and a bare name would silently stop matching after a rename.
 *-backup.html
-backups/
+*backups/
 
 # Test / tooling artifacts
 .playwright-mcp/
@@ -37,21 +39,27 @@ output/
 # Local Claude tooling / context-mode (machine-specific)
 .claude/
 
+# Session pulse (NB-64) — rewritten by the Stop hook after EVERY turn, so tracking it would dirty
+# the tree on every reply and bury real diffs. It is deliberately an INDEX into durable stores
+# (the transcript + git), not a durable store itself: if the machine dies the pulse dies, but so
+# does the transcript it points at, so tracking it would buy nothing. The tracked, machine-independent
+# record stays docs/SESSION-HANDOFF.md — the pulse's job is to make that file's ABSENCE loud.
+docs/.session-pulse.md
+
 # wrangler local cache (tooling, not for repo)
 .wrangler/
 cloudflare/.wrangler/
 
-# Internal strategy drafts & agent audits — keep LOCAL, NEVER publish on the public Pages site
-# (belt-and-suspenders: the Pages deploy already uses an explicit allowlist in deploy-pages.yml,
-#  so these can never reach nikolearn.com even if tracked — this just keeps them out of git too).
-01_NikoLearn_Strategy_drafts/
-NikoLearn_Strategy_drafts/
-05_auditbyagents/
-auditbyagents/
-*.docx
+# Agent audit output — regenerable, keep out of git. Publishing is already prevented by the
+# deploy-pages.yml allowlist (it copies only explicitly named paths), so this is size hygiene only.
+*auditbyagents/
+
+# NOTE: the owner's strategy drafts (01_NikoLearn_Strategy_drafts/, *.docx) are deliberately
+# TRACKED, not ignored — see 5b07582. They exist nowhere else, so git is their only backup, and
+# the deploy allowlist means tracking them can never publish them. Do not re-add them here.
 
 # design artifacts — keep local, do NOT deploy to Pages
-brand-preview/
+*brand-preview/
 niko-brand.html
 node_modules/
 www/

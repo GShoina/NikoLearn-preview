@@ -21,12 +21,18 @@ const I = {
 
 /* ── state ── */
 const SK='nikolearn_p2';
+const SK_BAK='nikolearn_p2_bak';   // NB-32: last-known-good snapshot for corruption/quota recovery
+const SCHEMA_V=2;                  // NB-32: schema stamp; bump on state-shape change, migrate forward in load()
 let state, profile, game={}, ai={role:'companion'};
+let saveHealthy=true;             // NB-30/32: false once a save is NOT durably persisted → parent-surfaced
 const $=(s,r=document)=>r.querySelector(s);
 
 function blankKid(){return{shields:0,streak:0,maxStreak:0,dayStreak:0,maxDayStreak:0,lastDay:null,todayMs:0,todayDate:null,words:{},sessions:0,math:{},best:{},lastPlayed:null,totalTime:0,dadMessages:[]};}
 function load(){
   let s=null;try{s=JSON.parse(localStorage.getItem(SK));}catch{}
+  if(!s){ // NB-32: main key missing/corrupt → recover from last-known-good backup before resetting progress
+    try{const b=localStorage.getItem(SK_BAK);if(b)s=JSON.parse(b);}catch{s=null;}
+  }
   if(!s)return def();
   if(!Array.isArray(s.kids))s.kids=[];
   // one-time cleanup: drop legacy seeded demo profiles so each parent sees only their own
@@ -35,6 +41,7 @@ function load(){
   if(s.onboarded===undefined)s.onboarded=true;
   s.kids.forEach(k=>{if(!s[k.id])s[k.id]=blankKid();});
   if(!s.guest)s.guest=blankKid();
+  s.__v=SCHEMA_V; // NB-32: forward-only schema stamp (add migrations here when the state shape changes)
   return s;
 }
 function def(){return{
@@ -42,7 +49,17 @@ function def(){return{
   kids:[],
   guest:blankKid()
 };}
-function save(){try{localStorage.setItem(SK,JSON.stringify(state));}catch(e){/* private mode / quota: keep running on in-memory state */}}
+function save(){
+  let json;
+  try{json=JSON.stringify(state);}catch(e){saveHealthy=false;return false;} // serialization failure → surface, stay in-memory
+  try{
+    localStorage.setItem(SK,json);
+    if(localStorage.getItem(SK)!==json){saveHealthy=false;return false;}     // read-back: quota can silently drop a write
+    try{localStorage.setItem(SK_BAK,json);}catch(_){}                        // rotate last-known-good (best-effort)
+    saveHealthy=true;return true;
+  }catch(e){saveHealthy=false;return false;}                                 // private mode / quota → keep running, flag parent
+}
+function saveStatus(){return saveHealthy;} // NB-30: parent dashboard reads this to warn when progress is not persisting
 /* ── real date-based day streak + per-day screen-time (truth pass v1.99) ── */
 function todayStr(d){d=d||new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 function touchDay(p){
