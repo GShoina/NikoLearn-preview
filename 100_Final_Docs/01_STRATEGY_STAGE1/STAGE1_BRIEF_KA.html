@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NikoLearn · Stage 1 Decision Brief</title>
+<style>
+  :root { --ink:#1a1a2e; --sub:#555; --accent:#0f4c81; --warn:#b02a2a; --ok:#1d7a3e; --bg:#fafaf7; --card:#fff; --line:#e3e3dc; }
+  * { box-sizing:border-box; }
+  body { font-family:"Sylfaen","Noto Sans Georgian",Segoe UI,sans-serif; background:var(--bg); color:var(--ink); margin:0; padding:24px; line-height:1.55; }
+  .wrap { max-width:900px; margin:0 auto; }
+  h1 { font-size:1.5rem; color:var(--accent); margin:0 0 4px; }
+  h2 { font-size:1.1rem; color:var(--accent); border-bottom:2px solid var(--line); padding-bottom:4px; margin-top:28px; }
+  .meta { color:var(--sub); font-size:.85rem; margin-bottom:20px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px 20px; margin:14px 0; }
+  .verdict { border-left:5px solid var(--warn); }
+  .choice { border-left:5px solid var(--ok); }
+  table { width:100%; border-collapse:collapse; font-size:.9rem; margin:10px 0; }
+  th,td { border:1px solid var(--line); padding:7px 10px; text-align:left; vertical-align:top; }
+  th { background:#f0f2ef; }
+  .tag { display:inline-block; font-size:.72rem; font-weight:700; padding:1px 8px; border-radius:10px; margin-right:6px; }
+  .low { background:#fde8e8; color:var(--warn); } .med { background:#fdf3d7; color:#8a6d00; } .high { background:#e2f4e8; color:var(--ok); }
+  .confirm li { margin:8px 0; }
+  .stop { text-align:center; font-weight:700; color:var(--warn); font-size:1.05rem; margin:26px 0 10px; }
+  code { background:#eef1ee; padding:1px 5px; border-radius:4px; font-size:.85em; }
+  .foot { color:var(--sub); font-size:.8rem; margin-top:20px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>NikoLearn · Stage 1: სტრატეგიული აუდიტი და თეზისი</h1>
+<div class="meta">2026-07-16 · 5 პარალელური აუდიტი (13 strategy .docx · docs/ vision · კოდი · telemetry · გარე აუდიტები · კონკურენტები) · სრული ანალიზი: <code>STAGE1_REPORT_KA.md</code></div>
+
+<div class="card verdict">
+<b>ვერდიქტი: CONDITIONAL-GO</b> <span class="tag med">RECOMMENDATION · ~75%</span><br>
+მტკიცებულება სუსტია: 0 გადამხდელი, 1 დაბრუნებადი მოწყობილობა, სწავლის outcome არასდროს გაზომილა, runtime AI tutoring რეალურად არ არსებობს (tutor.js დეტერმინისტულია, „AI" branding-ია). მაგრამ ჩაშლის ღირებულება დაბალია და 3-7 ასაკის ქართული სეგმენტი რეალური white space-ია: NODI-მ (69₾/თვე, GITA) ქართველი მშობლის გადახდის ნება დაადასტურა მეზობელ, სასკოლო სეგმენტში. ამიტომ: <b>არა build, არამედ 3 იაფი ექსპერიმენტი წინასწარ დაფიქსირებული kill-ბარიერებით.</b>
+</div>
+
+<h2>არჩეული build-shape</h2>
+<div class="card choice">
+<b>ერთდომენიანი, outcome-ზე დამტკიცებული პროდუქტი.</b> რეკომენდებული დომენი: <b>ქართული ადრეული კითხვა, ასაკი 3-7.</b><br>
+რატომ: (ა) PI-39-ით ეს owner-ის მიერვე დასახელებული #1 სტრატეგიული ხვრელია; (ბ) ჯერ-არ-მკითხველ ბავშვთან უფასო ChatGPT/Gemini ინტერფეისურად უვარგისია, ე.ი. wedge თავად სეგმენტშია; (გ) ქართული TTS-ის არარსებობა ყველა კონკურენტს აბრკოლებს, ჩვენი კლიპ-pipeline კი ნახევრად მზა აქტივია; (დ) NODI სასკოლო გეგმაზეა, 3-7 თავისუფალია. English/Math გლობალურად კომოდიტიზირებულია (Khan Kids უფასოა).<br>
+უარყოფილია: multi-subject გაფართოება (დაუმტკიცებელი ბირთვის გამრავლება), engine (PI-46: „აქ კვდება focus"), პლატფორმა (privacy-დაპირებას არღვევს, capacity არ არის), service როგორც ბიზნესი (≤1სთ/დღე ვერ იტევს). Service-ის მექანიზმი რჩება მხოლოდ ვალიდაციის ინსტრუმენტად. არსებული მოდულები რჩება content-ად.
+</div>
+
+<h2>Layering</h2>
+<div class="card">ფორმალური layering ნაადრევია. <b>ერთი დაცვადი საზღვარი:</b> learner-model / assessment-მონაცემების შრე გამოყოფილი content-ისა და UI-სგან, ვერსიონირებული სქემით. სწორედ ეს მონაცემია მომავალი moat და ის ნებისმიერ pivot-ს უნდა გადაურჩეს.</div>
+
+<h2>3 შეუქცევადი გადაწყვეტილება</h2>
+<table>
+<tr><th>#</th><th>გადაწყვეტილება</th><th>Default-რეკომენდაცია</th></tr>
+<tr><td>D1</td><td>დომენი × აუდიტორია: სად გროვდება outcome-მტკიცებულება</td><td>ქართული ადრეული კითხვა · 3-7 · GE-warm კოჰორტა; diaspora მეორე ლინზა</td></tr>
+<tr><td>D2</td><td>Privacy-ფორკი (PI-77): absolute on-device თუ consent-ით longitudinal ჩანაწერი</td><td>Hybrid: default on-device რჩება + კოჰორტისთვის ღია opt-in გაზომვადი პროფილი. Absolute on-device outcome-moat-ს ფიზიკურად გამორიცხავს</td></tr>
+<tr><td>D3</td><td>Runtime-AI: შედის თუ არა LLM ბავშვთან საუბრის კონტურში</td><td>3-7-ზე runtime დეტერმინისტული რჩება; LLM მხოლოდ authoring-time-ზე; გადაიხედება მხოლოდ 8+ open-response-ზე</td></tr>
+</table>
+<div class="card">უსაფრთხოდ ღია რჩება: ფასის მოდელი · Play Store/TWA · brand-ტექსტი · engine-ექსტრაქცია · templating · GITA timing.</div>
+
+<h2>Load-bearing რწმენები (რაზეც მთელი იდეა დგას)</h2>
+<table>
+<tr><th>რწმენა</th><th>სანდოობა</th></tr>
+<tr><td>ქართველი მშობელი გადაიხდის „განვითარებაში" (და არა ნიშნებში)</td><td><span class="tag low">LOW</span> 0 გადახდა; NODI-ს WTP საგამოცდო ჭრილისაა</td></tr>
+<tr><td>ბავშვი ნებაყოფლობით ბრუნდება</td><td><span class="tag low">LOW</span> დღეს: 1 მოწყობილობა; q0-ზე 53% abandon, მიზეზი უცნობი</td></tr>
+<tr><td>AI tutoring = differentiation</td><td><span class="tag low">LOW-MED</span> runtime AI არ არსებობს; დიალოგი კომოდიტიზირდება</td></tr>
+<tr><td>ქართული-პირველი სიღრმე = moat</td><td><span class="tag med">MED</span> ვაკუუმი ფაქტია, მაგრამ პროდუქტი (კიბე, ხმა) ჯერ არ დგას უკან</td></tr>
+<tr><td>მშობელი = მყიდველი, ბავშვი = მომხმარებელი</td><td><span class="tag high">HIGH</span> თანმიმდევრულია ყველგან</td></tr>
+</table>
+
+<h2>რეალური moat + ექსპერიმენტები</h2>
+<div class="card">
+<span class="tag med">HYPOTHESIS</span> Moat = <b>Outcome Engineering + საკუთრებული outcome-data</b> (მტკიცებულება, რომ ქართველი ბავშვები გაზომვადად სწავლობენ) + ქართული პედაგოგიური აქტივები (კითხვის კიბე, გახმოვანებული item-ბანკი). Tutoring-დიალოგი moat არ არის.
+<table>
+<tr><th>#</th><th>ექსპერიმენტი</th><th>Kill-ბარიერი</th></tr>
+<tr><td>E1</td><td>მართული კოჰორტა: 10-20 ოჯახი, 4 კვირა, კითხვის ტრეკი, in-app pre/post მიკრო-შეფასება, კვირაში 1 მშობლის check-in</td><td>მატება არ ჩანს ან კოჰორტა იშლება → pure-AI თეზისი მკვდარია (service-pivot ან stop)</td></tr>
+<tr><td>E2</td><td>WTP-ტესტი კოჰორტაზე: ფასიანი გაგრძელება (NODI-ს 69₾ ანკერით)</td><td>0 გადახდა → „იხდის განვითარებაში" რწმენა მცდარია</td></tr>
+<tr><td>E3</td><td>უფასო-LLM ბენჩმარკი: 5 მშობელი ცდის იმავე უნარს ChatGPT-ვოისით</td><td>LLM თანაბრად მუშაობს → wedge ილუზიაა</td></tr>
+<tr><td>E4</td><td>Outcome-რეპორტის გაყიდვადობა: „X→Y 4 კვირაში" vs ფიჩერ-პიჩი, 10 გარე მშობელი</td><td>სხვაობა არ არის → outcome-data არ ყიდის</td></tr>
+</table>
+</div>
+
+<h2>დამფუძნებლის CONFIRM-სია (Stage 2-მდე)</h2>
+<div class="card confirm">
+<ul>
+<li>☐ <b>Build-shape:</b> ერთდომენიანი outcome-პროდუქტი; დომენი = ქართული ადრეული კითხვა 3-7 (ან დაასახელე სხვა)</li>
+<li>☐ <b>Layering:</b> ნაადრევია; დაცული საზღვარი = assessment/learner-model შრე</li>
+<li>☐ <b>D1:</b> დომენი × აუდიტორია</li>
+<li>☐ <b>D2:</b> privacy hybrid (default on-device + consent-ით opt-in კოჰორტა)</li>
+<li>☐ <b>D3:</b> runtime დეტერმინისტული 3-7-ზე, LLM მხოლოდ authoring-time</li>
+<li>☐ <b>Moat:</b> outcome-data და არა დიალოგი; E1-E4 გაშვება kill-ბარიერებით</li>
+</ul>
+</div>
+
+<div class="stop">■ STOP. Stage 2 არ დაიწყება ამ სიის დადასტურებამდე.</div>
+<div class="foot">სრული ანალიზი (7 artifact, წყაროებით): <code>100_Final_Docs\STAGE1_REPORT_KA.md</code> · Prompt SSOT: <code>STAGE1_PROMPT_v2.md</code> · /goal-სთვის: <code>STAGE1_GOAL_CONDITION.txt</code></div>
+</div>
+</body>
+</html>

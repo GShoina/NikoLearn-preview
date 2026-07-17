@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ხარისხის სქილი — დრაფტი · 2026-07-17</title>
+<style>
+:root{--ink:#1c2733;--soft:#5b6b7a;--line:#e3e9ef;--bg:#f7fafc;--card:#fff;--blue:#1769aa;--green:#1e7d46;--amber:#9a6a00;--red:#b03030;--chip:#eef4f9}
+*{box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;color:var(--ink);background:var(--bg);margin:0;padding:16px;line-height:1.55;font-size:15px}
+main{max-width:900px;margin:0 auto}
+h1{font-size:1.35rem;margin:.2em 0 .1em}
+h2{font-size:1.08rem;margin:1.5em 0 .4em;color:var(--blue);border-bottom:2px solid var(--line);padding-bottom:4px}
+h3{font-size:.98rem;margin:1em 0 .3em}
+p{margin:.45em 0}
+.meta{color:var(--soft);font-size:.85rem}
+.draft{display:inline-block;background:#fff3d6;color:var(--amber);border-radius:6px;padding:2px 10px;font-weight:700;font-size:.8rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:10px 0}
+table{border-collapse:collapse;width:100%;font-size:.83rem;margin:.5em 0}
+th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{background:var(--chip)}
+.tbl{overflow-x:auto}
+.sc{text-align:center;font-weight:700;white-space:nowrap}
+.g9{color:var(--green)}.g8{color:#3a7d1e}.g7{color:var(--amber)}
+a{color:var(--blue)}
+.pass{color:var(--green);font-weight:700}
+.warn{border-left:4px solid var(--amber);padding-left:10px}
+.verdict{border-left:4px solid var(--blue);padding-left:10px}
+ul,ol{margin:.3em 0 .3em 1.2em;padding:0}
+li{margin:.3em 0}
+.paths{font-size:.8rem;color:var(--soft);word-break:break-all}
+code{background:var(--chip);padding:0 4px;border-radius:4px;font-size:.85em}
+.q{font-weight:700;white-space:nowrap}
+</style>
+</head>
+<body>
+<main>
+<h1>ხარისხის სქილი <span class="draft" style="background:#e2f3e8;color:#1e7d46">დავალიდირებული · დახურულია v1.1</span></h1>
+<p class="meta">2026-07-17 · მიზანი: სქილი, რომელიც უზრუნველყოფს Phase-1 აუდიტის/კვლევის მაღალ ხარისხს · Anthropic-ის გამოქვეყნებული წყაროებით გამყარებული · + დღევანდელი ორი აუდიტის ხარისხის Scorecard. ეს დრაფტია შენს გადასახედად, არაფერი „ჩაკეტილი".</p>
+
+<div class="card verdict">
+<p>უკვე დისკზეა ორი ფაილი: <code>.claude/skills/research-quality/SKILL.md</code> (გამშვები) + <code>docs/RESEARCH_QUALITY_STANDARD.md</code> (8 კარიბჭე). ეს დრაფტი აკეთებს ორ რამეს: (1) ამ სტანდარტში ჩამატებს Anthropic-ის წყაროებიდან 3 კონკრეტულ გამკვეთრებას, (2) გიჩვენებს სქილს მუშაობაში: დღევანდელი A და B აუდიტების ქულებს, პატიოსნად.</p>
+<p><b>განახლდა (07-17 საღამო, შენი ბოლო 3 მითითებით):</b> სქილი ახლა უნივერსალურია (ნებისმიერი output — აუდიტი, ფოლდერის/ორკესტრაციის შეფასება, გეგმა, სტრატეგია), tiered სიღრმით, სავალდებულო red-team-ით, token-ეფექტური კითხვაშიც და პროცესშიც, და Codex-ის ცალკე სქილისგან გამიჯნული. ბოჭავს <b>ორივე მოდელს — Fable 5 და Opus 4.8</b>. იხ. ქვემოთ §7.</p>
+</div>
+
+<h2>1. Anthropic-ის წყაროები და საინტერესო ინსაიდები</h2>
+<p>ოთხივე რეალურად გამოქვეყნებული Anthropic-ის მასალაა (სათაურები/თარიღები/ბმულები ვებზე გადამოწმებული). თითო ინსაიდი პირდაპირ ამახვილებს ერთ კარიბჭეს.</p>
+<div class="tbl"><table>
+<tr><th>Anthropic-ის წყარო</th><th>საინტერესო ინსაიდი</th><th>რას ამახვილებს</th></tr>
+<tr>
+<td><a href="https://www.anthropic.com/research/towards-understanding-sycophancy-in-language-models">Towards Understanding Sycophancy in Language Models</a> (2023, arXiv 2310.13548)</td>
+<td>ადამიანის feedback-ით გაწვრთნილი მოდელი მიდრეკილია პასუხი მოარგოს მომხმარებლის რწმენას ჭეშმარიტების ხარჯზე. მთავარი: <b>ადამიანებიც და preference-მოდელებიც ხანდახან ამჯობინებენ დამაჯერებლად დაწერილ მლიქვნელ პასუხს სწორ პასუხს.</b></td>
+<td><b>Q4 (ადვერსარიული):</b> საკუთარი პროდუქტის აუდიტმა არ უნდა მოიფეროს პროდუქტი. ვამატებთ მკაფიო ანტი-სიკოფანსი შემოწმებას.</td>
+</tr>
+<tr>
+<td><a href="https://www.anthropic.com/research/measuring-faithfulness-in-chain-of-thought-reasoning">Measuring Faithfulness in Chain-of-Thought Reasoning</a> (2023, arXiv 2307.13702)</td>
+<td>მოდელის „გამოთქმული მსჯელობა" ხანდახან <b>post-hoc რაციონალიზაციაა</b>: პასუხი უკვე დადგენილია, ახსნა მერე შენდება. კიდევ უფრო არასასიამოვნო: უფრო დიდი მოდელი ხშირად <b>ნაკლებად</b> ერთგულ მსჯელობას აწარმოებს.</td>
+<td><b>Q1 (მტკიცებულების მთლიანობა):</b> ლამაზი, თანმიმდევრული ახსნა არ არის მტკიცება. ვამატებთ: მსჯელობა უნდა იყოს დამტვირთავი (load-bearing), არა post-hoc მორთულობა. (ემთხვევა პროექტის უკვე არსებულ წესს „coherence ≠ fact".)</td>
+</tr>
+<tr>
+<td><a href="https://www.anthropic.com/research/building-effective-agents">Building Effective AI Agents</a> (2024)</td>
+<td>Evaluator-optimizer პატერნი: ერთი ქმნის, მეორე აფასებს ცხად კრიტერიუმებზე, ციკლში. მაგრამ Anthropic თვითონ ამბობს: <b>აარიდე თავი, როცა პირველი მცდელობა ისედაც კმარა ან ტოკენ-ბიუჯეტი მჭიდროა.</b></td>
+<td><b>Q5 + ღირებულება:</b> ამართლებს ჩვენს არჩევანს, სქილი იყოს იაფი checklist და არა აგენტების fan-out. მეორე დამოუკიდებელი შემფასებელი მხოლოდ მაღალ ფსონზე.</td>
+</tr>
+<tr>
+<td><a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying evals for AI agents</a> (2024/25)</td>
+<td>ხარისხი იზომება ground-truth-თან, არა შთაბეჭდილებით; <b>ერთი შემფასებელი/ერთი გაშვება ხმაურიანია</b>, საჭიროა გამეორება/მრავალი გრეიდერი და გაურკვევლობის აღიარება.</td>
+<td><b>Q2/Q3/Q5:</b> ამტკიცებს, რომ ერთი თვით-ქულა „იატაკია", არა დასტური. მაღალ ფსონზე მეორე გავლა.</td>
+</tr>
+</table></div>
+
+<h2>2. სამი გამკვეთრება, რასაც ამ წყაროებიდან v2-ში ვამატებ</h2>
+<ol>
+<li><b>Q1-ს ემატება „მსჯელობა დამტვირთავია, არა post-hoc":</b> დასკვნის ტესტი: თუ ახსნას ამოვჭრი, დასკვნა მაინც დგას? თუ დგას, ახსნა მორთულობა იყო და დასკვნა სხვა (შესაძლოა უსაფუძვლო) მიზეზზეა. [CoT-faithfulness]</li>
+<li><b>Q4-ს ემატება ცხადი ანტი-სიკოფანსი პუნქტი:</b> როცა ვამოწმებ ჩვენს პროდუქტს ან შენს იდეას, ვწერ „რა მაიძულებდა აქ პროდუქტის მოფერებას" და ვამოწმებ, დასკვნა ხომ არ არის იმიტომ სასიამოვნო, რომ შენ მოგეწონება. [Sycophancy]</li>
+<li><b>Q5-ს ემატება „ერთი ქულა იატაკია":</b> თვით-Scorecard მინიმუმია, არა დასტური. მაღალ ფსონზე (E1, ფული, სტრატეგიის ფორკი) მეორე დამოუკიდებელი გავლა. დაბალ ფსონზე და მჭიდრო ბიუჯეტზე მეორე გავლა არ ეშვება (Anthropic-ის საკუთარი რჩევა). [Building Effective Agents + Demystifying evals]</li>
+</ol>
+
+<h2>3. Scorecard — აუდიტი A (დიზაინი/UI/UX)</h2>
+<p>თითო კარიბჭე 1-10; იშვება მხოლოდ თუ ყველა ≥8; ჯერ ყველაზე სუსტი სწორდება (loop წესი §12). <b>Q2 მბლოკავია.</b></p>
+<div class="tbl"><table>
+<tr><th class="q">კარიბჭე</th><th class="sc">ქულა</th><th>მტკიცებულება</th></tr>
+<tr><td class="q">Q1 მტკიც. მთლიანობა</td><td class="sc g9">9</td><td>ყველა მიგნება ტიპიზებულია (DEFECT vs PROPOSAL, NB-65 კარიბჭე); მტკიცებები წყაროზეა.</td></tr>
+<tr><td class="q">Q2 წყაროზე გადამოწ. <span style="color:var(--red)">(მბლოკავი)</span></td><td class="sc g9">9</td><td>4-ვე DEFECT კოდზეა: A-1 <code>games.js:839/855/858</code> · A-6 <code>owl.js:55-66</code> · A-4 <code>talk.js:188/198-201</code> · A-7 <code>firstrun.js:117</code>+<code>parent.js:221</code>. 30 სქრინშოტი.</td></tr>
+<tr><td class="q">Q3 გაზომვადი/ტესტვადი</td><td class="sc g8">8</td><td>თითო DEFECT-ს აქვს fix; მაგრამ „როგორ გავიგებთ რომ იმუშავა" მეტრიკა ყოველ რეკომენდაციაზე ცალკე ნათქვამი არ არის.</td></tr>
+<tr><td class="q">Q4 ადვერსარიული</td><td class="sc g8">8</td><td>არ გაბერა: PROPOSAL გამიჯნა DEFECT-ისგან, სხვაგან „გაბერილი სია" პირდაპირ მონიშნა. მაგრამ TOP-10 ფორმალურ red-team-ს არ გაუტარდა.</td></tr>
+<tr><td class="q">Q5 კალიბრ. თავდაჯერება</td><td class="sc g8">8</td><td>თვით-ქულები 8.5-9 დაფიქსირდა; ბენჩმარკს თარიღები/URL-ები. ბუკეტები ნაწილობრივ გამიჯნული.</td></tr>
+<tr><td class="q">Q6 გადაწყვ.-სასარგებლო</td><td class="sc g9">9</td><td>TOP-10 S/M/L ძალისხმევით + owner-კარიბჭეები მონიშნული.</td></tr>
+<tr><td class="q">Q7 სისრულე/გამჭვირვ.</td><td class="sc g9">9</td><td>დაფარვის ლეჯერი: 27 ეკრანი; გამოტოვებულიც დასახელდა (Kings-math twin, PIN read-only).</td></tr>
+<tr><td class="q">Q8 წყაროს გამჭვირვ.</td><td class="sc g9">9</td><td>ბენჩმარკის 10 განზომილება URL+თარიღით.</td></tr>
+</table></div>
+<p class="pass">ვერდიქტი A: ✓ იშვება (ყველა ≥8). ყველაზე სუსტი: Q3/Q4/Q5 = 8.</p>
+
+<h2>4. Scorecard — აუდიტი B (სასწავლო ენჯინი)</h2>
+<div class="tbl"><table>
+<tr><th class="q">კარიბჭე</th><th class="sc">ქულა</th><th>მტკიცებულება</th></tr>
+<tr><td class="q">Q1 მტკიც. მთლიანობა</td><td class="sc g9">9</td><td>ტიპიზებული; 11 ძრავის ფაილი, file:line ბოლომდე.</td></tr>
+<tr><td class="q">Q2 წყაროზე გადამოწ. <span style="color:var(--red)">(მბლოკავი)</span></td><td class="sc g9">9</td><td>ღრმად კოდზეა: <code>alpha.js:93-97</code> · <code>games.js:1567-1577</code> · <code>screens.js:324-335</code>. B-ს მთავარი ძალა.</td></tr>
+<tr><td class="q">Q3 გაზომვადი/ტესტვადი</td><td class="sc g8">8.5</td><td>E1-მზაობის ვერდიქტი + pre/post probe = გაზომვის მექანიზმი; რეკომენდაციებს ძალისხმევის ზომა.</td></tr>
+<tr><td class="q">Q4 ადვერსარიული</td><td class="sc g7">7 → 8</td><td><b>პირველ გავლაზე ჩავარდა:</b> თქვა „გრაფი არ არსებობს" ისე, რომ პროექტის საკუთარი <code>content/graph/</code> v0 არ შეამოწმა. team-lead-ის შეჯერების დანართმა გაასწორა. სწორედ ეს არის Q2/Q4 მიზეზი.</td></tr>
+<tr><td class="q">Q5 კალიბრ. თავდაჯერება</td><td class="sc g8">8</td><td>ყველა ღერძი ≥8 თვით-შეფასდა; თავდაჯერება ნათქვამი.</td></tr>
+<tr><td class="q">Q6 გადაწყვ.-სასარგებლო</td><td class="sc g9">9</td><td>TOP-7 + E1-ის ვერდიქტ-ბოქსი + owner GO ფლაგები.</td></tr>
+<tr><td class="q">Q7 სისრულე/გამჭვირვ.</td><td class="sc g7">7.5 → 8</td><td><b>პირველ გავლაზე გამორჩა</b> შიდა Marble-კორპუსი (NB-71); დანართით + README-რეგისტრაციით გასწორდა.</td></tr>
+<tr><td class="q">Q8 წყაროს გამჭვირვ.</td><td class="sc g8">8.5</td><td>Marble ODbL / onebillion RCT დამოწმებული; დამფუძნებლის ბიო [TO VALIDATE]-ად მონიშნული.</td></tr>
+</table></div>
+<p class="pass">ვერდიქტი B: ✓ იშვება შეჯერების შემდეგ. მაგრამ ორმა კარიბჭემ (Q4, Q7) მოითხოვა მეორე გავლა.</p>
+
+<div class="card warn">
+<p><b>რატომ არის B-ს Scorecard ყველაზე ღირებული:</b> ის აჩვენებს რომ ბარს კბილები აქვს. B-მ პირველ გავლაზე ორ ადგილას ჩააგდო (Q4/Q7 = ზუსტად ის, რასაც სიკოფანსი და post-hoc კვლევა აფრთხილებს: მოდელმა დამაჯერებლად თქვა „გრაფი არ არსებობს" ისე, რომ არ შეამოწმა). თუ ეს სქილი მაშინ გვქონდა, ის ამ დასკვნას ვერ გაუშვებდა Q2-ის გამო. ეს არ არის ჩავარდნის დამალვა, ეს არის მტკიცება რომ სისტემა მუშაობს.</p>
+</div>
+
+<h2>5. პატიოსანი შეზღუდვა (ამ დრაფტსაც ეხება)</h2>
+<p>ეს Scorecard-ები <b>ერთი შემფასებლის</b> (ჩემი) ქულებია. Anthropic-ის „Demystifying evals" პირდაპირ ამბობს: ერთი გრეიდერი ხმაურიანია. ამიტომ v2-ის წესი: ეს ქულა იატაკია, არა საბოლოო ჭეშმარიტება; მაღალ ფსონზე გინდა მეორე დამოუკიდებელი გავლა. ამ დრაფტის საკუთარი მთავარი რისკი: შესაძლოა ჩემსავე ნამუშევარს ვუფერებ (თვით-სიკოფანსი). შემარბილებელი: B-ს ორი კარიბჭე პირდაპირ პირველ-გავლის ჩავარდნად შევაფასე, არა 8-ად.</p>
+
+<h2>6. გადაწყვეტილებები — ორივე დახურულია (2026-07-17)</h2>
+<p><b>1) მეორე გრეიდერი:</b> შენ დაადასტურე — <b>უფასო</b> (იმავე სესიაში ჩემი ცალკე კრიტიკული გავლა). მეორე აგენტი (ტოკენ-ხარჯი) მხოლოდ შენი ცხადი სიტყვით. ✓</p>
+<p><b>2) გლობალიზაცია:</b> შენი GO-თი — <b>გაკეთდა</b>. პროექტ-ნეიტრალური ტყუპი დევს <code>~/.claude/skills/research-quality/</code>-ში (SKILL.md + STANDARD.md) და ბოჭავს ყველა Claude-ს ყველა პროექტში. NikoLearn-ის სქილი ამ გლობალურის ლოკალური override-ია (იგივე 8 კარიბჭე + ლოკალური მიბმები: წყარო = კოდი file:line + ცოცხალი აპი, output = HTML in output/, ენა ქართული). ✓</p>
+<p class="meta"><b>დარჩენილი default (დუმილზე ვაკეთებ):</b> §2-ის სამი გამკვეთრება უკვე ჩაშენებულია სტანდარტში და Scorecard = ყოველი აუდიტის სავალდებულო footer. იაფი, აგენტების და კრედიტის გარეშე.</p>
+<p class="meta"><b>პროდუქტ-მფლობელის ხაზი (§4):</b> ეს სქილი მხოლოდ NikoLearn-ის ხარისხის ინსტრუმენტი არ არის. „ჩვენ ვზომავთ ჩვენივე კვლევის ხარისხს Anthropic-ის გამოქვეყნებულ პრინციპებზე" თავისთავად ნდობის და პოზიციონირების აქტივია, და იგივე სტანდარტი Bivision-ის სხვა აგენტების მუშაობასაც გამოადგება.</p>
+
+<h2>7. საბოლოო გაფართოება — შენი ბოლო 3 მოთხოვნა უკვე ჩაშენებულია</h2>
+<div class="tbl"><table>
+<tr><th>შენი მოთხოვნა</th><th>რა გაკეთდა სქილში</th></tr>
+<tr><td><b>უნივერსალური:</b> ნებისმიერი output-ის აუდიტი, არა მხოლოდ Phase-1 კვლევა (აუდიტი, ფოლდერი, ორკესტრაცია)</td><td>დაფარვა უნივერსალურია: 8 კარიბჭე ეხება ნებისმიერ არსებით ანალიტიკურ output-ს — აუდიტი, ფოლდერის/სტრუქტურის შეფასება, ორკესტრაციის/აგენტ-workflow-ის შეფასება, გეგმა, სტრატეგია, კვლევა, რეკომენდაცია.</td></tr>
+<tr><td><b>red team დააჩელენჯებინე</b></td><td>Step 5 = სავალდებულო red-team გავლა T1-დან ზევით: ვწერ ყველაზე ძლიერ არგუმენტს, რომ დასკვნა მცდარია/ზედაპირულია/მლიქვნელია, და ვპასუხობ. ვაჩელენჯებ ჩემსავე დასკვნას, არა მხოლოდ შენსას.</td></tr>
+<tr><td><b>მაღალი სტანდარტი, მაგრამ token-ეფექტური კითხვაშიც და პროცესშიც</b></td><td>სიღრმე დონეებადაა: <b>T0</b> ტრივიალური — გეიტი არ ეშვება; <b>T1</b> არსებითი — checklist + self red-team, სესიაში, აგენტების გარეშე; <b>T2</b> მაღალი ფსონი — ცალკე red-team, მეორე გრეიდერი მხოლოდ შენი თანხმობით. კითხვაც დონეებადაა: SKILL.md თვითკმარია T1-ისთვის, სრული სტანდარტი იკითხება მხოლოდ T2/ეჭვისას. „ყველაზე იაფი ტოკენი ისაა, რომელიც არ ჩაიტვირთა."</td></tr>
+<tr><td><b>Codex-ის სქილს არ აურიო</b></td><td>ცხადი საზღვარი ორივე ფაილში: ეს Claude-მხარის სტანდარტია; Codex თავის სქილს თავის სტანდარტით წერს; არასდროს ერწყმის ან ჯვარედინად რედაქტირდება. სწორედ ეს დამოუკიდებლობაა cross-model challenge-ის ღირებულება.</td></tr>
+</table></div>
+<p class="meta">ერთი პატიოსანი გამკვეთრება, რომელიც თვითონ გავაკეთე: <b>დაფარვა უნივერსალურია, სიღრმე კი tiered</b> — თუ სქილი ლიტერალურად ყოველ output-ზე სრულ მანქანას გაუშვებდა, ეს დაარღვევდა შენსავე token-წესს და red-team-ს თეატრად აქცევდა (Anthropic-ის „Building Effective Agents" პირდაპირ ამბობს: აარიდე loop, როცა პირველი მცდელობა კმარა ან ბიუჯეტი მჭიდროა). ამიტომ „ყველა output-ს" ნიშნავს ყველა <b>არსებით</b> output-ს, ტრივიალური გამოტოვებულია.</p>
+
+<h2>8. საბოლოო ვალიდაცია (2026-07-17 ღამე) — საკითხი დახურულია</h2>
+<p>ოთხივე ფაილი გავატარე Anthropic-ის skill-authoring საუკეთესო პრაქტიკაზე (Agent Skills დოკუმენტაცია + „Equipping agents for the real world with Agent Skills") და თვითონ სქილის 8 კარიბჭეზე. Red-team-მა <b>ჩემსავე ახალ ფაილებში 2 რეალური დეფექტი იპოვა და გასწორდა</b>: (1) გლობალური description 1099 სიმბოლო იყო, ლიმიტი 1024-ია → შემოკლდა 926-მდე; (2) NikoLearn SKILL.md-ის ნაბიჯების ნუმერაცია გატეხილი იყო (1,2,4,5,6) → გასწორდა (1-5). ეს თავად არის მტკიცება, რომ პროცესი მუშაობს, ფორმალობა არ არის.</p>
+<div class="tbl"><table>
+<tr><th>Anthropic-ის კრიტერიუმი</th><th>ვერდიქტი</th></tr>
+<tr><td>description: მესამე პირში, „რა + როდის", კონკრეტული ტრიგერები, ≤1024 სიმბოლო</td><td class="sc g9">✓ (926)</td></tr>
+<tr><td>SKILL.md მოკლეა (გაიდლაინი &lt;500 ხაზი; კონტექსტში იტვირთება)</td><td class="sc g9">✓ (69 ხაზი)</td></tr>
+<tr><td>Progressive disclosure: T1 თვითკმარი, სიღრმე (STANDARD.md) მხოლოდ საჭიროებისას</td><td class="sc g9">✓ ზუსტად მათი პატერნი</td></tr>
+<tr><td>კონტრაქტი და არა სცენარი: სქილი ბარს ადგენს, მეთოდს მოდელს უტოვებს</td><td class="sc g9">✓</td></tr>
+<tr><td>ორი ერთსახელა სქილის კონფლიქტი (გლობალური + ლოკალური)</td><td class="sc g8">✓ ორივე description-ში პრეცედენსი ცხადად წერია: ლოკალური იმარჯვებს პროექტში</td></tr>
+<tr><td>4 წყარო რეალურად გამოქვეყნებული და ვებზე გადამოწმებული</td><td class="sc g9">✓ (arXiv 2310.13548 · 2307.13702 · 2 engineering-პოსტი)</td></tr>
+</table></div>
+<div class="card verdict">
+<p><b>პატიოსანი პასუხი „90%+"-ზე.</b> [FACT] რასაც სქილი გარანტირებულად იძლევა: არცერთი არსებითი output აღარ გამოვა 8 კარიბჭის, სავალდებულო red-team-ის და Scorecard-ის გარეშე, და Q2 ბლოკავს გადაუმოწმებელ დაშვებას — ზუსტად იმ კლასს, რომელმაც E1-ზე დაგვწვა. [FACT] ბარს კბილები აქვს: აუდიტ B-ს 2 ჩავარდნა + დღეს ჩემსავე ფაილების 2 დეფექტი დაიჭირა. [HYPOTHESIS] „შედეგების 90%+ მაღალი ხარისხის იქნება" წინასწარ ვერავინ დაადასტურებს პატიოსნად — Anthropic-ის საკუთარი evals-დოქტრინა ამბობს: ხარისხი იზომება ground-truth-თან განმეორებით გაშვებებზე, ერთი თვით-შემფასებელი კი ხმაურიანია. ჩემი კალიბრებული თავდაჯერება: <b>~90%, რომ სქილი არსებითად სწევს ხარისხს</b> უსქილო ბაზისთან შედარებით; ზუსტი პროცენტი კი დაგროვდება: ყოველ T1+ output-ს Scorecard რჩება, და მომდევნო ~10 output-ის შემდეგ რეალური რიცხვი გეცოდინება (რამდენი გადარჩა შემდგომი კორექციის გარეშე). ეს რიცხვი იქნება მტკიცება, არა ჩემი დღევანდელი დაპირება.</p>
+<p><b>ვერდიქტი: მექანიზმი აშენებულია, დავალიდირებულია, დეფექტები გასწორებულია — საკითხი დახურულია.</b> Scorecard ამ ვალიდაციაზე: Q1=9 Q2=9 (ოთხივე ფაილი დისკზე გადამოწმდა, ზომები/ლიმიტები რეალურად გაიზომა) Q3=8 (ტესტი: 10-output-იანი tally) Q4=9 (2 დეფექტი საკუთარ ნამუშევარში) Q5=8 Q6=9 Q7=8 Q8=9. ყველა ≥8 ✓.</p>
+</div>
+
+<p class="paths"><b>ფაილები:</b> .claude/skills/research-quality/SKILL.md · docs/RESEARCH_QUALITY_STANDARD.md · ეს დრაფტი: output/2026-07-17-ხარისხის სქილი დრაფტი by Niko.html<br>
+<b>წყაროები:</b> anthropic.com/research/towards-understanding-sycophancy-in-language-models · anthropic.com/research/measuring-faithfulness-in-chain-of-thought-reasoning · anthropic.com/research/building-effective-agents · anthropic.com/engineering/demystifying-evals-for-ai-agents</p>
+</main>
+</body>
+</html>

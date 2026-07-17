@@ -106,6 +106,12 @@ Competitor lens (owner-set 2026-06-05): when analysing competitors, do NOT opera
 frame. Operate from an ABUNDANCE frame — a competitor proves a market and a playbook exist, so the
 read is "where is the extra opportunity here, and where could collaboration expand/pull the market".
 Lead every competitor insight with opportunity + collaboration angles, not defense.
+**Owner clarification 2026-07-17 (NB-70 — he had to re-teach this, never lose it again):** the lens
+covers PARTNERS as much as competitors, and it governs the BUILD framing too: we LEARN the mechanism
+or idea, take the new development angle it opens, then build it OUR OWN WAY (ჩვენი გზით). Never frame
+someone's openness as an asset to extract or a "shortcut". Legal/copyright/IP considerations are
+stated as a neutral fact in passing at most — NEVER as a headline, stop, or blocker. See memory:
+`abundance-lens-learn-then-build-our-own`.
 
 ## 6c. "DONE" CRITERION — visual verification is MANDATORY for any UI/visual change (owner-locked 2026-06-05)
 A change is NOT done until the RENDERED result is verified visually, not just by isolated logic/unit

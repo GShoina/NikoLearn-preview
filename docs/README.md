@@ -27,6 +27,7 @@ Rule of thumb: **if a doc is not listed here, treat it as unclassified and ask t
 | Axis | Canonical | Companions |
 |---|---|---|
 | Georgian copy (gates) | `GEORGIAN_COPY_STANDARD.md` | `.claude/skills/georgian-copy` points here; Gemini KA-QA = CLAUDE.md §6f |
+| Research/audit/recommendation quality (gates) | `RESEARCH_QUALITY_STANDARD.md` | `.claude/skills/research-quality` points here; 8 gates Q1-Q8, Q2 blocking, loop წესი §12; Anthropic-aligned; v1 2026-07-17 |
 | Copy readability (ALL user-facing text) | `COPY_READABILITY_STANDARD.md` | newest (2026-07-03) |
 | Child-facing typography/legibility | `READABILITY_STANDARD.md` | age-band rubric also in `DESIGN_TONE_READABILITY_STANDARDS.md` §C (merge candidate) |
 | Design tone / art direction | `DESIGN_TONE_READABILITY_STANDARDS.md` | from 8-dim audit 2026-06-27 |
@@ -58,6 +59,12 @@ Rule of thumb: **if a doc is not listed here, treat it as unclassified and ask t
 ## Strategy identity layer (outside docs/ — now wired into this map)
 `../NikoLearn_Strategy_drafts/`: `NikoLearn_Strategy_v1.5.docx` („FINAL" label is historical — superseded), `NikoLearn Strategy v1.6.docx`, `NikoLearn_Strategy_Constitution_v1.8.docx`, **`_v1.9.docx` (newest)**.
 ⚠ KNOWN CONTRADICTION (open owner fork): drafts' triad = *curious/confident/creative* + NSM "Curious Days per Month" vs locked `MISSION-SLOGAN.md` triad = *confident/creative/independent*. Also GE-vs-diaspora spearhead + ambition level = re-opened 2026-06-09 (see `OWNER_GRILLDOWN_BRIEF.md` header + `PRODUCT_IDEAS.md` strategic-exploration block). Do NOT treat any one draft as decided.
+
+## In-repo strategy corpus (`../01_NikoLearn_Strategy_drafts/`) — registered 2026-07-17 (NB-71: was invisible to this map)
+Dated strategy/assessment HTMLs authored in Niko sessions. Incl. the **Marble corpus (5 docs, 2026-07-13/14)**: Curriculum შეფასება (~88% — learn the structure, author ALL Georgian content ourselves) · დიზაინ-გააზრება (KEY: NikoLearn's engine is ALREADY adaptive — mastery ≥0.8 + streak + Leitner in `placement.js`; the missing piece is the fine-grained MAP) · v2 Executive (~80% value @ ~10% risk; product reorientation = owner GO) · deep adversarial audit (Marble's engine/child-models deliberately closed; $25M funding [TO VALIDATE]) · learnings გეგმა-შესრულება (`content/graph/` v0 BUILT 07-14; probabilistic mastery engine + live graph-routing DEFERRED = owner forks). **Rule (NB-71): any new analysis of a named subject sweeps this folder first — prior verdicts are built on or explicitly superseded, never silently re-derived.**
+
+## Twin max-effort audits (`../100_Final_Docs/03_AUDIT_2026-07-17/`) — registered 2026-07-17
+`A_UIUX_AUDIT_KA.md` (UI/UX + 2026-07-16 mobile/learning-app benchmark, FINAL, 30 screenshots in `shots/`) + `B_LEARNING_ENGINE_AUDIT_KA.md` (learning-engine + global-practice benchmark incl. Marble, FINAL, + team-lead reconciliation addendum vs the internal Marble corpus). **4 lead-verified DEFECTs → `BUGFIX_TRACKER.md` NB-72..75 (OPEN, fix wave after owner preview verdict); every PROPOSAL stays in the audit files pending the owner's NB-65 TYPE-gate answers — none acted on autonomously.** Owner brief: `output/2026-07-17-დიზაინის და ენჯინის აუდიტი by Niko.html`.
 
 ## External-audit intake (`../auditbyagents/`, git-UNTRACKED)
 Adversarial audits by OTHER AI agents (Codex full set: scope/architecture/UX/risks/recommendations/next-steps + screenshots + probe scripts; Antigravity: setup status, audit pending). **Intake rule (lesson from s9 external-audit pass): fact-check every finding against LIVE code before acting — 3 of 4 top P1s in the last external batch were already fixed; verify-first prevented wrong re-fixes.** Findings that survive verification → `BUGFIX_TRACKER.md` NB rows.
