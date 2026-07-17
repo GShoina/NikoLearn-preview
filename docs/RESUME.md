@@ -2,20 +2,18 @@
 
 > Startup SSOT. Hard cap: 2 KB. Semantic state only; machine state is `.recovery/current.md`.
 
-**UPDATED:** 2026-07-17 · twin max-effort audits FINAL + combined owner brief written  
+**UPDATED:** 2026-07-18 · corpus pushed to PRIVATE origin for owner's phone reading  
 **LIVE (prod):** `v1.365` (`8ec2916`) · untouched · branch work is **NOT on nikolearn.com**  
-**BRANCH:** `recover/clean-2026-07-16` (`5e4d0ff`) · 3 ahead of main · pushed to preview:main
+**BRANCH:** `recover/clean-2026-07-16` (`2bc5e11`) · 5 ahead of main · on origin (private) + preview:main (older slice)
 
-## NOW — twin audits ✅ FINAL; preview up
+## NOW — owner reads corpus on PHONE (2026-07-18)
 
-**Twin audits (2026-07-17):** `100_Final_Docs/03_AUDIT_2026-07-17/` A (UI/UX+benchmark) + B (engine+Marble) both FINAL on disk; combined brief → `output/2026-07-17-დიზაინის და ენჯინის აუდიტი by Niko.html` — awaiting owner read. 4 lead-verified DEFECTs = **NB-72..75 OPEN** (fix wave after his preview verdict); PROPOSALs frozen behind NB-65 gate. B's headline: engine measures ENGLISH well, Georgian letters have no per-item history → E1 unmeasurable today; unlock = per-letter records + 5-min pre/post probe.
-**Owner preview (PI-87):** clean branch live → **https://gshoina.github.io/NikoLearn-preview/** — `nikolearn.com` untouched (`v1.365`).
+`100_Final_Docs/` restructured 01_STRATEGY_STAGE1 / 02_STRATEGY_STAGE1_5 / 03_AUDIT_2026-07-17 (+shots) / 04_OWNER_BRIEFS + Georgian README index; `2bc5e11` pushed to PRIVATE origin only (never preview — confidential). Phone URL: https://github.com/GShoina/NikoLearn/tree/recover/clean-2026-07-16/100_Final_Docs
+**Audits (07-17):** A+B FINAL; 4 DEFECTs = **NB-72..75 OPEN** (fix wave after preview verdict); B: E1 unmeasurable today (no per-letter history); unlock = per-letter records + pre/post probe.
+**Stage-1.5 COMPLETE:** both opponents reject standalone (≤40% [HYPOTHESIS]); service-frame first ~80% [RECOMMENDATION]. Red-team caveat in README: AI-convergence ≠ independent proof; zero real-user data. Owner gates: D1/D2/D3 · E1 verdict (default = hold) · W3 answers.
+**Preview (PI-87):** https://gshoina.github.io/NikoLearn-preview/ — `nikolearn.com` untouched.
 
-## STRATEGIC — Stage-1.5 COMPLETE (2026-07-17)
-
-All 3 lost 07-16 workstreams re-run, on disk: ref-playbook ✅ · market Part B ✅ · Codex ✅ (verbatim → `STAGE1_5_CHALLENGE_KA.md` §2 + §3 reconciliation). Core finding: BOTH independent opponents reject CONDITIONAL-GO as standalone product (≤40%); both propose educator-led human+AI service first (~80% as validation-system launch). **Brief v2 ✅ → `output/2026-07-17-Brief v2 სტრატეგიული შეჯერება by Niko.html`** — awaiting owner read. Owner gates: D1/D2/D3 CONFIRM · E1 launch (recommend service-frame, default = hold) · W3 answers. `100_Final_Docs/` = corpus.
-
-## NEXT — owner taps preview, then go-live gates (all owner-side)
+## NEXT — owner verdicts, then go-live gates (all owner-side)
 
 (1) PI-87 = satisfied when he taps the URL. (2) audit #29 — drop `changes.html`+`validate.html` from `deploy-pages.yml` allowlist before prod. (3) NB-65/PI-89 TYPE gate — branch bundles frozen colour/text; hold. Recommend: preview → stage DEFECT fixes live → hold frozen slice.
 
