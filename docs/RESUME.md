@@ -23,4 +23,4 @@ No live merge/push. §15b = merge-to-main needs his GO. **🛑 STOP-ORDER: no co
 
 ## BACKUPS / ROUTES
 
-4 backups (`../NikoLand-git-safety-723ff31`, `…/git-pre-repair/20260716-145511/` + `20260718-071450/`, `…-quarantine/`). Old s21 tip = `efa83c3` (ref released s24, objects intact). Bugs → `docs/BUGFIX_TRACKER.md` · Seq → `docs/PRODUCT_ROADMAP.md` · Repair+handoff detail → `docs/SESSION-HANDOFF.md` (s23/s24) · one-command recovery → `tools/recover.ps1`.
+5 backups (`../NikoLand-git-safety-723ff31`, `…/git-pre-repair/20260716-145511/` + `20260718-071450/` + `20260718-071739/`, `…-quarantine/`). Old s21 tip = `efa83c3` (ref released s24, objects intact). Bugs → `docs/BUGFIX_TRACKER.md` · Seq → `docs/PRODUCT_ROADMAP.md` · Repair+handoff detail → `docs/SESSION-HANDOFF.md` (s23/s24) · one-command recovery → `tools/recover.ps1`.
