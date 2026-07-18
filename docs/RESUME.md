@@ -2,9 +2,9 @@
 
 > Startup SSOT. Hard cap: 2 KB. Semantic state only; machine state is `.recovery/current.md`.
 
-**UPDATED:** 2026-07-18 · corpus pushed to PRIVATE origin for owner's phone reading  
+**UPDATED:** 2026-07-18 · git health GREEN (s24: s21 ref released, zero objects deleted)  
 **LIVE (prod):** `v1.365` (`8ec2916`) · untouched · branch work is **NOT on nikolearn.com**  
-**BRANCH:** `recover/clean-2026-07-16` (`2bc5e11`) · 5 ahead of main · on origin (private) + preview:main (older slice)
+**BRANCH:** `recover/clean-2026-07-16` (`828dd616`) · 7 ahead of main · on origin (private) + preview:main (older slice)
 
 ## NOW — owner reads corpus on PHONE (2026-07-18)
 
@@ -23,4 +23,4 @@ No live merge/push. §15b = merge-to-main needs his GO. **🛑 STOP-ORDER: no co
 
 ## BACKUPS / ROUTES
 
-3 backups present (`../NikoLand-git-safety-723ff31`, `…/git-pre-repair/20260716-145511/`, `…-quarantine/`). Bugs → `docs/BUGFIX_TRACKER.md` · Seq → `docs/PRODUCT_ROADMAP.md` · Repair+handoff detail → `docs/SESSION-HANDOFF.md` (s23) · one-command recovery → `tools/recover.ps1`.
+4 backups (`../NikoLand-git-safety-723ff31`, `…/git-pre-repair/20260716-145511/` + `20260718-071450/`, `…-quarantine/`). Old s21 tip = `efa83c3` (ref released s24, objects intact). Bugs → `docs/BUGFIX_TRACKER.md` · Seq → `docs/PRODUCT_ROADMAP.md` · Repair+handoff detail → `docs/SESSION-HANDOFF.md` (s23/s24) · one-command recovery → `tools/recover.ps1`.
