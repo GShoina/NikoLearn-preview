@@ -2,15 +2,15 @@
 
 ## პასუხი პირველად
 
-ბოლო კვირაში branch-ზე (სამუშაო ასლზე) დაგროვდა 10 commit, მაგრამ ამ ცვლილებებიდან არცერთი ჯერ არ არის nikolearn.com-ზე. საიტზე ჯერ კიდევ ძველი ვერსია მუშაობს (v1.365, ანუ 15 ივლისის გამოშვება). ახალ ასლში არის: (1) რამდენიმე პატარა, მაგრამ საგრძნობი გამოსწორება აპში, ბავშვის დაცვასთან და პროგრესის შენახვასთან დაკავშირებით; (2) დიდი მოცულობის სტრატეგიული და კვლევითი დოკუმენტაცია; (3) ტექნიკური ხელსაწყოები, რომლებიც ბავშვი ან მშობელი საერთოდ ვერ ხედავს. ცვლილებები მზადაა, მაგრამ ლაივზე ატანა ელოდება შენს დათანხმებას.
+ბოლო კვირაში branch-ზე (სამუშაო ასლზე) დაგროვდა 13 commit, მაგრამ ამ ცვლილებებიდან არცერთი ჯერ არ არის nikolearn.com-ზე. საიტზე ჯერ კიდევ ძველი ვერსია მუშაობს (v1.365, ანუ 15 ივლისის გამოშვება). ახალ ასლში არის: (1) რამდენიმე პატარა, მაგრამ საგრძნობი გამოსწორება აპში, ბავშვის დაცვასთან და პროგრესის შენახვასთან დაკავშირებით; (2) დიდი მოცულობის სტრატეგიული და კვლევითი დოკუმენტაცია; (3) ტექნიკური ხელსაწყოები, რომლებიც ბავშვი ან მშობელი საერთოდ ვერ ხედავს. ცვლილებები მზადაა, მაგრამ ლაივზე ატანა ელოდება შენს დათანხმებას.
 
 ## აპში რას იგრძნობს ბავშვი/მშობელი
 
-- **მშობლის საკეტის ხარვეზი გასწორდა (კოდი NB-53, ანუ შეცდომა №53 ტრეკერში):** ადრე თუ ბავშვმა „დაგავიწყდა კოდი" დააჭირა, უფრო ადვილ ამოცანას ხედავდა, ვიდრე ჩვეულ შესასვლელზე, ანუ საკეტს გვერდის ავლა შეეძლო. ახლა ორივე გზაზე ერთნაირად რთული ამოცანაა და ბავშვი გვერდის ავლას ვეღარ ახერხებს.
+- **მშობლის საკეტის ხარვეზი გასწორდა (კოდი NB-53, ანუ შეცდომა №53 ტრეკერში):** ადრე, თუ მშობელს კოდი არ ჰქონდა დაყენებული, ჩვეულებრივი შესასვლელი ბავშვს მარტივ ამოცანას აძლევდა: ერთნიშნა შეკრებას, ზუსტად იმას, რასაც აპი თვითონ ასწავლის. ანუ საკეტი სწორედ იმ ბავშვისთვის იყო ამოსახსნელი, ვისგანაც უნდა დაეცვა სივრცე. „დაგავიწყდა კოდი" გზა კი უკვე რთული იყო. ახლა ორივე გზაზე ერთნაირად რთული ამოცანაა (ორნიშნა რიცხვის გამრავლება) და ბავშვი შესვლას ვეღარ ახერხებს. *(ამ აბზაცის წინა ვერსია გზებს შებრუნებულად აღწერდა; Opus-ის გადამოწმებამ დააზუსტა.)*
 - **პროგრესის დაკარგვის გაფრთხილება (NB-32/NB-30):** ზოგ ბრაუზერში (მაგალითად, პრივატულ რეჟიმში) აპს არ შეუძლია პროგრესის შენახვა, და აქამდე ეს მშობელს არ ეცნობებოდა. ახლა თუ შენახვა ვერ ხერხდება, მშობლის სივრცეში ჩნდება მკაფიო გაფრთხილება. ასევე დაემატა სარეზერვო ასლი, თუ მთავარი მონაცემები დაზიანდება.
 - **ოფლაინ რეჟიმის შეცდომა გასწორდა:** ერთი ტექნიკური ხარვეზის გამო, ზოგიერთი გვერდის მონახულება აფუჭებდა აპის „შენახულ ასლს", რის გამოც ოფლაინ გახსნისას შეიძლებოდა არასწორი გვერდი გამოსულიყო. ახლა თითოეული გვერდი სწორად ინახება.
 - **ეკრანის წამკითხველისთვის მორგება (NB-54):** თამაშის ღილაკებს დაემატა ხმოვანი აღწერა, რომ მხედველობის პრობლემის მქონე ბავშვმაც შეძლოს თამაშის მართვა. ერთი თამაშისთვის (სიტყვების დაწყვილება) ეს აქამდე საერთოდ არ მუშაობდა თითის შეხებით.
-- **დაემატა 2 ახალი, საკუთარი შედგენილობის მათემატიკის სავარჯიშო** პირველკლასელებისთვის (არავისგან აღებული, ჩვენი საკუთარი წარმოებაა).
+- **მომზადდა 2 ახალი, საკუთარი შედგენილობის მათემატიკის სავარჯიშო** პირველკლასელებისთვის (არავისგან აღებული, ჩვენი საკუთარი წარმოებაა). ზუსტი სტატუსი: ჯერ მხოლოდ დაწერილი მასალაა და აპში ჩართული არ არის, ანუ ბავშვი მას ჯერ ვერ ითამაშებს. *(წინა ვერსია მას აპის ფუნქციად წარადგენდა; Opus-ის გადამოწმებამ დააზუსტა.)*
 - პატარა ვიზუალური დახვეწა (ფერების კონტრასტი საგნების ბეჯებზე) და ერთი ტექნიკური უსაფრთხოების გამკვრივება (საიტის კერძო ბმული დაცულია საძიებო რობოტებისგან).
 
 ## დოკუმენტები და სტრატეგია
@@ -32,11 +32,12 @@
 
 ## Summary (EN)
 
-- 10 commits sit on the working branch; none are live yet. nikolearn.com still runs v1.365 (last live release).
-- App-level fixes (child will feel): parent-lock bypass closed (a "forgot code" screen used to be easier than the real lock), a save-failure warning now shown to parents when the browser blocks saving progress plus a backup copy, an offline caching bug fixed that could serve the wrong page, screen-reader labels added to game tiles (one matching game was previously unusable without a mouse), 2 new original grade-1 math exercises, minor color-contrast and privacy hardening.
+- 13 commits sit on the working branch; none are live yet. nikolearn.com still runs v1.365 (last live release).
+- App-level fixes (child will feel): parent-lock bypass closed (the normal no-PIN entry used an easy single-digit sum the app itself teaches, so the very child it locks out could solve it; the "forgot code" path was already hard; both are now equally hard), a save-failure warning now shown to parents when the browser blocks saving progress plus a backup copy, an offline caching bug fixed that could serve the wrong page, screen-reader labels added to game tiles (one matching game was previously unusable without a mouse), minor color-contrast and privacy hardening. 2 new original grade-1 math exercises are authored as specs but NOT yet wired into the app (not playable).
 - Large batch of internal strategy/research docs (market analysis, a design+learning audit with ~30 screenshots, product ideas/roadmap notes). Owner-facing only, never visible to users.
 - Dev-only infrastructure: a crash-recovery tool for the work environment, automated quality checks, deployment config files. No effect on the live site.
 - Owner gates: (1) review the preview link, (2) explicit go-ahead to merge into the main branch, (3) a standing stop-order: no color/text change ships live until two open questions (NB-65, PI-89) are answered, (4) 4 open audit findings (NB-72 to NB-75) to fix after preview review.
 
 ---
 მოამზადა: Claude Sonnet · 2026-07-18
+გადაამოწმა დამოუკიდებლად: **Claude Opus 4.8** · 2026-07-18. ვერდიქტი: ბრიფი მიმართულებით ზუსტი იყო, 7 ტექნიკური მტკიცებიდან 5 პირდაპირ დადასტურდა, 2 უზუსტობა ნაპოვნია და ამ ვერსიაში გასწორებულია (NB-53-ის ახსნა და მათემატიკის სავარჯიშოების სტატუსი). ისიც დადასტურდა, რომ ცოცხალ საიტზე ამ ცვლილებებიდან არცერთი არ არის: nikolearn.com-ის კოდი 4 დამოუკიდებელი ნიშნით ძველ ვერსიას შეესაბამება.
