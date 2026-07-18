@@ -93,3 +93,29 @@ source for this document.
 - The skill measures and enforces QUALITY of the thinking; the owner still decides the DECISION.
 - Cheap by design: it is a checklist the agent runs on its own output, not an agent fan-out. No extra token cost.
 - Claude-side only: independent of Codex's separate skill (see the section above); the two are never merged.
+
+## v1.2 ADDENDUM (owner red team 2026-07-18, GI-23) — status: Implemented, pending empirical validation
+Annotates, never replaces, the v1 text above (ჩანაცვლება ≠ წაშლა). Four additions, per the owner's exact order:
+1. **Self-score ≠ validation.** Gate scores are one evaluator's directional self-assessment. All ≥8 = shippable,
+   never "validated". "Validated" requires the T3 rung or the owner's verdict. The v1.1 owner-facing status
+   "დავალიდირებული · დახურულია" was this exact error and is retracted.
+2. **Rubric anchors.** Per-gate pass / fail / borderline examples live in the global standard:
+   `~/.claude/skills/research-quality/STANDARD.md` §Calibration examples (kept in ONE place to avoid drift; this
+   adapter defines only Q2-source, output format, language).
+3. **Challenge ladder** (verification depth, distinct from stakes tiers): T1 same-model adversarial pass ·
+   T2 different-model or blinded review (Codex/Gemini per §6f pattern) · T3 real-world evidence (child usage,
+   payment, pre/post probes). Only T3 validates.
+4. **Empirical ledger (NikoLearn).** Real quality = the next ~10 substantive outputs, four counters each:
+| # | Date | Output | Owner-corrected | Independent flaws | Repeated error | Outcome-confirmed |
+|---|------|--------|-----------------|-------------------|----------------|-------------------|
+| 1 | 2026-07-18 | Strategy v3 | YES: challenger review reshaped the backbone (GI-25) | YES: 7 red-team points | YES: Marble/NodiEdu grant misattribution (GI-22) | pending |
+| 2 | 2026-07-18 | research-quality skill v1.1 | YES: "closed/validated" status rejected, 4 additions ordered (GI-23) | YES: 6 flaws | YES: self-score-as-validation recurred | pending |
+| 3 | 2026-07-18 | Strategy v3.1 | pending (awaiting owner read) | pending | pending | pending |
+| 4 | | | | | | |
+| 5 | | | | | | |
+| 6 | | | | | | |
+| 7 | | | | | | |
+| 8 | | | | | | |
+| 9 | | | | | | |
+| 10 | | | | | | |
+Verdict rule: ledger full → compute the four rates and let the OWNER read them raw; no self-declared pass.
