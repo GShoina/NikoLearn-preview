@@ -8,7 +8,7 @@
 
 ## NOW — FEATURE WAVE (owner order 2026-07-18 = GI-34)
 
-Owner picked from the 10-feature list: (1) PI-95 level-ladder PROTOTYPE+show · (2) PI-96 pride-share PROTOTYPE+show · (3) PI-97 owl video-tales, 3 templates, show · (4) weekly parent card PROTOTYPE+show · (5) per-letter progress BUILD · (6) adaptive difficulty BUILD · (7) daily curious question ≥5 versions, show · (8) voice Talks — show the plan · (9-10) NOT now. Orchestration (model/agent/resources) = my call; scout "ai pulsar georgia" GitHub first (agent running). Nothing from the wave goes live without a NEW GO.
+Show-items DONE 2026-07-20, §6c-verified, 4 HTMLs in `output/` (W1+W2+W4 protos · W3 3 tale templates · W7 6 question versions · W8 voice plan) — paths + statuses in PRODUCT_ROADMAP.md §NOW. Owner picks pending: W3 pilot template (REC: #2 „რატომ, ბუბუ?") · W8 privacy path (REC: on-device whisper B). NEXT: W5 per-letter progress BUILD (in progress) → W6 adaptive difficulty. Branch-only; nothing goes live without a NEW GO.
 
 ## SHIPPED v1.366 (2026-07-20)
 

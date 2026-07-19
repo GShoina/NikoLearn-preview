@@ -25,17 +25,18 @@ keeping; „it quietly vanished" is a defect. This section is never pruned — o
 | # | Item | Why it is first | State |
 |---|---|---|---|
 | 0 | ~~Merge branch → live push~~ | ~~Value the kid cannot feel until it ships.~~ | ✅ **DONE 2026-07-20: v1.366 live** (owner GO = GI-33; NB-53/32/30/57 shipped + live-verified) |
-| W1 | PI-95 visible level ladder — PROTOTYPE + show | Owner's own idea; the wave's anchor. | queued |
-| W2 | PI-96 pride-share card — PROTOTYPE + show | Owner's own idea. | queued |
-| W3 | PI-97 owl video-tales — 3 TEMPLATES + show | Owner's own idea (FB market signal 471K views). | queued |
-| W4 | Weekly parent card — PROTOTYPE + show | Feature 4 of the accepted list. | queued |
-| W5 | Per-letter progress — BUILD | Feature 5; also unlocks audit-B E1 measurability. | queued |
-| W6 | Adaptive difficulty — BUILD | Feature 6. | queued |
-| W7 | Daily curious question — ≥5 versions + show | Feature 7 (owner: „5 ვერსია მინიმუმ"). | queued |
-| W8 | Voice Talks deepening — PLAN/spec to show | Feature 8 (owner: „ძალიან მინდა"). | queued |
+| W1 | PI-95 visible level ladder — PROTOTYPE + show | Owner's own idea; the wave's anchor. | **SHOWN 2026-07-20** — interactive mock in `output/2026-07-20-ფიჩერ პროტოტიპები W1 W2 W4 by Niko.html` (§6c verified: render + tap-interaction + screenshots) |
+| W2 | PI-96 pride-share card — PROTOTYPE + show | Owner's own idea. | **SHOWN 2026-07-20** — same file as W1; initial-only default, parent-space share, no direct posting |
+| W3 | PI-97 owl video-tales — 3 TEMPLATES + show | Owner's own idea (FB market signal 471K views). | **SHOWN 2026-07-20** — `output/2026-07-20-ვიდეოზღაპრის 3 შაბლონი by Niko.html` (bedtime-letter / why-Bubu / alphabet-journey; all scripts original §11; recommendation = pilot template 2; awaits owner pick) |
+| W4 | Weekly parent card — PROTOTYPE + show | Feature 4 of the accepted list. | **SHOWN 2026-07-20** — same file as W1; all-local stats, feeds W2 card; W5 strengthens its letter data |
+| W5 | Per-letter progress — BUILD | Feature 5; also unlocks audit-B E1 measurability. | in build (started 2026-07-20; branch-only, no live push without new GO) |
+| W6 | Adaptive difficulty — BUILD | Feature 6. | queued (after W5 — shares the per-letter signal) |
+| W7 | Daily curious question — ≥5 versions + show | Feature 7 (owner: „5 ვერსია მინიმუმ"). | **SHOWN 2026-07-20** — `output/2026-07-20-დღის კითხვა 6 ვერსია by Niko.html` (6 original Q&A versions + interactive mock; assumption labeled: versions = content items) |
+| W8 | Voice Talks deepening — PLAN/spec to show | Feature 8 (owner: „ძალიან მინდა"). | **SHOWN 2026-07-20** — `output/2026-07-20-ხმოვანი საუბრები გეგმა by Niko.html` (3-path privacy comparison; REC = on-device whisper path B, default = measurement prototype first; path A/C would break on-device promise — owner fork flagged) |
 | — | Features 9-10 (progress export, diaspora mode) | — | NOT NOW (owner: „დროებით არა" — DROPPED row below) |
 
 Wave rules: "ai pulsar georgia" GitHub resources checked first (owner instruction); prototypes are SHOWN, not shipped — any live push needs a new GO; NB-65/PI-89 stop-order still freezes colour/text rewrites.
+**Scout result (2026-07-20):** owner's reference = **AI Pulse Georgia** → `github.com/tornikebolokadze1-cyber/awesome-ai-pulse-georgia` (300 AI dev tools, Georgian descriptions, CC0, 125★) [FACT]. No kids-content / Georgian-TTS / adaptive-learning assets in it. Two usable leads: (1) media-generation category = candidate build-time pipeline for W3 video-tales + story illustrations (ComfyUI, Diffusers, HunyuanVideo; licenses per-tool, check before use); (2) `whisper.cpp` explicitly supports Georgian ASR on-device [FACT] — future "child answers by voice" option for W8, zero-backend compatible. Georgian quality of open TTS models (Coqui/Bark/VoxCPM) = [TO VALIDATE]. Ruled out: Pulsar AI/Supernova (acquired startup), `aipulsar` (crypto) — wrong entities.
 
 ## ▶ NOW-previous (s21 classes — still committed, next dev slot after the wave)
 
