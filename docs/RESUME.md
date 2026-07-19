@@ -2,25 +2,22 @@
 
 > Startup SSOT. Hard cap: 2 KB. Semantic state only; machine state is `.recovery/current.md`.
 
-**UPDATED:** 2026-07-18 · git health GREEN (s24: s21 ref released, zero objects deleted)  
-**LIVE (prod):** `v1.365` (`8ec2916`) · untouched · branch work is **NOT on nikolearn.com**  
-**BRANCH:** `recover/clean-2026-07-16` (`828dd616`) · 7 ahead of main · on origin (private) + preview:main (older slice)
+**UPDATED:** 2026-07-20 · **v1.366 DEPLOYED to nikolearn.com** (owner GO = GI-33)  
+**LIVE (prod):** `v1.366` (`71f42b1`) · main = branch tip, fully shipped · live-verified (version + 4 markers + §6c screenshot)  
+**BRANCH:** `recover/clean-2026-07-16` = main (`71f42b1`) · on origin (private) + preview (older slice)
 
-## NOW — owner reads corpus on PHONE (2026-07-18)
+## NOW — FEATURE WAVE (owner order 2026-07-18 = GI-34)
 
-`100_Final_Docs/` restructured 01_STRATEGY_STAGE1 / 02_STRATEGY_STAGE1_5 / 03_AUDIT_2026-07-17 (+shots) / 04_OWNER_BRIEFS + Georgian README index; `2bc5e11` pushed to PRIVATE origin only (never preview — confidential). Phone URL: https://github.com/GShoina/NikoLearn/tree/recover/clean-2026-07-16/100_Final_Docs
-**Audits (07-17):** A+B FINAL; 4 DEFECTs = **NB-72..75 OPEN** (fix wave after preview verdict); B: E1 unmeasurable today (no per-letter history); unlock = per-letter records + pre/post probe.
-**Stage-1.5 COMPLETE:** both opponents reject standalone (≤40% [HYPOTHESIS]); service-frame first ~80% [RECOMMENDATION]. Red-team caveat in README: AI-convergence ≠ independent proof; zero real-user data. Owner gates: D1/D2/D3 · E1 verdict (default = hold) · W3 answers.
-**Preview (PI-87):** https://gshoina.github.io/NikoLearn-preview/ — `nikolearn.com` untouched.
+Owner picked from the 10-feature list: (1) PI-95 level-ladder PROTOTYPE+show · (2) PI-96 pride-share PROTOTYPE+show · (3) PI-97 owl video-tales, 3 templates, show · (4) weekly parent card PROTOTYPE+show · (5) per-letter progress BUILD · (6) adaptive difficulty BUILD · (7) daily curious question ≥5 versions, show · (8) voice Talks — show the plan · (9-10) NOT now. Orchestration (model/agent/resources) = my call; scout "ai pulsar georgia" GitHub first (agent running). Nothing from the wave goes live without a NEW GO.
 
-## NEXT — owner verdicts, then go-live gates (all owner-side)
+## SHIPPED v1.366 (2026-07-20)
 
-(1) PI-87 = satisfied when he taps the URL. (2) audit #29 — drop `changes.html`+`validate.html` from `deploy-pages.yml` allowlist before prod. (3) NB-65/PI-89 TYPE gate — branch bundles frozen colour/text; hold. Recommend: preview → stage DEFECT fixes live → hold frozen slice.
+NB-53 parent-gate (mult) · NB-32/30 save-warn+SK_BAK · NB-57 SW offline fixes · NB-54/59 a11y labels · contrast · allowlist trim (changes/validate 404 ✓). Docs corpus + infra merged (private origin only, allowlist keeps docs off the public site). Tracker rows updated.
 
-## OWNER HOLD
+## OPEN — owner-side
 
-No live merge/push. §15b = merge-to-main needs his GO. **🛑 STOP-ORDER: no colour/text rewrites until NB-65 + PI-89 answered by him.**
+NB-65 + PI-89 answers (🛑 STOP-ORDER holds for FUTURE colour/text rewrites) · NB-72..75 audit fix wave (next dev slot) · NB-76 closes when phone GitHub login works (standing rule: every brief = output/ HTML + private URL) · D1/D2/D3, E1, W3 strategy verdicts.
 
 ## BACKUPS / ROUTES
 
-5 backups (`../NikoLand-git-safety-723ff31`, `…/git-pre-repair/20260716-145511/` + `20260718-071450/` + `20260718-071739/`, `…-quarantine/`). Old s21 tip = `efa83c3` (ref released s24, objects intact). Bugs → `docs/BUGFIX_TRACKER.md` · Seq → `docs/PRODUCT_ROADMAP.md` · Repair+handoff detail → `docs/SESSION-HANDOFF.md` (s23/s24) · one-command recovery → `tools/recover.ps1`.
+`backup/main-pre-v1.366` (main@8ec2916 rollback ref) + 5 dir backups (see s23/s24 handoff). Bugs → `docs/BUGFIX_TRACKER.md` · Seq → `docs/PRODUCT_ROADMAP.md` · Ideas → `docs/PRODUCT_IDEAS.md` · recovery → `tools/recover.ps1`.

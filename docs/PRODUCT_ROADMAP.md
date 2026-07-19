@@ -20,13 +20,30 @@ keeping; „it quietly vanished" is a defect. This section is never pruned — o
 
 ---
 
-## ▶ NOW (in flight, s21)
+## ▶ NOW (feature wave, s25 — owner order 2026-07-18 = GI-34)
+
+| # | Item | Why it is first | State |
+|---|---|---|---|
+| 0 | ~~Merge branch → live push~~ | ~~Value the kid cannot feel until it ships.~~ | ✅ **DONE 2026-07-20: v1.366 live** (owner GO = GI-33; NB-53/32/30/57 shipped + live-verified) |
+| W1 | PI-95 visible level ladder — PROTOTYPE + show | Owner's own idea; the wave's anchor. | queued |
+| W2 | PI-96 pride-share card — PROTOTYPE + show | Owner's own idea. | queued |
+| W3 | PI-97 owl video-tales — 3 TEMPLATES + show | Owner's own idea (FB market signal 471K views). | queued |
+| W4 | Weekly parent card — PROTOTYPE + show | Feature 4 of the accepted list. | queued |
+| W5 | Per-letter progress — BUILD | Feature 5; also unlocks audit-B E1 measurability. | queued |
+| W6 | Adaptive difficulty — BUILD | Feature 6. | queued |
+| W7 | Daily curious question — ≥5 versions + show | Feature 7 (owner: „5 ვერსია მინიმუმ"). | queued |
+| W8 | Voice Talks deepening — PLAN/spec to show | Feature 8 (owner: „ძალიან მინდა"). | queued |
+| — | Features 9-10 (progress export, diaspora mode) | — | NOT NOW (owner: „დროებით არა" — DROPPED row below) |
+
+Wave rules: "ai pulsar georgia" GitHub resources checked first (owner instruction); prototypes are SHOWN, not shipped — any live push needs a new GO; NB-65/PI-89 stop-order still freezes colour/text rewrites.
+
+## ▶ NOW-previous (s21 classes — still committed, next dev slot after the wave)
 
 | # | Item | Why it is first | State |
 |---|---|---|---|
 | 1 | **Promise-integrity class** (NB-27 feedback-row TTL vs the ≤12mo privacy promise) | The app makes a promise the system does not keep. Same class as NB-25 (false privacy claim, shipped 07-12) and the privacy card fixed today. This class, not the individual bugs, is what a parent and Google Play both judge. | NEXT UP |
 | 2 | **Georgian-quality class** (NB-13 `ვკრებავთ`→`ვკრებთ`, NB-9 untranslated chrome, NB-2 tutor wording) | Being genuinely Georgian IS the differentiation. A grammar error in the tutor is not a "MED bug", it is the product failing its core claim in front of the parent whose trust decides retention. | NB-13 awaits owner native validation; NB-9/NB-2 ready |
-| 3 | Merge `recover/s21-nb32-nb3-nb8` → live push | 3 fixes verified + committed, sitting unmerged. Value the kid cannot feel until it ships. | Awaiting push (§15b: merge to main = owner gate) |
+| 2b | **NB-72..75 audit fix wave** (4 DEFECTs from the 07-17 audit) | Verified defects sitting open. | Ready — next dev slot |
 
 ## ▶ NEXT (committed, ordered)
 
@@ -110,6 +127,7 @@ always has an answer, and so a revive trigger can fire later.
 | **Grant funding** | 2026-07-12 | Owner decision: dropped, **never re-surface**. | None. Do not raise. | Owner |
 | **NB-31 CSP + innerHTML hardening** | 2026-07-15 | Real, but heavy: needs an innerHTML/inline-handler refactor across the app. Current risk genuinely low (repo private, names sanitized, no external links). Cost >> today's risk. | Any user-generated content beyond names, OR a backend, OR Play submission hardening | Codex CP-01 |
 | **NB-7 telemetry allow-list · NB-11 stale EN regexes · NB-12 listening-mode text fallback** | earlier | DEFER: CF-Worker coupling (NB-7); low value, ka-first (NB-11); NB-12 real but no report yet. | NB-12 revives on any audio-fails report | 07-02 audit / s9 |
+| **Features 9-10 of the 2026-07-18 10-feature list** (9 = progress export/print, 10 = diaspora mode) | 2026-07-18 | Owner verdict on the list: „9-10 დროებით არა" — temporary no, not a rejection. | Owner revisits after the W1-W8 wave ships | Owner (GI-34) |
 | **NB-37(B) ~120 kings-math EN translation** | 2026-07-14 | A multi-session authoring project of questionable value, in tension with „the app teaches English through content, chrome stays Georgian". Default = keep ka. | Owner picks Option B explicitly | s19 fork |
 | **Theme picker option B (bold full re-skin)** | 2026-07-14 | Chrome-only shipped instead; subject/world hues kept as fixed identity the owner likes. | Owner asks for a bolder re-skin | NB-48 |
 | **LLM-in-CI genuine auto-fix tier** | 2026-07-14 | Needs `ANTHROPIC_API_KEY` + spend approval = owner money gate. Deterministic version-sync tier shipped instead. | Owner approves spend | NB-46 |
