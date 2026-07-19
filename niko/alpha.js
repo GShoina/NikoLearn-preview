@@ -63,8 +63,19 @@ function alphaQuiz(subj){
   const data=alphaData(subj);
   game.mode=subj;game.subj=subj;game.i=0;game.shields=0;game.wrong=0;
   game.start=Date.now();game.preLvl=levelIdx(profile);
-  game.qs=shuffle(data).slice(0,8).map(alphaItem);
+  game.qs=alphaPick(data).map(alphaItem);
   nextAlpha();
+}
+// W5: weak-first round — mirror of the words priority (games.js pr = wrong/(correct+1)). Up to 3 letters
+// the child misses most lead the round (shuffled among themselves), the rest is a fresh shuffle. Weak ones
+// go FIRST so the beginner-round trim (games.js BEGINNER_LEN slice) can never cut them. Fresh profile
+// (no per-letter data yet) degrades to the old pure shuffle — zero behavior change.
+function alphaPick(data){
+  const s=state[profile], rec=(s&&s.letters)||{};
+  const scored=data.map(it=>{const r=rec[it.l]||{};return {it,pr:(r.wrong||0)/((r.correct||0)+1)};});
+  const weak=shuffle(scored.filter(x=>x.pr>0).sort((a,b)=>b.pr-a.pr).slice(0,3).map(x=>x.it));
+  const rest=shuffle(data.filter(it=>!weak.includes(it)));
+  return weak.concat(rest).slice(0,8);
 }
 function alphaOpts(data,correct){
   const set=new Set([correct.l]);
@@ -90,17 +101,23 @@ function nextAlpha(){
   gameShell(area);
   const c=$('#gcount');if(c)c.textContent=`${game.i+1}/${game.qs.length}`;
 }
-function alphaRec(ok){
+function alphaRec(ok,letter){
   const s=state[profile];if(!s.alpha)s.alpha={};
   if(!s.alpha[game.mode])s.alpha[game.mode]={correct:0,wrong:0};
   s.alpha[game.mode][ok?'correct':'wrong']++;
+  // W5: per-letter progress, same lazy pattern as s.words[en]. Flat key is safe: ka/en glyphs never collide.
+  if(letter){
+    if(!s.letters)s.letters={};
+    if(!s.letters[letter])s.letters[letter]={correct:0,wrong:0};
+    s.letters[letter][ok?'correct':'wrong']++;
+  }
 }
 function answerAlpha(btn,sel,cor){
   if(sel===cor){
     document.querySelectorAll('.opt').forEach(b=>b.classList.add('dim'));
     btn.classList.remove('dim');btn.classList.add('correct');
     const s=state[profile];s.shields++;game.shields++;s.streak++;s.maxStreak=Math.max(s.maxStreak,s.streak);
-    alphaRec(true);save();
+    alphaRec(true,cor);save();
     // child-paced celebration (winStep): re-say the word, praise, then a „შემდეგი →" tap advances — never a
     // 1s hard-cut that swallows the praise (owner 5yo live test: the letter test advanced too fast after a win).
     const q=game.qs[game.i];
@@ -111,7 +128,7 @@ function answerAlpha(btn,sel,cor){
     // 1st miss = owl hint, 2nd miss = teachAndConfirm (encourage → the alpha lesson from Tutor.build →
     // reveal the correct letter + „გაიგე?" gate). cor = the letter; lang=null marks the correct option
     // WITHOUT unreliable Georgian TTS (the word was already voiced via alphaSay); nextAlpha advances/re-queues.
-    btn.classList.add('wrong');state[profile].streak=0;game.wrong++;alphaRec(false);save();
+    btn.classList.add('wrong');state[profile].streak=0;game.wrong++;alphaRec(false,cor);save();
     reQueueWrong(cor,null,nextAlpha);
   }
 }

@@ -615,7 +615,19 @@ function rampMath(type,pct){
   } else {
     s.mathUp[type]=0;
     if(pct<50 && cur>0){ s.mathLevel[type]=cur-1; }
+    else if(cur>0){
+      // W6: the 50-84% dead zone — one round never changed anything here, so a child grinding at 55-60%
+      // stayed stuck on a too-hard tier. The rolling window (mrec) decides across rounds instead:
+      // 10+ recent answers under 60% success → one tier down. Silent for the child, never a demotion toast.
+      const rc=(s.math[type]&&s.math[type].recent)||[];
+      if(rc.length>=10 && rc.reduce((a,b)=>a+b,0)/rc.length<0.6){
+        s.mathLevel[type]=cur-1;
+        try{Analytics.event('tier_down',{mode:type,tier:'t'+Math.max(cur-1,0)});}catch(e){}
+      }
+    }
   }
+  // any tier change (up or down) resets the rolling window, so it measures the NEW tier only
+  if(mathLvl(type)!==cur && s.math[type]) s.math[type].recent=[];
   save();
 }
 function genMathRaw(type){
@@ -778,7 +790,10 @@ function answerMath(btn,sel,cor){
     mrec(true);winStep(null,null,()=>{game.i++;(nextForMode())();});}
   else{btn.classList.add('wrong','dim');mrec(false);reQueueWrong(cor,null);}
 }
-function mrec(ok){const s=state[profile];if(ok){s.shields++;game.shields++;s.streak++;s.maxStreak=Math.max(s.maxStreak,s.streak);if(!s.math[game.mode])s.math[game.mode]={correct:0,wrong:0};s.math[game.mode].correct++;}else{game.wrong++;s.streak=0;if(!s.math[game.mode])s.math[game.mode]={correct:0,wrong:0};s.math[game.mode].wrong++;}save();}
+function mrec(ok){const s=state[profile];if(ok){s.shields++;game.shields++;s.streak++;s.maxStreak=Math.max(s.maxStreak,s.streak);if(!s.math[game.mode])s.math[game.mode]={correct:0,wrong:0};s.math[game.mode].correct++;}else{game.wrong++;s.streak=0;if(!s.math[game.mode])s.math[game.mode]={correct:0,wrong:0};s.math[game.mode].wrong++;}
+  // W6: rolling window of the last 20 outcomes per mode — feeds the cross-round auto tier-down in rampMath
+  const m=s.math[game.mode]; m.recent=m.recent||[]; m.recent.push(ok?1:0); if(m.recent.length>20)m.recent.shift();
+  save();}
 
 /* ════════ A: comparison (>/<), skip-counting (5s/10s), shapes ════════ */
 // INV-4 adaptive ladder (owner 07-02): flat modes had ONE fixed difficulty. A per-mode tier (1-3) now climbs
@@ -787,8 +802,18 @@ function mrec(ok){const s=state[profile];if(ok){s.shields++;game.shields++;s.str
 function flatTier(mode){ const s=state[profile]; if(!s)return 1; s.flatTier=s.flatTier||{}; return Math.max(1,Math.min(3,s.flatTier[mode]||1)); }
 function bumpFlat(mode, ok){ const s=state[profile]; if(!s)return; s.flatTier=s.flatTier||{}; s.flatStreak=s.flatStreak||{};
   const cur=Math.max(1,Math.min(3,s.flatTier[mode]||1));
+  // W6: flat tiers could only climb — a child bumped to tier 3 who then struggled stayed stuck there.
+  // Same rolling-window rule as rampMath: 10+ recent answers under 60% success → one tier down, silently.
+  s.flatRecent=s.flatRecent||{}; const rc=s.flatRecent[mode]=s.flatRecent[mode]||[];
+  rc.push(ok?1:0); if(rc.length>20)rc.shift();
   if(ok){ s.flatStreak[mode]=(s.flatStreak[mode]||0)+1; if(s.flatStreak[mode]>=4 && cur<3){ s.flatTier[mode]=cur+1; s.flatStreak[mode]=0; try{Analytics.event('tier_up',{mode:mode,tier:'t'+(cur+1)});}catch(e){} } }
-  else { s.flatStreak[mode]=0; }
+  else { s.flatStreak[mode]=0;
+    if(rc.length>=10 && cur>1 && rc.reduce((a,b)=>a+b,0)/rc.length<0.6){
+      s.flatTier[mode]=cur-1; try{Analytics.event('tier_down',{mode:mode,tier:'t'+(cur-1)});}catch(e){}
+    }
+  }
+  // any tier change resets the window, so it measures the NEW tier only
+  if((s.flatTier[mode]||1)!==cur) s.flatRecent[mode]=[];
   save(); }
 /* ── comparison: a ? b → pick > < = ── */
 function cmpRound(){game.mode='compare';const MX=[10,20,100][flatTier('compare')-1];game.qs=Array.from({length:8},()=>{const a=ri(1,MX);let b=ri(1,MX);if(Math.random()<0.25)b=a;return{a:a,b:b,ans:a>b?'>':(a<b?'<':'=')};});game.i=0;game.shields=0;game.wrong=0;game.missMap=new Map();game.requeues=0;game.start=Date.now();game.preLvl=levelIdx(profile);nextCmp();}

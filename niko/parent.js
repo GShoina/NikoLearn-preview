@@ -289,6 +289,19 @@ function parentDash(){
     if(Object.keys(s.math||{}).length){
       html+=`<div class="section-label" style="color:var(--purple)">მათემატიკა</div><div class="stat-grid">${Object.entries(s.math).map(([k,v])=>{const nm={'math-add':'➕','math-sub':'➖','math-mul':'✖️','math-div':'➗','math-miss':'❓','math-pat':'🧩','compare':'⚖️','skip':'🔢','shapes':'🔷','money':'💰','clock':'🕐'}[k]||k;const a=v.correct+v.wrong?Math.round(v.correct/(v.correct+v.wrong)*100):0;return `<div class="scard"><div class="sv">${nm}</div><div class="sl">${a}% · ${v.correct}✓</div></div>`;}).join('')}</div>`;
     }
+    // W5: per-letter mastery grid from s.letters — green = learned (3✓ and ≥70%), red = struggling
+    // (more wrong than right), amber = still practicing. Parent sees WHICH letters, not just "the alphabet".
+    const letRec=Object.entries(s.letters||{});
+    if(letRec.length){
+      const isKa=k=>/[ა-ჰ]/.test(k);
+      const cell=([k,v])=>{const t=v.correct+v.wrong;const good=v.correct>=3&&v.correct/t>=0.7;const bad=v.wrong>v.correct;const c=good?'var(--green-d)':(bad?'var(--primary-d)':'var(--sun-d)');return `<span class="lcell" style="border-color:${c};color:${c}" title="${v.correct}✓ ${v.wrong}✗">${k}</span>`;};
+      const grid=rows=>`<div class="letter-grid">${rows.map(cell).join('')}</div>`;
+      const ka=letRec.filter(([k])=>isKa(k)),la=letRec.filter(([k])=>!isKa(k));
+      if(ka.length)html+=`<div class="section-label" style="color:var(--purple)">${en?'Georgian letters':'ქართული ასოები'}</div>`+grid(ka);
+      if(la.length)html+=`<div class="section-label" style="color:var(--purple)">${en?'English letters':'ინგლისური ასოები'}</div>`+grid(la);
+      const worst=letRec.map(([k,v])=>({k,pr:(v.wrong||0)/((v.correct||0)+1)})).filter(x=>x.pr>0).sort((a,b)=>b.pr-a.pr).slice(0,3).map(x=>x.k);
+      if(worst.length)html+=`<div style="font-size:.8rem;color:var(--muted);margin:2px 0 8px">🦉 ${en?'Letters to practice together:':'ერთად გასავარჯიშებელი ასოები:'} <b>${worst.join(' · ')}</b></div>`;
+    }
     // engagement / healthy-use (Case 17): frequency + gentle nudge, not a long win-log
     const avg=s.sessions?Math.round(mins/s.sessions):0;
     let engNote;
