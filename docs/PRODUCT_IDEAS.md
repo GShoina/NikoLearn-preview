@@ -166,6 +166,10 @@ Status `OPEN` here means exactly one thing: **given, never actioned, never even 
 · **PI-46** (he killed his own venture narrative; nobody picked it up) · **PI-48** (asked for Red-Team/Pre-Mortem
 to be a standing ritual — „დაიმახსოვრე" — and it was not remembered).
 
+### 10-feature value list (owner request 2026-07-18: „მომეცი 10 ფიჩერი რომელიც ღირებულებას შესძენს პროდუქტს", ≥3 from his own submitted ideas)
+
+Delivered in chat same day; all [RECOMMENDATION], sequencing = owner's call via PRODUCT_ROADMAP. **His own three:** (1) PI-95 visible level ladder · (2) PI-96 pride-share card · (3) PI-97 owl video-tales (in-app originals + the FB-Reels funnel his screenshots proved). **Mine:** (4) weekly parent progress card (trust + willingness-to-pay basis) · (5) per-letter progress records + pre/post probe (E1 unlock, the measurable-outcome moat) · (6) adaptive difficulty (visible mastery-engine step) · (7) daily Curious-Question ritual (GI-27: hide the „lesson" label) · (8) deeper voice Talks (GI-27: the activity he picks voluntarily) · (9) progress export/transfer across devices with NO backend (privacy-first retention saver) · (10) diaspora mode (Georgian as heritage language, second pricing segment per Hybrid C). Recommended first pick: PI-95, it directly answers PI-69 (no reason to return) at low cost.
+
 **Given twice, because we lost it the first time:** **PI-60** (voice-actor demo — „დაიკარგა თემა", 06-27) ·
 **PI-61** (Georgian stroke order — given 06-28, re-given 07-03 with a full spec).
 
