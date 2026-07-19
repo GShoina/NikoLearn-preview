@@ -41,9 +41,10 @@ jobs:
           # default. It publishes only if explicitly named here. cp fails loudly if a required
           # core file is ever removed, which is safer than silently shipping a broken site.
           mkdir -p _site
+          # changes.html + validate.html dropped from the public allowlist (audit #29): internal QA
+          # pages, referenced nowhere in the shipped app — no reason to serve them from nikolearn.com.
           for f in \
             index.html landing.html privacy.html \
-            changes.html validate.html \
             sw.js manifest.json \
             CNAME robots.txt \
             favicon.svg favicon-32.png favicon-180.png apple-touch-180.png \
