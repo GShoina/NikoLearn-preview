@@ -9,17 +9,17 @@
 
 ## NOW — NB-88 feedback DONE + skill-first fix wave
 
-**NB-88 SHIPPED + INBOX-VERIFIED:** parent feedback now EMAILS the owner on every submit (worker `notifyOwner()`→Brevo, commit `90591af`). Fix: form stored in KV but pushed to no one; sending from unauthenticated **bivision.ge** is DMARC-dropped → sender = authenticated **niko@bihub.ge** (never revert). Live POST → INBOX at nikolearn@outlook.com + info@bivision.ge, Georgian intact. `NOTIFY_KEY` set, key in creds env only, consented row only. 3 agent test rows purged; owner's 4 real rows kept. `a1dee02` = PI-100 Khan Academy(ka) intake.
-Earlier: 3 skills in `.claude/skills/`; NB-77/NB-80 fixed (58cdd25); W7 v2 + W8-B + owner prompt/plan in `output/`, §6c-verified.
+**NB-88 SHIPPED + INBOX-VERIFIED:** parent feedback now EMAILS the owner on every submit (worker `notifyOwner()`→Brevo, commit `90591af`). Fix: form stored in KV but pushed to no one; sending from unauthenticated **bivision.ge** is DMARC-dropped → sender = authenticated **niko@bihub.ge** (never revert). Live POST → INBOX (both owner addrs), Georgian intact. `NOTIFY_KEY` set, key in creds env only, consented row only. `a1dee02` = PI-100 Khan Academy(ka) intake.
+Earlier: 3 skills; NB-77/NB-80 fixed (58cdd25); W7 v2 + W8-B + prompt/plan in output/ §6c-verified.
 
 ## NEXT (sequential, token-efficient, skill-first + provenance footer)
 
-W3 pilot: script Gemini-PASSED (`docs/W3_video-tale_pilot.md`, template #2 „რატომ, ბუბუ?"). NEXT = storyboard frames → compose → QA → owner previews FINAL. Then W1 redesign to Fable-5 bar.
+W3 pilot: hero + 7-scene HTML **animatic** BUILT & §6c-verified (`docs/W3_video-tale_pilot.md`; 3 playable HTMLs in output/). GATED next: owner direction-confirm + audio spend (§13.3; 7 new KA lines off-manifest) → MP4. Free HTML-animatic = shippable in-app format, no audio-spend. Ungated next = W5/W6 provenance; W1 redesign gated on W7 v2 dir.
 
 ## OPEN — owner picks (in deliverable HTML)
 
-1. W7 v2 design level OK to continue? · 2. W3 video: free HTML-frames (no spend, REC) vs paid tool · 3. refresh preview bench to live tip (NB-81, infra GO) · 4. TRUE path-B needs GO for ~40MB on-device model dep (§15b). Carried: NB-65/PI-89, NB-72..75 audit, NB-82/83 mislabels, wave live-push GO.
+1. W7 v2 design OK to continue? · 2. preview bench→live tip (NB-81, infra GO) · 3. TRUE path-B GO for ~40MB on-device model (§15b) · 4. W3 audio spend? (default: no, keep silent animatic). Carried: NB-65/PI-89, NB-72..75 audit, NB-82/83 mislabels, wave live-push GO.
 
 ## BACKUPS / ROUTES
 
-`backup/main-pre-v1.366` (rollback ref) + 5 dir backups. Bugs → `docs/BUGFIX_TRACKER.md` · Seq → `docs/PRODUCT_ROADMAP.md` · Ideas → `docs/PRODUCT_IDEAS.md` · recovery → `tools/recover.ps1`.
+`backup/main-pre-v1.366` + 5 dir backups. Bugs→`docs/BUGFIX_TRACKER.md` · Seq→`docs/PRODUCT_ROADMAP.md` · Ideas→`docs/PRODUCT_IDEAS.md` · recovery→`tools/recover.ps1`.

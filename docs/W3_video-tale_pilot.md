@@ -1,7 +1,10 @@
 # W3 Video-Tale Pilot — Template #2 „რატომ, ბუბუ?"
 
-> Status: **SCRIPT Gemini-gate PASSED (2 fixes applied). PENDING owner KA validation (§6f, 1-hr timeout) → then storyboard frames.**
+> Status: **HERO + 7-SCENE ANIMATIC BUILT & §6c-VERIFIED. PENDING owner direction-confirm + owner KA validation (§6f) → then audio (money/§13.3 gate) + MP4.**
+> Script Gemini-gate PASSED (2 fixes). Hero (card 6) rendered, mascot-lock verified (147px, centred). Animatic (all 7 scenes, one canonical `<use href="#owl">` each, captions = Gemini script) rendered + LOOKED at (day/night/dawn), loop-წესი all ≥8.
+> Deliverables (output/, gitignored): `2026-07-20-W3 hero კადრი გახსნა by Niko.html` · `2026-07-20-W3 ვიდეო-ანიმატიკი რატომ ბუბუ by Niko.html` (playable) · `2026-07-20-W3 ვიდეო-ზღაპრის სცენარი Gemini-გავლილი by Niko.html` (copy-list).
 > Gemini KA-QA 2026-07-20: lines 1-4,7 OK; line 5 + line 6 fixed per Gemini (idiom „მჭრის თვალებს", verb „ფხიზლობს"). Overall now ship-ready copy.
+> §6c-caught bug (logged as method note): CSS `transform` float-animation on the SVG group overrode the position/scale presentation attr → mascot rendered tiny in the corner; fixed by nesting (position attr outer, float CSS on a bare wrapper). Static assertion had passed; only the LOOK caught it.
 > Skill: `.claude/skills/video-tale-pipeline` v1 · Standard: kid-visual-standard v1.2 · build-provenance v1.1
 > Path chosen: FREE HTML-frames (owner money-gate not triggered). Owner sees the FINAL video (step 7 = §13 gate-4).
 > Created 2026-07-20. Pilot topic: **„რატომ ღვიძავს ბუბუს ღამით?"** (Why is Bubu awake at night?)
@@ -49,7 +52,9 @@ Self-pass (all ≥8). Criterion 4 is provisional: script copy is NOT done until 
 
 ## NEXT (pipeline)
 
-2. **GEMINI GATE (MANDATORY)** — run all 7 narration lines + title + on-screen words through Gemini for KA naturalness/anglicism; then owner validates per §6f (1-hour timeout). ← immediate next action.
-3. STORYBOARD frames (SVG+CSS, mascot-lock, one palette) → 4. ASSETS (hero = card 6 first) →
-5. COMPOSE (SVG+CSS → FFmpeg, or self-contained HTML animation; captions synced to EkaNeural/recorded clips, no Georgian TTS) →
-6. QA GATE (watch full video, silent audio check while owner works) → 7. OWNER PREVIEW of FINAL video (§13 gate-4).
+DONE: 2. Gemini gate ✓ · 3-4. storyboard + hero + all-scene assets ✓ · 5. compose = self-contained HTML animatic ✓ · 6a. §6c visual QA (3 scenes LOOKed) ✓.
+REMAINING → **GATED, do not force:**
+- **Owner direction-confirm** on the animatic look (preview presented; if silent, §6f window applies to the copy only, not to spending on audio).
+- **Audio (money/§13.3 + §15b dep gate):** 7 NEW Georgian lines are not in AUDIO_MANIFEST; producing them = EkaNeural/Azure generation (cost) OR recording. NEVER Georgian TTS at runtime. Needs owner GO.
+- **MP4 compose (FFmpeg):** only after audio + direction-confirm. Then 7. OWNER PREVIEW of FINAL video (§13 gate-4) → live = separate GO.
+Recommendation + default: keep the free HTML-animatic as the shippable-in-app format (no audio-spend needed; captions carry the story, autoplay + tap). Add voice ONLY if owner wants it (then it is a money decision). Default if owner silent: hold at this gate, do not spend on audio.
