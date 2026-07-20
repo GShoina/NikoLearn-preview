@@ -18,7 +18,7 @@ W-batch ungated work COMPLETE + consolidated. **Owner start-here:** `output/2026
 
 ## OPEN — owner picks (in deliverable HTML)
 
-1. W7 v2 design OK to continue? · 2. preview bench→live tip (NB-81, infra GO) · 3. TRUE path-B GO for ~40MB on-device model (§15b) · 4. W3 audio spend? (default: no, keep silent animatic). Carried: NB-65/PI-89, NB-72..75 audit, NB-82/83 mislabels, wave live-push GO.
+1. W7 v2 design OK to continue? · 2. preview bench→live tip (NB-81, infra GO) · 3. TRUE path-B GO for ~40MB on-device model (§15b) · 4. W3 audio spend? (default: no, keep silent animatic). Carried: NB-65/PI-89, NB-72..75 audit, NB-82 cal-label (NB-83 done), wave live-push GO.
 
 ## BACKUPS / ROUTES
 
