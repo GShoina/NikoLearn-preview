@@ -135,8 +135,45 @@ function clean(ev) {
 
 const today = () => new Date().toISOString().slice(0, 10); // UTC date bucket
 
+// ── OWNER PUSH NOTIFY (NB-88, 2026-07-20) — email the owner the moment a parent submits feedback.
+// WHY: the form already stored every submission in KV (proven: the owner's 3 phone tests all landed),
+// but nothing PUSHED them to him — feedback sat in the dashboard he had to pull. Parents leave over
+// unanswered issues, so the channel must reach him actively, not passively.
+// INERT-BY-DEFAULT: with no env.NOTIFY_KEY set this is a no-op, so deploying it changes nothing until
+// the send key exists. A send failure NEVER breaks the parent's submit (the row is already in KV).
+// PRIVACY: sends ONLY the consented feedback row (the parent's own message + the contact they chose to
+// give so we can reply). It carries NO telemetry, NO IP, NO child data — same guarantee as the rest of
+// this worker. Provider = Brevo transactional API (the owner's existing account; sender domain verified).
+async function notifyOwner(env, row) {
+  if (!env.NOTIFY_KEY) return; // not configured → stay inert (safe to ship)
+  const to = (env.NOTIFY_TO || 'gela.shonia@bivision.ge,info@bivision.ge')
+    .split(',').map(s => s.trim()).filter(Boolean).map(email => ({ email }));
+  const line = (label, v) => (v ? `${label}: ${v}\n` : '');
+  const text =
+    'ახალი უკუკავშირი შემოვიდა NikoLearn-ის აპლიკაციაში.\n\n' +
+    `შეტყობინება: ${row.msg || '(ტექსტი არ არის)'}\n` +
+    line('სახელი', row.name) +
+    line('ტელეფონი', row.phone) +
+    line('ელფოსტა', row.email) +
+    line('მოწყობილობა', row.os) +
+    `დრო (UTC): ${row.ts}\n\n` +
+    'უპასუხე მშობელს ზემოთ მითითებული კონტაქტით. ყველა უკუკავშირი იხილე დაშბორდის 💬 ტაბში.';
+  try {
+    await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: { 'api-key': env.NOTIFY_KEY, 'Content-Type': 'application/json', accept: 'application/json' },
+      body: JSON.stringify({
+        sender: { name: 'NikoLearn', email: env.NOTIFY_FROM || 'info@bivision.ge' },
+        to,
+        subject: 'NikoLearn: ახალი უკუკავშირი მშობლისგან',
+        textContent: text,
+      }),
+    });
+  } catch (e) { /* notify is best-effort; the feedback is already safely stored in KV */ }
+}
+
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const origin = request.headers.get('Origin') || '';
     const url = new URL(request.url);
     if (request.method === 'OPTIONS') return new Response(null, { headers: cors(origin) });
@@ -235,6 +272,8 @@ export default {
       try {
         await env.NIKO_T.put(`fb|${row.ts}|${crypto.randomUUID().slice(0, 8)}`, JSON.stringify(row));
       } catch (e) { return new Response(JSON.stringify({ ok: false, error: 'store' }), { status: 500, headers: { ...cors(origin), 'Content-Type': 'application/json' } }); }
+      // Push to the owner without blocking the parent's response (inert until NOTIFY_KEY is set).
+      if (ctx && typeof ctx.waitUntil === 'function') ctx.waitUntil(notifyOwner(env, row));
       return new Response(JSON.stringify({ ok: true }), { status: 200, headers: { ...cors(origin), 'Content-Type': 'application/json' } });
     }
 
