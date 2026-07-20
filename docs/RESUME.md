@@ -2,24 +2,18 @@
 
 > Startup SSOT. Hard cap: 2 KB. Semantic state only; machine state is `.recovery/current.md`.
 
-**UPDATED:** 2026-07-21 · **v1.366 LIVE on nikolearn.com** (owner GO = GI-33)  
-**LIVE (prod):** `v1.366` (`71f42b1`) · main = fully shipped · §6c-verified  
-**WORKER (prod):** `nikolearn-t` deployed version `5b1ab168` — feedback-notify live  
-**BRANCH NOW:** `fix/nb77-nb80-learnnav-tutorlabel` · fix wave + skills + NB-88 committed here, unpushed
+**UPDATED:** 2026-07-21 · **v1.367 SHIPPED LIVE + §6c-verified** on nikolearn.com  
+**LIVE (prod):** `v1.367` (`5818550`) · origin/main = `5818550` · Pages run 29779900452 ✓ · live footer=v1.367, 0 console errors, home render clean  
+**WORKER (prod):** `nikolearn-t` `5b1ab168` — feedback-notify live
 
-## NOW — NB-88 feedback DONE + skill-first fix wave
+## NOW — wave live; 4 owner decisions logged
 
-**NB-88 SHIPPED + INBOX-VERIFIED:** parent feedback EMAILS owner on submit (worker `notifyOwner()`→Brevo, `90591af`). Sender MUST stay authenticated **niko@bihub.ge** (bivision.ge is DMARC-dropped, never revert). `NOTIFY_KEY` in creds env only, consented row only. `a1dee02` = PI-100 Khan(ka) intake.
-Earlier: 3 skills; NB-77/NB-80 fixed (58cdd25); W7 v2 + W8-B + prompt/plan §6c-verified.
+**Wave LIVE (owner GO):** W5 per-letter progress + W6 adaptive difficulty in production (+ NB-77/NB-80/NB-83). Deploy-guard all 6 behavioral harnesses green. **Owner decisions this turn (all logged in PRODUCT_ROADMAP W3/W8 rows):** W3 → template 2 „რატომ, ბუბუ?" PICKED, but hero REJECTED as below quality (PI-102) → pilot being reworked. W8 → path B on-device CONFIRMED, B prototype ACCEPTED. **output/ cleaned per owner:** 2 superseded prototypes (3-templates compare, W8 plan) removed → backup `backups/output-deleted-2026-07-21/`. W1/W2/W4 prototype file KEPT (owner finishes separately).
 
-## NEXT (sequential, token-efficient, skill-first + provenance footer)
+## OPEN — owner picks + rework
 
-W-batch ungated work COMPLETE + consolidated. **Owner start-here:** `output/2026-07-21-სად ვდგავართ, შენი 4 გადაწყვეტილება by Niko.html` (decision-first cover, links all 7 deliverables). DONE: W3 pilot (hero+7-scene §6c animatic), W5/W6 + provenance, W7 v2, W8-B, prompt/plan. All remaining W-batch = the 4 owner gates in OPEN (each has a recommendation+default). Session hygiene done (temp jpegs + :8137 server cleared).
-
-## OPEN — owner picks (in deliverable HTML)
-
-1. W7 v2 design OK to continue? · 2. preview bench→live tip (NB-81, infra GO) · 3. TRUE path-B GO for ~40MB on-device model (§15b) · 4. W3 audio spend? (default: no, keep silent animatic). Carried: NB-65/PI-89, NB-72..75 audit, NB-82 cal-label (NB-83 done), wave live-push GO.
+1. day-question **v3** design OK → unblocks W1/W2/W4 redesign · 2. preview→live tip (infra GO) · 3. TRUE path-B ~40MB on-device model (arch GO; default hold) · 4. video-tale audio spend (default: no, silent captioned animatic). **W3 hero quality rework** (PI-102: AI-cartoon tier vs hand-vector — needs owner fork). Start-here: `output/2026-07-21-სად ვდგავართ, შენი 4 გადაწყვეტილება by Niko.html`. Carried: NB-82 cal-label, NB-72..75 audit, NB-65/PI-89.
 
 ## BACKUPS / ROUTES
 
-`backup/main-pre-v1.366` + 5 dir backups. Bugs→`docs/BUGFIX_TRACKER.md` · Seq→`docs/PRODUCT_ROADMAP.md` · Ideas→`docs/PRODUCT_IDEAS.md` · recovery→`tools/recover.ps1`.
+`backup/main-pre-v1.367` (e3f02d3) + `-v1.366` + `backups/output-deleted-2026-07-21/`. Bugs→`docs/BUGFIX_TRACKER.md` · Seq→`docs/PRODUCT_ROADMAP.md` · Ideas→`docs/PRODUCT_IDEAS.md` · recovery→`tools/recover.ps1`.
