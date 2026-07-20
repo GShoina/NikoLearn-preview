@@ -43,8 +43,8 @@ const VOCAB_OK = {
 //    should show) is pending. REMOVE an entry the moment it gets a real subject mapping in
 //    gameSubject(); do NOT add new modes here to silence the test — map them instead. ─────────────
 const KNOWN_NONVOCAB_FALLTHROUGH = {
-  cal:  'calendar (weekdays/seasons), content-language-aware — should NOT be English teacher',
-  exam: 'Kings-math mock exam (pattern/rebus/model reasoning) — should be math teacher',
+  cal:  'calendar (weekdays/seasons): needs its own "კალენდრის მასწავლებელი" persona (new subject + ctx.subject audit) — NB-82, next tutor pass',
+  // NB-83 CLOSED 2026-07-21: 'exam' now maps to 'pattern' in gameSubject() → math-teacher label.
 };
 
 // ── 1. collect every game.mode='<value>' assignment across niko/*.js ─────────────────────────────
@@ -80,10 +80,13 @@ const isMapped = (mode) => exact.has(mode) || prefixes.some(p => mode.startsWith
 
 if (dynamic.length) console.log('  NOTE  dynamic game.mode assignments (not statically resolved): ' + dynamic.join('; '));
 
-// positive discriminator: the NB-80 counting modes must stay mapped (regression trip-wire)
+// positive discriminator: the NB-80 counting modes + the NB-83 exam mode must stay mapped (regression trip-wire)
 assert(isMapped('count') && isMapped('digit'),
   "counting modes 'count' + 'digit' are mapped by gameSubject()",
   "NB-80 regression: a counting mode fell out of gameSubject() -> vocab/English-teacher");
+assert(isMapped('exam'),
+  "Kings-math mock mode 'exam' is mapped by gameSubject() (NB-83)",
+  "NB-83 regression: 'exam' fell out of gameSubject() -> vocab/English-teacher on a math exam");
 
 // ── 3. no assigned mode may reach the English-teacher default unless it is whitelisted ───────────
 for (const [mode, file] of [...assigned].sort()) {

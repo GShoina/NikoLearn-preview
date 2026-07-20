@@ -20,6 +20,9 @@ function gameSubject(){
   // taught from q.rule. Without this they fell to the 'vocab' default → the owl showed the listening hint
   // ("მოისმინე ხმა 🔊") + the "ინგლისურის მასწავლებელი" label on a math puzzle (owner 2026-07-01).
   if(m==='pattern'||m==='rebus'||m==='model'||m==='triangle')return 'pattern';
+  // NB-83: the 'exam' mode is the Kings-math mock (reasoning strands). Unmapped it fell to 'vocab' →
+  // "ინგლისურის მასწავლებელი" on a math exam. Route to the same reasoning 'pattern' tutor → math label.
+  if(m==='exam')return 'pattern';
   // Georgian reading / spell-building modes carry game.subj='ka-alpha' but their game.mode
   // (read/sent/rtext/build/shead) was UNMAPPED → fell to 'vocab' → the "ინგლისურის მასწავლებელი" label +
   // an English-vocab first message on a Georgian reading task (owner 2026-07-04, class-level fix). Route
