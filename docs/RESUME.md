@@ -9,12 +9,12 @@
 
 ## NOW — NB-88 feedback DONE + skill-first fix wave
 
-**NB-88 SHIPPED + INBOX-VERIFIED:** parent feedback now EMAILS the owner on every submit (worker `notifyOwner()`→Brevo, commit `90591af`). Fix: form stored in KV but pushed to no one; sending from unauthenticated **bivision.ge** is DMARC-dropped → sender = authenticated **niko@bihub.ge** (never revert). Live POST → INBOX (both owner addrs), Georgian intact. `NOTIFY_KEY` set, key in creds env only, consented row only. `a1dee02` = PI-100 Khan Academy(ka) intake.
-Earlier: 3 skills; NB-77/NB-80 fixed (58cdd25); W7 v2 + W8-B + prompt/plan in output/ §6c-verified.
+**NB-88 SHIPPED + INBOX-VERIFIED:** parent feedback EMAILS owner on submit (worker `notifyOwner()`→Brevo, `90591af`). Sender MUST stay authenticated **niko@bihub.ge** (bivision.ge is DMARC-dropped, never revert). `NOTIFY_KEY` in creds env only, consented row only. `a1dee02` = PI-100 Khan(ka) intake.
+Earlier: 3 skills; NB-77/NB-80 fixed (58cdd25); W7 v2 + W8-B + prompt/plan §6c-verified.
 
 ## NEXT (sequential, token-efficient, skill-first + provenance footer)
 
-W3 pilot: hero + 7-scene HTML **animatic** BUILT & §6c-verified (`docs/W3_video-tale_pilot.md`; 3 playable HTMLs in output/). GATED next: owner direction-confirm + audio spend (§13.3; 7 new KA lines off-manifest) → MP4. Free HTML-animatic = shippable in-app format, no audio-spend. Ungated next = W5/W6 provenance; W1 redesign gated on W7 v2 dir.
+W-batch ungated work COMPLETE + consolidated. **Owner start-here:** `output/2026-07-21-სად ვდგავართ, შენი 4 გადაწყვეტილება by Niko.html` (decision-first cover, links all 7 deliverables). DONE: W3 pilot (hero+7-scene §6c animatic), W5/W6 + provenance, W7 v2, W8-B, prompt/plan. All remaining W-batch = the 4 owner gates in OPEN (each has a recommendation+default). Session hygiene done (temp jpegs + :8137 server cleared).
 
 ## OPEN — owner picks (in deliverable HTML)
 
