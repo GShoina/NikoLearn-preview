@@ -6,17 +6,17 @@
 **LIVE (prod):** `v1.366` (`71f42b1`) · main = fully shipped · §6c-verified  
 **BRANCH NOW:** `fix/nb77-nb80-learnnav-tutorlabel` (from main) · fix wave + skills committed here, nothing pushed
 
-## NOW — skill-first standards + fix wave (owner order 2026-07-20 = GI-42..47)
+## NOW — skill-first standards + fix wave (owner GI-42..47, 2026-07-20)
 
-DONE this turn: (1) 3 new SKILLS on disk `.claude/skills/` — **kid-visual-standard v1.1** (12 criteria), **build-provenance** (skill-first + 8-gate DoD + standard footer), **video-tale-pipeline** (Gemini gate + owner previews final video); registered in README. (2) **NB-77 home btn + NB-80 tutor label FIXED** on branch (commit 58cdd25, npm test green, §14 class tables); NB-79/NB-78-content were already fixed on main (owner tested stale v1.318 preview bench = NB-81 root cause). (3) **W7 „დღის კითხვა" redesigned** = `output/2026-07-20-დღის კითხვა 6 ვერსია v2 by Niko.html` (6 bespoke per-question SVGs, kid-visual-standard, §6c-verified). (4) Owner deliverable = `output/2026-07-20-გაუმჯობესებული პრომტი და გეგმა by Niko.html`.
+DONE this turn: (1) 3 SKILLS on disk `.claude/skills/` (README-registered): **kid-visual-standard v1.1**, **build-provenance** (skill-first + 8-gate DoD + std footer), **video-tale-pipeline** (Gemini gate + owner previews final video). (2) **NB-77 home btn + NB-80 tutor label FIXED** (branch, commit 58cdd25, npm test green, §14 tables); NB-79/NB-78-content already on main → NB-81 root cause = owner tested stale v1.318 preview bench (live=v1.366). (3) **W7 v2 redesign** + (4) **W8-B prototype** + (5) owner prompt/plan deliverable — all in `output/`, §6c-verified.
 
-## NEXT (build queue, sequential/token-efficient)
+## NEXT (sequential, token-efficient, skill-first + provenance footer)
 
-**W8 voice B — BUILT** (owner GO'd „გააკეთე B ვერსია"): `output/2026-07-20-გაიმეორე ბუბუსთან W8-B პროტოტიპი by Niko.html` — real tap-to-talk „repeat after ბუბუ" loop, mic on-device (nothing sent by us), swappable `recognize()` seam (browser engine now for UX / whisper-WASM path B drops in), 6 bespoke word SVGs, kid-visual-standard + build-provenance, §6c-verified. TRUE path B needs owner GO for the ~40MB on-device model dependency (§15b). Then: W1 prototype redesign to Fable-5 visual bar · W3 video pilot (template REC #2, Gemini gate) — each skill-first + provenance footer.
+W8-B BUILT (`...W8-B პროტოტიპი...`, tap-to-talk „repeat after ბუბუ", swappable recognize() seam, mic on-device). → W1 prototype redesign to Fable-5 bar · W3 video pilot (template REC #2, Gemini gate).
 
-## OPEN — owner picks (in the deliverable HTML)
+## OPEN — owner picks (in deliverable HTML)
 
-1. W7 v2 design level OK to continue with? · 2. W3 video: free HTML-frames path (no spend) vs paid tool — REC free first · 3. Refresh `NikoLearn-preview` bench to live tip (fixes NB-81 stale-bench, infra = owner GO). Also carried: NB-65/PI-89, NB-72..75 audit wave, NB-82/NB-83 latent mislabels, wave live-push GO.
+1. W7 v2 design level OK to continue? · 2. W3 video: free HTML-frames (no spend, REC) vs paid tool · 3. refresh preview bench to live tip (NB-81, infra GO) · 4. TRUE path-B needs GO for ~40MB on-device model dep (§15b). Carried: NB-65/PI-89, NB-72..75 audit, NB-82/83 mislabels, wave live-push GO.
 
 ## BACKUPS / ROUTES
 
