@@ -175,6 +175,26 @@ async function notifyOwner(env, row) {
   } catch (e) { /* notify is best-effort; the feedback is already safely stored in KV */ }
 }
 
+// Optional SECOND owner channel: an instant WhatsApp ping, so the owner is nudged on his phone the
+// moment a parent writes (email stays the reliable channel of record). INERT-BY-DEFAULT: no-op until
+// BOTH env.WHATSAPP_KEY and env.WHATSAPP_PHONE are set, so deploying it changes nothing until then.
+// PRIVACY: WhatsApp is delivered via a third-party relay (CallMeBot), so this message carries NO
+// parent PII — only a content-light "new feedback arrived" notice + timestamp. The parent's actual
+// message and contact go ONLY to the owner's own inbox (notifyOwner above) and the dashboard, never
+// through any third party. A send failure never breaks the submit (the row is already in KV + emailed).
+async function notifyOwnerWhatsApp(env, row) {
+  if (!env.WHATSAPP_KEY || !env.WHATSAPP_PHONE) return; // inert until configured
+  const text =
+    'NikoLearn: ახალი უკუკავშირი შემოვიდა მშობლისგან. ' +
+    'სრული ტექსტი და საკონტაქტო ელფოსტაზე და დაშბორდის ტაბშია. ' +
+    `დრო (UTC): ${row.ts}`;
+  const u = 'https://api.callmebot.com/whatsapp.php'
+    + '?phone=' + encodeURIComponent(env.WHATSAPP_PHONE)
+    + '&text=' + encodeURIComponent(text)
+    + '&apikey=' + encodeURIComponent(env.WHATSAPP_KEY);
+  try { await fetch(u); } catch (e) { /* best-effort; feedback already stored + emailed */ }
+}
+
 export default {
   async fetch(request, env, ctx) {
     const origin = request.headers.get('Origin') || '';
@@ -275,8 +295,12 @@ export default {
       try {
         await env.NIKO_T.put(`fb|${row.ts}|${crypto.randomUUID().slice(0, 8)}`, JSON.stringify(row));
       } catch (e) { return new Response(JSON.stringify({ ok: false, error: 'store' }), { status: 500, headers: { ...cors(origin), 'Content-Type': 'application/json' } }); }
-      // Push to the owner without blocking the parent's response (inert until NOTIFY_KEY is set).
-      if (ctx && typeof ctx.waitUntil === 'function') ctx.waitUntil(notifyOwner(env, row));
+      // Push to the owner without blocking the parent's response. Both channels are independent and
+      // inert until their own keys are set (email: NOTIFY_KEY; WhatsApp: WHATSAPP_KEY+WHATSAPP_PHONE).
+      if (ctx && typeof ctx.waitUntil === 'function') {
+        ctx.waitUntil(notifyOwner(env, row));
+        ctx.waitUntil(notifyOwnerWhatsApp(env, row));
+      }
       return new Response(JSON.stringify({ ok: true }), { status: 200, headers: { ...cors(origin), 'Content-Type': 'application/json' } });
     }
 
