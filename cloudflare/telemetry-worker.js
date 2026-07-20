@@ -146,7 +146,7 @@ const today = () => new Date().toISOString().slice(0, 10); // UTC date bucket
 // this worker. Provider = Brevo transactional API (the owner's existing account; sender domain verified).
 async function notifyOwner(env, row) {
   if (!env.NOTIFY_KEY) return; // not configured → stay inert (safe to ship)
-  const to = (env.NOTIFY_TO || 'gela.shonia@bivision.ge,info@bivision.ge')
+  const to = (env.NOTIFY_TO || 'nikolearn@outlook.com,gela.shonia@bivision.ge')
     .split(',').map(s => s.trim()).filter(Boolean).map(email => ({ email }));
   const line = (label, v) => (v ? `${label}: ${v}\n` : '');
   const text =
