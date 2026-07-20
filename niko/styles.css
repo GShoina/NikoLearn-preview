@@ -1363,6 +1363,7 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
 .abtn:active{transform:scale(.95)}
 .abtn.off{opacity:.35;pointer-events:none}
 .abtn.go{background:var(--primary);color:#fff;font-size:1.05rem;padding:0 20px;box-shadow:var(--press) var(--primary-d),var(--shadow)}
+.abtn.home{min-width:52px;font-size:1.3rem}
 .alpha-dots{font-family:'Fredoka';font-weight:600;color:var(--muted);font-size:1.05rem}
 .opt.letter{font-family:'Fredoka';font-weight:600;font-size:2rem;min-height:84px}
 .alpha-q .p-sub{margin-top:8px;font-weight:700;color:var(--ink)}

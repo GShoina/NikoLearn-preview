@@ -23,6 +23,18 @@ function alphaSay(subj,it){
   }
 }
 
+/* shared bottom nav for every LEARN screen (alpha/digit/read/sent/trace). One source so the
+   home button (NB-77: learn screens had no way back to the app home, only prev/dots/next) can
+   never go missing on a subset of screens again. Home sits LEFT; prev/dots/next keep their order. */
+function learnNav(prevHtml,dotsText,nextHtml){
+  return `<div class="alpha-nav">
+      <button class="abtn home" onclick="goHome()" aria-label="მთავარი">🏠</button>
+      ${prevHtml}
+      <div class="alpha-dots">${dotsText}</div>
+      ${nextHtml}
+    </div>`;
+}
+
 /* ── LEARN: one card per letter, flip with big arrows ── */
 function alphaLearn(subj,idx){
   const data=alphaData(subj),n=data.length;
@@ -47,13 +59,12 @@ function alphaLearn(subj,idx){
         <button class="speakbtn big" onclick="event.stopPropagation();alphaSay('${subj}',game.alphaIt);pulseTap(this)">${I.speaker} მოისმინე</button>
       </div>
     </div>
-    <div class="alpha-nav">
-      <button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="alphaLearn('${subj}',${idx-1})">&larr;</button>
-      <div class="alpha-dots">${idx+1} / ${n}</div>
-      ${last
+    ${learnNav(
+      `<button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="alphaLearn('${subj}',${idx-1})">&larr;</button>`,
+      `${idx+1} / ${n}`,
+      last
         ? `<button class="abtn go" onclick="alphaQuiz('${subj}')">ტესტები 🎯</button>`
-        : `<button class="abtn" onclick="alphaLearn('${subj}',${idx+1})">&rarr;</button>`}
-    </div>
+        : `<button class="abtn" onclick="alphaLearn('${subj}',${idx+1})">&rarr;</button>`)}
   </div>`,'slim');
   setTimeout(()=>alphaSay(subj,it),220);
 }
@@ -137,13 +148,12 @@ function digitLearn(idx){
         <button class="speakbtn big" onclick="event.stopPropagation();digitSay(${d.num});pulseTap(this)">${I.speaker} მოისმინე</button>
       </div>
     </div>
-    <div class="alpha-nav">
-      <button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="digitLearn(${idx-1})">&larr;</button>
-      <div class="alpha-dots">${idx+1} / ${n}</div>
-      ${last
+    ${learnNav(
+      `<button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="digitLearn(${idx-1})">&larr;</button>`,
+      `${idx+1} / ${n}`,
+      last
         ? `<button class="abtn go" onclick="startDigitQuiz()">ტესტები 🎯</button>`
-        : `<button class="abtn" onclick="digitLearn(${idx+1})">&rarr;</button>`}
-    </div>
+        : `<button class="abtn" onclick="digitLearn(${idx+1})">&rarr;</button>`)}
   </div>`,'slim');
   setTimeout(()=>digitSay(d.num),220);
 }
@@ -227,13 +237,12 @@ function readLearn(idx){
       <div class="read-word">${chips}</div>
       <button class="speakbtn big" onclick="readBlend(game.readIt);pulseTap(this)">${I.speaker} წაიკითხე</button>
     </div>
-    <div class="alpha-nav">
-      <button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="readLearn(${idx-1})">&larr;</button>
-      <div class="alpha-dots">${idx+1} / ${n}</div>
-      ${last
+    ${learnNav(
+      `<button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="readLearn(${idx-1})">&larr;</button>`,
+      `${idx+1} / ${n}`,
+      last
         ? `<button class="abtn go" onclick="startReadQuiz()">ტესტები 🎯</button>`
-        : `<button class="abtn" onclick="readLearn(${idx+1})">&rarr;</button>`}
-    </div>
+        : `<button class="abtn" onclick="readLearn(${idx+1})">&rarr;</button>`)}
   </div>`,'slim');
   setTimeout(()=>readBlend(it),260);
 }
@@ -287,13 +296,12 @@ function sentLearn(idx){
       <div class="read-sent">${it.s}</div>
       <button class="speakbtn big" onclick="sentSay('${it.s}');pulseTap(this)">${I.speaker} წაიკითხე</button>
     </div>
-    <div class="alpha-nav">
-      <button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="sentLearn(${idx-1})">&larr;</button>
-      <div class="alpha-dots">${idx+1} / ${n}</div>
-      ${last
+    ${learnNav(
+      `<button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="sentLearn(${idx-1})">&larr;</button>`,
+      `${idx+1} / ${n}`,
+      last
         ? `<button class="abtn go" onclick="startSentQuiz()">ტესტები 🎯</button>`
-        : `<button class="abtn" onclick="sentLearn(${idx+1})">&rarr;</button>`}
-    </div>
+        : `<button class="abtn" onclick="sentLearn(${idx+1})">&rarr;</button>`)}
   </div>`,'slim');
   setTimeout(()=>sentSay(it.s),260);
 }
@@ -575,11 +583,10 @@ function traceLearn(idx){
       <button class="speakbtn" onclick="alphaSay('ka-alpha',game.traceIt.it);pulseTap(this)">${I.speaker} მოისმინე</button>
     </div>
     <div class="finger-hint" style="margin-top:6px">👆 ამოწერე ასო თითით</div>
-    <div class="alpha-nav">
-      <button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="traceLearn(${idx-1})">&larr;</button>
-      <div class="alpha-dots">${idx+1} / ${n}</div>
-      ${last?`<button class="abtn go" onclick="markAlphaDone('trace');openMenu('ka-alpha')">დასასრული ✓</button>`:`<button class="abtn" onclick="traceLearn(${idx+1})">&rarr;</button>`}
-    </div>
+    ${learnNav(
+      `<button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="traceLearn(${idx-1})">&larr;</button>`,
+      `${idx+1} / ${n}`,
+      last?`<button class="abtn go" onclick="markAlphaDone('trace');openMenu('ka-alpha')">დასასრული ✓</button>`:`<button class="abtn" onclick="traceLearn(${idx+1})">&rarr;</button>`)}
   </div>`,'slim');
   setTimeout(()=>{ traceSetup();
     if(d){ _kaRetry=0; fitGuide(); watchStrokes(); }

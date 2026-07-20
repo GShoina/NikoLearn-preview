@@ -266,7 +266,7 @@
       if(r && !r.say && SUBJECT_SAY[ctx.subject]) r.say = SUBJECT_SAY[ctx.subject];
       const mathish=(ctx.subject==='math'||ctx.subject==='kings-math'||ctx.subject==='compare'||ctx.subject==='skip'||ctx.subject==='shapes'||ctx.subject==='money'||ctx.subject==='clock'||ctx.subject==='pattern');
       r.name = ctx.aiRole==='coach'
-        ? (ctx.subject==='alpha'?'ბუ · ანბანის მასწავლებელი':ctx.subject==='reading'?'ბუ · კითხვის მასწავლებელი':mathish?'ბუ · მათემატიკის მასწავლებელი':'ბუ · ინგლისურის მასწავლებელი')
+        ? (ctx.subject==='alpha'?'ბუ · ანბანის მასწავლებელი':ctx.subject==='reading'?'ბუ · კითხვის მასწავლებელი':ctx.subject==='counting'?'ბუ · დათვლის მასწავლებელი':mathish?'ბუ · მათემატიკის მასწავლებელი':'ბუ · ინგლისურის მასწავლებელი')
         : 'ბუ · შენი მეგობარი';
       return r;
     }

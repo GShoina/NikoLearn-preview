@@ -321,6 +321,7 @@ window.I18N_MAP = {
   "ბუ · ანბანის მასწავლებელი":"Owl · alphabet teacher",
   "ბუ · მათემატიკის მასწავლებელი":"Owl · math teacher",
   "ბუ · ინგლისურის მასწავლებელი":"Owl · English teacher",
+  "ბუ · დათვლის მასწავლებელი":"Owl · Counting teacher",
   "ბუ · კითხვის მასწავლებელი":"Owl · reading teacher",
   "რამდენია?":"How many?",
   "აირჩიე ასო":"Pick the letter",
