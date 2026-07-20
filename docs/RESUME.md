@@ -5,7 +5,7 @@
 **UPDATED:** 2026-07-21 · **v1.366 LIVE on nikolearn.com** (owner GO = GI-33)  
 **LIVE (prod):** `v1.366` (`71f42b1`) · main = fully shipped · §6c-verified  
 **WORKER (prod):** `nikolearn-t` deployed version `5b1ab168` — feedback-notify live  
-**BRANCH NOW:** `fix/nb77-nb80-learnnav-tutorlabel` (from main) · fix wave + skills + NB-88 committed here, nothing pushed to main
+**BRANCH NOW:** `fix/nb77-nb80-learnnav-tutorlabel` · fix wave + skills + NB-88 committed here, unpushed
 
 ## NOW — NB-88 feedback DONE + skill-first fix wave
 
