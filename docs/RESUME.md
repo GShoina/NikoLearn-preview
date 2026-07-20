@@ -12,7 +12,7 @@ DONE this turn: (1) 3 new SKILLS on disk `.claude/skills/` — **kid-visual-stan
 
 ## NEXT (build queue, sequential/token-efficient)
 
-W8 voice B (owner GO'd) · W1 prototype redesign to Fable-5 visual bar · W3 video pilot (template REC #2, Gemini gate) — each skill-first + provenance footer.
+**W8 voice B — BUILT** (owner GO'd „გააკეთე B ვერსია"): `output/2026-07-20-გაიმეორე ბუბუსთან W8-B პროტოტიპი by Niko.html` — real tap-to-talk „repeat after ბუბუ" loop, mic on-device (nothing sent by us), swappable `recognize()` seam (browser engine now for UX / whisper-WASM path B drops in), 6 bespoke word SVGs, kid-visual-standard + build-provenance, §6c-verified. TRUE path B needs owner GO for the ~40MB on-device model dependency (§15b). Then: W1 prototype redesign to Fable-5 visual bar · W3 video pilot (template REC #2, Gemini gate) — each skill-first + provenance footer.
 
 ## OPEN — owner picks (in the deliverable HTML)
 
