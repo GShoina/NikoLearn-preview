@@ -2,13 +2,15 @@
 
 > Startup SSOT. Hard cap: 2 KB. Semantic state only; machine state is `.recovery/current.md`.
 
-**UPDATED:** 2026-07-20 · **v1.366 LIVE on nikolearn.com** (owner GO = GI-33)  
+**UPDATED:** 2026-07-21 · **v1.366 LIVE on nikolearn.com** (owner GO = GI-33)  
 **LIVE (prod):** `v1.366` (`71f42b1`) · main = fully shipped · §6c-verified  
-**BRANCH NOW:** `fix/nb77-nb80-learnnav-tutorlabel` (from main) · fix wave + skills committed here, nothing pushed
+**WORKER (prod):** `nikolearn-t` deployed version `5b1ab168` — feedback-notify live  
+**BRANCH NOW:** `fix/nb77-nb80-learnnav-tutorlabel` (from main) · fix wave + skills + NB-88 committed here, nothing pushed to main
 
-## NOW — skill-first standards + fix wave (owner GI-42..47, 2026-07-20)
+## NOW — NB-88 feedback DONE + skill-first standards + fix wave
 
-DONE this turn: (1) 3 SKILLS on disk `.claude/skills/` (README-registered): **kid-visual-standard v1.1**, **build-provenance** (skill-first + 8-gate DoD + std footer), **video-tale-pipeline** (Gemini gate + owner previews final video). (2) **NB-77 home btn + NB-80 tutor label FIXED** (branch, commit 58cdd25, npm test green, §14 tables); NB-79/NB-78-content already on main → NB-81 root cause = owner tested stale v1.318 preview bench (live=v1.366). (3) **W7 v2 redesign** + (4) **W8-B prototype** + (5) owner prompt/plan deliverable — all in `output/`, §6c-verified.
+**NB-88 SHIPPED + INBOX-VERIFIED 2026-07-20/21:** parent feedback now actively EMAILS the owner on every submit (worker `notifyOwner()` → Brevo). Root cause of "reached nowhere" = form stored in KV but pushed to no one, AND sending from unauthenticated **bivision.ge** is silently dropped (DMARC) → sender switched to authenticated **niko@bihub.ge** (never revert). Live POST → email in INBOX at nikolearn@outlook.com + info@bivision.ge, Georgian intact. Key in creds env only; `NOTIFY_KEY` secret set; sends only the consented row. My 3 agent test rows purged from KV; owner's 4 real rows kept. Commits `90591af` (fix) + `a1dee02` (PI-100 Khan Academy intake).
+Earlier this wave: (1) 3 SKILLS on disk `.claude/skills/` (README-registered): **kid-visual-standard v1.1**, **build-provenance**, **video-tale-pipeline**. (2) **NB-77 home btn + NB-80 tutor label FIXED** (commit 58cdd25, npm test green, §14 tables); NB-81 root cause = owner tested stale preview bench (live=v1.366). (3) **W7 v2** + (4) **W8-B** + (5) owner prompt/plan deliverable — all in `output/`, §6c-verified.
 
 ## NEXT (sequential, token-efficient, skill-first + provenance footer)
 
