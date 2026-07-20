@@ -143,10 +143,13 @@ const today = () => new Date().toISOString().slice(0, 10); // UTC date bucket
 // the send key exists. A send failure NEVER breaks the parent's submit (the row is already in KV).
 // PRIVACY: sends ONLY the consented feedback row (the parent's own message + the contact they chose to
 // give so we can reply). It carries NO telemetry, NO IP, NO child data — same guarantee as the rest of
-// this worker. Provider = Brevo transactional API (the owner's existing account; sender domain verified).
+// this worker. Provider = Brevo transactional API (the owner's existing account).
+// SENDER = niko@bihub.ge on purpose: bihub.ge is DKIM/SPF-authenticated in Brevo, so it reaches strict
+// inboxes (Outlook/Microsoft, Gmail). Sending from the unauthenticated bivision.ge domain was proven on
+// 2026-07-20 to be silently dropped (DMARC misalignment) — never revert the sender to bivision.ge.
 async function notifyOwner(env, row) {
   if (!env.NOTIFY_KEY) return; // not configured → stay inert (safe to ship)
-  const to = (env.NOTIFY_TO || 'nikolearn@outlook.com,gela.shonia@bivision.ge')
+  const to = (env.NOTIFY_TO || 'nikolearn@outlook.com,info@bivision.ge')
     .split(',').map(s => s.trim()).filter(Boolean).map(email => ({ email }));
   const line = (label, v) => (v ? `${label}: ${v}\n` : '');
   const text =
@@ -163,7 +166,7 @@ async function notifyOwner(env, row) {
       method: 'POST',
       headers: { 'api-key': env.NOTIFY_KEY, 'Content-Type': 'application/json', accept: 'application/json' },
       body: JSON.stringify({
-        sender: { name: 'NikoLearn', email: env.NOTIFY_FROM || 'info@bivision.ge' },
+        sender: { name: 'NikoLearn', email: env.NOTIFY_FROM || 'niko@bihub.ge' },
         to,
         subject: 'NikoLearn: ახალი უკუკავშირი მშობლისგან',
         textContent: text,
