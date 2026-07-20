@@ -7,10 +7,10 @@
 **WORKER (prod):** `nikolearn-t` deployed version `5b1ab168` — feedback-notify live  
 **BRANCH NOW:** `fix/nb77-nb80-learnnav-tutorlabel` (from main) · fix wave + skills + NB-88 committed here, nothing pushed to main
 
-## NOW — NB-88 feedback DONE + skill-first standards + fix wave
+## NOW — NB-88 feedback DONE + skill-first fix wave
 
-**NB-88 SHIPPED + INBOX-VERIFIED 2026-07-20/21:** parent feedback now actively EMAILS the owner on every submit (worker `notifyOwner()` → Brevo). Root cause of "reached nowhere" = form stored in KV but pushed to no one, AND sending from unauthenticated **bivision.ge** is silently dropped (DMARC) → sender switched to authenticated **niko@bihub.ge** (never revert). Live POST → email in INBOX at nikolearn@outlook.com + info@bivision.ge, Georgian intact. Key in creds env only; `NOTIFY_KEY` secret set; sends only the consented row. My 3 agent test rows purged from KV; owner's 4 real rows kept. Commits `90591af` (fix) + `a1dee02` (PI-100 Khan Academy intake).
-Earlier this wave: (1) 3 SKILLS on disk `.claude/skills/` (README-registered): **kid-visual-standard v1.1**, **build-provenance**, **video-tale-pipeline**. (2) **NB-77 home btn + NB-80 tutor label FIXED** (commit 58cdd25, npm test green, §14 tables); NB-81 root cause = owner tested stale preview bench (live=v1.366). (3) **W7 v2** + (4) **W8-B** + (5) owner prompt/plan deliverable — all in `output/`, §6c-verified.
+**NB-88 SHIPPED + INBOX-VERIFIED:** parent feedback now EMAILS the owner on every submit (worker `notifyOwner()`→Brevo, commit `90591af`). Fix: form stored in KV but pushed to no one; sending from unauthenticated **bivision.ge** is DMARC-dropped → sender = authenticated **niko@bihub.ge** (never revert). Live POST → INBOX at nikolearn@outlook.com + info@bivision.ge, Georgian intact. `NOTIFY_KEY` set, key in creds env only, consented row only. 3 agent test rows purged; owner's 4 real rows kept. `a1dee02` = PI-100 Khan Academy(ka) intake.
+Earlier: 3 skills in `.claude/skills/` (kid-visual-standard v1.1, build-provenance, video-tale-pipeline); NB-77/NB-80 fixed (58cdd25, tests green); W7 v2 + W8-B + owner prompt/plan in `output/`, §6c-verified.
 
 ## NEXT (sequential, token-efficient, skill-first + provenance footer)
 
