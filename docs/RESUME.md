@@ -12,7 +12,7 @@ DONE this turn: (1) 3 SKILLS on disk `.claude/skills/` (README-registered): **ki
 
 ## NEXT (sequential, token-efficient, skill-first + provenance footer)
 
-W8-B BUILT (`...W8-B პროტოტიპი...`, tap-to-talk „repeat after ბუბუ", swappable recognize() seam, mic on-device). → W1 prototype redesign to Fable-5 bar · W3 video pilot (template REC #2, Gemini gate).
+W3 pilot: script Gemini-PASSED (`docs/W3_video-tale_pilot.md`, template #2 „რატომ, ბუბუ?", free HTML-frames path). NEXT = storyboard frames (hero=card6) → compose → QA → owner previews FINAL. Then W1 redesign to Fable-5 bar. (build-provenance v1.1 = min content-volume standard shipped.)
 
 ## OPEN — owner picks (in deliverable HTML)
 
