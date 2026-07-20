@@ -28,6 +28,9 @@ Rule of thumb: **if a doc is not listed here, treat it as unclassified and ask t
 |---|---|---|
 | Georgian copy (gates) | `GEORGIAN_COPY_STANDARD.md` | `.claude/skills/georgian-copy` points here; Gemini KA-QA = CLAUDE.md §6f |
 | Research/audit/recommendation quality (gates) | `RESEARCH_QUALITY_STANDARD.md` | `.claude/skills/research-quality` points here; 8 gates Q1-Q8, Q2 blocking, loop წესი §12; Anthropic-aligned; v1 2026-07-17 |
+| Kids' visual/image quality (gates) | `.claude/skills/kid-visual-standard` (self-contained SSOT) | NEW 2026-07-20 (GI-42/PI-98, GI-46/PI-99), v1.1. 12 criteria (content fit · developmental stage 4-5 / 6-8 · WCAG AA contrast · never-colour-alone · anchor-image mascot consistency · motion restraint · anti-slop), loop-წესი ≥8 each; §6c + squint + contrast + motion-run check; optional DESIGN.md token SSOT |
+| Feature build DoD + provenance record | `.claude/skills/build-provenance` (self-contained SSOT) | NEW 2026-07-20 (GI-42/46/47). Skill-first (declare skills+gates BEFORE building), 8-gate minimum bar, standard owner-facing footer, roadmap provenance row. Answers "which standard/skill/gates/red-team" |
+| Video-tale production pipeline (W3) | `.claude/skills/video-tale-pipeline` (self-contained SSOT) | NEW 2026-07-20 (GI-44). 7-step gated pipeline; Gemini gate on ALL texts; owner previews FINAL video (§13 gate-4); no Georgian TTS; audio verified silently while owner works |
 | Copy readability (ALL user-facing text) | `COPY_READABILITY_STANDARD.md` | newest (2026-07-03) |
 | Child-facing typography/legibility | `READABILITY_STANDARD.md` | age-band rubric also in `DESIGN_TONE_READABILITY_STANDARDS.md` §C (merge candidate) |
 | Design tone / art direction | `DESIGN_TONE_READABILITY_STANDARDS.md` | from 8-dim audit 2026-06-27 |

@@ -2,21 +2,21 @@
 
 > Startup SSOT. Hard cap: 2 KB. Semantic state only; machine state is `.recovery/current.md`.
 
-**UPDATED:** 2026-07-20 · **v1.366 DEPLOYED to nikolearn.com** (owner GO = GI-33)  
-**LIVE (prod):** `v1.366` (`71f42b1`) · main = branch tip, fully shipped · live-verified (version + 4 markers + §6c screenshot)  
-**BRANCH:** `recover/clean-2026-07-16` = main (`71f42b1`) · on origin (private) + preview (older slice)
+**UPDATED:** 2026-07-20 · **v1.366 LIVE on nikolearn.com** (owner GO = GI-33)  
+**LIVE (prod):** `v1.366` (`71f42b1`) · main = fully shipped · §6c-verified  
+**BRANCH NOW:** `fix/nb77-nb80-learnnav-tutorlabel` (from main) · fix wave + skills committed here, nothing pushed
 
-## NOW — FEATURE WAVE (owner order 2026-07-18 = GI-34)
+## NOW — skill-first standards + fix wave (owner order 2026-07-20 = GI-42..47)
 
-Show-items DONE 2026-07-20, §6c-verified, 4 HTMLs in `output/` (W1+W2+W4 protos · W3 3 tale templates · W7 6 question versions · W8 voice plan) — paths + statuses in PRODUCT_ROADMAP.md §NOW. Owner picks pending: W3 pilot template (REC: #2 „რატომ, ბუბუ?") · W8 privacy path (REC: on-device whisper B). NEXT: W5 per-letter progress BUILD (in progress) → W6 adaptive difficulty. Branch-only; nothing goes live without a NEW GO.
+DONE this turn: (1) 3 new SKILLS on disk `.claude/skills/` — **kid-visual-standard v1.1** (12 criteria), **build-provenance** (skill-first + 8-gate DoD + standard footer), **video-tale-pipeline** (Gemini gate + owner previews final video); registered in README. (2) **NB-77 home btn + NB-80 tutor label FIXED** on branch (commit 58cdd25, npm test green, §14 class tables); NB-79/NB-78-content were already fixed on main (owner tested stale v1.318 preview bench = NB-81 root cause). (3) **W7 „დღის კითხვა" redesigned** = `output/2026-07-20-დღის კითხვა 6 ვერსია v2 by Niko.html` (6 bespoke per-question SVGs, kid-visual-standard, §6c-verified). (4) Owner deliverable = `output/2026-07-20-გაუმჯობესებული პრომტი და გეგმა by Niko.html`.
 
-## SHIPPED v1.366 (2026-07-20)
+## NEXT (build queue, sequential/token-efficient)
 
-NB-53 parent-gate (mult) · NB-32/30 save-warn+SK_BAK · NB-57 SW offline fixes · NB-54/59 a11y labels · contrast · allowlist trim (changes/validate 404 ✓). Docs corpus + infra merged (private origin only, allowlist keeps docs off the public site). Tracker rows updated.
+W8 voice B (owner GO'd) · W1 prototype redesign to Fable-5 visual bar · W3 video pilot (template REC #2, Gemini gate) — each skill-first + provenance footer.
 
-## OPEN — owner-side
+## OPEN — owner picks (in the deliverable HTML)
 
-NB-65 + PI-89 answers (🛑 STOP-ORDER holds for FUTURE colour/text rewrites) · NB-72..75 audit fix wave (next dev slot) · NB-76 closes when phone GitHub login works (standing rule: every brief = output/ HTML + private URL) · D1/D2/D3, E1, W3 strategy verdicts.
+1. W7 v2 design level OK to continue with? · 2. W3 video: free HTML-frames path (no spend) vs paid tool — REC free first · 3. Refresh `NikoLearn-preview` bench to live tip (fixes NB-81 stale-bench, infra = owner GO). Also carried: NB-65/PI-89, NB-72..75 audit wave, NB-82/NB-83 latent mislabels, wave live-push GO.
 
 ## BACKUPS / ROUTES
 
