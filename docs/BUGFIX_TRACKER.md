@@ -1,5 +1,5 @@
 # NikoLearn — Bug + Systemic Fix Tracker (live, owner-tracked)
-**Updated 2026-07-22 · LIVE = v1.368 (independently verified live on nikolearn.com).** 2026-07-22 audit-defect wave: **NB-72/73/74/75 all SHIPPED LIVE in v1.368 `d293a02`** (§14 class-swept + §6c live-verified on nikolearn.com + npm test/visual-gate + full pre-push QA gate green; merged to main, deployed via Pages). SSOT for every owner-reported bug + the systemic class behind it. New owner
+**Updated 2026-07-22 · LIVE = v1.369 (`60ee370`, independently verified live on nikolearn.com).** 2026-07-22 W7 day-question SHIPPED LIVE v1.369 (roadmap build item, not a bug row; §14 all-home class-sweep ran CLEAN, gate-fix voiced the dayq world card + bumped age5 world-count 8→9, §6c live-verified). Prior wave: **NB-72/73/74/75 all SHIPPED LIVE in v1.368 `d293a02`** (§14 class-swept + §6c live-verified on nikolearn.com + npm test/visual-gate + full pre-push QA gate green; merged to main, deployed via Pages). SSOT for every owner-reported bug + the systemic class behind it. New owner
 reports get inserted here in priority order; nothing is asked until the list reaches the bottom.
 
 ## 🧾 NB INTAKE LEDGER (§14 owner-report intake — append here FIRST, echo "დაფიქსირდა NB-<n>")
