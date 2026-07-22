@@ -16,7 +16,7 @@ const WORLDS = { // subject/route → world card (name is the SPOKEN text too �
   math:        { nm:'დათვლის ჯუნგლები',    ic:'🌿', hue:'whue-green'  },
   shapes:      { nm:'ფიგურების ქვეყანა',   ic:'🔷', hue:'whue-teal'   },
   talk:        { nm:'საუბრის ბუდე',        ic:'💬', hue:'whue-teal'   },
-  dayq:        { nm:'დღის კითხვა',         ic:'💡', hue:'whue-gold'   }, // W7 v3 — clip not yet recorded → wVoice silent no-op (safe, no TTS)
+  dayq:        { nm:'დღის კითხვა',         ic:'💡', hue:'whue-gold'   }, // W7 v3 — voiced wclip_20.mp3 (edge_tts EkaNeural, build-time)
   move:        { nm:'მოძრაობის მოედანი',   ic:'🤸', hue:'whue-pink'   },
   ws:          { nm:'სიტყვების ძებნა',     ic:'🔎', hue:'whue-orange' },
   draw:        { nm:'ხატვის სტუდია',       ic:'🎨', hue:'whue-pink'   },

@@ -32,7 +32,7 @@ const txt = (page) => page.evaluate(() => document.body.innerText);
   const t = await txt(page);
   chk('age5: ბუს ქვეყანა kicker', t.includes('ბუს ქვეყანა'));
   chk('age5: bigplay ითამაშე!', await page.locator('.bigplay').count() === 1);
-  chk('age5: world cards render', await page.locator('.subj.wld').count() === 8);
+  chk('age5: world cards render', await page.locator('.subj.wld').count() === 9); // +dayq (W7 day-question) v1.369
   for (const nm of ['რიცხვების სამეფო', 'ასოების ქალაქი', 'ინგლისურის კუნძული', 'დათვლის ჯუნგლები', 'საუბრის ბუდე', 'მოძრაობის მოედანი', 'სიტყვების ძებნა', 'ხატვის სტუდია'])
     chk(`age5: world "${nm}"`, t.includes(nm));
   chk('age5: NO Kings on home', !t.includes('კინგსი'));
