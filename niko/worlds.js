@@ -16,6 +16,7 @@ const WORLDS = { // subject/route → world card (name is the SPOKEN text too �
   math:        { nm:'დათვლის ჯუნგლები',    ic:'🌿', hue:'whue-green'  },
   shapes:      { nm:'ფიგურების ქვეყანა',   ic:'🔷', hue:'whue-teal'   },
   talk:        { nm:'საუბრის ბუდე',        ic:'💬', hue:'whue-teal'   },
+  dayq:        { nm:'დღის კითხვა',         ic:'💡', hue:'whue-gold'   }, // W7 v3 — clip not yet recorded → wVoice silent no-op (safe, no TTS)
   move:        { nm:'მოძრაობის მოედანი',   ic:'🤸', hue:'whue-pink'   },
   ws:          { nm:'სიტყვების ძებნა',     ic:'🔎', hue:'whue-orange' },
   draw:        { nm:'ხატვის სტუდია',       ic:'🎨', hue:'whue-pink'   },
@@ -51,6 +52,7 @@ function worldsHome(p){
       worldCard('en-alpha',"openSubj(event,'en-alpha')"),
       isTiny(p)?worldCard('shapes',"startGame('shapes')"):worldCard('math',"openSubj(event,'math')"),
       worldCard('talk','openTalk()'),
+      worldCard('dayq','openDayQ()'),
       worldCard('move','showBreak(true)'),
       worldCard('ws','wsStart()'),
       worldCard('draw','openDraw()')
@@ -63,6 +65,7 @@ function worldsHome(p){
       worldCard('math',"openSubj(event,'math')"),
       worldCard('ka-alpha',"openSubj(event,'ka-alpha')"),
       worldCard('talk','openTalk()'),
+      worldCard('dayq','openDayQ()'),
       worldCard('move','showBreak(true)'),
       worldCard('ws','wsStart()'),
       worldCard('draw','openDraw()')

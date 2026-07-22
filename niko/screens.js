@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════ SCREENS ═══════════════ */
-const APP_VERSION='1.368'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
+const APP_VERSION='1.369'; // MVP stays v1.1xx until the real v2.00 (all 7 phases). v2.00-v2.07 = v1.100-v1.107.
 function goHome(){
   if(typeof clearCeleb==='function')clearCeleb(); if(typeof closeFeedback==='function')closeFeedback(); // CE-2: kill pending celebration timers so they can't re-render the round over home
   // A4: if a round was in progress, count it as abandoned before we leave it
@@ -387,6 +387,7 @@ function selectProfile(p){
         ? `<div class="subj kids play hue-purple" data-sum="ფიგურების ცნობა" ${kt("startGame('shapes')","ფიგურები")}>${PLAY_BADGE}<div class="s-ico">🔷</div><div class="s-name">ფიგურები</div></div>`
         : `<div class="subj kids maths stack hue-orange" data-sum="შეკრება და გამოკლება" ${kt("openSubj(event,'math')","მათემატიკა, შეკრება და გამოკლება")}><span class="s-badge">3 თემა</span><div class="s-ico">➕➖</div><div class="s-name num">➕</div><span class="tap-hint">👆</span></div>`}
       <div class="subj kids talk play hue-purple" data-sum="საუბრის ბარათები მშობელთან ერთად" ${kt("openTalk()","საუბარი მშობელთან")}>${PLAY_BADGE}<span class="s-badge">4 თემა</span><div class="s-ico">💬</div><div class="s-name">საუბარი</div></div>
+      <div class="subj kids play hue-gold" data-sum="დღეში ერთი გასაკვირი კითხვა ბუბუსგან" ${kt("openDayQ()","დღის კითხვა")}>${PLAY_BADGE}<div class="s-ico">💡</div><div class="s-name">დღის კითხვა</div></div>
       <div class="subj kids move play hue-teal" data-sum="მოკლე მოძრაობის შესვენება" ${kt("showBreak(true)","მოძრაობის შესვენება")}>${PLAY_BADGE}<div class="s-ico">🤸</div><div class="s-name">მოძრაობა</div></div>
       <div class="subj kids play hue-blue" data-sum="იპოვე დამალული სიტყვები" ${kt("wsStart()","სიტყვების ძებნა")}>${PLAY_BADGE}<div class="s-ico">🔎</div><div class="s-name">სიტყვების ძებნა</div></div>
       <div class="subj kids draw play hue-pink" data-sum="ხატვა და გაფერადება" ${kt("openDraw()","ხატვა")}>${PLAY_BADGE}<div class="s-ico">🎨</div><div class="s-name">ხატვა</div></div>
@@ -400,6 +401,7 @@ function selectProfile(p){
       <div class="subj maths stack hue-orange" data-sum="შეკრება, გამოკლება, გამრავლება, ფიგურები, ფული, საათი" ${kt("openSubj(event,'math')","მათემატიკა")}><span class="s-badge">8 თემა</span><div class="s-ico">🧮</div><div class="s-name">მათემატიკა</div><div class="s-sub">დონეებით 1–100</div><span class="tap-hint">👆</span></div>
       <div class="subj stack hue-green" data-sum="ანბანი · კითხვა · წერა · ამოწერა" ${kt("openSubj(event,'ka-alpha')","ქართული")}><span class="s-badge">4 თემა</span><div class="s-ico">🇬🇪</div><div class="s-name">ქართული</div><div class="s-sub">კითხვა · წერა · ამოწერა</div><span class="tap-hint">👆</span></div>
       <div class="subj talk play hue-purple" data-sum="საუბრის ბარათები მშობელთან ერთად (ემოციები, ღირებულებები, ფანტაზია)" ${kt("openTalk()","საუბარი")}>${PLAY_BADGE}<span class="s-badge">4 თემა</span><div class="s-ico">💬</div><div class="s-name">საუბარი</div><div class="s-sub">ფიქრი · ღირებულებები</div></div>
+      <div class="subj play hue-gold" data-sum="დღეში ერთი გასაკვირი კითხვა ბუბუსგან, პასუხითა და ინგლისური სიტყვით" ${kt("openDayQ()","დღის კითხვა")}>${PLAY_BADGE}<div class="s-ico">💡</div><div class="s-name">დღის კითხვა</div><div class="s-sub">ცნობისმოყვარეობა</div></div>
       <div class="subj move play hue-teal" data-sum="მოკლე მოძრაობის შესვენება ვარჯიშებით" ${kt("showBreak(true)","მოძრაობა")}>${PLAY_BADGE}<div class="s-ico">🤸</div><div class="s-name">მოძრაობა</div><div class="s-sub">პატარა შესვენება</div></div>
       <div class="subj play hue-blue" data-sum="იპოვე დამალული სიტყვები" ${kt("wsStart()","სიტყვების ძებნა")}>${PLAY_BADGE}<div class="s-ico">🔎</div><div class="s-name">სიტყვების ძებნა</div><div class="s-sub">თავსატეხი</div></div>
       <div class="subj draw play hue-pink" data-sum="ხატვა, გაფერადება და გასაფერადებელი შაბლონები" ${kt("openDraw()","ხატვა")}>${PLAY_BADGE}<div class="s-ico">🎨</div><div class="s-name">ხატვა</div><div class="s-sub">ფუნჯი · ფერები · შაბლონები</div></div>

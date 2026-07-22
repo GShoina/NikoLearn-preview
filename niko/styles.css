@@ -1816,3 +1816,62 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
 .whue-orange{background:linear-gradient(#f0946a,#e07b4f)}
 .whue-kings{background:linear-gradient(#f4d06a,#d99b1f);box-shadow:inset 0 -5px 0 rgba(120,80,0,.25),0 5px 14px rgba(60,45,15,.2)}
 @media (prefers-reduced-motion:reduce){.y-owl,.bigplay{animation:none}}
+
+/* ── დღის კითხვა / daily curious question (W7 v3, 2026-07-22) ─────────────
+   All selectors scoped under .dayq; keyframes dq-namespaced so the shared
+   bob/breathe/twinkle/etc. keyframe names are never overwritten. No phone
+   bezel (the app IS the phone). Per-question theme colours are set inline. */
+.dayq{display:flex;flex-direction:column;padding:6px 10px 20px}
+.dayq-top{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.dayq-title{flex:1;text-align:center;font-weight:800;font-size:1rem;line-height:1.2}
+.dayq-owl{width:34px;height:34px;flex:none;object-fit:contain;animation:owlbob 2.8s ease-in-out infinite}
+.dayq-stage{border-radius:26px;padding:16px 14px 18px;transition:background .5s ease;box-shadow:0 8px 26px rgba(30,40,70,.12)}
+.dayq .qcard{position:relative;background:#fff;border:1px solid #E7EAF2;border-radius:18px;padding:14px 14px 18px;text-align:center;box-shadow:0 2px 8px rgba(30,40,70,.08);transition:border-color .5s ease,box-shadow .5s ease}
+.dayq .scene{border-radius:14px;overflow:hidden;line-height:0;animation:dqPop .4s ease}
+.dayq .scene svg{width:100%;height:auto;display:block}
+.dayq-tag{display:inline-block;color:#fff;font-size:.7rem;font-weight:800;border-radius:99px;padding:3px 12px;margin:12px 0 4px}
+.dayq-q{font-size:1.05rem;line-height:1.32;margin:6px 4px 12px;font-weight:700}
+.dayq-reveal{border:0;border-radius:14px;color:#fff;font-weight:800;font-size:.95rem;font-family:inherit;padding:12px 24px;cursor:pointer;margin-top:4px;animation:dqInvite 2.4s ease-in-out infinite}
+.dayq-reveal:active{transform:translateY(2px);animation:none}
+.dayq-ans{display:none;background:#F4F6FB;border-radius:14px;padding:14px;font-size:.9rem;line-height:1.5;text-align:start;margin-top:12px}
+.dayq-en{display:inline-block;background:#4E8AB8;color:#fff;font-weight:800;border-radius:99px;padding:3px 13px;margin-top:10px;font-size:.82rem}
+.dayq .qcard.open .dayq-ans{display:block;animation:dqAnsin .4s ease}
+.dayq .qcard.open .dayq-reveal{display:none}
+.dayq .qcard.open{animation:dqCardpop .45s ease}
+.dayq .cheer{position:absolute;top:8px;left:0;right:0;text-align:center;pointer-events:none;font-size:1.3rem;z-index:2}
+.dayq .cheer span{display:inline-block;margin:0 7px;opacity:0;animation:dqSparkle .9s ease forwards}
+.dayq .cheer span:nth-child(2){animation-delay:.12s}
+.dayq .cheer span:nth-child(3){animation-delay:.24s}
+.dayq-nav{display:flex;gap:6px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+.dayq-dot{border:1.5px solid #E2E6F0;background:#fff;border-radius:99px;font-family:inherit;font-size:1.05rem;line-height:1;width:42px;height:42px;cursor:pointer;transition:transform .15s ease,background .3s,border-color .3s,box-shadow .3s}
+.dayq-dot:hover{transform:translateY(-2px)}
+.dayq-note{font-size:.78rem;color:var(--muted);text-align:center;margin-top:14px}
+/* concept motion — each animation reinforces its answer, not decoration */
+.dayq .breathe{transform-box:fill-box;transform-origin:center;animation:dqBreathe 3.4s ease-in-out infinite}
+.dayq .bob{transform-box:fill-box;transform-origin:center;animation:dqBob 3s ease-in-out infinite}
+.dayq .sway{transform-box:fill-box;transform-origin:bottom center;animation:dqSway 4.2s ease-in-out infinite}
+.dayq .shimmer{animation:dqShimmer 2.6s ease-in-out infinite}
+.dayq .twinkle{animation:dqTwinkle 2.2s ease-in-out infinite}
+.dayq .rise{transform-box:fill-box;transform-origin:center;animation:dqRise 2.8s ease-in-out infinite}
+.dayq .fall{transform-box:fill-box;transform-origin:center;animation:dqFall 3.6s ease-in infinite}
+.dayq .orbit{transform-box:view-box;transform-origin:52px 118px;animation:dqOrbit 16s linear infinite}
+.dayq .sound{transform-box:fill-box;transform-origin:left center;animation:dqSound 2.4s ease-out infinite}
+.dayq .swim{transform-box:fill-box;transform-origin:center;animation:dqSwim 3.4s ease-in-out infinite}
+.dayq .drip{transform-box:fill-box;transform-origin:top center;animation:dqDrip 2.8s ease-in-out infinite}
+@keyframes dqPop{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+@keyframes dqBreathe{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+@keyframes dqBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes dqSway{0%,100%{transform:rotate(-2.2deg)}50%{transform:rotate(2.2deg)}}
+@keyframes dqShimmer{0%,100%{opacity:.45}50%{opacity:.85}}
+@keyframes dqTwinkle{0%,100%{opacity:.35}50%{opacity:1}}
+@keyframes dqRise{0%{opacity:0;transform:translateY(6px) scale(.9)}30%{opacity:.75}100%{opacity:0;transform:translateY(-14px) scale(1.05)}}
+@keyframes dqFall{0%{opacity:0;transform:translate(0,-8px) rotate(0)}20%{opacity:1}80%{opacity:1}100%{opacity:0;transform:translate(8px,22px) rotate(45deg)}}
+@keyframes dqOrbit{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes dqSound{0%{opacity:0;transform:scale(.7)}30%{opacity:.9}100%{opacity:0;transform:scale(1.18)}}
+@keyframes dqSwim{0%,100%{transform:translateX(0)}50%{transform:translateX(7px)}}
+@keyframes dqDrip{0%,100%{transform:translateY(0) scaleY(1);opacity:.85}50%{transform:translateY(3px) scaleY(1.35);opacity:1}}
+@keyframes dqAnsin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes dqCardpop{0%{transform:scale(1)}40%{transform:scale(1.02)}100%{transform:scale(1)}}
+@keyframes dqInvite{0%,100%{filter:brightness(1)}50%{filter:brightness(1.14)}}
+@keyframes dqSparkle{0%{opacity:0;transform:translateY(6px) scale(.4)}40%{opacity:1;transform:translateY(-4px) scale(1.15)}100%{opacity:0;transform:translateY(-18px) scale(.8)}}
+@media (prefers-reduced-motion:reduce){.dayq .scene,.dayq .scene *,.dayq-owl,.dayq-reveal,.dayq .cheer span{animation:none!important}}
