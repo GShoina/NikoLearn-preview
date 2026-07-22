@@ -185,8 +185,8 @@ function openTalk(){
       <h2>საუბარი და ფიქრი</h2>
       <p class="talk-lead">ერთად ისაუბრეთ. სწორი პასუხი არ არსებობს.</p></div>
     <div class="talk-decks">
-      <button class="talk-deck ka" onclick="talkDeck('ka')"><span class="td-flag">🇬🇪</span><span class="td-name">ქართული საუბრები</span><span class="td-sub">${TALK.ka.length} ${UILANG==='en'?'cards':'ბარათი'}</span></button>
-      <button class="talk-deck en" onclick="talkDeck('en')"><span class="td-flag">🇬🇧</span><span class="td-name">English talk</span><span class="td-sub">${TALK.en.length} ${UILANG==='en'?'cards':'ბარათი'}</span></button>
+      <button class="talk-deck ka" onclick="talkDeck('ka')"><span class="td-flag">🇬🇪</span><span class="td-name">ქართული საუბრები</span><span class="td-sub">${talkPool('ka').length} ${UILANG==='en'?'cards':'ბარათი'}</span></button>
+      <button class="talk-deck en" onclick="talkDeck('en')"><span class="td-flag">🇬🇧</span><span class="td-name">English talk</span><span class="td-sub">${talkPool('en').length} ${UILANG==='en'?'cards':'ბარათი'}</span></button>
     </div>
   </div>`,'talk');
 }

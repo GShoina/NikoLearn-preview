@@ -66,7 +66,7 @@ function maybeOfferHelp(){
    auto-open the hint. Re-armed per question by gameShell, cleared the moment the child answers, opens
    a hint, or leaves the round. Visual-only (no TTS — the ka hint voice is gated, never garble). ── */
 let idleTimer=null;
-function clearIdleHelp(){ if(idleTimer){clearTimeout(idleTimer);idleTimer=null;} closeIdleHint(); }
+function clearIdleHelp(){ if(idleTimer){clearTimeout(idleTimer);idleTimer=null;} if(helpTimer){clearTimeout(helpTimer);helpTimer=null;} closeIdleHint(); } // NB-73: also cancel a pending coach help-hint (maybeOfferHelp armed helpTimer→openHint); else a hint armed inside a task fires on the screen the child moved to
 function armIdleHelp(){
   clearIdleHelp();
   if(!profile||!$('#aifab'))return;          // only inside a live game round

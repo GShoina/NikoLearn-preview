@@ -79,6 +79,7 @@ function coarseMode(m){
 function abandonRound(){
   clearCeleb(); if(typeof closeFeedback==='function')closeFeedback(); // CE-2: cancel pending win-celebration timers so they can't drag the child back into the round
   if(typeof clearIdleHelp==='function')clearIdleHelp();
+  if(typeof closeHint==='function')closeHint(); // NB-73: an open coach hint overlay (#aiov, appended to .device) is not torn down by re-render — dismiss it on leave so it can't linger over the next screen
   if(game.roundActive){ try{ if(window.Analytics) Analytics.event('round_abandon',{mode:coarseMode(),q:(game.i>=8?'8+':String(game.i||0))}); }catch(e){} game.roundActive=false; }
   openMenu(game.subj||'math');
 }
@@ -880,7 +881,16 @@ function answerShape(btn,sel,cor){
     if(young&&!useEn){const sh=SHAPES.find(s=>s.en===cor);winStep(sh?sh.ka:cor,'ka-GE',()=>{game.i++;nextShape();});}
     else winStep(cor,'en-US',()=>{game.i++;nextShape();});
   }
-  else{btn.classList.add('wrong','dim');mrec(false);reQueueWrong(cor,null);}
+  else{
+    btn.classList.add('wrong','dim');mrec(false);
+    // NB-72: mirror the win-path localization. A young ka child picked the picture by its .en code, so `cor`
+    // is the English id ("square"). Teaching that raw id back at the corrective moment shows/says English to a
+    // ka-only tiny. Re-queue in the ka shape name (clip-voiced 'ka-GE', same as the win path at line 880).
+    const young=(typeof isYoung==='function'&&isYoung(profile));
+    const kl=(kidObj(profile)&&kidObj(profile).langs)||['ka'], useEn=kl.indexOf('ka')<0;
+    if(young&&!useEn){const sh=SHAPES.find(s=>s.en===cor);reQueueWrong(sh?sh.ka:cor,sh?'ka-GE':null);}
+    else reQueueWrong(cor,null);
+  }
 }
 
 /* ── money: count coins (tetri) → total ── */

@@ -219,20 +219,21 @@ function parentDash(){
     const lv=levelOf(p);const words=Object.entries(s.words);
     const cor=words.reduce((a,[,v])=>a+v.correct,0),wr=words.reduce((a,[,v])=>a+v.wrong,0);
     const acc=cor+wr?Math.round(cor/(cor+wr)*100):0;
+    const hasAcc=(cor+wr)>0; const accTxt=hasAcc?acc+'%':'—'; // NB-75: a first-run shield sets shields=1 but records 0 answers, so zeroData=false and the old `0%` read as a real (failing) score. Show "—" (no data) until there is a scored answer.
     const weak=words.filter(([,v])=>v.wrong>v.correct).map(([k])=>k).slice(0,5);
     const strong=words.filter(([,v])=>v.correct>=3&&v.wrong===0).map(([k])=>k).slice(0,5);
     const mins=Math.round((s.totalTime||0)/60000);
     html+=`<div class="kidcard" id="kc-${p}">
       <button class="kid-head-btn" onclick="toggleKid('${p}')" aria-expanded="false">
         <div class="avatar a-${kidObj(p).color}">${nameOf(p)[0]}</div>
-        <div class="kh-meta"><div class="kn">${nameOf(p)}</div><div class="kr">${zeroData?(en?'✨ No play yet, tap to start':'✨ ჯერ არ უთამაშია, დააჭირე და დაიწყეთ'):`${lv.ic} ${en?tx(lv.name):lv.name} · 🪙 ${s.shields} · ${en?'accuracy':'სიზუსტე'} ${acc}%`}</div></div>
+        <div class="kh-meta"><div class="kn">${nameOf(p)}</div><div class="kr">${zeroData?(en?'✨ No play yet, tap to start':'✨ ჯერ არ უთამაშია, დააჭირე და დაიწყეთ'):`${lv.ic} ${en?tx(lv.name):lv.name} · 🪙 ${s.shields} · ${en?'accuracy':'სიზუსტე'} ${accTxt}`}</div></div>
         <span class="kid-chev">▾</span>
       </button>
       <div class="kid-body" id="kb-${p}" hidden>
       <div class="stat-grid">
       <div class="scard"><div class="sv" style="color:var(--sun-d)">${s.shields}</div><div class="sl">🪙 მონეტა</div></div>
       <div class="scard"><div class="sv">${lv.learned}</div><div class="sl">ნასწავლი</div></div>
-      <div class="scard"><div class="sv" style="color:${acc>=70?'var(--green-d)':'var(--primary-d)'}">${acc}%</div><div class="sl">სიზუსტე</div></div>
+      <div class="scard"><div class="sv" style="color:${!hasAcc?'var(--ink-3,#9aa)':(acc>=70?'var(--green-d)':'var(--primary-d)')}">${accTxt}</div><div class="sl">სიზუსტე</div></div>
     </div>`;
     // dynamic "where is the child getting stuck / what to improve"
     const opNm={'math-add':'შეკრება','math-sub':'გამოკლება','math-mul':'გამრავლება','math-div':'გაყოფა','math-miss':'გამოტოვებული','math-pat':'კანონზომიერება','compare':'შედარება','skip':'დათვლა 5/10','shapes':'ფიგურები','money':'ფული','clock':'საათი'};
@@ -277,7 +278,7 @@ function parentDash(){
     if(recs.length)recBody=en
       ?`<b>Next step, together:</b><br>${recs.map(r=>'• '+r).join('<br>')}<br><span class="rec-push">👉 Sit together for 5 minutes, ${nameOf(p)} will soon get the hang of this topic.</span>`
       :`<b>შემდეგი ნაბიჯი ერთად:</b><br>${recs.map(r=>'• '+r).join('<br>')}<br><span class="rec-push">👉 დააჭირეთ ერთად 5 წუთი, ${nameOf(p)} მალე დაიჭერს თავს ამ თემაში.</span>`;
-    else if(s.sessions>0)recBody=en
+    else if(s.sessions>0&&hasAcc)recBody=en // NB-75: only claim an accuracy figure when there is a scored answer; no-data falls through to the "not enough data yet" line below
       ?`<b>${nameOf(p)} is doing wonderfully! 🌟</b> Accuracy ${acc}%. Next step: try one level up, they're ready.`
       :`<b>${nameOf(p)} მშვენივრად მიდის! 🌟</b> სიზუსტე ${acc}%. შემდეგი ნაბიჯი: სცადეთ ერთი დონით მაღლა, მზად არის.`;
     else recBody=en
@@ -455,10 +456,11 @@ function buildReport(){
     const lv=levelOf(p);const words=Object.values(s.words);
     const cor=words.reduce((a,v)=>a+v.correct,0),wr=words.reduce((a,v)=>a+v.wrong,0);
     const acc=cor+wr?Math.round(cor/(cor+wr)*100):0;
+    const accTxt=(cor+wr)>0?acc+'%':'—'; // NB-75: no false 0% before a scored answer
     const mins=Math.round((s.totalTime||0)/60000);
     lines.push(`■ ${nameOf(p)} (${kidObj(p).age} წ.)`);
     lines.push(`  დონე: ${lv.name} · მონეტა: ${s.shields} · ნასწავლი: ${lv.learned} სიტყვა`);
-    lines.push(`  სიზუსტე: ${acc}% · სესია: ${s.sessions} · დრო: ${mins} წთ · 🔥 რეკორდი: ${s.maxStreak||0}`);
+    lines.push(`  სიზუსტე: ${accTxt} · სესია: ${s.sessions} · დრო: ${mins} წთ · 🔥 რეკორდი: ${s.maxStreak||0}`);
     const weak=Object.entries(s.words).filter(([,v])=>v.wrong>v.correct).map(([k])=>k).slice(0,6);
     if(weak.length)lines.push(`  გასამეორებელი: ${weak.join(', ')}`);
     const opNm={'math-add':'შეკრება','math-sub':'გამოკლება','math-mul':'გამრავლება','math-div':'გაყოფა','math-miss':'გამოტოვებული','math-pat':'კანონზომიერება','compare':'შედარება','skip':'დათვლა 5/10','shapes':'ფიგურები','money':'ფული','clock':'საათი'};
