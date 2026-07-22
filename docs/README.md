@@ -36,6 +36,7 @@ Rule of thumb: **if a doc is not listed here, treat it as unclassified and ask t
 | Design tone / art direction | `DESIGN_TONE_READABILITY_STANDARDS.md` | from 8-dim audit 2026-06-27 |
 | Voice RECIPE (how to generate TTS) | `VOICE_STANDARD.md` | 2026-06-12 |
 | Voice QUALITY (how to judge audio) | `VOICE_QUALITY_STANDARD.md` | + runnable `tools/voice-eval.mjs`; verdict 2026-07-11: EkaNeural passes |
+| Voice IDENTITY (does a clip match our ONE voice) | `VOICE_CREATION_GATE.md` | NEW 2026-07-22 (PI-104, triggered by NB-89). Third leg of the voice trio: character→quality→identity. §1 canonical profile (EN = runtime Web Speech, rate 0.72/pitch 1.1; KA = clips), 5-step creation gate (A/B vs app + voice-eval), §4 owner fork = pin the EN identity (default: lock the §1 target) |
 | Quality bar / audits | `QUALITY_AUDIT_STANDARD.md` + `AGENT_TEAM_STANDARD.md` | team minimum owner-locked 2026-06-26 |
 | Owner-report STRUCTURE (exec) | `REPORT_STANDARD.md` | NEW 2026-07-13, owner-issued; decision-first, importance-ordered; sits on §6e/§6f/§8; ref impl = Marble integration v2 |
 | Georgian-copy checklist (INTERNAL) | `GEMINI_KA_LESSONS.md` | NEW 2026-07-14, owner decision; internalized recurring Gemini KA corrections → self-apply on INTERNAL reports (no live Gemini call). Customer-facing copy still uses full §6f (Gemini THEN owner). |
