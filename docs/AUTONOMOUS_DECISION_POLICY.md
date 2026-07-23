@@ -238,3 +238,60 @@ ship MUST pass ALL, evidence recorded in the ship's report/handoff):**
 Any item unprovable = the ship is blocked as NEEDS MORE EVIDENCE (an engineering task), never handed to
 the owner as a yes/no. This RAISES the bar in exchange for removing his rubber-stamp GO — exactly the
 trade the owner authorized.
+
+## 2026-07-23-f — TWO-TRACK RELEASE MODEL (owner-directed; the "proper product-dev practice" ruling)
+
+**Owner's words, verbatim (2026-07-23):** „ზოგადად არ მომწონს როგორც არის გადაწყვეტილი ახალი ვერსიის
+დამატების ფუნქციონალი: ა)ბრენჩებს თუ ფორკს რატომ არ იყენებ? რატომ არ შეიძლება ჯერ დაკოპირებულ ბრენჩში
+ააშენებო ვნახო და მერე დააპაბლიშო? მოკლედ მინდა აქ სწორი პროდაქტ დიველოპმენტის პრაქტიკის შესაბამისად
+ოპერირება: ა) ბაგების ეგრევე ლაივზე ატანა, ხოლო ბ) ახალი დროპის ბრენჩით. ეს ახალი დროპებიდან ფეისბუქზე
+პოსტები / ბლოგები გავაკეთო სიახლეებისთვის ხომ უკეთესი იქნება? აქაც მინდა გლობალური ხედვა."
+
+**What he ruled (and why it is better than a flat "everything ships autonomously"):** stop treating
+"ship to production" as ONE thing. It is TWO lanes with different risk, cadence, and PURPOSE. A bug fix
+is invisible maintenance that should flow continuously; a feature "drop" is a public event worth SEEING
+first and worth ANNOUNCING. The global vision he added: **a drop is not a deploy, it is the product's
+public heartbeat and a marketing moment** (Facebook / blog "what's new"). So the release system must
+produce, for every drop, the story that goes to parents. This subsumes and REPLACES the flat autonomous-
+ship reading of Amendment d for feature releases (d still governs the hotfix lane unchanged; ჩანაცვლება≠წაშლა
+— d stays on record, this refines when each lane applies).
+
+### TRACK A — HOTFIX LANE ("ბაგები → ეგრევე ლაივზე"): AUTONOMOUS, no owner GO
+Scope: a change that RESTORES intended behavior and adds NO net-new user-facing capability or content —
+bug fix · UX/a11y/perf fix · copy CORRECTION · a false-claim fix. (If unsure "bug or drop?", the test is:
+would a parent notice a NEW thing? No → hotfix. Yes → drop.)
+Flow: feature/fix branch → the full HARDENED LIVE-GO STANDARD green (Amendment 2026-07-14-e items 1-8:
+`npm test` · `visual-gate` · own domain gate · §6c look · §14 sweep · Gemini KA-QA if copy · version+cache
+bump · post-deploy live re-verify + `git revert` on regress) → merge to main → push → live re-verify.
+**No preview-and-wait, no owner GO.** The verification system is the gate (Amendment d). Report DONE.
+This is exactly „ბაგების ეგრევე ლაივზე ატანა".
+
+### TRACK B — DROP LANE ("ახალი დროპი ბრენჩით"): BUILD ON A BRANCH → OWNER PREVIEWS THE FINISHED THING → GO → PUBLISH → ANNOUNCE
+Scope: a net-NEW feature or net-new customer-facing CONTENT a parent/child would notice as new
+(e.g. the 66 alliteration sentences, a new game, a new module, a redesign). These are the "drops".
+Flow (proper product-dev practice, his ask):
+1. **Build on a copied branch** (`drop/<name>` off main) — never on main. Build to COMPLETE + self-verified
+   (loop-წესი ≥8, gates green, §6c looked-at, §11 original, §8 no em dash, Gemini KA-QA for Georgian copy).
+2. **PREVIEW = show him the FINISHED, TESTABLE thing** (per [[show-finished-product-not-spec]] — never a
+   scene-table or spec; a thing he can watch/tap). Default channel = the branch preview he can open + test
+   (his PI-87 ask) and/or rendered screenshots (§6c). Show A-vs-B where it is a change to something existing
+   (PI-88). This is the „ვნახო" step — the SEEING gate he is buying with this rule.
+3. **Owner GO** on the drop (taste/identity/content = his call — this is a legitimate §13-gate-4 stop). Collected
+   without stopping other work.
+4. **Publish** (merge to main → push → live re-verify §6c on production).
+5. **ANNOUNCEMENT SEED (the marketing half he asked for):** every drop produces a short Georgian „რა არის
+   ახალი" note (warm, parent-facing, georgian-copy skill, no em dash) = ready-to-post Facebook/blog copy about
+   the new drop. A drop without its "what's new" story is not finished. This is „ახალი დროპებიდან ფეისბუქზე
+   პოსტები / ბლოგები".
+
+### The cheap-model note (his "იმედია დაბალი მოდელი აკეთებს ლაივზე გატანას")
+The MECHANICAL push (run the green gates, bump version+cache, merge, push, read the live re-verify result)
+is scriptable and can be driven by a LOW/cheap model once the capable model has certified the gates. The
+JUDGMENT that cannot be delegated: the §6c "LOOK at the screenshot" (needs vision) and the §14 class call.
+So: capable model certifies → cheap model/executor runs the runway. `tools/live-push.mjs` + the
+release-deploy-guard skill are that runway; keep them the single mechanical path so a cheaper executor
+never improvises a step.
+
+**Escalation unchanged:** money/spend (financial) always stops; a DROP's taste/content GO is Track B's own
+step, not a regression to the retired blanket gate. A hotfix never stops. §5 child-safety + §13 gates 2/3
+still win over everything here.

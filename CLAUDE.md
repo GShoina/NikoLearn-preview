@@ -175,6 +175,12 @@ work. Replace "should I do A or B?" with a senior-owner decision plus the outcom
 > stand-in for a missing verification system, which now exists. Gate ONLY financial + reputational risk;
 > a verified, reversible customer-facing change (incl. fixing a false live claim) ships AUTONOMOUSLY after
 > the Execution Contract + live re-verify. See `docs/AUTONOMOUS_DECISION_POLICY.md` Amendment d.
+> **FURTHER REFINED 2026-07-23 by Amendment f (owner) — TWO-TRACK RELEASE MODEL:** split "ship" into two
+> lanes. **HOTFIX** (bug/UX/a11y/perf fix, nothing net-new) = „ბაგები ეგრევე ლაივზე": AUTONOMOUS, no GO,
+> verification system is the gate. **DROP** (net-new feature OR net-new customer-facing content a parent
+> would notice) = build on a `drop/<name>` branch → owner PREVIEWS the finished testable thing → GO →
+> publish → a Georgian „რა არის ახალი" FB/blog announcement seed. §7b's SEE-it gate now lives in the DROP
+> lane only. Run the `release-deploy-guard` skill (Step 0.5 picks the lane). Full text: Amendment f.
 WHY THIS EXISTS (do not lose): the owner's quality insurance. Two guarantees — (1) he can SEE/TEST a
 customer-facing change before it reaches nikolearn.com, (2) NO bug reaches live (reputation). It is NOT a
 reason to stop, idle, or hand a yes/no back. Using §7b to do nothing is the EXACT failure this rewrite kills.
@@ -268,10 +274,14 @@ enforced by the Stop-hook. It never overrides the 4 gates below or §5 safety / 
 > **REFINED 2026-07-12 (Policy Amendment d):** gate 1 is NOT every live write. A verified, reversible
 > customer-facing ship goes autonomously; only a live write carrying FINANCIAL or genuine REPUTATIONAL
 > risk (net-new public promise, pricing/brand/launch, high-visibility identity change) still stops here.
-1. **LIVE write to production** (customer-facing → nikolearn.com) — *only if financial/reputational per Amendment d.*
+> **FURTHER REFINED 2026-07-23 (Amendment f — TWO-TRACK):** a HOTFIX (bug/UX/a11y/perf, nothing net-new)
+> never stops at gate 1/4 — it ships autonomously. A DROP (net-new feature OR net-new customer-facing
+> content) DOES stop for the owner PREVIEW→GO, which IS gate 4 done right (build on a `drop/` branch,
+> show the finished thing, then publish + announce). Lane picked by `release-deploy-guard` Step 0.5.
+1. **LIVE write to production** (customer-facing → nikolearn.com) — *HOTFIX autonomous; DROP = preview→GO (Amendment f).*
 2. **Irreversible deletion** a backup cannot restore.
 3. **Money / payment / spend.**
-4. **Customer-facing content/UI going out.**
+4. **Customer-facing content/UI going out** — *= the DROP preview→GO gate; a HOTFIX is not "content going out".*
 
 **RULES (no exceptions):**
 - If your reason to stop is NOT one of the 4 → it is INVALID. Continue.
