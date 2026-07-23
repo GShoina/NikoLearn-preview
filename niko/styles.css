@@ -748,19 +748,24 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
 @media (prefers-reduced-motion:reduce){.mv-goalpill.bump,.mv-done-em{animation:none}}
 
 /* ── ხატვა / Draw & Color (v1.234) ── */
-.draw-screen{display:flex;flex-direction:column;gap:8px;height:100%;padding:6px 4px}
-.dw-top{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.dw-tools{display:flex;gap:5px;flex:1;justify-content:center;flex-wrap:wrap;min-width:0}
+.draw-screen{display:flex;flex-direction:column;gap:8px;height:100%;padding:6px 4px;overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none}
+.draw-screen::-webkit-scrollbar{display:none}
+/* mobile-first header: back(left)+save(right) on row 1, the 6 tools centered on their own row 2 (8 buttons never fit one phone row) */
+.dw-top{display:flex;align-items:center;justify-content:space-between;gap:8px 6px;flex-wrap:wrap;flex-shrink:0}
+.dw-tools{order:2;flex-basis:100%;display:flex;gap:6px;justify-content:center;flex-wrap:nowrap}
 .dw-tool{width:44px;height:44px;border:1.5px solid var(--line);background:var(--card);border-radius:12px;font-size:1.25rem;cursor:pointer;padding:0;display:grid;place-items:center}
 .dw-tool:active{transform:scale(.94)}
 .dw-tool.on{border-color:var(--primary);background:color-mix(in oklch,var(--primary) 14%,var(--card))}
 .dw-save{border:1.5px solid var(--line);background:var(--card);border-radius:12px;padding:0 12px;font-weight:700;font-size:.82rem;cursor:pointer;min-height:44px;white-space:nowrap}
 .dw-canvas-wrap{flex:1;min-height:230px;background:#fff;border:2px solid var(--line);border-radius:14px;overflow:hidden;touch-action:none}
 #dwCanvas{display:block;cursor:crosshair}
+/* horizontal swipe strips: hide the native scrollbar on mobile (same pattern as .mv2 .rail) */
+.dw-tmpls,.dw-stamps{scrollbar-width:none;-ms-overflow-style:none;flex-shrink:0}
+.dw-tmpls::-webkit-scrollbar,.dw-stamps::-webkit-scrollbar{display:none}
 .dw-tmpls{display:flex;gap:6px;overflow-x:auto;padding:2px 1px}
 .dw-tmpl{flex:0 0 auto;width:46px;height:46px;border:1.5px solid var(--line);background:var(--card);border-radius:12px;font-size:1.45rem;cursor:pointer;padding:0}
 .dw-tmpl:active{transform:scale(.92)}
-.dw-palette{display:flex;flex-direction:column;gap:7px}
+.dw-palette{display:flex;flex-direction:column;gap:7px;flex-shrink:0}
 .dw-colors{display:flex;gap:7px;flex-wrap:wrap;justify-content:center}
 .dw-color{width:36px;height:36px;border-radius:50%;border:3px solid transparent;cursor:pointer;box-shadow:var(--shadow);padding:0}
 .dw-color.light{border:1.5px solid var(--line)}
