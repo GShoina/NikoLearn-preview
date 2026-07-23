@@ -121,7 +121,13 @@
     if(document.getElementById('ws-css')) return;
     const s=document.createElement('style'); s.id='ws-css';
     s.textContent=`
-    #wsscr{position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;background:linear-gradient(180deg,#FFF6E9,#FDEBD2);overflow:auto;padding-bottom:84px}
+    /* NB-93 (owner 2026-07-23): was position:fixed;inset:0 → pinned to the VIEWPORT, so on a wide
+       screen the word-search escaped the 430px .device phone-frame and covered the whole window
+       ("გადაჭიმულია მთელ ეკრანზე, არ აქვს ჩარჩო"). absolute;inset:0 fills the .device frame instead
+       (wsStart appends #wsscr into .device, which is position:relative + overflow:hidden), and the
+       translateZ(0) makes #wsscr the containing block for its own position:fixed children below
+       (.ws-owl / .ws-dock) so they anchor to the FRAME bottom, not the browser window. */
+    #wsscr{position:absolute;inset:0;z-index:60;transform:translateZ(0);display:flex;flex-direction:column;background:linear-gradient(180deg,#FFF6E9,#FDEBD2);overflow:auto;padding-bottom:84px}
     #wsscr .ws-top{display:flex;align-items:center;gap:10px;padding:12px 14px}
     #wsscr .ws-who{font-weight:800;font-size:1.15rem;color:#2A1C12;line-height:1.05}
     #wsscr .ws-who small{display:block;font-weight:600;font-size:.72rem;color:#8a7a63}
