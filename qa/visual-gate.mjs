@@ -23,6 +23,13 @@ const ROOT = process.cwd();
 const WIDTHS = [320, 360, 390];
 const SHOTS = process.argv.includes('--shots');
 
+// Pre-existing sub-44px controls surfaced when NB-94 added section-screen coverage (draw palette +
+// dayq). Tracked as NB-95 (a deliberate tap-target design pass, not a regression). Baselined here so
+// the gate hard-blocks any NEW sub-44 target on ANY screen while tolerating these known ones — each
+// key is removed from this list as NB-95 fixes it, tightening the gate automatically.
+const TAP_DEBT = new Set(['dw-stamp', 'dw-color', 'dw-size', 'dayq-say', 'dayq-dot']);
+const isTapDebt = (o) => o.problems.length === 1 && o.problems[0].startsWith('tap<') && TAP_DEBT.has(o.el);
+
 // ---- find installed Playwright Chromium (newest), like lighthouse.mjs ----
 function findChrome() {
   const base = join(process.env.USERPROFILE || process.env.HOME, 'AppData/Local/ms-playwright');
@@ -68,6 +75,12 @@ const PROBE = (minPx) => {
   out.screen = (active && (active.id || active.className)) || '(none)';
   const isPinned = (el) => { for (let n = el; n && n !== document.body; n = n.parentElement) {
       const p = getComputedStyle(n).position; if (p === 'fixed' || p === 'sticky' || p === 'absolute') return true; } return false; };
+  // an item inside a horizontal swipe-strip (overflow-x:auto/scroll ancestor) legitimately extends
+  // past the viewport — you scroll to reach it. Don't false-flag it as broken overflow-x (NB-94
+  // follow-up: section-screen coverage surfaced draw's strip thumbnails). The doc-level out.overflowX
+  // still catches a strip that ITSELF overflows the viewport.
+  const inHScroller = (el) => { for (let n = el.parentElement; n && n !== document.body; n = n.parentElement) {
+      const ox = getComputedStyle(n).overflowX; if (ox === 'auto' || ox === 'scroll') return true; } return false; };
   const visible = (el) => { const s = getComputedStyle(el);
     return !(s.visibility === 'hidden' || s.display === 'none' || +s.opacity === 0); };
   // the floating bottom dock/nav, if shown — used to catch content it covers
@@ -85,7 +98,7 @@ const PROBE = (minPx) => {
     const problems = [];
     const pinned = isPinned(el);
     if (rc.top < -1) problems.push('clip-top');                       // unreachable above scroll
-    if (rc.left < -1 || rc.right > vw + 1) problems.push('overflow-x');
+    if ((rc.left < -1 || rc.right > vw + 1) && !inHScroller(el)) problems.push('overflow-x');
     if (pinned && rc.bottom > vh + 1) problems.push('pinned-offscreen'); // fixed control below fold
     // content UNREACHABLE behind the floating dock = the real bug (a tile that even at
     // max scroll stays under the dock). Mid-list tiles behind the dock AT REST are normal
@@ -108,6 +121,28 @@ const PROBE = (minPx) => {
     if (seen.has(key + problems.join())) continue; seen.add(key + problems.join());
     out.offenders.push({ el: key, size: Math.round(rc.width)+'x'+Math.round(rc.height),
       pos: 't'+Math.round(rc.top)+' b'+Math.round(rc.bottom), problems });
+  }
+  // NB-94 CLASS (draw v1.371): horizontal swipe-strips (.dw-tmpls/.dw-stamps, .mv2 .rail, …) must
+  // HIDE their native scrollbar on mobile — a child swipes, they never drag a grey bar. A shown
+  // native h-scrollbar consumes box height (offsetHeight>clientHeight); scrollbar-width:none makes
+  // them equal. The doc-level overflowX check above CAN'T see this (the strip scrolls on purpose),
+  // which is exactly why draw shipped broken — plus the gate never rendered section screens at all.
+  out.hbars = [];
+  for (const el of document.querySelectorAll('*')) {
+    if (el === document.documentElement || el === document.body) continue;
+    const cs = getComputedStyle(el);
+    if (cs.overflowX !== 'auto' && cs.overflowX !== 'scroll') continue;
+    if (el.scrollWidth <= el.clientWidth + 1) continue;   // not actually overflowing → no bar to show
+    if (cs.scrollbarWidth === 'none') continue;           // explicitly hidden = the correct swipe-strip pattern
+    if (!visible(el)) continue;
+    // reaching here = an overflowing horizontal scroller that does NOT hide its native scrollbar.
+    // We deliberately do NOT measure rendered bar height: headless chromium paints OVERLAY bars (0px),
+    // so offsetHeight-clientHeight is always 0 here and would never fire (verified 2026-07-23). But on
+    // the child's real device (Windows/Android classic bars) a grey native bar renders across the
+    // strip — exactly NB-94. The computed-style condition is platform-independent, so it catches the
+    // class on every push regardless of how this browser happens to paint scrollbars.
+    const raw = el.className && el.className.baseVal !== undefined ? el.className.baseVal : el.className;
+    out.hbars.push({ el: (String(raw||'').split(' ')[0] || el.tagName.toLowerCase()), sbw: cs.scrollbarWidth || 'auto' });
   }
   return out;
 };
@@ -180,11 +215,20 @@ const CONTRAST_PROBE = ({ b64 }) => new Promise(async (resolve) => {
 
   // states to sweep per width — drive via the app's own global fns, then probe.
   // home2 = water-dock footer (raised HOME button); game = in-round slim dock.
+  // Section screens are seeded once by home2/game (guest profile persists on the page), then each
+  // section opener is driven and probed. Added after NB-94: the gate used to stop at menu/game and
+  // NEVER render a section screen, so draw's broken mobile header + native scrollbars shipped unseen.
+  // The owner's class question ("is mobile-first respected in EVERY section?") is now answered by the
+  // gate itself on every push, not a one-time manual sweep.
   const STATES = [
     { name: 'entry', drive: async () => {} },
     { name: 'home2', drive: async (p) => { await p.evaluate(() => { try { startDemo(7); selectProfile('guest'); } catch {} }); } },
     { name: 'menu',  drive: async (p) => { await p.evaluate(() => { try { openMenu('math'); } catch {} }); } },
     { name: 'game',  drive: async (p) => { await p.evaluate(() => { try { startDemo(7); } catch {} }); } },
+    { name: 'draw',  drive: async (p) => { await p.evaluate(() => { try { startDemo(7); openDraw(); } catch {} }); } },
+    { name: 'talk',  drive: async (p) => { await p.evaluate(() => { try { startDemo(7); openTalk(); } catch {} }); } },
+    { name: 'dayq',  drive: async (p) => { await p.evaluate(() => { try { startDemo(7); openDayQ(); } catch {} }); } },
+    { name: 'eng',   drive: async (p) => { await p.evaluate(() => { try { startDemo(7); openMenu('english'); } catch {} }); } },
   ];
 
   let fail = 0;
@@ -207,10 +251,14 @@ const CONTRAST_PROBE = ({ b64 }) => new Promise(async (resolve) => {
       if (SHOTS) await page.screenshot({ path: join('output', `vg-${w}-${st.name}.png`), fullPage: false }).catch(()=>{});
       let cprobe = [];
       if (shotBuf) cprobe = await page.evaluate(CONTRAST_PROBE, { b64: shotBuf.toString('base64') }).catch(() => []);
-      const bad = r.overflowX || r.offenders.length || cprobe.length;
+      const hardOff = r.offenders.filter(o => !isTapDebt(o));   // structural + any NEW sub-44 target
+      const warnOff = r.offenders.filter(isTapDebt);            // known pre-existing tap-debt (NB-95)
+      const bad = r.overflowX || hardOff.length || (r.hbars && r.hbars.length) || cprobe.length;
       if (bad) fail++;
-      console.log(`\n[${w}px ${st.name}] screen=${r.screen} vh=${r.vh} overflowX=${r.overflowX} offenders=${r.offenders.length} text-issues=${cprobe.length}`);
-      for (const o of r.offenders) console.log(`   • ${o.el.padEnd(18)} ${o.size.padEnd(9)} ${o.pos.padEnd(30)} ${o.problems.join(',')}`);
+      console.log(`\n[${w}px ${st.name}] screen=${r.screen} vh=${r.vh} overflowX=${r.overflowX} offenders=${hardOff.length} hbars=${(r.hbars||[]).length} text-issues=${cprobe.length}${warnOff.length?` (+${warnOff.length} known tap-debt NB-95)`:''}`);
+      for (const o of hardOff) console.log(`   • ${o.el.padEnd(18)} ${o.size.padEnd(9)} ${o.pos.padEnd(30)} ${o.problems.join(',')}`);
+      for (const o of (r.hbars||[])) console.log(`   ▭ ${o.el.padEnd(18)} h-scroller w/ scrollbar-width:${o.sbw} — must be 'none' on mobile (NB-94 class)`);
+      for (const o of warnOff) console.log(`   ◦ ${o.el.padEnd(18)} ${o.size.padEnd(9)} known tap-debt (NB-95) ${o.problems.join(',')}`);
       for (const o of cprobe) console.log(`   ✎ ${o.el.padEnd(10)} "${o.txt}" ${o.size} ${o.problems.join(',')}`);
     }
     await ctx.close();
