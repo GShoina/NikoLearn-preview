@@ -23,12 +23,17 @@ function alphaSay(subj,it){
   }
 }
 
-/* shared bottom nav for every LEARN screen (alpha/digit/read/sent/trace). One source so the
-   home button (NB-77: learn screens had no way back to the app home, only prev/dots/next) can
-   never go missing on a subset of screens again. Home sits LEFT; prev/dots/next keep their order. */
+/* shared in-CONTENT nav for every LEARN screen (alpha/digit/read/sent/trace). One source so the
+   flashcard paging (prev / dots / next) is identical on every learn screen and can never drift.
+   NB-96/97/98 (owner 2026-07-23): this row USED to also render an emoji 🏠 home button on the LEFT.
+   That was a DUPLICATE — the shared bottom footer (index.html .bottomnav, SVG house icon) is shown on
+   every learn screen (nav='slim', and styles.css:1481 „slim hides nothing"), so there were two home
+   controls on one screen („home იმიჯის 2 ვერსია") and the extra card shoved the ← / → arrows off-centre.
+   Fix (NB-77's original need is already met by the footer): home lives ONLY in the shared footer; this
+   row carries CONTENT navigation only, so prev/dots/next sit symmetric (space-between, 3 items). Do NOT
+   re-add a home here — that reintroduces the duplicate and the drift NB-98 flagged. */
 function learnNav(prevHtml,dotsText,nextHtml){
   return `<div class="alpha-nav">
-      <button class="abtn home" onclick="goHome()" aria-label="მთავარი">🏠</button>
       ${prevHtml}
       <div class="alpha-dots">${dotsText}</div>
       ${nextHtml}
