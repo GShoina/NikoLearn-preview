@@ -1703,6 +1703,12 @@ button.pcard{font:inherit;color:inherit;width:100%;text-align:inherit;-webkit-ap
 
 /* v1.118 — letter↔sound link: emphasise the target letter inside its example word */
 .alpha-word .lead{color:var(--primary);font-weight:800;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}
+/* ენის გასატეხი (alliteration) block on the ka letter learn card — PI-111 content + PI-113 first-letter colour */
+.allit{width:100%;margin-top:16px;padding-top:14px;border-top:1.5px dashed var(--line);
+  display:flex;flex-direction:column;gap:8px;text-align:center}
+.allit-h{font-size:.92rem;font-weight:700;color:var(--muted);letter-spacing:.2px}
+.allit-s{font-size:clamp(1.05rem,4.4vw,1.28rem);font-weight:600;line-height:1.4;color:var(--ink);text-wrap:balance}
+.allit-s .ini{color:#e8720a;font-weight:800}
 
 /* ═══════ v2.0 FIRST-RUN activation flow (owner design: OPEN → first task → FIRST WIN) ═══════ */
 .fr-pop{font-family:'Poppins','Noto Sans Georgian',system-ui,sans-serif}

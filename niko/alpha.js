@@ -12,6 +12,21 @@ function alphaItem(entry){const p=entry.x[ri(0,entry.x.length-1)];return {l:entr
 // random one that could land on an obscure word (შ→შუშა, ო→ომარი). Quiz still uses the full random pool.
 function alphaFirst(entry){const p=entry.x[0];return {l:entry.l,w:p[0],e:p[1]};}
 
+/* ── ენის გასატეხი (alliteration): the letter's 2 tongue-twisters, with the FIRST letter of every word
+   in warm colour (owner PI-113 / IMG_2015) so the shared starting sound is VISIBLE. Content is our own
+   trusted literals (KA_ALLIT), meant to be SPOKEN by the child/parent — no audio clip, no runtime ka TTS.
+   ka glyphs are single BMP code units, so charAt(0)/slice split the first letter correctly. ── */
+function allitLead(w){ return w ? '<span class="ini">'+w.charAt(0)+'</span>'+w.slice(1) : w; }
+function allitLine(s){ return s.split(' ').map(allitLead).join(' '); }
+function allitBlock(letter){
+  const pair=(typeof KA_ALLIT!=='undefined')&&KA_ALLIT[letter];
+  if(!pair||!pair.length) return '';
+  return `<div class="allit">
+      <div class="allit-h">🗣️ ენის გასატეხი</div>
+      ${pair.map(s=>`<div class="allit-s">${allitLine(s)}</div>`).join('')}
+    </div>`;
+}
+
 /* speak one alphabet item, age- & language-appropriate */
 function alphaSay(subj,it){
   if(alphaIsKa(subj)){
@@ -63,6 +78,7 @@ function alphaLearn(subj,idx){
           : `<b class="lead">${it.l}</b> is for ${it.w.charAt(0).toUpperCase()+it.w.slice(1)}`}</div>
         <button class="speakbtn big" onclick="event.stopPropagation();alphaSay('${subj}',game.alphaIt);pulseTap(this)">${I.speaker} მოისმინე</button>
       </div>
+      ${alphaIsKa(subj)?allitBlock(it.l):''}
     </div>
     ${learnNav(
       `<button class="abtn ${first?'off':''}" ${first?'disabled':''} onclick="alphaLearn('${subj}',${idx-1})">&larr;</button>`,
